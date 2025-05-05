@@ -56,9 +56,9 @@ class UserCandidateInvite extends Model
     {
 
         return self::where('company_id', Helpers::getUser()['id'])->where('role', Admin::IS_CANDIDATE)->whereHas('inviteLinks')->with([
-                'inviteLinks',
-                'user'
-            ])
+            'inviteLinks',
+            'user'
+        ])
             ->orderBy('id', 'desc')
             ->get();
 
@@ -68,22 +68,22 @@ class UserCandidateInvite extends Model
     {
 
         return self::where('company_id', Helpers::getUser()['id'])->where('role', Admin::IS_TEAM_MEMBER)->whereHas('inviteLinks')->with([
-                'inviteLinks',
-                'user'
-            ])
+            'inviteLinks',
+            'user'
+        ])
             ->orderBy('id', 'desc')
             ->get();
 
     }
 
 
-    public static function getMemberInvite($id=null)
+    public static function getMemberInvite($id = null)
     {
-        return self::where('id',$id)->where('role',Admin::IS_TEAM_MEMBER)->first();
+        return self::where('id', $id)->where('role', Admin::IS_TEAM_MEMBER)->first();
     }
 
-    public static function deleteMemberInvite($id=null)
+    public static function deleteMemberInvite($id = null)
     {
-        return self::where('id',$id)->delete();
+        return self::where('id', $id)->delete();
     }
 }

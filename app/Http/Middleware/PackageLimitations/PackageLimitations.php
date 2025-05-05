@@ -35,18 +35,34 @@ class PackageLimitations
 
                 return Helpers::upgradePackageResponse('Please subscribe your plan first');
 
-//                $plan_id = config('stripe_info.stripe_plans.free_yearly_plan');
             }
 
             $limitations = Plan::singlePlan($plan_id);
 
             if ($type === 'add_members') {
 
-                $getExistingMembers = B2BBusinessCandidates::where('business_id', $user_id)->where('role', Admin::IS_TEAM_MEMBER)->where('future_consideration',Admin::NOT_IN_FUTURE)->get();
+                $getExistingMembers = B2BBusinessCandidates::where('business_id', $user_id)
+                    ->where('role', Admin::IS_TEAM_MEMBER)
+                    ->where('future_consideration', Admin::NOT_IN_FUTURE)
+                    ->where('is_permanently_deleted', 0)
+                    ->with(['users' => function ($q) {
+                        $q->where('step', 3);
+                    }])
+                    ->get();
+
+                $existingMemberCounts = 0;
+
+                foreach ($getExistingMembers as $member) {
+                    if (!empty($member->users)) {
+                        $existingMemberCounts += 1;
+                    }
+                }
 
                 $getMemberInvites = UserCandidateInvite::where('company_id', $user_id)->where('role', Admin::IS_TEAM_MEMBER)->get();
 
-                if ((count($getExistingMembers) < (int)$limitations['no_of_team_members']) && (count($getMemberInvites) < (int)$limitations['no_of_team_members'])) {
+                $allMembers = $existingMemberCounts + count($getMemberInvites);
+
+                if (($allMembers < (int)$limitations['no_of_team_members'])) {
 
                     return $next($request);
 

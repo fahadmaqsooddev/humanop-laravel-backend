@@ -77,9 +77,9 @@ class B2BBusinessCandidates extends Model
         }
 
 
-        $user = User::where('id', $candidateId)->first();
-        $getInvite = UserInvite::where('email', $user['email'])->first();
-        UserCandidateInvite::where('company_id', $businessId)->where('invite_link_id', $getInvite['id'])->delete();
+//        $user = User::where('id', $candidateId)->first();
+//        $getInvite = UserInvite::where('email', $user['email'])->first();
+//        UserCandidateInvite::where('company_id', $businessId)->where('invite_link_id', $getInvite['id'])->delete();
 
 
         return $data;

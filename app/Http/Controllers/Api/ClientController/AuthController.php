@@ -16,6 +16,7 @@ use App\Http\Requests\Client\Register\SmsRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\B2B\UserCandidateInvite;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\Notification\PushNotification;
@@ -294,6 +295,10 @@ class AuthController extends Controller
                 tap($getUser->update($dataArray));
 
                 PushNotification::createNotification($request['user_id']);
+
+//                $getInvite = UserInvite::where('email', $getUser['email'])->first();
+//
+//                UserCandidateInvite::where('company_id', $businessId)->where('invite_link_id', $getInvite['id'])->delete();
 
                 $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
 

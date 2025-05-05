@@ -42,16 +42,16 @@ class MemberController extends Controller
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
             ]);
-            
+
             if ($validator->fails()) {
                 return Helpers::validationResponse('Please Send proper Email Address');
             }
-            
-            
+
+
             $email = $request->input('email');
 
             $checkInviteLink = UserInvite::getSingleInvite($email);
-            
+
 
             if ($checkInviteLink) {
 
@@ -70,15 +70,15 @@ class MemberController extends Controller
 
 
                     $userRecord=User::where('email',$email)->first();
-                    
+
                     if($userRecord){
 
                        $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('candidate_id',$userRecord['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
-                    
+
                        if($result){
 
                         return Helpers::validationResponse("{$email} already has an Account with your business in A Future Consideration.");
-                       
+
                     }
 
                     }
@@ -103,15 +103,15 @@ class MemberController extends Controller
             if ($newInvite) {
 
                 $userRecord=User::where('email',$email)->first();
-                    
+
                     if($userRecord){
 
                        $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('candidate_id',$userRecord['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
-                      
+
                        if($result){
 
                         return Helpers::validationResponse("{$email} already has an Account with your business in A Future Consideration.");
-                       
+
                     }
 
                     }
@@ -121,7 +121,7 @@ class MemberController extends Controller
                 $linke = UserInvite::where('email', $email)->first();
 
                 $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=1';
-               
+
                 $emailData = $this->myprepareEmailData($url);
 
                 $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
