@@ -399,8 +399,8 @@
                                                                 <span class="sidenav-normal"> Brains </span>
                                                             </a>
                                                         </li>
-                                                        <li class="nav-item {{ (Request::is('admin/clusters') ? 'active' : '') }}">
-                                                            <a class="nav-link {{ (Request::is('admin/clusters') ? 'active' : '') }}"
+                                                        <li class="nav-item {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}">
+                                                            <a class="nav-link {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}"
                                                                href="{{ route('admin_embedding_groups') }}">
                                         <span class="sidenav-mini-icon"><img
                                                 style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -568,12 +568,13 @@
                                                         'admin/all-intention-plans',
                                                         'admin/admin_resources','admin/podcast','admin/version-control',
                                                         'admin/b2b-support','admin/information-icon','admin/payment-history',
+                                                        'admin/edit-version-control*','admin/create-version-control',
 
                                                         'admin/admin_get_client_invite') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
-                                                            <li class="nav-item {{ (Request::is('admin/admin_manage_code') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/admin_manage_code') ? 'active-itt-all' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/codes') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/codes') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_manage_code') }}">
                                             <span class="sidenav-mini-icon"><img
                                                     style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -584,8 +585,8 @@
                                                                     <span class="sidenav-normal"> Codes Manage </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/admin_get_client_invite') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/admin_get_client_invite') ? 'active-itt-all' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_get_client_invite') }}">
                                             <span class="sidenav-mini-icon"><img
                                                     style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -597,8 +598,8 @@
                                                                 </a>
                                                             </li>
 
-                                                            <li class="nav-item {{ (Request::is('admin/admin_get_assessment_walkthrough') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/admin_get_assessment_walkthrough') ? 'active-itt-all' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/assessment-walkthrough') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/assessment-walkthrough') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_get_assessment_walkthrough') }}">
                                             <span class="sidenav-mini-icon"><img
                                                     style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -621,8 +622,8 @@
                                                                     <span class="sidenav-normal"> Video Buckets </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/cms') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/cms') ? 'active' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/cms') ? 'active-itt-all':'') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/cms') ?  'active-itt-all':'') }}"
                                                                    href="{{ route('admin_web_pages') }}">
                                             <span class="sidenav-mini-icon"><img
                                                     style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -696,8 +697,8 @@
                                                                         class="sidenav-normal"> Optimization Plan Management </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/all-intention-plan') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/all-intention-plan') ? 'active-itt-all' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/all-intention-plans') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/all-intention-plans') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_all_intention_plan') }}">
                                             <span class="sidenav-mini-icon"><img
                                                     style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -773,8 +774,8 @@
                                                             </li>
 
                                                             
-                                                <li class="nav-item {{ (Request::is('admin_resources') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin_resources') ? 'active-itt-all' : '') }}"
+                                                <li class="nav-item {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}">
+                                                    <a class="nav-link {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_resources') }}">
                                 <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
                                                                      src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
@@ -1217,8 +1218,8 @@
                                         <div class="collapse {{ ( Request::is('admin/b2b-organizations','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon') ? 'show' : '') }}"
                                              id="b2bExamples">
                                             <ul class="nav nav-sm flex-column">
-                                                <li class="nav-item {{ (Request::is('admin/all_b2b_organizations') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/all_b2b_organizations') ? 'active-itt-all' : '') }}"
+                                                <li class="nav-item {{ (Request::is('admin/b2b-organizations') ? 'active-itt-all' : '') }}">
+                                                    <a class="nav-link {{ (Request::is('admin/b2b-organizations') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('all_b2b_organizations') }}">
                                                 <span class="sidenav-mini-icon"><img
                                                         style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -1229,8 +1230,8 @@
                                                         <span class="sidenav-normal"> Organizations </span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item {{ (Request::is('admin/all_b2b_deleted_organiozations') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/all_b2b_deleted_organiozations') ? 'active-itt-all' : '') }}"
+                                                {{-- <li class="nav-item {{ (Request::is('admin/b2b-deleted-clients') ? 'active-itt-all' : '') }}">
+                                                    <a class="nav-link {{ (Request::is('admin/b2b-deleted-clients') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('all_b2b_deleted_organiozations') }}">
                                                 <span class="sidenav-mini-icon"><img
                                                         style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -1240,9 +1241,9 @@
                                                                 src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                         <span class="sidenav-normal"> B2B Deleted Organizations </span>
                                                     </a>
-                                                </li>
-                                                <li class="nav-item {{ (Request::is('admin/admin_role_template') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/admin_role_template') ? 'active-itt-all' : '') }}"
+                                                </li> --}}
+                                                <li class="nav-item {{ (Request::is('admin/role-template') ? 'active-itt-all' : '') }}">
+                                                    <a class="nav-link {{ (Request::is('admin/role-template') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_role_template') }}">
                                                 <span class="sidenav-mini-icon"><img
                                                         style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -1253,8 +1254,8 @@
                                                         <span class="sidenav-normal"> Role Template Manage </span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item {{ (Request::is('admin/admin_b2b_pricing_plan') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/admin_b2b_invites') ? 'active-itt-all' : '') }}"
+                                                <li class="nav-item {{ (Request::is('admin/b2b-invites') ? 'active-itt-all' : '') }}">
+                                                    <a class="nav-link {{ (Request::is('admin/b2b-invites') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_b2b_invites') }}">
                                                 <span class="sidenav-mini-icon"><img
                                                         style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -1265,8 +1266,8 @@
                                                         <span class="sidenav-normal"> B2B Invites </span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item {{ (Request::is('admin/admin_b2b_pricing_plan') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/admin_b2b_pricing_plan') ? 'active-itt-all' : '') }}"
+                                                <li class="nav-item {{ (Request::is('admin/b2b-pricing-plans') ? 'active-itt-all' : '') }}">
+                                                    <a class="nav-link {{ (Request::is('admin/b2b-pricing-plans') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_b2b_pricing_plan') }}">
                                                 <span class="sidenav-mini-icon"><img
                                                         style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -1277,8 +1278,8 @@
                                                         <span class="sidenav-normal"> B2B Pricing Plans </span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item {{ (Request::is('admin/admin_b2b_coupon') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/admin_b2b_coupon') ? 'active-itt-all' : '') }}"
+                                                <li class="nav-item {{ (Request::is('admin/b2b-coupon') ? 'active-itt-all' : '') }}">
+                                                    <a class="nav-link {{ (Request::is('admin/b2b-coupon') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_b2b_coupon') }}">
                                                 <span class="sidenav-mini-icon"><img
                                                         style="width: 18px; margin-left: 28px; margin-right: 10px"
@@ -1763,8 +1764,8 @@
                                 </li>
                             @endif
 
-                            <li class="nav-item {{ (Request::is('settings') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('settings') ? 'active' : '') }}"
+                            <li class="nav-item {{ (Request::is('admin/settings') ? 'active-itt-all' : '') }}">
+                                <a class="nav-link {{ (Request::is('admin/settings') ? 'active-itt-all' : '') }}"
                                    href="{{ route('admin_setting') }}">
                                     <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
                                                                          src="{{URL::asset('assets/icons/Settings.png')}}"></span>

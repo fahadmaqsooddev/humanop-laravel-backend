@@ -128,6 +128,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
         Route::get('/information-icon', [InformationController::class, 'getInfo'])->name('admin_get_info');
         Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
+        Route::get('/create-version-control',[VersionController::class,'createVersion'])->name('create-version');
+        Route::get('/edit-version-control/{id}',[VersionController::class,'EditVersion'])->name('edit-version');
         Route::get('/b2b-support', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupport'])->name('admin_b2b_support');
         Route::get('/b2b-support-detail/{id}', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupportDetail'])->name('admin_b2b_support_detail');
 
@@ -176,7 +178,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         // b2b start
         Route::get('/role-template', [RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
         Route::get('/b2b-organizations', [B2BOrganizationController::class, 'allOrganizations'])->name('all_b2b_organizations');
-        Route::get('/b2b-deleted-clients', [B2BOrganizationController::class, 'allB2BDeletedClients'])->name('all_b2b_deleted_organiozations');
+        // Route::get('/b2b-deleted-clients', [B2BOrganizationController::class, 'allB2BDeletedClients'])->name('all_b2b_deleted_organiozations');
         
         
         

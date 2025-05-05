@@ -39,11 +39,14 @@
 </style>
 @section('content')
 
-    @livewire('admin.version-control.version-control-form')
+    @livewire('admin.version-control.create-version-control-form',['versionId'=>$id ?? ''])
     
 @endsection
 
 @push('js')
+<!-- Load CKEditor Classic Build -->
+
+
     <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
     <script>
         const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
