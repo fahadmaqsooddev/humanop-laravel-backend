@@ -7,6 +7,7 @@ use App\Helpers\Helpers;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\B2B\B2BIntentionOption;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
@@ -328,7 +329,7 @@ class User extends Authenticatable implements JWTSubject
     public function businessIntentions()
     {
 
-        return $this->hasManyThrough(IntentionOption::class, SelectIntentionOption::class, 'business_id', 'id', 'id', 'intention_option_id');
+        return $this->hasManyThrough(B2BIntentionOption::class, SelectIntentionOption::class, 'business_id', 'id', 'id', 'intention_option_id');
     }
 
     // query
