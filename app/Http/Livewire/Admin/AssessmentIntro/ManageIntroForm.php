@@ -9,9 +9,9 @@ use App\Traits\HandlesValidationErrors;
 use App\Http\Requests\Admin\ManageCode\UpdateCodeRequest;
 class ManageIntroForm extends Component
 {
-    
 
     use HandlesValidationErrors;
+
     public $select_code;
 
     public function mount($assessment)
@@ -22,12 +22,13 @@ class ManageIntroForm extends Component
 
     public function updateIntro()
     {
-        
 
         if($this->customValidation(new UpdateCodeRequest($this->select_code),$this->select_code)){return;};
+
         try {
 
             $keysToKeep = ['name', 'public_name', 'code', 'type', 'text'];
+
             $data = array_intersect_key($this->select_code, array_flip($keysToKeep));
 
             AssessmentIntro::updateIntro($data, $this->select_code['id']);

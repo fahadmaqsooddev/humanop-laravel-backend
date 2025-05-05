@@ -1,10 +1,10 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
-    .table-text-color{
+    .table-text-color {
         color: #1c365e !important;
     }
 
-    .dataTable-table th a{
+    .dataTable-table th a {
         color: #1c365e !important;
     }
 </style>
@@ -18,7 +18,7 @@
                     Create Intro
                 </a>
             </button>
-            <div class="card" >
+            <div class="card">
                 <!-- Card header -->
                 <div class="card-header table-header-text">
                     <h5 class="mb-0">Manage AssessmentIntro</h5>
@@ -43,7 +43,10 @@
                                 <td class="text-md font-weight-normal">{{$code['public_name']}}</td>
                                 <td class="text-md font-weight-normal">{{$code['code']}}</td>
                                 <td class="text-md font-weight-normal">{{$code['number']}}</td>
-                                <td class="text-md font-weight-normal"><a href="{{ route('admin_edit_assessment_intro',['id' => $code['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>
+                                <td class="text-md font-weight-normal"><a
+                                        href="{{ route('admin_edit_assessment_intro',['id' => $code['id'] ]) }}"
+                                        type="submit" style="background-color: #f2661c; color: white"
+                                        class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>
                             </tr>
                         @endforeach
 
