@@ -296,10 +296,15 @@ class AuthController extends Controller
 
                 PushNotification::createNotification($request['user_id']);
 
-//                $getInvite = UserInvite::where('email', $getUser['email'])->first();
-//
-//                UserCandidateInvite::where('company_id', $businessId)->where('invite_link_id', $getInvite['id'])->delete();
+                $getInvite = UserInvite::where('email', $getUser['email'])->first();
 
+                if ($getInvite) {
+                    $memberCandidateInvite = UserCandidateInvite::where('invite_link_id', $getInvite->id)->latest()->first();
+
+                    if ($memberCandidateInvite) {
+                        $memberCandidateInvite->delete();
+                    }
+                }
                 $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
 
                 $getUser['app_intro_check'] = ($getUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
