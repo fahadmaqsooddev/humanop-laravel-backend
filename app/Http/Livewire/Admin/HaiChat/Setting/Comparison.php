@@ -65,59 +65,65 @@ class Comparison extends Component
     public function submitForm()
     {
 
-        $this->modelResponse = [];
+        try {
 
-        $this->selectedModels = array_merge(
-            (array) $this->selectedModel1,
-            (array) $this->selectedModel2
-        );
+            $this->modelResponse = [];
 
-        $this->validate();
+            $this->selectedModels = array_merge(
+                (array) $this->selectedModel1,
+                (array) $this->selectedModel2
+            );
+
+            $this->validate();
 
 //        $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
 
-        $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
+            $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
 
-        $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
+            $chatbot = Chatbot::whereId($this->chat_bot_id)->first();
+
+            $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
 
 //        $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
 
-        if ($this->user_id){
+            if ($this->user_id){
 
-            $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
-        }
+                $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
+            }
 
-        if (!empty($this->selectedModels)) {
+            if (!empty($this->selectedModels)) {
 
-            foreach ($this->selectedModels as $llmModel) {
+                foreach ($this->selectedModels as $llmModel) {
 
-                $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+                    $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->bot_name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => "null", 'user_id' => 0];
+                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chatbot->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => "null", 'user_id' => 0];
 
-                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+                    $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
-                $prompts = ChatPrompt::where('name',$this->bot_name)->first();
+                    $prompts = ChatPrompt::where('name',$chatbot['name'])->first();
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $llmModel, $prompts['prompt'] ?? null);
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply['prompt'], $llmModel, $prompts['prompt'] ?? null);
 
-                if (!empty($openRouterResponse['choices'])) {
+                    if (!empty($openRouterResponse['choices'])) {
 
-                    foreach ($openRouterResponse['choices'] as $choice) {
+                        foreach ($openRouterResponse['choices'] as $choice) {
 
-                        if (isset($choice['message']['content'])) {
+                            if (isset($choice['message']['content'])) {
 
-                            $selectedModel = ['Deepseek' => 'deepseek/deepseek-chat', 'Qwen' => 'qwen/qvq-72b-preview', 'Deepseek R1-Qwen' => 'deepseek/deepseek-r1-distill-qwen-1.5b', 'OpenAI' => 'openai/gpt-3.5-turbo'];
+                                $selectedModel = ['Deepseek' => 'deepseek/deepseek-chat', 'Qwen' => 'qwen/qvq-72b-preview', 'Deepseek R1-Qwen' => 'deepseek/deepseek-r1-distill-qwen-1.5b', 'OpenAI' => 'openai/gpt-3.5-turbo'];
 
-                            $modelKey = array_search($openRouterResponse['model'], $selectedModel, true);
+                                $modelKey = array_search($openRouterResponse['model'], $selectedModel, true);
 
-                            $this->modelResponse[] = [
-                                'question' => $this->message,
-                                'model' => $modelKey !== false ? $modelKey : $openRouterResponse['model'],
-                                'response' => $choice['message']['content']
-                            ];
+                                $this->modelResponse[] = [
+                                    'question' => $this->message,
+                                    'model' => $modelKey !== false ? $modelKey : $openRouterResponse['model'],
+                                    'response' => $choice['message']['content']
+                                ];
+
+                            }
 
                         }
 
@@ -127,9 +133,14 @@ class Comparison extends Component
 
             }
 
-        }
+            $this->reset('message');
 
-        $this->reset('message');
+        }catch (\Exception $exception){
+
+            dd($exception->getMessage());
+
+            session()->flash('error', $exception->getMessage());
+        }
 
     }
 
