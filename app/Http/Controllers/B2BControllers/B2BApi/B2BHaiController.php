@@ -104,7 +104,7 @@ class B2BHaiController extends Controller
 
                 $user_name = $user['first_name'];
 
-                $user_intentions = $user?->businessIntentions?->pluck('description')->toArray();
+                $user_intentions = $user?->businessIntentions?->pluck('intention_option')->toArray();
 
                 Log::info(['business intensions' => $user_intentions]);
 
