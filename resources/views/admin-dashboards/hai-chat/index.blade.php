@@ -73,7 +73,7 @@
 
 </style>
 @section('content')
-    <div class="container-fluid mt-4 mainDivClass">
+    <div class="mt-4">
         @livewire('admin.hai-chat.hai-chat')
     </div>
 @endsection

@@ -22,7 +22,7 @@
     <!-- Main content -->
 
         <main class="d-flex justify-content-center">
-            <div class="col-md-12 col-lg-11">
+            <div class="col-md-12 col-lg-12">
 
                 <div id="content w-100">
 

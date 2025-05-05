@@ -25,7 +25,7 @@
     @endpush
     <div class="container-fluid my-3 py-3">
         @include('layouts.message')
-        <div class="row mb-5 container-fluid">
+        <div class="row mb-5">
             <div class="col-lg-3">
                 <div class="card position-sticky top-1">
                     <ul class="nav rainbow-border-user-nav-btn flex-column border-radius-lg p-3">
