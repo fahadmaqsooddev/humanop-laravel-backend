@@ -28,13 +28,13 @@ class VersionControlForm extends Component
     public function getVersions()
     {
         // $this->versions = Version::allVersions()->paginate($this->perPage);
-        $this->versions = Version::allVersions();
+        $this->versions = Version::allVersions($this->perPage);
         
     }
 
-    public function editVersion($id,$version,$note){
-        
-        $this->emit('updateVersionValues', $id, $version, $note);
+    public function editVersion($id){
+       
+        $this->emit('updateVersionValues', $id);
     }
     public function editDescription($id,$version_id,$description,$platform,$versionHeading){
         

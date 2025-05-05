@@ -58,12 +58,20 @@ class Version extends Model
     }
 
 
-    public static function deleteVersion($id){
+    public static function deleteVersion($id=null){
         return self::where('id',$id)->delete();
     }
 
-    public static function allVersions(){
-        return self::with('versionDescriptions')->orderBy('created_at', 'desc')->get();
+    public static function allVersions($perPage=10){
+        return self::with('versionDescriptions')->orderBy('created_at', 'desc')->paginate($perPage);
     }
+
+    public static function getSingleVersion($id=null){
+        return self::where('id',$id)->with('versionDescriptions')->first();
+    }
+
+
+    
+    
     
 }
