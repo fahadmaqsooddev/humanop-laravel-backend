@@ -1037,6 +1037,11 @@ class User extends Authenticatable implements JWTSubject
         return $users;
     }
 
+    public static function getSuperAdmins()
+    {
+        return self::where('is_admin', Admin::IS_ADMIN)->get();
+    }
+
     public static function makeUserAsPractitioner($user_id = null)
     {
         $user = self::find($user_id);

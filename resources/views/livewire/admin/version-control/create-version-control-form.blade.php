@@ -38,6 +38,7 @@
                 </div>
                 <div class="card-body pt-0">
                     <form wire:submit.prevent="storeVersionAndDescription" style="">
+                        @include('layouts.message')
                         <!-- Version Field -->
                         <div class="row mt-4">
                             <div class="col-12">
@@ -51,7 +52,7 @@
                             <div class="col-12">
                                 <label class="form-label text-white">Note</label>
                                 <div wire:ignore>
-                                    <textarea class="form-control editor"
+                                    <textarea class="form-control " id="editor" wire:model='note'
                                               style="background-color: #0f1534; color: white;" rows="2"></textarea>
                                 </div>
                                 @error('note') <span class="text-danger">{{ $message }}</span> @enderror
@@ -60,7 +61,7 @@
                         <div class="text-end mt-3">
                             <button type="button" class="btn text-white fw-bolder" style="background-color: #f2661c"
                                     wire:click="addVersionField">
-                                <span style="font-weight: bolder;font-size:1rem;">+</span>
+                                <span style="font-weight: bolder;font-size:1rem;">Add More Features and  Descriptions</span>
                             </button>
                         </div>
 
@@ -92,6 +93,7 @@
                                     <div wire:ignore>
                                         <textarea class="form-control editor"
                                                   data-index="{{ $index }}"
+                                                  wire:model='versionDetails.{{ $index }}.description'
                                                   data-property="versionDetails.{{ $index }}.description"
                                                   style="background-color: #0f1534; color: white;" rows="3"></textarea>
                                     </div>
@@ -148,21 +150,74 @@
         document.addEventListener('livewire:load', function () {
 
             function initSummernote() {
-                $('.editor').each(function () {
+                $('#editor').each(function () {
                     if (!$(this).hasClass('summernote-initialized')) {
                         $(this).summernote({
                             height: 200,
                             callbacks: {
                                 onChange: function (contents, $editable) {
-                                    const property = $(this).data('property');
-                                    if (property) {
-                                        Livewire.emit('updateEditorContent', {
-                                            property: property,
-                                            value: contents
-                                        });
-                                    }
+                                    
+                                    // const property = $(this).data('property');
+                                    const property = $(this).val();
+                                    // console.log(property);
+                                    Livewire.emit('updateNote',property)
+                                    
+                                    // if (property) {
+                                    //     Livewire.emit('updateEditorContent', {
+                                    //         property: property,
+                                    //         value: contents
+                                    //     });
+                                    // }
                                 }
                             }
+                        });
+                        $(this).addClass('summernote-initialized'); // Avoid re-initializing
+                    }
+                });
+            }
+
+            initSummernote(); // Initial run
+
+            // Reinitialize editors after Livewire DOM update (like adding/removing fields)
+            Livewire.hook('message.processed', (message, component) => {
+                initSummernote();
+            });
+
+            // Optional: Clear editors when form reset
+            $('.createForm').on('click', function () {
+                $('.editor').each(function () {
+                    $(this).summernote('reset');
+                });
+            });
+
+        });
+    </script>
+    <script>
+        document.addEventListener('livewire:load', function () {
+
+            function initSummernote() {
+                $('.editor').each(function () {
+                    if (!$(this).hasClass('summernote-initialized')) {
+                        $(this).summernote({
+                            height: 200,
+                            // callbacks: {
+                            //     onChange: function (contents, $editable) {
+                                    
+                            //         // const property = $(this).data('property');
+                            //         const property = $(this).val();
+                            //         console.log(property);
+                                    
+                            //     }
+                            // }
+                            callbacks: {
+    onChange: function (contents, $editable) {
+        const index = $(this).data('index');
+        if (index !== undefined) {
+            Livewire.emit('updateDescription', index, contents);
+        }
+    }
+}
+
                         });
                         $(this).addClass('summernote-initialized'); // Avoid re-initializing
                     }

@@ -25,71 +25,59 @@ class PermissionSeeder extends Seeder
 
         $permission = [
             [
-                'name' => 'users',
+                'name' => 'user_management',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'cms',
+                'name' => 'assessment_management',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'questions',
+                'name' => 'technology_management',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'chat',
+                'name' => 'team_management',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'resources',
+                'name' => 'hai_admin',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'projects',
+                'name' => 'cms_admin',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'clientQueries',
+                'name' => 'support_admin',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'deletedClient',
+                'name' => 'client_queries',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'abandonedAssessment',
+                'name' => 'approve_queries',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
-            ],
-            [
-                'name' => 'approveQueries',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'name' => 'assessments',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+            ]
         ];
         DB::table('permissions')->insert($permission);
     }
