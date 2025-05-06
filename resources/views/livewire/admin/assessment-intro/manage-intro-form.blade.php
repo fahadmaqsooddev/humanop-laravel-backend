@@ -22,7 +22,7 @@
             z-index: 1050 !important;
         }
 
-        .ck > p > a{
+        .ck > p > a {
             color: blue !important;
         }
 
@@ -69,13 +69,13 @@
             <div class="input-group w-100" wire:ignore>
                 {{-- <textarea id="summernote" rows="10" cols="10" style="background-color: #0f1534;" name="text"
                           class="form-control text-white summernote" wire:model.defer="select_code.text">{{ $select_code['text'] }}</textarea> --}}
-                          
-                                       <textarea class="form-control table-header-text" id="editor" rows="10" cols="10"
-                                       name="text"
-                                       wire:model.defer="select_code.text">{{ $select_code['text'] }}</textarea>
+
+                <textarea class="form-control table-header-text" id="editor" rows="10" cols="10"
+                          name="text"
+                          wire:model.defer="select_code.text">{{ $select_code['text'] }}</textarea>
             </div>
         </div>
-    {{-- </div> --}}
+        {{-- </div> --}}
     </div>
     <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c">Update code</button>
 </form>
@@ -91,12 +91,10 @@
     }
 
 
-
-
-    </script>
-    <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../../assets/js/plugins/sweetalert.min.js"></script>
+</script>
+<script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../../assets/js/plugins/sweetalert.min.js"></script>
 <script type="text/javascript">
     document.addEventListener('livewire:load', function () {
         const summernoteElement = $('#editor');
@@ -104,13 +102,14 @@
         summernoteElement.summernote({
             height: 300,
             callbacks: {
-                onChange: function(contents, $editable) {
-                @this.set('select_code.text', contents);
+                onChange: function (contents, $editable) {
+                    @this.
+                    set('select_code.text', contents);
                 }
             }
         });
 
-        Livewire.on('contentUpdated', function(content) {
+        Livewire.on('contentUpdated', function (content) {
             summernoteElement.summernote('code', content);
         });
     });
@@ -118,51 +117,52 @@
 </script>
 
 
-    <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Paragraph,
-            Bold,
-            Italic,
-            Font,
-            List,
-            Link,
-            AutoLink
-        } from 'ckeditor5';
+<script type="module">
+    import {
+        ClassicEditor,
+        Essentials,
+        Paragraph,
+        Bold,
+        Italic,
+        Font,
+        List,
+        Link,
+        AutoLink
+    } from 'ckeditor5';
 
-        // Function to initialize CKEditor for a specific textarea by ID
-        let editorInstance;
-        const editorElement = document.getElementById('editor');
-        if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
-            ClassicEditor
-                .create(editorElement, {
-                    plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
-                    toolbar: [
-                        'undo', 'redo', '|', 'bold', 'italic', '|',
-                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                        'bulletedList', 'numberedList', 'link'  // Add list options to toolbar
-                    ]
+    // Function to initialize CKEditor for a specific textarea by ID
+    let editorInstance;
+    const editorElement = document.getElementById('editor');
+    if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
+        ClassicEditor
+            .create(editorElement, {
+                plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
+                toolbar: [
+                    'undo', 'redo', '|', 'bold', 'italic', '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                    'bulletedList', 'numberedList', 'link'  // Add list options to toolbar
+                ]
+            })
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    @this.
+                    set('select_code.text', editor.getData());
                 })
-                .then(editor => {
-                    editor.model.document.on('change:data', () => {
-                    @this.set('select_code.text', editor.getData());
-                    })
-                    Livewire.on('contentUpdated', content => {
-                        editor.setData(content); // Set new content into CKEditor
-                    });
-                    editorInstance = editor;
-                })
-                .catch(error => {
-                    console.error(error);
+                Livewire.on('contentUpdated', content => {
+                    editor.setData(content); // Set new content into CKEditor
                 });
+                editorInstance = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
+    }
+    $('.createForm').on('click', function () {
+        if (editorInstance) {
+            editorInstance.setData('');
         }
-        $('.createForm').on('click', function () {
-            if (editorInstance) {
-                editorInstance.setData('');
-            }
-        });
+    });
 
-       
-    </script>
+
+</script>

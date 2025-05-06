@@ -8,22 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class AssessmentIntro extends Model
 {
     use HasFactory;
-    
+
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
+
     public static function allIntro()
     {
         return self::where('code','!=','SI')->get();
     }
 
-    public static function createIntro($data=null){
+    public static function createIntro($data = null)
+    {
 
         self::create([
             'name' => $data['name'],
