@@ -97,7 +97,7 @@ class Comparison extends Component
 
             $prompts = ChatPrompt::where('name',$chatbot['name'])->first();
 
-            $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(null, $aiReply['prompt']);
+            $llm_prompt = "";//OpenRouterHelper::addUserDetailsIntoPrompt(null, $aiReply['prompt']);
 
             $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
