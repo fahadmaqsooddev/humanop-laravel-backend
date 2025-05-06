@@ -93,8 +93,6 @@ class Comparison extends Component
 
             $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-            Log::info(['ai ' => $aiReply]);
-
             $prompts = ChatPrompt::where('name',$chatbot['name'])->first();
 
             $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(null, $aiReply['prompt']);
@@ -106,8 +104,6 @@ class Comparison extends Component
             foreach ($this->selectedModels as $llmModel) {
 
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $llmModel, $final_persona, $userMessage,$assistantMessage);
-
-                Log::info(['open router' => $openRouterResponse]);
 
                 foreach ($openRouterResponse['choices'] as $choice)
                 {

@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Models\Assessment;
+use Illuminate\Support\Facades\Log;
 
 class OpenRouterHelper
 {
@@ -67,6 +68,8 @@ class OpenRouterHelper
             "tokens" => $setting['max_tokens'] ?? 500,
             "messages" => array_values($filtered_message_array),
         ];
+
+        Log::info(['data' => $data]);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
