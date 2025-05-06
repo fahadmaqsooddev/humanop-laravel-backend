@@ -44,7 +44,7 @@
 <div>
     <div class="d-flex justify-content-end">
 
-        <div class="d-flex justify-content-between gap-2">
+        <div class="d-flex justify-content-between gap-2" style="padding-right: 30px;">
 
             <input wire:model="search_brain" type="text" placeholder="Search brain database" class="input-bg">
 
