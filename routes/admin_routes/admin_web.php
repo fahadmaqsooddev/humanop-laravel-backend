@@ -26,6 +26,7 @@ use App\Http\Controllers\B2BControllers\B2BInviteController;
 use App\Http\Controllers\B2BControllers\B2BOrganizationController;
 use App\Http\Controllers\B2BControllers\B2BPricingPlanController;
 use App\Http\Controllers\AdminControllers\AssessmentIntroController;
+use App\Http\Controllers\AdminControllers\SummaryReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,6 +107,52 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     Route::group(['middleware' => ['permission:technology_management']], function () {
 
+    Route::group(['middleware' => ['permission:deletedClient']], function () {
+        Route::get('/deleted-clients', [AdminController::class, 'deletedClients'])->name('deleted_clients');
+    });
+
+    Route::group(['middleware' => ['permission:clientQueries']], function () {
+        Route::get('/client-queries', [ClientQueryController::class, 'clientQuery'])->name('admin_client_queries');
+    });
+
+    Route::group(['middleware' => ['permission:approveQueries']], function () {
+        Route::get('/approve-queries', [ClientQueryController::class, 'approveQueries'])->name('admin_approve_queries');
+    });
+
+    Route::group(['middleware' => ['permission:cms']], function () {
+        Route::get('/dashboard-cms', [AdminController::class, 'cms'])->name('admin_cms');
+        Route::get('/codes', [CodeController::class, 'ManageCode'])->name('admin_manage_code');
+        Route::get('/edit-code/{id}', [CodeController::class, 'editCode'])->name('admin_edit_manage_code');
+        Route::get('/create-code', [CodeController::class, 'createCode'])->name('admin_create_code');
+        Route::get('/assessment-introduction', [AssessmentIntroController::class, 'ManageAssessmentIntro'])->name('admin_manage_assessment_intro');
+        Route::get('/create-assessment-intro', [AssessmentIntroController::class, 'createAssessmentIntro'])->name('admin_create_assessment_intro');
+        Route::get('/edit-assessment-intro/{id}', [AssessmentIntroController::class, 'editAssessmentIntro'])->name('admin_edit_assessment_intro');
+        Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
+        Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
+
+        Route::get('/pages-users-reports', [AdminController::class, 'pagesUsersReports'])->name('admin_pages_users_reports');
+        Route::get('/pages-users-new', [AdminController::class, 'pagesUsersNewUser'])->name('admin_pages_users_new_user');
+        Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');
+        Route::get('/cms/{id}', [WebPagesController::class, 'editWebPages'])->name('admin_edit_web_pages');
+        Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('admin_payment_history');
+        Route::get('feedback', [AdminController::class, 'userFeedback'])->name('feedback');
+        Route::get('podcast', [PodcastController::class, 'podcast'])->name('podcast');
+        Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
+        Route::get('/information-icon', [InformationController::class, 'getInfo'])->name('admin_get_info');
+        Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
+        Route::get('/create-version-control',[VersionController::class,'createVersion'])->name('create-version');
+        Route::get('/edit-version-control/{id}',[VersionController::class,'EditVersion'])->name('edit-version');
+        Route::get('/b2b-support', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupport'])->name('admin_b2b_support');
+        Route::get('/b2b-support-detail/{id}', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupportDetail'])->name('admin_b2b_support_detail');
+
+        Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
+        Route::get('/assessment-walkthrough', [App\Http\Controllers\AdminControllers\AssessmentWalkthrough::class,'getWalkThrough'])->name('admin_get_assessment_walkthrough');
+        Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
+        Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
+        Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');
+    });
+
+    Route::group(['middleware' => ['permission:questions']], function () {
         Route::get('/questions', [QuestionController::class, 'allQuestions'])->name('admin_all_questions');
         Route::get('/edit-question/{id}', [QuestionController::class, 'editQuestions'])->name('admin_edit_questions');
 

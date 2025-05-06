@@ -24,7 +24,8 @@ class CreateVersionControlForm extends Component
     ];
 
 
-    protected $listeners = ['updateVersionValues', 'emptyVersionControlValues', 'updateContent','updateNote', 'updateDescription'];
+    protected $listeners = ['updateVersionValues', 'emptyVersionControlValues', 'updateContent','updateNote', 'updateDescription'
+,'updateEditorContent'];
     // protected $listeners = [];
 
 
@@ -38,8 +39,16 @@ class CreateVersionControlForm extends Component
     protected $messages = [
         'version.required' => 'The version name is required.',
         'version.unique' => 'The version name has already been taken.',
-        'note.required' => 'The note is required.',
+        // 'note.required' => 'The note is required.',
     ];
+
+    public function updateEditorContent($payload)
+{
+    dd($payload); // 🔍 This will show what JS is sending
+}
+
+
+ 
 
     public function updateNote($value)
 {
@@ -49,6 +58,8 @@ class CreateVersionControlForm extends Component
 public function updateDescription($index, $value)
 {
     $this->versionDetails[$index]['description'] = $value;
+    // dd($this->versionDetails['description']);
+
 }
 
     public function addVersionField()
@@ -130,7 +141,7 @@ public function updateDescription($index, $value)
 
         $this->validate([
             'version' => 'required|unique:version_control,version,' . $this->versionId, 
-            'note' => 'required',
+            // 'note' => 'required',
         ]);
      
         if ($this->versionId) {
@@ -162,11 +173,15 @@ public function updateDescription($index, $value)
             $this->emptyVersionControlValues();
             $this->emit('refreshVersions');
             $this->emit('updateSession', 'Updated');
+            session()->flash('success', 'Version updated successfully.');
+
         } else {
-            
+            // dd($)
+            // dd($this->version,$this->note);
             $version = Version::createVersion($this->version, $this->note);
 
             foreach ($this->versionDetails as $detail) {
+                
                 VersionControlDescription::createDescription($version->id, $detail['description'], $detail['type'], $detail['version_heading']);
             }
 
@@ -177,6 +192,8 @@ public function updateDescription($index, $value)
             $this->emptyVersionControlValues();
             $this->emit('refreshVersionControl');
             $this->emit('updateSession', 'Created');
+            session()->flash('success', 'Version Create successfully.');
+
         }
     }
 
