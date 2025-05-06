@@ -165,7 +165,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (Auth::user()->hasRole('sub admin'))
+                        {{-- @if (Auth::user()->hasRole('sub admin'))
                             <li class="nav-item pt-2">
                                 <a class="nav-link setting-options text-body" data-scroll="" href="#delete">
                                     <div class="icon me-2">
@@ -192,7 +192,7 @@
                                     <span class="text-sm custom-text-dark">Delete Account</span>
                                 </a>
                             </li>
-                        @endif
+                        @endif --}}
                     </ul>
                 </div>
             </div>
@@ -242,36 +242,36 @@
                     @livewire('admin.setting.add-sub-admin')
                     <!-- Stripe -->
                     @livewire('admin.setting.stripe-setting-form',['account' => $account])
-
-            @endif
-            <!-- Card Delete Account -->
-                <div class="card setting-box-background mt-4" id="delete">
-                    <div class="card-header">
-                        <h5 class="text-color-dark setting-form-heading">Delete Account</h5>
-                        <p class="text-sm mb-0 text-color-dark">Once you delete your account, there is no going back.
-                            Please
-                            be certain.</p>
-                    </div>
-                    <div class="card-body d-sm-flex pt-0">
-                        <div class="d-flex align-items-center mb-sm-0 mb-4">
-                            <div>
-                                <div class="form-check form-switch mb-0">
-                                    <input style="background-color: #1C365E;" class="form-check-input" type="checkbox"
-                                           id="flexSwitchCheckDefault0">
-                                </div>
-                            </div>
-                            <div class="ms-2">
-                                <span class="text-color-dark font-weight-bold d-block text-sm">Confirm</span>
-                                <span class="text-xs d-block text-color-dark">I want to delete my account.</span>
-                            </div>
-                        </div>
-                        <button class="btn btn-outline-secondary mb-0 ms-auto invisible" type="button" name="button">
-                            Deactivate
-                        </button>
-                        <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Delete Account
-                        </button>
-                    </div>
+<!-- Card Delete Account -->
+<div class="card setting-box-background mt-4" id="delete">
+    <div class="card-header">
+        <h5 class="text-color-dark setting-form-heading">Delete Account</h5>
+        <p class="text-sm mb-0 text-color-dark">Once you delete your account, there is no going back.
+            Please
+            be certain.</p>
+    </div>
+    <div class="card-body d-sm-flex pt-0">
+        <div class="d-flex align-items-center mb-sm-0 mb-4">
+            <div>
+                <div class="form-check form-switch mb-0">
+                    <input style="background-color: #1C365E;" class="form-check-input" type="checkbox"
+                           id="flexSwitchCheckDefault0">
                 </div>
+            </div>
+            <div class="ms-2">
+                <span class="text-color-dark font-weight-bold d-block text-sm">Confirm</span>
+                <span class="text-xs d-block text-color-dark">I want to delete my account.</span>
+            </div>
+        </div>
+        <button class="btn btn-outline-secondary mb-0 ms-auto invisible" type="button" name="button">
+            Deactivate
+        </button>
+        <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Delete Account
+        </button>
+    </div>
+</div>
+            @endif
+            
             </div>
         </div>
         @include('layouts/footers/auth/footer')

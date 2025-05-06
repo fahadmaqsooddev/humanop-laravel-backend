@@ -74,15 +74,17 @@ class B2BBusinessCandidates extends Model
                 'role' => $role == 1 ? 0 : 1,
                 'share_data' => $sharedData,
             ]);
+            return $data;
         }
+        
 
+        return $checkData;
 
 //        $user = User::where('id', $candidateId)->first();
 //        $getInvite = UserInvite::where('email', $user['email'])->first();
 //        UserCandidateInvite::where('company_id', $businessId)->where('invite_link_id', $getInvite['id'])->delete();
 
 
-        return $data;
     }
 
     public static function allBusinessMembers($business_id = null, $search_name = null)
