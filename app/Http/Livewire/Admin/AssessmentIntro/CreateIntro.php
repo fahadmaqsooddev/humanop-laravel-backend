@@ -33,13 +33,8 @@ class CreateIntro extends Component
             ];
 
             AssessmentIntro::createIntro($data);
-
-            $this->name = '';
-            $this->public_name = '';
-            $this->code = '';
-            $this->type = '';
-            $this->text = '';
-            $this->number = '';
+   
+            $this->resetForm();
 
             session()->flash('success', ' Assessment Intro Created successfully.');
 
@@ -48,6 +43,11 @@ class CreateIntro extends Component
             session()->flash('error', $exception->getMessage());
         }
 
+    }
+
+
+    public function resetForm(){
+        $this->reset(['name','public_name','code','type','text','number']);
     }
 
     public function render()

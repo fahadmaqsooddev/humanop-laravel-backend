@@ -32,12 +32,7 @@ class ManageIntroForm extends Component
             $data = array_intersect_key($this->select_code, array_flip($keysToKeep));
 
             AssessmentIntro::updateIntro($data, $this->select_code['id']);
-
-            $this->name = '';
-            $this->public_name = '';
-            $this->code = '';
-            $this->type = '';
-            $this->text = '';
+            
 
             session()->flash('success', 'Manage Assesment Intro updated successfully.');
 
@@ -47,6 +42,8 @@ class ManageIntroForm extends Component
 
         }
     }
+
+    
 
     public function render()
     {

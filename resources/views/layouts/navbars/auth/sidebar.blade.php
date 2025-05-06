@@ -214,7 +214,8 @@
                                                                 class="caret"></b></span>
                                                     </a>
                                                     <div
-                                                        class="collapse {{ Request::is('admin/assessments', 'admin/abandoned-assessment') ? 'show' : '' }}"
+                                                        class="collapse {{ Request::is('admin/assessments',
+                                                        'admin/abandoned-assessment','admin/user-grid/*','admin/user-profile-overview/*') ? 'show' : '' }}"
                                                         id="assementexample">
                                                         <ul class="nav nav-sm flex-column">
                                                             <li class="nav-item {{ (Request::is('admin/assessments') ? 'active-itt-all' : '') }}">
@@ -419,6 +420,14 @@
                                                         'admin/admin_resources','admin/podcast','admin/version-control',
                                                         'admin/b2b-support','admin/information-icon','admin/payment-history',
                                                         'admin/edit-version-control*','admin/create-version-control',
+                                                        'admin/summary-report',
+                                                        'admin/assessment-introduction',
+                                                        'admin/edit-assessment-intro/*',
+                                                        'admin/edit-summary-report/*',
+                                                        'admin/create-version-control',
+                                                        'admin/edit-version-control/*',
+                                                        'admin/edit-code/*',
+                                                        'admin/b2b-support-detail/*',
 
                                                         'admin/admin_get_client_invite') ? 'show' : '' }}"
                                                         id="vrExamples">

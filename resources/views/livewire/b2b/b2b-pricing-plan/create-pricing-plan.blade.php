@@ -94,7 +94,9 @@
                                         <div class="input-group">
                                             <input style="background-color: #0f1534;color: lightgrey !important"
                                                    wire:model="team_members"
-                                                   class="form-control table-header-text" type="text">
+                                                   class="form-control table-header-text" type="number"
+                                                   min="0"
+                                                   oninput="this.value = Math.max(this.value, 0)">
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +162,9 @@
                                         <div class="input-group">
                                             <input style="background-color: #0f1534;color: lightgrey !important"
                                                    wire:model="team_members"
-                                                   class="form-control table-header-text" type="text">
+                                                   class="form-control table-header-text"  type="number"
+                                                   min="0"
+                                                   oninput="this.value = Math.max(this.value, 0)">
                                         </div>
                                     </div>
                                 </div>

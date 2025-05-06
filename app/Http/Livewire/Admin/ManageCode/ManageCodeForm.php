@@ -29,11 +29,7 @@ class ManageCodeForm extends Component
 
             CodeDetail::updateCode($data, $this->select_code['id']);
 
-            $this->name = '';
-            $this->public_name = '';
-            $this->code = '';
-            $this->type = '';
-            $this->text = '';
+          
 
             session()->flash('success', 'Manage Code updated successfully.');
 
@@ -43,6 +39,8 @@ class ManageCodeForm extends Component
 
         }
     }
+
+    
 
     public function render()
     {

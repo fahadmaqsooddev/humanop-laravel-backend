@@ -34,7 +34,7 @@
                 <tr class="table-text-color">
                     <th>Email</th>
                     <th>link</th>
-                    <th>Limit</th>
+                    {{-- <th>Limit</th> --}}
                     <th>Bulk Delete</th>
                     <th>Action</th>
                 </tr>
@@ -45,9 +45,9 @@
                     <tr class="table-text-color">
                         <td class="text-md font-weight-normal">{{$invite['email']}} </td>
                         <td class="text-md font-weight-normal no-select">{{ config('client_url.b2b_dashboard_url') .'/check-email?b2b-signup-link=' . $invite['link'] }} </td>
-                        <td class="text-md font-weight-normal text-center">
+                        {{-- <td class="text-md font-weight-normal text-center">
                             {{ !empty($invite['total_member_limit']) ? $invite['total_member_limit'] : 0 }}
-                        </td>
+                        </td> --}}
                         <td class="text-center">
                             <input type="checkbox" wire:model="selectedItems" value="{{ $invite->id }}"
                                    style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
@@ -64,12 +64,12 @@
                                     style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link
                             </button>
                             {{-- my code --}}
-                            <button class="btn mb-0 text-white"
+                            {{-- <button class="btn mb-0 text-white"
                                     data-bs-toggle="modal" data-bs-target="#EditLimitModel"
                                     wire:click="editLimit({{$invite['id']}})"
                                     style="background-color: #ff0000; border-radius: 0px 5px 5px 0px">
                                 Edit Limit
-                            </button>
+                            </button> --}}
 
                         </td>
                     </tr>
@@ -127,11 +127,6 @@
                                             @error('file')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
-                                            {{-- <label class="text-white mt-4">Members Limit</label> --}}
-                                            {{-- <input style="background-color: #0f1534;color: lightgrey !important;"
-                                                   class="form-control text-white"
-                                                   type="number" wire:model="members_limit" name="members_limit"
-                                                   placeholder="icon name"> --}}
 
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
                                                     style="background-color: #f2661c ">Generate Invite
@@ -149,7 +144,7 @@
 
 
     {{-- my code for edit limit --}}
-    <div wire:ignore.self class="modal fade" id="EditLimitModel" tabindex="-1"
+    {{-- <div wire:ignore.self class="modal fade" id="EditLimitModel" tabindex="-1"
          role="dialog"
          aria-labelledby="EditLimitModel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -190,7 +185,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 </div>
 @push('js')

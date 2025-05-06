@@ -17,7 +17,7 @@ class B2bInvite extends Component
     use WithFileUploads, WithPagination;
 
     public $email, $file, $searched_email,  $total_member_limit;
-public $members_limit=10;
+// public $members_limit=10;
     public $invite_id;
 
     public $selectedItems = [];
@@ -47,22 +47,6 @@ public $members_limit=10;
         try {
 
 
-            if ($this->invite_id) {
-
-                $invite = UserInvite::find($this->invite_id);
-
-                if ($invite) {
-
-                    $invite->total_member_limit = $this->total_member_limit;
-
-                    $invite->members_limit = $this->total_member_limit;
-
-                    $invite->save();
-
-                    session()->flash('success', "Members limit updated successfully.");
-                }
-            } else {
-
                 $this->validate();
 
                 if ($this->email) {
@@ -90,7 +74,7 @@ public $members_limit=10;
                         return;
                     }
 
-                    $data=UserInvite::sendInvite($this->email, $this->file, $this->role, $this->members_limit);
+                    $data=UserInvite::sendInvite($this->email, $this->file, $this->role);
 
 
                     $url = config('client_url.b2b_dashboard_url') . '/check-email?b2b-signup-link=' . $data['link'];
@@ -103,7 +87,7 @@ public $members_limit=10;
 
                 }
 
-            }
+            
 
             $this->resetForm();
 
@@ -156,7 +140,7 @@ public $members_limit=10;
 
     public function resetForm()
     {
-        $this->reset(['email', 'members_limit', 'invite_id']);
+        $this->reset(['email', 'invite_id']);
     }
 
     public function deleteClientLink($id)
@@ -172,7 +156,6 @@ public $members_limit=10;
         UserInvite::sendInviteTime($id);
     }
 
-    // my code
 
     public function editLimit($id)
     {

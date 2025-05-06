@@ -31,11 +31,7 @@ class ManageSummaryReportForm extends Component
 
             AssessmentIntro::updateIntro($data, $this->select_code['id']);
 
-            $this->name = '';
-            $this->public_name = '';
-            $this->code = '';
-            $this->type = '';
-            $this->text = '';
+            
 
             session()->flash('success', 'Summary Report updated successfully.');
 
@@ -45,6 +41,8 @@ class ManageSummaryReportForm extends Component
 
         }
     }
+
+    
 
     public function render()
     {

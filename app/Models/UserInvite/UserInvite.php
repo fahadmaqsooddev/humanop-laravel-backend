@@ -42,7 +42,7 @@ class UserInvite extends Model
 
     }
 
-    public static function sendInvite($email = null, $file = null,$role=Admin::CLIENT_INVITE_ROLE,$members_limit=null)
+    public static function sendInvite($email = null, $file = null,$role=Admin::CLIENT_INVITE_ROLE)
     {
 
         if (!empty($file)) {
@@ -63,8 +63,7 @@ class UserInvite extends Model
                             'email' => $csvEmail,
                             'link' => $link,
                             'role'=>$role,
-                            'members_limit'=>$members_limit,
-                            'total_member_limit'=>$members_limit,
+                           
                         ]);
 
                     }
@@ -88,8 +87,7 @@ class UserInvite extends Model
                     'email' => $email,
                     'link' => $link,
                     'role'=>$role,
-                    'members_limit'=>$members_limit,
-                    'total_member_limit'=>$members_limit,
+                
                 ]);
             }
         }
