@@ -26,6 +26,7 @@ use App\Http\Controllers\B2BControllers\B2BInviteController;
 use App\Http\Controllers\B2BControllers\B2BOrganizationController;
 use App\Http\Controllers\B2BControllers\B2BPricingPlanController;
 use App\Http\Controllers\AdminControllers\AssessmentIntroController;
+use App\Http\Controllers\AdminControllers\SummaryReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,6 +123,9 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/assessment-introduction', [AssessmentIntroController::class, 'ManageAssessmentIntro'])->name('admin_manage_assessment_intro');
         Route::get('/create-assessment-intro', [AssessmentIntroController::class, 'createAssessmentIntro'])->name('admin_create_assessment_intro');
         Route::get('/edit-assessment-intro/{id}', [AssessmentIntroController::class, 'editAssessmentIntro'])->name('admin_edit_assessment_intro');
+        Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
+        Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
+
         Route::get('/pages-users-reports', [AdminController::class, 'pagesUsersReports'])->name('admin_pages_users_reports');
         Route::get('/pages-users-new', [AdminController::class, 'pagesUsersNewUser'])->name('admin_pages_users_new_user');
         Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');

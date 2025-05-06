@@ -448,7 +448,7 @@
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/summary-report') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/summary-report') ? 'active-itt-all' : '') }}"
-                                                                   href="#">
+                                                                   href="{{route('admin_manage_summary_report')}}">
                                                                     <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Codee.png')}}"></span>

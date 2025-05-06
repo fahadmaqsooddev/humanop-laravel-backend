@@ -20,7 +20,7 @@ class AssessmentIntro extends Model
     }
     public static function allIntro()
     {
-        return self::all();
+        return self::where('code','!=','SI')->get();
     }
 
     public static function createIntro($data=null){
@@ -46,5 +46,11 @@ class AssessmentIntro extends Model
 
         return $assesssment;
 
+    }
+    public static function summaryReport(){
+        return self::where('code','SI')->get();
+    }
+    public static function getSingleSummaryReport($id){
+        return self::where('code','SI')->where('id',$id)->first();
     }
 }
