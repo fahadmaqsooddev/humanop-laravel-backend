@@ -69,8 +69,6 @@ class OpenRouterHelper
             "messages" => array_values($filtered_message_array),
         ];
 
-        Log::info(['data' => $data]);
-
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
