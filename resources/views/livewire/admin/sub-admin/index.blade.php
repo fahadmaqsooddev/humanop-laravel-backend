@@ -51,22 +51,27 @@
                                name="status"
                                type="checkbox"
                                id="flexSwitchCheckDefault{{ $admin->id }}"
-                               @checked($status) >
+                            @checked($status) >
                     </div>
                 </td>
                 <td class="text-sm font-weight-normal">{{ \Carbon\Carbon::parse($admin->signup_date)->format('Y/m/d') }}</td>
                 <td class="text-sm font-weight-normal">
-                    <a onclick="deleteSubAdmin({{ $admin->id }})" class=" btn-sm float-end mt-2 mb-0" style="background:#ff0000;color:white;font-weight:bolder;cursor:pointer;">Delete</a>
-                    <a data-bs-toggle="modal" data-bs-target="#subadmindetail{{ $admin->id }}" class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;margin-right:1rem;">View</a>
+                    <a onclick="deleteSubAdmin({{ $admin->id }})" class=" btn-sm float-end mt-2 mb-0"
+                       style="background:#ff0000;color:white;font-weight:bolder;cursor:pointer;">Delete</a>
+                    <a data-bs-toggle="modal" data-bs-target="#subadmindetail{{ $admin->id }}"
+                       class=" btn-sm float-end mt-2 mb-0"
+                       style="background:#f2661c;color:white;font-weight:bolder;margin-right:1rem;">View</a>
                 </td>
 
             </tr>
-            <div wire:ignore.self class="modal fade" id="subadmindetail{{ $admin->id }}" tabindex="-1" role="dialog" aria-labelledby="subadmindetail{{ $admin->id }}" aria-hidden="true">
-                <div class="modal-dialog modal-md" role="document">
+            <div wire:ignore.self class="modal fade" id="subadmindetail{{ $admin->id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="subadmindetail{{ $admin->id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-body" style=" border-radius: 9px">
                             <label class="form-label fs-4 text-white">Permissions</label>
-                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             @livewire('admin.sub-admin.permission',['permission' => $permissionNames,'adminId' => $admin->id], key($admin->id))
@@ -82,23 +87,23 @@
 <script>
     function deleteSubAdmin(id) {
 
-const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-        confirmButton: 'btn bg-gradient-danger m-2',
-        cancelButton: 'btn bg-gradient-secondary m-2',
-    },
-    buttonsStyling: false,
-    background: '#3442b4',
-})
-swalWithBootstrapButtons.fire({
-    title: '<span style="color: white;">Are you sure?</span>',
-    html: "<span style='color: white;'>Want to delete Sub Admin</span>",
-    showCancelButton: true,
-    confirmButtonText: 'Delete',
-}).then((result) => {
-    if (result.isConfirmed) {
-        window.livewire.emit('deleteSubAdmin', id)
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn bg-gradient-danger m-2',
+                cancelButton: 'btn bg-gradient-secondary m-2',
+            },
+            buttonsStyling: false,
+            background: '#3442b4',
+        })
+        swalWithBootstrapButtons.fire({
+            title: '<span style="color: white;">Are you sure?</span>',
+            html: "<span style='color: white;'>Want to delete Sub Admin</span>",
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.livewire.emit('deleteSubAdmin', id)
+            }
+        })
     }
-})
-}
 </script>
