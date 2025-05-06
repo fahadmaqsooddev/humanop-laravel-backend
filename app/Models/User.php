@@ -865,7 +865,7 @@ class User extends Authenticatable implements JWTSubject
 
             $organizations->where(function ($q) use ($search_email) {
 
-                $q->where('first_name', 'LIKE', "%{$search_email}%");
+                $q->where('email', 'LIKE', "%{$search_email}%");
 
             });
 
