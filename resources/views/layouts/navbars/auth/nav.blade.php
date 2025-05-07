@@ -1,129 +1,132 @@
-<!-- Navbar -->
 @if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || \App\Helpers\Helpers::getWebUser()['is_admin'] === 3)
-<nav class="navbar navbar-main navbar-expand-lg left px-1 shadow-none border-radius-xl z-index-sticky"
-     style="background-color: #8BB1AB; border-radius: 0px !important; padding: 0px !important;"
-     id="navbarBlur" data-scroll="true">
+    <nav class="navbar navbar-main navbar-expand-lg left px-1 shadow-none border-radius-xl z-index-sticky"
+         style="background-color: #8BB1AB; border-radius: 0px !important; padding: 0px !important;"
+         id="navbarBlur" data-scroll="true">
 
-        <div class="navbar-background-color d-flex align-items-end justify-content-end"
-    <div class="d-flex "
-         style="width: 100%; border-radius: 0px !important;"  data-step="4" >
+        <div class="navbar-background-color d-flex align-items-end justify-content-end">
+            <div class="d-flex "
+                 style="width: 100%; border-radius: 0px !important;" data-step="4">
 
-        <div class="container-fluid py-1 px-3 d-flex" style="justify-content: center; padding: 10px !important;">
+                <div class="container-fluid py-1 px-3 d-flex"
+                     style="justify-content: center; padding: 10px !important;">
 
-            <div class="d-none d-lg-flex flex-2 abc ps-5 mx-auto">
-                <div class="col-auto" style="margin: auto">
-                    <div class="avatar avatar-xl avatar-icon  ">
-                        <img
-                            src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
-                            height="80" alt="profile_image" class="w-100 border-radius-lg shadow-sm  user_profile_image">
+                    <div class="d-none d-lg-flex flex-2 abc ps-5 mx-auto">
+                        <div class="col-auto" style="margin: auto">
+                            <div class="avatar avatar-xl avatar-icon  ">
+                                <img
+                                    src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
+                                    height="80" alt="profile_image"
+                                    class="w-100 border-radius-lg shadow-sm  user_profile_image">
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="h-100">
+                                <a href="javascript:void(0)">
+                                    <h5 class="mb-1 custom-text-dark {{!empty($traitDescription['public_name']) ? '' : 'my-3'}}">
+                                        {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
+                                    </h5>
+                                    @php
+                                        $user = \App\Helpers\Helpers::getWebUser();
+                                        $optionalTraitDetail = null;
+
+                                        if (!empty($user)) {
+                                            $assessment = \App\Models\Assessment::getLatestAssessment($user['id']);
+
+                                            if (!empty($assessment)) {
+                                                $timezone = $user['timezone'];
+                                                $topThreeStyles = \App\Models\Assessment::getAllStyles($assessment);
+                                                $topFeatures = \App\Models\Assessment::getFeatures($assessment);
+                                                $topTwoFeatures = \App\Models\Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
+                                                $optionalTrait = \App\Helpers\Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
+                                                $optionalTraitDetail = \App\Models\Admin\Code\CodeDetail::getOptionalTraitDetail($optionalTrait);
+                                            }
+                                        }
+                                    @endphp
+
+                                    @if(!empty($optionalTraitDetail))
+                                        <p class="mb-0 font-weight-bold text-sm">
+                                            Optimal Trait To Be In Right Now:
+                                        </p>
+                                        <h6 onclick="goToProfileOverviewPage('{{ $optionalTraitDetail[2] }}', 'style_{{ $optionalTraitDetail[0] }}')">
+                                            <strong>{{ $optionalTraitDetail[0] }}</strong>
+                                        </h6>
+                                    @endif
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-                <div class="d-flex">
-                    <div class="h-100">
-                        <a href="javascript:void(0)">
-                            <h5 class="mb-1 custom-text-dark {{!empty($traitDescription['public_name']) ? '' : 'my-3'}}">
-                                {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
-                            </h5>
-                            @php
-                                $user = \App\Helpers\Helpers::getWebUser();
-                                $optionalTraitDetail = null;
 
-                                if (!empty($user)) {
-                                    $assessment = \App\Models\Assessment::getLatestAssessment($user['id']);
+                    <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn"
+                         role="tablist">
 
-                                    if (!empty($assessment)) {
-                                        $timezone = $user['timezone'];
-                                        $topThreeStyles = \App\Models\Assessment::getAllStyles($assessment);
-                                        $topFeatures = \App\Models\Assessment::getFeatures($assessment);
-                                        $topTwoFeatures = \App\Models\Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
-                                        $optionalTrait = \App\Helpers\Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
-                                        $optionalTraitDetail = \App\Models\Admin\Code\CodeDetail::getOptionalTraitDetail($optionalTrait);
-                                    }
-                                }
-                            @endphp
+                        <div class="nav-item pt-2">
 
-                            @if(!empty($optionalTraitDetail))
-                                <p class="mb-0 font-weight-bold text-sm">
-                                    Optimal Trait To Be In Right Now:
-                                </p>
-                                <h6 onclick="goToProfileOverviewPage('{{ $optionalTraitDetail[2] }}', 'style_{{ $optionalTraitDetail[0] }}')">
-                                    <strong>{{ $optionalTraitDetail[0] }}</strong>
-                                </h6>
+                            @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
+
+                                <a href="{{route('assessments')}}"
+                                   style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
+                                   class="btn-sm-1 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results
+                                </a>
+
+                            @elseif(\App\Helpers\Helpers::getWebUser()->assessments()->where('page', 0)->count() > 0)
+
+                                @php
+                                    $userId = \App\Helpers\Helpers::getWebUser()['id'];
+
+                                    $assessment = \App\Models\Assessment::where('user_id', $userId)->where('page', 0)->latest()->first();
+
+                                @endphp
+                                @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
+                                    <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"
+                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
+                                       class="btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results
+                                    </a>
+                                @elseif(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
+                                    <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"
+                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
+                                       class="btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results
+                                    </a>
+                                @else
+                                    <a href="{{route('user_profile_overview', $assessment['id'])}}"
+                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
+                                       class="btn-sm-2 btn-md-3 btn-lg-5 navButtonResponsive">Access Latest Results
+                                    </a>
+                                @endif
+
+                            @else
+
+                                <button
+                                    style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
+                                    data-toggle="tooltip" data-placement="top" title="Take the assessment first"
+                                    class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest
+                                    Results
+                                </button>
+
                             @endif
-                        </a>
+                        </div>
+
+                        <div class="nav-item pt-2" style="margin-left: 5px">
+                            <button
+                                style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c;color:white;font-weight:bolder;border:none;"
+                                class=" btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd"
+                                data-bs-toggle="modal"
+                                data-bs-target="#qrCodeModal">Get Free Pro Access!
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-
-            <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn"
-                 role="tablist">
-
-                <div class="nav-item pt-2">
-
-                    @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
-
-                        <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
-                           class="btn-sm-1 btn-md-3 btn-lg-5  navButtonResponsive" >Access Latest Results
-                        </a>
-
-                    @elseif(\App\Helpers\Helpers::getWebUser()->assessments()->where('page', 0)->count() > 0)
-
-                        @php
-                            $userId = \App\Helpers\Helpers::getWebUser()['id'];
-
-                            $assessment = \App\Models\Assessment::where('user_id', $userId)->where('page', 0)->latest()->first();
-
-                        @endphp
-                        @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
-                            <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"
-                               style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
-                               class="btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results
-                            </a>
-                        @elseif(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
-                            <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"
-                               style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
-                               class="btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results
-                            </a>
-                        @else
-                            <a href="{{route('user_profile_overview', $assessment['id'])}}"
-                               style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
-                               class="btn-sm-2 btn-md-3 btn-lg-5 navButtonResponsive">Access Latest Results
-                            </a>
-                        @endif
-
-                    @else
-
-                        <button
-                            style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c !important;color:white;font-weight:bolder;border:none;"
-                            data-toggle="tooltip" data-placement="top" title="Take the assessment first"
-                            class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results
-                        </button>
-
-                    @endif
-                </div>
-
-                <div class="nav-item pt-2" style="margin-left: 5px">
-                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#f2661c;color:white;font-weight:bolder;border:none;"
-                            class=" btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd"
-                            data-bs-toggle="modal"
-                            data-bs-target="#qrCodeModal">Get Free Pro Access!
-                    </button>
-                </div>
-            </div>
-        </div>
-
-{{--        <div class="betaTagDiv">--}}
-{{--            <p class="betaTag">Beta</p>--}}
-{{--        </div>--}}
+                {{--        <div class="betaTagDiv">--}}
+                {{--            <p class="betaTag">Beta</p>--}}
+                {{--        </div>--}}
 
                 <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">
 
-    </div>
-</nav>
+            </div>
+        </div>
+    </nav>
 @endif
-<!-- End Navbar -->
-{{--QR Code Modal--}}
 <div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog"
      aria-labelledby="qrCodeModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -192,11 +195,6 @@
         </div>
     </div>
 </div>
-
-{{--Qr code End Here--}}
-
-
-<!-- Wallet Modal -->
 <div class="modal fade" id="humanOpWalletModal" tabindex="-1" role="dialog"
      aria-labelledby="humanOpWalletModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -233,9 +231,10 @@
         </div>
     </div>
 </div>
-
 <script>
+
     const button = document.getElementById('nav-toggle');
+
     const icon = document.getElementById('nav-toggle-icon');
 
     button.addEventListener('click', () => {
@@ -283,6 +282,7 @@
             }
         );
     });
+
     $(document).ready(function () {
         let resizeTimeout;
 
@@ -306,7 +306,6 @@
         });
     });
 
-
     async function copyToClipboard(text) {
 
         try {
@@ -325,7 +324,6 @@
             console.error('Failed to copy text: ', err);
         }
     }
-
 
     document.getElementById('downloadButton').addEventListener('click', function () {
         const svg = document.querySelector('#qrCodeContainer svg');
