@@ -9,7 +9,7 @@
                 <input type="email" name="email" wire:model.debounce="email"
                        class="form-control table-orange-color search-bar" placeholder="Search Email">
             </div>
-           
+
             <div class="input-group ms-md-4 pe-md-4">
                 <select class="form-control table-orange-color search-bar custom-text-dark" name="age"
                         wire:model.debounce="age">
@@ -34,13 +34,17 @@
     </div>
 
     @if(Auth::user()->hasRole('super admin'))
-        <button wire:click="hideHaiChatFromAllClients" class=" btn-sm float-end m-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">Hai Chat Change Status</button>
+        <button wire:click="hideHaiChatFromAllClients" class=" btn-sm float-end m-2 mb-0"
+                style="background:#f2661c;color:white;font-weight:bolder;border:none;">Hai Chat Change Status
+        </button>
         @if(count($selectedItems) > 0)
-        <div class=" d-flex justify-content-end ms-md-4 pe-md-4 mt-2">
-            <button type="button" onclick="deleteBulkClient()" class="btn-sm btn-danger" style="font-weight:bolder;border:none;">Delete Clients </button>
-        </div>
+            <div class=" d-flex justify-content-end ms-md-4 pe-md-4 mt-2">
+                <button type="button" onclick="deleteBulkClient()" class="btn-sm btn-danger"
+                        style="font-weight:bolder;border:none;">Delete Clients
+                </button>
+            </div>
         @endif
-        @endif
+    @endif
 
     <div class="table-responsive w-100 pt-4 table-orange-color">
         <table class="table table-flush">
@@ -49,10 +53,10 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Gender</th>
+                <th>HAI Chat</th>
                 @if(Auth::user()->hasRole('super admin'))
 
                     <th>Email verified</th>
-                    <th>HAI Chat</th>
 
                 @endif
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
@@ -70,66 +74,53 @@
                     <td class="text-sm font-weight-normal text-center">{{$user['first_name'].' '.$user['last_name'] }} </td>
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
                     <td class="text-sm font-weight-normal text-center">{{$user['gender'] != null ? $user['gender'] === '0' ? 'Male' : 'Female' : '-'}}</td>
-                    @if(Auth::user()->hasRole('super admin'))
-                       {{-- <td class="text-sm font-weight-normal text-center">
-                        @if(!empty($user['email_verified_at']))
-                        Yes
-                        @else
-                        No
-                        @endif
-                       </td> --}}
-
-
-                       <td class="text-sm font-weight-normal">
+                    <td class="text-sm font-weight-normal">
                         <div class="form-check form-switch mb-0 d-flex justify-content-center">
                             @php
-                                if(!empty($user['email_verified_at']))
+                                if($user->hai_chat == 1)
                                     $status = true;
                                 else
                                     $status = false;
                             @endphp
-                            <input class="form-check-input"
 
-                                   onchange="updateUserEmailVerifiedStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
-                                   name="status"
-                                   type="checkbox"
-                                   id="{{$status}}"
-                                   @checked($status)
-                                   >
+                            @if($is_chatBot_published || $status)
+
+                                <input class="form-check-input"
+                                       onchange="updateUserHaiChatStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
+                                       name="status"
+                                       type="checkbox"
+                                    @checked($status)>
+
+                            @else
+
+                                <input class="form-check-input"
+                                       onchange="displayChatBotPublishMessage(event)"
+                                       name="status"
+                                       type="checkbox">
+
+                            @endif
                         </div>
                     </td>
+
+                    @if(Auth::user()->hasRole('super admin'))
                         <td class="text-sm font-weight-normal">
                             <div class="form-check form-switch mb-0 d-flex justify-content-center">
                                 @php
-                                    if($user->hai_chat == 1)
+                                    if(!empty($user['email_verified_at']))
                                         $status = true;
                                     else
                                         $status = false;
                                 @endphp
-
-                                @if($is_chatBot_published || $status)
-
-                                    <input class="form-check-input"
-                                           onchange="updateUserHaiChatStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
-                                           name="status"
-                                           type="checkbox"
-                                           @checked($status)>
-
-                                @else
-
-                                    <input class="form-check-input"
-                                           onchange="displayChatBotPublishMessage(event)"
-                                           name="status"
-                                           type="checkbox">
-
-                                @endif
+                                <input class="form-check-input"
+                                       onchange="updateUserEmailVerifiedStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
+                                       name="status" type="checkbox" id="{{$status}}"@checked($status)>
                             </div>
                         </td>
-
                     @endif
                     @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                         <td class="text-sm font-weight-normal">
-                            <select class="form-control table-orange-color table-text-color search-bar" onchange="changeUserMemberShip(this, {{$user['id']}})"
+                            <select class="form-control table-orange-color table-text-color search-bar"
+                                    onchange="changeUserMemberShip(this, {{$user['id']}})"
                                     style="background-color: #0F1535;border-radius: 12px;">
                                 <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>
                                     Freemium
@@ -151,35 +142,17 @@
                                        onchange="changeUserToPractitioner({{$user['id']}}, '{{$user['first_name']}}', this , event)"
                                        name="practitioner"
                                        type="checkbox"
-                                       @checked($practitionerStatus)>
+                                    @checked($practitionerStatus)>
                             </div>
                         </td>
-                        {{-- <td class="text-sm font-weight-normal">
-
-                            <a
-                            @if(empty($user['email_verified_at']))
-                            disabled
-                            style="background:grey;color:white;font-weight:bolder;"
-                            @else
-                            onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}', '{{$user['last_name'] ?? null}}', '{{$user['is_admin'] ?? null}}')"
-                            @endif
-                            class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;"
-                            >
-                          Login
-
-                            </a>
-                        </td> --}}
-
-                        <td class="text-center">
-                            <input type="checkbox" wire:model="selectedItems" value="{{ $user->id }}"
-                                style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
+                        <td class="text-center"><input type="checkbox" wire:model="selectedItems"
+                                                       value="{{ $user->id }}"
+                                                       style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
                         </td>
                         <td class="text-sm font-weight-normal">
                             <a onclick="deleteClientProfile({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
                                style="border: 1px solid #f2661c; color: white; background-color: red;"
-                               class="btn btn-sm float-end mt-2 mb-0">
-                                Delete
-                            </a>
+                               class="btn btn-sm float-end mt-2 mb-0">Delete</a>
                         </td>
                     @endif
                 </tr>
@@ -228,13 +201,13 @@
                 }
             });
         }
+
         function updateUserEmailVerifiedStatus(id, name, checkbox, e) {
             e.preventDefault();
 
             // Store the current state of the checkbox
             const isChecked = checkbox.checked;
             const status = checkbox.id;
-
 
 
             // Reset checkbox to its original state temporarily
@@ -251,12 +224,12 @@
             let title = '';
             let html = '';
             if (status == 1) {
-        title = '<span style="color: white;">Are you sure?</span>';
-        html = "<span style='color: white;'>This email is already verified.</span>";
-    } else {
-        title = '<span style="color: white;">Are you sure?</span>';
-        html = "<span style='color: white;'>Want to verify the email of  " + name + "?</span>";
-    }
+                title = '<span style="color: white;">Are you sure?</span>';
+                html = "<span style='color: white;'>This email is already verified.</span>";
+            } else {
+                title = '<span style="color: white;">Are you sure?</span>';
+                html = "<span style='color: white;'>Want to verify the email of  " + name + "?</span>";
+            }
             swalWithBootstrapButtons.fire({
                 title: title,
                 html: html,
@@ -265,10 +238,10 @@
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    if(status!=1){
+                    if (status != 1) {
                         checkbox.checked = isChecked;
 
-                    window.livewire.emit('updateEmailVerified', id);
+                        window.livewire.emit('updateEmailVerified', id);
                     }
 
                 } else {
@@ -361,7 +334,7 @@
         }
 
 
-        function deleteBulkClient(){
+        function deleteBulkClient() {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn bg-gradient-danger m-2',
@@ -382,7 +355,7 @@
             })
         }
 
-        function displayChatBotPublishMessage(event){
+        function displayChatBotPublishMessage(event) {
             event.preventDefault();
 
             const swalWithBootstrapButtons = Swal.mixin({
