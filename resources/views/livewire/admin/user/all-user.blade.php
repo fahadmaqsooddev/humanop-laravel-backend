@@ -120,13 +120,13 @@
                     @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                         <td class="text-sm font-weight-normal">
                             <select class="form-control table-orange-color table-text-color search-bar"
-                                    onchange="changeUserMemberShip(this, {{$user['id']}})"
+{{--                                    onchange="changeUserMemberShip(this, {{$user['id']}})"--}}
                                     style="background-color: #0F1535;border-radius: 12px;">
                                 <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>
                                     Freemium
                                 </option>
-                                <option value="Core" {{$user['plan_name'] === "Core" ? 'selected' : "" }}>Core</option>
-                                <option value="Premium" {{$user['plan_name'] === "Premium" ? 'selected' : "" }}>Premium
+{{--                                <option value="Core" {{$user['plan_name'] === "Core" ? 'selected' : "" }}>Core</option>--}}
+{{--                                <option value="Premium" {{$user['plan_name'] === "Premium" ? 'selected' : "" }}>Premium--}}
                                 </option>
                             </select>
                         </td>
@@ -138,8 +138,8 @@
                                     else
                                         $practitionerStatus = false;
                                 @endphp
-                                <input class="form-check-input"
-                                       onchange="changeUserToPractitioner({{$user['id']}}, '{{$user['first_name']}}', this , event)"
+                                <input class="form-check-input" disabled
+{{--                                       onchange="changeUserToPractitioner({{$user['id']}}, '{{$user['first_name']}}', this , event)"--}}
                                        name="practitioner"
                                        type="checkbox"
                                     @checked($practitionerStatus)>
