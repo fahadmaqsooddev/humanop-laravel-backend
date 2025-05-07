@@ -483,8 +483,25 @@ class AuthController extends Controller
 
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
 
+
+                      
+
                         if (!empty($data)) {
+
                             B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
+                            $getInvite = UserInvite::where('email', $user['email'])->first();
+
+                            if ($getInvite) {
+            
+                                $memberCandidateInvite = UserCandidateInvite::where('invite_link_id', $getInvite->id)->where('company_id',$data['id'])->first();
+            
+                                if ($memberCandidateInvite) {
+            
+                                    $memberCandidateInvite->delete();
+                                    
+                                }
+                            }
                         }
 
                     }
