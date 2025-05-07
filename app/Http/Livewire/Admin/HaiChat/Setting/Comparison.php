@@ -132,7 +132,7 @@ class Comparison extends Component
 
             }else{
 
-                session()->flash('Something went wrong while connecting with brain. Please change your brain and try again.');
+                session()->flash('error','Something went wrong while connecting with brain. Please change your brain and try again.');
             }
 
         }catch (\Exception $exception){
