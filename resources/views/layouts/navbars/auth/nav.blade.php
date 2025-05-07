@@ -269,7 +269,7 @@
             function () {
                 if (icon.classList.contains('fa-angle-left')) {
 
-                    $('#nav-toggle-btn').css('margin-left', '251px');
+                    $('#nav-toggle-btn').css('margin-left', '290px');
                 }
             },
             function () {
@@ -277,7 +277,7 @@
                     if ($(window).width() <= 1200) {
                         $('#nav-toggle-btn').css('margin-left', '0px');
                     } else {
-                        $('#nav-toggle-btn').css('margin-left', '96px');
+                        $('#nav-toggle-btn').css('margin-left', '125px');
                     }
                 }
             }

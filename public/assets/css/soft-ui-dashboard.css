@@ -22532,7 +22532,7 @@ hr.horizontal.gray-light {
   }
 
   .g-sidenav-hidden .navbar-vertical:hover {
-    max-width: 15.625rem !important;
+    max-width: 18.625rem !important;
   }
 
   .g-sidenav-hidden .navbar-vertical:hover.fixed-start+.main-content {
