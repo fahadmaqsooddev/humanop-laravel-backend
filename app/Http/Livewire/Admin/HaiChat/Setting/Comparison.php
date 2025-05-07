@@ -93,40 +93,47 @@ class Comparison extends Component
 
             $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-            $prompts = ChatPrompt::where('name',$chatbot['name'])->first();
+            if (isset($aiReply['prompt'])){
 
-            $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(null, $aiReply['prompt']);
+                $prompts = ChatPrompt::where('name',$chatbot['name'])->first();
 
-            $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+                $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(null, $aiReply['prompt']);
 
-            [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($chatbot['name'],null);
+                $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-            foreach ($this->selectedModels as $llmModel) {
+                [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($chatbot['name'],null);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $llmModel, $final_persona, $userMessage,$assistantMessage);
+                foreach ($this->selectedModels as $llmModel) {
 
-                foreach ($openRouterResponse['choices'] as $choice)
-                {
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $llmModel, $final_persona, $userMessage,$assistantMessage);
 
-                    if (isset($choice['message']['content'])) {
+                    foreach ($openRouterResponse['choices'] as $choice)
+                    {
 
-                        $selectedModel = ['Deepseek' => 'deepseek/deepseek-chat', 'Qwen' => 'qwen/qvq-72b-preview', 'Deepseek R1-Qwen' => 'deepseek/deepseek-r1-distill-qwen-1.5b', 'OpenAI' => 'openai/gpt-3.5-turbo'];
+                        if (isset($choice['message']['content'])) {
 
-                        $modelKey = array_search($openRouterResponse['model'], $selectedModel, true);
+                            $selectedModel = ['Deepseek' => 'deepseek/deepseek-chat', 'Qwen' => 'qwen/qvq-72b-preview', 'Deepseek R1-Qwen' => 'deepseek/deepseek-r1-distill-qwen-1.5b', 'OpenAI' => 'openai/gpt-3.5-turbo'];
 
-                        $this->modelResponse[] = [
-                            'question' => $this->message,
-                            'model' => $modelKey !== false ? $modelKey : $openRouterResponse['model'],
-                            'response' => $choice['message']['content']
-                        ];
+                            $modelKey = array_search($openRouterResponse['model'], $selectedModel, true);
+
+                            $this->modelResponse[] = [
+                                'question' => $this->message,
+                                'model' => $modelKey !== false ? $modelKey : $openRouterResponse['model'],
+                                'response' => $choice['message']['content']
+                            ];
+
+                        }
 
                     }
 
                 }
 
-            }
+                $this->reset('message');
 
-            $this->reset('message');
+            }else{
+
+                session()->flash('Something went wrong while connecting with brain. Please change your brain and try again.');
+            }
 
         }catch (\Exception $exception){
 
