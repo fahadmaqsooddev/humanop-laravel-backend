@@ -50,6 +50,12 @@ class MemberController extends Controller
 
             $email = $request->input('email');
 
+            if(Helpers::getUser()['email'] == $email){
+
+                return Helpers::validationResponse('its an B2B Admin Account You can directly login to HumanOP Account');
+    
+            }
+
             $checkInviteLink = UserInvite::getSingleInvite($email);
 
 

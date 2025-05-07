@@ -134,7 +134,7 @@ class AllUser extends Component
 
     public function render()
     {
-        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER]);
+        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER,Admin::IS_B2B]);
 
         $this->is_chatBot_published = Chatbot::where('is_published', 1)->exists();
 

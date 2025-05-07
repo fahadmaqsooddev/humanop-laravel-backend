@@ -54,9 +54,15 @@ class Assessment extends Component
         $this->searchFilter();
     }
 
-    public function updated()
+    // public function updated()
+    // {
+    //     $this->searchFilter();
+    // }
+    public function updated($field)
     {
-        $this->searchFilter();
+        if (in_array($field, ['name', 'email','age'])) {
+            $this->resetPage();
+        }
     }
 
     // public function updatedName($value)
