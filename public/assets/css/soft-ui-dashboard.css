@@ -22559,10 +22559,10 @@ hr.horizontal.gray-light {
     content: "\f107";
   }
 
-  .g-sidenav-hidden .navbar-vertical:hover .nav-item .collapse .nav {
-    margin-left: 1.5rem !important;
-    padding-left: 1rem !important;
-  }
+  /*.g-sidenav-hidden .navbar-vertical:hover .nav-item .collapse .nav {*/
+    /*margin-left: 1.5rem !important;*/
+    /*padding-left: 1rem !important;*/
+  /*}*/
 
   .g-sidenav-hidden .navbar-vertical:hover .nav-item .collapse .nav .nav-item .nav-link {
     margin-left: 1.35rem;
