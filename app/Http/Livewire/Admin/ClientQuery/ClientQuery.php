@@ -7,11 +7,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use App\Models\HAIChai\ClientQuery as Query;
+use Livewire\WithPagination;
 
 class ClientQuery extends Component
 {
 
-    public $queries;
+    use WithPagination;
+ 
+    protected $queries;
     protected $listeners = ['refreshQuery' => 'handleRefreshQuery'];
 
     public function handleRefreshQuery(){
@@ -23,6 +26,8 @@ class ClientQuery extends Component
     {
         $this->queries = Query::getQueries();
 
-        return view('livewire.admin.client-query.client-query');
+        return view('livewire.admin.client-query.client-query',[
+            'queries'=>$this->queries
+        ]);
     }
 }

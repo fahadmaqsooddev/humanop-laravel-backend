@@ -845,45 +845,82 @@ class User extends Authenticatable implements JWTSubject
         return $users;
     }
 
-    public static function getB2BAdmin($search_name = null, $search_email = null, $per_page = null)
-    {
-        $organizations = self::query();
+    // public static function getB2BAdmin($search_name = null, $search_email = null, $per_page = 10)
+    // {
+    //     $organizations = self::query();
 
-        if (!empty($search_name)) {
+    //     if (!empty($search_name)) {
 
-            $organizations->where(function ($q) use ($search_name) {
+    //         $organizations->where(function ($q) use ($search_name) {
 
-                $q->where('first_name', 'LIKE', "%{$search_name}%")
-                    ->orWhere('last_name', 'LIKE', "%{$search_name}%")
-                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+    //             $q->where('first_name', 'LIKE', "%{$search_name}%")
+    //                 ->orWhere('last_name', 'LIKE', "%{$search_name}%")
+    //                 ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
 
-            });
+    //         });
 
-        }
+    //     }
 
-        if (!empty($search_email)) {
+    //     if (!empty($search_email)) {
 
-            $organizations->where(function ($q) use ($search_email) {
+    //         $organizations->where(function ($q) use ($search_email) {
 
-                $q->where('email', 'LIKE', "%{$search_email}%");
+    //             $q->where('email', 'LIKE', "%{$search_email}%");
 
-            });
+    //         });
+           
 
-        }
+    //     }
 
-        $organizations = $organizations->whereNotNull('company_name')
-            ->orderBy('created_at', 'desc')
-            ->paginate($per_page);
+    //     $organizations = $organizations->whereNotNull('company_name')
+    //         ->orderBy('created_at', 'desc')
+    //         ->paginate($per_page);
+    //         // dd($organizations);
 
-        foreach ($organizations as $organization) {
+    //     foreach ($organizations as $organization) {
 
-            $organization->member_count = B2BBusinessCandidates::getMembersCount($organization['id']);
+    //         $organization->member_count = B2BBusinessCandidates::getMembersCount($organization['id']);
 
-            $organization->candidate_count = B2BBusinessCandidates::getCandidatesCount($organization['id']);
-        }
+    //         $organization->candidate_count = B2BBusinessCandidates::getCandidatesCount($organization['id']);
+    //     }
 
-        return $organizations;
+    //     // $data= $organizations->paginate($per_page);
+    //     return $organizations;
+    // }
+
+    public static function getB2BAdmin($search_name = null, $search_email = null, $per_page = 10)
+{
+    $query = self::query();
+
+    if (!empty($search_name)) {
+        $query->where(function ($q) use ($search_name) {
+            $q->where('first_name', 'LIKE', "%{$search_name}%")
+                ->orWhere('last_name', 'LIKE', "%{$search_name}%")
+                ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+        });
     }
+
+    if (!empty($search_email)) {
+        $query->where(function ($q) use ($search_email) {
+            $q->where('email', 'LIKE', "%{$search_email}%");
+        });
+    }
+
+    // Apply main filters but don't paginate yet
+    $query = $query->whereNotNull('company_name')
+                 ->orderBy('created_at', 'desc');
+    
+    // Get the paginated results
+    $organizations = $query->paginate($per_page);
+    
+    // Now add the additional counts
+    foreach ($organizations as $organization) {
+        $organization->member_count = B2BBusinessCandidates::getMembersCount($organization['id']);
+        $organization->candidate_count = B2BBusinessCandidates::getCandidatesCount($organization['id']);
+    }
+
+    return $organizations;
+}   
 
     public static function allPaginatedClients($request = null)
     {
