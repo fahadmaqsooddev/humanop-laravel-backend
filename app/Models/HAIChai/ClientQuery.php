@@ -36,7 +36,7 @@ class ClientQuery extends Model
         return self::whereId($id)->with('users')->first();
     }
 
-    public static function getQueries()
+    public static function getQueries($perPage=10)
     {
         return self::where('response', 0)
             ->with(['users' => function ($q) {
@@ -50,7 +50,7 @@ class ClientQuery extends Model
             }])
 
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate($perPage);
     }
 
     public static function createQuery($userId = null, $query = null, $chat_id = null, $conversation_id = null)

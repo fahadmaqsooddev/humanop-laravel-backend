@@ -59,11 +59,11 @@ class Assessment extends Component
         $this->searchFilter();
     }
 
-    public function updatedName($value)
-    {
-        // Debug the updated value
-        dd($value); // This will display the updated value when 'name' changes
-    }
+    // public function updatedName($value)
+    // {
+    //     // Debug the updated value
+    //     dd($value); // This will display the updated value when 'name' changes
+    // }
 
     public function selectStyleCode($select_style_code, $select_style_code_color)
     {
@@ -155,6 +155,7 @@ class Assessment extends Component
 
     public function render()
     {
+        $this->searchFilter();
         return view('livewire.admin.assessment.assessment', [
 
             'assessments' => $this->assessments,
