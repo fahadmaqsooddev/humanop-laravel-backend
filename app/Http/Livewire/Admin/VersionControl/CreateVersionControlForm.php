@@ -26,19 +26,19 @@ class CreateVersionControlForm extends Component
 
     protected $listeners = ['updateVersionValues', 'emptyVersionControlValues', 'updateContent','updateNote', 'updateDescription'
 ,'updateEditorContent'];
-    // protected $listeners = [];
-
-
-    // protected $rules = [
-    //     'version' => 'required|unique:version_control,version,version_id,' . $this->versionId, // Exclude current version with a custom primary key
-    //     'note' => 'required',
-    // ];
+    
     
     
 
     protected $messages = [
         'version.required' => 'The version name is required.',
         'version.unique' => 'The version name has already been taken.',
+        'versionDetails.*.type.required' => 'The Platform Type is required.',
+        
+        'versionDetails.*.description.required' => 'The description is required.',
+        'versionDetails.*.version_heading.required' => 'The version Heading is required.',
+        
+    
         // 'note.required' => 'The note is required.',
     ];
 
@@ -142,6 +142,9 @@ public function updateDescription($index, $value)
         $this->validate([
             'version' => 'required|unique:version_control,version,' . $this->versionId, 
             // 'note' => 'required',
+            'versionDetails.*.type' => 'required|array|min:1',
+            'versionDetails.*.description' => 'required|string',
+            'versionDetails.*.version_heading' => 'required',
         ]);
      
         if ($this->versionId) {
