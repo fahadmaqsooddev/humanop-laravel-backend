@@ -58,10 +58,13 @@
 
     <!-- Chatbot Cards Container -->
     <div id="chatbotCardsContainer" class="mt-3 row p-3">
+
+        <h5 class="custom-text-dark" style="font-weight: 700;">Brain DataBase List</h5>
+
         <!-- Example Card -->
         @foreach($chats as $chat)
 
-            <div class="mt-3 col-12" style="padding-right: 20px;">
+            <div class="mt-1 col-12" style="padding-right: 20px;">
                 <div class="card card-body " style="border: 3px solid {{$chat->chat_bot_color}}; background-color: {{$chat->chat_bot_color}}">
 
                     <div class="d-flex justify-content-between w-100">

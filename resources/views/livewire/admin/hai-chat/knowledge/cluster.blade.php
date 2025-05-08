@@ -160,25 +160,25 @@
 
                                         </td>
                                         <td class="float-end">
-                                            <a style="margin-right: 2px;padding: 1px 8px;" href="{{route('admin_edit_cluster', ['id' => $cluster['id']])}}" class="cluster-buttons-a">
+                                            <a style="margin-right: 2px;padding: 1px 8px;" href="{{route('admin_edit_cluster', ['id' => $cluster['id']])}}" class="cluster-buttons-a" title="Edit Cluster">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
 
                                             @if($cluster['is_ready_for_training'])
 
-                                                <button class="cluster-buttons" wire:click="reTrainClusterEmbeddings({{$cluster['id']}})">
+                                                <button class="cluster-buttons" wire:click="reTrainClusterEmbeddings({{$cluster['id']}})" title="Retrain Cluster">
                                                     <i class="fa-solid fa-arrows-rotate"></i>
                                                 </button>
 
                                             @else
 
-                                                <button class="cluster-buttons" style="background-color: darkgray !important;">
+                                                <button class="cluster-buttons" style="background-color: darkgray !important;" title="Retrain Cluster">
                                                     <i class="fa-solid fa-arrows-rotate"></i>
                                                 </button>
 
                                             @endif
 
-                                            <button onclick="deleteCluster({{$cluster['id']}})" class="cluster-buttons">
+                                            <button onclick="deleteCluster({{$cluster['id']}})" class="cluster-buttons" title="Delete Cluster">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>

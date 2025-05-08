@@ -342,7 +342,7 @@ class Assessment extends Model
         return 'free';
     }
 
-    public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null)
+    public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null,$perPage=10)
     {
 
         $userId = Helpers::getWebUser()['id'];
@@ -433,7 +433,8 @@ class Assessment extends Model
             }
         }
 
-        return $query->orderBy('updated_at', 'desc')->get();
+        // return $query->orderBy('updated_at', 'desc')->get();
+        return $query->orderBy('updated_at', 'desc')->paginate($perPage);
     }
 
     public static function abandonedAssessment()

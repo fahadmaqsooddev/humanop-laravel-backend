@@ -135,66 +135,79 @@ class Conversation extends Component
 
                     Log::info(['ai Reply' => $aiReply]);
 
-                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['combined_output']);
+                    if (isset($aiReply['prompt'])){
 
-                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+                        $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['combined_output']);
 
-                    $authorization = \request()->header('Authorization');
+                        $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-                    $queryArray = [
-                        'headers' => ['Authorization' => $authorization]
-                    ];
+                        $authorization = \request()->header('Authorization');
+
+                        $queryArray = [
+                            'headers' => ['Authorization' => $authorization]
+                        ];
 
 
-                    $client = new Client(['http_errors' => false, 'timeout' => 180]);
+                        $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $final_persona . "&prompt=". $llm_prompt ."&query=" . $this->message;
+                        $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $final_persona . "&prompt=". $llm_prompt ."&query=" . $this->message;
 
-                    $response = $client->request("get", $route, $queryArray);
+                        $response = $client->request("get", $route, $queryArray);
 
-                    if ($response->getStatusCode() === 200){
+                        if ($response->getStatusCode() === 200){
 
-                        $reply = $response->getBody()->getContents();
+                            $reply = $response->getBody()->getContents();
 
-                        HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
+                            HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
+
+                        }else{
+
+                            session()->flash("error", "Something went wrong. Please try again.");
+                        }
 
                     }else{
 
-                        session()->flash("error", "Something went wrong. Please try again.");
+                        session()->flash('error','Something went wrong while connecting with brain. Please change your brain and try again.');
                     }
 
                 }else{
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
-//                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-gpt-updated-api', $body);
-
-                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['prompt']);
-
-                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
-
-                    [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($this->name,$this->user_id);
 
                     Log::info(['ai Reply' => $aiReply]);
 
-                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $selectedModel['model_value'], $final_persona, $userMessage, $assistantMessage);
+                    if (isset($aiReply['prompt'])){
 
-                    foreach ($openRouterResponse['choices'] as $choice)
-                    {
+                        $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['prompt']);
 
-                        $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+                        $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-                        HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
+                        [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($this->name,$this->user_id);
+
+                        $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $selectedModel['model_value'], $final_persona, $userMessage, $assistantMessage);
+
+                        foreach ($openRouterResponse['choices'] as $choice)
+                        {
+
+                            $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+
+                            HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
 //                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
 
+                        }
+
+                        AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
+
+                        if ($this->user_id){
+
+                            SummarizeChatHistory::dispatch($this->user_id);
+                        }
+
+                    }else{
+
+                        session()->flash('error','Something went wrong while connecting with brain. Please change your brain and try again.');
                     }
 
-                    AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
-
-                }
-
-                if ($this->user_id){
-
-                    SummarizeChatHistory::dispatch($this->user_id);
                 }
 
             }else{

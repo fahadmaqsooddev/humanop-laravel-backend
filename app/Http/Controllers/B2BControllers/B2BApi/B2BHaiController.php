@@ -8,6 +8,7 @@ use App\Helpers\Helpers;
 use App\Helpers\OpenRouterHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChatAi\AskQuestionRequest;
+use App\Jobs\SummarizeChatHistory;
 use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\HAIChai\BrainCluster;
@@ -116,27 +117,36 @@ class B2BHaiController extends Controller
 
                 Log::info(['ai reply b2b' => $aiReply]);
 
-                $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
+                if (isset($aiReply['prompt'])){
 
-                $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
 
-                [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
+                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'] ?? null, $final_persona ?? null, $userMessage, $assistantMessage);
+                    [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
 
-                $reply = null;
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'] ?? null, $final_persona ?? null, $userMessage, $assistantMessage);
 
-                foreach ($openRouterResponse['choices'] as $choice)
-                {
+                    $reply = null;
 
-                    $filterReply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+                    foreach ($openRouterResponse['choices'] as $choice)
+                    {
 
-                    HaiChat::createChat($request->input("question"), $filterReply, null, $request->input("is_repeat_answer"));
+                        $filterReply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
 
-                    $reply = [
-                        $choice['message']['content'] ?? "",
-                        0
-                    ];
+                        HaiChat::createChat($request->input("question"), $filterReply, null, $request->input("is_repeat_answer"));
+
+                        $reply = [
+                            $choice['message']['content'] ?? "",
+                            0
+                        ];
+                    }
+
+                    SummarizeChatHistory::dispatch(Helpers::getUser()->id);
+
+                }else{
+
+                    return Helpers::validationResponse('Something went wrong');
                 }
 
             }else{

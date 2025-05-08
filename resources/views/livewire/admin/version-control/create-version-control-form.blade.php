@@ -45,7 +45,7 @@
                                 <label class="form-label text-white">Version</label>
                                 <input style="background-color: #0f1534;color:white;" wire:model="version"
                                        class="form-control table-header-text" type="text">
-                                @error('version') <span class="text-danger">{{ $message }}</span> @enderror
+                                {{-- @error('version') <span class="text-danger">{{ $message }}</span> @enderror --}}
                             </div>
                         </div>
                         <div class="row mt-4">
@@ -55,7 +55,7 @@
                                     <textarea class="form-control " id="editor" wire:model='note'
                                               style="background-color: #0f1534; color: white;" rows="2"></textarea>
                                 </div>
-                                @error('note') <span class="text-danger">{{ $message }}</span> @enderror
+                                {{-- @error('note') <span class="text-danger">{{ $message }}</span> @enderror --}}
                             </div>
                         </div>
                         <div class="text-end mt-3">

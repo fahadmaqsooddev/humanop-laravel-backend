@@ -1,17 +1,17 @@
-<div class="row mt-4 container-fluid ms-2 w-95">
+<div class="row mt-4 container-fluid ms-2">
 
     
-    <div class="col-lg-9 position-relative z-index-2">
+    <div class="col-lg-12 position-relative z-index-2">
         <div class="mb-4">
-            <div class="card-body p-3">
+            <div class="card-body ">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="d-flex flex-column h-100">
                             <h2 class="font-weight-bolder custom-text-dark mb-0">Version Controls</h2>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <button class=" btn-sm mt-2 mb-0" type="button" data-toggle="modal"
+                    <div class="col-lg-6 text-end">
+                        <button class=" btn-sm mt-2 mb-0 me-auto" type="button" data-toggle="modal"
                                 data-target=""
                                 style="background:#f2661c;color:white;font-weight:bolder;border:none;">
                                 <a href="{{route('create-version')}}" style="color: white">
@@ -19,7 +19,6 @@
                                     Add version
                                 </a>
                         </button>
-                        
                     </div>
                 </div>
             </div>
@@ -29,59 +28,14 @@
 
         
     </div>
-    {{-- <div class="table-responsive table-orange-color">
-        <table class="table table-flush">
-            <thead class="thead-light">
-            <tr class="text-color-blue">
-                <th>Version Name</th>
-                <th>Version Release</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @if(!isset($versions[0]))
-                <tr class="text-color-blue">
-                    <td>No Version found...</td>
-                </tr>
-            @endif
-            @foreach($versions as $item)
-                            <tr class="table-text-color">
-                                <td class="text-md font-weight-normal">{{$item['version'] ?? 'N/A'}} </td>
-                                <td class="text-md font-weight-normal">{{$item['created_at']->format('F j, Y')}} </td>
-                             
-                                <td>
-                                    <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px"
-                                    onclick="confirmDeleteVersion('{{$item->id }}')" class="btn btn-sm mb-2">Delete
-                                Version
-                            </button>
-
-                            <button style="background-color: #f2661c; color: white;margin-bottom: 0px"
-                            data-bs-toggle="modal"
-                            wire:click=""
-                            data-bs-target="#versionModel"  class="btn btn-sm mb-2 ">
-                            <a href="{{ route('edit-version', ['id' => $item->id]) }}" style="color: white">
-                                Edit Version
-                            </a>
-                            
-                            </button>
-                                </td>
-                            </tr>
-                        @endforeach
-
-            </tbody>
-        </table>
-
-        {{ $versions->links('pagination.table-pagination') }}
-
-    </div> --}}
-
+  
     <div class="table-responsive table-orange-color " style="border-radius: 10px;">
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
             <tr class="table-text-color">
-                <th>Version Name</th>
-                <th>Version Release</th>
-                <th>Action</th>
+                <th class="">Version Name</th>
+                <th class="">Version Release</th>
+                <th class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -92,10 +46,10 @@
             @endif
             @foreach($versions as $item)
                             <tr class="table-text-color">
-                                <td class="text-md font-weight-normal">{{$item['version'] ?? 'N/A'}} </td>
+                                <td class="text-md font-weight-normal ">{{$item['version'] ?? 'N/A'}} </td>
                                 <td class="text-md font-weight-normal">{{$item['created_at']->format('F j, Y')}} </td>
                              
-                                <td>
+                                <td class="text-center">
                                     <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px"
                                     onclick="confirmDeleteVersion('{{$item->id }}')" class="btn btn-sm mb-2">Delete
                                 Version

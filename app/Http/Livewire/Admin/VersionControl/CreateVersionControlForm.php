@@ -26,26 +26,26 @@ class CreateVersionControlForm extends Component
 
     protected $listeners = ['updateVersionValues', 'emptyVersionControlValues', 'updateContent','updateNote', 'updateDescription'
 ,'updateEditorContent'];
-    // protected $listeners = [];
-
-
-    // protected $rules = [
-    //     'version' => 'required|unique:version_control,version,version_id,' . $this->versionId, // Exclude current version with a custom primary key
-    //     'note' => 'required',
-    // ];
+    
     
     
 
     protected $messages = [
         'version.required' => 'The version name is required.',
         'version.unique' => 'The version name has already been taken.',
+        'versionDetails.*.type.required' => 'The Platform Type is required.',
+        
+        'versionDetails.*.description.required' => 'The description is required.',
+        'versionDetails.*.version_heading.required' => 'The version Heading is required.',
+        
+    
         // 'note.required' => 'The note is required.',
     ];
 
-    public function updateEditorContent($payload)
-{
-    dd($payload); // 🔍 This will show what JS is sending
-}
+//     public function updateEditorContent($payload)
+// {
+//     dd($payload); // 🔍 This will show what JS is sending
+// }
 
 
  
@@ -142,11 +142,14 @@ public function updateDescription($index, $value)
         $this->validate([
             'version' => 'required|unique:version_control,version,' . $this->versionId, 
             // 'note' => 'required',
+            'versionDetails.*.type' => 'required|array|min:1',
+            'versionDetails.*.description' => 'required|string',
+            'versionDetails.*.version_heading' => 'required',
         ]);
      
         if ($this->versionId) {
         
-            Version::editVersion($this->versionId, $this->version);
+            Version::editVersion($this->versionId, $this->version,$this->note);
 
             foreach ($this->versionDetails as $detail) {
                 if (!empty($detail['id'])) {
@@ -174,10 +177,11 @@ public function updateDescription($index, $value)
             $this->emit('refreshVersions');
             $this->emit('updateSession', 'Updated');
             session()->flash('success', 'Version updated successfully.');
+            redirect()->route('admin_get_version');
+
 
         } else {
-            // dd($)
-            // dd($this->version,$this->note);
+           
             $version = Version::createVersion($this->version, $this->note);
 
             foreach ($this->versionDetails as $detail) {
@@ -193,6 +197,7 @@ public function updateDescription($index, $value)
             $this->emit('refreshVersionControl');
             $this->emit('updateSession', 'Created');
             session()->flash('success', 'Version Create successfully.');
+            redirect()->route('admin_get_version');
 
         }
     }

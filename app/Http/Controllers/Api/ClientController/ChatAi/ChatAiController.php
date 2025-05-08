@@ -135,37 +135,44 @@ class ChatAiController extends Controller
 
                     }else{
 
-                        session()->flash("error", "Try again.");
+                        return Helpers::validationResponse('Something went wrong');
                     }
 
                 }else{
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
+                    if (isset($aiReply['prompt'])){
 
-                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+                        $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
 
-                    [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
+                        $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'], $final_persona,$userMessage, $assistantMessage);
+                        [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
 
-                    $reply = null;
+                        $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'], $final_persona,$userMessage, $assistantMessage);
 
-                    foreach ($openRouterResponse['choices'] as $choice)
-                    {
+                        $reply = null;
 
-                        HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
+                        foreach ($openRouterResponse['choices'] as $choice)
+                        {
 
-                        $reply = [
-                            $choice['message']['content'] ?? "",
-                            0
-                        ];
+                            HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
+
+                            $reply = [
+                                $choice['message']['content'] ?? "",
+                                0
+                            ];
+                        }
+
+                        SummarizeChatHistory::dispatch(Helpers::getUser()->id);
+
+                    }else{
+
+                        return Helpers::validationResponse('Something went wrong');
                     }
 
                 }
-
-                SummarizeChatHistory::dispatch(Helpers::getUser()->id);
 
             }else{
 

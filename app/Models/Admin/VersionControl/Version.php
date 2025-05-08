@@ -45,11 +45,12 @@ class Version extends Model
         return $version;
     }
 
-    public static function editVersion($id = null, $version = null)
+    public static function editVersion($id = null, $version = null,$note=null)
     {
 
         $version = self::where('id',$id)->update([
             'version' => $version,
+            'note'=>$note
             
         ]);
         

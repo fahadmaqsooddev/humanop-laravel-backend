@@ -1,5 +1,7 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+@push('css')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endpush
 {{-- {{dd($name)}} --}}
 <div>
     <div>
@@ -9,7 +11,7 @@
                 {{--                                                                                       aria-hidden="true"></i></span>--}}
                 <input type="text" name="name" wire:model.debounce.500ms="name"
                        class="form-control table-orange-color search-bar" placeholder="Search Name">
-                       <div>{{ $name }}</div>
+                       {{-- <div>{{ $name }}</div> --}}
             </div>
             <div class="input-group ms-md-4 pe-md-4">
                 {{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
@@ -74,7 +76,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <button class="carousel-control-prev" type="button"
+                            {{-- <button class="carousel-control-prev" type="button"
                                     data-bs-target="#carouselExampleControls1" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
@@ -83,7 +85,7 @@
                                     data-bs-target="#carouselExampleControls1" data-bs-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
                 </div>
@@ -167,7 +169,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <button class="carousel-control-prev" type="button"
+                            {{-- <button class="carousel-control-prev" type="button"
                                     data-bs-target="#carouselExampleControls2" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
@@ -176,7 +178,7 @@
                                     data-bs-target="#carouselExampleControls2" data-bs-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
                 </div>
@@ -222,8 +224,8 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive w-100 table-orange-color">
-        <table class="table table-flush" id="datatable-search">
+    <div class="table-responsive w-100 table-orange-color mt-5">
+        <table class="table table-flush" id="">
             <thead class="thead-light">
             <tr class="text-color-blue">
                 <th>Name</th>
@@ -265,7 +267,7 @@
             @endforeach
             </tbody>
         </table>
-        {{--        {{ $assessments->links() }}--}}
+               {{ $assessments->links() }}
     </div>
 </div>
 
