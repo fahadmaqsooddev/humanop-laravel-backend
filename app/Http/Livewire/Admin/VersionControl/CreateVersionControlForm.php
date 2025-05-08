@@ -42,10 +42,10 @@ class CreateVersionControlForm extends Component
         // 'note.required' => 'The note is required.',
     ];
 
-    public function updateEditorContent($payload)
-{
-    dd($payload); // 🔍 This will show what JS is sending
-}
+//     public function updateEditorContent($payload)
+// {
+//     dd($payload); // 🔍 This will show what JS is sending
+// }
 
 
  
@@ -146,7 +146,7 @@ public function updateDescription($index, $value)
      
         if ($this->versionId) {
         
-            Version::editVersion($this->versionId, $this->version);
+            Version::editVersion($this->versionId, $this->version,$this->note);
 
             foreach ($this->versionDetails as $detail) {
                 if (!empty($detail['id'])) {
@@ -174,10 +174,11 @@ public function updateDescription($index, $value)
             $this->emit('refreshVersions');
             $this->emit('updateSession', 'Updated');
             session()->flash('success', 'Version updated successfully.');
+            redirect()->route('admin_get_version');
+
 
         } else {
-            // dd($)
-            // dd($this->version,$this->note);
+           
             $version = Version::createVersion($this->version, $this->note);
 
             foreach ($this->versionDetails as $detail) {
@@ -193,6 +194,7 @@ public function updateDescription($index, $value)
             $this->emit('refreshVersionControl');
             $this->emit('updateSession', 'Created');
             session()->flash('success', 'Version Create successfully.');
+            redirect()->route('admin_get_version');
 
         }
     }
