@@ -84,6 +84,13 @@ class EditBrain extends Component
         $this->connectedGroups = EmbeddingGroup::activeGroups($this->chat_bot_id, $value);
     }
 
+    public function updatedTemperature($value){
+
+        $this->searching = true;
+
+        $this->temperature = $value;
+    }
+
     public function updateBrain(){
 
         DB::beginTransaction();
@@ -252,8 +259,6 @@ class EditBrain extends Component
 
         BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
 
-        $this->chatBotDetail();
-
         $this->llmModels = LlmModel::all();
 
         if ($this->searching){
@@ -261,6 +266,8 @@ class EditBrain extends Component
             $this->searching = false;
 
         }else{
+
+            $this->chatBotDetail();
 
             $this->groups = EmbeddingGroup::nonActiveGroups($this->chat_bot_id);
 
