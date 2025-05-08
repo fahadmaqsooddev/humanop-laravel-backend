@@ -632,4 +632,17 @@ class AdminController extends Controller
         abort(404);
 
     }
+
+    public function haiDojo(){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.hai-dojo.hai-dojo');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
 }
