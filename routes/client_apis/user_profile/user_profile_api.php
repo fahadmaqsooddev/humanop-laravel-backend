@@ -31,7 +31,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('version', 'UserController@getLatestVersion');
     Route::get('referral-credits', 'UserController@referralCredits');
     Route::post('check-prompt-notification','UserController@updatePromptNotification');
-    Route::post('profile-public-private','UserController@profilePublicOrPrivate');
+    Route::post('change-profile-public-private','UserController@profilePublicOrPrivate');
+    Route::post('change-hai-access','UserController@haiAccess');
 
 
 });
