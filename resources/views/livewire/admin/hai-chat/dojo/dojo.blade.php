@@ -103,7 +103,7 @@
                 <div>
 
                     <p style="line-height: 0; font-weight: 700;color: black;">Previous Training Sessions :</p>
-                    <div style="border-radius: 5px; border: 2px solid black; max-height: 300px;overflow-y: scroll;" class="py-2 px-1">
+                    <div style="border-radius: 5px; border: 2px solid #f2661c; max-height: 300px;overflow-y: scroll;" class="py-2 px-1">
 
                         <table class="table">
 
@@ -175,7 +175,7 @@
 
                 <div class="col-6">
 
-                    <div style="border-radius: 5px;border: 2px solid black; width: 100%;height: auto; padding-top: 10px;">
+                    <div style="border-radius: 5px;border: 2px solid #f2661c; width: 100%;height: auto; padding-top: 10px;">
 
                         <div class="spinner-border custom-text-dark" id="chat_switch_spinner" role="status" style="width: 30px; height: 30px;top: 250px;
                         position: relative; left: 50%;" wire:loading wire:target="selectSession">
@@ -250,7 +250,7 @@
                     <div class="px-3 py-2">
                         <form wire:submit.prevent="sendMessage">
 
-                            <input wire:model="message" placeholder="Enter your message here." type="text" style="width: 90%; border-radius: 15px;" class="px-1">
+                            <input wire:model="message" placeholder="Enter your message here." type="text" style="width: 90%; border-radius: 15px;border: 1px solid #f2661c;" class="px-1">
 
                             <button class="bg-transparent" type="submit" style="border:none" id="submit_btn">
                                 <img src="{{asset('assets\img\icons\mynaui_send-solid.png')}}"  width="25" height="25" >
@@ -275,7 +275,7 @@
 
             <div class="col-3">
 
-                <div style="border-radius: 5px; border: 2px solid black; width: 100%; height: 500px;" class="p-1">
+                <div style="border-radius: 5px; border: 2px solid #f2661c; width: 100%; height: 500px;" class="p-1">
 
                     <div>
 
