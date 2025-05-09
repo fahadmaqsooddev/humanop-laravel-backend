@@ -28,14 +28,31 @@
 
     <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Toastr CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous"> --}}
   <link href="{{ URL::asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous">
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ URL::asset('assets/css/soft-ui-dashboard.css?v=1.0.4') }}" rel="stylesheet" />
     @livewireStyles
 </head>
 
 <style>
+
+
+#toast-container > div.toast-warning {
+    background-color: rgb(97, 48, 48) !important;
+    color: white !important;
+    border-left: 5px solid #ffc107 !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2) !important;
+    font-family: 'Segoe UI', sans-serif !important;
+    font-size: 15px !important;
+    padding: 14px 18px !important;
+}
+
+
+
     @media (min-width: 1200px) {
         .sidenav:hover{
             max-width: 15.625rem;
@@ -108,6 +125,13 @@
     @yield('guest')
   @endguest
 
+
+
+
+
+
+
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <!--   Core JS Files   -->
   <script src="{{ URL::asset('assets/js/core/popper.min.js') }}"></script>
@@ -121,6 +145,51 @@
   <script src="{{ URL::asset('assets/js/plugins/chartjs.min.js') }}"></script>
   <script src="{{ URL::asset('assets/js/plugins/threejs.js') }}"></script>
   <script src="{{ URL::asset('assets/js/plugins/orbit-controls.js') }}"></script>
+
+
+
+
+
+
+
+
+    {{-- pusher  --}}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script>
+    
+    const PUSHER_APP_KEY = @json(config('broadcasting.connections.pusher.key'));
+    const PUSHER_APP_CLUSTER = @json(config('broadcasting.connections.pusher.options.cluster'));
+        // Logged-in user ID from Laravel
+        const userId = @json(Auth::id());
+    
+        // Initialize Pusher
+        const pusher = new Pusher(PUSHER_APP_KEY, {
+            cluster: PUSHER_APP_CLUSTER,
+            encrypted: true
+        });
+    
+        // Subscribe to the channel
+        const channel = pusher.subscribe('push-notification.' + userId);
+    
+        // Listen to the event
+        channel.bind('subAdmin-logout.' + userId, function(data) {
+            if (parseInt(data.user_id) === userId) {
+                // alert('Your session has expired. Logging you out...');
+                toastr.warning('Your session has expired. Logging you out...');
+    
+                window.location.href = "{{ route('logout') }}"; 
+            }
+        });
+    
+    </script>
+
+
+
+
+
 
 
   <script>
