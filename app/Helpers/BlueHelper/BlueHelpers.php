@@ -9,6 +9,9 @@ class BlueHelpers
 
     public static function createBlueRecord($title, $description, $platform, $userEmail, $url=null)
     {
+        $description = trim(preg_replace('/\s+/', ' ', $description));
+       
+
         $apiUrl = 'https://api.blue.cc/graphql';
 
         $headers = [

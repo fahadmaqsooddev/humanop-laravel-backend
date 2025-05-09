@@ -47,7 +47,7 @@ Route::get('/login/forgot-password', [ChangePasswordController::class, 'create']
 Route::get('/check-email-from-app/{id}', [ChangePasswordController::class, 'checkEmailFromApp'])->name('check_email_app');
 Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
 Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
-Route::get('/logout', [SessionController::class, 'destroy']);
+Route::get('/logout', [SessionController::class, 'destroy'])->name('logout');
 Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::get('/stripe', [SessionController::class, 'triggerEvent']);
 Route::get('/stripe-checkout', [SessionController::class, 'checkout']);

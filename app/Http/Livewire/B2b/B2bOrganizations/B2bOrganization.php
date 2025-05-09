@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\B2b\B2bOrganizations;
 
+use App\Events\B2B\B2BResetPassword;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\User;
 use Livewire\Component;
@@ -45,6 +46,9 @@ class B2bOrganization extends Component
 
         if ($user) {
             $this->dispatchBrowserEvent('swal:success', ['message' => 'Password has been reset successfully.']);
+
+            event(new B2BResetPassword($user['id'], "Password has been reset successfully."));
+
         } else {
             $this->dispatchBrowserEvent('swal:error', ['message' => 'Password Not Reset.']);
             return;

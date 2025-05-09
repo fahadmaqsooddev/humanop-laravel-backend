@@ -76,7 +76,7 @@ class B2BBusinessCandidates extends Model
             ]);
             return $data;
         }
-        
+
 
         return $checkData;
 
@@ -140,15 +140,12 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-
         $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role', Admin::IS_TEAM_MEMBER)
             ->whereHas('assessments', function ($query) {
                 $query->whereNotNull('page')->where('page', 0);
             });
 
-
         $count = $baseQuery->count();
-
 
         if ($count === 0) {
             return null;
@@ -432,7 +429,7 @@ class B2BBusinessCandidates extends Model
 
         event(new RequestAccessData($data['business_id'], "[ $companyName ] Company Wanted To Access Your Data ", $data['candidate_id']));
 
-        Notification::createNotification('Request Access Data', " [ $companyName ] Company Wanted To Access Your Data", '', $data['candidate_id'], 0, Admin::REQUEST_ACCESS_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+        Notification::createNotification('Request Access Data', " [ $companyName ] Company Wanted To Access Your Data", '', $data['candidate_id'], 0, Admin::REQUEST_ACCESS_DATA_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
         return $data;
     }
@@ -480,11 +477,9 @@ class B2BBusinessCandidates extends Model
 
         $organization = User::getSingleUser($id);
 
-        if ($organization['is_admin'] == Admin::IS_B2B)
-        {
+        if ($organization['is_admin'] == Admin::IS_B2B) {
             $organization->forceDelete();
-        }
-        else{
+        } else {
 
             $organization->update(['company_name' => null]);
 
