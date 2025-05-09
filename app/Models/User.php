@@ -1385,7 +1385,8 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = self::find($id);
         if ($user) {
-            $user->password = Hash::make($password);
+            
+            $user->password = $password;
             $user->save();
             return $user;
         }
