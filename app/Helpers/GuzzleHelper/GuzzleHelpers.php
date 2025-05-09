@@ -138,5 +138,45 @@ class GuzzleHelpers
 
     }
 
+    public static function sendRequestFromGuzzleForDojo($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = \request()->header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = "http://3.87.21.19:8000/" . $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
+    }
+
+    public static function sendRequestFromGuzzleForDojoExport($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = \request()->header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = "http://3.87.21.19:8000/" . $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        return $response->getBody()->getContents();
+    }
+
 }
 

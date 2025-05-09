@@ -632,4 +632,30 @@ class AdminController extends Controller
         abort(404);
 
     }
+
+    public function haiDojo(){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.hai-dojo.hai-dojo');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function downloadConversation(){
+
+        $conversationPath = storage_path('app/training-session-files/conversation.jsonl');
+
+        if (file_exists($conversationPath)){
+
+            return response()->download($conversationPath)->deleteFileAfterSend(true);
+        }
+
+        abort(404);
+
+    }
 }
