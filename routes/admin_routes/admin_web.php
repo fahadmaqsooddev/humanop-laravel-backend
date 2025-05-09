@@ -138,6 +138,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/edit-cluster/{id}', [AdminController::class,'editCluster'])->name('admin_edit_cluster');
         Route::get('/download-zip', [AdminController::class,'downloadZipFile'])->name('download-zip');
         Route::get('/hai-dojo', [AdminController::class,'haiDojo'])->name('admin_hai_dojo');
+        Route::get('/download-conversation', [AdminController::class,'downloadConversation'])->name('admin_export_conversations');
 
     });
 

@@ -645,4 +645,17 @@ class AdminController extends Controller
         }
 
     }
+
+    public function downloadConversation(){
+
+        $conversationPath = storage_path('app/training-session-files/conversation.jsonl');
+
+        if (file_exists($conversationPath)){
+
+            return response()->download($conversationPath)->deleteFileAfterSend(true);
+        }
+
+        abort(404);
+
+    }
 }
