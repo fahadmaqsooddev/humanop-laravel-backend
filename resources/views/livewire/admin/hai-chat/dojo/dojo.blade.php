@@ -359,7 +359,11 @@
                                 <button class="m-1"
                                         style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
                                     <img src="{{asset('assets/img/icons/Add.svg')}}" width="20">
-                                    Add
+
+                                    <span wire:loading.remove wire:target="createNewTrainingSession">Add</span>
+
+                                    <span wire:loading wire:target="createNewTrainingSession">Adding...</span>
+
                                 </button>
                             </div>
 
