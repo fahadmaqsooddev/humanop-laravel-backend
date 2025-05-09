@@ -148,7 +148,7 @@ class Conversation extends Component
                             'headers' => ['Authorization' => $authorization]
                         ];
 
-                    $client = new Client(['http_errors' => false, 'timeout' => 180]);
+                        $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
                         $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $final_persona . "&prompt=". $llm_prompt ."&query=" . $this->message;
 
@@ -185,17 +185,6 @@ class Conversation extends Component
 
                     if (isset($aiReply['prompt'])){
 
-                    // $promptMessages = self::makePromptForChat($aiReply, $prompts);
-
-//                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
-
-                    // $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
-
-                    // $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $prompt, $selectedModel['model_value'], $prompts['prompt'] ?? null);
-
-                    foreach ($openRouterResponse['choices'] as $choice)
-                    {
-
                         $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
                         [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($this->name,$this->user_id);
@@ -208,7 +197,7 @@ class Conversation extends Component
                             $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
 
                             HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
-//                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
+//                              HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
 
                         }
 

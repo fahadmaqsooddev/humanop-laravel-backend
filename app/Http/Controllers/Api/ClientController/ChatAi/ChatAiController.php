@@ -154,14 +154,20 @@ class ChatAiController extends Controller
 
                         $reply = null;
 
-                        $filteredReply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content'] ?? null);
+                        foreach ($openRouterResponse['choices'] as $choice){
 
-                        HaiChat::createChat($request->input("question"), $filteredReply , null, $request->input("is_repeat_answer"));
+                            $filteredReply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content'] ?? null);
 
-                        $reply = [
-                            $filteredReply ?? "",
-                            0
-                        ];
+                            HaiChat::createChat($request->input("question"), $filteredReply , null, $request->input("is_repeat_answer"));
+
+                            $reply = [
+                                $filteredReply ?? "",
+                                0
+                            ];
+
+                        }
+
+                        SummarizeChatHistory::dispatch(Helpers::getUser()->id);
                     }
 
                 }
