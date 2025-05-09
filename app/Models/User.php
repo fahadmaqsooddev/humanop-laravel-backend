@@ -1387,7 +1387,7 @@ class User extends Authenticatable implements JWTSubject
         if ($user) {
             $user->password = Hash::make($password);
             $user->save();
-            return $user; 
+            return $user;
         }
 
 
@@ -1575,4 +1575,12 @@ class User extends Authenticatable implements JWTSubject
 
         return $interval;
     }
+
+    public static function changeProfileAccess($profileAccess = null)
+    {
+
+        return Helpers::getUser()->update(['profile_status' => (int)$profileAccess]);
+
+    }
+
 }

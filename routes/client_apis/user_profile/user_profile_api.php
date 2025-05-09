@@ -30,8 +30,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('summary-report', 'UserController@summaryReport');
     Route::get('version', 'UserController@getLatestVersion');
     Route::get('referral-credits', 'UserController@referralCredits');
-
     Route::post('check-prompt-notification','UserController@updatePromptNotification');
+    Route::post('profile-public-private','UserController@profilePublicOrPrivate');
 
 
 });
