@@ -38,8 +38,17 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted'
-        , 'age_group', 'plan_name', 'optional_trait'];
+    protected $appends = [
+        'point',
+        'photo_url',
+        'user_picture_url',
+        'is_follow',
+        'connection_status',
+        'feedback_submitted',
+        'age_group',
+        'plan_name',
+        'optional_trait'
+    ];
 
     public function __construct(array $attributes = array())
     {
@@ -91,18 +100,41 @@ class User extends Authenticatable implements JWTSubject
         Session::put('user_password', $value);
 
         $this->attributes['password'] = Hash::make($value);
-
     }
 
     // scope
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name',
-            'gender', 'email', 'phone', 'is_admin', 'is_feedback',
-            'image_id', 'date_of_birth', 'hai_chat', 'referral_code',
-            'timezone', 'two_way_auth', 'intro_check', 'app_intro_check',
-            'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial']);
+        return $query->select([
+            'id',
+            'first_name',
+            'last_name',
+            'gender',
+            'email',
+            'phone',
+            'is_admin',
+            'is_feedback',
+            'image_id',
+            'date_of_birth',
+            'hai_chat',
+            'referral_code',
+            'timezone',
+            'two_way_auth',
+            'intro_check',
+            'app_intro_check',
+            'step',
+            'register_from_app',
+            'email_verified_at',
+            'company_name',
+            'apple_id',
+            'google_id',
+            'b2b_step',
+            'prompt_notification',
+            'version_update',
+            'complete_assessment_walkthrough',
+            'complete_tutorial'
+        ]);
     }
 
     // appends
@@ -186,7 +218,6 @@ class User extends Authenticatable implements JWTSubject
 
             return 0;
         }
-
     }
 
     public function getFeedbackSubmittedAttribute()
@@ -196,7 +227,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getAgeGroupAttribute()
     {
-        return 0;//($this->age_min . '-' . $this->age_max);
+        return 0; //($this->age_min . '-' . $this->age_max);
     }
 
     public function getPlanNameAttribute()
@@ -378,7 +409,6 @@ class User extends Authenticatable implements JWTSubject
     public static function getSingleUserFromCompanyName($companyName = null)
     {
         return self::where('company_name', $companyName)->first();
-
     }
 
     public static function getReferralByUser($referralCode = null)
@@ -536,7 +566,6 @@ class User extends Authenticatable implements JWTSubject
 
                 ];
                 break;
-
         }
 
         return $interval;
@@ -546,7 +575,6 @@ class User extends Authenticatable implements JWTSubject
     {
 
         return self::find($id)->update($data);
-
     }
 
     public static function createUser($data = null)
@@ -560,7 +588,6 @@ class User extends Authenticatable implements JWTSubject
         $user = self::create($data);
 
         return $user;
-
     }
 
     public static function createPractitionerUser($data = null, $practitionerId = null)
@@ -573,7 +600,6 @@ class User extends Authenticatable implements JWTSubject
         $user = self::create($data);
 
         return $user;
-
     }
 
     public static function createSubAdmin($data = null)
@@ -585,7 +611,6 @@ class User extends Authenticatable implements JWTSubject
         $user = self::create($data);
 
         return $user;
-
     }
 
     public static function createCustomerOnStripe($user = null, $stripe_keys = null)
@@ -601,7 +626,6 @@ class User extends Authenticatable implements JWTSubject
         $user->stripe_id = $stripe_customer->id;
 
         $user->save();
-
     }
 
     public static function checkPassword($password, $id)
@@ -620,7 +644,7 @@ class User extends Authenticatable implements JWTSubject
         $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
         $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
         $user['is_feedback'] = $user['is_feedback'];
-//        $user['is_feedback'] = ($user['is_feedback'] === Admin::Is_Feed_Back_Show ? true : false);
+        //        $user['is_feedback'] = ($user['is_feedback'] === Admin::Is_Feed_Back_Show ? true : false);
         $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
         $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
         return $user;
@@ -647,7 +671,6 @@ class User extends Authenticatable implements JWTSubject
         $data['email_verify_token'] = Str::random(16);
 
         return self::create($data);
-
     }
 
     public static function createFirstStep($data = null, $googleId = null, $appleId = null, $is_admin = null, $referralCode = null)
@@ -677,7 +700,6 @@ class User extends Authenticatable implements JWTSubject
         if (!empty($googleId) || !empty($appleId)) {
 
             User::emailVerified($user['id']);
-
         }
 
         return $user;
@@ -693,10 +715,8 @@ class User extends Authenticatable implements JWTSubject
 
         if (isset($request['password']) && !empty($request['password'])) {
             $request['password'] = Hash::make($request['password']);
-
         } else {
             $request['password'] = Helpers::getUser()->password;
-
         }
 
         self::whereId($user_id)->update($request);
@@ -711,7 +731,6 @@ class User extends Authenticatable implements JWTSubject
         $user = self::whereId(Helpers::getUser()->id)->first();
 
         $user->update(['password' => $password]);
-
     }
 
     public static function updateUserPaymentMethod($paymentMethod = null)
@@ -727,7 +746,6 @@ class User extends Authenticatable implements JWTSubject
             'pm_exp_month' => '0' . $paymentMethod['card']['exp_month'],
             'pm_exp_year' => $paymentMethod['card']['exp_year'],
         ]);
-
     }
 
     public static function storyUsers()
@@ -742,8 +760,17 @@ class User extends Authenticatable implements JWTSubject
 
         foreach ($users as $user) {
 
-            $user->setAppends(['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted'
-                , 'age_group', 'plan_name', 'is_viewed_stories']);
+            $user->setAppends([
+                'point',
+                'photo_url',
+                'user_picture_url',
+                'is_follow',
+                'connection_status',
+                'feedback_submitted',
+                'age_group',
+                'plan_name',
+                'is_viewed_stories'
+            ]);
         }
 
         return $users;
@@ -762,7 +789,6 @@ class User extends Authenticatable implements JWTSubject
             'card_name' => $request->input('card_name')
 
         ]);
-
     }
 
     public static function userStories($id = null)
@@ -772,7 +798,6 @@ class User extends Authenticatable implements JWTSubject
             ->with(['stories' => function ($q) {
 
                 $q->where('created_at', ">", Carbon::now()->subDay());
-
             }])
             ->select(['id', 'first_name', 'last_name', 'image_id'])
             ->first();
@@ -788,16 +813,13 @@ class User extends Authenticatable implements JWTSubject
             if ($user->is_feedback === 3 || $user->is_feedback === 2) {
 
                 tap($user->decrement('is_feedback', 1));
-
             } else if ($user->is_feedback === 1) {
 
                 tap($user->update(['is_feedback' => 3]));
             }
-
         }
 
         return $user;
-
     }
 
     public static function allClients($search_name = null, $per_page = 12, $style_feature_code = null, $alchemy_codes_array = [])
@@ -812,9 +834,7 @@ class User extends Authenticatable implements JWTSubject
                 $q->where('first_name', 'LIKE', "%$search_name%")
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
                     ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
-
             });
-
         }
 
         if (!empty($style_feature_code)) {
@@ -822,9 +842,7 @@ class User extends Authenticatable implements JWTSubject
             $users = $users->whereHas('colorCodes', function ($q) use ($style_feature_code) {
 
                 $q->where('code', $style_feature_code)->where('code_color', 'green');
-
             });
-
         }
 
         if (!empty($alchemy_codes_array)) {
@@ -834,9 +852,7 @@ class User extends Authenticatable implements JWTSubject
             $users = $users->whereHas('assessments', function ($q) use ($sqlArray) {
 
                 $q->whereRaw("concat(g, '', s, '', c) IN $sqlArray");
-
             });
-
         }
 
         $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)
@@ -868,7 +884,7 @@ class User extends Authenticatable implements JWTSubject
     //             $q->where('email', 'LIKE', "%{$search_email}%");
 
     //         });
-           
+
 
     //     }
 
@@ -889,38 +905,38 @@ class User extends Authenticatable implements JWTSubject
     // }
 
     public static function getB2BAdmin($search_name = null, $search_email = null, $per_page = 10)
-{
-    $query = self::query();
+    {
+        $query = self::query();
 
-    if (!empty($search_name)) {
-        $query->where(function ($q) use ($search_name) {
-            $q->where('first_name', 'LIKE', "%{$search_name}%")
-                ->orWhere('last_name', 'LIKE', "%{$search_name}%")
-                ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
-        });
+        if (!empty($search_name)) {
+            $query->where(function ($q) use ($search_name) {
+                $q->where('first_name', 'LIKE', "%{$search_name}%")
+                    ->orWhere('last_name', 'LIKE', "%{$search_name}%")
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+            });
+        }
+
+        if (!empty($search_email)) {
+            $query->where(function ($q) use ($search_email) {
+                $q->where('email', 'LIKE', "%{$search_email}%");
+            });
+        }
+
+        // Apply main filters but don't paginate yet
+        $query = $query->whereNotNull('company_name')
+            ->orderBy('created_at', 'desc');
+
+        // Get the paginated results
+        $organizations = $query->paginate($per_page);
+
+        // Now add the additional counts
+        foreach ($organizations as $organization) {
+            $organization->member_count = B2BBusinessCandidates::getMembersCount($organization['id']);
+            $organization->candidate_count = B2BBusinessCandidates::getCandidatesCount($organization['id']);
+        }
+
+        return $organizations;
     }
-
-    if (!empty($search_email)) {
-        $query->where(function ($q) use ($search_email) {
-            $q->where('email', 'LIKE', "%{$search_email}%");
-        });
-    }
-
-    // Apply main filters but don't paginate yet
-    $query = $query->whereNotNull('company_name')
-                 ->orderBy('created_at', 'desc');
-    
-    // Get the paginated results
-    $organizations = $query->paginate($per_page);
-    
-    // Now add the additional counts
-    foreach ($organizations as $organization) {
-        $organization->member_count = B2BBusinessCandidates::getMembersCount($organization['id']);
-        $organization->candidate_count = B2BBusinessCandidates::getCandidatesCount($organization['id']);
-    }
-
-    return $organizations;
-}   
 
     public static function allPaginatedClients($request = null)
     {
@@ -934,9 +950,7 @@ class User extends Authenticatable implements JWTSubject
                 $q->where('first_name', 'LIKE', "%$search_name%")
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
                     ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
-
             });
-
         });
 
         $users = $users->when($request->input('style_feature_code'), function ($q, $style_feature_code) {
@@ -944,9 +958,7 @@ class User extends Authenticatable implements JWTSubject
             $q->whereHas('colorCodes', function ($q) use ($style_feature_code) {
 
                 $q->where('code', $style_feature_code)->where('code_color', 'green');
-
             });
-
         });
 
         $users = $users->when($request->input('alchemy_code'), function ($q, $alchemy_code) {
@@ -960,11 +972,8 @@ class User extends Authenticatable implements JWTSubject
                 $q->whereHas('assessments', function ($q) use ($sqlArray) {
 
                     $q->whereRaw("concat(g, '', s, '', c) IN $sqlArray");
-
                 });
-
             }
-
         });
 
         $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER);
@@ -1023,7 +1032,6 @@ class User extends Authenticatable implements JWTSubject
             ->paginate($per_page)->setPath(route('deleted_clients'));
 
         return $users;
-
     }
 
     public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin)
@@ -1049,8 +1057,6 @@ class User extends Authenticatable implements JWTSubject
 
             //    $users->where('email', $email);
             $users->where('email', 'LIKE', "%$email%");
-
-
         }
 
         // Filter by age
@@ -1089,8 +1095,6 @@ class User extends Authenticatable implements JWTSubject
                 DB::table('model_has_roles')->where('model_id', $user['id'])->delete();
 
                 DB::table('model_has_permissions')->where('model_id', $user['id'])->delete();
-
-
             } else {
                 User::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
 
@@ -1116,7 +1120,6 @@ class User extends Authenticatable implements JWTSubject
                         }
                     }
                 }
-
             }
         }
     }
@@ -1127,7 +1130,6 @@ class User extends Authenticatable implements JWTSubject
         $user = Helpers::getUser() ?? Helpers::getWebUser();
 
         return self::whereId($user->id)->with('userIntensionPlan')->first();
-
     }
 
     public static function checkUserFromEmailOrSocialId($request)
@@ -1140,13 +1142,11 @@ class User extends Authenticatable implements JWTSubject
             if ($request->has('apple_id') && !empty($request->input('apple_id')) && empty($user['apple_id'])) {
 
                 $user->update(['apple_id' => $request->input('apple_id')]);
-
             }
 
             if ($request->has('google_id') && !empty($request->input('google_id')) && empty($user['google_id'])) {
 
                 $user->update(['google_id' => $request->input('google_id')]);
-
             }
 
             $user = $user->where('email', $request->input('email'))
@@ -1160,11 +1160,9 @@ class User extends Authenticatable implements JWTSubject
             }
 
             return $user;
-
         }
 
         return false;
-
     }
 
     public static function verifyUserExistsWithPractitionerSlugs($email, $slug1, $slug2)
@@ -1173,7 +1171,6 @@ class User extends Authenticatable implements JWTSubject
         $practitioner = self::where('first_name', $slug1)->where('last_name', $slug2)->first();
 
         User::where('practitioner_id', $practitioner->id)->where('email', $email)->exists();
-
     }
 
     public static function deleteClientProfile($id)
@@ -1220,14 +1217,12 @@ class User extends Authenticatable implements JWTSubject
         $userId = Helpers::getWebUser()['id'];
 
         return self::whereId($userId)->update(['timezone' => $timezone]);
-
     }
 
     public static function resetPassword($userId = null)
     {
 
         return self::whereId($userId)->update(['reset_password' => 0]);
-
     }
 
 
@@ -1237,7 +1232,6 @@ class User extends Authenticatable implements JWTSubject
         self::whereId($userId)->update(['image_id' => $uploadId]);
 
         return self::whereId($userId)->first();
-
     }
 
     public static function generateToken($email)
@@ -1271,7 +1265,6 @@ class User extends Authenticatable implements JWTSubject
 
             $query->where('page', 0)
                 ->orderBy('updated_at', 'desc');
-
         })->select(['id', 'first_name', 'last_name'])->orderBy('first_name')->get();
 
         foreach ($users as $user) {
@@ -1280,7 +1273,6 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return $users;
-
     }
 
     public static function updateUserLastStep($data = null, $userId = null)
@@ -1336,8 +1328,6 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return $users;
-
-
     }
 
     public static function MembersLimit($email = null)
@@ -1366,7 +1356,6 @@ class User extends Authenticatable implements JWTSubject
             $data['password'] = $userinfo['password'];
             self::where('id', $memberId)->update($data);
         }
-
     }
 
     public static function deleteMember($id = null)
@@ -1392,12 +1381,19 @@ class User extends Authenticatable implements JWTSubject
         return self::whereId($B2BId)->update(['company_name' => $companyName]);
     }
 
-    public static function B2BResetPassword($id = null, $password = null)
+    public static function B2BResetPassword($id, $password)
     {
-        return self::where('id', $id)->update([
-            'password' => Hash::make($password)
-        ]);
+        $user = self::find($id);
+        if ($user) {
+            $user->password = Hash::make($password);
+            $user->save();
+            return $user; 
+        }
+
+
+        return null;
     }
+
 
     public static function userDataForHAi($user_id = null)
     {
@@ -1411,7 +1407,6 @@ class User extends Authenticatable implements JWTSubject
         return self::where('email', $email)->where('business_id', Helpers::getUser()->id)->whereHas('candidate', function ($query) {
 
             $query->where('share_data', 1);
-
         })->select(['id', 'email'])->first()?->id;
     }
 
@@ -1422,7 +1417,6 @@ class User extends Authenticatable implements JWTSubject
             $admin->version_update = 0;
             $admin->save();
         }
-
     }
 
 
@@ -1473,8 +1467,6 @@ class User extends Authenticatable implements JWTSubject
 
             //    $users->where('email', $email);
             $users->where('email', 'LIKE', "%$email%");
-
-
         }
 
         // Filter by age
@@ -1499,7 +1491,6 @@ class User extends Authenticatable implements JWTSubject
         $user = self::with('businessIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth'])->first()->setAppends([]);
 
         return $user;
-
     }
 
     public static function userIntervalOfLife($date_of_birth = null)
@@ -1580,11 +1571,8 @@ class User extends Authenticatable implements JWTSubject
                     'public_name' => 'Cycle of Life - Surrender (84+)'
                 ];
                 break;
-
         }
 
         return $interval;
     }
-
-
 }
