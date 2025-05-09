@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Livewire\Admin\SubAdmin;
+
+use App\Events\SubAdminLogout;
 use App\Models\User;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
@@ -26,6 +28,9 @@ class Index extends Component
           if($admin->status == 1){
               User::updateUser(['status' => 0],$id);
               session()->flash('success'.$id, 'Sub Admin Status Changed to Inactive.');
+
+              event(new SubAdminLogout($admin['id']));
+              
           }else{
               User::updateUser(['status' => 1],$id);
               session()->flash('success'.$id, 'Sub Admin Status Changed to Active.');
