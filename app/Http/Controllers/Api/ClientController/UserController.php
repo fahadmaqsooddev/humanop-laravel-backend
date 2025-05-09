@@ -14,6 +14,7 @@ use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
+use App\Http\Requests\Client\ProfileAccess\ProfileAccessRequest;
 use App\Http\Requests\Client\Register\ResetPasswordRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\VersionControl\Version;
@@ -29,6 +30,7 @@ use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
@@ -641,15 +643,20 @@ class UserController extends Controller
 
     }
 
-    public function updatePromptNotification(Request $request){
-        try{
-            if(empty($request['prompt'])){
+    public function updatePromptNotification(Request $request)
+    {
+        try {
+
+            if (empty($request['prompt'])) {
+
                 return Helpers::validationResponse('Prompt Key is Required');
-            }else{
-                User::where('id',Helpers::getUser()['id'])->update([
-                    'prompt_notification'=>1
-                ]);
+
+            } else {
+
+                User::where('id', Helpers::getUser()['id'])->update(['prompt_notification' => 1]);
+
                 return Helpers::successResponse('Prompt Updated Successfully');
+
             }
 
         } catch (\Exception $exception) {
@@ -657,4 +664,27 @@ class UserController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+
+    public function profilePublicOrPrivate(ProfileAccessRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $user = Helpers::getUser();
+
+            User::changeProfileAccess($request['profile_status']);
+
+            DB::commit();
+
+            return Helpers::successResponse('Profile access has been changed to ' . ($user['profile_status'] == 1 ? 'private' : 'public') . ' successfully.', $user);
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
 }
