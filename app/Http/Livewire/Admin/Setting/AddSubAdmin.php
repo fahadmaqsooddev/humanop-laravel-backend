@@ -12,39 +12,61 @@ use Spatie\Permission\Models\Permission;
 
 class AddSubAdmin extends Component
 {
-    public $sub_admin,$permission, $day, $month, $year;
+    public $sub_admin, $permission, $day, $month, $year;
     use HandlesValidationErrors;
+
     public function mount()
     {
         $this->year = 1980;
-//        $this->sub_admin['age_range'] = '5-6';
         $this->sub_admin['gender'] = '0';
         $this->sub_admin['is_admin'] = 3;
     }
+
     public function submitForm()
     {
 
         $this->sub_admin['date_of_birth'] = $this->year . '-' . $this->month . '-' . $this->day;
 
-        if($this->customValidation(new CreateSubAdmin($this->sub_admin),$this->sub_admin)){return;};
+        if ($this->customValidation(new CreateSubAdmin($this->sub_admin), $this->sub_admin)) {
+            return;
+        };
+
         try {
-            DB::transaction(function(){
+
+            DB::transaction(function () {
+
                 $roleName = 'sub admin';
+
                 $role = Role::firstOrCreate(['name' => $roleName]);
+
                 $user = User::createSubAdmin($this->sub_admin);
+
                 $user->assignRole($role);
+
                 foreach ($this->permission as $permissionName => $hasPermission) {
+
                     if ($hasPermission) {
+
                         $permission = Permission::firstOrCreate(['name' => $permissionName]);
+
                         $user->givePermissionTo($permission);
+
                     }
+
                 }
+
                 session()->flash('success', 'sub admin created successfully.');
+
             });
+
         } catch (\Exception $exception) {
+
             session()->flash('error', $exception->getMessage());
+
         }
+
     }
+
     public function render()
     {
         return view('livewire.admin.setting.add-sub-admin');

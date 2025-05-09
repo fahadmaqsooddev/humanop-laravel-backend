@@ -22,7 +22,10 @@
             @livewire('admin.client-query.query-answer-form', ['queryId' => $query['id']], key($query->id))
 
         @endforeach
-        </tbody>
-    </table>
+        
+        
+    </tbody>
+</table>
+{{ $queries->links('pagination.table-pagination') }}
 
 </div>

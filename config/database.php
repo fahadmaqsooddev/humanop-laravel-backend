@@ -589,5 +589,10 @@ return [
             'fillable' => ['coupon_name','coupon_code','coupon_limit','coupon_duration'],
             'hidden' => ['created_at', 'updated_at']
         ],
+        'AssessmentIntro' => [
+            'table' => 'assessment_intro',
+            'fillable' => ['name','code','public_name','number','type','text','video','p_name'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
     ]
 ];

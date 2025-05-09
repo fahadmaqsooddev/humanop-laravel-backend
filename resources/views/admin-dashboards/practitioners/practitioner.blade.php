@@ -12,7 +12,7 @@
 
 </style>
 @section('content')
-    <div class="row mt-4 container-fluid ">
+    <div class="row mt-4 container-fluid">
         <div class="col-12">
             <div class="card table-orange-color">
                 <div class="table-header-text" style="border-radius: 20px;">

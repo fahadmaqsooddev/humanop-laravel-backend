@@ -33,35 +33,40 @@ class OpenRouterHelper
             "Content-Type: application/json"
         ];
 
-//        Log::info(['prompt' => $prompt]);
+        $messages_array = [
+            [
+                "role" => "system",
+                "content" => $prompt ?? "People  who  have  a  Copper-Silver  Alchemy  align  with  utility  and  practicality.  In  other  words,  they
+                        are  attracted  to  getting  the  most  use  out  of  everything,  whether  it  be  value  or  longevity,  and
+                        they're  more  aligned  with  the  most  practical  choice  in  the  moment.
+                        Their  relaxed  nature  will  let  piles  of  things  lay  about  and  accumulate,  and  they  rarely  feel  the
+                        need  to  remove  them,  even  if  company  were  to  arrive.  This  more  organic  side  to  their  nature
+                        can  sometimes  be  judged  unfairly  by  others  when  they're  simply  displaying  their
+                        low-maintenance  nature  that  happens  to  thrive  in  a  more  lived-in  environment.
+                        Because  they  naturally  can,  and  in  an  effort  to  reach  others  within  their  boundaries  of  tolerance,
+                        it's  recommended  that  they  make  slight  adjustments  towards  their  silver  aspect  at  times  and
+                        with  certain  audiences.  This  can  be  done  by  moving  into  the  practical  aspect  of  their  Alchemy
+                        and  paying  a  little  more  attention  to  their  home  and  themselves  in  terms  of  upkeep  and  value
+                        maintenance."
+            ],
+            $userMessage, $assistantMessage,
+            [
+                "role" => "user",
+                "content" => $persona . "\n\n User: " . $question,
+            ],
+        ];
+
+        $filtered_message_array = array_filter($messages_array, function ($subArray){
+
+            return !empty($subArray);
+        });
 
         $data = [
 //            "model" => "deepseek/deepseek-chat","qwen/qvq-72b-preview","deepseek/deepseek-r1-distill-qwen-1.5b","openai/gpt-3.5-turbo","anthropic/claude-3-haiku","google/gemini-2.0-flash-001",
             "model" => $llmModel ?? "deepseek/deepseek-chat",
             "allow_fallbacks" => true,
             "tokens" => $setting['max_tokens'] ?? 500,
-            "messages" => [
-                [
-                    "role" => "system",
-                    "content" => $prompt ?? "People  who  have  a  Copper-Silver  Alchemy  align  with  utility  and  practicality.  In  other  words,  they
-are  attracted  to  getting  the  most  use  out  of  everything,  whether  it  be  value  or  longevity,  and
-they're  more  aligned  with  the  most  practical  choice  in  the  moment.
-Their  relaxed  nature  will  let  piles  of  things  lay  about  and  accumulate,  and  they  rarely  feel  the
-need  to  remove  them,  even  if  company  were  to  arrive.  This  more  organic  side  to  their  nature
-can  sometimes  be  judged  unfairly  by  others  when  they're  simply  displaying  their
-low-maintenance  nature  that  happens  to  thrive  in  a  more  lived-in  environment.
-Because  they  naturally  can,  and  in  an  effort  to  reach  others  within  their  boundaries  of  tolerance,
-it's  recommended  that  they  make  slight  adjustments  towards  their  silver  aspect  at  times  and
-with  certain  audiences.  This  can  be  done  by  moving  into  the  practical  aspect  of  their  Alchemy
-and  paying  a  little  more  attention  to  their  home  and  themselves  in  terms  of  upkeep  and  value
-maintenance."
-                ],
-                $userMessage, $assistantMessage,
-                [
-                    "role" => "user",
-                    "content" => $persona . "\n\n User: " . $question,
-                ],
-            ]
+            "messages" => array_values($filtered_message_array),
         ];
 
         $ch = curl_init($url);

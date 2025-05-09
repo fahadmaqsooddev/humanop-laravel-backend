@@ -7,6 +7,7 @@ use App\Helpers\Helpers;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\B2B\B2BIntentionOption;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
@@ -101,7 +102,7 @@ class User extends Authenticatable implements JWTSubject
             'gender', 'email', 'phone', 'is_admin', 'is_feedback',
             'image_id', 'date_of_birth', 'hai_chat', 'referral_code',
             'timezone', 'two_way_auth', 'intro_check', 'app_intro_check',
-            'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update','complete_assessment_walkthrough','complete_tutorial']);
+            'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial']);
     }
 
     // appends
@@ -159,21 +160,6 @@ class User extends Authenticatable implements JWTSubject
 
         return Helpers::getImage($this->image_id, $profilePic);
     }
-
-//    public function getCheckCompanyAttribute()
-//    {
-//
-//        $dataShareWithBusiness = B2BBusinessCandidates::checkCandidateCompany($this->id);
-//
-//        if (!empty($dataShareWithBusiness))
-//        {
-//            return  Admin::SHARED_DATA;
-//        }
-//        else{
-//            return  Admin::NOT_SHARED_DATA;
-//        }
-//
-//    }
 
     public function getIsFollowAttribute()
     {
@@ -334,14 +320,16 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(B2BBusinessCandidates::class, 'candidate_id', 'id');
     }
 
-    public function userIntentions(){
+    public function userIntentions()
+    {
 
-        return $this->hasManyThrough(IntentionOption::class,IntentionPlan::class,'user_id','id','id','intention_option_id');
+        return $this->hasManyThrough(IntentionOption::class, IntentionPlan::class, 'user_id', 'id', 'id', 'intention_option_id');
     }
 
-    public function businessIntentions(){
+    public function businessIntentions()
+    {
 
-        return $this->hasManyThrough(IntentionOption::class,SelectIntentionOption::class,'business_id','id','id','intention_option_id');
+        return $this->hasManyThrough(B2BIntentionOption::class, SelectIntentionOption::class, 'business_id', 'id', 'id', 'intention_option_id');
     }
 
     // query
@@ -400,7 +388,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function allReferralUsers($userId = null)
     {
-        $users = self::where('referred_by', $userId)->where('step', 3)->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login','date_of_birth'])->get();
+        $users = self::where('referred_by', $userId)->where('step', 3)->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login', 'date_of_birth'])->get();
 
         foreach ($users as $user) {
             $user['gender'] = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
@@ -669,7 +657,7 @@ class User extends Authenticatable implements JWTSubject
 
         $data['is_admin'] = !empty($is_admin) ? Admin::IS_B2B : Admin::IS_CUSTOMER;
 
-        $data['company_name'] = '';
+        $data['company_name'] = null;
 
         $data['status'] = 1;
 
@@ -857,6 +845,83 @@ class User extends Authenticatable implements JWTSubject
         return $users;
     }
 
+    // public static function getB2BAdmin($search_name = null, $search_email = null, $per_page = 10)
+    // {
+    //     $organizations = self::query();
+
+    //     if (!empty($search_name)) {
+
+    //         $organizations->where(function ($q) use ($search_name) {
+
+    //             $q->where('first_name', 'LIKE', "%{$search_name}%")
+    //                 ->orWhere('last_name', 'LIKE', "%{$search_name}%")
+    //                 ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+
+    //         });
+
+    //     }
+
+    //     if (!empty($search_email)) {
+
+    //         $organizations->where(function ($q) use ($search_email) {
+
+    //             $q->where('email', 'LIKE', "%{$search_email}%");
+
+    //         });
+           
+
+    //     }
+
+    //     $organizations = $organizations->whereNotNull('company_name')
+    //         ->orderBy('created_at', 'desc')
+    //         ->paginate($per_page);
+    //         // dd($organizations);
+
+    //     foreach ($organizations as $organization) {
+
+    //         $organization->member_count = B2BBusinessCandidates::getMembersCount($organization['id']);
+
+    //         $organization->candidate_count = B2BBusinessCandidates::getCandidatesCount($organization['id']);
+    //     }
+
+    //     // $data= $organizations->paginate($per_page);
+    //     return $organizations;
+    // }
+
+    public static function getB2BAdmin($search_name = null, $search_email = null, $per_page = 10)
+{
+    $query = self::query();
+
+    if (!empty($search_name)) {
+        $query->where(function ($q) use ($search_name) {
+            $q->where('first_name', 'LIKE', "%{$search_name}%")
+                ->orWhere('last_name', 'LIKE', "%{$search_name}%")
+                ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+        });
+    }
+
+    if (!empty($search_email)) {
+        $query->where(function ($q) use ($search_email) {
+            $q->where('email', 'LIKE', "%{$search_email}%");
+        });
+    }
+
+    // Apply main filters but don't paginate yet
+    $query = $query->whereNotNull('company_name')
+                 ->orderBy('created_at', 'desc');
+    
+    // Get the paginated results
+    $organizations = $query->paginate($per_page);
+    
+    // Now add the additional counts
+    foreach ($organizations as $organization) {
+        $organization->member_count = B2BBusinessCandidates::getMembersCount($organization['id']);
+        $organization->candidate_count = B2BBusinessCandidates::getCandidatesCount($organization['id']);
+    }
+
+    return $organizations;
+}   
+
     public static function allPaginatedClients($request = null)
     {
 
@@ -1007,6 +1072,11 @@ class User extends Authenticatable implements JWTSubject
 
 
         return $users;
+    }
+
+    public static function getSuperAdmins()
+    {
+        return self::where('is_admin', Admin::IS_ADMIN)->get();
     }
 
     public static function makeUserAsPractitioner($user_id = null)
@@ -1312,7 +1382,6 @@ class User extends Authenticatable implements JWTSubject
         return $updated;
     }
 
-
     public static function allCompanies()
     {
         return self::where('is_admin', Admin::IS_B2B)->get(['id', 'company_name']);
@@ -1321,41 +1390,6 @@ class User extends Authenticatable implements JWTSubject
     public static function addB2BCompanyName($B2BId = null, $companyName = null)
     {
         return self::whereId($B2BId)->update(['company_name' => $companyName]);
-    }
-
-    public static function getB2BAdmin($name = null, $email = null, $perpage = null)
-    {
-        $query = self::where('is_admin', Admin::IS_B2B);
-
-        if (!empty($name)) {
-            $query->where(function ($q) use ($name) {
-                $q->where('first_name', 'LIKE', "%{$name}%")
-                    ->orWhere('last_name', 'LIKE', "%{$name}%")
-                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$name}%"]);
-            });
-        }
-
-        if (!empty($email)) {
-            $query->where('email', 'LIKE', "%{$email}%");
-        }
-
-        $query->orderBy('id', 'desc');
-
-        $users = $query->paginate($perpage ?? 10);
-
-
-        foreach ($users as $user) {
-
-            $memberCount=B2BBusinessCandidates::getMembersCount($user->id);
-
-            $candidateCount=B2BBusinessCandidates::getCandidatesCount($user->id);
-
-            $user->member_count = $memberCount;
-
-            $user->candidate_count = $candidateCount;
-        }
-
-        return $users;
     }
 
     public static function B2BResetPassword($id = null, $password = null)
@@ -1367,7 +1401,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function userDataForHAi($user_id = null)
     {
-        $user = self::with('userIntentions')->whereId($user_id)->select(['id','first_name', 'last_name','date_of_birth'])->first()->setAppends([]);
+        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth'])->first()->setAppends([]);
 
         return $user;
     }
@@ -1459,9 +1493,10 @@ class User extends Authenticatable implements JWTSubject
             ->paginate($perPage);
     }
 
-    public static function b2bDetailForHai($user_id){
+    public static function b2bDetailForHai($user_id)
+    {
 
-        $user = self::with('businessIntentions')->whereId($user_id)->select(['id','first_name', 'last_name','date_of_birth'])->first()->setAppends([]);
+        $user = self::with('businessIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth'])->first()->setAppends([]);
 
         return $user;
 

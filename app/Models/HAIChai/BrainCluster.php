@@ -82,5 +82,20 @@ class BrainCluster extends Model
         ];
     }
 
+    public static function addDuplicateBrainClusters($oldChatBotId, $newChatBotId){
+
+        $clusters = self::where('chat_bot_id', $oldChatBotId)->get()->toArray();
+
+        foreach ($clusters as $cluster){
+
+            self::create([
+                'chat_bot_id' => $newChatBotId,
+                'cluster_id' => $cluster['cluster_id']
+            ]);
+
+        }
+
+    }
+
 
 }

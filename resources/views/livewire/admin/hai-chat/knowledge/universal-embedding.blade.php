@@ -88,19 +88,19 @@
                                         </td>
                                         <td class="float-end">
                                             <button wire:click="editEmbedding({{$embedding['id']}})"
-                                                    class="cluster-buttons">
+                                                    class="cluster-buttons" title="Edit Knowledge">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </button>
                                             @if($embedding['ready_for_training'])
-                                                <button wire:click="reTrainFile({{$embedding['id']}})" class="cluster-buttons">
+                                                <button wire:click="reTrainFile({{$embedding['id']}})" class="cluster-buttons" title="Retrain Knowledge">
                                                     <i class="fa-solid fa-arrows-rotate"></i>
                                                 </button>
                                             @else
-                                                <button class="cluster-buttons" style="background-color: darkgray !important;">
+                                                <button class="cluster-buttons" style="background-color: darkgray !important;" title="Retrain Knowledge">
                                                     <i class="fa-solid fa-arrows-rotate"></i>
                                                 </button>
                                             @endif
-                                            <button onclick="deleteEmbedding({{$embedding['id']}})" class="cluster-buttons">
+                                            <button onclick="deleteEmbedding({{$embedding['id']}})" class="cluster-buttons" title="Delete Knowledge">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>

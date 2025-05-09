@@ -21,16 +21,20 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
-                    @foreach(['users', 'deletedClient','clientQueries', 'questions', 'resources', 'approveQueries'] as $permissionName)
+                    @foreach(['user_management', 'assessment_management','technology_management', 'team_management', 'hai_admin'] as $permissionName)
                         <input type="checkbox" class="form-check-input" wire:model="permission" value="{{$permissionName}}">
-                        <label class="form-check-label text-white">{{ ucfirst($permissionName) }}</label>
+                        <label class="form-check-label text-white">@if($permissionName === 'hai_admin')
+                                HAi Admin
+                            @else
+                                {{ ucwords(str_replace('_', ' ', $permissionName)) }}
+                            @endif</label>
                         <br>
                     @endforeach
                 </div>
                 <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
-                    @foreach(['cms', 'chat', 'projects','assessments', 'abandonedAssessment'] as $permissionName)
+                    @foreach(['cms_admin', 'support_admin', 'client_queries','approve_queries'] as $permissionName)
                         <input type="checkbox" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
-                        <label class="form-check-label text-white">{{ ucfirst($permissionName) }}</label>
+                        <label class="form-check-label text-white">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
                         <br>
                     @endforeach
                 </div>

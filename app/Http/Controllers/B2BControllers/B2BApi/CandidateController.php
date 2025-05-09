@@ -44,23 +44,31 @@ class CandidateController extends Controller
                 return Helpers::validationResponse('Please Send proper Email Address');
             }
 
-
             $email = $request->input('email');
 
-            $checkInviteLink = UserInvite::getSingleInvite($email);
+            if(Helpers::getUser()['email'] == $email){
 
+            return Helpers::validationResponse('its an B2B Admin Account You can directly login to HumanOP Account');
+
+            }
+
+
+
+            $checkInviteLink = UserInvite::getSingleInvite($email);
+            
+            
 
             if ($checkInviteLink) {
 
-
+                
                 $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
 
                 if ($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) {
 
-//                    return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
+
                     return Helpers::validationResponse("{$email} already has an invite link with your business As a Candidate.");
                 } else if ($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) {
-//                    return Helpers::successResponse("{$email} already has an invite link with your business As a Member.");
+
                     return Helpers::validationResponse("{$email} already has an invite link with your business As a Member.");
 
                 } else {

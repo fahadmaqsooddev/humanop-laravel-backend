@@ -1,8 +1,8 @@
 @extends('user_type.auth', ['parentFolder' => 'practitioner-dashboard', 'childFolder' => 'none'])
 
 @section('content')
-<div class="my-3 py-3">
-    <div class="row mb-5 container-fluid">
+<div class="container-fluid my-3 py-3">
+    <div class="row mb-5">
         <div class="col-lg-3 container-fluid">
             <div class="card position-sticky top-1">
                 <ul class="nav flex-column border-radius-lg p-3" style="background-color: #0f1535">

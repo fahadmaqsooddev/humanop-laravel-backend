@@ -9,28 +9,62 @@ use Livewire\Component;
 use App\Models\Admin\VersionControl\VersionControlDescription;
 use App\Models\User;
 
+
 class CreateVersionControlForm extends Component
 {
-    public $version, $note, $version_id;
+    public $version, $note;
+
+    // for edit data
+    public $versionId = null;
+    public $description_id = null;
+    public $data = null;
+
     public $versionDetails = [
-        ['type' => [], 'description' => '','version_heading'=>'']
+        ['type' => [], 'description' => '', 'version_heading' => '']
     ];
 
 
-    protected $listeners = ['updateVersionValues', 'emptyVersionControlValues', 'updateContent'];
-    protected $rules = [
-        'version' => 'required',
-        'note' => 'required',
-    ];
+    protected $listeners = ['updateVersionValues', 'emptyVersionControlValues', 'updateContent','updateNote', 'updateDescription'
+,'updateEditorContent'];
+    
+    
+    
 
     protected $messages = [
-        'version.required' => 'Title is required',
-        'note.required' => 'Description is required',
+        'version.required' => 'The version name is required.',
+        'version.unique' => 'The version name has already been taken.',
+        'versionDetails.*.type.required' => 'The Platform Type is required.',
+        
+        'versionDetails.*.description.required' => 'The description is required.',
+        'versionDetails.*.version_heading.required' => 'The version Heading is required.',
+        
+    
+        // 'note.required' => 'The note is required.',
     ];
+
+//     public function updateEditorContent($payload)
+// {
+//     dd($payload); // 🔍 This will show what JS is sending
+// }
+
+
+ 
+
+    public function updateNote($value)
+{
+    $this->note = $value;
+}
+
+public function updateDescription($index, $value)
+{
+    $this->versionDetails[$index]['description'] = $value;
+    // dd($this->versionDetails['description']);
+
+}
 
     public function addVersionField()
     {
-        $this->versionDetails[] = ['type' => [], 'description' => '','version_heading'=>''];
+        $this->versionDetails[] = ['type' => [], 'description' => '', 'version_heading' => ''];
     }
 
     public function removeVersionField($index)
@@ -41,55 +75,132 @@ class CreateVersionControlForm extends Component
 
 
 
+
+
+    public function mount($versionId = null)
+    {
+
+        $this->versionId = $versionId;
+
+        if ($this->versionId) {
+            $version = Version::getSingleVersion($versionId); 
+            $this->version = $version->version; 
+            $this->note = $version->note; 
+
+            if (!empty($version['versionDescriptions']) && count($version['versionDescriptions']) > 0) {
+                $this->versionDetails = [];
+
+
+                foreach ($version['versionDescriptions'] as $item) {
+                    $this->versionDetails[] = [
+                        'id' => $item['id'],
+                        'type' => explode(',', $item->platform),
+                        'description' => $item->description,
+                        'version_heading' => $item->version_heading
+                    ];
+                }
+            } else {
+
+                $this->versionDetails[] = [
+
+                    'type' => [],
+                    'description' => '',
+                    'version_heading' => ''
+                ];
+            }
+        }
+    }
+
+
+
+
+
+
     public function updateContent($editorId, $data)
     {
         $this->note = $data;
     }
 
-    public function updateVersionValues($id, $title, $note)
-    {
-        $this->emptyVersionControlValues();
-        $this->version_id = $id;
-        $this->version = $title;
-        $this->note = $note;
-        $this->emit('contentUpdated', $this->note);
-    }
+
 
     public function emptyVersionControlValues()
     {
-        $this->version_id = '';
+        $this->versionId = '';
+        $this->description_id = '';
         $this->version = '';
         $this->note = '';
         $this->versionDetails = [
             ['type' => [], 'description' => '']
         ];
-    
     }
 
     public function storeVersionAndDescription()
-{
-    if ($this->version_id) {
-        Version::editVersion($this->version_id, $this->version);
-        $this->emit('closeModal');
-        $this->emptyVersionControlValues();
-        $this->emit('refreshVersions');
-        $this->emit('updateSession', 'Updated');
-    } else {
-        $version = Version::createVersion($this->version, $this->note);
+    {
 
-        foreach ($this->versionDetails as $detail) {
-            VersionControlDescription::createDescription($version->id, $detail['description'], $detail['type'],$detail['version_heading']);
+
+
+        $this->validate([
+            'version' => 'required|unique:version_control,version,' . $this->versionId, 
+            // 'note' => 'required',
+            'versionDetails.*.type' => 'required|array|min:1',
+            'versionDetails.*.description' => 'required|string',
+            'versionDetails.*.version_heading' => 'required',
+        ]);
+     
+        if ($this->versionId) {
+        
+            Version::editVersion($this->versionId, $this->version,$this->note);
+
+            foreach ($this->versionDetails as $detail) {
+                if (!empty($detail['id'])) {
+
+                    VersionControlDescription::editDescription(
+                        $detail['id'],
+                        $this->versionId,
+                        $detail['description'],
+                        $detail['type'],
+                        $detail['version_heading']
+                    );
+                } else {
+
+                    VersionControlDescription::createDescription(
+                        $this->versionId,
+                        $detail['description'],
+                        $detail['type'],
+                        $detail['version_heading']
+                    );
+                }
+            }
+
+            $this->emit('closeModal');
+            $this->emptyVersionControlValues();
+            $this->emit('refreshVersions');
+            $this->emit('updateSession', 'Updated');
+            session()->flash('success', 'Version updated successfully.');
+            redirect()->route('admin_get_version');
+
+
+        } else {
+           
+            $version = Version::createVersion($this->version, $this->note);
+
+            foreach ($this->versionDetails as $detail) {
+                
+                VersionControlDescription::createDescription($version->id, $detail['description'], $detail['type'], $detail['version_heading']);
+            }
+
+            User::updateVersion();
+            event(new VersionUpdate('New Version Is Added Please Update It'));
+
+            $this->emit('closeModal');
+            $this->emptyVersionControlValues();
+            $this->emit('refreshVersionControl');
+            $this->emit('updateSession', 'Created');
+            session()->flash('success', 'Version Create successfully.');
+            redirect()->route('admin_get_version');
+
         }
-
-        User::updateVersion();
-        event(new VersionUpdate('New Version Is Added Please Update It'));
-
-        $this->emit('closeModal');
-        $this->emptyVersionControlValues();
-        $this->emit('refreshVersionControl');
-        $this->emit('updateSession', 'Created');
     }
-}
 
 
 

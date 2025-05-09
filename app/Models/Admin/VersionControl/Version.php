@@ -45,11 +45,12 @@ class Version extends Model
         return $version;
     }
 
-    public static function editVersion($id = null, $version = null)
+    public static function editVersion($id = null, $version = null,$note=null)
     {
 
         $version = self::where('id',$id)->update([
             'version' => $version,
+            'note'=>$note
             
         ]);
         
@@ -58,12 +59,20 @@ class Version extends Model
     }
 
 
-    public static function deleteVersion($id){
+    public static function deleteVersion($id=null){
         return self::where('id',$id)->delete();
     }
 
-    public static function allVersions(){
-        return self::with('versionDescriptions')->orderBy('created_at', 'desc')->get();
+    public static function allVersions($perPage=10){
+        return self::with('versionDescriptions')->orderBy('created_at', 'desc')->paginate($perPage);
     }
+
+    public static function getSingleVersion($id=null){
+        return self::where('id',$id)->with('versionDescriptions')->first();
+    }
+
+
+    
+    
     
 }

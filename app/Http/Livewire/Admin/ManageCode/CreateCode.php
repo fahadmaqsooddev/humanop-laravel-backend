@@ -26,14 +26,12 @@ class CreateCode extends Component
     'number' => 'required|integer',
 ];
    
-    public function render()
-    {
-        return view('livewire.admin.manage-code.create-code');
-    }
+    
 
     public function createCode(){
         try {
              $this->validate();
+             
             $data = [
                 'name' => $this->name,
                 'public_name' => $this->public_name,
@@ -47,12 +45,7 @@ class CreateCode extends Component
             CodeDetail::createCode($data);
 
            
-            $this->name = '';
-            $this->public_name = '';
-            $this->code = '';
-            $this->type = '';
-            $this->text = '' ;
-            $this->number = '';
+           $this->resetForm();
 
             
             session()->flash('success', 'Manage Code Created successfully.');
@@ -64,5 +57,17 @@ class CreateCode extends Component
        
 
         
+    }
+
+
+    public function resetForm(){
+        $this->reset(['name','public_name','code','type','text','number']);
+    }
+
+
+
+    public function render()
+    {
+        return view('livewire.admin.manage-code.create-code');
     }
 }

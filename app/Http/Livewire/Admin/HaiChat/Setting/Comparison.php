@@ -9,9 +9,12 @@ use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
+use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use App\Models\HAIChai\LlmModel;
 
@@ -35,12 +38,14 @@ class Comparison extends Component
 
     protected $rules = [
         'message' => 'required|max:2000',
-        'selectedModels' => 'required',
         'chat_bot_id' => 'required',
+        'selectedModel1' => 'required',
+        'selectedModel2' => 'required',
     ];
 
     protected $messages = [
-        'selectedModels.required' => 'At least one model must be selected.',
+        'selectedModel1.required' => 'Select model to compare to.',
+        'selectedModel2.required' => 'Select model to compare with.',
         'message.required' => 'The Message field is required.',
         'message.max' => 'Query cannot contain more than 2000 characters.',
         'chat_bot_id' => 'Select chat-bot first.'
@@ -65,47 +70,45 @@ class Comparison extends Component
     public function submitForm()
     {
 
-        $this->modelResponse = [];
+        try {
 
-        $this->selectedModels = array_merge(
-            (array) $this->selectedModel1,
-            (array) $this->selectedModel2
-        );
+            $this->modelResponse = [];
 
-        $this->validate();
+            $this->selectedModels = array_merge(
+                (array) $this->selectedModel1,
+                (array) $this->selectedModel2
+            );
 
-//        $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
+            $this->validate();
 
-        $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
+            $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
 
-        $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
+            $chatbot = Chatbot::whereId($this->chat_bot_id)->first();
 
-//        $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
+            $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
 
-        if ($this->user_id){
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-            $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
-        }
+            $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chatbot->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => "null", 'user_id' => 0,'user_intentions' => []];
 
-        if (!empty($this->selectedModels)) {
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-            foreach ($this->selectedModels as $llmModel) {
+            if (isset($aiReply['prompt'])){
 
-                $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+                $prompts = ChatPrompt::where('name',$chatbot['name'])->first();
 
-                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->bot_name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => 'null', 'user_id' => 0];
+                $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(null, $aiReply['prompt']);
 
-                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+                $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-//                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
+                [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($chatbot['name'],null);
 
-                $prompts = ChatPrompt::where('name',$this->bot_name)->first();
+                foreach ($this->selectedModels as $llmModel) {
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $llmModel, $prompts['prompt'] ?? null);
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $llmModel, $final_persona, $userMessage,$assistantMessage);
 
-                if (!empty($openRouterResponse['choices'])) {
-
-                    foreach ($openRouterResponse['choices'] as $choice) {
+                    foreach ($openRouterResponse['choices'] as $choice)
+                    {
 
                         if (isset($choice['message']['content'])) {
 
@@ -127,11 +130,17 @@ class Comparison extends Component
 
                 }
 
+                $this->reset('message');
+
+            }else{
+
+                session()->flash('error','Something went wrong while connecting with brain. Please change your brain and try again.');
             }
 
-        }
+        }catch (\Exception $exception){
 
-        $this->reset('message');
+            session()->flash('error', $exception->getMessage());
+        }
 
     }
 

@@ -84,6 +84,13 @@ class CreateBrain extends Component
         $this->connectedGroups = EmbeddingGroup::where('name', "LIKE", "%$value%")->whereIn('id', $this->activeGroupIds)->get();
     }
 
+    public function updatedTemperature($value){
+
+        $this->searching = true;
+
+        $this->temperature = $value;
+    }
+
     public function createBrain(){
 
         DB::beginTransaction();

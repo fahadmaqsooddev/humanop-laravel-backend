@@ -13,13 +13,13 @@
 
     <div class="py-2">
 
-        <div style="border: 2px solid orangered; border-radius: 10px; padding: 10px;">
+        <div style="border: 2px solid orangered; border-radius: 10px; padding: 2px;">
 
             <div>
 
-                <p style="color: black; font-weight: 600;">Select Persona to View/Edit</p>
+                <p style="color: black; font-weight: 600; padding: 5px;">Select Persona to View/Edit</p>
 
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-end px-1">
 
                     <a href="{{route('admin_hai_chat_persona')}}" class="btn-sm" style="background: none; border: 2px solid orangered; border-radius: 20px; padding: 5px 10px; color: black;">
                         Create New Persona

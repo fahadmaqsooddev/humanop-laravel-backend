@@ -142,22 +142,17 @@ class ChatAiController extends Controller
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-                    // $promptMessages = HaiChat::makePromptForChat($aiReply, $prompts, $request->input('question'));
+                    if (isset($aiReply['prompt'])){
 
-//                    $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
+                        $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
 
-                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
+                        $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+                        [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
 
-                    [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
+                        $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'], $final_persona,$userMessage, $assistantMessage);
 
-                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'], $final_persona,$userMessage, $assistantMessage);
-
-                    $reply = null;
-
-                    foreach ($openRouterResponse['choices'] as $choice)
-                    {
+                        $reply = null;
 
                         $filteredReply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content'] ?? null);
 
@@ -170,8 +165,6 @@ class ChatAiController extends Controller
                     }
 
                 }
-
-                SummarizeChatHistory::dispatch(Helpers::getUser()->id);
 
             }else{
 

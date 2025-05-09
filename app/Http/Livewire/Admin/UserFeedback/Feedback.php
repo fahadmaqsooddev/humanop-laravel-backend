@@ -11,14 +11,23 @@ class Feedback extends Component
 {
     use WithPagination;
     protected $feedbacks;
-public $name='';
-        public $approved_feedbacks;
+    public $name = '';
+    public $approved_feedbacks;
 
-public  $perPage=10;
+    public  $perPage = 10;
     protected $paginationTheme = 'bootstrap';
+
+
+
+    public function updated($field)
+    {
+        if (in_array($field, ['name'])) {
+            $this->resetPage();
+        }
+    }
     public function getFeedback($name)
     {
-        $this->feedbacks = \App\Models\Client\Feedback\Feedback::userFeedbacks($this->perPage,$name);
+        $this->feedbacks = \App\Models\Client\Feedback\Feedback::userFeedbacks($this->perPage, $name);
         $this->approved_feedbacks = \App\Models\Client\Feedback\Feedback::approvedUserFeedBack();
     }
 
@@ -27,17 +36,13 @@ public  $perPage=10;
 
         $feedback = \App\Models\Client\Feedback\Feedback::getSingleFeedback($id);
 
-        if ($feedback['user'])
-        {
+        if ($feedback['user']) {
             \App\Models\Client\Feedback\Feedback::approveUserFeedBack($id);
 
             PointHelper::addPointsOnFeedbackSubmission($feedback['user']);
 
             session()->flash('success', 'feedback approved successfully');
-
         }
-
-
     }
 
     public function render()
@@ -45,8 +50,8 @@ public  $perPage=10;
 
         $this->getFeedback($this->name);
 
-        return view('livewire.admin.user-feedback.feedback',[
-            'feedbacks'=>$this->feedbacks,
+        return view('livewire.admin.user-feedback.feedback', [
+            'feedbacks' => $this->feedbacks,
         ]);
     }
 }

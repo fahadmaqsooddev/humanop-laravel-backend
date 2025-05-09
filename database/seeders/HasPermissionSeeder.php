@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -22,68 +23,22 @@ class HasPermissionSeeder extends Seeder
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $hasPermission = [
-            [
-                'permission_id' => 1,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
+        $admins = User::getSuperAdmins();
 
-            ],
-            [
-                'permission_id' => 2,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
+        foreach ($admins as $admin) {
 
-            ],
-            [
-                'permission_id' => 3,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
+            for ($i = 1; $i <= 9; $i++) {
 
-            ],
-            [
-                'permission_id' => 4,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
+                DB::table('model_has_permissions')->insert([
 
-            ],
-            [
-                'permission_id' => 5,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
+                    'permission_id' => $i,
+                    'model_type' => 'App\Models\User',
+                    'model_id' => $admin['id'],
+                ]);
 
-            ],
-            [
-                'permission_id' => 6,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
+            }
 
-            ],
-            [
-                'permission_id' => 7,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
+        }
 
-            ],
-            [
-                'permission_id' => 8,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
-
-            ],
-            [
-                'permission_id' => 9,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
-
-            ],
-            [
-                'permission_id' => 10,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1,
-
-            ],
-        ];
-        DB::table('model_has_permissions')->insert($hasPermission);
     }
 }

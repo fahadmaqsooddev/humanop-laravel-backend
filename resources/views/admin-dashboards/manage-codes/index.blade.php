@@ -9,15 +9,15 @@
     }
 </style>
 @section('content')
-    <div class="row mt-4 container-fluid ">
+    <div class="row mt-4 container-fluid">
         <div class="col-12">
-            <button class="text-md font-weight-normal" style="padding: 0; border: none; background: none;">
+            {{-- <button class="text-md font-weight-normal" style="padding: 0; border: none; background: none;">
                 <a href="{{ route('admin_create_code') }}"
                    style="background-color: #f2661c; color: white; display: inline-block; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none;"
                    class="btn btn-sm mt-2 mb-0">
                     Create Code
                 </a>
-            </button>
+            </button> --}}
             <div class="card" >
                 <!-- Card header -->
                 <div class="card-header table-header-text">

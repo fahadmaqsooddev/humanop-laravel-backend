@@ -33,7 +33,7 @@
 
 </style>
 @section('content')
-    <div class="row">
+    <div class="row container-fluid">
         @livewire('admin.podcast.podcast')
 
     </div>

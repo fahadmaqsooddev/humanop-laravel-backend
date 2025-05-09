@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\HaiChat;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Helpers\LearningCluster\LearningClusterHelpers;
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
@@ -175,7 +176,7 @@ class HaiChat extends Component
 
                 HaiChatSetting::duplicatingChatBotSetting($chatBot->id, $newChatBot->id);
 
-                HaiChatActiveEmbedding::duplicateChatBotActiveEmbeddings($chatBot->name, $aiReply);
+                BrainCluster::addDuplicateBrainClusters($chatBot->id,$newChatBot->id);
 
                 $this->reset('copyChatBotId','name','description');
 
