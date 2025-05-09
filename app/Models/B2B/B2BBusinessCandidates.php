@@ -432,7 +432,7 @@ class B2BBusinessCandidates extends Model
 
         event(new RequestAccessData($data['business_id'], "[ $companyName ] Company Wanted To Access Your Data ", $data['candidate_id']));
 
-        Notification::createNotification('Request Access Data', " [ $companyName ] Company Wanted To Access Your Data", '', $data['candidate_id'], 0, Admin::REQUEST_ACCESS_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+        Notification::createNotification('Request Access Data', " [ $companyName ] Company Wanted To Access Your Data", '', $data['candidate_id'], 0, Admin::REQUEST_ACCESS_DATA_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
         return $data;
     }
