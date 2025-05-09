@@ -4,7 +4,7 @@ namespace App\Http\Requests\Client\ProfileAccess;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfileAccessRequest extends FormRequest
+class HaiAccessRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,14 @@ class ProfileAccessRequest extends FormRequest
     public function rules()
     {
         return [
-            'change_profile_access' => 'required',
+            'change_hai_access' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'change_profile_access.required' => ' Profile access key is required.',
+            'change_hai_access.required' => ' HAi access key is required.',
         ];
     }
 }

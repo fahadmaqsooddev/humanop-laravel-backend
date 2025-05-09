@@ -31,10 +31,10 @@ class Notification extends Model
     {
         $user = Helpers::getUser();
 
-        $userPermission = match ($user['plan_name'] ?? '') {'Freemium' => 1, 'Core' => 2, 'Premium' => 3, default => 4,};
+        // $userPermission = match ($user['plan_name'] ?? '') {'Freemium' => 1, 'Core' => 2, 'Premium' => 3, default => 4,};
 
         return self::where('user_id', $user['id'])
-            ->where('permission', $userPermission)
+            // ->where('permission', $userPermission)
             ->where('role', Admin::B2C_NOTIFICATION)
             // ->where('notification_priority', '!=', Admin::MESSAGE_SEND_NOTIFICATION) 
             // ->where('notification_priority', '!=', Admin::NEW_MESSAGE_NOTIFICATION) 

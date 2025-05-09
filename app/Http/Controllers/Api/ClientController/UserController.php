@@ -14,6 +14,7 @@ use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
+use App\Http\Requests\Client\ProfileAccess\HaiAccessRequest;
 use App\Http\Requests\Client\ProfileAccess\ProfileAccessRequest;
 use App\Http\Requests\Client\Register\ResetPasswordRequest;
 use App\Models\Admin\Code\CodeDetail;
@@ -673,7 +674,7 @@ class UserController extends Controller
 
             $user = Helpers::getUser();
 
-            User::changeProfileAccess($request['profile_status']);
+            User::changeProfileAccess($request['change_profile_access']);
 
             DB::commit();
 
@@ -687,4 +688,25 @@ class UserController extends Controller
         }
     }
 
+    public function haiAccess(HaiAccessRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $user = Helpers::getUser();
+
+            User::changeHaiAccess($request['change_hai_access']);
+
+            DB::commit();
+
+            return Helpers::successResponse('HAi access has been changed to ' . ($user['hai_status'] == 1 ? 'private' : 'public') . ' successfully.', $user);
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 }
