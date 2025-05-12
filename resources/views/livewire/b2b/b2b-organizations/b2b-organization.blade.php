@@ -21,6 +21,30 @@
             border-radius: 5px;
             font-weight: bold;
         }
+
+
+
+        
+    .pagination {
+        float: right;
+        margin-right: 24px;
+    }
+
+    .page-link {
+        background: none !important;
+    }
+
+    .page-link:hover {
+        background: #f2661c !important;
+        color: white !important;
+    }
+
+    .page-item.active .page-link {
+        background: #f2661c !important;
+        color: white !important;
+        border-color: #f2661c !important;
+    }
+
     </style>
 @endpush
 <div>
@@ -115,7 +139,8 @@
             @endforeach
             </tbody>
         </table>
-        {{ $users->links('pagination.table-pagination') }}
+        {{-- {{ $users->links('pagination.table-pagination') }} --}}
+        {{ $users->links('') }}
     </div>
 </div>
 

@@ -1,3 +1,30 @@
+
+@push('css')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    .pagination {
+        float: right;
+        margin-right: 24px;
+    }
+
+    .page-link {
+        background: none !important;
+    }
+
+    .page-link:hover {
+        background: #f2661c !important;
+        color: white !important;
+    }
+
+    .page-item.active .page-link {
+        background: #f2661c !important;
+        color: white !important;
+        border-color: #f2661c !important;
+    }
+    
+</style>
+@endpush
+
 <div>
     <div class="table-header-text">
         <div class="d-flex mt-4">
@@ -46,8 +73,8 @@
         @endif
     @endif
 
-    <div class="table-responsive w-100 pt-4 table-orange-color">
-        <table class="table table-flush">
+    <div class="table-responsive table-header-text w-100 pt-4 table-orange-color">
+        <table class="table table-flush" >
             <thead class="thead-light">
             <tr class="text-color-blue">
                 <th>Name</th>
@@ -159,11 +186,14 @@
             @endforeach
             </tbody>
         </table>
-        {{ $users->links('pagination.table-pagination') }}
+        {{-- {{ $users->links('pagination.table-pagination') }}   --}}
+        {{ $users->links() }}
+
     </div>
 </div>
 
 @push('js')
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script>
         function updateUserHaiChatStatus(id, name, checkbox, e) {

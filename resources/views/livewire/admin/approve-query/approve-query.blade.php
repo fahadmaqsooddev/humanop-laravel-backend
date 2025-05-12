@@ -70,6 +70,6 @@
         </tbody>
     </table>
 
-    {{$unApprovedQueries->links('pagination.table-pagination')}}
+    {{$unApprovedQueries->links()}}
 
 </div>

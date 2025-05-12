@@ -23,12 +23,23 @@ class AllUser extends Component
     public $name = '';
     public $email = '';
     public $age = '';
+
+    protected $users=[];
     public $selectedItems = [];
     public $is_chatBot_published;
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner'
         , 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete'];
+
+
+
+    protected $updatesQueryString = [
+        'name' => ['except' => ''],
+        'email' => ['except' => ''],
+        'age' => ['except' => ''],
+        
+    ];
 
     public function updated($field)
     {
@@ -132,15 +143,25 @@ class AllUser extends Component
 
     }
 
+    public function searchFilter(){
+
+        $this->users= User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER,Admin::IS_B2B]);
+    }
+
+
     public function render()
     {
-        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER,Admin::IS_B2B]);
+
+        $this->searchFilter();
 
         $this->is_chatBot_published = Chatbot::where('is_published', 1)->exists();
 
         return view('livewire.admin.user.all-user', [
 
-            'users' => $users
+           
+            'users' => $this->users
+            
+
         ]);
     }
 
