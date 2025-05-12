@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
+use App\Http\Requests\Api\Client\CheckEmailRequest;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helpers;
@@ -15,7 +16,6 @@ use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Validator;
 
 class CandidateController extends Controller
 {
@@ -29,81 +29,70 @@ class CandidateController extends Controller
         $this->user = $user;
     }
 
-    public function createInviteLinkForCandidate(Request $request)
+    public function createInviteLinkForCandidate(CheckEmailRequest $request)
     {
         try {
 
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', // Validation rules for email
-            ], [
-                'email.required' => 'The email field is required.',
-                'email.email' => 'Please provide a valid email address.',
-            ]);
+            if (Helpers::getUser()['email'] == $request['email']) {
 
-            if ($validator->fails()) {
-                return Helpers::validationResponse('Please Send proper Email Address');
-            }
-
-            $email = $request->input('email');
-
-            if(Helpers::getUser()['email'] == $email){
-
-            return Helpers::validationResponse('its an B2B Admin Account You can directly login to HumanOP Account');
+                return Helpers::validationResponse('its an B2B Admin Account You can directly login to HumanOP Account');
 
             }
 
-
-
-            $checkInviteLink = UserInvite::getSingleInvite($email);
-            
-            
+            $checkInviteLink = UserInvite::getSingleInvite($request['email']);
 
             if ($checkInviteLink) {
 
-                
-                $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
+                $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink['id']);
 
-                if ($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) {
+                $getUser = User::checkEmail($request['email']);
 
+                $checkMemberCandidate = B2BBusinessCandidates::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $getUser['id'])->first();
 
-                    return Helpers::validationResponse("{$email} already has an invite link with your business As a Candidate.");
-                } else if ($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) {
+                if (($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) || ($checkMemberCandidate['role'] == Admin::IS_CANDIDATE)) {
 
-                    return Helpers::validationResponse("{$email} already has an invite link with your business As a Member.");
+                    return Helpers::validationResponse("{$request['email']} already has an " . (($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) ? 'invite link' : 'account') . " with your business as a Candidate.");
+
+                } else if (($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) || ($checkMemberCandidate['role'] == Admin::IS_TEAM_MEMBER)) {
+
+                    return Helpers::validationResponse("{$request['email']} already has an " . (($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) ? 'invite link' : 'account') . " with your business as a Member.");
 
                 } else {
 
-                    UserCandidateInvite::createUserInvite($checkInviteLink->id, 1);
+                    UserCandidateInvite::createUserInvite($checkInviteLink->id, Admin::IS_CANDIDATE);
 
-                    $linke = UserInvite::where('email', $email)->first();
+                    $getLinkCandidate = UserInvite::getSingleInvite($request['email']);
 
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=2';
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $getLinkCandidate['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=2';
 
                     $emailData = $this->prepareEmailData($url);
 
-                    $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
+                    $this->sendEmailVerification($emailData, $request['email'], 'b2b-signup-link');
 
-                    return Helpers::successResponse("{$email} invite link generated successfully.");
+                    return Helpers::successResponse("{$request['email']} invite link generated successfully.");
+
                 }
             }
 
-
-            $newInvite = UserInvite::createInvite($email);
+            $newInvite = UserInvite::createInvite($request['email']);
 
             if ($newInvite) {
 
-                UserCandidateInvite::createUserInvite($newInvite->id, 1);
-                $linke = UserInvite::where('email', $email)->first();
-                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=2';
+                UserCandidateInvite::createUserInvite($newInvite['id'], Admin::IS_CANDIDATE);
+
+                $getLinkCandidate = UserInvite::getSingleInvite($request['email']);
+
+                $url = config('client_url.client_dashboard_url') . '/register?link=' . $getLinkCandidate['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=2';
+
                 $emailData = $this->prepareEmailData($url);
 
-                $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
+                $this->sendEmailVerification($emailData, $request['email'], 'b2b-signup-link');
 
-                return Helpers::successResponse("{$email} invite link generated successfully.");
+                return Helpers::successResponse("{$request['email']} invite link generated successfully.");
 
             }
 
-            return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
+            return Helpers::serverErrorResponse("Failed to generate invite link for {$request['email']}.");
 
         } catch (\Exception $exception) {
 
@@ -322,14 +311,13 @@ class CandidateController extends Controller
     {
         try {
 
+            $archiveCandidates = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'], true);
 
-            $archivecandidates = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'], true);
-
-            foreach ($archivecandidates as $newcandidates) {
-                $newcandidates['users']['gender'] = $newcandidates['users']['gender'] == 0 ? 'Male' : 'Female';
+            foreach ($archiveCandidates as $newCandidates) {
+                $newCandidates['users']['gender'] = $newCandidates['users']['gender'] == 0 ? 'Male' : 'Female';
             }
 
-            return Helpers::successResponse('Archive Candidates', $archivecandidates);
+            return Helpers::successResponse('Archive Candidates', $archiveCandidates);
 
 
         } catch (\Exception $exception) {
@@ -344,10 +332,9 @@ class CandidateController extends Controller
     {
         try {
 
+            $deletedCandidates = B2BBusinessCandidates::AlldeletedCandidates(Helpers::getUser()['id']);
 
-            $deletedcandidates = B2BBusinessCandidates::AlldeletedCandidates(Helpers::getUser()['id']);
-
-            return Helpers::successResponse('Deleted Candidates', $deletedcandidates);
+            return Helpers::successResponse('Deleted Candidates', $deletedCandidates);
 
 
         } catch (\Exception $exception) {
@@ -358,7 +345,7 @@ class CandidateController extends Controller
     }
 
 
-    private function prepareEmailData($url = null,)
+    private function prepareEmailData($url = null)
     {
         return [
             '{$link}' => $url,
@@ -368,16 +355,12 @@ class CandidateController extends Controller
         ];
     }
 
-    private function sendEmailVerification($emailData, $recipientEmail, $name)
+    private function sendEmailVerification($emailData = null, $recipientEmail = null, $name = null)
     {
         $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
 
-        Email::sendEmailVerification(
-            ['content' => $emailTemplate],
-            $recipientEmail,
-            'emails.Email_Template',
-            $name
-        );
+        Email::sendEmailVerification(['content' => $emailTemplate], $recipientEmail, 'emails.Email_Template', $name);
+
     }
 
 }

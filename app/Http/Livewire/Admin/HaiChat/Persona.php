@@ -144,7 +144,7 @@ class Persona extends Component
 
         if ($this->first_time){
 
-            $this->client_companies = User::whereNotNull('company_name')->whereNot('company_name', "")->select(['id','company_name'])->get();
+            $this->client_companies = User::whereNotNull('company_name')->whereNot('company_name', "")->select(['id','company_name'])->get()->unique('company_name');
 
             $this->industry_categories = BusinessStrategies::all();
 

@@ -31,9 +31,9 @@ class UserInvite extends Model
         return self::where('link', $link)->first();
     }
 
-    public static function getAllInviteLinks($per_page = 10, $email = null,$role=null)
+    public static function getAllInviteLinks($per_page = 10, $email = null, $role = null)
     {
-        return self::when($email, function ($query, $email){
+        return self::when($email, function ($query, $email) {
 
             $query->where('email', 'LIKE', "$email%");
 
@@ -42,7 +42,7 @@ class UserInvite extends Model
 
     }
 
-    public static function sendInvite($email = null, $file = null,$role=Admin::CLIENT_INVITE_ROLE)
+    public static function sendInvite($email = null, $file = null, $role = Admin::CLIENT_INVITE_ROLE)
     {
 
         if (!empty($file)) {
@@ -59,11 +59,11 @@ class UserInvite extends Model
 
                         $link = Str::random(16);
 
-                       return self::create([
+                        return self::create([
                             'email' => $csvEmail,
                             'link' => $link,
-                            'role'=>$role,
-                           
+                            'role' => $role,
+
                         ]);
 
                     }
@@ -86,8 +86,8 @@ class UserInvite extends Model
                 return self::create([
                     'email' => $email,
                     'link' => $link,
-                    'role'=>$role,
-                
+                    'role' => $role,
+
                 ]);
             }
         }
@@ -98,8 +98,7 @@ class UserInvite extends Model
 
         $email = Helpers::getWebUser()->email ?? Helpers::getUser()->email;
 
-        if (!empty($userEmail) || !empty($id))
-        {
+        if (!empty($userEmail) || !empty($id)) {
             return self::where('email', $userEmail)->orwhere('id', $id)->delete();
 
         }
@@ -113,7 +112,7 @@ class UserInvite extends Model
         return self::where('email', $email)->first();
     }
 
-    public static function createInvite($email = null, $role=null)
+    public static function createInvite($email = null, $role = null)
     {
         // dd($role);
         $link = Str::random(16);
@@ -121,14 +120,13 @@ class UserInvite extends Model
         return self::create([
             'email' => $email,
             'link' => $link,
-            'role'=>$role
+            'role' => $role
         ]);
     }
 
 
-
-
-    public static function sendInviteTime($id=null){
+    public static function sendInviteTime($id = null)
+    {
 
         $invite = self::find($id);
         if ($invite && empty($invite->send_invite_time)) {
@@ -140,9 +138,9 @@ class UserInvite extends Model
     }
 
 
-
-    public static function getMemberInvite($id=null){
-        return self::where('id',$id)->first();
+    public static function getMemberInvite($id = null)
+    {
+        return self::where('id', $id)->first();
     }
 
 }

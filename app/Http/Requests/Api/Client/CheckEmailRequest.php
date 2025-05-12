@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Auth;
+namespace App\Http\Requests\Api\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CheckInviteLinkRequest extends FormRequest
+class CheckEmailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,16 @@ class CheckInviteLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'invite_link' => 'required',
+            'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', // Validation rules for email
+
         ];
     }
 
     public function messages()
     {
         return [
-            'invite_link.required' => 'Invite Link is required',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'Please provide a valid email address.',
         ];
     }
 }

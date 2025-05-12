@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Auth;
+namespace App\Http\Requests\Client\ProfileAccess;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CheckInviteLinkRequest extends FormRequest
+class ProfileAccessRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,14 @@ class CheckInviteLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'invite_link' => 'required',
+            'change_profile_access' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'invite_link.required' => 'Invite Link is required',
+            'change_profile_access.required' => ' Profile access key is required.',
         ];
     }
 }

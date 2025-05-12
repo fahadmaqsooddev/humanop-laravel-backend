@@ -235,7 +235,8 @@
 
                     <div class="py-2">
                         <h6> TEMPERATURE (CREATIVITY)</h6>
-                        <input type="range" wire:model.defer="temperature" min="0" max="1.5" step="0.1" style="min-width: 250px;">
+                        <input type="range" wire:model.debounce="temperature" min="0" max="1.5" step="0.1" style="min-width: 250px;">
+                        <span style="color: black;">{{$temperature}}</span>
                         <br>
                         <span class="text-secondary" style="font-size: 12px;">
                              Amount of randomness injected into the response. Ranges from 0 to 1.5. Use closer to 0 for analytical/multiple choice, and closer to 1 for creative and generative tasks.

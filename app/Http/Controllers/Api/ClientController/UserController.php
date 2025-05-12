@@ -14,6 +14,8 @@ use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
+use App\Http\Requests\Client\ProfileAccess\HaiAccessRequest;
+use App\Http\Requests\Client\ProfileAccess\ProfileAccessRequest;
 use App\Http\Requests\Client\Register\ResetPasswordRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\VersionControl\Version;
@@ -29,6 +31,7 @@ use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
@@ -40,7 +43,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['googleLoginSignup', 'intentionOption', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
+        $this->middleware('auth:api')->except(['googleLoginSignup', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
 
         $this->user = $user;
     }
@@ -476,20 +479,7 @@ class UserController extends Controller
 
     }
 
-    public function intentionOption()
-    {
-        try {
 
-            $intention_option = IntentionOption::getOptions();
-
-            return Helpers::successResponse('success', $intention_option);
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
-    }
 
     public function profileOverviewResult(Request $request)
     {
@@ -641,18 +631,67 @@ class UserController extends Controller
 
     }
 
-    public function updatePromptNotification(Request $request){
-        try{
-            if(empty($request['prompt'])){
+    public function updatePromptNotification(Request $request)
+    {
+        try {
+
+            if (empty($request['prompt'])) {
+
                 return Helpers::validationResponse('Prompt Key is Required');
-            }else{
-                User::where('id',Helpers::getUser()['id'])->update([
-                    'prompt_notification'=>1
-                ]);
+
+            } else {
+
+                User::where('id', Helpers::getUser()['id'])->update(['prompt_notification' => 1]);
+
                 return Helpers::successResponse('Prompt Updated Successfully');
+
             }
 
         } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function profilePublicOrPrivate(ProfileAccessRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $user = Helpers::getUser();
+
+            User::changeProfileAccess($request['change_profile_access']);
+
+            DB::commit();
+
+            return Helpers::successResponse('Profile access has been changed to ' . ($user['profile_status'] == 1 ? 'private' : 'public') . ' successfully.', $user);
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function haiAccess(HaiAccessRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $user = Helpers::getUser();
+
+            User::changeHaiAccess($request['change_hai_access']);
+
+            DB::commit();
+
+            return Helpers::successResponse('HAi access has been changed to ' . ($user['hai_status'] == 1 ? 'private' : 'public') . ' successfully.', $user);
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
