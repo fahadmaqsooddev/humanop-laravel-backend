@@ -921,7 +921,9 @@ class User extends Authenticatable implements JWTSubject
 
                 $q->where('first_name', 'LIKE', "%$search_name%")
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
-                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+//                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ")
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+
             });
         });
 
@@ -948,7 +950,7 @@ class User extends Authenticatable implements JWTSubject
             }
         });
 
-        $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER);
+        $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B]);
 
         return Helpers::pagination($users, $request->input('pagination'), $request->input('per_page'));
     }
@@ -1046,10 +1048,10 @@ class User extends Authenticatable implements JWTSubject
         $users = $users->whereIn('is_admin', $isAdmin)
             // ->whereNotNull('email_verified_at')
             ->paginate($per_page)
-            ->setPath(route('admin_all_users',[
-                'name'=>$search_name,
-                'email'=>$email,
-                'age'=>$age
+            ->setPath(route('admin_all_users', [
+                'name' => $search_name,
+                'email' => $email,
+                'age' => $age
             ]));
 
 
