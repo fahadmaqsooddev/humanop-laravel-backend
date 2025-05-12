@@ -244,6 +244,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Assessment::class, 'user_id', 'id');
     }
 
+    public function haiAssessments()
+    {
+        return $this->hasOne(Assessment::class, 'user_id', 'id')->latest();
+    }
+
     public function hasRoles()
     {
         return $this->hasOne(ModelHasRole::class, 'model_id', 'id');
@@ -1567,4 +1572,21 @@ class User extends Authenticatable implements JWTSubject
         return Helpers::getUser()->update(['hai_status' => (int)$haiAccess]);
 
     }
+
+
+    public static function getUserDataForHai()
+{
+    $users= self::where('is_admin', 2)->whereHas('haiAssessments', function ($query) {
+            $query->where('page', 0);
+        })->limit(10)->get();
+
+        foreach ($users as $user) {
+            $user['gender'] = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
+            $user['last_login'] = Carbon::parse($user['last_login'])->format('m/d/Y h:i A');
+            $user->setAppends([]);
+        }
+
+        return $users;
+}
+
 }

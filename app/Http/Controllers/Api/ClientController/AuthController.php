@@ -15,8 +15,12 @@ use App\Http\Requests\Client\Register\SmsCodeRequest;
 use App\Http\Requests\Client\Register\SmsRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
+use App\Models\Admin\Code\CodeDetail;
+use App\Models\Admin\DailyTip\UserDailyTip;
+use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionOption;
@@ -39,7 +43,24 @@ class AuthController extends Controller
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption']);
+        $this->middleware('auth:api')->except([
+            'SendInvite',
+            'loginClient',
+            'forgotPassword',
+            'socialLogin',
+            'getUserInfoForHai',
+            'resendEmailVerification',
+            'registerFirstStep',
+            'checkEmailVerification',
+            'registerLastStep',
+            'checkInviteLink',
+            'EmailVerified',
+            'sendPhoneOtp',
+            'checkUserDetail',
+            'sendSmsCode',
+            'SmsCodeVerification',
+            'intentionOption'
+        ]);
 
         $this->auth = Auth::guard('api');
 
@@ -77,11 +98,9 @@ class AuthController extends Controller
                     if ($request['b2b_invite'] == 1) {
 
                         $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], true);
-
                     } else {
 
                         $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], false, $request['ref']);
-
                     }
 
                     if (!empty($request['company_name'])) {
@@ -94,11 +113,9 @@ class AuthController extends Controller
                     if (!empty($request['register_from_app'])) {
 
                         $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
-
                     } else {
 
                         $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
-
                     }
 
                     $user->setAppends([]);
@@ -159,13 +176,11 @@ class AuthController extends Controller
                                 $data = User::getSingleUserFromCompanyName($request['company_name']);
 
                                 B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
-
                             }
 
                             DB::commit();
 
                             return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
-
                         } else {
 
                             $checkLastStep->setAppends([]);
@@ -185,7 +200,6 @@ class AuthController extends Controller
 
                 return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
             }
-
         } catch (\Exception $exception) {
 
             DB::rollBack();
@@ -259,7 +273,6 @@ class AuthController extends Controller
                     ];
 
                     return Helpers::successResponse('Complete Your maestro Signup Process', $data);
-
                 } else {
 
                     $token = $this->auth->login($getUser);
@@ -274,11 +287,9 @@ class AuthController extends Controller
 
                     return Helpers::successResponse('User logged in successfully', $data);
                 }
-
             }
 
             return Helpers::validationResponse('User not found');
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -300,7 +311,7 @@ class AuthController extends Controller
 
                 $user->setAppends([]);
 
-//                $this->sns->sendSms($request['phone'], $message);
+                //                $this->sns->sendSms($request['phone'], $message);
 
                 return Helpers::successResponse('sms code send', $user);
             } else {
@@ -329,11 +340,9 @@ class AuthController extends Controller
                     $user->setAppends([]);
 
                     return Helpers::successResponse('phone number is verified', $user);
-
                 } else {
                     return Helpers::validationResponse('Your Code is not verified');
                 }
-
             } else {
 
                 return Helpers::validationResponse('Your Email is not verified');
@@ -377,7 +386,6 @@ class AuthController extends Controller
             ];
 
             return Helpers::successResponse('Your Email is verified.', $data);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -397,11 +405,9 @@ class AuthController extends Controller
             if (!empty($user['register_from_app'])) {
 
                 $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
-
             } else {
 
                 $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
-
             }
 
             $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
@@ -423,7 +429,6 @@ class AuthController extends Controller
             Email::sendEmailVerification(['content' => $email_template], $updateProfile['email'], 'emails.Email_Template', 'Verify Your Email Address');
 
             return Helpers::successResponse('Resend email sent successfully!');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -451,7 +456,6 @@ class AuthController extends Controller
             if (empty($checkUser)) {
 
                 return Helpers::validationResponse("These credentials do not match our records.");
-
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
 
                 $userInvite = UserInvite::getSingleInvite($checkUser['email']);
@@ -466,7 +470,6 @@ class AuthController extends Controller
                 ];
 
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
-
             } else if ($checkUser && $checkUser['step'] != 3) {
 
                 $userInvite = UserInvite::getSingleInvite($checkUser['email']);
@@ -481,7 +484,6 @@ class AuthController extends Controller
                 ];
 
                 return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
-
             } else {
 
                 $remember_me = $request['remember'] == 'true' ? true : false;
@@ -523,11 +525,9 @@ class AuthController extends Controller
                                 if ($memberCandidateInvite) {
 
                                     $memberCandidateInvite->delete();
-
                                 }
                             }
                         }
-
                     }
 
                     Helpers::createClientsOnOneSignal($user['id']);
@@ -549,7 +549,6 @@ class AuthController extends Controller
                     DB::commit();
 
                     return Helpers::successResponse('User loggedIn successfully', $data);
-
                 } else {
 
                     DB::rollBack();
@@ -557,7 +556,6 @@ class AuthController extends Controller
                     return Helpers::unauthResponse('Wrong Password');
                 }
             }
-
         } catch (\Exception $exception) {
 
             DB::rollBack();
@@ -600,12 +598,10 @@ class AuthController extends Controller
                 $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
 
                 return Helpers::successResponse('We have emailed your password reset link!');
-
             } else {
 
                 return Helpers::validationResponse('Email does not exists');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -654,9 +650,7 @@ class AuthController extends Controller
                     if (!empty($data)) {
 
                         B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
-
                     }
-
                 }
 
                 $token = $this->auth->login($user);
@@ -679,7 +673,6 @@ class AuthController extends Controller
             }
 
             return Helpers::validationResponse('Email does not exists. Please signup first.');
-
         } catch (Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -703,13 +696,10 @@ class AuthController extends Controller
                 ];
 
                 return Helpers::successResponse('User Invite link email', $data);
-
             } else {
 
                 return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
-
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -731,7 +721,6 @@ class AuthController extends Controller
             $this->sendEmailVerification($emailData, $email, '2fa-verification-code');
 
             return Helpers::successResponse('Otp sent Successfully', ['otp' => $otpNumber]);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -744,12 +733,10 @@ class AuthController extends Controller
             $intention_option = IntentionOption::getOptions();
 
             return Helpers::successResponse('success', $intention_option);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function checkUserDetail(CheckCandidate $request)
@@ -772,7 +759,6 @@ class AuthController extends Controller
                         'company_name' => $dataResult['company_name'],
                         'excisting_candidate' => true,
                     ]);
-
                 } else {
 
                     $url = config('client_url.client_dashboard_url') . '/register?link=' . $dataResult['token'] . '&company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
@@ -782,15 +768,11 @@ class AuthController extends Controller
                         'company_name' => $dataResult['company_name'],
                         'excisting_candidate' => false,
                     ]);
-
                 }
-
             } else {
 
                 return Helpers::validationResponse('In Valid token');
-
             }
-
         } catch (\Exception $exception) {
 
 
@@ -822,7 +804,6 @@ class AuthController extends Controller
                     $link = config('client_url.client_dashboard_url') . '/register?link=' . $getInvite['link'];
 
                     return response()->json(['link' => $link]);
-
                 } else {
 
                     $createLink = UserInvite::sendInvite($validatedData['email']);
@@ -831,13 +812,10 @@ class AuthController extends Controller
 
                     return response()->json(['link' => $link]);
                 }
-
             } else {
 
                 return response()->json(['error' => 'key is not valid']);
-
             }
-
         } catch (\Exception $e) {
 
             return response()->json([
@@ -849,6 +827,71 @@ class AuthController extends Controller
             ]);
         }
     }
+
+
+
+    public function getUserInfoForHai()
+    {
+        $userData = User::getUserDataForHai();
+        $result = [];
+
+        foreach ($userData as $data) {
+            
+            $getAssessment = Assessment::getLatestAssessment($data['id']);
+
+            $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($data['id']) : null;
+
+            $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $data['date_of_birth']) : null;
+
+            $userTrait = Assessment::UserTraits($data['id']);
+
+            $userDailyTip = UserDailyTip::where('user_id', $data['id'])->with('dailyTip')->latest()->first();
+
+            $allStyles = $getAssessment ? Assessment::getAllStyles($getAssessment) : [];
+
+            $topFeatures = $getAssessment ? Assessment::getFeatures($getAssessment) : [];
+
+            $topTwoFeatures = $topFeatures ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $getAssessment) : [];
+
+            $boundary = $getAssessment ? Assessment::getAlchemyDetail($getAssessment) : [];
+
+            $communication = $getAssessment ? Assessment::getEnergy($getAssessment) : null;
+
+            $perception_life = CodeDetail::getPerceptionStaticText();
+
+            $perception = $getAssessment ? Assessment::getPreceptionReportDetail($getAssessment) : null;
+
+            $topCommunication = $communication ? CodeDetail::getCommunicationDetail($communication, $getAssessment) : [];
+
+            $energyPool = $getAssessment ? Assessment::getEnergyPoolPublicName($getAssessment) : null;
+
+            $result[] = [
+                'user_detail' => [
+                    'name' => ($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''),
+                    'email' => $data['email'] ?? '',
+                    'phone' => $data['phone'] ?? '',
+                    'date_of_birth' => $data['date_of_birth'] ?? '',
+                    'gender' => $data['gender'] ?? '',
+                    'timezone' => $data['timezone'] ?? '',
+                ],
+                'optimization_plan' => $optimizationPlan,
+                'core_state' => $coreState,
+                'user_trait' => $userTrait,
+                'daily_tip' => $userDailyTip,
+                'all_styles' => $allStyles,
+                'top_features' => $topTwoFeatures,
+                'boundary' => $boundary,
+                'intro_perception' => $perception_life,
+                'perception' => $perception,
+                'top_communication' => $topCommunication,
+                'energy_pool' => $energyPool,
+            ];
+        }
+
+        return Helpers::successResponse('candidates optimization and core state', $result);
+    }
+
+
 
     private function prepareEmailData($user = null, $url = null, $codeNumber = null)
     {
@@ -873,5 +916,4 @@ class AuthController extends Controller
             $name
         );
     }
-
 }

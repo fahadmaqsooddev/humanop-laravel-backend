@@ -32,3 +32,7 @@ Route::get('check-candidate', 'AuthController@checkUserDetail');
 
 // invite link Create Api
 Route::get('invite','AuthController@SendInvite');
+
+
+
+Route::get('user-info-for-hai','AuthController@getUserInfoForHai');
