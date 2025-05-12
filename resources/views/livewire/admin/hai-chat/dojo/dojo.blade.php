@@ -309,7 +309,7 @@
 
                 <div style="border-radius: 5px; border: 2px solid #f2661c; width: 100%; height: 500px;" class="p-1">
 
-                    <div class="h-100">
+                    <div style="text-align: center;">
 
                         This will allow admin user to
                         observe how HAi is thinking and
