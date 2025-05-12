@@ -111,6 +111,11 @@
                                 <tr class="custom-text-dark">
                                     <td class="{{$session_id === $session['id'] ? 'highlighted-td' : ''}}">
                                         <span style="cursor: pointer;" wire:click="selectSession('{{$session['id']}}')" title="Select session for training.">{{$session['title']}}</span>
+                                        @if($session['status'] === 'active')
+                                            <span style="color: green; font-size: 10px;">
+                                                <i class="fa-solid fa-circle"></i>
+                                            </span>
+                                        @endif
                                         <br>
                                         <span style="font-size: small;">
                                             [{{\Carbon\Carbon::parse($session['created_at'])->format('Y-m-d')}}]
@@ -127,19 +132,38 @@
 
                     <div class="row p-1">
 
-{{--                        <div class="col-4">--}}
-{{--                            <button class="session-buttons">--}}
-{{--                                TRAIN MORE--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
+                        <div class="col-4">
+
+{{--                            @if($session_id)--}}
+
+                                <button class="session-buttons" wire:click="trainMoreSession()">
+
+                                    <span wire:loading.remove wire:target="trainMoreSession">TRAIN MORE</span>
+
+                                    <span wire:loading wire:target="trainMoreSession">Activating...</span>
+
+                                </button>
+
+{{--                            @else--}}
+
+{{--                                <button class="disabled-session-buttons">--}}
+{{--                                    TRAIN MORE--}}
+{{--                                </button>--}}
+
+{{--                            @endif--}}
+
+                        </div>
 
                         <div class="col-4" wire:key="{{$session_id}}">
 
                             @if($session_id)
 
-                            <button class="session-buttons" wire:click="exportSessionConversation()">
-                                EXPORT
-                            </button>
+                                <button class="session-buttons" wire:click="exportSessionConversation()">
+
+                                    <span wire:loading.remove wire:target="exportSessionConversation">EXPORT</span>
+
+                                    <span wire:loading wire:target="exportSessionConversation">Exporting...</span>
+                                </button>
 
                             @else
 
@@ -154,8 +178,12 @@
 
                             @if($session_id)
 
-                            <button class="session-buttons" wire:click="deleteSession">
-                                DELETE
+                            <button class="session-buttons" wire:click="deleteSession()">
+
+                                <span wire:loading.remove wire:target="deleteSession">DELETE</span>
+
+                                <span wire:loading wire:target="deleteSession">Deleting...</span>
+
                             </button>
 
                             @else
@@ -266,7 +294,11 @@
                 <div class="py-2">
 
                     <button wire:click="endTrainingSession()" class="session-buttons">
-                        END CURRENT TRAINING SESSION
+
+                        <span wire:loading.remove wire:target="endTrainingSession">END CURRENT TRAINING SESSION</span>
+
+                        <span wire:loading wire:target="endTrainingSession">Ending...</span>
+
                     </button>
 
                 </div>
@@ -277,7 +309,7 @@
 
                 <div style="border-radius: 5px; border: 2px solid #f2661c; width: 100%; height: 500px;" class="p-1">
 
-                    <div>
+                    <div class="h-100">
 
                         This will allow admin user to
                         observe how HAi is thinking and

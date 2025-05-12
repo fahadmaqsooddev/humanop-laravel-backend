@@ -104,6 +104,10 @@ class Dojo extends Component
             if (isset($reply['content'])){
 
                 $this->reset('message');
+
+            }elseif (isset($reply['detail'])){
+
+                session()->flash('error', $reply['detail']);
             }
 
         }catch (ValidationException $validationException){
@@ -149,4 +153,14 @@ class Dojo extends Component
         return redirect()->route('admin_export_conversations');
 
     }
+
+    public function trainMoreSession()
+    {
+
+        $body = ['status' => 'active'];
+
+        GuzzleHelpers::sendRequestFromGuzzleForDojo('put', "conversations/$this->session_id/status", $body);
+    }
+
+
 }
