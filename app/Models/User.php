@@ -1046,7 +1046,11 @@ class User extends Authenticatable implements JWTSubject
         $users = $users->whereIn('is_admin', $isAdmin)
             // ->whereNotNull('email_verified_at')
             ->paginate($per_page)
-            ->setPath(route('admin_all_users'));
+            ->setPath(route('admin_all_users',[
+                'name'=>$search_name,
+                'email'=>$email,
+                'age'=>$age
+            ]));
 
 
         return $users;

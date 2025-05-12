@@ -267,7 +267,7 @@
             @endforeach
             </tbody>
         </table>
-               {{ $assessments->links() }}
+        {{ $assessments->links() }}
     </div>
 </div>
 

@@ -13,6 +13,7 @@ class ApproveQuery extends Component
     public $listeners = ['rerenderUnApprovedQueries'];
 
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public function render()
     {

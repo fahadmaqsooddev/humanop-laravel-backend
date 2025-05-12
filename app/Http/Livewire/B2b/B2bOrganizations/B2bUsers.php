@@ -25,11 +25,16 @@ class B2bUsers extends Component
 
 
     public function deleteClientProfile($businessId,$candidateId){
+
         B2BBusinessCandidates::deleteUserFromBuisness($businessId,$candidateId);
     }
     public function FutureConsiderationClientProfile($businessId,$candidateId){
+
         B2BBusinessCandidates::futureConsiderationUserFromBuisness($businessId,$candidateId);
     }
+
+
+    
 
     public function render()
     {

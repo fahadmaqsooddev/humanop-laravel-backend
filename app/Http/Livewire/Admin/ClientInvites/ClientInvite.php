@@ -17,6 +17,8 @@ class ClientInvite extends Component
     public $role = Admin::CLIENT_INVITE_ROLE;
     public $selectedItems = [];
 
+    protected $invites=[];
+
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['deleteClientLink', 'bulkDelete','copyClipboard'];
@@ -37,6 +39,12 @@ class ClientInvite extends Component
         'file.file' => 'The uploaded file must be a valid file.',
         'file.mimes' => 'Only CSV files are allowed.',
         'file.max' => 'The file size should not exceed 10MB.',
+    ];
+
+    protected $updatesQueryString = [
+        
+        'email' => ['except' => '']
+        
     ];
 
     public function submitForm()
@@ -119,13 +127,25 @@ class ClientInvite extends Component
         UserInvite::sendInviteTime($id);
     }
 
+
+    public function searchInvites(){
+     $this->invites= UserInvite::getAllInviteLinks($this->perPage, $this->searched_email, $this->role);  
+     if ($this->invites instanceof \Illuminate\Pagination\AbstractPaginator) {
+        $this->invites->withPath(url('/admin/client-invites'));
+    }
+    }
+
     public function render()
     {
 
-        $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email, $this->role);
+        $this->searchInvites();
+        // $invites = $this->invites;
+//         foreach($invites as $invite){
+// $invite->withPath(url('/admin/client-invites'));
+//         }
 
-        $invites->withPath(url('/admin/client-invites'));
+        // $invites->withPath(url('/admin/client-invites'));
 
-        return view('livewire.admin.client-invites.client-invite', ['invites' => $invites]);
+        return view('livewire.admin.client-invites.client-invite', ['invites' => $this->invites]);
     }
 }
