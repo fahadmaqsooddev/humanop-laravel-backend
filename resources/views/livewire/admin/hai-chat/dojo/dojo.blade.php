@@ -112,7 +112,7 @@
                                     <td class="{{$session_id === $session['id'] ? 'highlighted-td' : ''}}">
                                         <span style="cursor: pointer;" wire:click="selectSession('{{$session['id']}}')" title="Select session for training.">{{$session['title']}}</span>
                                         @if($session['status'] === 'active')
-                                            <span style="color: green; font-size: 10px;">
+                                            <span style="color: green; font-size: 10px;" title="active">
                                                 <i class="fa-solid fa-circle"></i>
                                             </span>
                                         @endif
