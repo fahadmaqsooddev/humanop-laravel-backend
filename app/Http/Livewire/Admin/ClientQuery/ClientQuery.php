@@ -15,12 +15,15 @@ class ClientQuery extends Component
     use WithPagination;
  
     protected $queries;
+    protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refreshQuery' => 'handleRefreshQuery'];
 
     public function handleRefreshQuery(){
 
         $this->render();
     }
+
+    
 
     public function render()
     {

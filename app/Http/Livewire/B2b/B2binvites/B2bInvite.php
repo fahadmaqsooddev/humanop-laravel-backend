@@ -20,8 +20,11 @@ class B2bInvite extends Component
 // public $members_limit=10;
     public $invite_id;
 
+    protected $invites=[];
+
     public $selectedItems = [];
     public $perPage = 10;
+    
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['deleteClientLink', 'bulkDelete','copyLink'];
 
@@ -167,14 +170,25 @@ class B2bInvite extends Component
         }
     }
 
+
+    public function B2Binvites(){
+     $this->invites=UserInvite::getAllInviteLinks($this->perPage, $this->searched_email, $this->role);
+
+     if ($this->invites instanceof \Illuminate\Pagination\AbstractPaginator) {
+        $this->invites->withPath(url('/admin/b2b-invites'));
+    }
+    }
+
     public function render()
     {
 
-        $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email, $this->role);
+        $this->B2Binvites();
 
-        $invites->withPath(url('/admin/b2b-invites'));
+        // $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email, $this->role);
 
-        return view('livewire.b2b.b2b-invites.b2b-invite', ['invites' => $invites]);
+        // $invites->withPath(url('/admin/b2b-invites'));
+
+        return view('livewire.b2b.b2b-invites.b2b-invite', ['invites' => $this->invites]);
     }
 
 }

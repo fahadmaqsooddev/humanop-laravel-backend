@@ -85,7 +85,8 @@
             </div>
         @endif
 
-        {{$invites->links('pagination.table-pagination')}}
+        
+        {{$invites->links()}}
 
     </div>
     <div wire:ignore.self class="modal fade" id="inviteLinkSendModel" tabindex="-1"

@@ -106,7 +106,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial','profile_status','hai_status']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status']);
     }
 
     // appends
@@ -921,7 +921,9 @@ class User extends Authenticatable implements JWTSubject
 
                 $q->where('first_name', 'LIKE', "%$search_name%")
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
-                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+//                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ")
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+
             });
         });
 
@@ -948,7 +950,7 @@ class User extends Authenticatable implements JWTSubject
             }
         });
 
-        $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER);
+        $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B]);
 
         return Helpers::pagination($users, $request->input('pagination'), $request->input('per_page'));
     }
@@ -1046,7 +1048,11 @@ class User extends Authenticatable implements JWTSubject
         $users = $users->whereIn('is_admin', $isAdmin)
             // ->whereNotNull('email_verified_at')
             ->paginate($per_page)
-            ->setPath(route('admin_all_users'));
+            ->setPath(route('admin_all_users', [
+                'name' => $search_name,
+                'email' => $email,
+                'age' => $age
+            ]));
 
 
         return $users;
@@ -1396,9 +1402,8 @@ class User extends Authenticatable implements JWTSubject
     public static function updateSingleUserVersion($id = null)
     {
 
-        return self::where('id', $id)->update([
-            'version_update' => 1
-        ]);
+        return self::where('id', $id)->update(['version_update' => 1]);
+
     }
 
     public static function completeAssessmentWalkthrought()

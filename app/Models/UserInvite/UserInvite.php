@@ -114,7 +114,6 @@ class UserInvite extends Model
 
     public static function createInvite($email = null, $role = null)
     {
-        // dd($role);
         $link = Str::random(16);
 
         return self::create([

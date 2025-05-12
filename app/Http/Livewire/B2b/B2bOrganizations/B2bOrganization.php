@@ -17,6 +17,8 @@ class B2bOrganization extends Component
     // Search properties
     public $name = '';
     public $email = '';
+
+    protected $users=[];
     
     public $selectedItems = [];
     protected $listeners = ['resetPassword', 'deleteB2BAdminProfile', 'bulkDelete'];
@@ -66,14 +68,23 @@ class B2bOrganization extends Component
         $this->selectedItems = [];
     }
 
+
+    public function searchOrganizations(){
+        $this->users= User::getB2BAdmin($this->name, $this->email);
+        if ($this->users instanceof \Illuminate\Pagination\AbstractPaginator) {
+        $this->users->withPath(url('admin/b2b-organizations'));
+    }
+    }
+
     public function render()
     {
-        // Get B2B admins with search filters
-        $users = User::getB2BAdmin($this->name, $this->email);
-        $users->withPath(url('admin/b2b-organizations'));
+        $this->searchOrganizations();
+        // // Get B2B admins with search filters
+        // $users = User::getB2BAdmin($this->name, $this->email);
+        // $users->withPath(url('admin/b2b-organizations'));
 
         return view('livewire.b2b.b2b-organizations.b2b-organization', [
-            'users' => $users
+            'users' => $this->users
         ]);
     }
 }

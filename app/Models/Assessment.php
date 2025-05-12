@@ -342,7 +342,7 @@ class Assessment extends Model
         return 'free';
     }
 
-    public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null,$perPage=10)
+    public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null, $perPage = 10)
     {
 
         $userId = Helpers::getWebUser()['id'];
@@ -657,21 +657,27 @@ class Assessment extends Model
         $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
 
         $getStyle = [];
+
         foreach ($getResult as $key => $result) {
+
             if (in_array($key, $style)) {
+
                 $getStyle[$key] = $result;
+
             }
+
         }
 
         arsort($getStyle);
 
-        // return CodeDetail::getPublicNames($getStyle);
-        $stylelCodes = CodeDetail::getStylePublicNames($getStyle);
+        $styleCodes = CodeDetail::getStylePublicNames($getStyle);
 
-        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $stylelCodes, $getStyle);
+        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $getStyle);
 
         $data = [];
+
         foreach ($allStyles as $style) {
+
             $data[] = [
                 'code_number' => $style['code_number'],
                 'code_name' => $style['codeDetails'][0]['code'],
@@ -679,6 +685,7 @@ class Assessment extends Model
                 'description' => $style['codeDetails'][0]['text'],
                 'video_url' => $style['codeDetails'][0]['video_url']
             ];
+
         }
 
         return $data;
@@ -1127,15 +1134,13 @@ class Assessment extends Model
     {
 
         $order_by = isset($request['order_by']) ? $request['order_by'] : "created_at";
+
         $order = isset($request['order']) ? $request['order'] : "DESC";
 
-
-        $assessments = self::where('user_id', Helpers::getUser()->id)
-            ->where('page', 0)
-            ->select(['id', 'page', 'updated_at', 'reset_assessment', 'after_reset_assessment_updated_at'])
-            ->orderBy($order_by, $order);
+        $assessments = self::where('user_id', Helpers::getUser()->id)->where('page', 0)->select(['id', 'page', 'updated_at', 'reset_assessment', 'after_reset_assessment_updated_at'])->orderBy($order_by, $order);
 
         return Helpers::pagination($assessments, $request->input('pagination'), $request->input('per_page'));
+
     }
 
     public static function getGridForApi($id = null)
@@ -1292,130 +1297,129 @@ class Assessment extends Model
 //            }
 //            else {
 
-                $oldResult = $existingAssessment->toArray();
+            $oldResult = $existingAssessment->toArray();
 
-                $resultArray = [];
+            $resultArray = [];
 
-                if (!empty($multipleAnswersArray)) {
-                    $codeArray = array_merge($multipleAnswersArray, $codeArray);
+            if (!empty($multipleAnswersArray)) {
+                $codeArray = array_merge($multipleAnswersArray, $codeArray);
+            }
+
+            foreach ($codeArray as $key => $value) {
+                if ($value !== '') {
+                    $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
+                } else {
+                    $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
                 }
+            }
 
-                foreach ($codeArray as $key => $value) {
-                    if ($value !== '') {
-                        $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
-                    } else {
-                        $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
-                    }
-                }
+            $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])->where('active', 1)->count() / 3) ?? 0;
 
-                $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])->where('active', 1)->count() / 3) ?? 0;
+            $current_page = $existingAssessment->page + 1;
 
-                $current_page = $existingAssessment->page + 1;
+            if ($totalPages == $current_page) {
 
-                if ($totalPages == $current_page) {
+                $resultArray['page'] = 0;
 
-                    $resultArray['page'] = 0;
+                $existingAssessment->update($resultArray);
 
-                    $existingAssessment->update($resultArray);
+                event(new SubmitAssessment(Helpers::getUser()['id'], 0));
 
-                    event(new SubmitAssessment(Helpers::getUser()['id'], 0));
+                $latestAssessment = Assessment::getLatestAssessment($userId);
 
-                    $latestAssessment = Assessment::getLatestAssessment($userId);
+                $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-                    $user = Helpers::getWebUser() ?? Helpers::getUser();
+                if (!empty($latestAssessment)) {
 
-                    if (!empty($latestAssessment)) {
+                    $userDailyTip = UserDailyTip::getLatestTip();
 
-                        $userDailyTip = UserDailyTip::getLatestTip();
+                    if (empty($userDailyTip)) {
 
-                        if (empty($userDailyTip)) {
+                        if ($latestAssessment) {
 
-                            if ($latestAssessment) {
+                            $codeColor = AssessmentColorCode::getGreenCodes($latestAssessment['id']);
 
-                                $codeColor = AssessmentColorCode::getGreenCodes($latestAssessment['id']);
+                            $alchemy = Assessment::getAlchemy($latestAssessment);
 
-                                $alchemy = Assessment::getAlchemy($latestAssessment);
+                            if ($alchemy) {
 
-                                if ($alchemy) {
+                                $codeAlchemy = $alchemy['code'];
 
-                                    $codeAlchemy = $alchemy['code'];
+                            }
 
-                                }
+                            $communication = Assessment::getEnergy($latestAssessment);
 
-                                $communication = Assessment::getEnergy($latestAssessment);
+                            if ($communication) {
 
-                                if ($communication) {
+                                $codeCommunication = $communication[0];
 
-                                    $codeCommunication = $communication[0];
+                            }
 
-                                }
+                            $selectedCodeList = [
+                                $codeColor['code'] ?? '',
+                                $codeAlchemy ?? '',
+                                $codeCommunication ?? ''
+                            ];
 
-                                $selectedCodeList = [
-                                    $codeColor['code'] ?? '',
-                                    $codeAlchemy ?? '',
-                                    $codeCommunication ?? ''
-                                ];
+                            $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
 
-                                $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
+                            if ($randomCode) {
 
-                                if ($randomCode) {
+                                $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
-                                    $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+                                if ($newDailyTip) {
 
-                                    if ($newDailyTip) {
+                                    $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
 
-                                        $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
+                                    $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
 
-                                        $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
+                                    if ($alreadyExist) {
 
-                                        if ($alreadyExist) {
-
-                                            self::getTodayTip();
-
-                                        }
-
-                                        UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $latestAssessment['id']);
-
-                                        $message = 'Your New Daily Tip';
-
-                                        $deviceToken = $user['device_token'];
-
-                                        event(new NewDailyTip($user['id'], 'new daily tip', $message));
-                                        Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
-                                        Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION,Admin::B2C_NOTIFICATION);
+                                        self::getTodayTip();
 
                                     }
+
+                                    UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $latestAssessment['id']);
+
+                                    $message = 'Your New Daily Tip';
+
+                                    $deviceToken = $user['device_token'];
+
+                                    event(new NewDailyTip($user['id'], 'new daily tip', $message));
+                                    Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+                                    Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
                                 }
                             }
                         }
-
-                    }
-
-                    if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
-
-                        $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
-
-                    } else {
-
-                        $message = "Congratulations on finishing your assessment!";
                     }
 
                 }
-                else {
 
-                    $resultArray['page'] = $current_page;
+                if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
-                    $existingAssessment->update($resultArray);
+                    $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
 
-                    event(new SubmitAssessment(Helpers::getUser()['id'], $current_page + 1));
+                } else {
 
+                    $message = "Congratulations on finishing your assessment!";
                 }
 
-                AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
+            } else {
 
-                AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+                $resultArray['page'] = $current_page;
 
-                AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+                $existingAssessment->update($resultArray);
+
+                event(new SubmitAssessment(Helpers::getUser()['id'], $current_page + 1));
+
+            }
+
+            AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
+
+            AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+
+            AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
 //            }
 
@@ -1470,9 +1474,11 @@ class Assessment extends Model
                 $q->where('user_id', $user->id);
             }
 
-        })->where('page', 0)
+        })
+            ->where('page', 0)
             ->latest()
             ->first();
+
     }
 
     public static function getEnergyPoolDetail($assessment = null)

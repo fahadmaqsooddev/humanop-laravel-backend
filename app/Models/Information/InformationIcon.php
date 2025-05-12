@@ -21,7 +21,7 @@ class InformationIcon extends Model
 
     public static function getInfo()
     {
-        return self::select(['id','name','information'])->get();
+        return self::select(['id', 'name', 'information'])->get();
     }
 
     public static function createInfo($name = null, $information = null)
@@ -38,8 +38,8 @@ class InformationIcon extends Model
     {
 
         $infoDetail = self::whereId($id)->update([
-            'name'=> $name,
-            'information'=> $information,
+            'name' => $name,
+            'information' => $information,
         ]);
 
         return $infoDetail;

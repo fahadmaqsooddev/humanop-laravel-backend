@@ -26,6 +26,6 @@
         
     </tbody>
 </table>
-{{ $queries->links('pagination.table-pagination') }}
+{{ $queries->links() }}
 
 </div>
