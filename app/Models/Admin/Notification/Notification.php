@@ -36,8 +36,8 @@ class Notification extends Model
         return self::where('user_id', $user['id'])
             // ->where('permission', $userPermission)
             ->where('role', Admin::B2C_NOTIFICATION)
-            // ->where('notification_priority', '!=', Admin::MESSAGE_SEND_NOTIFICATION) 
-            // ->where('notification_priority', '!=', Admin::NEW_MESSAGE_NOTIFICATION) 
+            // ->where('notification_priority', '!=', Admin::MESSAGE_SEND_NOTIFICATION)
+            // ->where('notification_priority', '!=', Admin::NEW_MESSAGE_NOTIFICATION)
             ->orderBy('created_at', 'desc')
             ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
     }
@@ -50,12 +50,12 @@ class Notification extends Model
     //     return self::where('user_id', $user['id'])
     //         ->where('permission', $userPermission)
     //         ->where('role', Admin::B2C_NOTIFICATION)
-    //         ->where('notification_priority', Admin::MESSAGE_SEND_NOTIFICATION) 
-    //         ->where('notification_priority', Admin::NEW_MESSAGE_NOTIFICATION) 
+    //         ->where('notification_priority', Admin::MESSAGE_SEND_NOTIFICATION)
+    //         ->where('notification_priority', Admin::NEW_MESSAGE_NOTIFICATION)
     //         ->orderBy('created_at', 'desc')
     //         ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
     // }
-    
+
     public static function allB2BNotification()
     {
         $user = Helpers::getUser();
@@ -67,9 +67,9 @@ class Notification extends Model
     }
 
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null,$role=null)
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null)
     {
-       self::create([
+        self::create([
             'user_id' => $userId,
             'type' => $type,
             'message' => $message,
