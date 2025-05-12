@@ -1134,15 +1134,13 @@ class Assessment extends Model
     {
 
         $order_by = isset($request['order_by']) ? $request['order_by'] : "created_at";
+
         $order = isset($request['order']) ? $request['order'] : "DESC";
 
-
-        $assessments = self::where('user_id', Helpers::getUser()->id)
-            ->where('page', 0)
-            ->select(['id', 'page', 'updated_at', 'reset_assessment', 'after_reset_assessment_updated_at'])
-            ->orderBy($order_by, $order);
+        $assessments = self::where('user_id', Helpers::getUser()->id)->where('page', 0)->select(['id', 'page', 'updated_at', 'reset_assessment', 'after_reset_assessment_updated_at'])->orderBy($order_by, $order);
 
         return Helpers::pagination($assessments, $request->input('pagination'), $request->input('per_page'));
+
     }
 
     public static function getGridForApi($id = null)
