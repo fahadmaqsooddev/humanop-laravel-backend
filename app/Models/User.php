@@ -16,6 +16,7 @@ use App\Models\Client\StoryView\StoryView;
 use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\UserInvite\UserInvite;
+use Aws\ElasticsearchService\Exception\ElasticsearchServiceException;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -142,16 +143,21 @@ class User extends Authenticatable implements JWTSubject
 
     public function getPointAttribute()
     {
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        $point = Point::where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->select('point')->first();
+        $userId = $user ? $user['id'] : null;
 
-        if ($point) {
+        if ($userId !== null) {
+            $point = Point::where('user_id', $userId)->select('point')->first();
 
-            return $point->point;
+            if ($point) {
+                return $point->point;
+            }
         }
 
         return 0;
     }
+
 
     public function getPhotoUrlAttribute()
     {
@@ -167,29 +173,53 @@ class User extends Authenticatable implements JWTSubject
 
     public function getIsFollowAttribute()
     {
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        return $this->followed()->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->exists();
+        $userId = $user ? $user['id'] : null;
+
+        if ($userId !== null) {
+
+            return $this->followed()->where('user_id', $userId)->exists();
+
+        }
+        else
+        {
+            return false;
+
+        }
     }
 
     public function getConnectionStatusAttribute()
     {
 
-        if ($this->sentConnectionRequest()->exists()) {
-
-            return 2; // sent connection request
-
-        } elseif ($this->recevivedConnectionRequest()->exists()) {
-
-            return 3; // received connection request
-
-        } elseif ($this->confirmedConnectionRequest()->exists()) {
-
-            return 1; // confirm connection request
-
-        } else {
-
+//        if ($this->sentConnectionRequest()->exists() != null)
+//        {
+//            if ($this->sentConnectionRequest()->exists()) {
+//
+//                return 2; // sent connection request
+//
+//            }
+//            elseif ($this->recevivedConnectionRequest()->exists()) {
+//
+//                return 3; // received connection request
+//
+//            }
+//            elseif ($this->confirmedConnectionRequest()->exists()) {
+//
+//                return 1; // confirm connection request
+//
+//            }
+//            else {
+//
+//                return 0;
+//            }
+//        }
+//        else
+//        {
             return 0;
-        }
+
+//        }
+
     }
 
     public function getFeedbackSubmittedAttribute()
@@ -262,9 +292,19 @@ class User extends Authenticatable implements JWTSubject
 
     public function sentConnectionRequest()
     {
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        return $this->hasOne(Connection::class, 'friend_id', 'id')
-            ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 0);
+        $userId = $user ? $user['id'] : null;
+
+        if ($userId !== null) {
+
+            return $this->hasOne(Connection::class, 'friend_id', 'id')->where('user_id', $userId)->where('status', 0);
+        }
+        else
+        {
+            return null;
+        }
+
     }
 
     public function recevivedConnectionRequest()
@@ -1575,18 +1615,19 @@ class User extends Authenticatable implements JWTSubject
 
 
     public static function getUserDataForHai()
-{
-    $users= self::where('is_admin', 2)->whereHas('haiAssessments', function ($query) {
+    {
+        $users = self::where('is_admin', 2)->whereHas('haiAssessments', function ($query) {
             $query->where('page', 0);
         })->limit(10)->get();
 
         foreach ($users as $user) {
             $user['gender'] = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
             $user['last_login'] = Carbon::parse($user['last_login'])->format('m/d/Y h:i A');
-            $user->setAppends([]);
+//            $user->setAppends(['point','connection_status','is_follow']);
         }
 
+
         return $users;
-}
+    }
 
 }
