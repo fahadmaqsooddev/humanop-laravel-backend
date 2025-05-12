@@ -103,7 +103,7 @@
                 <div>
 
                     <p style="line-height: 0; font-weight: 700;color: black;">Previous Training Sessions :</p>
-                    <div style="border-radius: 5px; border: 2px solid #f2661c; max-height: 300px;overflow-y: scroll;" class="py-2 px-1">
+                    <div style="border-radius: 5px; border: 2px solid #f2661c; max-height: 300px;overflow-y: scroll;" id="session_container" class="py-2 px-1">
 
                         <table class="table">
 
@@ -435,6 +435,15 @@
                 event.preventDefault();
 
                 descriptionContainer.scrollBy({
+                    top: event.deltaY < 0 ? -30 : 30
+                });
+            }, {passive: true});
+
+            const sessionContainer = document.querySelector('#session_container');
+            sessionContainer.addEventListener('wheel', (event) => {
+                event.preventDefault();
+
+                sessionContainer.scrollBy({
                     top: event.deltaY < 0 ? -30 : 30
                 });
             }, {passive: true});
