@@ -43,7 +43,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['googleLoginSignup', 'intentionOption', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
+        $this->middleware('auth:api')->except(['googleLoginSignup', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
 
         $this->user = $user;
     }
@@ -479,20 +479,7 @@ class UserController extends Controller
 
     }
 
-    public function intentionOption()
-    {
-        try {
 
-            $intention_option = IntentionOption::getOptions();
-
-            return Helpers::successResponse('success', $intention_option);
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
-    }
 
     public function profileOverviewResult(Request $request)
     {

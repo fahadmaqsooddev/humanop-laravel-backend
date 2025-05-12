@@ -16,7 +16,6 @@ use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Validator;
 
 class CandidateController extends Controller
 {
@@ -312,14 +311,13 @@ class CandidateController extends Controller
     {
         try {
 
+            $archiveCandidates = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'], true);
 
-            $archivecandidates = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'], true);
-
-            foreach ($archivecandidates as $newcandidates) {
-                $newcandidates['users']['gender'] = $newcandidates['users']['gender'] == 0 ? 'Male' : 'Female';
+            foreach ($archiveCandidates as $newCandidates) {
+                $newCandidates['users']['gender'] = $newCandidates['users']['gender'] == 0 ? 'Male' : 'Female';
             }
 
-            return Helpers::successResponse('Archive Candidates', $archivecandidates);
+            return Helpers::successResponse('Archive Candidates', $archiveCandidates);
 
 
         } catch (\Exception $exception) {
@@ -334,10 +332,9 @@ class CandidateController extends Controller
     {
         try {
 
+            $deletedCandidates = B2BBusinessCandidates::AlldeletedCandidates(Helpers::getUser()['id']);
 
-            $deletedcandidates = B2BBusinessCandidates::AlldeletedCandidates(Helpers::getUser()['id']);
-
-            return Helpers::successResponse('Deleted Candidates', $deletedcandidates);
+            return Helpers::successResponse('Deleted Candidates', $deletedCandidates);
 
 
         } catch (\Exception $exception) {
@@ -348,7 +345,7 @@ class CandidateController extends Controller
     }
 
 
-    private function prepareEmailData($url = null,)
+    private function prepareEmailData($url = null)
     {
         return [
             '{$link}' => $url,
@@ -358,16 +355,12 @@ class CandidateController extends Controller
         ];
     }
 
-    private function sendEmailVerification($emailData, $recipientEmail, $name)
+    private function sendEmailVerification($emailData = null, $recipientEmail = null, $name = null)
     {
         $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
 
-        Email::sendEmailVerification(
-            ['content' => $emailTemplate],
-            $recipientEmail,
-            'emails.Email_Template',
-            $name
-        );
+        Email::sendEmailVerification(['content' => $emailTemplate], $recipientEmail, 'emails.Email_Template', $name);
+
     }
 
 }
