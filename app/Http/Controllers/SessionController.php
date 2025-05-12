@@ -116,6 +116,12 @@ class SessionController extends Controller
 
                             return redirect()->route('admin_dashboard');
                         }
+                        
+
+                        if($userEmailVerify && $userEmailVerify['status'] == '0'){
+
+                            return back()->withErrors(['msgError' => 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.']);
+                        }
 
                         return back()->withErrors(['msgError' => 'The email or password you entered is incorrect.']);
 

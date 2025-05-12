@@ -41,15 +41,6 @@
 <style>
 
 
-#toast-container > div.toast-warning {
-    background-color: rgb(97, 48, 48) !important;
-    color: white !important;
-    border-left: 5px solid #ffc107 !important;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2) !important;
-    font-family: 'Segoe UI', sans-serif !important;
-    font-size: 15px !important;
-    padding: 14px 18px !important;
-}
 
 
 
@@ -178,7 +169,7 @@
         channel.bind('subAdmin-logout.' + userId, function(data) {
             if (parseInt(data.user_id) === userId) {
                 // alert('Your session has expired. Logging you out...');
-                toastr.warning('Your session has expired. Logging you out...');
+                // toastr.warning('Your session has expired. Logging you out...');
     
                 window.location.href = "{{ route('logout') }}"; 
             }
