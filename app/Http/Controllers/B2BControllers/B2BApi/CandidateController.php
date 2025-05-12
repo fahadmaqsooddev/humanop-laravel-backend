@@ -33,72 +33,85 @@ class CandidateController extends Controller
     {
         try {
 
-            if (Helpers::getUser()['email'] == $request['email']) {
+            $email = $request['email'];
 
-                return Helpers::validationResponse('its an B2B Admin Account You can directly login to HumanOP Account');
+            $currentUser = Helpers::getUser();
+
+            if ($currentUser['email'] === $email) {
+
+                return Helpers::validationResponse('It’s a B2B Admin Account. You can directly login to HumanOP Account.');
 
             }
 
-            $checkInviteLink = UserInvite::getSingleInvite($request['email']);
+            $existingInvite = UserInvite::getSingleInvite($email);
 
-            if ($checkInviteLink) {
+            $user = User::checkEmail($email);
 
-                $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink['id']);
+            if ($existingInvite) {
 
-                $getUser = User::checkEmail($request['email']);
+                $existingCandidate = UserCandidateInvite::getSingleInvite($existingInvite['id']);
 
-                $checkMemberCandidate = B2BBusinessCandidates::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $getUser['id'])->first();
+                if ($existingCandidate) {
 
-                if (($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) || ($checkMemberCandidate['role'] == Admin::IS_CANDIDATE)) {
-
-                    return Helpers::validationResponse("{$request['email']} already has an " . (($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) ? 'invite link' : 'account') . " with your business as a Candidate.");
-
-                } else if (($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) || ($checkMemberCandidate['role'] == Admin::IS_TEAM_MEMBER)) {
-
-                    return Helpers::validationResponse("{$request['email']} already has an " . (($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) ? 'invite link' : 'account') . " with your business as a Member.");
-
-                } else {
-
-                    UserCandidateInvite::createUserInvite($checkInviteLink->id, Admin::IS_CANDIDATE);
-
-                    $getLinkCandidate = UserInvite::getSingleInvite($request['email']);
-
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $getLinkCandidate['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=2';
-
-                    $emailData = $this->prepareEmailData($url);
-
-                    $this->sendEmailVerification($emailData, $request['email'], 'b2b-signup-link');
-
-                    return Helpers::successResponse("{$request['email']} invite link generated successfully.");
+                    return $this->inviteAlreadyExistsResponse($email, $existingCandidate['role']);
 
                 }
+
+                if ($user) {
+
+                    $candidateRecord = B2BBusinessCandidates::where([['business_id', $currentUser['id']], ['candidate_id', $user['id']]])->first();
+
+                    if ($candidateRecord) {
+
+                        return $this->inviteAlreadyExistsResponse($email, $candidateRecord['role']);
+
+                    }
+
+                }
+
+                return $this->createAndSendCandidateInvite($existingInvite['id'], $email, $currentUser['company_name']);
             }
 
-            $newInvite = UserInvite::createInvite($request['email']);
+
+            $newInvite = UserInvite::createInvite($email);
 
             if ($newInvite) {
 
-                UserCandidateInvite::createUserInvite($newInvite['id'], Admin::IS_CANDIDATE);
-
-                $getLinkCandidate = UserInvite::getSingleInvite($request['email']);
-
-                $url = config('client_url.client_dashboard_url') . '/register?link=' . $getLinkCandidate['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=2';
-
-                $emailData = $this->prepareEmailData($url);
-
-                $this->sendEmailVerification($emailData, $request['email'], 'b2b-signup-link');
-
-                return Helpers::successResponse("{$request['email']} invite link generated successfully.");
+                return $this->createAndSendCandidateInvite($newInvite['id'], $email, $currentUser['company_name']);
 
             }
 
-            return Helpers::serverErrorResponse("Failed to generate invite link for {$request['email']}.");
+            return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
 
-        } catch (\Exception $exception) {
+        } catch (\Exception $e) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+            return Helpers::serverErrorResponse($e->getMessage());
 
         }
+
+    }
+
+    private function inviteAlreadyExistsResponse($email, $role)
+    {
+
+        $roleText = $role == Admin::IS_CANDIDATE ? 'Candidate' : 'Member';
+
+        return Helpers::validationResponse("{$email} already has an invite/account with your business as a {$roleText}.");
+    }
+
+    private function createAndSendCandidateInvite($inviteId, $email, $companyName)
+    {
+        UserCandidateInvite::createUserInvite($inviteId, Admin::IS_CANDIDATE);
+
+        $invite = UserInvite::getSingleInvite($email);
+
+        $url = config('client_url.client_dashboard_url') . '/register?link=' . $invite['link'] . '&company_name=' . $companyName . '&prefer=2';
+
+        $emailData = $this->prepareEmailData($url);
+
+        $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
+
+        return Helpers::successResponse("{$email} invite link generated successfully.");
 
     }
 

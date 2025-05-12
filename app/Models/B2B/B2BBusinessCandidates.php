@@ -302,7 +302,7 @@ class B2BBusinessCandidates extends Model
             return $checkBusinessCandidate;
         }
 
-        return null; // Explicitly return null if no record is found
+        return null;
     }
 
     public static function notShareDataWithBusiness($businessId = null, $candidateId = null)
@@ -390,18 +390,16 @@ class B2BBusinessCandidates extends Model
             ->where('is_permanently_deleted', 0)
             ->with('busers')
             ->get();
-        // dd($data);
 
     }
 
 
-    public static function AllCompaniescheckShareDataDetail($companies = [], $candidateid = null)
+    public static function AllCompaniesCheckShareDataDetail($companies = [], $candidateId = null)
     {
 
-        return self::where('candidate_id', $candidateid ?? Helpers::getUser()['id'])
-            ->whereHas('busers', function ($query) use ($companies) {
-                $query->whereIn('company_name', $companies);
-            })
+        return self::where('candidate_id', $candidateId ?? Helpers::getUser()['id'])->whereHas('busers', function ($query) use ($companies) {
+            $query->whereIn('company_name', $companies);
+        })
             ->get();
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
+use App\Http\Requests\Api\Client\CheckEmailRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
@@ -35,114 +36,91 @@ class MemberController extends Controller
         $this->user = $user;
     }
 
-
-    public function createInviteLinkForMember(Request $request)
+    public function createInviteLinkForMember(CheckEmailRequest $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
-            ]);
 
-            if ($validator->fails()) {
-                return Helpers::validationResponse('Please Send proper Email Address');
+            $email = $request['email'];
+
+            $currentUser = Helpers::getUser();
+
+            if ($currentUser['email'] === $email) {
+
+                return Helpers::validationResponse("It’s a B2B Admin Account. You can directly login to HumanOP Account.");
+
             }
 
+            $existingInvite = UserInvite::getSingleInvite($email);
 
-            $email = $request->input('email');
+            $user = User::checkEmail($email);
 
-            if(Helpers::getUser()['email'] == $email){
+            if ($existingInvite) {
 
-                return Helpers::validationResponse('its an B2B Admin Account You can directly login to HumanOP Account');
-    
-            }
+                $existingCandidate = UserCandidateInvite::getSingleInvite($existingInvite['id']);
 
-            $checkInviteLink = UserInvite::getSingleInvite($email);
+                if ($existingCandidate) {
 
+                    return $this->inviteAlreadyExistsResponse($email, $existingCandidate['role']);
 
-            if ($checkInviteLink) {
-
-                $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
-
-                if ($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) {
-
-
-                    return Helpers::validationResponse("{$email} already has an invite link with your business As a Candidate.");
-
-                } else if ($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) {
-
-                    return Helpers::validationResponse("{$email} already has an invite link with your business As a Member.");
-
-                } else {
-
-
-                    $userRecord=User::where('email',$email)->first();
-
-                    if($userRecord){
-
-                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('candidate_id',$userRecord['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
-
-                       if($result){
-
-                        return Helpers::validationResponse("{$email} already has an Account with your business in A Future Consideration.");
-
-                    }
-
-                    }
-
-                    UserCandidateInvite::createUserInvite($checkInviteLink->id, 0);
-
-                    $linke = UserInvite::where('email', $email)->first();
-
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=1';
-
-                    $emailData = $this->myprepareEmailData($url);
-
-                    $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
-
-                    return Helpers::successResponse("{$email} invite link generated successfully.");
                 }
-            }
 
+                if ($user) {
+
+                    $candidateRecord = B2BBusinessCandidates::where([['business_id', $currentUser['id']], ['candidate_id', $user['id']]])->first();
+
+                    if ($candidateRecord) {
+
+                        return $this->inviteAlreadyExistsResponse($email, $candidateRecord['role']);
+
+                    }
+
+                }
+
+                return $this->createAndSendMemberInvite($existingInvite['id'], $email, $currentUser['company_name']);
+
+            }
 
             $newInvite = UserInvite::createInvite($email);
 
-            if ($newInvite) {
+            if (!$newInvite) {
 
-                $userRecord=User::where('email',$email)->first();
-
-                    if($userRecord){
-
-                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('candidate_id',$userRecord['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
-
-                       if($result){
-
-                        return Helpers::validationResponse("{$email} already has an Account with your business in A Future Consideration.");
-
-                    }
-
-                    }
-
-                UserCandidateInvite::createUserInvite($newInvite->id, 0);
-
-                $linke = UserInvite::where('email', $email)->first();
-
-                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=1';
-
-                $emailData = $this->myprepareEmailData($url);
-
-                $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
-
-                return Helpers::successResponse("{$email} invite link generated successfully.");
+                return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
 
             }
 
-            return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
+            return $this->createAndSendMemberInvite($newInvite['id'], $email, $currentUser['company_name']);
 
-        } catch (\Exception $exception) {
+        } catch (\Exception $e) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+            return Helpers::serverErrorResponse($e->getMessage());
 
         }
+
+    }
+
+    private function inviteAlreadyExistsResponse($email, $role)
+    {
+
+        $roleText = $role == Admin::IS_CANDIDATE ? 'Candidate' : 'Member';
+
+        return Helpers::validationResponse("{$email} already has an invite/account with your business as a {$roleText}.");
+
+    }
+
+    private function createAndSendMemberInvite($inviteId, $email, $companyName)
+    {
+
+        $neData = UserCandidateInvite::createUserInvite($inviteId, Admin::IS_TEAM_MEMBER);
+
+        $invite = UserInvite::getSingleInvite($email);
+
+        $url = config('client_url.client_dashboard_url') . '/register?link=' . $invite['link'] . '&company_name=' . urlencode($companyName) . '&prefer=1';
+
+        $emailData = $this->prepareEmailData(null, $url);
+
+        $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
+
+        return Helpers::successResponse("{$email} invite link generated successfully.");
 
     }
 
@@ -301,17 +279,31 @@ class MemberController extends Controller
         }
     }
 
-    private function prepareEmailData($user = null, $url = null, $codeNumber = null)
+    private function prepareEmailData($user = null, $url = null)
     {
-        return [
-            '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
-            '{$link}' => $url,
-            '{$email}' => $user['email'],
-            '{$password}' => Session::get('user_password'),
-            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
-            '{$service}' => url('/term-of-service'),
-            '{$privacy}' => url('/privacy-policy'),
-        ];
+        if (!empty($user)) {
+
+            return [
+                '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+                '{$link}' => $url,
+                '{$email}' => $user['email'],
+                '{$password}' => Session::get('user_password'),
+                '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+                '{$service}' => url('/term-of-service'),
+                '{$privacy}' => url('/privacy-policy'),
+            ];
+
+        } else {
+
+            return [
+                '{$link}' => $url,
+                '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+                '{$service}' => url('/term-of-service'),
+                '{$privacy}' => url('/privacy-policy'),
+            ];
+
+        }
+
     }
 
     private function sendEmailVerification($emailData, $recipientEmail, $name)
@@ -612,29 +604,6 @@ class MemberController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
-    }
-
-
-    private function myprepareEmailData($url = null,)
-    {
-        return [
-            '{$link}' => $url,
-            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
-            '{$service}' => url('/term-of-service'),
-            '{$privacy}' => url('/privacy-policy'),
-        ];
-    }
-
-    private function mysendEmailVerification($emailData, $recipientEmail, $name)
-    {
-        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
-
-        Email::sendEmailVerification(
-            ['content' => $emailTemplate],
-            $recipientEmail,
-            'emails.Email_Template',
-            $name
-        );
     }
 
 

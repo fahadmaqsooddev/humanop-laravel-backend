@@ -39,12 +39,10 @@ class PdfGenerate extends Model
 
             foreach ($styleCodeDetails as $codeDetail) {
 
-                foreach ($getStyle as $index => $styleNumber)
-                {
+                foreach ($getStyle as $index => $styleNumber) {
                     $key = strtoupper($index);
 
-                    if ($key == $codeDetail['code'])
-                    {
+                    if ($key == $codeDetail['code']) {
 
                         self::create([
                             'assessment_id' => $assessmentId,

@@ -9,15 +9,17 @@ use Illuminate\Database\Eloquent\Model;
 class AssessmentDetail extends Model
 {
     use HasFactory;
+
     public function __construct(array $attributes = array())
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
 
-    public static function createAssessmentDetail($data = null){
+    public static function createAssessmentDetail($data = null)
+    {
         return self::create($data);
     }
 
@@ -30,12 +32,12 @@ class AssessmentDetail extends Model
         return self::where('assessment_id', $id)->get();
     }
 
-    public static function assessmentAnswers($request = null, $assessment_id = null){
+    public static function assessmentAnswers($request = null, $assessment_id = null)
+    {
 
-        $assessment_answers = self::where('assessment_id', $assessment_id)
-
-            ->select(['id','assessment_id','question','answer']);
+        $assessment_answers = self::where('assessment_id', $assessment_id)->select(['id', 'assessment_id', 'question', 'answer']);
 
         return Helpers::pagination($assessment_answers, $request->input('pagination'), $request->input('per_page'));
+
     }
 }

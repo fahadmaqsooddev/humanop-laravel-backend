@@ -38,11 +38,13 @@ class DashboardController extends Controller
     public function dailyTip()
     {
         try {
+
             $user = Helpers::getWebUser() ?? Helpers::getUser();
 
             $assessment = Assessment::getLatestAssessment($user['id']);
 
             if (!empty($assessment)) {
+
                 $userDailyTip = UserDailyTip::getLatestTip();
 
                 if ($userDailyTip) {
@@ -102,35 +104,18 @@ class DashboardController extends Controller
                 } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
 
                 return Helpers::validationResponse('No new daily tip found.');
+
             } else {
+
                 return Helpers::successResponse('No new daily tip found.');
+
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-    }
 
-    public function haiChatStatus()
-    {
-        try {
-            $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-            $haiStatus = User::checkHaiStatus($user_id);
-
-            if ($haiStatus) {
-                $data = [
-                    'status' => $haiStatus
-                ];
-            } else {
-                $data = [
-                    'status' => false
-                ];
-            }
-            return Helpers::successResponse('HAI CHAT status fetched successfully', $data);
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
     }
 
     public function latestPodcast()
@@ -141,6 +126,7 @@ class DashboardController extends Controller
             $podcast = Podcast::getPodcast();
 
             return Helpers::successResponse('Podcast url', $podcast);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -157,6 +143,7 @@ class DashboardController extends Controller
             $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
 
             return Helpers::successResponse('core stats', $coreState);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -180,12 +167,14 @@ class DashboardController extends Controller
             DB::commit();
 
             return Helpers::successResponse('Daily tip read', ['point' => $point ?? 0]);
+
         } catch (\Exception $exception) {
 
             DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
 
     public function actionPlan(Request $request)
@@ -194,10 +183,15 @@ class DashboardController extends Controller
         try {
 
             if (!empty($request['user_id'])) {
+
                 $userId = $request['user_id'];
+
                 $user = User::getSingleUser($userId);
+
             } else {
+
                 $user = Helpers::getUser();
+
             }
 
             $assessment = Assessment::getLatestAssessment($user['id']);
@@ -207,6 +201,7 @@ class DashboardController extends Controller
             $plan = ActionPlan::userActionPlan($user);
 
             return Helpers::successResponse('Action plan', $plan);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -221,6 +216,7 @@ class DashboardController extends Controller
             $info = InformationIcon::getInfo();
 
             return Helpers::successResponse('Information Icons', $info);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -250,13 +246,18 @@ class DashboardController extends Controller
                 $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait);
 
                 return Helpers::successResponse('optional trait', $optionalTraitDetail);
+
             } else {
+
                 return Helpers::notFoundResponse('Assessment not found');
+
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
 
     public function getWalkThrough()
@@ -274,9 +275,11 @@ class DashboardController extends Controller
                 $getStyle = [];
 
                 foreach ($getResult as $key => $result) {
+
                     if (in_array($key, $style)) {
                         $getStyle[$key] = $result;
                     }
+
                 }
 
                 arsort($getStyle);
@@ -300,9 +303,13 @@ class DashboardController extends Controller
                 $getFeature = [];
 
                 foreach ($getResult as $key => $result) {
+
                     if (in_array($key, $features)) {
+
                         $getFeature[$key] = $result;
+
                     }
+
                 }
 
                 arsort($getFeature);
@@ -325,9 +332,13 @@ class DashboardController extends Controller
                 $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
 
                 if (!empty($alchemyCodeDetail)) {
+
                     $alchemyBoundary = AssessmentWalkThrough::getbyCodeName($alchemyCodeDetail['code'], Admin::ALCHEMY_TRAIT);
+
                 } else {
+
                     $alchemyBoundary = null;
+
                 }
 
                 $getCommunications = $assessment != null ? Assessment::getEnergy($assessment) : null;
@@ -387,6 +398,7 @@ class DashboardController extends Controller
             }
 
             return Helpers::successResponse('optional trait', $data);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -431,21 +443,30 @@ class DashboardController extends Controller
     {
         try {
 
-            $userId = Helpers::getUser()['id'];
-
-            $data = B2BBusinessCandidates::AllCompaniescheckShareDataDetail($request['company_name'], $request['candidate_id']);
+            $data = B2BBusinessCandidates::AllCompaniesCheckShareDataDetail($request['company_name'], $request['candidate_id']);
 
             if (!empty($data)) {
+
                 foreach ($data as $shared) {
+
                     B2BBusinessCandidates::ShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
+
                 }
+
                 return Helpers::successResponse('Data Shared Successfully');
+
             } else {
+
                 return Helpers::validationResponse('Data not found.');
+
             }
+
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function CheckShareData(Request $request)
@@ -454,6 +475,7 @@ class DashboardController extends Controller
         try {
 
             if (!empty($request['company_name'])) {
+
                 $checkData = B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
 
                 if (!empty($checkData)) {
@@ -475,9 +497,13 @@ class DashboardController extends Controller
                     ];
 
                     return Helpers::successResponse('Check Shared Data', $data);
+
                 } else {
+
                     return Helpers::validationResponse('Data not found.');
+
                 }
+
             } else {
 
                 $companies = B2BBusinessCandidates::AllLoginUserCompanies();
@@ -492,13 +518,16 @@ class DashboardController extends Controller
                     ];
                 }
 
-
-
                 return Helpers::successResponse('All Share Data', $data);
+
             }
+
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function notSharedData(ShareDataRequest $request)
@@ -521,9 +550,13 @@ class DashboardController extends Controller
             }
 
             return Helpers::successResponse('Data Not Shared');
+
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function pushNotification(Request $request)
@@ -535,6 +568,7 @@ class DashboardController extends Controller
             PushNotification::changeNotification($userId, $request['notification']);
 
             return Helpers::successResponse('Push Notification has been changed');
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -550,14 +584,15 @@ class DashboardController extends Controller
             $pushNotification = PushNotification::getSingleNotification($userId);
 
             return Helpers::successResponse('Push Notification', $pushNotification);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
-
-    // Controller Method
     public function getVersions()
     {
         try {
@@ -567,94 +602,124 @@ class DashboardController extends Controller
 
             foreach ($versions as $version) {
 
-
                 $groupedDescriptions = $version->versionDescriptions->groupBy('version_heading');
 
-
                 $newFeatureDescriptions = $groupedDescriptions->get(1, []);
+
                 $issueFixedDescriptions = $groupedDescriptions->get(0, []);
 
-
                 $newFeatureDescriptionsCleaned = [];
+
                 $issueFixedDescriptionsCleaned = [];
 
-
                 foreach ($newFeatureDescriptions as $description) {
+
                     $newFeatureDescriptionsCleaned[] = [
                         'description' => $description->description,
                         'platform' => $description->platform,
                     ];
+
                 }
 
                 foreach ($issueFixedDescriptions as $description) {
+
                     $issueFixedDescriptionsCleaned[] = [
                         'description' => $description->description,
                         'platform' => $description->platform,
                     ];
+
                 }
 
-
                 $formattedVersions[] = [
+
                     'version' => [
                         'Web_version' => $version->version,
                         'Ios_version' => $version->version,
                         'Android_version' => $version->version,
                         'note' => $version->note,
                         'created_at' => $version->created_at ? $version->created_at->format('F j, Y') : null,
-                       
-
                     ],
                     'new_feature_descriptions' => $newFeatureDescriptionsCleaned,
                     'issue_fixed_descriptions' => $issueFixedDescriptionsCleaned
                 ];
+
             }
 
             return Helpers::successResponse('All Versions with Descriptions', $formattedVersions);
+
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
-
-
-
-
-
 
     public function versionUpdate()
     {
 
         try {
 
-
             $userId = Helpers::getUser()['id'];
 
             User::updateSingleUserVersion($userId);
 
             return Helpers::successResponse('Version Update Successfully');
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function topLibraryResourcses()
     {
         try {
 
-
-
-
             $resources = LibraryResource::latestLibraryResourcses();
-            $formatedResourcse = [];
+
+            $formatedResources = [];
+
             foreach ($resources as $resource) {
+
                 $resource['created_at'] =
-                    $resource['resource_created_at'] = $resource['created_at'] ? Carbon::parse($resource['created_at'])->format('m/d/Y h:i A') : null;
 
+                $resource['resource_created_at'] = $resource['created_at'] ? Carbon::parse($resource['created_at'])->format('m/d/Y h:i A') : null;
 
-                $formatedResourcse[] = $resource;
+                $formatedResources[] = $resource;
             }
 
-            return Helpers::successResponse('Latest resourcses', $formatedResourcse);
+            return Helpers::successResponse('Latest resources', $formatedResources);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function haiChatStatus()
+    {
+        try {
+
+            $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
+
+            $haiStatus = User::checkHaiStatus($user_id);
+
+            if ($haiStatus) {
+                $data = [
+                    'status' => $haiStatus
+                ];
+            } else {
+                $data = [
+                    'status' => false
+                ];
+            }
+            return Helpers::successResponse('HAI CHAT status fetched successfully', $data);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());

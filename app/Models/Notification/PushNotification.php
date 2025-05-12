@@ -36,43 +36,51 @@ class PushNotification extends Model
             if ($changeNotification['optimal_trait'] == 1) {
 
                 return $changeNotification->update(['optimal_trait' => 0]);
-            }else
-            {
+
+            }else {
+
                 return $changeNotification->update(['optimal_trait' => 1]);
 
             }
+
         }elseif ($notification == 'daily_tip') {
 
             if ($changeNotification['daily_tip'] == 1) {
 
                 return $changeNotification->update(['daily_tip' => 0]);
-            }else
-            {
+
+            }else {
+
                 return $changeNotification->update(['daily_tip' => 1]);
 
             }
+
         }elseif ($notification == 'reset_assessment') {
 
             if ($changeNotification['reset_assessment'] == 1) {
 
                 return $changeNotification->update(['reset_assessment' => 0]);
-            }else
-            {
+
+            }else {
+
                 return  $changeNotification->update(['reset_assessment' => 1]);
 
             }
-        }else
-        {
+
+        }else {
 
             if ($changeNotification['resource'] == 1) {
 
                 $changeNotification->update(['resource' => 0]);
+
             }else
             {
                 $changeNotification->update(['resource' => 1]);
 
             }
+
         }
+
     }
 
 }
