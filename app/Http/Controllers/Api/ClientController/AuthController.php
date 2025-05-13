@@ -848,24 +848,7 @@ class AuthController extends Controller
 
             $userDailyTip = UserDailyTip::where('user_id', $data['id'])->with('dailyTip')->latest()->first();
 
-            $allStyles = $getAssessment ? Assessment::getAllStyles($getAssessment) : [];
-
-            $topFeatures = $getAssessment ? Assessment::getFeatures($getAssessment) : [];
-
-            $topTwoFeatures = $topFeatures ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $getAssessment) : [];
-
-            $boundary = $getAssessment ? Assessment::getAlchemyDetail($getAssessment) : [];
-
-            $communication = $getAssessment ? Assessment::getEnergy($getAssessment) : null;
-
-            $perception_life = CodeDetail::getPerceptionStaticText();
-
-            $perception = $getAssessment ? Assessment::getPreceptionReportDetail($getAssessment) : null;
-
-            $topCommunication = $communication ? CodeDetail::getCommunicationDetail($communication, $getAssessment) : [];
-
-            $energyPool = $getAssessment ? Assessment::getEnergyPoolPublicName($getAssessment) : null;
-
+           
             $result[] = [
                 'user_detail' => [
                     'name' => ($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''),
@@ -879,17 +862,11 @@ class AuthController extends Controller
                 'core_state' => $coreState,
                 'user_trait' => $userTrait,
                 'daily_tip' => $userDailyTip,
-                'all_styles' => $allStyles,
-                'top_features' => $topTwoFeatures,
-                'boundary' => $boundary,
-                'intro_perception' => $perception_life,
-                'perception' => $perception,
-                'top_communication' => $topCommunication,
-                'energy_pool' => $energyPool,
+              
             ];
         }
 
-        return Helpers::successResponse('candidates optimization and core state', $result);
+        return Helpers::successResponse('Users Complete Data', $result);
     }
 
 
