@@ -764,7 +764,7 @@
                                             <span class="sidenav-normal"> B2B Dashboard <b class="caret"></b></span>
                                         </a>
                                         <div
-                                            class="collapse {{ ( Request::is('admin/b2b-organizations','admin/role-template','admin/role-template','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon') ? 'show' : '') }}"
+                                            class="collapse {{ ( Request::is('admin/b2b-organizations','admin/role-template','admin/role-template','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon','admin/b2b-organizations-users/*') ? 'show' : '') }}"
                                             id="b2bExamples">
                                             <ul class="nav nav-sm flex-column">
                                                 <li class="nav-item {{ (Request::is('admin/b2b-organizations') ? 'active-itt-all' : '') }}">
