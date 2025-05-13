@@ -1577,13 +1577,19 @@ class User extends Authenticatable implements JWTSubject
     public static function getUserDataForHai()
 {
     $users= self::where('is_admin', 2)->whereHas('haiAssessments', function ($query) {
+        
             $query->where('page', 0);
+
         })->limit(10)->get();
 
         foreach ($users as $user) {
+
+            $user->setAppends([]); 
+
             $user['gender'] = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
+
             $user['last_login'] = Carbon::parse($user['last_login'])->format('m/d/Y h:i A');
-            $user->setAppends([]);
+            
         }
 
         return $users;
