@@ -192,33 +192,28 @@ class User extends Authenticatable implements JWTSubject
     public function getConnectionStatusAttribute()
     {
 
-//        if ($this->sentConnectionRequest()->exists() != null)
-//        {
-//            if ($this->sentConnectionRequest()->exists()) {
-//
-//                return 2; // sent connection request
-//
-//            }
-//            elseif ($this->recevivedConnectionRequest()->exists()) {
-//
-//                return 3; // received connection request
-//
-//            }
-//            elseif ($this->confirmedConnectionRequest()->exists()) {
-//
-//                return 1; // confirm connection request
-//
-//            }
-//            else {
-//
-//                return 0;
-//            }
-//        }
-//        else
-//        {
-            return 0;
+        if (!empty($this->sentConnectionRequest()))
+        {
+            if ($this->sentConnectionRequest()->exists()) {
 
-//        }
+                return 2; // sent connection request
+
+            } elseif ($this->recevivedConnectionRequest()->exists()) {
+
+                return 3; // received connection request
+
+            } elseif ($this->confirmedConnectionRequest()->exists()) {
+
+                return 1; // confirm connection request
+
+            } else {
+
+                return 0;
+            }
+        } else {
+
+            return 0;
+        }
 
     }
 
