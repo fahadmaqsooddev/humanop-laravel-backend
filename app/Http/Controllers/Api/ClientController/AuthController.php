@@ -833,10 +833,11 @@ class AuthController extends Controller
     public function getUserInfoForHai()
     {
         $userData = User::getUserDataForHai();
+
         $result = [];
 
         foreach ($userData as $data) {
-            
+
             $getAssessment = Assessment::getLatestAssessment($data['id']);
 
             $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($data['id']) : null;
