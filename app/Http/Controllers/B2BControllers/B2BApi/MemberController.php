@@ -133,6 +133,7 @@ class MemberController extends Controller
             $memberInvites = [];
 
             foreach ($invites as $invite) {
+
                 $id = $invite['id'];
                 $companyName = $invite['user']['company_name'] ?? 'N/A';
                 $inviteLink = $invite['inviteLinks']['link'] ?? 'N/A';
@@ -261,6 +262,7 @@ class MemberController extends Controller
                     unset($member['created_at']);
 
                     if (isset($member['share_data']) && $member['share_data'] == Admin::NOT_SHARED_DATA) {
+
                         unset($member['assessments']);
                     }
 
@@ -379,7 +381,7 @@ class MemberController extends Controller
 
                 } else {
 
-                    $archive = B2BBusinessCandidates::checkconsideration($request['member_id']);
+                    $archive = B2BBusinessCandidates::checkConsideration($request['member_id']);
 
                     if ($archive) {
 
@@ -423,7 +425,7 @@ class MemberController extends Controller
             if (!empty($futureConsideration)) {
 
                 $data = [
-                    'company_name' => $futureConsideration['busers']['company_name'],
+                    'company_name' => $futureConsideration['businessUsers']['company_name'],
                 ];
 
                 return Helpers::successResponse('Future Consideration', $data);
@@ -479,7 +481,7 @@ class MemberController extends Controller
 
                         if ($checklimit['members_limit'] < $checklimit['total_member_limit']) {
 
-                            $changerole = B2BBusinessCandidates::newchangeRole($request['member_id']);
+                            $changerole = B2BBusinessCandidates::newChangeRole($request['member_id']);
 
                             if ($changerole) {
 

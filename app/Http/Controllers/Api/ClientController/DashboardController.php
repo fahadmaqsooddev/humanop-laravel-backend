@@ -513,7 +513,7 @@ class DashboardController extends Controller
                 foreach ($companies as $company) {
 
                     $data[] = [
-                        'company_name' => $company->busers->company_name ?? 'N/A',
+                        'company_name' => $company->businessUsers->company_name ?? 'N/A',
                         'share_data' => $company->share_data ?? 'N/A'
                     ];
                 }

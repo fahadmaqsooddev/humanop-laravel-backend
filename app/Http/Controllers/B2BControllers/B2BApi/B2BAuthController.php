@@ -140,6 +140,7 @@ class B2BAuthController extends Controller
              if (!empty($request['business_id'])) {
 
                  $searchName=$request['search_sub_strategy_name'] ?? null;
+
                 $businessStrategies = BusinessSubStrategies::getSubStrategies($request['business_id'],$searchName);
 
                 return Helpers::successResponse('Business Sub Strategies', $businessStrategies);
@@ -373,7 +374,9 @@ class B2BAuthController extends Controller
     {
         try {
             $result = User::getSingleUser($request['user_id']);
+            
             if(!empty($result) && $result['b2b_step']==3){
+
                 return Helpers::validationResponse('Already Have an Account Please Login');
             }
             else{

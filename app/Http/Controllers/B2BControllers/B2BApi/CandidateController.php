@@ -285,7 +285,7 @@ class CandidateController extends Controller
 
                 } else {
 
-                    $archive = B2BBusinessCandidates::checkconsideration($request['candidate_id']);
+                    $archive = B2BBusinessCandidates::checkConsideration($request['candidate_id']);
 
                     if ($archive) {
 

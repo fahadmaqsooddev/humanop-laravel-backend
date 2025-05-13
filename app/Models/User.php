@@ -1628,7 +1628,6 @@ class User extends Authenticatable implements JWTSubject
             $user['gender'] = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
 
             $user['last_login'] = Carbon::parse($user['last_login'])->format('m/d/Y h:i A');
-//            $user->setAppends(['point','connection_status','is_follow']);
         }
 
 
