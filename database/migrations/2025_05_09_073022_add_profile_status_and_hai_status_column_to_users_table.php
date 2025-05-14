@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
-            $table->integer('profile_status')->default(0)->comment('0: public, 1: private');
+            $table->integer('profile_status')->default(1)->comment('0: public, 1: private');
             $table->integer('hai_status')->default(0)->comment('0: access, 1: not access');
 
         });
