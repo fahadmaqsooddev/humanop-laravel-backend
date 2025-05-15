@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Events\Assessment\SubmitAssessment;
 use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
+use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
@@ -1622,7 +1623,7 @@ class Assessment extends Model
 
         $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
-        $perception_life = CodeDetail::getPerceptionStaticText();
+        $perception_life =AssessmentIntro::getPerceptionStaticText();
 
         $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
 

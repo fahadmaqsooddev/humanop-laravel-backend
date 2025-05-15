@@ -52,7 +52,131 @@ class AssessmentIntro extends Model
     public static function summaryReport(){
         return self::where('code','SI')->get();
     }
+
+    public static function summaryIntro(){
+        $data = self::where('code', 'SI')->first();
+
+        return [
+            'public_name' => $data->name ?? '',
+            'description' => $data->text ?? '',
+            'video' => $data['video_url'] ?? ''
+        ];
+    }
     public static function getSingleSummaryReport($id){
         return self::where('code','SI')->where('id',$id)->first();
     }
+
+    public static function mainResult()
+    {
+
+        $data = self::where('code', 'MRI')->first();
+
+        return [
+            'public_name' => $data->name ?? '',
+            'description' => $data->text ?? '',
+            'video' => $data['video_url'] ?? ''
+        ];
+
+    }
+
+    public static function cycleLife()
+    {
+
+        $data = self::where('code', 'CLI')->first();
+
+        return [
+            'public_name' => $data->public_name ?? '',
+            'description' => $data->text ?? '',
+            'video' => $data['video_url'] ?? ''
+        ];
+    }
+
+    public static function traitIntro()
+    {
+
+        $data = self::where('code', 'TI')->first();
+
+        return [
+            'public_name' => $data->public_name ?? '',
+            'description' => $data->text ?? '',
+            'video' => $data['video_url'] ?? ''
+        ];
+    }
+
+    public static function motivationIntroduction()
+    {
+
+        $data = self::where('code', 'MI')->first();
+
+        return [
+            'public_name' => $data->public_name ?? '',
+            'description' => $data->text ?? '',
+            'video' => $data['video_url'] ?? ''
+        ];
+    }
+
+    public static function introBoundaries()
+    {
+
+        $data = self::where('code', 'BI')->first();
+
+        return [
+            'public_name' => $data->public_name ?? '',
+            'description' => $data->text ?? '',
+            'video' => $data['video_url'] ?? ''
+        ];
+    }
+
+    public static function introCommunication()
+    {
+
+        $data = self::where('code', 'CI')->first();
+
+        return [
+            'public_name' => $data->public_name ?? '',
+            'description' => $data->text ?? '',
+            'video' => $data['video_url'] ?? ''
+        ];
+    }
+
+    public static function introEnergypool()
+    {
+
+        $data = self::where('code', 'EI')->first();
+
+        return [
+            'public_name' => $data->public_name ?? '',
+            'description' => $data->text ?? '',
+            'video' => $data['video_url'] ?? ''
+        ];
+    }
+
+    public static function perceptionLife()
+    {
+
+        $data = self::where('code', 'PLI')->first();
+
+        return [
+            'public_name' => $data->public_name ?? '',
+            'description' => $data->text ?? '',
+            'video_url' => $data['video_url'] ?? ''
+        ];
+    }
+
+        public static function getPerceptionStaticText()
+    {
+
+        $result = self::where('code', 'PLI')->first(['id', 'text', 'public_name', 'video', 'p_name']);
+        return [
+            'code_number' => $result['id'],
+            'public_name' => $result['public_name'],
+            'description' => $result['text'],
+            'video' => $result['video'],
+            'p_name' => $result['p_name'],
+            'video_url' => $result['video_url']
+        ];
+
+
+    }
+
 }

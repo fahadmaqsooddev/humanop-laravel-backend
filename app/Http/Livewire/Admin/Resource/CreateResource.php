@@ -129,12 +129,16 @@ class CreateResource extends Component
 
             session()->flash('success', 'Library resource created successfully.');
 
-        } catch (\Exception $exception) {
-
+        }catch (\Exception $exception) {
             DB::rollBack();
 
-            session()->flash('error', $exception->getMessage());
+            $file = $exception->getFile();
+            $line = $exception->getLine();
+            $message = $exception->getMessage();
+
+            session()->flash('error', "Error: $message in $file on line $line");
         }
+
     }
 
 
@@ -208,7 +212,11 @@ class CreateResource extends Component
 
         $this->emit('toggleEditResourceModal');
 
+//        dd($resource_id);
+
         $this->editResourceData = LibraryResource::singleLibraryResource($resource_id);
+
+
 
         $this->resourceId = $resource_id;
 
@@ -231,7 +239,19 @@ class CreateResource extends Component
     public function moveResourceToCategory()
     {
 
+        $rule = [
+            'category_id' => 'required',
+        ];
+
+        $message = [
+            'category_id.required' => 'Please Select New Category',
+
+        ];
+
+        $this->validate($rule, $message);
+
         if ($this->current_category) {
+
             LibraryResource::updateCategory($this->current_category, $this->category_id);
         }
         session()->flash('success', 'Resource Moved successfully.');
