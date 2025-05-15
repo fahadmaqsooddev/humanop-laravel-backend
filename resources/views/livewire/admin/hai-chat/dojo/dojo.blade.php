@@ -89,9 +89,14 @@
 
             </div>
             <div class="col-9">
-                <button class="disabled-session-buttons" disabled>
-                    DROPDOWN SELECT HAi TRAINING PERSONA
-                </button>
+
+                <select class="session-buttons px-2" wire:model="persona_id">
+                    <option value="">Select Persona</option>
+                    @foreach($personas as $persona)
+                        <option value="{{$persona['chat_bot_id']}}">{{$persona['persona_name']}}</option>
+                    @endforeach
+
+                </select>
             </div>
 
         </div>
@@ -201,7 +206,7 @@
 
             </div>
 
-                <div class="col-6">
+                <div class="col-9">
 
                     <div style="border-radius: 5px;border: 2px solid #f2661c; width: 100%;height: auto; padding-top: 10px;">
 
@@ -300,22 +305,6 @@
                         <span wire:loading wire:target="endTrainingSession">Ending...</span>
 
                     </button>
-
-                </div>
-
-            </div>
-
-            <div class="col-3">
-
-                <div style="border-radius: 5px; border: 2px solid #f2661c; width: 100%; height: 500px;" class="p-1">
-
-                    <div style="text-align: center;">
-
-                        This will allow admin user to
-                        observe how HAi is thinking and
-                        processing its learning
-
-                    </div>
 
                 </div>
 

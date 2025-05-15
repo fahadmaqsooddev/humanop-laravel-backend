@@ -3,6 +3,9 @@
 namespace App\Http\Livewire\Admin\HaiChat\Dojo;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Models\HAIChai\Chatbot;
+use App\Models\HAIChai\ChatPrompt;
+use App\Models\HAIChai\HaiChatSetting;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -10,9 +13,9 @@ use Livewire\Component;
 class Dojo extends Component
 {
 
-    public $training_session_name, $session_id, $message;
+    public $training_session_name, $session_id, $message, $persona_id, $brainName;
 
-    public $allSessions = [], $conversations = [];
+    public $allSessions = [], $conversations = [], $personas = [];
 
     protected $rules = [
         'message' => 'required',
@@ -24,9 +27,16 @@ class Dojo extends Component
         'session_id' => 'Select or Create new session'
     ];
 
+    public function updatedPersonaId($value){
+
+        $this->brainName = Chatbot::whereId($value)->first()->name ?? null;
+    }
+
     public function render()
     {
         $this->allSessions();
+
+        $this->personas = HaiChatSetting::where('is_training', 1)->select(['chat_bot_id','persona_name'])->get();
 
         if ($this->session_id){
 
@@ -97,7 +107,9 @@ class Dojo extends Component
 
             $this->validate();
 
-            $body = ['content' => $this->message];
+            $settings = ChatPrompt::where('name', $this->brainName)->first();
+
+            $body = ['content' => $this->message, 'base_data' => ($settings['prompt'] ?? null), 'restriction_data' => ($settings['restriction'] ?? null)];
 
             $reply = GuzzleHelpers::sendRequestFromGuzzleForDojo('post', "conversations/$this->session_id/messages", $body);
 
