@@ -43,7 +43,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['googleLoginSignup', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
+        $this->middleware('auth:api')->except(['googleLoginSignup', 'getLatestVersion', 'getTimezone', 'forgotPassword','intentionOption']);
 
         $this->user = $user;
     }
@@ -126,6 +126,21 @@ class UserController extends Controller
                 return Helpers::forbiddenResponse('Please Filled Data');
             }
 
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function intentionOption()
+    {
+        try {
+
+            $intention_option = IntentionOption::getOptions();
+
+            return Helpers::successResponse('success', $intention_option);
 
         } catch (\Exception $exception) {
 
