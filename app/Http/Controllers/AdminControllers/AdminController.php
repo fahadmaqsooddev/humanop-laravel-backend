@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Admin\Coupon\Coupon;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
@@ -377,6 +378,7 @@ class AdminController extends Controller
     public function profileOverview($id = null)
     {
         try {
+
             if (empty($id))
             {
                 $userId = Helpers::getWebUser()['id'];
@@ -398,7 +400,7 @@ class AdminController extends Controller
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
-            $perception_life = CodeDetail::getPerceptionStaticText();
+            $perception_life =AssessmentIntro::getPerceptionStaticText();
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
@@ -407,14 +409,14 @@ class AdminController extends Controller
 
             $actionPlan = ActionPlan::getUserActionPlan($assessment['users'] ? $assessment['users']['id'] : '');
 
-            $summary_static = CodeDetail::summaryIntro();
-            $main_result = CodeDetail::mainResult();
-            $cycle_life = CodeDetail::cycleLife();
-            $trait_intro = CodeDetail::traitIntro();
-            $motivation_intro = CodeDetail::motivationIntroduction();
-            $intro_boundaries = CodeDetail::introBoundaries();
-            $intro_communication = CodeDetail::introCommunication();
-            $intro_energypool = CodeDetail::introEnergypool();
+            $summary_static = AssessmentIntro::summaryIntro();
+            $main_result = AssessmentIntro::mainResult();
+            $cycle_life = AssessmentIntro::cycleLife();
+            $trait_intro = AssessmentIntro::traitIntro();
+            $motivation_intro = AssessmentIntro::motivationIntroduction();
+            $intro_boundaries = AssessmentIntro::introBoundaries();
+            $intro_communication = AssessmentIntro::introCommunication();
+            $intro_energypool = AssessmentIntro::introEnergypool();
 
 
             if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
@@ -426,10 +428,17 @@ class AdminController extends Controller
                 return view('admin-dashboards.user.client_profile_overview', compact('summary_static','main_result','cycle_life','trait_intro','motivation_intro','intro_boundaries','intro_communication','intro_energypool','allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
             }
 
-        }catch (\Exception $exception){
+        }catch (\Exception $exception) {
+            $url = request()->fullUrl(); // Get the URL of the request
+            $file = $exception->getFile(); // Get the file where the exception occurred
+            $line = $exception->getLine(); // Get the line number
+            $message = $exception->getMessage(); // Get the exception message
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+            $errorDetails = "Error at URL: $url\nFile: $file\nLine: $line\nMessage: $message";
+
+            return Helpers::serverErrorResponse($errorDetails);
         }
+
     }
 
     public function downloadUserReport($id)
@@ -453,15 +462,19 @@ class AdminController extends Controller
         $ep = $positive + $negative;
         $pv = $positive - $negative;
 
-        $summary_static = CodeDetail::summaryIntro();
-        $main_result = CodeDetail::mainResult();
-        $cycle_life = CodeDetail::cycleLife();
-        $trait_intro = CodeDetail::traitIntro();
-        $motivation_intro = CodeDetail::motivationIntroduction();
-        $intro_boundaries = CodeDetail::introBoundaries();
-        $intro_communication = CodeDetail::introCommunication();
-        $intro_energypool = CodeDetail::introEnergypool();
-        $intro_perceptionlife = CodeDetail::perceptionLife();
+
+
+
+
+        $summary_static = AssessmentIntro::summaryIntro();
+        $main_result = AssessmentIntro::mainResult();
+        $cycle_life = AssessmentIntro::cycleLife();
+        $trait_intro = AssessmentIntro::traitIntro();
+        $motivation_intro = AssessmentIntro::motivationIntroduction();
+        $intro_boundaries = AssessmentIntro::introBoundaries();
+        $intro_communication = AssessmentIntro::introCommunication();
+        $intro_energypool = AssessmentIntro::introEnergypool();
+        $intro_perceptionlife = AssessmentIntro::perceptionLife();
 
         $contxt = stream_context_create([
             'ssl' => [

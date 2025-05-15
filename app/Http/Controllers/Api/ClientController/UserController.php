@@ -17,6 +17,7 @@ use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Http\Requests\Client\ProfileAccess\HaiAccessRequest;
 use App\Http\Requests\Client\ProfileAccess\ProfileAccessRequest;
 use App\Http\Requests\Client\Register\ResetPasswordRequest;
+use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
@@ -511,7 +512,9 @@ class UserController extends Controller
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
-            $perception_life = CodeDetail::getPerceptionStaticText();
+//            $perception_life = CodeDetail::getPerceptionStaticText();
+
+            $perception_life=AssessmentIntro::getPerceptionStaticText();
 
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
 
@@ -519,15 +522,15 @@ class UserController extends Controller
 
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
 
-            $summary_static = CodeDetail::summaryIntro();
-            $main_result = CodeDetail::mainResult();
-            $cycle_life = CodeDetail::cycleLife();
-            $trait_intro = CodeDetail::traitIntro();
-            $motivation_intro = CodeDetail::motivationIntroduction();
-            $intro_boundaries = CodeDetail::introBoundaries();
-            $intro_communication = CodeDetail::introCommunication();
-            $intro_energypool = CodeDetail::introEnergypool();
-            $intro_perceptionlife = CodeDetail::perceptionLife();
+            $summary_static = AssessmentIntro::summaryIntro();
+            $main_result = AssessmentIntro::mainResult();
+            $cycle_life = AssessmentIntro::cycleLife();
+            $trait_intro = AssessmentIntro::traitIntro();
+            $motivation_intro = AssessmentIntro::motivationIntroduction();
+            $intro_boundaries = AssessmentIntro::introBoundaries();
+            $intro_communication = AssessmentIntro::introCommunication();
+            $intro_energypool = AssessmentIntro::introEnergypool();
+            $intro_perceptionlife = AssessmentIntro::perceptionLife();
 
             $style_position = AssessmentColorCode::getStylePosition($assessment->id);
             $feature_position = AssessmentColorCode::getFeaturePosition($assessment->id);
