@@ -94,6 +94,8 @@ class Dojo extends Component
     public function deleteSession(){
 
         GuzzleHelpers::sendRequestFromGuzzleForDojo('delete',"conversations/$this->session_id");
+
+        $this->reset('session_id','conversations');
     }
 
     public function selectSession($id){
