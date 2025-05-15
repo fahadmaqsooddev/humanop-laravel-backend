@@ -43,24 +43,7 @@ class AuthController extends Controller
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except([
-            'SendInvite',
-            'loginClient',
-            'forgotPassword',
-            'socialLogin',
-            'getUserInfoForHai',
-            'resendEmailVerification',
-            'registerFirstStep',
-            'checkEmailVerification',
-            'registerLastStep',
-            'checkInviteLink',
-            'EmailVerified',
-            'sendPhoneOtp',
-            'checkUserDetail',
-            'sendSmsCode',
-            'SmsCodeVerification',
-            'intentionOption'
-        ]);
+        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption']);
 
         $this->auth = Auth::guard('api');
 
@@ -848,7 +831,7 @@ class AuthController extends Controller
 
             $userDailyTip = UserDailyTip::where('user_id', $data['id'])->with('dailyTip')->latest()->first();
 
-           
+
             $result[] = [
                 'user_detail' => [
                     'name' => ($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''),
@@ -862,7 +845,7 @@ class AuthController extends Controller
                 'core_state' => $coreState,
                 'user_trait' => $userTrait,
                 'daily_tip' => $userDailyTip,
-              
+
             ];
         }
 
