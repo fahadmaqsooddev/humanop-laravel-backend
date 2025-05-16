@@ -35,10 +35,16 @@ class UserCandidateInvite extends Model
 
     }
 
-    public static function getSingleInvite($inviteId)
+    public static function getSingleInvite($inviteId = null)
     {
 
         return self::where('company_id', Helpers::getUser()['id'])->where('invite_link_id', $inviteId)->first();
+    }
+
+    public static function getInviteById($inviteId = null)
+    {
+
+        return self::where('invite_link_id', $inviteId)->latest()->first();
     }
 
     public static function createUserInvite($linkId = null, $role = null)

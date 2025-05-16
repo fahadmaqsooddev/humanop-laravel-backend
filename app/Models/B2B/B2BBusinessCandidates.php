@@ -67,20 +67,18 @@ class B2BBusinessCandidates extends Model
         $checkData = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
 
         if (empty($checkData)) {
-            $data = self::create([
 
+            $data = self::create([
                 'business_id' => $businessId,
                 'candidate_id' => $candidateId,
-                'role' => $role == 1 ? 0 : 1,
+                'role' => $role == 1 ? Admin::IS_TEAM_MEMBER : Admin::IS_CANDIDATE,
                 'share_data' => $sharedData,
             ]);
+
             return $data;
         }
 
-
         return $checkData;
-
-
 
     }
 
@@ -188,7 +186,7 @@ class B2BBusinessCandidates extends Model
     public static function ArchivedCandidate($userId)
     {
 
-     
+
 
         $data = self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userId)->update([
             'future_consideration' => Admin::IN_FUTURE
@@ -261,7 +259,7 @@ class B2BBusinessCandidates extends Model
     public static function changeRole($userId)
     {
         $data = self::where('business_id', Helpers::getUser()['id'])
-        
+
             ->where('candidate_id', $userId)->update([
                 'role' => Admin::IS_TEAM_MEMBER
             ]);
@@ -312,7 +310,7 @@ class B2BBusinessCandidates extends Model
         event(new NotSharedDataWithBusiness($businessId, "[ $candidateName ] elected to  not share their data with your company"));
 
         Notification::createNotification('Consent Not Granted', " [ $candidateName ] elected to  not share their data with your company", '', $businessId, 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
-        
+
     }
 
     public static function allCompaniesInfo()

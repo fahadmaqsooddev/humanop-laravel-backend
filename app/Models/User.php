@@ -181,9 +181,7 @@ class User extends Authenticatable implements JWTSubject
 
             return $this->followed()->where('user_id', $userId)->exists();
 
-        }
-        else
-        {
+        } else {
             return false;
 
         }
@@ -192,8 +190,7 @@ class User extends Authenticatable implements JWTSubject
     public function getConnectionStatusAttribute()
     {
 
-        if (!empty($this->sentConnectionRequest()))
-        {
+        if (!empty($this->sentConnectionRequest())) {
             if ($this->sentConnectionRequest()->exists()) {
 
                 return 2; // sent connection request
@@ -294,9 +291,7 @@ class User extends Authenticatable implements JWTSubject
         if ($userId !== null) {
 
             return $this->hasOne(Connection::class, 'friend_id', 'id')->where('user_id', $userId)->where('status', 0);
-        }
-        else
-        {
+        } else {
             return null;
         }
 
@@ -825,6 +820,7 @@ class User extends Authenticatable implements JWTSubject
             if ($user->is_feedback === 3 || $user->is_feedback === 2) {
 
                 tap($user->decrement('is_feedback', 1));
+
             } else if ($user->is_feedback === 1) {
 
                 tap($user->update(['is_feedback' => 3]));
@@ -1268,12 +1264,15 @@ class User extends Authenticatable implements JWTSubject
     {
 
         if ($email) {
+
             $token = Str::random(16);
 
             self::where('email', $email)->update(['email_verify_token' => $token]);
 
-            return self::where('email', $email)->first();
+            return self::checkEmail($email);
+
         }
+
     }
 
     public static function getUserDetailByIds()
@@ -1618,7 +1617,7 @@ class User extends Authenticatable implements JWTSubject
 
         foreach ($users as $user) {
 
-            $user->setAppends([]); 
+            $user->setAppends([]);
 
             $user['gender'] = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
 
