@@ -156,7 +156,7 @@ class AssessmentController extends Controller
 
         try {
 
-            $assessment = Assessment::getLatestAssessment(Helpers::getUser()->id);
+            $assessment = Assessment::where('user_id', Helpers::getUser()->id)->latest()->first();
 
             if ($assessment && ($assessment->page + 1 ?? 0) == $request->input('page')) {
 
