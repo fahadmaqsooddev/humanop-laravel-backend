@@ -93,21 +93,6 @@ class CreateResource extends Component
 
                     $message = 'Your New Training & Resource';
 
-//                    foreach ($users as $user) {
-//
-//                        $notification = PushNotification::getSingleNotification($user['id']);
-//
-//                        if ($notification['resource'] == 1) {
-
-                    event(new NewResource($permission, 'new training & resource', $message));
-
-//                        }
-//                    }
-
-                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
-
-
-
                     foreach ($users as $user) {
 
                         $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
@@ -120,10 +105,10 @@ class CreateResource extends Component
                         }
                     }
 
-
-
                     event(new NewResource($permission, 'new training & resource', $message));
 
+                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                    
                 }
 
             }
