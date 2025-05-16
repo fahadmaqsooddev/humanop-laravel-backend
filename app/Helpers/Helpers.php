@@ -70,8 +70,11 @@ class Helpers
     public static function pagination($all, $pagination = false, $per_page = null)
     {
         if ($pagination && ($pagination === true || $pagination === "true")) {
+
             if ($per_page) {
+
                 $all = $all->paginate($per_page);
+
             } else {
 
                 $all = $all->paginate(10);
@@ -80,8 +83,11 @@ class Helpers
             return $all;
 
         } else {
+
             return $all->get();
+
         }
+
     }
 
     public static function paginateForCollectionsAndArrays($items, $perPage = 1, $page = 1, $options = [], $pagination = false)
@@ -576,7 +582,8 @@ class Helpers
         }
     }
 
-    public static function findEmailFromString($string){
+    public static function findEmailFromString($string)
+    {
 
         preg_match('/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i', $string, $matches);
 

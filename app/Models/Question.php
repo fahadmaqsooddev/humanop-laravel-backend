@@ -27,16 +27,17 @@ class Question extends Model
         return $this->hasMany(Answer::class, 'question_id');
     }
 
-    public function subQuestionsForApi(){
+    public function subQuestionsForApi()
+    {
 
-        return $this->hasMany(Question::class,'question_id','id')->whereNotNull('question_id');
+        return $this->hasMany(Question::class, 'question_id', 'id')->whereNotNull('question_id');
     }
 
 
     // query
     public static function allQuestion($search_gender = null)
     {
-        $question = self::whereNull('question_id')->with(['answers.answerCodes','subQuestions.answers']);
+        $question = self::whereNull('question_id')->with(['answers.answerCodes', 'subQuestions.answers']);
 
         // Search by gender
         if ($search_gender === '0' || $search_gender === '1' || $search_gender === '2') {
@@ -136,23 +137,14 @@ class Question extends Model
 
     }
 
-    public static function paginatedQuestions(){
+    public static function paginatedQuestions()
+    {
 
-        $questions = self::whereIn('gender', [Helpers::getUser()->gender, 2])
-
-            ->whereNull('question_id')
-
-            ->where('active', 1)
-
-            ->with(['subQuestionsForApi.answers','answers'])
-
-            ->orderBy('id',"ASC")
-
-            ->paginate(3)->toArray();
+        $questions = self::whereIn('gender', [Helpers::getUser()->gender, 2])->whereNull('question_id')->where('active', 1)->with(['subQuestionsForApi.answers', 'answers'])->orderBy('id', "ASC")->paginate(3)->toArray();
 
         $final_questions = [];
 
-        foreach ($questions['data'] as $key => $question){
+        foreach ($questions['data'] as $key => $question) {
 
             $temp_array = [];
 
@@ -162,7 +154,7 @@ class Question extends Model
 
             array_push($temp_array, $question);
 
-            foreach ($sub_questions as $sub_question){
+            foreach ($sub_questions as $sub_question) {
 
                 array_push($temp_array, $sub_question);
 

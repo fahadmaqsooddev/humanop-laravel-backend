@@ -78,25 +78,6 @@ class AssessmentController extends Controller
 
             $user = Helpers::getUser();
 
-            if (empty($user['timezone'])) {
-
-                $check_assessment = Assessment::getLatestAssessment($user['id']);
-
-                return Helpers::successResponse('Assessment Status', [
-                    'check_assessment' => !empty($check_assessment) ? true : false,
-                    'assessment_count' => null,
-                    'timezone' => null,
-                    'assessment_page_number' => null,
-                    'assessment_price' => ($assessment_price->amount ?? 0),
-                    'user' => [
-                        'last_four_digits' => $user['pm_last_four'],
-                        'exp_month' => $user['pm_exp_month'],
-                        'exp_year' => $user['pm_exp_year'],
-                        'name' => $user['card_name'],
-                    ]
-                ]);
-            }
-
             $status = Assessment::assessmentStatusForApi();
 
             $assessment_price = StripeSetting::getSingle();
@@ -175,7 +156,7 @@ class AssessmentController extends Controller
 
         try {
 
-            $assessment = Assessment::where('user_id', Helpers::getUser()->id)->latest()->first();
+            $assessment = Assessment::getLatestAssessment(Helpers::getUser()->id);
 
             if ($assessment && ($assessment->page + 1 ?? 0) == $request->input('page')) {
 

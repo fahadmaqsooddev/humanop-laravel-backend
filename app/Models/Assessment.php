@@ -1149,6 +1149,20 @@ class Assessment extends Model
         return self::with('assessmentColorCodes')->whereId($id)->where('user_id', Helpers::getUser()->id)->first();
     }
 
+    public static function createNewAssessment()
+    {
+        $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
+
+        $assessment_data = Assessment::where('id', $assessment['id'])->first();
+
+        AssessmentColorCode::createStylesCodeAndColor($assessment_data);
+
+        AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
+
+        return 0;
+
+    }
+
     public static function assessmentStatusForApi()
     {
 
@@ -1161,39 +1175,25 @@ class Assessment extends Model
             if ($assessment['page'] === 0) {
 
                 if ($assessment['reset_assessment'] == 1) {
-                    $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
-                    $assessment_data = Assessment::where('id', $assessment['id'])->first();
+                    return self::createNewAssessment();
 
-                    AssessmentColorCode::createStylesCodeAndColor($assessment_data);
-
-                    AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
-
-                    return 0;
                 }
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
-                $userTime = \Carbon\Carbon::parse($assessment['updated_at'])
-                    ->addMinutes($minutes * 60)
-                    ->toDateTimeString();
+                $userTime = \Carbon\Carbon::parse($assessment['updated_at'])->addMinutes($minutes * 60)->toDateTimeString();
 
                 $difference = \Carbon\Carbon::now()->diffInDays($userTime);
 
                 if ($difference > 90) {
 
-                    $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
-
-                    $assessment_data = Assessment::where('id', $assessment['id'])->first();
-
-                    AssessmentColorCode::createStylesCodeAndColor($assessment_data);
-
-                    AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
-
-                    return 0;
+                    return self::createNewAssessment();
 
                 } else {
+
                     return false;
+
                 }
 
             } else {
@@ -1204,15 +1204,8 @@ class Assessment extends Model
 
         } else {
 
-            $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
+            return self::createNewAssessment();
 
-            $assessment_data = Assessment::where('id', $assessment['id'])->first();
-
-            AssessmentColorCode::createStylesCodeAndColor($assessment_data);
-
-            AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
-
-            return 0;
         }
 
     }
@@ -1226,7 +1219,6 @@ class Assessment extends Model
 
         if (!empty($answer_ids)) {
 
-
             foreach ($answer_ids as $answer_id) {
 
                 if (is_array($answer_id)) {
@@ -1238,19 +1230,27 @@ class Assessment extends Model
                         $answerCode = AnswerCode::where('answer_id', $answer)->select(['code', 'number'])->first();
 
                         if ($answerCode) {
+
                             $number = (int)$answerCode->number + $i;
+
                             $code = strtolower($answerCode->code);
 
                             if (array_key_exists($code, $multipleAnswersArray)) {
 
                                 $multipleAnswersArray[$code] += $number;
+
                             } else {
+
                                 $multipleAnswersArray[$code] = $number;
+
                             }
+
                             $i--;
+
                         }
 
                     }
+
                 } else {
 
                     $codes = AnswerCode::where('answer_id', $answer_id)->get();
@@ -1265,9 +1265,13 @@ class Assessment extends Model
 
                             $codeA[$code['code']] = $code['number'];
                         }
+
                     }
+
                 }
+
             }
+
         }
 
         $userId = Helpers::getUser()->id;
@@ -1277,41 +1281,45 @@ class Assessment extends Model
             $lowercaseCode = strtolower($code);
 
             if (!isset($codeArray[$lowercaseCode])) {
+
                 $codeArray[$lowercaseCode] = 0;
+
             }
 
             if ($value !== '') {
+
                 $codeArray[$lowercaseCode] += $value;
+
             }
+
         }
 
         $existingAssessment = Assessment::where('user_id', $userId)->latest()->first();
 
         if ($existingAssessment) {
 
-//            if ($currentPage < $existingAssessment['page']) {
-//
-////                $existingAssessment->update(['app_page' => $existingAssessment['page']]);
-//
-//                return 'You have already submitted these questions. Please start with the new set of questions.';
-//
-//            }
-//            else {
-
             $oldResult = $existingAssessment->toArray();
 
             $resultArray = [];
 
             if (!empty($multipleAnswersArray)) {
+
                 $codeArray = array_merge($multipleAnswersArray, $codeArray);
+
             }
 
             foreach ($codeArray as $key => $value) {
+
                 if ($value !== '') {
+
                     $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
+
                 } else {
+
                     $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
+
                 }
+
             }
 
             $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])->where('active', 1)->count() / 3) ?? 0;
@@ -1387,12 +1395,17 @@ class Assessment extends Model
                                     $deviceToken = $user['device_token'];
 
                                     event(new NewDailyTip($user['id'], 'new daily tip', $message));
+
                                     Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+
                                     Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
                                 }
+
                             }
+
                         }
+
                     }
 
                 }
@@ -1422,13 +1435,12 @@ class Assessment extends Model
 
             AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
-//            }
-
         }
 
         foreach ($answer_ids as $answer_id) {
 
             $data['user_id'] = $userId;
+
             $data['assessment_id'] = $existingAssessment->id;
 
             $answer = Answer::where(function ($q) use ($answer_id) {
@@ -1438,9 +1450,11 @@ class Assessment extends Model
             })->first();
 
             $data['answer'] = $answer->answer ?? null;
+
             $data['question'] = $answer->question->question ?? null;
 
             AssessmentDetail::createAssessmentDetail($data);
+
         }
 
         return ($message ?? "");
@@ -1623,7 +1637,7 @@ class Assessment extends Model
 
         $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
-        $perception_life =AssessmentIntro::getPerceptionStaticText();
+        $perception_life = AssessmentIntro::getPerceptionStaticText();
 
         $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
 
