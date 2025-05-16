@@ -1,3 +1,4 @@
+echo "Deploy script started"
 php artisan config:clear
 php artisan cache:clear
 php artisan view:clear
@@ -13,3 +14,4 @@ php artisan inspire
 php artisan migrate
 composer -n install
 php artisan route:clear
+echo "Deploy script finished execution"

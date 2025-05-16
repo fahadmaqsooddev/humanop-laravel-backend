@@ -25,7 +25,7 @@ Route::post('login-client', 'AuthController@loginClient');
 Route::post('logout-client', 'AuthController@logoutClient');
 Route::post('forgot-password', 'AuthController@forgotPassword');
 Route::post('social-login', 'AuthController@socialLogin');
-Route::get('intention-option', 'UserController@intentionOption');
+Route::get('intention-option', 'AuthController@intentionOption');
 Route::get('check-invite-link', 'AuthController@checkInviteLink');
 Route::post('send-phone-otp', 'AuthController@sendPhoneOtp');
 Route::get('check-candidate', 'AuthController@checkUserDetail');

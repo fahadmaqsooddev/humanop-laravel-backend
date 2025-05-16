@@ -14,6 +14,7 @@
         .new-orange-button:hover{
             color: white;
         }
+
     </style>
 
 @endpush
@@ -31,6 +32,25 @@
             <h5 class="text-orange setting-form-heading py-2"> LLM RESTRICTIONS (Guardrails of Expression)</h5>
             <textarea class="form-control input-bg change-input-form" id="chatDescription" wire:model.defer="restriction"
                       rows="6" placeholder="Enter llm restrictions"></textarea>
+        </div>
+
+        <div class="card-header">
+
+{{--            <input type="checkbox" wire:model.defer="is_training">--}}
+            <span class="text-orange" style="font-weight: 700;font-size: 22px;">
+                Want to add this persona for training ?
+            </span>
+            <div class="w-25 d-flex justify-content-between custom-text-dark">
+                <div>
+                    <input type="radio" wire:model.defer="is_training" value="1" name="radio" style="accent-color:#F95520; cursor: pointer;">&nbsp;
+                    <span>Yes</span>
+                </div>
+                <div>
+                    <input type="radio" wire:model.defer="is_training" value="0" name="radio" style="accent-color:#F95520; cursor: pointer;">&nbsp;
+                    <span>No</span>
+                </div>
+            </div>
+
         </div>
 
         <div class="card-body d-sm-flex pt-0 justify-content-end">

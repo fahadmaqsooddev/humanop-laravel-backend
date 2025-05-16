@@ -24,7 +24,6 @@ use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
-use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Upload\Upload;
 use App\Models\User;
