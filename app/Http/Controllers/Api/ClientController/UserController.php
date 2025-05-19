@@ -57,12 +57,10 @@ class UserController extends Controller
             $user = User::user(Helpers::getUser()->id);
 
             return Helpers::successResponse('User information', $user);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function changeTwoWayAuth(TwoWayAuthRequest $request)
@@ -90,7 +88,6 @@ class UserController extends Controller
             User::updateUser(['app_intro_check' => 1], Helpers::getUser()->id);
 
             return Helpers::successResponse('Intro Completed Successfully');
-
         } catch (\Exception $exception) {
 
 
@@ -107,16 +104,7 @@ class UserController extends Controller
 
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
-            // if ($request->profile_image) {
 
-            //     $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
-            //     $request->merge(['image_id' => $upload_id]);
-            //     $dataArray = $request->only(['first_name', 'last_name', 'phone', 'age_max', 'age_min', 'gender', 'image_id','timezone']);
-
-            // } else {
-            //     $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender','timezone']);
-
-            // }
             if ($request) {
 
                 $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone']);
@@ -125,32 +113,32 @@ class UserController extends Controller
             } else {
                 return Helpers::forbiddenResponse('Please Filled Data');
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function updateUserImage(UpdateUserImageRequest $request)
     {
+        DB::beginTransaction();
         try {
             if ($request->profile_image) {
                 $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
                 $user = Helpers::getUser();
                 $updated_user = $user->update(['image_id' => $upload_id]);
                 tap($user);
+
+                DB::commit();
                 return Helpers::successResponse('User updated successfully', $user);
             } else {
                 return Helpers::forbiddenResponse('Please Select Image');
             }
-
         } catch (\Exception $exception) {
+
+            DB::rollBack();
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
 
@@ -166,7 +154,6 @@ class UserController extends Controller
                 User::updateUserPassword($request->input('new_password'));
 
                 return Helpers::successResponse('Password successfully updated');
-
             } else if (Hash::check($request->input('current_password'), Helpers::getUser()->password)) {
 
                 if (!Hash::check($request->input('new_password'), Helpers::getUser()->password)) {
@@ -174,18 +161,14 @@ class UserController extends Controller
                     User::updateUserPassword($request->input('new_password'));
 
                     return Helpers::successResponse('Password successfully updated');
-
                 } else {
 
                     return Helpers::validationResponse('The current and new passwords cannot be the same.');
                 }
-
             } else {
 
                 return Helpers::validationResponse('Current Password is incorrect');
-
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -213,13 +196,10 @@ class UserController extends Controller
             Auth::logoutOtherDevices($user->password);
 
             return Helpers::successResponse('Your password has been reset');
-
         } else {
 
             return Helpers::forbiddenResponse('Reset password link not match');
         }
-
-
     }
 
     public function getTimezone()
@@ -230,7 +210,6 @@ class UserController extends Controller
             $timezones = Helpers::timeZone();
 
             return Helpers::successResponse('Timezone successfully updated', $timezones);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -255,8 +234,6 @@ class UserController extends Controller
             } else {
                 return Helpers::forbiddenResponse('User Does Not Foiund');
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -272,7 +249,6 @@ class UserController extends Controller
 
 
             return Helpers::successResponse('Get Latest Version', $version);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -289,7 +265,6 @@ class UserController extends Controller
             $getReferralUsers = User::allReferralUsers($user['id']);
 
             return Helpers::successResponse('All Referral Credits Users List', $getReferralUsers);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -307,16 +282,16 @@ class UserController extends Controller
             Session::flush();
 
             return Helpers::successResponse('User deleted successfully');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function userFeedback(StoreUserFeedback $request)
     {
+
+        DB::beginTransaction();
 
         try {
 
@@ -338,7 +313,6 @@ class UserController extends Controller
             if (!empty($result['image_id'])) {
 
                 $url = Helpers::getImage($result['image_id']);
-
             } else {
 
                 $url = '';
@@ -353,15 +327,13 @@ class UserController extends Controller
                 return Helpers::validationResponse($response['errors']);
             } else {
                 //    dd($response['data']['createTodo']); // Output the created record
+                DB::commit();
                 return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
             }
-
-
         } catch (\Exception $exception) {
-
+            DB::rollBack();
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function googleLoginSignup(GoogleLoginSignupRequest $request)
@@ -385,9 +357,9 @@ class UserController extends Controller
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-//                    DailyTip::updateUserDailyTip();
+                    //                    DailyTip::updateUserDailyTip();
 
-//                    ActionPlan::storeUserActionPlan();
+                    //                    ActionPlan::storeUserActionPlan();
 
 
                     $data = [
@@ -403,7 +375,6 @@ class UserController extends Controller
                     ];
                     User::updateUserIsFeedback();
                     $message = "LoggedIn successfully";
-
                 } else {
 
                     $newUser = User::create([
@@ -425,9 +396,9 @@ class UserController extends Controller
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-//                    DailyTip::updateUserDailyTip();
+                    //                    DailyTip::updateUserDailyTip();
 
-//                    ActionPlan::storeUserActionPlan();
+                    //                    ActionPlan::storeUserActionPlan();
 
                     $data = [
 
@@ -442,21 +413,17 @@ class UserController extends Controller
                     ];
                     User::updateUserIsFeedback();
                     $message = "Signup successfully";
-
                 }
 
                 return Helpers::successResponse($message, $data);
-
             } else {
 
                 return Helpers::validationResponse('User not found on google');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function updateintentionPlan(updateIntentionPlanRequest $request)
@@ -470,13 +437,10 @@ class UserController extends Controller
             IntentionPlan::updateIntentionPlan($user['id'], $request->ninety_day_intention);
 
             return Helpers::successResponse('updated successfully.', $request->ninety_day_intention);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
-
     }
 
 
@@ -512,9 +476,9 @@ class UserController extends Controller
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
-//            $perception_life = CodeDetail::getPerceptionStaticText();
+            //            $perception_life = CodeDetail::getPerceptionStaticText();
 
-            $perception_life=AssessmentIntro::getPerceptionStaticText();
+            $perception_life = AssessmentIntro::getPerceptionStaticText();
 
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
 
@@ -571,12 +535,10 @@ class UserController extends Controller
             ];
 
             return Helpers::successResponse('Profile overview data', $data);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function summaryReport(Request $request)
@@ -625,12 +587,10 @@ class UserController extends Controller
             ];
 
             return Helpers::successResponse('Summary Report', $data);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function updatePromptNotification(Request $request)
@@ -640,15 +600,12 @@ class UserController extends Controller
             if (empty($request['prompt'])) {
 
                 return Helpers::validationResponse('Prompt Key is Required');
-
             } else {
 
                 User::where('id', Helpers::getUser()['id'])->update(['prompt_notification' => 1]);
 
                 return Helpers::successResponse('Prompt Updated Successfully');
-
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -668,7 +625,6 @@ class UserController extends Controller
             DB::commit();
 
             return Helpers::successResponse('Profile access has been changed to ' . ($user['profile_status'] == 1 ? 'private' : 'public') . ' successfully.', $user);
-
         } catch (\Exception $exception) {
 
             DB::rollBack();
@@ -690,7 +646,6 @@ class UserController extends Controller
             DB::commit();
 
             return Helpers::successResponse('HAi access has been changed to ' . ($user['hai_status'] == 1 ? 'private' : 'public') . ' successfully.', $user);
-
         } catch (\Exception $exception) {
 
             DB::rollBack();

@@ -15,6 +15,7 @@ use App\Models\Client\MessageThread\MessageThread;
 use Illuminate\Http\Request;
 use App\Events\messages\MessageSent;
 use App\Events\messages\NewMessage;
+use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
@@ -34,7 +35,6 @@ class MessageController extends Controller
             $all_chats = MessageThread::chats($name);
 
             return Helpers::successResponse('User chats', $all_chats);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -43,6 +43,7 @@ class MessageController extends Controller
 
     public function sendMessage(SendMessageRequest $request)
     {
+        DB::beginTransaction();
 
         try {
 
@@ -70,19 +71,20 @@ class MessageController extends Controller
 
                 Helpers::OneSignalApiUsed($request->input('receiver_id'), $heading, $request->input('message'));
 
-                Notification::createNotification('message sent', $heading, null, $request->input('receiver_id'), 1, Admin::MESSAGE_SEND_NOTIFICATION,Admin::B2C_NOTIFICATION);
+                Notification::createNotification('message sent', $heading, null, $request->input('receiver_id'), 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
-                event(new NewMessage(Helpers::getUser()->id,$request->input('receiver_id'),$request->input('message'),$message['created_at']));
+                event(new NewMessage(Helpers::getUser()->id, $request->input('receiver_id'), $request->input('message'), $message['created_at']));
                 // Helpers::OneSignalApiUsed($request->input('receiver_id'), 'New Message Received', $request->input('message'));
-                return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
 
+                DB::commit();
+
+                return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
             } else {
 
                 return Helpers::validationResponse('Connect first to send message');
             }
-
         } catch (\Exception $exception) {
-
+            DB::rollBack();
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
@@ -95,12 +97,10 @@ class MessageController extends Controller
             $messages = Message::threadMessages($request->input('message_thread_id'));
 
             return Helpers::successResponse('Thread messages', $messages);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function deleteChat(DeleteChatRequest $request)
@@ -111,11 +111,9 @@ class MessageController extends Controller
             MessageThread::deleteMessageThreadFromApi($request->input('message_thread_id'));
 
             return Helpers::successResponse('Chat deleted');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 }
