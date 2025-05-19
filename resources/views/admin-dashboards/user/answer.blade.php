@@ -3,7 +3,7 @@
 @section('content')
     <div class="row mt-4 container-fluid">
         <div class="col-12">
-            <div class="card" >
+            <div class="card">
                 <!-- Card header -->
                 <div class="card-header table-header-text">
                     <h5 class="mb-0">Users</h5>
@@ -11,18 +11,34 @@
                 <div class="table-responsive table-orange-color">
                     <table class="table table-flush" id="datatable-search">
                         <thead class="thead-light">
-                        <tr>
-                            <th>Question</th>
-                            <th>Answer</th>
-                        </tr>
+                            <tr class="text-color-blue">
+                                <th class="text-color-blue">Question</th>
+                                <th class="text-color-blue">Answer</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($assessment_details as $index => $assessment)
-                            <tr>
-                                <td class="text-sm font-weight-normal">{{$index + 1}} - {{$assessment['question']}}</td>
-                                <td class="text-sm font-weight-normal">{{$assessment['answer']}}</td>
-                            </tr>
-                        @endforeach
+                            @foreach ($assessment_details as $index => $assessment)
+                                <tr class="text-color-blue">
+                                    <td class="text-sm font-weight-normal">{{ $index + 1 }} -
+                                        {{ $assessment['question'] }}</td>
+
+                                    <td class="text-sm font-weight-normal">
+                                        @if (is_array($assessment['answer']))
+                                            <ul class="mb-0 pl-3">
+
+                                                @foreach ($assessment['answer'] as $answer)
+                                                    <li>{{ $answer }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            {{ $assessment['answer'] }}
+                                        @endif
+                                    </td>
+                                    {{-- <td class="text-sm font-weight-normal">{{$assessment['answer']}}</td> --}}
+                                </tr>
+                            @endforeach
+
+
                         </tbody>
                     </table>
                 </div>

@@ -61,7 +61,6 @@ class Assessment extends Model
         $minutes = Helpers::explodeTimezoneWithHours($timezone);
 
         return Carbon::parse($formattedTimestamp)->addMinutes($minutes * 60)->format('m/d/Y h:i A');
-
     }
 
     public function getAfterResetAssessmentUpdatedAtAttribute($value)
@@ -75,7 +74,6 @@ class Assessment extends Model
         $minutes = Helpers::explodeTimezoneWithHours($timezone);
 
         return Carbon::parse($formattedTimestamp)->addMinutes($minutes * 60)->format('m/d/Y h:i A');
-
     }
 
     public function scopeSelection($query)
@@ -215,7 +213,6 @@ class Assessment extends Model
             'gridColor' => $gridColor,
             'alchemy' => $grid['g'] . '' . $grid['s'] . '' . $grid['c'],
         ];
-
     }
 
     public static function getAssessment()
@@ -276,27 +273,20 @@ class Assessment extends Model
                     if ($currentDate->greaterThan($createdAt)) {
 
                         return 'free';
-
                     } else {
 
                         return 'paid';
-
                     }
-
                 }
 
                 if ($singleAssessment['type'] === 0) {
 
                     return 'free';
-
                 }
-
             } elseif ($singleAssessment['page'] !== 0) {
 
                 return 'play';
-
             }
-
         }
 
         return 'free';
@@ -316,9 +306,7 @@ class Assessment extends Model
             $query->whereHas('users', function ($query) use ($userId) {
 
                 $query->where('practitioner_id', $userId);
-
             });
-
         }
 
         if ($name) {
@@ -327,18 +315,14 @@ class Assessment extends Model
 
                 $query->whereRaw("concat(first_name, ' ', last_name) like ?", ["%{$name}%"])
                     ->orWhereRaw("concat(last_name, ' ', first_name) like ?", ["%{$name}%"]);
-
             });
-
         }
 
         if ($email) {
 
             $query->whereHas('users', function ($query) use ($email) {
                 $query->where('email', 'like', '%' . $email . '%');
-
             });
-
         }
 
         if ($age_range) {
@@ -354,9 +338,7 @@ class Assessment extends Model
             $query->whereHas('users', function ($query) use ($min_date, $max_date) {
 
                 $query->whereBetween('date_of_birth', [$min_date, $max_date]);
-
             });
-
         }
 
         if ($style_code && $style_code_color) {
@@ -365,9 +347,7 @@ class Assessment extends Model
 
                 $query->where('code', $style_code)
                     ->where('code_color', $style_code_color);
-
             });
-
         }
 
         if ($style_number) {
@@ -383,11 +363,8 @@ class Assessment extends Model
                     $query->where('code', $style_code)
                         ->where('code_color', $style_code_color)
                         ->where('code_number', $style_num);
-
                 });
-
             }
-
         }
 
         if ($feature_code && $feature_code_color) {
@@ -396,9 +373,7 @@ class Assessment extends Model
 
                 $query->where('code', $feature_code)
                     ->where('code_color', $feature_code_color);
-
             });
-
         }
 
         if ($feature_number) {
@@ -414,15 +389,11 @@ class Assessment extends Model
                     $query->where('code', $feature_code)
                         ->where('code_color', $feature_code_color)
                         ->where('code_number', $feature_num);
-
                 });
-
             }
-
         }
 
         return $query->orderBy('updated_at', 'desc')->paginate($perPage);
-
     }
 
     public static function abandonedAssessment()
@@ -439,15 +410,12 @@ class Assessment extends Model
             $query->whereHas('users', function ($query) use ($userId) {
 
                 $query->where('practitioner_id', $userId);
-
             });
-
         }
 
         $query->where(function ($q) {
 
             $q->whereNull('page')->orWhere('page', '!=', 0);
-
         })
             ->orderBy('created_at', 'DESC');
 
@@ -459,7 +427,6 @@ class Assessment extends Model
         $assessment = self::whereId($id)->with(['users' => function ($q) {
 
             $q->select(['id', 'first_name', 'last_name', 'gender']);
-
         }])->first();
 
         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
@@ -486,7 +453,6 @@ class Assessment extends Model
         $code_detail = CodeDetail::getCodeDeatil($topTwoKeysStyle, $topTwoKeysFeature, $alchemyCodeDetail, $communication_keys, $polarity_code, $energy_code, $pv, $ep, $assessment['users']);
 
         return $code_detail;
-
     }
 
     public static function getEnergyPool($assessment = null)
@@ -502,23 +468,18 @@ class Assessment extends Model
         if ($ep < 25) {
 
             $energy_code = 21;
-
         } elseif ($ep >= 25 and $ep <= 30) {
 
             $energy_code = 18;
-
         } elseif ($ep >= 31 and $ep <= 35) {
 
             $energy_code = 20;
-
         } elseif ($ep >= 36) {
 
             $energy_code = 16;
-
         }
 
         return $energy_code;
-
     }
 
     public static function GetEP($assessment = null)
@@ -533,23 +494,18 @@ class Assessment extends Model
         if ($ep < 25) {
 
             $energy_code = 21;
-
         } elseif ($ep >= 25 and $ep <= 30) {
 
             $energy_code = 18;
-
         } elseif ($ep >= 31 and $ep <= 35) {
 
             $energy_code = 20;
-
         } elseif ($ep >= 36) {
 
             $energy_code = 16;
-
         }
 
         return $data = ['energy_pool' => $ep, 'energy_code' => $energy_code];
-
     }
 
     public static function getPolarity($assessment = null)
@@ -564,18 +520,15 @@ class Assessment extends Model
         if ($pv <= -8) {
 
             $polarity_code = 40;
-
         } elseif ($pv >= -7 and $pv <= 7) {
 
             $polarity_code = 41;
         } elseif ($pv >= 8) {
 
             $polarity_code = 42;
-
         }
 
         return $polarity_code;
-
     }
 
     public static function getEnergyPoolPublicName($assessment = null)
@@ -588,19 +541,15 @@ class Assessment extends Model
         if ($energy_code['energy_code'] == 16) {
 
             $publicName = "Above Excellent [{$energy_code['energy_pool']}]";
-
         } elseif ($energy_code['energy_code'] == 18) {
 
             $publicName = "Average [{$energy_code['energy_pool']}]";
-
         } elseif ($energy_code['energy_code'] == 20) {
 
             $publicName = "Excellent [{$energy_code['energy_pool']}]";
-
         } elseif ($energy_code['energy_code'] == 21) {
 
             $publicName = "Fair [{$energy_code['energy_pool']}]";
-
         }
 
         $record = CodeDetail::whereId($energy_code['energy_code'])->first();
@@ -612,7 +561,6 @@ class Assessment extends Model
         ];
 
         return $data;
-
     }
 
 
@@ -628,15 +576,12 @@ class Assessment extends Model
         if ($pv <= -8) {
 
             $polarity_code = 40;
-
         } elseif ($pv >= -7 and $pv <= 7) {
 
             $polarity_code = 41;
-
         } elseif ($pv >= 8) {
 
             $polarity_code = 42;
-
         }
 
         $record = CodeDetail::whereId($polarity_code)->first();
@@ -648,7 +593,6 @@ class Assessment extends Model
         ];
 
         return $data;
-
     }
 
     public static function getStyles($assessment = null)
@@ -705,9 +649,7 @@ class Assessment extends Model
             if (in_array($key, $style)) {
 
                 $getStyle[$key] = $result;
-
             }
-
         }
 
         arsort($getStyle);
@@ -727,11 +669,9 @@ class Assessment extends Model
                 'description' => $style['codeDetails'][0]['text'],
                 'video_url' => $style['codeDetails'][0]['video_url']
             ];
-
         }
 
         return $data;
-
     }
 
     public static function UserTraits($userId = null)
@@ -749,9 +689,7 @@ class Assessment extends Model
             if (in_array($key, $style)) {
 
                 $getStyle[$key] = $result;
-
             }
-
         }
 
         arsort($getStyle);
@@ -774,7 +712,6 @@ class Assessment extends Model
         }
 
         return $data;
-
     }
 
     public static function getFeatures($assessment = null, $isCode = true)
@@ -849,7 +786,6 @@ class Assessment extends Model
                     if (($assessment['de'] > 2 && $assessment['ma'] > 4) || ($assessment['de'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4 && $third_row_ma > 30)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['de'] > 2 && $assessment['ma'] < 5)) {
 
                         if ($third_row_ma > 30) {
@@ -857,15 +793,11 @@ class Assessment extends Model
                             if ($assessment['sa'] < 5 || $assessment['jo'] < 5) {
 
                                 $filtered_keys_red[$key] = $value;
-
                             }
-
                         } elseif ($third_row_ma <= 30) {
 
                             $filtered_keys_red[$key] = $value;
-
                         }
-
                     }
 
                     break;
@@ -875,11 +807,9 @@ class Assessment extends Model
                     if (($assessment['dom'] > 2 && ($assessment['sa'] > 4 || $assessment['ma'] > 4)) || ($assessment['dom'] > 2 && $assessment['ma'] > 4 && $assessment['mer'] > 4) || ($assessment['dom'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['dom'] > 2 && ($assessment['sa'] < 5 && $assessment['ma'] < 5)) && ($assessment['ma'] < 5 || $assessment['mer'] < 5 || $assessment['sa'] < 5 || $assessment['jo'] < 5)) {
 
                         $filtered_keys_red[$key] = $value;
-
                     }
 
                     break;
@@ -889,11 +819,9 @@ class Assessment extends Model
                     if (($assessment['fe'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4 || $assessment['ven'] > 4)) || ($assessment['fe'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4) || ($assessment['fe'] > 2 && $assessment['jo'] > 4 && $assessment['ven'] > 4) || ($assessment['fe'] > 2 && $assessment['lu'] > 4 && $assessment['mer'] > 4)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['fe'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5 && $assessment['ven'] < 5)) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
 
                         $filtered_keys_red[$key] = $value;
-
                     }
 
                     break;
@@ -903,11 +831,9 @@ class Assessment extends Model
                     if (($assessment['gre'] > 2 && ($assessment['jo'] > 6 || $assessment['mer'] > 4)) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4 && $third_row_mer > 30)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['sa'] < 5))) {
 
                         $filtered_keys_red[$key] = $value;
-
                     }
 
                     break;
@@ -917,7 +843,6 @@ class Assessment extends Model
                     if (($assessment['lun'] > 2 && $assessment['lu'] > 4) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4 && $third_row_lu > 30)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5)) {
 
                         if ($third_row_lu > 30) {
@@ -925,15 +850,11 @@ class Assessment extends Model
                             if ($assessment['ven'] < 5 || $assessment['jo'] < 5) {
 
                                 $filtered_keys_red[$key] = $value;
-
                             }
-
                         } elseif ($third_row_lu <= 30) {
 
                             $filtered_keys_red[$key] = $value;
-
                         }
-
                     }
 
                     break;
@@ -943,11 +864,9 @@ class Assessment extends Model
                     if (($assessment['nai'] > 2 && $assessment['so'] > 4)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['nai'] > 2 && $assessment['so'] < 5)) {
 
                         $filtered_keys_red[$key] = $value;
-
                     }
 
                     break;
@@ -957,11 +876,9 @@ class Assessment extends Model
                     if (($assessment['ne'] > 2 && ($assessment['sa'] > 4 || $assessment['lu'] > 4 || $assessment['ven'] > 4)) || ($assessment['ne'] > 2 && $assessment['ma'] > 4 && $assessment['mer'] > 4) || ($assessment['ne'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4) || ($assessment['ne'] > 2 && $assessment['lu'] > 4 && $assessment['mer'] > 4)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['ne'] > 2 && ($assessment['sa'] < 5 && $assessment['lu'] < 5 && $assessment['ven'] < 5)) && ($assessment['ne'] < 5 || $assessment['ma'] < 5 || $assessment['mer'] < 5 || $assessment['ven'] < 5 || $assessment['jo'] < 5 || $assessment['lu'] < 5)) {
 
                         $filtered_keys_red[$key] = $value;
-
                     }
                     break;
 
@@ -970,11 +887,9 @@ class Assessment extends Model
                     if (($assessment['pow'] > 2 && ($assessment['jo'] > 4 || $assessment['mer'] > 4)) || ($assessment['pow'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4) || ($assessment['pow'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['pow'] > 2 && ($assessment['jo'] < 5 && $assessment['mer'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['ven'] < 5 || $assessment['sa'] < 5)) {
 
                         $filtered_keys_red[$key] = $value;
-
                     }
 
                     break;
@@ -984,7 +899,6 @@ class Assessment extends Model
                     if (($assessment['sp'] > 2 && $assessment['jo'] > 4) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4 && $third_row_jo > 30)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5)) {
 
                         if ($third_row_jo > 30) {
@@ -992,15 +906,11 @@ class Assessment extends Model
                             if ($assessment['ma'] < 5 || $assessment['lu'] < 5) {
 
                                 $filtered_keys_red[$key] = $value;
-
                             }
-
                         } elseif ($third_row_jo <= 30) {
 
                             $filtered_keys_red[$key] = $value;
-
                         }
-
                     }
 
                     break;
@@ -1010,11 +920,9 @@ class Assessment extends Model
                     if (($assessment['tra'] > 2 && ($assessment['jo'] > 4 || $assessment['ven'] > 4)) || ($assessment['tra'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4) || ($assessment['tra'] > 2 && $assessment['lu'] > 4 && $assessment['mer'] > 4)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['tra'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
 
                         $filtered_keys_red[$key] = $value;
-
                     }
 
                     break;
@@ -1024,11 +932,9 @@ class Assessment extends Model
                     if (($assessment['van'] > 2 && ($assessment['jo'] > 4 || $assessment['ven'] > 4 || $assessment['mer'] > 4 || $assessment['so'] > 4)) || ($assessment['van'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4) || ($assessment['van'] > 2 && $assessment['lu'] > 4 && $assessment['mer'] > 4) || ($assessment['van'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['van'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5 && $assessment['mer'] < 5 && $assessment['so'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5 || $assessment['ven'] < 5 || $assessment['sa'] < 5)) {
 
                         $filtered_keys_red[$key] = $value;
-
                     }
 
                     break;
@@ -1038,7 +944,6 @@ class Assessment extends Model
                     if (($assessment['wil'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4)) || ($assessment['wil'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4) || ($assessment['wil'] > 2 && $assessment['jo'] > 4 && $assessment['ven'] > 4)) {
 
                         $filtered_keys[$key] = $value;
-
                     } elseif (($assessment['wil'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5))) {
 
                         if ($third_row_ma > 30 || $third_row_lu > 30) {
@@ -1046,21 +951,15 @@ class Assessment extends Model
                             if ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5) {
 
                                 $filtered_keys_red[$key] = $value;
-
                             }
-
                         } elseif ($third_row_ma <= 30 || $third_row_lu <= 30) {
 
                             $filtered_keys_red[$key] = $value;
-
                         }
-
                     }
 
                     break;
-
             }
-
         }
 
         $redKeys = array_keys($filtered_keys_red);
@@ -1078,9 +977,7 @@ class Assessment extends Model
                 if ($value == 2) {
 
                     $all_values_are_2[$key] = $value;
-
                 }
-
             }
 
             $matchingKeysLessThanTwo = array_intersect_key($third_row_feature, array_flip(array_keys($all_values_are_2)));
@@ -1097,23 +994,18 @@ class Assessment extends Model
                 'top_two_keys' => $topTwoKeys,
                 'next_two_keys' => $nextTwoKeys,
             ];
-
         } else {
 
             $topKeysFeature = self::getGridKeys($filtered_keys, $third_row_feature);
-
         }
 
         if ($isCode) {
 
             return $topKeysFeature;
-
         } else {
 
             return CodeDetail::getPublicNames($topKeysFeature['top_two_keys']);
-
         }
-
     }
 
     public static function getTopTwoFeatures($featureKeys = null, $assessment = null)
@@ -1142,7 +1034,6 @@ class Assessment extends Model
                 $topFeatures[$key] = $features[$key]; // Match key and get value from $style
 
             }
-
         }
 
         $topfeaturesdata = CodeDetail::getPublicNames($topFeatures);
@@ -1156,11 +1047,9 @@ class Assessment extends Model
                 'video_url' => $item[3],
                 'code_name' => $item[4],
             ];
-
         }, $topfeaturesdata);
 
         return $newtopfeaturesdata;
-
     }
 
     public static function getAlchemy($assessment = null)
@@ -1222,7 +1111,6 @@ class Assessment extends Model
                 if ($a_third == $b_third) {
 
                     return array_search($b, array_keys(array_reverse($communications))) - array_search($a, array_keys(array_reverse($communications)));
-
                 }
 
                 return $a_third < $b_third ? 1 : -1; // Compare $styles_third values
@@ -1230,13 +1118,11 @@ class Assessment extends Model
             }
 
             return $communications[$a] < $communications[$b] ? 1 : -1;
-
         });
 
         $communication_keys = array_keys($communication_array);
 
         return $communication_keys;
-
     }
 
     public static function getGridKeys($filtered_keys = null, $third_row_feature = null)
@@ -1249,9 +1135,7 @@ class Assessment extends Model
             if ($value > 3) { // Check if the value is greater than 3
 
                 $greater_than_three_filtered_keys[$key] = $value;
-
             }
-
         }
 
         $remainingFilterKeys = array_diff_key($filtered_keys, $greater_than_three_filtered_keys);
@@ -1265,7 +1149,6 @@ class Assessment extends Model
             $firstHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($greater_than_three_filtered_keys)));
 
             arsort($firstHighestArrayValue);
-
         }
 
         if (count($remainingFilterKeys) != 0) {
@@ -1273,7 +1156,6 @@ class Assessment extends Model
             $remainingHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($remainingFilterKeys)));
 
             arsort($remainingHighestArrayValue);
-
         }
 
         $allValuesGets = array_merge($firstHighestArrayValue, $remainingHighestArrayValue);
@@ -1288,7 +1170,6 @@ class Assessment extends Model
         ];
 
         return $topKeys;
-
     }
 
     public static function assessmentsPaginated($request = null)
@@ -1301,7 +1182,6 @@ class Assessment extends Model
         $assessments = self::where('user_id', Helpers::getUser()->id)->where('page', 0)->select(['id', 'page', 'updated_at', 'reset_assessment', 'after_reset_assessment_updated_at'])->orderBy($order_by, $order);
 
         return Helpers::pagination($assessments, $request->input('pagination'), $request->input('per_page'));
-
     }
 
     public static function getGridForApi($id = null)
@@ -1320,7 +1200,6 @@ class Assessment extends Model
         AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
 
         return 0;
-
     }
 
     public static function assessmentStatusForApi()
@@ -1337,7 +1216,6 @@ class Assessment extends Model
                 if ($assessment['reset_assessment'] == 1) {
 
                     return self::createNewAssessment();
-
                 }
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
@@ -1349,25 +1227,18 @@ class Assessment extends Model
                 if ($difference > 90) {
 
                     return self::createNewAssessment();
-
                 } else {
 
                     return false;
-
                 }
-
             } else {
 
                 return ($assessment['page'] === null ? 0 : $assessment['page']);
-
             }
-
         } else {
 
             return self::createNewAssessment();
-
         }
-
     }
 
     public static function submitQuestionAnswers($answer_ids = [])
@@ -1400,19 +1271,14 @@ class Assessment extends Model
                             if (array_key_exists($code, $multipleAnswersArray)) {
 
                                 $multipleAnswersArray[$code] += $number;
-
                             } else {
 
                                 $multipleAnswersArray[$code] = $number;
-
                             }
 
                             $i--;
-
                         }
-
                     }
-
                 } else {
 
                     $codes = AnswerCode::where('answer_id', $answer_id)->get();
@@ -1422,18 +1288,13 @@ class Assessment extends Model
                         if (array_key_exists($code['code'], $codeA)) {
 
                             $codeA[$code['code']] += $code['number'];
-
                         } else {
 
                             $codeA[$code['code']] = $code['number'];
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         $userId = Helpers::getUser()->id;
@@ -1445,15 +1306,12 @@ class Assessment extends Model
             if (!isset($codeArray[$lowercaseCode])) {
 
                 $codeArray[$lowercaseCode] = 0;
-
             }
 
             if ($value !== '') {
 
                 $codeArray[$lowercaseCode] += $value;
-
             }
-
         }
 
         $existingAssessment = Assessment::where('user_id', $userId)->latest()->first();
@@ -1467,7 +1325,6 @@ class Assessment extends Model
             if (!empty($multipleAnswersArray)) {
 
                 $codeArray = array_merge($multipleAnswersArray, $codeArray);
-
             }
 
             foreach ($codeArray as $key => $value) {
@@ -1475,13 +1332,10 @@ class Assessment extends Model
                 if ($value !== '') {
 
                     $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
-
                 } else {
 
                     $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
-
                 }
-
             }
 
             $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])->where('active', 1)->count() / 3) ?? 0;
@@ -1515,7 +1369,6 @@ class Assessment extends Model
                             if ($alchemy) {
 
                                 $codeAlchemy = $alchemy['code'];
-
                             }
 
                             $communication = Assessment::getEnergy($latestAssessment);
@@ -1523,7 +1376,6 @@ class Assessment extends Model
                             if ($communication) {
 
                                 $codeCommunication = $communication[0];
-
                             }
 
                             $selectedCodeList = [
@@ -1547,7 +1399,6 @@ class Assessment extends Model
                                     if ($alreadyExist) {
 
                                         self::getTodayTip();
-
                                     }
 
                                     UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $latestAssessment['id']);
@@ -1561,26 +1412,19 @@ class Assessment extends Model
                                     Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
 
                                     Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
-
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
 
                 if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
                     $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
-
                 } else {
 
                     $message = "Congratulations on finishing your assessment!";
                 }
-
             } else {
 
                 $resultArray['page'] = $current_page;
@@ -1588,7 +1432,6 @@ class Assessment extends Model
                 $existingAssessment->update($resultArray);
 
                 event(new SubmitAssessment(Helpers::getUser()['id'], $current_page + 1));
-
             }
 
             AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
@@ -1596,31 +1439,49 @@ class Assessment extends Model
             AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
 
             AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
-
         }
 
         foreach ($answer_ids as $answer_id) {
+
 
             $data['user_id'] = $userId;
 
             $data['assessment_id'] = $existingAssessment->id;
 
-            $answer = Answer::where(function ($q) use ($answer_id) {
 
-                $q->where('id', $answer_id)->orWhere('answer_id', $answer_id);
+            if (is_array($answer_id)) {
 
-            })->first();
+                foreach ($answer_id as $ansId) {
 
-            $data['answer'] = $answer->answer ?? null;
+                    $answer = Answer::where(function ($q) use ($ansId) {
 
-            $data['question'] = $answer->question->question ?? null;
+                        $q->where('id', $ansId)->orWhere('answer_id', $ansId);
 
-            AssessmentDetail::createAssessmentDetail($data);
+                    })->first();
 
+                    $data['answer'] = $answer->answer ?? null;
+
+                    $data['question'] = $answer->question->question ?? null;
+
+                    AssessmentDetail::createAssessmentDetail($data);
+                }
+            } else {
+
+                $answer = Answer::where(function ($q) use ($answer_id) {
+
+                    $q->where('id', $answer_id)->orWhere('answer_id', $answer_id);
+                    
+                })->first();
+
+                $data['answer'] = $answer->answer ?? null;
+
+                $data['question'] = $answer->question->question ?? null;
+
+                AssessmentDetail::createAssessmentDetail($data);
+            }
         }
 
         return ($message ?? "");
-
     }
 
     public static function singleAssessmentFromId($assessment_id)
@@ -1633,15 +1494,12 @@ class Assessment extends Model
             if ($assessment_id) {
 
                 $q->where('id', $assessment_id);
-
             } else {
 
                 $q->where('user_id', $user->id);
             }
-
         })
             ->where('page', 0)->latest()->first();
-
     }
 
     public static function getEnergyPoolDetail($assessment = null)
@@ -1679,7 +1537,6 @@ class Assessment extends Model
                 'video_url' => $publicName['video_url'],
                 'img_url' => $alchemyCodeDetail['image_url'],
             ];
-
         } else {
 
             return [
@@ -1690,7 +1547,6 @@ class Assessment extends Model
                 'img_url' => "",
             ];
         }
-
     }
 
     public static function getPreceptionReportDetail($assessment = null)
@@ -1705,15 +1561,12 @@ class Assessment extends Model
         if ($pv <= -8) {
 
             $polarity_code = 40;
-
         } elseif ($pv >= -7 and $pv <= 7) {
 
             $polarity_code = 41;
-
         } elseif ($pv >= 8) {
 
             $polarity_code = 42;
-
         }
 
         $record = CodeDetail::whereId($polarity_code)->select(['id', 'public_name', 'text', 'video'])->first();
@@ -1728,7 +1581,6 @@ class Assessment extends Model
             'video_url' => $record['video_url'],
             'pv' => $record['pv'],
         ];
-
     }
 
     public static function resetAssessmentStatus($assessmentId = null)
@@ -1745,7 +1597,6 @@ class Assessment extends Model
                 ]);
 
                 $assessment->update(['reset_assessment' => Admin::RESET_ASSESSMENT]);
-
             } else {
 
                 $assessment->update(['reset_assessment' => Admin::NOT_RESET_ASSESSMENT]);

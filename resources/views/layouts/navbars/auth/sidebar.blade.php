@@ -214,7 +214,7 @@
                                                                 class="caret"></b></span>
                                                     </a>
                                                     <div
-                                                        class="collapse {{ Request::is('admin/assessments',
+                                                        class="collapse {{ Request::is('admin/assessments','admin/user-answers/*',
                                                         'admin/abandoned-assessment','admin/user-grid/*','admin/user-profile-overview/*') ? 'show' : '' }}"
                                                         id="assementexample">
                                                         <ul class="nav nav-sm flex-column">
