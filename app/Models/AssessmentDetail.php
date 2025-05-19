@@ -30,6 +30,7 @@ class AssessmentDetail extends Model
     public static function getDetail($id = null)
     {
         return self::where('assessment_id', $id)->get();
+        
     }
 
     public static function assessmentAnswers($request = null, $assessment_id = null)
