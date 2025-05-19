@@ -12,6 +12,7 @@ use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
 use App\Models\Upload\Upload;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class StoryController extends Controller
 {
@@ -42,6 +43,7 @@ class StoryController extends Controller
 
     public function createStory(CreateStoryRequest $request){
 
+        DB::beginTransaction();
         try {
 
             $dataArray = $request->only($this->story->getFillable());
@@ -56,12 +58,15 @@ class StoryController extends Controller
 
                 Story::addStory($dataArray);
 
+                DB::commit();
+
                 return Helpers::successResponse('Story uploaded');
 
             }
 
         }catch (\Exception $exception){
 
+            DB::rollBack();
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 

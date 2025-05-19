@@ -20,6 +20,7 @@ use App\Models\Client\PostComment\PostComment;
 use App\Models\Client\PostLike\PostLike;
 use App\Models\Upload\Upload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -33,23 +34,24 @@ class PostController extends Controller
         $this->post = $post;
     }
 
-    public function posts(Request $request){
+    public function posts(Request $request)
+    {
 
         try {
 
             $posts = Post::allPostsForApi($request);
 
             return Helpers::successResponse('All posts', $posts, $request->input('pagination'));
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function createPost(CreatePostRequest $request){
+    public function createPost(CreatePostRequest $request)
+    {
 
+        DB::beginTransaction();
         try {
 
             $dataArray = $request->only($this->post->getFillable());
@@ -58,7 +60,7 @@ class PostController extends Controller
 
             $post = Post::createPost($dataArray);
 
-            if ($request->hasFile('post_image') && !empty($request->file('post_image'))){
+            if ($request->hasFile('post_image') && !empty($request->file('post_image'))) {
 
                 $upload_id = Upload::uploadFile($request->file('post_image'), 200, 200, 'base64Image', 'png', true);
 
@@ -67,17 +69,20 @@ class PostController extends Controller
                 $post->save();
             }
 
+            DB::commit();
+
             return Helpers::successResponse('Post created successfully');
+        } catch (\Exception $exception) {
 
-        }catch (\Exception $exception){
-
+            DB::rollBack();
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function editPost(EditPostRequest $request){
+    public function editPost(EditPostRequest $request)
+    {
 
+        DB::beginTransaction();
         try {
 
             $dataArray = $request->only($this->post->getFillable());
@@ -86,7 +91,7 @@ class PostController extends Controller
 
             $post = Post::updatePost($dataArray, $request->input('id'));
 
-            if ($request->hasFile('post_image') && !empty($request->file('post_image'))){
+            if ($request->hasFile('post_image') && !empty($request->file('post_image'))) {
 
                 $upload_id = Upload::uploadFile($request->file('post_image'), 200, 200, 'base64Image', 'png', true);
 
@@ -95,63 +100,60 @@ class PostController extends Controller
                 $post->save();
             }
 
+            DB::commit();
             return Helpers::successResponse('Post created successfully');
-
-        }catch (\Exception $exception){
-
+        } catch (\Exception $exception) {
+            DB::rollBack();
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function post(SinglePostRequest $request){
+    public function post(SinglePostRequest $request)
+    {
 
         try {
 
             $post = Post::post($request->input('id'));
 
             return Helpers::successResponse('Post', $post);
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function deletePost(DeletePostRequest $request){
+    public function deletePost(DeletePostRequest $request)
+    {
 
         try {
 
             Post::deletePost($request->input('id'));
 
             return Helpers::successResponse('Post deleted');
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
 
-    public function likeUnLikePost(LikeUnLikePostRequest $request){
+    public function likeUnLikePost(LikeUnLikePostRequest $request)
+    {
 
         try {
 
             PostLike::createPostLikeForApi($request);
 
             return Helpers::successResponse('Post ' . $request->type . 'd successfully');
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
 
-    public function sharePost(SharePostRequest $request){
+    public function sharePost(SharePostRequest $request)
+    {
 
         try {
 
@@ -162,45 +164,42 @@ class PostController extends Controller
             Post::createPost($dataArray);
 
             return Helpers::successResponse('Post shared successfully');
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function comments(SinglePostRequest $request){
+    public function comments(SinglePostRequest $request)
+    {
 
         try {
 
             $comments = PostComment::getPostComments($request->input('id'));
 
             return Helpers::successResponse('Post comments', $comments);
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function comment(SingleCommentRequest $request){
+    public function comment(SingleCommentRequest $request)
+    {
 
         try {
 
             $comment = PostComment::singleComment($request->input('comment_id'));
 
             return Helpers::successResponse('Post comments', $comment);
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function createComment(CreateCommentRequest $request){
+    public function createComment(CreateCommentRequest $request)
+    {
 
         try {
 
@@ -213,15 +212,14 @@ class PostController extends Controller
             PostComment::createPostComment($dataArray);
 
             return Helpers::successResponse('Comment created');
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function editComment(EditCommentRequest $request){
+    public function editComment(EditCommentRequest $request)
+    {
 
         try {
 
@@ -234,42 +232,37 @@ class PostController extends Controller
             PostComment::createPostComment($dataArray, $request->input('comment_id'));
 
             return Helpers::successResponse('Comment is updated');
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function deleteComment(DeleteCommentRequest $request){
+    public function deleteComment(DeleteCommentRequest $request)
+    {
 
         try {
 
             PostComment::deleteComment($request->input('comment_id'));
 
             return Helpers::successResponse('Comment is deleted');
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
-    public function likeUnLikeComment(LikeUnLikeCommentRequest $request){
+    public function likeUnLikeComment(LikeUnLikeCommentRequest $request)
+    {
 
         try {
 
             PostLike::createPostLikeForApi($request);
 
             return Helpers::successResponse('Comment ' . $request->type . 'd successfully');
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
-
-
 }

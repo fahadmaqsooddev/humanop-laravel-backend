@@ -15,6 +15,7 @@ use App\Models\B2B\B2BBusinessCandidates;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
 class CandidateController extends Controller
@@ -31,6 +32,7 @@ class CandidateController extends Controller
 
     public function createInviteLinkForCandidate(CheckEmailRequest $request)
     {
+        DB::beginTransaction();
         try {
 
             $email = $request['email'];
@@ -40,7 +42,6 @@ class CandidateController extends Controller
             if ($currentUser['email'] === $email) {
 
                 return Helpers::validationResponse('It’s a B2B Admin Account. You can directly login to HumanOP Account.');
-
             }
 
             $existingInvite = UserInvite::getSingleInvite($email);
@@ -54,7 +55,6 @@ class CandidateController extends Controller
                 if ($existingCandidate) {
 
                     return $this->inviteAlreadyExistsResponse($email, $existingCandidate['role']);
-
                 }
 
                 if ($user) {
@@ -64,9 +64,7 @@ class CandidateController extends Controller
                     if ($candidateRecord) {
 
                         return $this->inviteAlreadyExistsResponse($email, $candidateRecord['role']);
-
                     }
-
                 }
 
                 return $this->createAndSendCandidateInvite($existingInvite['id'], $email, $currentUser['company_name']);
@@ -78,17 +76,15 @@ class CandidateController extends Controller
             if ($newInvite) {
 
                 return $this->createAndSendCandidateInvite($newInvite['id'], $email, $currentUser['company_name']);
-
             }
 
+            DB::commit();
+
             return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
-
         } catch (\Exception $e) {
-
+            DB::rollBack();
             return Helpers::serverErrorResponse($e->getMessage());
-
         }
-
     }
 
     private function inviteAlreadyExistsResponse($email, $role)
@@ -112,7 +108,6 @@ class CandidateController extends Controller
         $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
 
         return Helpers::successResponse("{$email} invite link generated successfully.");
-
     }
 
     public static function allCandidates()
@@ -136,7 +131,6 @@ class CandidateController extends Controller
             }
 
             return Helpers::successResponse("All candidate invites.", $candidateInvites);
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -152,7 +146,7 @@ class CandidateController extends Controller
             foreach ($candidates as $candidate) {
 
                 if (!empty($candidate['users'])) {
-// dd(1);
+                    // dd(1);
                     $candidate['users']['gender'] = $candidate['users']['gender'] == 0 ? 'Male' : 'Female';
 
                     $candidate['users']['status'] = $candidate['users']['last_login'] ? 'on-board' : 'pending';
@@ -175,7 +169,6 @@ class CandidateController extends Controller
 
 
             return Helpers::successResponse('All candidates', $formattedCandidates);
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -194,7 +187,6 @@ class CandidateController extends Controller
                 if ($status) {
 
                     return Helpers::validationResponse('This candidate is  already deleted');
-
                 } else {
 
                     $checkRole = B2BBusinessCandidates::checkRole($request['candidate_id']);
@@ -202,7 +194,6 @@ class CandidateController extends Controller
                     if ($checkRole) {
 
                         return Helpers::validationResponse('This candidate is  already converted to member');
-
                     } else {
 
                         $changeRole = B2BBusinessCandidates::changeRole($request['candidate_id']);
@@ -210,23 +201,18 @@ class CandidateController extends Controller
                         if ($changeRole) {
 
                             return Helpers::successResponse(' Candidate Change To Member');
-
                         } else {
 
                             return Helpers::validationResponse('Not Link With Your Business');
-
                         }
-
                     }
                 }
             } else {
                 return Helpers::validationResponse('Failed to find candidate id');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -242,7 +228,6 @@ class CandidateController extends Controller
                 if ($status) {
 
                     return Helpers::validationResponse('This Candidate is already deleted from your business.');
-
                 } else {
 
                     $candidate = B2BBusinessCandidates::DeletedCandidate($request['candidate_id']);
@@ -250,23 +235,18 @@ class CandidateController extends Controller
                     if ($candidate) {
 
                         return Helpers::successResponse('Candidate deleted successfully.');
-
                     } else {
 
                         return Helpers::validationResponse('Failed to delete the candidate.');
                     }
                 }
-
             } else {
 
                 return Helpers::validationResponse('Failed to find candidate ID.');
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -282,7 +262,6 @@ class CandidateController extends Controller
                 if ($status) {
 
                     return Helpers::validationResponse('This Candidate is already deleted with your business.');
-
                 } else {
 
                     $archive = B2BBusinessCandidates::checkConsideration($request['candidate_id']);
@@ -290,7 +269,6 @@ class CandidateController extends Controller
                     if ($archive) {
 
                         return Helpers::validationResponse('This Candidate is already archived.');
-
                     } else {
 
                         $candidate = B2BBusinessCandidates::ArchivedCandidate($request['candidate_id']);
@@ -298,24 +276,18 @@ class CandidateController extends Controller
                         if ($candidate) {
 
                             return Helpers::successResponse('Candidate archive successfully.');
-
                         } else {
 
                             return Helpers::validationResponse('Failed to archive the candidate.');
                         }
                     }
-
                 }
-
             } else {
                 return Helpers::validationResponse('Failed to find candidate id');
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -331,12 +303,9 @@ class CandidateController extends Controller
             }
 
             return Helpers::successResponse('Archive Candidates', $archiveCandidates);
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -348,12 +317,9 @@ class CandidateController extends Controller
             $deletedCandidates = B2BBusinessCandidates::AlldeletedCandidates(Helpers::getUser()['id']);
 
             return Helpers::successResponse('Deleted Candidates', $deletedCandidates);
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -373,7 +339,5 @@ class CandidateController extends Controller
         $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
 
         Email::sendEmailVerification(['content' => $emailTemplate], $recipientEmail, 'emails.Email_Template', $name);
-
     }
-
 }

@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use App\Models\UserInvite\UserInvite;
 use App\Models\B2B\UserCandidateInvite;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
@@ -38,6 +39,7 @@ class MemberController extends Controller
 
     public function createInviteLinkForMember(CheckEmailRequest $request)
     {
+        DB::beginTransaction();
         try {
 
             $email = $request['email'];
@@ -88,10 +90,12 @@ class MemberController extends Controller
 
             }
 
+            DB::commit();
+
             return $this->createAndSendMemberInvite($newInvite['id'], $email, $currentUser['company_name']);
 
         } catch (\Exception $e) {
-
+DB::rollBack();
             return Helpers::serverErrorResponse($e->getMessage());
 
         }
@@ -156,7 +160,7 @@ class MemberController extends Controller
 
     public function addMember(AddMemberRequest $request)
     {
-
+     DB::beginTransaction();
         try {
 
             $user = Helpers::getUser();
@@ -196,6 +200,8 @@ class MemberController extends Controller
 
                         $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
 
+                        DB::commit();
+
                         return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
 
                     } else {
@@ -226,11 +232,15 @@ class MemberController extends Controller
 
                     $this->sendEmailVerification($emailData, $createMember['email'], 'b2b-login-link');
 
+                    DB::commit();
+
                     return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
                 }
             }
 
         } catch (\Exception $exception) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
@@ -595,9 +605,13 @@ class MemberController extends Controller
     {
         try {
             if (empty($request['member_id'])) {
+
                 return Helpers::validationResponse('Please Enter a Member id');
+
             } else {
+
                 B2BBusinessCandidates::requestAccess($request['member_id']);
+                
                 return Helpers::successResponse('Request For Access Data is Send');
             }
 
