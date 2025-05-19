@@ -13,6 +13,7 @@
             {{--            <th>#</th>--}}
             <th>Username</th>
             <th>Feedback</th>
+            <th>Submitted At</th>
             <th>Rating</th>
             <th>Image</th>
             <th>Approve</th>
@@ -30,6 +31,7 @@
 
 
         @foreach($feedbacks as $key => $feedback)
+          
             <tr class="table-text-color">
                 <td class="text-md font-weight-normal">{{$feedback['user'] ? $feedback['user']['first_name'] . ' ' . $feedback['user']['last_name'] : ""}}</td>
                 <td class="text-md font-weight-normal">
@@ -45,6 +47,8 @@
                         {{$feedback['comment'] ?? null}}
                     @endif
                 </td>
+
+                <td class="text-md font-weight-normal">{{$feedback['created_at'] ?? ""}}</td>
 
                 <td>
                     @php
