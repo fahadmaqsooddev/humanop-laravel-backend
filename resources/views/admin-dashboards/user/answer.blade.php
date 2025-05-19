@@ -1,4 +1,30 @@
+
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
+
+
+<style>
+    .pagination {
+        float: right;
+        margin-right: 24px;
+    }
+
+    .page-link {
+        background: none !important;
+    }
+
+    .page-link:hover {
+        background: #f2661c !important;
+        color: white !important;
+    }
+
+    .dataTable-pagination-list .active a {
+        background: #f2661c !important;
+        color: white !important;
+        border-color: #f2661c !important;
+    }
+
+</style>
+
 
 @section('content')
     <div class="row mt-4 container-fluid">
@@ -34,7 +60,7 @@
                                             {{ $assessment['answer'] }}
                                         @endif
                                     </td>
-                                    {{-- <td class="text-sm font-weight-normal">{{$assessment['answer']}}</td> --}}
+                                    
                                 </tr>
                             @endforeach
 
