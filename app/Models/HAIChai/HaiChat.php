@@ -132,9 +132,7 @@ class HaiChat extends Model
 
     public static function userLastMessage(){
 
-        $convo = self::where('user_id', Helpers::getUser()->id)->latest()
-
-            ->first();
+        $convo = self::where('user_id', Helpers::getUser()->id)->latest()->first();
 
         if ($convo){
 

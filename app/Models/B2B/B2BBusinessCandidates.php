@@ -2,7 +2,6 @@
 
 namespace App\Models\B2B;
 
-use App\Http\Livewire\B2b\B2binvites\B2bInvite;
 use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
@@ -86,24 +85,35 @@ class B2BBusinessCandidates extends Model
     {
 
         $data = self::when($business_id, function ($query, $business_id) {
+
             $query->where('business_id', $business_id)
                 ->where('is_permanently_deleted', 0)
                 ->where('role', Admin::IS_TEAM_MEMBER)
                 ->where('future_consideration', Admin::NOT_IN_FUTURE);
+
         })
             ->when($search_name, function ($query) use ($search_name) {
+
                 $query->whereHas('users', function ($q) use ($search_name) {
+
                     $q->where('first_name', 'LIKE', "%{$search_name}%")
                         ->orWhere('last_name', 'LIKE', "%{$search_name}%")
                         ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+
                 });
+
             })
             ->with([
+
                 'users' => function ($query) {
+
                     $query->select('id', 'first_name', 'last_name', 'email', 'gender', 'last_login', 'timezone', 'phone', 'date_of_birth', 'company_name', 'step')
                         ->where('step', 3);
+
                 },
+
                 'assessments:id,user_id,page'
+
             ])
             ->orderBy('id', 'desc')
             ->get();
@@ -114,16 +124,23 @@ class B2BBusinessCandidates extends Model
     public static function allBusinessCandidates($business_id = null)
     {
         $data = self::when($business_id, function ($query, $business_id) {
+
             $query->where('business_id', $business_id)
                 ->where('is_permanently_deleted', 0)
                 ->where('role', Admin::IS_CANDIDATE)
                 ->where('future_consideration', Admin::NOT_IN_FUTURE);
+
         })
             ->with([
+
                 'users' => function ($query) {
+
                     $query->where('step', 3);
+
                 },
+
                 'assessments:id,user_id,page'
+
             ])
             ->orderBy('id', 'desc')
             ->get();
@@ -185,7 +202,6 @@ class B2BBusinessCandidates extends Model
 
     public static function ArchivedCandidate($userId)
     {
-
 
 
         $data = self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userId)->update([
@@ -259,7 +275,6 @@ class B2BBusinessCandidates extends Model
     public static function changeRole($userId)
     {
         $data = self::where('business_id', Helpers::getUser()['id'])
-
             ->where('candidate_id', $userId)->update([
                 'role' => Admin::IS_TEAM_MEMBER
             ]);
@@ -477,25 +492,25 @@ class B2BBusinessCandidates extends Model
 
     public static function getMembersCount($businessId = null)
     {
-        return self::where('business_id', $businessId)
-            ->where('role', Admin::IS_TEAM_MEMBER)
-            ->where('is_permanently_deleted', 0)
-            ->where('future_consideration', 0)
-            ->whereHas('users', function ($query) {
-                $query->where('step', 3);
-            })
+
+        return self::where('business_id', $businessId)->where('role', Admin::IS_TEAM_MEMBER)->where('is_permanently_deleted', 0)->where('future_consideration', 0)->whereHas('users', function ($query) {
+
+            $query->where('step', 3);
+
+        })
             ->count();
+
     }
 
     public static function getCandidatesCount($businessId = null)
     {
-        return self::where('business_id', $businessId)
-            ->where('role', Admin::IS_CANDIDATE)
-            ->where('is_permanently_deleted', 0)
-            ->where('future_consideration', 0)
-            ->whereHas('users', function ($query) {
-                $query->where('step', 3);
-            })
+        return self::where('business_id', $businessId)->where('role', Admin::IS_CANDIDATE)->where('is_permanently_deleted', 0)->where('future_consideration', 0)->whereHas('users', function ($query) {
+
+            $query->where('step', 3);
+
+        })
+
             ->count();
+
     }
 }

@@ -16,7 +16,6 @@ use App\Models\Client\StoryView\StoryView;
 use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\UserInvite\UserInvite;
-use Aws\ElasticsearchService\Exception\ElasticsearchServiceException;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,17 +38,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = [
-        'point',
-        'photo_url',
-        'user_picture_url',
-        'is_follow',
-        'connection_status',
-        'feedback_submitted',
-        'age_group',
-        'plan_name',
-        'optional_trait'
-    ];
+    protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait'];
 
     public function __construct(array $attributes = array())
     {
@@ -61,14 +50,18 @@ class User extends Authenticatable implements JWTSubject
 
     protected static function boot()
     {
+
         parent::boot();
 
         static::created(function ($user) {
-            $user->referral_code = Str::random(5) . $user->id . Str::random(5);
-            $user->save();
-        });
-    }
 
+            $user->referral_code = Str::random(5) . $user->id . Str::random(5);
+
+            $user->save();
+
+        });
+
+    }
 
     public function getJWTIdentifier()
     {
@@ -80,17 +73,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -101,17 +84,16 @@ class User extends Authenticatable implements JWTSubject
         Session::put('user_password', $value);
 
         $this->attributes['password'] = Hash::make($value);
+
     }
 
     // scope
-
     public function scopeSelection($query)
     {
         return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status']);
     }
 
     // appends
-
     public function getUserPictureUrlAttribute()
     {
         return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
@@ -148,14 +130,19 @@ class User extends Authenticatable implements JWTSubject
         $userId = $user ? $user['id'] : null;
 
         if ($userId !== null) {
+
             $point = Point::where('user_id', $userId)->select('point')->first();
 
             if ($point) {
+
                 return $point->point;
+
             }
+
         }
 
         return 0;
+
     }
 
 
@@ -163,12 +150,17 @@ class User extends Authenticatable implements JWTSubject
     {
 
         if ($this->gender == '1') {
+
             $profilePic = 'female_profile_pic.png';
+
         } else {
+
             $profilePic = 'profile_pic.png';
+
         }
 
         return Helpers::getImage($this->image_id, $profilePic);
+
     }
 
     public function getIsFollowAttribute()
@@ -182,15 +174,18 @@ class User extends Authenticatable implements JWTSubject
             return $this->followed()->where('user_id', $userId)->exists();
 
         } else {
+
             return false;
 
         }
+
     }
 
     public function getConnectionStatusAttribute()
     {
 
         if (!empty($this->sentConnectionRequest())) {
+
             if ($this->sentConnectionRequest()->exists()) {
 
                 return 2; // sent connection request
@@ -237,7 +232,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     // relations
-
     public function invites()
     {
         return $this->hasOne(UserInvite::class, 'email', 'email');
@@ -291,8 +285,11 @@ class User extends Authenticatable implements JWTSubject
         if ($userId !== null) {
 
             return $this->hasOne(Connection::class, 'friend_id', 'id')->where('user_id', $userId)->where('status', 0);
+
         } else {
+
             return null;
+
         }
 
     }
@@ -300,15 +297,15 @@ class User extends Authenticatable implements JWTSubject
     public function recevivedConnectionRequest()
     {
 
-        return $this->hasOne(Connection::class, 'user_id', 'id')
-            ->where('friend_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 0);
+        return $this->hasOne(Connection::class, 'user_id', 'id')->where('friend_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 0);
+
     }
 
     public function confirmedConnectionRequest()
     {
 
-        return $this->hasOne(Connection::class, 'friend_id', 'id')
-            ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 1);
+        return $this->hasOne(Connection::class, 'friend_id', 'id')->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 1);
+
     }
 
     public function colorCodes()
@@ -409,8 +406,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function getSingleUser($id = null)
     {
-        $user = self::find($id);
-        return $user;
+        return self::find($id);
     }
 
     public static function getSingleUserFromCompanyName($companyName = null)
@@ -428,9 +424,13 @@ class User extends Authenticatable implements JWTSubject
         $users = self::where('referred_by', $userId)->where('step', 3)->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login', 'date_of_birth'])->get();
 
         foreach ($users as $user) {
+
             $user['gender'] = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
+
             $user['last_login'] = Carbon::parse($user['last_login'])->format('m/d/Y h:i A');
+
             $user->setAppends([]);
+
         }
 
         return $users;
@@ -467,115 +467,143 @@ class User extends Authenticatable implements JWTSubject
         $age = Carbon::parse($date_of_birth)->age;
 
         switch ($age) {
+
             case (7 <= $age && $age <= 11):
+
                 $interval = [
                     'interval' => 'Connecting & Communicating',
                     'public_name' => 'Cycle of Life - Connecting & Communicating (7-11)',
                     'video' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
                     'description' => config('intervalLifeCycle.connecting_Communicating_(7-11)')
                 ];
+
                 break;
+
             case (12 <= $age && $age <= 15):
+
                 $interval = [
                     'interval' => 'Alchemical Revelation',
                     'public_name' => 'Cycle of Life - Alchemical Revelation (12-15)',
                     'video' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
                     'description' => config('intervalLifeCycle.alchemical_revelation_(12-15)')
                 ];
+
                 break;
+
             case (16 <= $age && $age <= 20):
+
                 $interval = [
                     'interval' => 'Motivation',
                     'public_name' => 'Cycle of Life - Motivation (16-20)',
                     'video' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
                     'description' => config('intervalLifeCycle.motivation_(16-20)')
-
                 ];
+
                 break;
+
             case (21 <= $age && $age <= 29):
+
                 $interval = [
                     'interval' => 'Roadworthy ',
                     'public_name' => 'Cycle of Life - Roadworthy (21-29)',
                     'video' => asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4'),
                     'description' => config('intervalLifeCycle.roadworthy_(21-29)')
-
                 ];
+
                 break;
+
             case (30 <= $age && $age <= 33):
+
                 $interval = [
                     'interval' => 'Power',
                     'public_name' => 'Cycle of Life - The Power Interval (30-33)',
                     'video' => asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4'),
                     'description' => config('intervalLifeCycle.the_power_interval_(30-33)')
-
                 ];
+
                 break;
+
             case (34 <= $age && $age <= 42):
+
                 $interval = [
                     'interval' => 'MidLife Transformation',
                     'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)',
                     'video' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4'),
                     'description' => config('intervalLifeCycle.mid_life_transformation_(34-42)')
-
                 ];
+
                 break;
+
             case (43 <= $age && $age <= 51):
+
                 $interval = [
                     'interval' => 'Awareness',
                     'public_name' => 'Cycle of Life - Awareness (43-51)',
                     'video' => asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4'),
                     'description' => config('intervalLifeCycle.awareness_(43-51)')
-
                 ];
+
                 break;
+
             case (52 <= $age && $age <= 65):
+
                 $interval = [
                     'interval' => 'Payit Forward',
                     'public_name' => 'Cycle of Life - Pay It Forward (52-65)',
                     'video' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4'),
                     'description' => config('intervalLifeCycle.pay_it_forward_(52-65)')
-
                 ];
+
                 break;
+
             case (66 <= $age && $age <= 69):
+
                 $interval = [
                     'interval' => 'Liberated',
                     'public_name' => 'Cycle of Life - Liberated (66-69)',
                     'video' => asset('assets/video/Cycle of Life - Liberated 66-70.mp4'),
                     'description' => config('intervalLifeCycle.liberated_(66-69)')
-
                 ];
+
                 break;
+
             case (70 <= $age && $age <= 74):
+
                 $interval = [
                     'interval' => 'Being',
                     'public_name' => 'Cycle of Life - Being (70-74)',
                     'video' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
                     'description' => config('intervalLifeCycle.being_(70-74)')
-
                 ];
+
                 break;
+
             case (75 <= $age && $age <= 83):
+
                 $interval = [
                     'interval' => 'Life Review',
                     'public_name' => 'Cycle of Life - Life Review (75-83)',
                     'video' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
                     'description' => config('intervalLifeCycle.life_review_(75-83)')
-
                 ];
+
                 break;
+
             default:
+
                 $interval = [
                     'interval' => 'Surrender',
                     'public_name' => 'Cycle of Life - Surrender (84+)',
                     'video' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4'),
                     'description' => config('intervalLifeCycle.surrender_(84+)')
-
                 ];
+
                 break;
+
         }
 
         return $interval;
+
     }
 
     public static function updateUser($data = null, $id = null)
@@ -638,11 +666,17 @@ class User extends Authenticatable implements JWTSubject
     public static function checkPassword($password, $id)
     {
         $user = self::find($id);
+
         if ($user && Hash::check($password, $user->password)) {
+
             return true;
+
         } else {
+
             return false;
+
         }
+
     }
 
     public static function user($id = null)
@@ -651,7 +685,6 @@ class User extends Authenticatable implements JWTSubject
         $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
         $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
         $user['is_feedback'] = $user['is_feedback'];
-        //        $user['is_feedback'] = ($user['is_feedback'] === Admin::Is_Feed_Back_Show ? true : false);
         $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
         $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
         return $user;
@@ -661,6 +694,7 @@ class User extends Authenticatable implements JWTSubject
     public static function checkHaiStatus($id = null)
     {
         $user = self::whereId($id)->select(['hai_chat'])->first();
+
         return ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
     }
 
@@ -721,9 +755,13 @@ class User extends Authenticatable implements JWTSubject
         $request['gender'] = $request['gender'] === 'male' ? 0 : 1;
 
         if (isset($request['password']) && !empty($request['password'])) {
+
             $request['password'] = Hash::make($request['password']);
+
         } else {
+
             $request['password'] = Helpers::getUser()->password;
+
         }
 
         self::whereId($user_id)->update($request);
@@ -762,8 +800,7 @@ class User extends Authenticatable implements JWTSubject
 
             return $q->where('created_at', ">", Carbon::now()->subDay());
         })
-            ->select(['id', 'first_name', 'last_name', 'image_id'])
-            ->get();
+            ->select(['id', 'first_name', 'last_name', 'image_id'])->get();
 
         foreach ($users as $user) {
 
@@ -869,81 +906,47 @@ class User extends Authenticatable implements JWTSubject
         return $users;
     }
 
-    // public static function getB2BAdmin($search_name = null, $search_email = null, $per_page = 10)
-    // {
-    //     $organizations = self::query();
-
-    //     if (!empty($search_name)) {
-
-    //         $organizations->where(function ($q) use ($search_name) {
-
-    //             $q->where('first_name', 'LIKE', "%{$search_name}%")
-    //                 ->orWhere('last_name', 'LIKE', "%{$search_name}%")
-    //                 ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
-
-    //         });
-
-    //     }
-
-    //     if (!empty($search_email)) {
-
-    //         $organizations->where(function ($q) use ($search_email) {
-
-    //             $q->where('email', 'LIKE', "%{$search_email}%");
-
-    //         });
-
-
-    //     }
-
-    //     $organizations = $organizations->whereNotNull('company_name')
-    //         ->orderBy('created_at', 'desc')
-    //         ->paginate($per_page);
-    //         // dd($organizations);
-
-    //     foreach ($organizations as $organization) {
-
-    //         $organization->member_count = B2BBusinessCandidates::getMembersCount($organization['id']);
-
-    //         $organization->candidate_count = B2BBusinessCandidates::getCandidatesCount($organization['id']);
-    //     }
-
-    //     // $data= $organizations->paginate($per_page);
-    //     return $organizations;
-    // }
-
     public static function getB2BAdmin($search_name = null, $search_email = null, $per_page = 10)
     {
         $query = self::query();
 
         if (!empty($search_name)) {
+
             $query->where(function ($q) use ($search_name) {
+
                 $q->where('first_name', 'LIKE', "%{$search_name}%")
                     ->orWhere('last_name', 'LIKE', "%{$search_name}%")
                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+
             });
+
         }
 
         if (!empty($search_email)) {
+
             $query->where(function ($q) use ($search_email) {
+
                 $q->where('email', 'LIKE', "%{$search_email}%");
+
             });
+
         }
 
-        // Apply main filters but don't paginate yet
         $query = $query->whereNotNull('company_name')
             ->orderBy('created_at', 'desc');
 
-        // Get the paginated results
         $organizations = $query->paginate($per_page);
 
-        // Now add the additional counts
         foreach ($organizations as $organization) {
+
             $organization->member_count = B2BBusinessCandidates::getMembersCount($organization['id']);
+
             $organization->candidate_count = B2BBusinessCandidates::getCandidatesCount($organization['id']);
+
         }
 
         return $organizations;
+
     }
 
     public static function allPaginatedClients($request = null)
@@ -957,10 +960,11 @@ class User extends Authenticatable implements JWTSubject
 
                 $q->where('first_name', 'LIKE', "%$search_name%")
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
-//                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ")
                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
 
+
             });
+
         });
 
         $users = $users->when($request->input('style_feature_code'), function ($q, $style_feature_code) {
@@ -968,7 +972,9 @@ class User extends Authenticatable implements JWTSubject
             $q->whereHas('colorCodes', function ($q) use ($style_feature_code) {
 
                 $q->where('code', $style_feature_code)->where('code_color', 'green');
+
             });
+
         });
 
         $users = $users->when($request->input('alchemy_code'), function ($q, $alchemy_code) {
@@ -982,28 +988,20 @@ class User extends Authenticatable implements JWTSubject
                 $q->whereHas('assessments', function ($q) use ($sqlArray) {
 
                     $q->whereRaw("concat(g, '', s, '', c) IN $sqlArray");
+
                 });
+
             }
+
         });
 
         $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B]);
 
         return Helpers::pagination($users, $request->input('pagination'), $request->input('per_page'));
+
     }
 
-    // public static function deletedClients($page, $per_page)
-    // {
-
-    //     return self::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
-    //         ->where('is_permanently_deleted', 0)
-    //         ->onlyTrashed()
-    //         ->orderBy('deleted_at','desc')
-    //         ->paginate($per_page)->setPath(route('deleted_clients'));
-
-    // }
-
-
-    public static function deletedClients($page, $per_page, $search_name = null, $email = null, $age = null)
+    public static function deletedClients($page = null, $per_page = null, $search_name = null, $email = null, $age = null)
     {
         $userId = Helpers::getWebUser()['id'];
 
@@ -1012,36 +1010,41 @@ class User extends Authenticatable implements JWTSubject
         $users = ($isAdminLevel == 4) ? self::where('practitioner_id', $userId)->orderBy('created_at', 'desc') : self::query()->orderBy('created_at', 'desc');
 
         if (!empty($search_name)) {
+
             $users->where(function ($query) use ($search_name) {
+
                 $query->where('first_name', 'LIKE', "%$search_name%")
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$search_name%"]);
+
             });
+
         }
 
-        // Filter by email
         if (!empty($email)) {
-            //    $users->where('email', $email);
+
             $users->where('email', 'LIKE', "%$email%");
+
         }
 
         if (!empty($age)) {
+
             $data['age_range'] = $age;
+
             $ageData = Helpers::explodeAgeRangeIntoAge($data);
 
             $min_date = Carbon::now()->subYears((int)($ageData['age_max'] ?? 0))->toDateString();
+
             $max_date = Carbon::now()->subYears((int)($ageData['age_min'] ?? 0))->toDateString();
 
             $users->whereBetween('date_of_birth', [$min_date, $max_date]);
+
         }
 
-        $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
-            ->where('is_permanently_deleted', 0)
-            ->onlyTrashed()
-            ->orderBy('deleted_at', 'desc')
-            ->paginate($per_page)->setPath(route('deleted_clients'));
+        $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])->where('is_permanently_deleted', 0)->onlyTrashed()->orderBy('deleted_at', 'desc')->paginate($per_page)->setPath(route('deleted_clients'));
 
         return $users;
+
     }
 
     public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin)
@@ -1053,36 +1056,38 @@ class User extends Authenticatable implements JWTSubject
 
         $users = ($isAdminLevel == 4) ? self::where('practitioner_id', $userId)->orderBy('created_at', 'desc') : self::query()->orderBy('created_at', 'desc');
 
-        // Search by name
         if (!empty($search_name)) {
+
             $users->where(function ($query) use ($search_name) {
+
                 $query->where('first_name', 'LIKE', "%$search_name%")
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$search_name%"]);
+
             });
+
         }
 
-        // Filter by email
         if (!empty($email)) {
 
-            //    $users->where('email', $email);
             $users->where('email', 'LIKE', "%$email%");
         }
 
-        // Filter by age
         if (!empty($age)) {
+
             $data['age_range'] = $age;
+
             $ageData = Helpers::explodeAgeRangeIntoAge($data);
 
             $min_date = Carbon::now()->subYears((int)($ageData['age_max'] ?? 0))->toDateString();
+
             $max_date = Carbon::now()->subYears((int)($ageData['age_min'] ?? 0))->toDateString();
 
             $users->whereBetween('date_of_birth', [$min_date, $max_date]);
+
         }
 
-        // Filter by admin status and paginate
         $users = $users->whereIn('is_admin', $isAdmin)
-            // ->whereNotNull('email_verified_at')
             ->paginate($per_page)
             ->setPath(route('admin_all_users', [
                 'name' => $search_name,
@@ -1092,6 +1097,7 @@ class User extends Authenticatable implements JWTSubject
 
 
         return $users;
+
     }
 
     public static function getSuperAdmins()
@@ -1102,18 +1108,25 @@ class User extends Authenticatable implements JWTSubject
     public static function makeUserAsPractitioner($user_id = null)
     {
         $user = self::find($user_id);
+
         if ($user) {
+
             if ($user->is_admin == Admin::IS_PRACTITIONER) {
+
                 User::whereId($user_id)->update(['is_admin' => Admin::IS_CUSTOMER]);
 
                 DB::table('model_has_roles')->where('model_id', $user['id'])->delete();
 
                 DB::table('model_has_permissions')->where('model_id', $user['id'])->delete();
+
             } else {
+
                 User::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
 
                 DB::table('model_has_roles')->insert([
+
                     ['role_id' => Admin::PRACTITIONER_ROLE ?? null, 'model_type' => 'App\Models\User', 'model_id' => $user['id']],
+
                 ]);
 
                 $permissions = Permission::all();
@@ -1125,17 +1138,29 @@ class User extends Authenticatable implements JWTSubject
                         if ($permission->name == 'users') {
 
                             DB::table('model_has_permissions')->insert([
+
                                 ['permission_id' => $permission->id ?? null, 'model_type' => 'App\Models\User', 'model_id' => $user['id']],
+
                             ]);
+
                         } elseif ($permission->name == 'abandonedAssessment') {
+
                             DB::table('model_has_permissions')->insert([
+
                                 ['permission_id' => $permission->id ?? null, 'model_type' => 'App\Models\User', 'model_id' => $user['id']],
+
                             ]);
+
                         }
+
                     }
+
                 }
+
             }
+
         }
+
     }
 
     public static function userLoggedInData()
@@ -1163,20 +1188,24 @@ class User extends Authenticatable implements JWTSubject
                 $user->update(['google_id' => $request->input('google_id')]);
             }
 
-            $user = $user->where('email', $request->input('email'))
-                ->with('userIntensionPlan')->selection()->first();
+            $user = $user->where('email', $request->input('email'))->with('userIntensionPlan')->selection()->first();
 
             $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
 
             if ($user) {
+
                 $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+
                 $user['is_feedback'] = ($user['is_feedback'] === Admin::Is_Feed_Back_Show ? true : false);
+
             }
 
             return $user;
+
         }
 
         return false;
+
     }
 
     public static function verifyUserExistsWithPractitionerSlugs($email, $slug1, $slug2)
@@ -1185,6 +1214,7 @@ class User extends Authenticatable implements JWTSubject
         $practitioner = self::where('first_name', $slug1)->where('last_name', $slug2)->first();
 
         User::where('practitioner_id', $practitioner->id)->where('email', $email)->exists();
+
     }
 
     public static function deleteClientProfile($id)
@@ -1193,16 +1223,21 @@ class User extends Authenticatable implements JWTSubject
         self::whereId($id)->first();
 
         self::whereId($id)->delete();
+
     }
 
     public static function emailVerified($userId = null)
     {
+
         return self::whereId($userId)->update(['email_verified_at' => Carbon::now(), 'step' => 2]);
+
     }
 
     public static function checkEmailVerified($userEmail = null)
     {
+
         return self::where('email', $userEmail)->whereNotNull('email_verified_at')->first();
+
     }
 
     public static function checkLastStep($userEmail = null)
@@ -1252,12 +1287,15 @@ class User extends Authenticatable implements JWTSubject
     {
 
         if ($email) {
+
             $token = Str::random(16);
 
             self::where('email', $email)->update(['reset_password_token' => $token]);
 
             return self::where('email', $email)->first();
+
         }
+
     }
 
     public static function generateEmailVerificationToken($email)
@@ -1282,14 +1320,17 @@ class User extends Authenticatable implements JWTSubject
 
             $query->where('page', 0)
                 ->orderBy('updated_at', 'desc');
+
         })->select(['id', 'first_name', 'last_name'])->orderBy('first_name')->get();
 
         foreach ($users as $user) {
 
             $user->setAppends([]);
+
         }
 
         return $users;
+
     }
 
     public static function updateUserLastStep($data = null, $userId = null)
@@ -1364,15 +1405,23 @@ class User extends Authenticatable implements JWTSubject
     {
 
         $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
+
         if (!empty($data['password'])) {
+
             $data['password'] = Hash::make($data['password']);
+
             return self::where('id', $memberId)->update($data);
+
         } else {
 
             $userinfo = User::where('id', $memberId)->first();
+
             $data['password'] = $userinfo['password'];
+
             self::where('id', $memberId)->update($data);
+
         }
+
     }
 
     public static function deleteMember($id = null)
@@ -1401,15 +1450,18 @@ class User extends Authenticatable implements JWTSubject
     public static function B2BResetPassword($id, $password)
     {
         $user = self::find($id);
+
         if ($user) {
 
             $user->password = $password;
+
             $user->save();
+
             return $user;
         }
 
-
         return null;
+
     }
 
 
@@ -1425,16 +1477,23 @@ class User extends Authenticatable implements JWTSubject
         return self::where('email', $email)->where('business_id', Helpers::getUser()->id)->whereHas('candidate', function ($query) {
 
             $query->where('share_data', 1);
+
         })->select(['id', 'email'])->first()?->id;
+
     }
 
     public static function updateVersion()
     {
         $admins = self::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B, Admin::IS_B2U])->get();
+
         foreach ($admins as $admin) {
+
             $admin->version_update = 0;
+
             $admin->save();
+
         }
+
     }
 
 
@@ -1450,56 +1509,76 @@ class User extends Authenticatable implements JWTSubject
         $user = Helpers::getUser();
 
         if ($user['complete_assessment_walkthrough'] == 0) {
+
             $user->update(['complete_assessment_walkthrough' => 1]);
+
         }
 
         return $user;
+
     }
 
     public static function completeTutorial()
     {
+
         $user = Helpers::getUser();
 
         if ($user['complete_tutorial'] == 0) {
+
             $user->update(['complete_tutorial' => 1]);
+
         }
 
         return $user;
+
     }
 
     public static function getB2BDeletedAdmins($name = null, $email = null, $age = null, $perPage = null)
     {
+
         $users = self::where('is_admin', Admin::IS_B2B);
 
         if (!empty($name)) {
+
             $users->where(function ($query) use ($name) {
+
                 $query->where('first_name', 'LIKE', "%$name%")
+
                     ->orWhere('last_name', 'LIKE', "%$name%")
+
                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
+
             });
+
         }
 
-        // Filter by email
         if (!empty($email)) {
 
-            //    $users->where('email', $email);
             $users->where('email', 'LIKE', "%$email%");
         }
 
-        // Filter by age
         if (!empty($age)) {
+
             $data['age_range'] = $age;
+
             $ageData = Helpers::explodeAgeRangeIntoAge($data);
 
             $min_date = Carbon::now()->subYears((int)($ageData['age_max'] ?? 0))->toDateString();
+
             $max_date = Carbon::now()->subYears((int)($ageData['age_min'] ?? 0))->toDateString();
 
             $users->whereBetween('date_of_birth', [$min_date, $max_date]);
+
         }
+
         return $users->where('is_permanently_deleted', 0)
+
             ->onlyTrashed()
+
             ->orderBy('deleted_at', 'desc')
+
             ->paginate($perPage);
+
     }
 
     public static function b2bDetailForHai($user_id)
@@ -1508,6 +1587,7 @@ class User extends Authenticatable implements JWTSubject
         $user = self::with('businessIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth'])->first()->setAppends([]);
 
         return $user;
+
     }
 
     public static function userIntervalOfLife($date_of_birth = null)
@@ -1516,11 +1596,14 @@ class User extends Authenticatable implements JWTSubject
         $age = Carbon::parse($date_of_birth)->age;
 
         switch ($age) {
+
             case (7 <= $age && $age <= 11):
+
                 $interval = [
                     'interval' => 'Connecting & Communicating',
                     'public_name' => 'Cycle of Life - Connecting & Communicating (7-11)'
                 ];
+
                 break;
             case (12 <= $age && $age <= 15):
                 $interval = [

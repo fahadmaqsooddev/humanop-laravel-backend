@@ -354,21 +354,35 @@ class DashboardController extends Controller
                 $ep = $positive + $negative;
 
                 if ($pv <= -8) {
+
                     $polarity_code = 40;
+
                 } elseif ($pv >= -7 and $pv <= 7) {
+
                     $polarity_code = 41;
+
                 } elseif ($pv >= 8) {
+
                     $polarity_code = 42;
+
                 }
 
                 if ($ep < 25) {
+
                     $energy_code = 21;
+
                 } elseif ($ep >= 25 and $ep <= 30) {
+
                     $energy_code = 18;
+
                 } elseif ($ep >= 31 and $ep <= 35) {
+
                     $energy_code = 20;
+
                 } elseif ($ep >= 36) {
+
                     $energy_code = 16;
+
                 }
 
                 $record = CodeDetail::whereId($polarity_code)->select(['id', 'code'])->first();
@@ -412,14 +426,21 @@ class DashboardController extends Controller
             $user = User::completeAssessmentWalkthrought();
 
             if ($user['complete_assessment_walkthrough'] == 1) {
+
                 return Helpers::successResponse('Assessment walkthrough completed');
+
             } else {
+
                 return Helpers::validationResponse('Assessment walkthrough not completed');
+
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function completeTutorial()
@@ -429,14 +450,21 @@ class DashboardController extends Controller
             $user = User::completeTutorial();
 
             if ($user['complete_tutorial'] == 1) {
+
                 return Helpers::successResponse('Tutorial completed');
+
             } else {
+
                 return Helpers::validationResponse('Tutorial not completed');
+
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function sharedData(ShareDataRequest $request)
@@ -710,19 +738,30 @@ class DashboardController extends Controller
             $haiStatus = User::checkHaiStatus($user_id);
 
             if ($haiStatus) {
+
                 $data = [
+
                     'status' => $haiStatus
+
                 ];
+
             } else {
+
                 $data = [
+
                     'status' => false
+
                 ];
+
             }
+
             return Helpers::successResponse('HAI CHAT status fetched successfully', $data);
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
+
 }

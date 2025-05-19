@@ -31,11 +31,9 @@ class Assessment extends Model
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
         $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
-//        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
 
-    // relations
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -46,28 +44,23 @@ class Assessment extends Model
         return $this->hasMany(AssessmentColorCode::class, 'assessment_id', 'id');
     }
 
-    // appends
     public function getAssessmentStatusAttribute()
     {
 
         return ($this->page > 0 || $this->page === null ? "Incomplete" : "Complete");
     }
 
-    // Accessor
     public function getUpdatedAtAttribute($value)
     {
         $formattedTimestamp = str_replace('T', ' ', $value);
 
         $formattedTimestamp = explode('.', $formattedTimestamp)[0];
 
-
         $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'] ?? '';
 
         $minutes = Helpers::explodeTimezoneWithHours($timezone);
 
-        return Carbon::parse($formattedTimestamp)
-            ->addMinutes($minutes * 60)
-            ->format('m/d/Y h:i A');
+        return Carbon::parse($formattedTimestamp)->addMinutes($minutes * 60)->format('m/d/Y h:i A');
 
     }
 
@@ -81,46 +74,21 @@ class Assessment extends Model
 
         $minutes = Helpers::explodeTimezoneWithHours($timezone);
 
-        return Carbon::parse($formattedTimestamp)
-            ->addMinutes($minutes * 60)
-            ->format('m/d/Y h:i A');
+        return Carbon::parse($formattedTimestamp)->addMinutes($minutes * 60)->format('m/d/Y h:i A');
 
     }
 
-    // scope
     public function scopeSelection($query)
     {
 
         return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type', 'created_at', 'updated_at']);
     }
 
-    // queries
-    // public static function createAssessment($data = null)
-    // {
-    //     return self::create($data);
-    // }
-
     public static function createAssessmentData($userId = null, $type = 0)
     {
 
         return self::create(['user_id' => $userId, 'type' => $type]);
     }
-
-    // public static function updateAssessment($data = null, $id = null)
-    // {
-    //     return self::find($id)->update($data);
-    // }
-
-    // public static function getLastPage()
-    // {
-    //     $page = self::where('user_id', Auth::user()->id)->select(['page', 'web_page'])->latest()->first();
-
-    //     if ($page) {
-    //         return $page;
-    //     } else {
-    //         return 0;
-    //     }
-    // }
 
     public static function getGrid($id = null)
     {
@@ -130,9 +98,9 @@ class Assessment extends Model
     public static function getAllRowGrid($id = null)
     {
         $grid = self::whereId($id)->first();
+
         $gridColor = AssessmentColorCode::getAssessmentCodeAndColor($grid['id']);
 
-        // Second Row Style
         $second_row_sa = $grid['sa'] + $grid['ma'] + $grid['mer'];
         $second_row_ma = $grid['sa'] + $grid['ma'] + $grid['jo'];
         $second_row_jo = $grid['ma'] + $grid['jo'] + $grid['lu'];
@@ -140,7 +108,6 @@ class Assessment extends Model
         $second_row_ven = $grid['lu'] + $grid['ven'] + $grid['mer'];
         $second_row_mer = $grid['ven'] + $grid['mer'] + $grid['sa'];
 
-        // Second Row Feature
         $second_row_de = $grid['ma'];
         $second_row_dom = $grid['sa'] + $grid['ma'];
         $second_row_fe = $grid['ma'] + $grid['lu'] + $grid['ven'];
@@ -154,7 +121,6 @@ class Assessment extends Model
         $second_row_van = $grid['jo'] + $grid['ven'] + $grid['mer'] + $grid['so'];
         $second_row_wil = $grid['ma'] + $grid['lu'];
 
-        // Second Row Communication
         $second_row_em = $grid['jo'] + $grid['ven'] + $grid['lu'];
         $second_row_ins = $grid['ma'] + $grid['ven'] + $grid['mer'];
         $second_row_int = $grid['jo'] + $grid['sa'] + $grid['mer'];
@@ -189,6 +155,7 @@ class Assessment extends Model
             'pv' => ($grid['sa'] + $grid['jo'] + $grid['ven'] + $grid['so']) - ($grid['ma'] + $grid['lu'] + $grid['mer']),
             'ep' => ($grid['sa'] + $grid['jo'] + $grid['ven'] + $grid['so']) + ($grid['ma'] + $grid['lu'] + $grid['mer']),
         ];
+
         $secondRowGrid = [
             'sa' => $grid['sa'] + $grid['ma'] + $grid['mer'],
             'ma' => $grid['sa'] + $grid['ma'] + $grid['jo'],
@@ -214,6 +181,7 @@ class Assessment extends Model
             'int' => $grid['jo'] + $grid['sa'] + $grid['mer'],
             'mov' => $grid['ma'] + $grid['so'] + $grid['mer']
         ];
+
         $thirdRowGrid = [
             'sa' => $grid['sa'] * $second_row_sa,
             'ma' => $grid['ma'] * $second_row_ma,
@@ -281,63 +249,54 @@ class Assessment extends Model
 
     public static function getAllUser()
     {
-        return self::where('page', 0)
-            ->orderBy('updated_at', 'desc')
-            ->get()
-            ->unique('user_id')
-            ->pluck('user_id');
+        return self::where('page', 0)->orderBy('updated_at', 'desc')->get()->unique('user_id')->pluck('user_id');
     }
-
-    // public static function getAllUser()
-    // {
-    //     return self::where('page', 0)
-    //         ->orderBy('updated_at', 'desc')
-    //         ->get()
-    //         ->unique('user_id')
-    //         ->pluck('user_id');
-
-    // }
-
 
     public static function getAssessmentIds()
     {
-        return static::where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
-            ->where('page', 0)
-            ->orderBy('created_at', 'desc')
-            ->pluck('id')
-            ->toArray();
+        return static::where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('page', 0)->orderBy('created_at', 'desc')->pluck('id')->toArray();
     }
 
     public static function checkAssessment($userId = null)
     {
         $currentDate = \Illuminate\Support\Carbon::now();
+
         $singleAssessment = self::singleAssessment($userId);
 
         if (!empty($singleAssessment)) {
+
             if ($singleAssessment['page'] === 0) {
-                $freeAssessment = self::where('user_id', $userId)
-                    ->where('page', 0)
-                    ->where('type', 1)
-                    ->latest()
-                    ->first();
+
+                $freeAssessment = self::where('user_id', $userId)->where('page', 0)->where('type', 1)->latest()->first();
 
                 if ($freeAssessment !== null) {
 
                     $createdAt = \Illuminate\Support\Carbon::parse($freeAssessment->created_at)->addDays(90);
 
                     if ($currentDate->greaterThan($createdAt)) {
+
                         return 'free';
+
                     } else {
+
                         return 'paid';
+
                     }
+
                 }
 
                 if ($singleAssessment['type'] === 0) {
+
                     return 'free';
+
                 }
+
             } elseif ($singleAssessment['page'] !== 0) {
+
                 return 'play';
+
             }
+
         }
 
         return 'free';
@@ -353,27 +312,35 @@ class Assessment extends Model
         $query = self::has('users')->where('page', 0);
 
         if ($isAdminLevel == 4) {
+
             $query->whereHas('users', function ($query) use ($userId) {
+
                 $query->where('practitioner_id', $userId);
+
             });
+
         }
 
-        // Filter by name
         if ($name) {
+
             $query->whereHas('users', function ($query) use ($name) {
+
                 $query->whereRaw("concat(first_name, ' ', last_name) like ?", ["%{$name}%"])
                     ->orWhereRaw("concat(last_name, ' ', first_name) like ?", ["%{$name}%"]);
+
             });
+
         }
 
-        // Filter by email
         if ($email) {
+
             $query->whereHas('users', function ($query) use ($email) {
                 $query->where('email', 'like', '%' . $email . '%');
+
             });
+
         }
 
-        // Filter by age range
         if ($age_range) {
 
             $data['age_range'] = $age_range;
@@ -392,71 +359,95 @@ class Assessment extends Model
 
         }
 
-        // Filter by style code and style code color
         if ($style_code && $style_code_color) {
+
             $query->whereHas('assessmentColorCodes', function ($query) use ($style_code, $style_code_color) {
+
                 $query->where('code', $style_code)
                     ->where('code_color', $style_code_color);
+
             });
+
         }
 
-        // Filter by style number
         if ($style_number) {
+
             $parts = explode('-', $style_number);
+
             if (isset($parts[1])) {
+
                 $style_num = $parts[1];
+
                 $query->whereHas('assessmentColorCodes', function ($query) use ($style_num, $style_code, $style_code_color) {
+
                     $query->where('code', $style_code)
                         ->where('code_color', $style_code_color)
                         ->where('code_number', $style_num);
+
                 });
+
             }
+
         }
 
-        // Filter by feature code and feature code color
         if ($feature_code && $feature_code_color) {
+
             $query->whereHas('assessmentColorCodes', function ($query) use ($feature_code, $feature_code_color) {
+
                 $query->where('code', $feature_code)
                     ->where('code_color', $feature_code_color);
+
             });
+
         }
 
-        // Filter by feature number
         if ($feature_number) {
+
             $parts = explode('-', $feature_number);
+
             if (isset($parts[1])) {
+
                 $feature_num = $parts[1];
+
                 $query->whereHas('assessmentColorCodes', function ($query) use ($feature_num, $feature_code, $feature_code_color) {
+
                     $query->where('code', $feature_code)
                         ->where('code_color', $feature_code_color)
                         ->where('code_number', $feature_num);
+
                 });
+
             }
+
         }
 
-        // return $query->orderBy('updated_at', 'desc')->get();
         return $query->orderBy('updated_at', 'desc')->paginate($perPage);
+
     }
 
     public static function abandonedAssessment()
     {
+
         $userId = Helpers::getWebUser()['id'];
+
         $isAdminLevel = Helpers::getWebUser()['is_admin'];
 
-        // Initialize the query
         $query = self::with('users')->has('users');
 
-        // Apply conditions based on admin level
         if ($isAdminLevel == 4) {
+
             $query->whereHas('users', function ($query) use ($userId) {
+
                 $query->where('practitioner_id', $userId);
+
             });
+
         }
 
-        // Apply conditions for the page
         $query->where(function ($q) {
-            $q->whereNull('page')
-                ->orWhere('page', '!=', 0);
+
+            $q->whereNull('page')->orWhere('page', '!=', 0);
+
         })
             ->orderBy('created_at', 'DESC');
 
@@ -466,101 +457,152 @@ class Assessment extends Model
     public static function getReport($id = null)
     {
         $assessment = self::whereId($id)->with(['users' => function ($q) {
+
             $q->select(['id', 'first_name', 'last_name', 'gender']);
+
         }])->first();
 
         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+
         $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
 
+
         $ep = $positive + $negative;
+
         $pv = $positive - $negative;
 
         $topTwoKeysStyle = self::getAllStyles($assessment);
+
         $topTwoKeysFeature = self::getFeatures($assessment);
+
         $alchemyCodeDetail = self::getAlchemy($assessment);
+
         $communication_keys = self::getEnergy($assessment);
+
         $energy_code = self::getEnergyPool($assessment);
+
         $polarity_code = self::getPolarity($assessment);
 
         $code_detail = CodeDetail::getCodeDeatil($topTwoKeysStyle, $topTwoKeysFeature, $alchemyCodeDetail, $communication_keys, $polarity_code, $energy_code, $pv, $ep, $assessment['users']);
 
         return $code_detail;
+
     }
 
     public static function getEnergyPool($assessment = null)
     {
+
         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+
         $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
 
         $ep = $positive + $negative;
 
 
         if ($ep < 25) {
+
             $energy_code = 21;
+
         } elseif ($ep >= 25 and $ep <= 30) {
+
             $energy_code = 18;
+
         } elseif ($ep >= 31 and $ep <= 35) {
+
             $energy_code = 20;
+
         } elseif ($ep >= 36) {
+
             $energy_code = 16;
+
         }
 
         return $energy_code;
+
     }
 
     public static function GetEP($assessment = null)
     {
+
         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+
         $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
 
         $ep = $positive + $negative;
 
         if ($ep < 25) {
+
             $energy_code = 21;
+
         } elseif ($ep >= 25 and $ep <= 30) {
+
             $energy_code = 18;
+
         } elseif ($ep >= 31 and $ep <= 35) {
+
             $energy_code = 20;
+
         } elseif ($ep >= 36) {
+
             $energy_code = 16;
+
         }
 
         return $data = ['energy_pool' => $ep, 'energy_code' => $energy_code];
+
     }
 
     public static function getPolarity($assessment = null)
     {
+
         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+
         $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
         $pv = $positive - $negative;
 
         if ($pv <= -8) {
+
             $polarity_code = 40;
+
         } elseif ($pv >= -7 and $pv <= 7) {
+
             $polarity_code = 41;
         } elseif ($pv >= 8) {
+
             $polarity_code = 42;
+
         }
 
         return $polarity_code;
+
     }
 
     public static function getEnergyPoolPublicName($assessment = null)
     {
+
         $energy_code = self::getEP($assessment);
+
         $publicName = '';
 
         if ($energy_code['energy_code'] == 16) {
+
             $publicName = "Above Excellent [{$energy_code['energy_pool']}]";
+
         } elseif ($energy_code['energy_code'] == 18) {
+
             $publicName = "Average [{$energy_code['energy_pool']}]";
+
         } elseif ($energy_code['energy_code'] == 20) {
+
             $publicName = "Excellent [{$energy_code['energy_pool']}]";
+
         } elseif ($energy_code['energy_code'] == 21) {
+
             $publicName = "Fair [{$energy_code['energy_pool']}]";
+
         }
 
-        // Ensure energy_code is a valid ID for the query
         $record = CodeDetail::whereId($energy_code['energy_code'])->first();
 
         $data = [
@@ -570,6 +612,7 @@ class Assessment extends Model
         ];
 
         return $data;
+
     }
 
 
@@ -577,16 +620,23 @@ class Assessment extends Model
     {
 
         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+
         $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
         $pv = $positive - $negative;
 
-
         if ($pv <= -8) {
+
             $polarity_code = 40;
+
         } elseif ($pv >= -7 and $pv <= 7) {
+
             $polarity_code = 41;
+
         } elseif ($pv >= 8) {
+
             $polarity_code = 42;
+
         }
 
         $record = CodeDetail::whereId($polarity_code)->first();
@@ -603,15 +653,6 @@ class Assessment extends Model
 
     public static function getStyles($assessment = null)
     {
-        $style = [
-            'sa' => $assessment['sa'],
-            'ma' => $assessment['ma'],
-            'jo' => $assessment['jo'],
-            'lu' => $assessment['lu'],
-            'ven' => $assessment['ven'],
-            'mer' => $assessment['mer'],
-            'so' => $assessment['so'],
-        ];
 
         $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
         $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
@@ -638,14 +679,14 @@ class Assessment extends Model
             'so' => $third_row_so,
         ];
 
-        // Sort $third_row_style in descending order based on values
         arsort($third_row_style);
 
-        // Get the first two elements from the sorted array
         $top_two = array_slice($third_row_style, 0, 2, true);
 
         $topKeysStyle = [
+
             'top_two_keys' => array_keys($top_two),
+
         ];
 
         return $topKeysStyle;
@@ -693,7 +734,6 @@ class Assessment extends Model
 
     }
 
-    // my function
     public static function UserTraits($userId = null)
     {
         $getAssessment = self::getLatestAssessment($userId);
@@ -705,18 +745,23 @@ class Assessment extends Model
         $assessmentArray = $getAssessment->toArray();
 
         foreach ($assessmentArray as $key => $result) {
+
             if (in_array($key, $style)) {
+
                 $getStyle[$key] = $result;
+
             }
+
         }
 
         arsort($getStyle);
 
-        // Get public names
         $styleCodes = CodeDetail::getStylePublicNames($getStyle);
 
         $data = [];
+
         foreach ($styleCodes as $style) {
+
             $codeKey = strtolower($style['code']);
 
             $data[] = [
@@ -741,13 +786,10 @@ class Assessment extends Model
         $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
         $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
 
-        $third_row_sa = $assessment['sa'] * $second_row_sa;
         $third_row_ma = $assessment['ma'] * $second_row_ma;
         $third_row_jo = $assessment['jo'] * $second_row_jo;
         $third_row_lu = $assessment['lu'] * $second_row_lu;
-        $third_row_ven = $assessment['ven'] * $second_row_ven;
         $third_row_mer = $assessment['mer'] * $second_row_mer;
-        $third_row_so = 0;
 
         $features = [
             'de' => $assessment['de'],
@@ -792,178 +834,284 @@ class Assessment extends Model
             'wil' => $assessment['wil'] * $second_row_wil,
         ];
 
-        // Sort features in descending order while maintaining key associations
         arsort($features);
 
-        // Filter keys based on conditions
         $filtered_keys = [];
+
         $filtered_keys_red = [];
 
         foreach ($features as $key => $value) {
+
             switch ($key) {
+
                 case 'de':
+
                     if (($assessment['de'] > 2 && $assessment['ma'] > 4) || ($assessment['de'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4 && $third_row_ma > 30)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['de'] > 2 && $assessment['ma'] < 5)) {
+
                         if ($third_row_ma > 30) {
+
                             if ($assessment['sa'] < 5 || $assessment['jo'] < 5) {
+
                                 $filtered_keys_red[$key] = $value;
+
                             }
+
                         } elseif ($third_row_ma <= 30) {
+
                             $filtered_keys_red[$key] = $value;
+
                         }
+
                     }
+
                     break;
+
                 case 'dom':
+
                     if (($assessment['dom'] > 2 && ($assessment['sa'] > 4 || $assessment['ma'] > 4)) || ($assessment['dom'] > 2 && $assessment['ma'] > 4 && $assessment['mer'] > 4) || ($assessment['dom'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['dom'] > 2 && ($assessment['sa'] < 5 && $assessment['ma'] < 5)) && ($assessment['ma'] < 5 || $assessment['mer'] < 5 || $assessment['sa'] < 5 || $assessment['jo'] < 5)) {
+
                         $filtered_keys_red[$key] = $value;
+
                     }
+
                     break;
+
                 case 'fe':
+
                     if (($assessment['fe'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4 || $assessment['ven'] > 4)) || ($assessment['fe'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4) || ($assessment['fe'] > 2 && $assessment['jo'] > 4 && $assessment['ven'] > 4) || ($assessment['fe'] > 2 && $assessment['lu'] > 4 && $assessment['mer'] > 4)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['fe'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5 && $assessment['ven'] < 5)) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
+
                         $filtered_keys_red[$key] = $value;
+
                     }
+
                     break;
+
                 case 'gre':
+
                     if (($assessment['gre'] > 2 && ($assessment['jo'] > 6 || $assessment['mer'] > 4)) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4 && $third_row_mer > 30)) {
+
                         $filtered_keys[$key] = $value;
-                    }
-//                    if (($assessment['gre'] > 2 && ($assessment['jo'] > 6 || $assessment['mer'] > 4 )) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4) || ($assessment['gre'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
-////                        $filtered_keys[$key] = $value;
-////                    }
-//                    if ($assessment['gre'] > 2 && ($assessment['jo'] > 7 || $assessment['mer'] > 4 )) {
-//                        $filtered_keys[$key] = $value;
-//                    }
-                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['sa'] < 5))) {
+
+                    } elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['sa'] < 5))) {
+
                         $filtered_keys_red[$key] = $value;
+
                     }
-//                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['sa'] < 5))) {
-////                        $filtered_keys_red[$key] = $value;
-////                    }
-//                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 8 && $assessment['mer'] < 5)) {
-//                        $filtered_keys_red[$key] = $value;
-//                    }
+
                     break;
+
                 case 'lun':
+
                     if (($assessment['lun'] > 2 && $assessment['lu'] > 4) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4 && $third_row_lu > 30)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5)) {
+
                         if ($third_row_lu > 30) {
+
                             if ($assessment['ven'] < 5 || $assessment['jo'] < 5) {
+
                                 $filtered_keys_red[$key] = $value;
+
                             }
+
                         } elseif ($third_row_lu <= 30) {
+
                             $filtered_keys_red[$key] = $value;
+
                         }
+
                     }
+
                     break;
+
                 case 'nai':
+
                     if (($assessment['nai'] > 2 && $assessment['so'] > 4)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['nai'] > 2 && $assessment['so'] < 5)) {
+
                         $filtered_keys_red[$key] = $value;
+
                     }
+
                     break;
+
                 case 'ne':
+
                     if (($assessment['ne'] > 2 && ($assessment['sa'] > 4 || $assessment['lu'] > 4 || $assessment['ven'] > 4)) || ($assessment['ne'] > 2 && $assessment['ma'] > 4 && $assessment['mer'] > 4) || ($assessment['ne'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4) || ($assessment['ne'] > 2 && $assessment['lu'] > 4 && $assessment['mer'] > 4)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['ne'] > 2 && ($assessment['sa'] < 5 && $assessment['lu'] < 5 && $assessment['ven'] < 5)) && ($assessment['ne'] < 5 || $assessment['ma'] < 5 || $assessment['mer'] < 5 || $assessment['ven'] < 5 || $assessment['jo'] < 5 || $assessment['lu'] < 5)) {
+
                         $filtered_keys_red[$key] = $value;
+
                     }
                     break;
+
                 case 'pow':
+
                     if (($assessment['pow'] > 2 && ($assessment['jo'] > 4 || $assessment['mer'] > 4)) || ($assessment['pow'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4) || ($assessment['pow'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['pow'] > 2 && ($assessment['jo'] < 5 && $assessment['mer'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['ven'] < 5 || $assessment['sa'] < 5)) {
+
                         $filtered_keys_red[$key] = $value;
+
                     }
+
                     break;
+
                 case 'sp':
+
                     if (($assessment['sp'] > 2 && $assessment['jo'] > 4) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4 && $third_row_jo > 30)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5)) {
+
                         if ($third_row_jo > 30) {
+
                             if ($assessment['ma'] < 5 || $assessment['lu'] < 5) {
+
                                 $filtered_keys_red[$key] = $value;
+
                             }
+
                         } elseif ($third_row_jo <= 30) {
+
                             $filtered_keys_red[$key] = $value;
+
                         }
+
                     }
+
                     break;
+
                 case 'tra':
+
                     if (($assessment['tra'] > 2 && ($assessment['jo'] > 4 || $assessment['ven'] > 4)) || ($assessment['tra'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4) || ($assessment['tra'] > 2 && $assessment['lu'] > 4 && $assessment['mer'] > 4)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['tra'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
+
                         $filtered_keys_red[$key] = $value;
+
                     }
+
                     break;
+
                 case 'van':
+
                     if (($assessment['van'] > 2 && ($assessment['jo'] > 4 || $assessment['ven'] > 4 || $assessment['mer'] > 4 || $assessment['so'] > 4)) || ($assessment['van'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4) || ($assessment['van'] > 2 && $assessment['lu'] > 4 && $assessment['mer'] > 4) || ($assessment['van'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4)) {
+
                         $filtered_keys[$key] = $value;
+
                     } elseif (($assessment['van'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5 && $assessment['mer'] < 5 && $assessment['so'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5 || $assessment['ven'] < 5 || $assessment['sa'] < 5)) {
+
                         $filtered_keys_red[$key] = $value;
+
                     }
+
                     break;
+
                 case 'wil':
+
                     if (($assessment['wil'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4)) || ($assessment['wil'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4) || ($assessment['wil'] > 2 && $assessment['jo'] > 4 && $assessment['ven'] > 4)) {
+
                         $filtered_keys[$key] = $value;
-                    }
-//                    elseif (($assessment['wil'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5)) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5)) {
-//                        $filtered_keys_red[$key] = $value;
-//                    }
-                    elseif (($assessment['wil'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5))) {
+
+                    } elseif (($assessment['wil'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5))) {
+
                         if ($third_row_ma > 30 || $third_row_lu > 30) {
+
                             if ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5) {
+
                                 $filtered_keys_red[$key] = $value;
+
                             }
+
                         } elseif ($third_row_ma <= 30 || $third_row_lu <= 30) {
+
                             $filtered_keys_red[$key] = $value;
+
                         }
+
                     }
+
                     break;
+
             }
+
         }
 
         $redKeys = array_keys($filtered_keys_red);
 
         if (count($filtered_keys) < 2) {
 
-            // Get the matching keys and their values from $third_row_feature
             $matchingKeys = array_intersect_key($third_row_feature, array_flip(array_keys($filtered_keys)));
+
             arsort($matchingKeys);
 
             $all_values_are_2 = [];
+
             foreach ($features as $key => $value) {
+
                 if ($value == 2) {
+
                     $all_values_are_2[$key] = $value;
+
                 }
+
             }
 
             $matchingKeysLessThanTwo = array_intersect_key($third_row_feature, array_flip(array_keys($all_values_are_2)));
+
             arsort($matchingKeysLessThanTwo);
 
             $topAllKeys = array_merge($matchingKeys, $matchingKeysLessThanTwo);
 
             $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
+
             $nextTwoKeys = [];
 
             $topKeysFeature = [
                 'top_two_keys' => $topTwoKeys,
                 'next_two_keys' => $nextTwoKeys,
             ];
+
         } else {
+
             $topKeysFeature = self::getGridKeys($filtered_keys, $third_row_feature);
+
         }
 
         if ($isCode) {
+
             return $topKeysFeature;
+
         } else {
+
             return CodeDetail::getPublicNames($topKeysFeature['top_two_keys']);
+
         }
 
     }
@@ -986,14 +1134,19 @@ class Assessment extends Model
         ];
 
         $topFeatures = [];
+
         foreach ($featureKeys as $key) {
+
             if (isset($features[$key])) {
+
                 $topFeatures[$key] = $features[$key]; // Match key and get value from $style
+
             }
+
         }
 
-        // return CodeDetail::getPublicNames($topFeatures);
         $topfeaturesdata = CodeDetail::getPublicNames($topFeatures);
+
         $newtopfeaturesdata = array_map(function ($item) {
 
             return [
@@ -1003,8 +1156,11 @@ class Assessment extends Model
                 'video_url' => $item[3],
                 'code_name' => $item[4],
             ];
+
         }, $topfeaturesdata);
+
         return $newtopfeaturesdata;
+
     }
 
     public static function getAlchemy($assessment = null)
@@ -1017,24 +1173,6 @@ class Assessment extends Model
 
         return $alchemyCodeDetail;
     }
-
-    // public static function getAlchemyPublicName($assessment = null)
-    // {
-    //     $gold = $assessment['g'];
-    //     $silver = $assessment['s'];
-    //     $copper = $assessment['c'];
-    //     $alchemy = $gold . '' . $silver . '' . $copper;
-    //     $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
-    //     $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail ? $alchemyCodeDetail['code'] : '');
-
-    //     $boundaries = [
-    //         'public_name' => $publicName['public_name'],
-    //         'code_number' => $gold . '-' . $silver . '-' . $copper,
-    //         'video_url' => $publicName['video_url']
-    //     ];
-
-    //     return $boundaries;
-    // }
 
     public static function getAlchlCode($assessment_id = null)
     {
@@ -1069,58 +1207,79 @@ class Assessment extends Model
             'mov' => $assessment['mov'] * $second_row_mov,
         ];
 
-        // Sort styles by value
         arsort($communications);
 
         $communication_array = array_filter($communications);
 
-        // If values are the same, check $styles_third and get greater value if exists
         uksort($communication_array, function ($a, $b) use ($communications, $communication_third_row) {
+
             if ($communications[$a] == $communications[$b]) {
+
                 $a_third = isset($communication_third_row[$a]) ? $communication_third_row[$a] : -1;
+
                 $b_third = isset($communication_third_row[$b]) ? $communication_third_row[$b] : -1;
+
                 if ($a_third == $b_third) {
-                    // If $styles_third values are the same, sort from right to left
+
                     return array_search($b, array_keys(array_reverse($communications))) - array_search($a, array_keys(array_reverse($communications)));
+
                 }
+
                 return $a_third < $b_third ? 1 : -1; // Compare $styles_third values
+
             }
+
             return $communications[$a] < $communications[$b] ? 1 : -1;
+
         });
 
-        // Get keys of filtered styles
         $communication_keys = array_keys($communication_array);
 
         return $communication_keys;
+
     }
 
     public static function getGridKeys($filtered_keys = null, $third_row_feature = null)
     {
 
         $greater_than_three_filtered_keys = [];
+
         foreach ($filtered_keys as $key => $value) {
+
             if ($value > 3) { // Check if the value is greater than 3
+
                 $greater_than_three_filtered_keys[$key] = $value;
+
             }
+
         }
 
-        // Get keys that are in $filtered_keys but not in $greater_than_three_filtered_keys
         $remainingFilterKeys = array_diff_key($filtered_keys, $greater_than_three_filtered_keys);
 
         $firstHighestArrayValue = [];
+
         $remainingHighestArrayValue = [];
+
         if (count($greater_than_three_filtered_keys) > 1 || count($greater_than_three_filtered_keys) == 1) {
+
             $firstHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($greater_than_three_filtered_keys)));
+
             arsort($firstHighestArrayValue);
+
         }
+
         if (count($remainingFilterKeys) != 0) {
+
             $remainingHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($remainingFilterKeys)));
+
             arsort($remainingHighestArrayValue);
+
         }
 
         $allValuesGets = array_merge($firstHighestArrayValue, $remainingHighestArrayValue);
 
         $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
+
         $nextTwoKeys = array_slice(array_keys($allValuesGets), 2);
 
         $topKeys = [
@@ -1129,6 +1288,7 @@ class Assessment extends Model
         ];
 
         return $topKeys;
+
     }
 
     public static function assessmentsPaginated($request = null)
@@ -1214,7 +1374,9 @@ class Assessment extends Model
     {
 
         $multipleAnswersArray = [];
+
         $codeA = [];
+
         $codeArray = [];
 
         if (!empty($answer_ids)) {
@@ -1461,18 +1623,6 @@ class Assessment extends Model
 
     }
 
-    // public static function deleteIncompleteAssessment()
-    // {
-
-    //     $assessment = self::where('user_id', Helpers::getWebUser()->id)->latest()->first();
-
-    //     if ($assessment && $assessment->page > 0) {
-
-    //         $assessment->delete();
-
-    //     }
-    // }
-
     public static function singleAssessmentFromId($assessment_id)
     {
 
@@ -1490,9 +1640,7 @@ class Assessment extends Model
             }
 
         })
-            ->where('page', 0)
-            ->latest()
-            ->first();
+            ->where('page', 0)->latest()->first();
 
     }
 
@@ -1521,6 +1669,7 @@ class Assessment extends Model
         $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
 
         if (!empty($alchemyCodeDetail)) {
+
             $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail['code']);
 
             return [
@@ -1548,21 +1697,28 @@ class Assessment extends Model
     {
 
         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+
         $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
         $pv = $positive - $negative;
 
         if ($pv <= -8) {
+
             $polarity_code = 40;
+
         } elseif ($pv >= -7 and $pv <= 7) {
+
             $polarity_code = 41;
+
         } elseif ($pv >= 8) {
+
             $polarity_code = 42;
+
         }
 
         $record = CodeDetail::whereId($polarity_code)->select(['id', 'public_name', 'text', 'video'])->first();
 
         $record['pv'] = $pv > 0 ? '+' . $pv : $pv;
-        // return $record;
 
         return $data = [
             'code_number' => $record['id'],
@@ -1573,24 +1729,11 @@ class Assessment extends Model
             'pv' => $record['pv'],
         ];
 
-
     }
-
-//    public static function changeAssessmentTime($assessmentId = null, $assessmentTime = null)
-//    {
-//        $assessment =  self::whereId($assessmentId)->first();
-//
-//        $assessment->update([
-//            'updated_at' => $assessmentTime
-//        ]);
-//
-//        return $assessment;
-//    }
 
     public static function resetAssessmentStatus($assessmentId = null)
     {
 
-        // dd($assessmentId);
         $assessment = self::whereId($assessmentId)->first();
 
         if ($assessment) {
