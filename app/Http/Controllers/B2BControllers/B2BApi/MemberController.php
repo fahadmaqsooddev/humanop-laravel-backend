@@ -49,7 +49,6 @@ class MemberController extends Controller
             if ($currentUser['email'] === $email) {
 
                 return Helpers::validationResponse("It’s a B2B Admin Account. You can directly login to HumanOP Account.");
-
             }
 
             $existingInvite = UserInvite::getSingleInvite($email);
@@ -63,7 +62,6 @@ class MemberController extends Controller
                 if ($existingCandidate) {
 
                     return $this->inviteAlreadyExistsResponse($email, $existingCandidate['role']);
-
                 }
 
                 if ($user) {
@@ -73,13 +71,10 @@ class MemberController extends Controller
                     if ($candidateRecord) {
 
                         return $this->inviteAlreadyExistsResponse($email, $candidateRecord['role']);
-
                     }
-
                 }
 
                 return $this->createAndSendMemberInvite($existingInvite['id'], $email, $currentUser['company_name']);
-
             }
 
             $newInvite = UserInvite::createInvite($email);
@@ -87,19 +82,15 @@ class MemberController extends Controller
             if (!$newInvite) {
 
                 return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
-
             }
 
             DB::commit();
 
             return $this->createAndSendMemberInvite($newInvite['id'], $email, $currentUser['company_name']);
-
         } catch (\Exception $e) {
-DB::rollBack();
+            DB::rollBack();
             return Helpers::serverErrorResponse($e->getMessage());
-
         }
-
     }
 
     private function inviteAlreadyExistsResponse($email, $role)
@@ -108,7 +99,6 @@ DB::rollBack();
         $roleText = $role == Admin::IS_CANDIDATE ? 'Candidate' : 'Member';
 
         return Helpers::validationResponse("{$email} already has an invite/account with your business as a {$roleText}.");
-
     }
 
     private function createAndSendMemberInvite($inviteId, $email, $companyName)
@@ -125,7 +115,6 @@ DB::rollBack();
         $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
 
         return Helpers::successResponse("{$email} invite link generated successfully.");
-
     }
 
     public static function allMemberInvites()
@@ -152,7 +141,6 @@ DB::rollBack();
             }
 
             return Helpers::successResponse("All Member invites.", $memberInvites);
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -160,7 +148,7 @@ DB::rollBack();
 
     public function addMember(AddMemberRequest $request)
     {
-     DB::beginTransaction();
+        DB::beginTransaction();
         try {
 
             $user = Helpers::getUser();
@@ -170,7 +158,6 @@ DB::rollBack();
             if (empty($limit)) {
 
                 return Helpers::validationResponse('You have reached the maximum number of candidates allowed per business.');
-
             } else {
 
                 $dataArray = $request->only($this->user->getFillable());
@@ -203,7 +190,6 @@ DB::rollBack();
                         DB::commit();
 
                         return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
-
                     } else {
 
                         $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
@@ -213,9 +199,7 @@ DB::rollBack();
                         $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
 
                         return Helpers::successResponse('This candidate is already associated with a business. Check your email and continue with login.');
-
                     }
-
                 }
 
                 if (empty($checkUser)) {
@@ -237,15 +221,12 @@ DB::rollBack();
                     return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
                 }
             }
-
         } catch (\Exception $exception) {
 
             DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
     public function AllMembers(Request $request)
@@ -282,12 +263,9 @@ DB::rollBack();
             }
 
             return Helpers::successResponse('All Team members', $formattedmembers);
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -304,7 +282,6 @@ DB::rollBack();
                 '{$service}' => url('/term-of-service'),
                 '{$privacy}' => url('/privacy-policy'),
             ];
-
         } else {
 
             return [
@@ -313,9 +290,7 @@ DB::rollBack();
                 '{$service}' => url('/term-of-service'),
                 '{$privacy}' => url('/privacy-policy'),
             ];
-
         }
-
     }
 
     private function sendEmailVerification($emailData, $recipientEmail, $name)
@@ -340,12 +315,10 @@ DB::rollBack();
             $user = $this->user->UpdateMember($dataArray, $request['member_id']);
 
             return Helpers::successResponse('candidate updated successfully.');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function DeleteMember(Request $request)
@@ -359,19 +332,15 @@ DB::rollBack();
             if (empty($member)) {
 
                 return Helpers::validationResponse('You are not authorized to delete this Member.');
-
             } else {
 
                 B2BBusinessCandidates::DeletedCandidate($request['member_id']);
 
                 return Helpers::successResponse('Member deleted successfully.');
-
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -388,7 +357,6 @@ DB::rollBack();
                 if ($status) {
 
                     return Helpers::validationResponse('This Member is already deleted with your business.');
-
                 } else {
 
                     $archive = B2BBusinessCandidates::checkConsideration($request['member_id']);
@@ -396,7 +364,6 @@ DB::rollBack();
                     if ($archive) {
 
                         return Helpers::validationResponse('This Member is already archived.');
-
                     } else {
 
                         $member = B2BBusinessCandidates::ArchivedCandidate($request['member_id']);
@@ -404,24 +371,18 @@ DB::rollBack();
                         if ($member) {
 
                             return Helpers::successResponse('Member archive successfully.');
-
                         } else {
 
                             return Helpers::validationResponse('Failed to archive the Member.');
                         }
                     }
-
                 }
-
             } else {
                 return Helpers::validationResponse('Failed to find Member id');
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -442,11 +403,9 @@ DB::rollBack();
             }
 
             return Helpers::validationResponse('You are not Future Consideration');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -467,7 +426,6 @@ DB::rollBack();
             ]);
 
             return Helpers::successResponse('Future Consideration Share data updated successfully.');
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -496,19 +454,14 @@ DB::rollBack();
                             if ($changerole) {
 
                                 return Helpers::successResponse(' Member  Change To Candidate');
-
                             } else {
 
                                 return Helpers::validationResponse('Not Link With Your Business');
-
                             }
-
                         } else {
 
                             return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');
                         }
-
-
                     } else {
                         return Helpers::validationResponse('Already Converted to member');
                     }
@@ -516,11 +469,9 @@ DB::rollBack();
             } else {
                 return Helpers::validationResponse('Failed to find member id');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -550,28 +501,20 @@ DB::rollBack();
                                 UserCandidateInvite::deleteMemberInvite($request['invite_id']);
 
                                 return Helpers::successResponse('Member Invite deleted successfully.');
-
                             } else {
 
                                 return Helpers::validationResponse('User Did Not complete his Signup process yet');
-
                             }
-
                         } else {
                             return Helpers::validationResponse('User Did Not complete his Signup process yet');
                         }
-
                     }
-
-
                 } else {
                     return Helpers::validationResponse('Please enter valid invite id');
                 }
-
             } else {
                 return Helpers::validationResponse('Please enter invite id');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -587,16 +530,12 @@ DB::rollBack();
             $archivemembers = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'], false);
             foreach ($archivemembers as $newmembers) {
                 $newmembers['users']['gender'] = $newmembers['users']['gender'] == 0 ? 'Male' : 'Female';
-
             }
 
             return Helpers::successResponse('Archive Members', $archivemembers);
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -607,20 +546,15 @@ DB::rollBack();
             if (empty($request['member_id'])) {
 
                 return Helpers::validationResponse('Please Enter a Member id');
-
             } else {
 
                 B2BBusinessCandidates::requestAccess($request['member_id']);
-                
+
                 return Helpers::successResponse('Request For Access Data is Send');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
-
-
 }
