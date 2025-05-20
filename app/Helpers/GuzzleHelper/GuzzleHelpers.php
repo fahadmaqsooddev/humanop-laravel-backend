@@ -150,7 +150,8 @@ class GuzzleHelpers
 
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-        $route = "http://3.87.21.19:8000/" . $route_name;
+//        $route = "http://3.87.21.19:8000/" . $route_name;
+        $route = "http://18.206.155.155:8000/" . $route_name;
 
         $response = $client->request($method, $route, $queryArray);
 
@@ -171,7 +172,8 @@ class GuzzleHelpers
 
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-        $route = "http://3.87.21.19:8000/" . $route_name;
+//        $route = "http://3.87.21.19:8000/" . $route_name;
+        $route = "http://18.206.155.155:8000/" . $route_name;
 
         $response = $client->request($method, $route, $queryArray);
 
