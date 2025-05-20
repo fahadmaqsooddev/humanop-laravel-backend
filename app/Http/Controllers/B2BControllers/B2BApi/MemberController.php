@@ -73,7 +73,7 @@ class MemberController extends Controller
                         return $this->inviteAlreadyExistsResponse($email, $candidateRecord['role']);
                     }
                 }
-
+                DB::commit();
                 return $this->createAndSendMemberInvite($existingInvite['id'], $email, $currentUser['company_name']);
             }
 
