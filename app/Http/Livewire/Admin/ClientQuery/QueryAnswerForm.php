@@ -14,8 +14,7 @@ use App\Models\Admin\Code\CodeDetail;
 class QueryAnswerForm extends Component
 {
 
-    public $queryId;
-    public $answer;
+    public $queryId, $answer;
 
     public function submitForm()
     {
@@ -27,28 +26,33 @@ class QueryAnswerForm extends Component
 
             QueryAnswer::createAnswer($queryData['id'], $this->answer);
 
-            DB::commit();
-
             session()->flash('success', "Answer submit successfully");
 
             $this->emitUp('refreshQuery');
 
-            $this->emit('closeAnswerModal', ['id' =>$this->queryId]);
+            $this->emit('closeAnswerModal', ['id' => $this->queryId]);
 
+            DB::commit();
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
+
             DB::rollBack();
 
             session()->flash('error', $exception->getMessage());
+
         }
+
     }
 
     public function render()
     {
+
         $query = ClientQuery::singleQuery($this->queryId);
+
         $grid = Assessment::getLatestAssessment($query['user_id']);
 
         return view('livewire.admin.client-query.query-answer-form', compact('query', 'grid'));
+
     }
+
 }

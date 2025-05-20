@@ -8,7 +8,6 @@ use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Notification\PushNotification;
 use App\Models\User;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -18,22 +17,12 @@ class Assessment extends Component
 
     use WithPagination;
 
-    public $style_code = '';
-    public $feature_code = '';
-    public $style_color = '';
-    public $feature_color = '';
-    public $feature_number = '';
-    public $feature_carousel_index = '';
-    public $style_carousel_index = '';
-    public $style_number = '';
-    public $name = '';
-    public $email = '';
-    public $age = '';
-    public $perPage = 10;
-    public $selectedStyleCells = [];
-    public $selectedFeatureCells = [];
-    protected $assessments = [];
-    protected $paginationTheme = 'bootstrap';
+    public $style_code = '', $feature_code = '', $style_color = '', $feature_color = '', $feature_number = '', $feature_carousel_index = '', $style_carousel_index = '', $style_number = '', $name = '', $email = '', $age = '';
+
+    public $selectedStyleCells = [], $selectedFeatureCells = [], $assessments = [];
+
+    protected $paginationTheme = 'bootstrap', $perPage = 10;
+
     protected $listeners = ['selectStyleCode', 'selectFeatureCode', 'selectStyleNumber', 'selectFeatureNumber', 'logInAdminAsUser', 'changeUserAssessmentStatus', 'resetAssessment'];
 
     protected $updatesQueryString = [
@@ -54,64 +43,78 @@ class Assessment extends Component
         $this->searchFilter();
     }
 
-    // public function updated()
-    // {
-    //     $this->searchFilter();
-    // }
     public function updated($field)
     {
-        if (in_array($field, ['name', 'email','age'])) {
+        if (in_array($field, ['name', 'email', 'age'])) {
             $this->resetPage();
         }
     }
 
-    // public function updatedName($value)
-    // {
-    //     // Debug the updated value
-    //     dd($value); // This will display the updated value when 'name' changes
-    // }
-
     public function selectStyleCode($select_style_code, $select_style_code_color)
     {
+
         $this->selectedStyleCells[$select_style_code] = $select_style_code_color;
+
         $this->style_code = $select_style_code;
+
         $this->style_color = $select_style_code_color;
+
         $this->style_number = '';
+
         $this->searchFilter();
+
     }
 
     public function selectFeatureCode($select_feature_code, $select_feature_code_color)
     {
+
         $this->selectedFeatureCells[$select_feature_code] = $select_feature_code_color;
+
         $this->feature_code = $select_feature_code;
+
         $this->feature_color = $select_feature_code_color;
+
         $this->feature_number = '';
+
         $this->searchFilter();
+
     }
 
     public function selectFeatureNumber($selectNum, $index, $selectColor, $selectCode)
     {
 
         $this->feature_number = $selectNum;
+
         $this->feature_code = $selectCode;
+
         $this->feature_color = $selectColor;
+
         $this->feature_carousel_index = $index;
 
         $this->searchFilter();
+
     }
 
     public function selectStyleNumber($selectNum, $index, $selectColor, $selectCode)
     {
+
         $this->style_number = $selectNum;
+
         $this->style_color = $selectColor;
+
         $this->style_code = $selectCode;
+
         $this->style_carousel_index = $index;
+
         $this->searchFilter();
+
     }
 
     public function searchFilter()
     {
+
         $this->assessments = \App\Models\Assessment::allAssessment($this->name, $this->email, $this->age, $this->style_code, $this->style_color, $this->style_number, $this->feature_code, $this->feature_color, $this->feature_number);
+
     }
 
     public function logInAdminAsUser($id = null)
@@ -130,38 +133,49 @@ class Assessment extends Component
     public function resetAssessment($assessmentId)
     {
 
-        $assessment = \App\Models\Assessment::resetAssessmentStatus($assessmentId);
+        try {
 
+            $assessment = \App\Models\Assessment::resetAssessmentStatus($assessmentId);
 
-        if ($assessment['reset_assessment'] == 1) {
-            $heading = 'Reset Assessment';
-            $message = 'The assessment has been successfully reset.';
+            if ($assessment['reset_assessment'] == 1) {
 
-            $user = User::getSingleUser($assessment['user_id']);
+                $heading = 'Reset Assessment';
 
-            $deviceToken = $user['device_token'];
+                $message = 'The assessment has been successfully reset.';
 
-            $notification = PushNotification::getSingleNotification($user['id']);
+                $user = User::getSingleUser($assessment['user_id']);
 
-            if ($notification['reset_assessment'] == 1) {
+                $deviceToken = $user['device_token'];
 
-                event(new ResetAssessment($assessment['user_id'], $heading, $message));
+                $notification = PushNotification::getSingleNotification($user['id']);
 
-                Helpers::OneSignalApiUsed($user['id'], $heading, $message);
+                if ($notification['reset_assessment'] == 1) {
 
-                Notification::createNotification($heading, $message, $deviceToken, $assessment['user_id'], 1, Admin::RESET_ASSESSMENT_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                    event(new ResetAssessment($assessment['user_id'], $heading, $message));
 
+                    Helpers::OneSignalApiUsed($user['id'], $heading, $message);
+
+                    Notification::createNotification($heading, $message, $deviceToken, $assessment['user_id'], 1, Admin::RESET_ASSESSMENT_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                }
             }
+
+            session()->flash('success', "Reset Assessment updated successfully");
+
+            $this->render();
+
+        } catch (\Exception $exception) {
+
+            session()->flash('error', $exception->getMessage());
+
         }
 
-        session()->flash('success', "Reset Assessment updated successfully");
-
-        $this->render();
     }
 
     public function render()
     {
         $this->searchFilter();
+
         return view('livewire.admin.assessment.assessment', [
 
             'assessments' => $this->assessments,

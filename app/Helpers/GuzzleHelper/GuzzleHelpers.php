@@ -40,7 +40,8 @@ class GuzzleHelpers
         return $response_body;
     }
 
-    public static function createOpenAiEmbedding($file){
+    public static function createOpenAiEmbedding($file)
+    {
 
         $fileText = file_get_contents($file->getRealPath());
 
@@ -50,13 +51,13 @@ class GuzzleHelpers
 
         $client = \OpenAI::client($yourApiKey);
 
-        if ($tokenCount > 8000){
+        if ($tokenCount > 8000) {
 
             $embeddingArray = [];
 
             $texts = Helpers::stringFromPdfOrTextFile($fileText);
 
-            foreach ($texts as $text){
+            foreach ($texts as $text) {
 
                 $response = $client->embeddings()->create([
                     'model' => 'text-embedding-3-small',
@@ -65,7 +66,7 @@ class GuzzleHelpers
 
                 $response = $response->toArray();
 
-                foreach ($response['data'] as $embeddingVector){
+                foreach ($response['data'] as $embeddingVector) {
 
                     array_push($embeddingArray, $embeddingVector['embedding']);
 
@@ -75,7 +76,7 @@ class GuzzleHelpers
 
             }
 
-        }else{
+        } else {
 
             $response = $client->embeddings()->create([
                 'model' => 'text-embedding-3-small',
@@ -84,7 +85,7 @@ class GuzzleHelpers
 
             $response = $response->toArray();
 
-            foreach ($response['data'] as $embeddingVector){
+            foreach ($response['data'] as $embeddingVector) {
 
                 return $embeddingVector['embedding'];
 
@@ -126,7 +127,8 @@ class GuzzleHelpers
         }
     }
 
-    public static function getStripeReceiptPdf($link = null, $method = "GET"){
+    public static function getStripeReceiptPdf($link = null, $method = "GET")
+    {
 
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
 

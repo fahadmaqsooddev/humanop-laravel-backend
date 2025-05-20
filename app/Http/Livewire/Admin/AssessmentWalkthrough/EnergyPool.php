@@ -10,11 +10,7 @@ class EnergyPool extends Component
 {
 
 
-    public $code = [];
-    // public $heading='polarity';
-    public $overview;
-    public $optimal;
-    public $optimization;
+    public $code = [], $overview, $optimal, $optimization;
 
     protected $rules = [
         'code' => 'required',
@@ -28,7 +24,6 @@ class EnergyPool extends Component
         'overview.required' => 'overview is required.',
         'optimal.required' => 'optimal is required.',
         'optimization.required' => 'optimization is required.',
-
     ];
 
 
@@ -36,44 +31,64 @@ class EnergyPool extends Component
     {
 
         $this->code = [];
-        $this->code[] = $selectedCode;
-        $result=AssessmentWalkThrough::getData(Admin::ENERGY_POOL_TRAIT, $this->code);
 
-        $this->overview=$result->overview??"";
-        $this->optimal=$result->optimal??"";
-        $this->optimization=$result->optimization??'';
+        $this->code[] = $selectedCode;
+
+        $result = AssessmentWalkThrough::getData(Admin::ENERGY_POOL_TRAIT, $this->code);
+
+        $this->overview = $result->overview ?? "";
+
+        $this->optimal = $result->optimal ?? "";
+
+        $this->optimization = $result->optimization ?? '';
 
     }
 
-    public function update(){
+    public function update()
+    {
         try {
+
             $this->validate();
-            $result=AssessmentWalkThrough::storeData($this->overview,$this->code,$this->optimal,$this->optimization,Admin::ENERGY_POOL_TRAIT);
+
+            $result = AssessmentWalkThrough::storeData($this->overview, $this->code, $this->optimal, $this->optimization, Admin::ENERGY_POOL_TRAIT);
 
             if ($result) {
+
                 session()->flash('success', 'Data has been saved successfully.');
+
             } else {
+
                 session()->flash('error', 'Failed to save data.');
+
             }
+
             $this->resetForm();
 
-        }catch (ValidationException $exception){
+        } catch (\Exception $exception) {
 
-            session()->flash('errors', $exception->validator->errors()->getMessages());
-
+            session()->flash('error', $exception->getMessage());
         }
+
     }
 
     public function resetForm()
     {
+
         $this->code = [];
+
         $this->overview = '';
+
         $this->optimal = '';
+
         $this->optimization = '';
+
     }
 
     public function render()
     {
+
         return view('livewire.admin.assessment-walkthrough.energy-pool');
+
     }
+
 }

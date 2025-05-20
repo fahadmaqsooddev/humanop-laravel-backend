@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\Admin\AssessmentIntro;
 
 use Livewire\Component;
-use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Traits\HandlesValidationErrors;
 use App\Http\Requests\Admin\ManageCode\UpdateCodeRequest;
+
 class ManageIntroForm extends Component
 {
 
@@ -23,7 +23,9 @@ class ManageIntroForm extends Component
     public function updateIntro()
     {
 
-        if($this->customValidation(new UpdateCodeRequest($this->select_code),$this->select_code)){return;};
+        if ($this->customValidation(new UpdateCodeRequest($this->select_code), $this->select_code)) {
+            return;
+        };
 
         try {
 
@@ -32,18 +34,16 @@ class ManageIntroForm extends Component
             $data = array_intersect_key($this->select_code, array_flip($keysToKeep));
 
             AssessmentIntro::updateIntro($data, $this->select_code['id']);
-            
 
-            session()->flash('success', 'Manage Assesment Intro updated successfully.');
+            session()->flash('success', 'Manage Assessment Intro updated successfully.');
 
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
 
             session()->flash('error', $exception->getMessage());
 
         }
-    }
 
-    
+    }
 
     public function render()
     {
