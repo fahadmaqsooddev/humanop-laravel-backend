@@ -17,6 +17,8 @@ class Dojo extends Component
 
     public $allSessions = [], $conversations = [], $personas = [];
 
+    protected $listeners = ['trainMoreSession','exportSessionConversation','deleteSession','endTrainingSession'];
+
     protected $rules = [
         'message' => 'required',
         'session_id' => 'required',

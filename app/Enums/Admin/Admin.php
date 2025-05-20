@@ -89,6 +89,8 @@ final class Admin
     const B2B_NOT_SHARE_DATA_NOTIFICATION = 12;
     const REQUEST_ACCESS_DATA_NOTIFICATION = 13;
 
+    const OPTIMAL_TRAIT = 14;
+
     const CLIENT_INVITE_ROLE = 1;
 
     const B2B_INVITE_ROLE = 2;

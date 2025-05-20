@@ -21,6 +21,9 @@ class PushNotificationSeeder extends Seeder
         foreach ($users as $user) {
 
             PushNotification::createNotification($user['id']);
+
         }
+
     }
+
 }

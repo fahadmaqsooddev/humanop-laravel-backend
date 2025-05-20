@@ -139,35 +139,28 @@
 
                         <div class="col-4">
 
-{{--                            @if($session_id)--}}
+                            @if($session_id)
 
-                                <button class="session-buttons" wire:click="trainMoreSession()">
-
-                                    <span wire:loading.remove wire:target="trainMoreSession">TRAIN MORE</span>
-
-                                    <span wire:loading wire:target="trainMoreSession">Activating...</span>
-
+                                <button id="train_more" class="session-buttons" onclick="trainMoreSession()">
+                                    TRAIN MORE
                                 </button>
 
-{{--                            @else--}}
+                            @else
 
-{{--                                <button class="disabled-session-buttons">--}}
-{{--                                    TRAIN MORE--}}
-{{--                                </button>--}}
+                                <button class="disabled-session-buttons">
+                                    TRAIN MORE
+                                </button>
 
-{{--                            @endif--}}
+                            @endif
 
                         </div>
 
-                        <div class="col-4" wire:key="{{$session_id}}">
+                        <div class="col-4">
 
                             @if($session_id)
 
-                                <button class="session-buttons" wire:click="exportSessionConversation()">
-
-                                    <span wire:loading.remove wire:target="exportSessionConversation">EXPORT</span>
-
-                                    <span wire:loading wire:target="exportSessionConversation">Exporting...</span>
+                                <button id="export_session" class="session-buttons" onclick="exportSession()">
+                                    EXPORT
                                 </button>
 
                             @else
@@ -183,13 +176,9 @@
 
                             @if($session_id)
 
-                            <button class="session-buttons" wire:click="deleteSession()">
-
-                                <span wire:loading.remove wire:target="deleteSession">DELETE</span>
-
-                                <span wire:loading wire:target="deleteSession">Deleting...</span>
-
-                            </button>
+                                <button id="delete_session" class="session-buttons" onclick="deleteSession()">
+                                    DELETE
+                                </button>
 
                             @else
 
@@ -298,13 +287,20 @@
 
                 <div class="py-2">
 
-                    <button wire:click="endTrainingSession()" class="session-buttons">
+                    @if($session_id)
 
-                        <span wire:loading.remove wire:target="endTrainingSession">END CURRENT TRAINING SESSION</span>
+                        <button id="end_training_session" onclick="endTrainingSession()" class="session-buttons">
+                            END CURRENT TRAINING SESSION
+                        </button>
 
-                        <span wire:loading wire:target="endTrainingSession">Ending...</span>
+                    @else
 
-                    </button>
+                        <button class="disabled-session-buttons">
+                            END CURRENT TRAINING SESSION
+                        </button>
+
+                    @endif
+
 
                 </div>
 
@@ -437,6 +433,42 @@
                 });
             }, {passive: true});
         });
+
+    </script>
+
+@endpush
+
+@push('js')
+
+    <script>
+
+        function trainMoreSession(){
+
+            document.getElementById('train_more').innerHTML="Activating...";
+
+            window.livewire.emit('trainMoreSession');
+        }
+
+        function exportSession(){
+
+            document.getElementById('export_session').innerHTML="Exporting...";
+
+            window.livewire.emit('exportSessionConversation');
+        }
+
+        function deleteSession(){
+
+            document.getElementById('delete_session').innerHTML="Deleting...";
+
+            window.livewire.emit('deleteSession');
+        }
+
+        function endTrainingSession(){
+
+            document.getElementById('end_training_session').innerHTML="Ending...";
+
+            window.livewire.emit('endTrainingSession');
+        }
 
     </script>
 
