@@ -232,7 +232,7 @@
                 <th>Date & Time</th>
                 <th>Email</th>
                 <th>Reset Assessment</th>
-                <th></th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>

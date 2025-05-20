@@ -289,6 +289,8 @@ class AuthController extends Controller
                         'b2b_create_Account' => true,
                     ];
 
+                    DB::commit();
+
                     return Helpers::successResponse('Complete Your maestro Signup Process', $data);
 
                 } else {
