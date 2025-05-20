@@ -65,8 +65,6 @@ class UserDailyTip extends Model
 
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        return UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $daily_tip)
-            ->latest()
-            ->first();
+        return UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $daily_tip)->latest()->first();
     }
 }

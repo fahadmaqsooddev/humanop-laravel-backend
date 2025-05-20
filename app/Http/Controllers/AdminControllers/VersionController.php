@@ -36,7 +36,8 @@ class VersionController extends Controller
     }
 
 
-    public function createVersion(){
+    public function createVersion()
+    {
         try {
 
             return view('admin-dashboards/version-control/create-version-control');
@@ -46,13 +47,14 @@ class VersionController extends Controller
             return back()->withErrors(['msgError' => $exception->getMessage()]);
         }
     }
-    public function EditVersion(Request $request){
-        try {
-            $id=$request['id'];
-             
-            
 
-            return view('admin-dashboards/version-control/create-version-control',compact('id'));
+    public function EditVersion(Request $request)
+    {
+        try {
+
+            $id = $request['id'];
+
+            return view('admin-dashboards/version-control/create-version-control', compact('id'));
 
         } catch (\Exception $exception) {
 

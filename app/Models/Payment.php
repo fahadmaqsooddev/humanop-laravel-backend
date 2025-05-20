@@ -16,9 +16,9 @@ class Payment extends Model
 
     public function __construct(array $attributes = array())
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
 
@@ -49,14 +49,6 @@ class Payment extends Model
         ]);
     }
 
-    // public static function getPaymentHistory()
-    // {
-    //     $user_id = Auth::user()['id'];
-
-    //     return self::where('user_id', $user_id)->with('coupons', 'assessments')->orderBy('created_at', 'DESC')->get();
-
-    // }
-
     public static function getAllPaymentHistory()
     {
 
@@ -69,15 +61,15 @@ class Payment extends Model
         return self::create($data);
     }
 
-    public static function paginatedPaymentHistory($request = null,$user_id = null)
+    public static function paginatedPaymentHistory($request = null, $user_id = null)
     {
-        $payments = self::where('user_id', $user_id)->with(['coupons' => function($q){
+        $payments = self::where('user_id', $user_id)->with(['coupons' => function ($q) {
 
-            $q->select(['id','discount']);
+            $q->select(['id', 'discount']);
 
-        },'assessments' => function($q){
+        }, 'assessments' => function ($q) {
 
-            $q->select(['id','page']);
+            $q->select(['id', 'page']);
 
         }])
             ->orderBy('created_at', 'DESC');

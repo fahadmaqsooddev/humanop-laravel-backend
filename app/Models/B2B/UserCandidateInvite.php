@@ -90,4 +90,9 @@ class UserCandidateInvite extends Model
     {
         return self::where('id', $id)->delete();
     }
+
+    public static function deleteInvite($inviteId = null)
+    {
+        return self::where('invite_link_id', $inviteId)->delete();
+    }
 }

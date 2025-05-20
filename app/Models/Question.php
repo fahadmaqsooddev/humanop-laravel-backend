@@ -39,7 +39,6 @@ class Question extends Model
     {
         $question = self::whereNull('question_id')->with(['answers.answerCodes', 'subQuestions.answers']);
 
-        // Search by gender
         if ($search_gender === '0' || $search_gender === '1' || $search_gender === '2') {
 
             $question->where('gender', $search_gender);
@@ -48,19 +47,6 @@ class Question extends Model
         return $question;
     }
 
-
-
-    // public static function totalAssessmentQuestion(){
-    //     $question_ids =  self::whereIn('gender', [Auth::user()['gender'], 2])
-    //         ->where('active', 1)->pluck('id');
-    //     $main_questions = self::with('answers.answerCodes')
-    //         ->whereNull('question_id')
-    //         ->whereIn('id', $question_ids)
-    //         ->whereIn('gender', [Auth::user()['gender'], 2])
-    //         ->where('active', 1)
-    //         ->count();
-    //     return $main_questions;
-    // }
     public function subQuestions()
     {
         return $this->hasMany(Question::class, 'question_id');
@@ -82,30 +68,34 @@ class Question extends Model
             ->get()
             ->toArray();
 
-        $sub_questions = self::with('answers.subAnswerCodes')
-            ->whereIn('question_id', $question_ids)
-            ->whereIn('gender', [Auth::user()['gender'], 2])
-            ->where('active', 1)
-            ->get()
-            ->groupBy('question_id')
-            ->toArray();
+        $sub_questions = self::with('answers.subAnswerCodes')->whereIn('question_id', $question_ids)->whereIn('gender', [Auth::user()['gender'], 2])->where('active', 1)->get()->groupBy('question_id')->toArray();
 
         $questions = [];
 
         foreach ($main_questions as $key => $main_question) {
+
             $questions[$key] = [$main_question];
+
             foreach ($sub_questions[$main_question['id']] ?? [] as $sub_question) {
+
                 array_push($questions[$key], $sub_question);
+
             }
+
         }
 
         $q = [];
+
         foreach ($questions as $index => $questionArray) {
+
             $randomKey = array_rand($questionArray);
+
             $q[] = $questionArray[$randomKey];
+
         }
 
         return $q;
+
     }
 
     public static function singleQuestion($id = null)

@@ -1470,7 +1470,7 @@ class Assessment extends Model
                 $answer = Answer::where(function ($q) use ($answer_id) {
 
                     $q->where('id', $answer_id)->orWhere('answer_id', $answer_id);
-                    
+
                 })->first();
 
                 $data['answer'] = $answer->answer ?? null;

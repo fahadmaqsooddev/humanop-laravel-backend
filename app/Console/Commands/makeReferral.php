@@ -30,12 +30,20 @@ class makeReferral extends Command
      */
     public function handle()
     {
-        DB::transaction(function(){
+
+        DB::transaction(function () {
+
             $users = User::all();
-                foreach ($users as $user) {
-                        $referralCode = Str::random(5).$user->id.Str::random(5);
-                        $user->update(['referral_code' => $referralCode]);
-                }
-            });
+
+            foreach ($users as $user) {
+
+                $referralCode = Str::random(5) . $user->id . Str::random(5);
+
+                $user->update(['referral_code' => $referralCode]);
+
+            }
+
+        });
+
     }
 }

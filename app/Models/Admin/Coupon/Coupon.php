@@ -69,7 +69,7 @@ class Coupon extends Model
 
         // Calculate discount amount
         $discount_amount = $original_amount - ($coupon['discount'] / 100 * $original_amount);
-        $discount_amount = (int) $discount_amount;
+        $discount_amount = (int)$discount_amount;
 
         // Handle unlimited coupon usage
         if (is_null($coupon['limit']) && $coupon['discount'] == 100) {
@@ -120,22 +120,23 @@ class Coupon extends Model
         ];
     }
 
-    public static function redeemCouponCodeForApi($code = null, $original_amount = null){
+    public static function redeemCouponCodeForApi($code = null, $original_amount = null)
+    {
 
         $coupon = self::where('coupon', $code)->first();
 
-        if ($coupon){
+        if ($coupon) {
 
-            if ($coupon['remaining_redemption'] != 0 || $coupon['remaining_redemption'] == null){
+            if ($coupon['remaining_redemption'] != 0 || $coupon['remaining_redemption'] == null) {
 
                 return CouponRedemption::checkOrCreateCouponRedemption($coupon, $original_amount);
 
-            }else{
+            } else {
 
                 $message = "Coupon has expired.";
             }
 
-        }else{
+        } else {
 
             $message = "Coupon Code Invalid";
         }
@@ -144,7 +145,8 @@ class Coupon extends Model
 
     }
 
-    public static function deleteCoupon($id){
+    public static function deleteCoupon($id)
+    {
 
         self::whereId($id)->delete();
     }

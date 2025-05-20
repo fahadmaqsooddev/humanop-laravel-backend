@@ -13,9 +13,9 @@ class HaiChat extends Model
 
     public function __construct(array $attributes = array())
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
 
@@ -29,42 +29,42 @@ class HaiChat extends Model
 
         $chats = self::query();
 
-        if ($days_old_chat > 0){
+        if ($days_old_chat > 0) {
 
             $chats = $chats->whereDate('created_at', '>', Carbon::now()->subDays($days_old_chat));
 
-        }else{
+        } else {
 
             $chats = $chats->whereDate('created_at', Carbon::now()->subDays($days_old_chat));
         }
 
-        if ($is_latest){
+        if ($is_latest) {
 
             $chats = $chats->latest();
         }
 
-        $chats->when($admin_id, function ($q, $admin_id){
+        $chats->when($admin_id, function ($q, $admin_id) {
 
-            $q->where(function ($q) use ($admin_id){
+            $q->where(function ($q) use ($admin_id) {
 
-                $q->where(function ($query) use ($admin_id){
+                $q->where(function ($query) use ($admin_id) {
 
                     $query->where('admin_id', $admin_id)->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id));
 
-                })->orWhere(function ($query){
+                })->orWhere(function ($query) {
 
                     $query->whereNull('admin_id')->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id));
                 });
 
             });
 
-        }, function ($q){
+        }, function ($q) {
 
             $q->whereNull('admin_id')->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id));
 
         });
 
-        $chats = $chats->get(['id','query','answer','likedislike']);
+        $chats = $chats->get(['id', 'query', 'answer', 'likedislike']);
 
         return $chats;
     }
@@ -85,11 +85,12 @@ class HaiChat extends Model
         return self::whereId($id)->update(['likedislike' => $likedislike]);
     }
 
-    public static function likeDisLikeAiReply($request = null, $type = null){
+    public static function likeDisLikeAiReply($request = null, $type = null)
+    {
 
         $chat = self::getSingleChat($request->input('chat_id'));
 
-        if ($type === 'like'){
+        if ($type === 'like') {
 
             HaiChat::updateChat($chat['id'], 2);
 
@@ -105,7 +106,7 @@ class HaiChat extends Model
                 'answer' => strip_tags($chat->answer),
             ]);
 
-        }elseif ($type === 'dislike'){
+        } elseif ($type === 'dislike') {
 
             if ($chat['likedislike'] == 3 || $chat['likedislike'] == 2) {
 
@@ -120,9 +121,10 @@ class HaiChat extends Model
 
     }
 
-    public static function deleteAdminChat($admin = null){
+    public static function deleteAdminChat($admin = null)
+    {
 
-        if ($admin && ($admin['admin_id'] ?? false)){
+        if ($admin && ($admin['admin_id'] ?? false)) {
 
             self::where('admin_id', $admin['admin_id'])->delete();
 
@@ -130,11 +132,12 @@ class HaiChat extends Model
 
     }
 
-    public static function userLastMessage(){
+    public static function userLastMessage()
+    {
 
         $convo = self::where('user_id', Helpers::getUser()->id)->latest()->first();
 
-        if ($convo){
+        if ($convo) {
 
             return [
                 [
@@ -149,7 +152,7 @@ class HaiChat extends Model
 
         }
 
-        return [[],[]];
+        return [[], []];
 
     }
 }

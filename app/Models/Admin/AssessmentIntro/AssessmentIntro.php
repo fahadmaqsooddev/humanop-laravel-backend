@@ -21,7 +21,7 @@ class AssessmentIntro extends Model
 
     public static function allIntro()
     {
-        return self::where('code','!=','SI')->get();
+        return self::where('code', '!=', 'SI')->get();
     }
 
     public static function createIntro($data = null)
@@ -49,11 +49,14 @@ class AssessmentIntro extends Model
         return $assesssment;
 
     }
-    public static function summaryReport(){
-        return self::where('code','SI')->get();
+
+    public static function summaryReport()
+    {
+        return self::where('code', 'SI')->get();
     }
 
-    public static function summaryIntro(){
+    public static function summaryIntro()
+    {
         $data = self::where('code', 'SI')->first();
 
         return [
@@ -62,8 +65,10 @@ class AssessmentIntro extends Model
             'video' => $data['video_url'] ?? ''
         ];
     }
-    public static function getSingleSummaryReport($id){
-        return self::where('code','SI')->where('id',$id)->first();
+
+    public static function getSingleSummaryReport($id)
+    {
+        return self::where('code', 'SI')->where('id', $id)->first();
     }
 
     public static function mainResult()
@@ -163,7 +168,7 @@ class AssessmentIntro extends Model
         ];
     }
 
-        public static function getPerceptionStaticText()
+    public static function getPerceptionStaticText()
     {
 
         $result = self::where('code', 'PLI')->first(['id', 'text', 'public_name', 'video', 'p_name']);

@@ -101,16 +101,18 @@ class optimalTraitPushNotification extends Command
 
                             Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 
+                            Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
+
                         } elseif ($userOptimalTrait['status'] != $status) {
 
                             UserOptimalTrait::updateUserOptimalTrait($optionalTrait, $user['id'], $status);
 
                             Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 
+                            Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
+
                         }
 
-                        Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
-                        
                     }
                 }
 
