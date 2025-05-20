@@ -68,34 +68,43 @@ class CodeDetail extends Model
     public static function getCodeDeatil($Stylekeys = null, $featureKeys = null, $alchemyCode = null, $communicationCode = null, $polarityCode = null, $energyCode = null, $pv = null, $ep = null, $user = null)
     {
         $style_code_detail = [];
+
         $feature_code_detail = [];
+
         $communication_code_detail = [];
 
         foreach ($Stylekeys['top_two_keys'] ?? null as $index => $style_key) {
+
             $style_key_code = strtoupper($style_key);
 
             $style_code_text = self::where('code', $style_key_code)->where('number', $index + 1)->first(['id', 'text', 'public_name', 'number', 'video', 'p_name']);
 
             $style_code_detail[] = $style_code_text;
+
         }
 
         foreach ($featureKeys['top_two_keys'] ?? null as $feature_key) {
+
             $feature_key_code = strtoupper($feature_key);
 
             $feature_code_text = self::where('code', $feature_key_code)->first(['id', 'text', 'public_name', 'video', 'p_name']);
 
             $feature_code_detail[] = $feature_code_text;
+
         }
 
         foreach ($communicationCode as $communication_key) {
+
             $communication_key_code = strtoupper($communication_key);
 
             $communication_code_text = self::where('code', $communication_key_code)->first(['id', 'text', 'public_name', 'video', 'p_name']);
 
             $communication_code_detail[] = $communication_code_text;
+
         }
 
         $alchemy_key_code = strtoupper($alchemyCode['code'] ?? null);
+
         $alchemy_code = self::where('code', $alchemy_key_code)->first(['id', 'text', 'public_name', 'video', 'p_name']);
 
         $alchemy_code_deatil = [
@@ -110,7 +119,9 @@ class CodeDetail extends Model
         ];
 
         $perception_life = self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
+
         $polarity_code_detail = self::where('id', $polarityCode)->first(['id', 'text', 'public_name', 'video', 'p_name']);
+
         $energy_code_detail = self::where('id', $energyCode)->first(['id', 'text', 'public_name', 'video', 'p_name']);
 
         $results = [
@@ -148,19 +159,24 @@ class CodeDetail extends Model
     public static function getPublicNames($codekeys = null)
     {
 
-
         $codeDetail = [];
 
         foreach ($codekeys as $index => $codeKey) {
+
             $key = strtoupper($index);
+
             $result = self::where('code', $key)->where('number', 1)->first();
 
             if ($result && isset($result->public_name)) {
 
                 $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video_url, $result->code];
+
             }
+
         }
+
         return $codeDetail;
+
     }
 
     public static function getStylePublicNames($codekeys = null)
@@ -278,138 +294,15 @@ class CodeDetail extends Model
                     ];
 
                     array_push($result, $data);
+
                 }
 
             }
+
         }
+
         return $result;
+
     }
-
-
-//
-//    public static function getPerceptionStaticText()
-//    {
-//
-//        $result = self::where('id', 64)->first(['id', 'text', 'public_name', 'video', 'p_name']);
-//        return [
-//            'code_number' => $result['id'],
-//            'public_name' => $result['public_name'],
-//            'description' => $result['text'],
-//            'video' => $result['video'],
-//            'p_name' => $result['p_name'],
-//            'video_url' => $result['video_url']
-//        ];
-//
-//
-//    }
-//
-//    public static function summaryIntro()
-//    {
-//
-//        $data = self::where('code', 'SI')->first();
-//
-//        return [
-//            'public_name' => $data->name ?? '',
-//            'description' => $data->text ?? '',
-//            'video' => $data['video_url'] ?? ''
-//        ];
-//    }
-//
-//    public static function mainResult()
-//    {
-//
-//        $data = self::where('code', 'MRI')->first();
-//
-//        return [
-//            'public_name' => $data->name ?? '',
-//            'description' => $data->text ?? '',
-//            'video' => $data['video_url'] ?? ''
-//        ];
-//
-//    }
-//
-//    public static function cycleLife()
-//    {
-//
-//        $data = self::where('code', 'CLI')->first();
-//
-//        return [
-//            'public_name' => $data->public_name ?? '',
-//            'description' => $data->text ?? '',
-//            'video' => $data['video_url'] ?? ''
-//        ];
-//    }
-//
-//    public static function traitIntro()
-//    {
-//
-//        $data = self::where('code', 'TI')->first();
-//
-//        return [
-//            'public_name' => $data->public_name ?? '',
-//            'description' => $data->text ?? '',
-//            'video' => $data['video_url'] ?? ''
-//        ];
-//    }
-//
-//    public static function motivationIntroduction()
-//    {
-//
-//        $data = self::where('code', 'MI')->first();
-//
-//        return [
-//            'public_name' => $data->public_name ?? '',
-//            'description' => $data->text ?? '',
-//            'video' => $data['video_url'] ?? ''
-//        ];
-//    }
-//
-//    public static function introBoundaries()
-//    {
-//
-//        $data = self::where('code', 'BI')->first();
-//
-//        return [
-//            'public_name' => $data->public_name ?? '',
-//            'description' => $data->text ?? '',
-//            'video' => $data['video_url'] ?? ''
-//        ];
-//    }
-//
-//    public static function introCommunication()
-//    {
-//
-//        $data = self::where('code', 'CI')->first();
-//
-//        return [
-//            'public_name' => $data->public_name ?? '',
-//            'description' => $data->text ?? '',
-//            'video' => $data['video_url'] ?? ''
-//        ];
-//    }
-//
-//    public static function introEnergypool()
-//    {
-//
-//        $data = self::where('code', 'EI')->first();
-//
-//        return [
-//            'public_name' => $data->public_name ?? '',
-//            'description' => $data->text ?? '',
-//            'video' => $data['video_url'] ?? ''
-//        ];
-//    }
-//
-//    public static function perceptionLife()
-//    {
-//
-//        $data = self::where('code', 'PLI')->first();
-//
-//        return [
-//            'public_name' => $data->public_name ?? '',
-//            'description' => $data->text ?? '',
-//            'video' => $data['video_url'] ?? ''
-//        ];
-//    }
 
 }

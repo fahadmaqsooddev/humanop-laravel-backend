@@ -13,24 +13,23 @@ class ClientQuery extends Component
 {
 
     use WithPagination;
- 
+
     protected $queries;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refreshQuery' => 'handleRefreshQuery'];
 
-    public function handleRefreshQuery(){
+    public function handleRefreshQuery()
+    {
 
         $this->render();
     }
-
-    
 
     public function render()
     {
         $this->queries = Query::getQueries();
 
-        return view('livewire.admin.client-query.client-query',[
-            'queries'=>$this->queries
-        ]);
+        return view('livewire.admin.client-query.client-query', ['queries' => $this->queries]);
+
     }
+
 }

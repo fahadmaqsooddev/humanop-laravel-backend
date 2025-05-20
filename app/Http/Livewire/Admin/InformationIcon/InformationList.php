@@ -23,8 +23,11 @@ class InformationList extends Component
     public function updateEditModal($id, $title, $description)
     {
         $this->name = $title;
+
         $this->information = $description;
+
         $this->info_id = $id;
+
         $this->emit('contentUpdated', $this->information);
 
     }
@@ -59,6 +62,7 @@ class InformationList extends Component
             InformationIcon::editInfo($this->info_id, $this->name, $this->information);
 
             session()->flash('success', "{$this->name} information Updated successfully.");
+
             $this->emit('closeUpdateModal');
 
             $this->resetForm();

@@ -9,16 +9,18 @@ use Illuminate\Database\Eloquent\Model;
 class AssessmentWalkThrough extends Model
 {
     use HasFactory;
+
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
 
-    public static function storeData($overview,$code,$optimal,$optimization,$title){
+    public static function storeData($overview, $code, $optimal, $optimization, $title)
+    {
         $data = [
             'overview' => $overview,
             'code_name' => $code[0], // Entire array
@@ -26,25 +28,25 @@ class AssessmentWalkThrough extends Model
             'optimization' => $optimization,
             'title' => $title,
         ];
-        $check = self::where('code_name', $data['code_name'])
-    ->where('title', $data['title'])
-    ->first();
+        $check = self::where('code_name', $data['code_name'])->where('title', $data['title'])->first();
 
-    if ($check) {
+        if ($check) {
 
-        return $check->update($data);
-    } else {
+            return $check->update($data);
 
-        return self::create($data);
+        } else {
+
+            return self::create($data);
+
+        }
+
     }
-    }
 
+    public static function getData($title, $code)
+    {
 
+        return self::where('code_name', $code[0])->where('title', $title)->first();
 
-    public static function getData($title,$code){
-        return  self::where('code_name', $code[0])
-        ->where('title', $title)
-        ->first();
     }
 
 
@@ -53,7 +55,7 @@ class AssessmentWalkThrough extends Model
 
         $codeDetail = CodeDetail::getSinglePublicName($codeName);
 
-        $walkThroughDetail =  self::where('code_name',$codeName)->where('title', $number)->first();
+        $walkThroughDetail = self::where('code_name', $codeName)->where('title', $number)->first();
 
         return [
             'public_name' => $codeDetail['public_name'],
@@ -64,4 +66,5 @@ class AssessmentWalkThrough extends Model
         ];
 
     }
+
 }

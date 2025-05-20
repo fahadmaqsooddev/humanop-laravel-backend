@@ -98,12 +98,15 @@ class UserInvite extends Model
 
         $email = Helpers::getWebUser()->email ?? Helpers::getUser()->email;
 
-        if (!empty($userEmail) || !empty($id)) {
+        if (!empty($id)) {
+
             return self::where('email', $userEmail)->orwhere('id', $id)->delete();
 
-        }
+        } else {
 
-        return self::where('email', $email)->delete();
+            return self::where('email', $email)->delete();
+
+        }
 
     }
 
