@@ -31,6 +31,7 @@ class PackageLimitations
             if ($plan_id = Helpers::getUser()->getsubscription()->first()) {
 
                 $plan_id = $plan_id->stripe_price;
+
             } else {
 
                 return Helpers::upgradePackageResponse('Please subscribe your plan first');
@@ -38,6 +39,7 @@ class PackageLimitations
             }
 
             $limitations = Plan::singlePlan($plan_id);
+
 
             if ($type === 'add_members') {
 

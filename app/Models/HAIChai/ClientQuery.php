@@ -22,13 +22,16 @@ class ClientQuery extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
     public function haiChatMessage()
     {
         return $this->belongsTo(HaiChat::class, 'chat_id', 'id');
     }
-    public function conversation(){
 
-        return $this->belongsTo(HaiChatConversation::class,'conversation_id','id');
+    public function conversation()
+    {
+
+        return $this->belongsTo(HaiChatConversation::class, 'conversation_id', 'id');
     }
 
     public static function singleQuery($id = null)
@@ -36,21 +39,24 @@ class ClientQuery extends Model
         return self::whereId($id)->with('users')->first();
     }
 
-    public static function getQueries($perPage=10)
+    public static function getQueries($perPage = 10)
     {
-        return self::where('response', 0)
-            ->with(['users' => function ($q) {
-                $q->select('id', 'first_name', 'last_name', 'email');
-            },'haiChatMessage' => function($q) {
-                $q->select('answer');
-            },'conversation' => function($q){
+        return self::where('response', 0)->with(['users' => function ($q) {
 
-                $q->select(['id','reply']);
+            $q->select('id', 'first_name', 'last_name', 'email');
 
-            }])
+        }, 'haiChatMessage' => function ($q) {
 
+            $q->select('answer');
+
+        }, 'conversation' => function ($q) {
+
+            $q->select(['id', 'reply']);
+
+        }])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
+
     }
 
     public static function createQuery($userId = null, $query = null, $chat_id = null, $conversation_id = null)
@@ -65,11 +71,11 @@ class ClientQuery extends Model
 
     public static function updateQuery($id = null)
     {
-        self::whereId($id)->update([
-            'response' => 1
-        ]);
+
+        self::whereId($id)->update(['response' => 1]);
 
         return self::singleQuery($id);
+
     }
 
 }

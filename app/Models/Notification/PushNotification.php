@@ -11,9 +11,9 @@ class PushNotification extends Model
 
     public function __construct(array $attributes = array())
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
 
@@ -36,43 +36,50 @@ class PushNotification extends Model
             if ($changeNotification['optimal_trait'] == 1) {
 
                 return $changeNotification->update(['optimal_trait' => 0]);
-            }else
-            {
+
+            } else {
+
                 return $changeNotification->update(['optimal_trait' => 1]);
 
             }
-        }elseif ($notification == 'daily_tip') {
+
+        } elseif ($notification == 'daily_tip') {
 
             if ($changeNotification['daily_tip'] == 1) {
 
                 return $changeNotification->update(['daily_tip' => 0]);
-            }else
-            {
+
+            } else {
+
                 return $changeNotification->update(['daily_tip' => 1]);
 
             }
-        }elseif ($notification == 'reset_assessment') {
+
+        } elseif ($notification == 'reset_assessment') {
 
             if ($changeNotification['reset_assessment'] == 1) {
 
                 return $changeNotification->update(['reset_assessment' => 0]);
-            }else
-            {
-                return  $changeNotification->update(['reset_assessment' => 1]);
+
+            } else {
+
+                return $changeNotification->update(['reset_assessment' => 1]);
 
             }
-        }else
-        {
+
+        } else {
 
             if ($changeNotification['resource'] == 1) {
 
                 $changeNotification->update(['resource' => 0]);
-            }else
-            {
+
+            } else {
                 $changeNotification->update(['resource' => 1]);
 
             }
+
         }
+
     }
 
 }

@@ -6,9 +6,7 @@
 </style>
 @section('content')
     <main class="main-content mt-0">
-        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
-        >
-            {{-- <span class="mask bg-gradient-dark opacity-6"></span> --}}
+        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg">
             <div class="container">
                 <div class="row d-flex flex-column justify-content-center">
                     <div class="col-lg-5 text-center mx-auto">
@@ -21,28 +19,19 @@
             <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
                 <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
                     <div class="card z-index-0" style="background-color: #F3DEBA">
-
                         @if($errors->any())
-
                             <div class="m-3  alert alert-warning alert-dismissible fade show text-center" role="alert">
-
                                 @if(count($errors->messages()) > 1)
-
                                     @foreach($errors->messages() as $err)
-
-                                        <span class="alert-text text-white">
-                                    {{$err[0]}}</span>
+                                        <span class="alert-text text-white">{{$err[0]}}</span>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                 aria-label="Close">
                                             <i class="fa fa-close" aria-hidden="true"></i>
                                         </button>
                                         <br>
-
                                     @endforeach
-
                                 @else
-                                    <span class="alert-text text-white">
-                                    {{$errors->first()}}</span>
+                                    <span class="alert-text text-white">{{$errors->first()}}</span>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                         <i class="fa fa-close" aria-hidden="true"></i>
                                     </button>
@@ -52,8 +41,7 @@
                         @if(session('success'))
                             <div class="m-3  alert alert-success alert-dismissible fade show" id="alert-success"
                                  role="alert">
-                        <span class="alert-text text-white">
-                            {{ session('success') }}</span>
+                                <span class="alert-text text-white">{{ session('success') }}</span>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                     <i class="fa fa-close" aria-hidden="true"></i>
                                 </button>
@@ -65,19 +53,21 @@
                         <div class="css-mgpqwz d-flex justify-content-center">
                             <div>
                                 @if(!empty($slug) && !empty($slug2))
-                                <a href="{{ url('/' . $slug. '/'. $slug2 .'/auth/google') }}">
-                                    <button class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
+                                    <a href="{{ url('/' . $slug. '/'. $slug2 .'/auth/google') }}">
+                                        <button
+                                            class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
                                             type="button"
                                             style="background-color: rgb(19, 21, 54);">
-                                        <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt=""
-                                             width="30px" ;>
-                                    </button>
-                                </a>
+                                            <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt=""
+                                                 width="30px" ;>
+                                        </button>
+                                    </a>
                                 @else
                                     <a href="{{ url('auth/google') }}">
-                                        <button class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
-                                                type="button"
-                                                style="background-color: rgb(19, 21, 54);">
+                                        <button
+                                            class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
+                                            type="button"
+                                            style="background-color: rgb(19, 21, 54);">
                                             <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt=""
                                                  width="30px" ;>
                                         </button>
@@ -113,7 +103,8 @@
                                                 <label for="password"
                                                        style="color: #0f1535; font-size: 15px">Password</label>
                                                 <input type="password" class="form-control" placeholder="Password"
-                                                       aria-label="Password" name="password" id="password" maxlength="30"
+                                                       aria-label="Password" name="password" id="password"
+                                                       maxlength="30"
                                                        @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}"
                                                        @endif
                                                        style="background-color: #f3deba; color: black; border-radius: 15px;">
@@ -145,26 +136,19 @@
                                                         style="background-color: #f2661c; color: white;">Sign in
                                                 </button>
                                             </div>
-
-                                            <p class="text-sm text-center mt-3 mb-0" style="color: #0f1535;">
-                                                Don't have an account?
-                                                @if(request()->segment(1) === 'login')
-                                                    <a href="{{ url('register') }}" class="font-weight-bolder"
-                                                       style="color: #0f1535;">Sign up</a>
-                                                @else
-                                                    <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register') }}"
-                                                       class="font-weight-bolder" style="color: #0f1535;">Sign up</a>
-                                                @endif
-                                            </p>
-                                            <p class="text-sm text-center mt-3 mb-0" > <a style="color:rgb(210, 103, 34);" href="{{route('privacy')}}" >privacy policy</a>
-                                            </p>
-                                            <p class="text-sm text-center mt-3 mb-0" > <a style="color:rgb(210, 103, 34);" href="{{route('term_of_service')}}" >term of service</a>
-                                            </p>
+                                            <p class="text-sm text-center mt-3 mb-0"><a style="color:rgb(210, 103, 34);"
+                                                                                        href="{{route('privacy')}}">privacy
+                                                    policy</a></p>
+                                            <p class="text-sm text-center mt-3 mb-0"><a style="color:rgb(210, 103, 34);"
+                                                                                        href="{{route('term_of_service')}}">term
+                                                    of service</a></p>
                                         </form>
 
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
     </main>
 @endsection
 

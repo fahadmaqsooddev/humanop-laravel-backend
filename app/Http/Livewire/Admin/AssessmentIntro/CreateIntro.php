@@ -22,7 +22,9 @@ class CreateIntro extends Component
     public function createIntro()
     {
         try {
+
             $this->validate();
+
             $data = [
                 'name' => $this->name,
                 'public_name' => $this->public_name,
@@ -33,7 +35,7 @@ class CreateIntro extends Component
             ];
 
             AssessmentIntro::createIntro($data);
-   
+
             $this->resetForm();
 
             session()->flash('success', ' Assessment Intro Created successfully.');
@@ -47,7 +49,9 @@ class CreateIntro extends Component
 
 
     public function resetForm(){
+
         $this->reset(['name','public_name','code','type','text','number']);
+
     }
 
     public function render()

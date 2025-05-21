@@ -31,24 +31,26 @@ class DeleteB2BCandidateMemberInvite extends Command
      */
     public function handle()
     {
-        // return Command::SUCCESS;
+
         $data = B2BBusinessCandidates::allUser();
 
         foreach ($data as $user) {
-            
-            $matchedUser = User::where('id', $user['candidate_id'])
-                                ->where('step',3)
-                                ->first();
-        
+
+            $matchedUser = User::where('id', $user['candidate_id'])->where('step',3)->first();
+
             if ($matchedUser) {
 
-               $getInvite=UserInvite::where('email',$matchedUser['email'])->first();
-               
+               $getInvite=UserInvite::getSingleInvite($matchedUser['email']);
+
                if($getInvite){
-                UserCandidateInvite::where('invite_link_id',$getInvite['id'])->delete();
+
+                UserCandidateInvite::deleteInvite($getInvite['id']);
+
                }
+
             }
+
         }
-        
+
     }
 }

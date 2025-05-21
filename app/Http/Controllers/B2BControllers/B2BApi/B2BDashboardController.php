@@ -148,16 +148,16 @@ class B2BDashboardController extends Controller
 
                 $checkShareStatus = B2BBusinessCandidates::checkB2BAdminShare($request['candidate_id']);
 
-                if (!empty($checkShareStatus) && !empty($checkShareStatus['busers'])) {
+                if (!empty($checkShareStatus) && !empty($checkShareStatus['businessUsers'])) {
 
-                    $userId = $checkShareStatus['busers']['id'];
+                    $userId = $checkShareStatus['businessUsers']['id'];
 
                     $getAssessment = Assessment::getLatestAssessment($userId);
                     
 
                     if (!empty($getAssessment)) {
                         $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
-                        $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['busers']['date_of_birth']) : null;
+                        $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['businessUsers']['date_of_birth']) : null;
                         $userTrait = Assessment::UserTraits($userId);
                         $userNote = B2BNotes::getNoteFromUserId($userId) ?? '';
                         
@@ -167,7 +167,7 @@ class B2BDashboardController extends Controller
                         
 
                         return Helpers::successResponse('candidates optimization and core state', [
-                            'candidates_name' => ($checkShareStatus['busers']['first_name'] ?? '') . ' ' . ($checkShareStatus['busers']['last_name'] ?? ''),
+                            'candidates_name' => ($checkShareStatus['businessUsers']['first_name'] ?? '') . ' ' . ($checkShareStatus['businessUsers']['last_name'] ?? ''),
                             'optimization_plan' => $optimizationPlan,
                             'core_state' => $coreState,
                             'user_trait' => $userTrait,
@@ -175,7 +175,7 @@ class B2BDashboardController extends Controller
                         ]);
                     } else {
                         return Helpers::successResponse('candidates optimization and core state', [
-                            'candidates_name' => ($checkShareStatus['busers']['first_name'] ?? '') . ' ' . ($checkShareStatus['busers']['last_name'] ?? ''),
+                            'candidates_name' => ($checkShareStatus['businessUsers']['first_name'] ?? '') . ' ' . ($checkShareStatus['businessUsers']['last_name'] ?? ''),
                             'optimization_plan' => null,
                             'core_state' => null,
                             'user_trait' => null,
@@ -185,7 +185,7 @@ class B2BDashboardController extends Controller
                 } else {
                     
                     return Helpers::successResponse('candidates optimization and core state', [
-                        'candidates_name' => ($checkShareStatus['busers']['first_name'] ?? '') . ' ' . ($checkShareStatus['busers']['last_name'] ?? ''),
+                        'candidates_name' => ($checkShareStatus['businessUsers']['first_name'] ?? '') . ' ' . ($checkShareStatus['businessUsers']['last_name'] ?? ''),
                         'optimization_plan' => null,
                         'core_state' => null,
                         'user_trait' => null,

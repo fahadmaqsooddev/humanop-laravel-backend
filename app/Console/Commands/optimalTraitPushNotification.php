@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Assessment;
 use App\Models\Notification\PushNotification;
 use App\Models\User;
@@ -100,6 +101,7 @@ class optimalTraitPushNotification extends Command
 
                             Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 
+                            Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
 
                         } elseif ($userOptimalTrait['status'] != $status) {
 
@@ -107,7 +109,10 @@ class optimalTraitPushNotification extends Command
 
                             Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 
+                            Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
+
                         }
+
                     }
                 }
 

@@ -37,6 +37,7 @@ class AssessmentController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
 
     public function assessmentAnswers(AssessmentAnswersRequest $request)
@@ -52,6 +53,7 @@ class AssessmentController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
 
     public function grid(GridRequest $request)
@@ -76,30 +78,12 @@ class AssessmentController extends Controller
 
             $user = Helpers::getUser();
 
-            if (empty($user['timezone'])) {
-
-                $check_assessment = Assessment::getLatestAssessment($user['id']);
-
-                return Helpers::successResponse('Assessment Status', [
-                    'check_assessment' => !empty($check_assessment) ? true : false,
-                    'assessment_count' => null,
-                    'timezone' => null,
-                    'assessment_page_number' => null,
-                    'assessment_price' => ($assessment_price->amount ?? 0),
-                    'user' => [
-                        'last_four_digits' => $user['pm_last_four'],
-                        'exp_month' => $user['pm_exp_month'],
-                        'exp_year' => $user['pm_exp_year'],
-                        'name' => $user['card_name'],
-                    ]
-                ]);
-            }
-
             $status = Assessment::assessmentStatusForApi();
 
             $assessment_price = StripeSetting::getSingle();
 
             $latest_assessment = Assessment::getLatestAssessment($user['id']);
+
             $assessment_count = Assessment::getAllAssessmentCount($user['id']);
 
             if (!empty($latest_assessment) && $latest_assessment['reset_assessment'] == 1) {
@@ -117,14 +101,11 @@ class AssessmentController extends Controller
                         'name' => $user['card_name'],
                     ]
                 ]);
-            }
-            elseif (!empty($latest_assessment)){
+            } elseif (!empty($latest_assessment)) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
-                $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])
-                    ->addMinutes($minutes * 60)
-                    ->toDateTimeString();
+                $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])->addMinutes($minutes * 60)->toDateTimeString();
 
                 $difference = \Carbon\Carbon::now()->diffInDays($userTime);
 
@@ -147,9 +128,7 @@ class AssessmentController extends Controller
                     ]);
 
                 }
-            }
-            else
-            {
+            } else {
 
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
@@ -194,6 +173,7 @@ class AssessmentController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
 
     public function submitAnswers(AssessmentSubmitRequest $request)

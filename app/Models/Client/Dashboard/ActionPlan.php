@@ -97,22 +97,22 @@ class ActionPlan extends Model
         if (!empty($assessment)) {
 
             if (!empty($user)) {
+
                 $getUser = $user;
+
             }else{
+
                 $getUser = Helpers::getWebUser() ?? Helpers::getUser();
 
             }
 
             $existingPlan = self::where('user_id', $getUser['id'])->latest()->first();
 
-
             if (!empty($existingPlan) && ($existingPlan['assessment_id'] == $assessment['id'])) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
-                $userTime = Carbon::parse($existingPlan['updated_at'])
-                    ->addMinutes($minutes * 60)
-                    ->toDateTimeString();
+                $userTime = Carbon::parse($existingPlan['updated_at'])->addMinutes($minutes * 60)->toDateTimeString();
 
                 $difference = Carbon::now()->diffInDays($userTime);
 
@@ -507,13 +507,16 @@ class ActionPlan extends Model
     {
 
         if (!empty($user)) {
+
             $user_id = $user['id'];
+
         }else
         {
             $user_id = Helpers::getUser()->id ?? Helpers::getWebUser()->id;
         }
 
-        return self::where('user_id', $user_id)->select(['id','priority', 'plan_text', 'text'])->latest()->first();
+        return self::getUserActionPlan($user_id);
+
     }
 
     public static function getUserActionPlan($user_id = null)

@@ -312,7 +312,7 @@
                                     @endif --}}
 
                                     {{-- <div class="form-group mt-4 {{ !empty($link) ? 'd-none' : 'd-block' }}"> --}}
-    
+
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
                                             [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
@@ -320,11 +320,11 @@
                                                id="resourse_file"
                                                wire:change="getResourceFile"
                                                class="form-control text-white resource_file" type="file"
-                                               accept="image/*,video/*,audio/*"     
+                                               accept="image/*,video/*,audio/*"
                                         >
 
                                         {{-- <p class="text-white mt-3">Boolean Value: {{ $booleanValue ? 'True' : 'False' }}</p> --}}
-                                        
+
                                         <span wire:loading.flex wire:target="resource_file">
 
                                             <div class="d-flex align-items-center mt-2">
@@ -337,7 +337,7 @@
 
                                         </span>
 
-                                      
+
 
 
                                     {{-- </div> --}}
@@ -457,7 +457,7 @@
                                     </div>
 
                                     <label class="form-label fs-4 text-white ">OR</label>
-                                    
+
                                     {{-- @if ($booleanValue==false && empty($elink))
                                     <label class="form-label fs-4 text-white ">OR</label>
                                     @endif --}}
@@ -467,8 +467,8 @@
                                         <input style="background-color: #0f1534;" class="form-control text-white"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
-                                    
-                                 
+
+
                                         <div class="form-group mt-4 ">
                                             <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
                                                 [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
@@ -476,10 +476,10 @@
                                                 id="resource_file"
                                                 wire:change="getResourceFile"
                                                 class="form-control text-white resource_file1" type="file"
-                                                accept="image/,video/,audio/*" 
+                                                accept="image/,video/,audio/*"
                                                 onchange="logSelectedFile(event)">
                                         </div>
-                                       
+
                                         <span wire:loading.flex wire:target="resource_file">
                                             {{-- Uploading ... --}}
                                             <div class="d-flex align-items-center mt-2">
@@ -511,7 +511,7 @@
                                             </div>
                                         @else
                                         @endif
-                                  
+
 
 
                                     <label class="form-label fs-4 text-white">Permission Level</label>
@@ -584,9 +584,9 @@
 const resourceFileInput = document.querySelector('.resource_file1');
 
 if (resourceFileInput) {
-    
-    resourceFileInput.value = ""; 
-    
+
+    resourceFileInput.value = "";
+
 } else {
     console.log("Resource file input not found.");
 }
@@ -596,13 +596,13 @@ if (resourceFileInput) {
 
     @if($booleanValue)
 <script>
- 
+
 const resourceFileInput = document.querySelector('.resource_file');
 
 if (resourceFileInput) {
-   
-    resourceFileInput.value = ""; 
-  
+
+    resourceFileInput.value = "";
+
 } else {
     console.log("Resource file input not found.");
 }
@@ -671,6 +671,7 @@ if (resourceFileInput) {
                                     <br/>
                                     <select style="background-color: #0f1534;" class="form-control text-white"
                                             wire:model.defer="category_id" placeholder="Select category">
+                                        <option value="">Select Category</option>
                                         @foreach($dropDownCategories as $category)
                                             @if($current_category != $category->id)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
@@ -898,9 +899,9 @@ if (resourceFileInput) {
         }
 
 
-        
 
- 
+
+
 
 
 

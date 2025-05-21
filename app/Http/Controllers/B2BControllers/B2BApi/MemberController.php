@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
+use App\Http\Requests\Api\Client\CheckEmailRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use App\Models\UserInvite\UserInvite;
 use App\Models\B2B\UserCandidateInvite;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
@@ -35,115 +37,84 @@ class MemberController extends Controller
         $this->user = $user;
     }
 
-
-    public function createInviteLinkForMember(Request $request)
+    public function createInviteLinkForMember(CheckEmailRequest $request)
     {
+        DB::beginTransaction();
         try {
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
-            ]);
 
-            if ($validator->fails()) {
-                return Helpers::validationResponse('Please Send proper Email Address');
+            $email = $request['email'];
+
+            $currentUser = Helpers::getUser();
+
+            if ($currentUser['email'] === $email) {
+
+                return Helpers::validationResponse("It’s a B2B Admin Account. You can directly login to HumanOP Account.");
             }
 
+            $existingInvite = UserInvite::getSingleInvite($email);
 
-            $email = $request->input('email');
+            $user = User::checkEmail($email);
 
-            if(Helpers::getUser()['email'] == $email){
+            if ($existingInvite) {
 
-                return Helpers::validationResponse('its an B2B Admin Account You can directly login to HumanOP Account');
-    
-            }
+                $existingCandidate = UserCandidateInvite::getSingleInvite($existingInvite['id']);
 
-            $checkInviteLink = UserInvite::getSingleInvite($email);
+                if ($existingCandidate) {
 
-
-            if ($checkInviteLink) {
-
-                $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
-
-                if ($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) {
-
-
-                    return Helpers::validationResponse("{$email} already has an invite link with your business As a Candidate.");
-
-                } else if ($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) {
-
-                    return Helpers::validationResponse("{$email} already has an invite link with your business As a Member.");
-
-                } else {
-
-
-                    $userRecord=User::where('email',$email)->first();
-
-                    if($userRecord){
-
-                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('candidate_id',$userRecord['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
-
-                       if($result){
-
-                        return Helpers::validationResponse("{$email} already has an Account with your business in A Future Consideration.");
-
-                    }
-
-                    }
-
-                    UserCandidateInvite::createUserInvite($checkInviteLink->id, 0);
-
-                    $linke = UserInvite::where('email', $email)->first();
-
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=1';
-
-                    $emailData = $this->myprepareEmailData($url);
-
-                    $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
-
-                    return Helpers::successResponse("{$email} invite link generated successfully.");
+                    return $this->inviteAlreadyExistsResponse($email, $existingCandidate['role']);
                 }
-            }
 
+                if ($user) {
+
+                    $candidateRecord = B2BBusinessCandidates::where([['business_id', $currentUser['id']], ['candidate_id', $user['id']]])->first();
+
+                    if ($candidateRecord) {
+
+                        return $this->inviteAlreadyExistsResponse($email, $candidateRecord['role']);
+                    }
+                }
+                DB::commit();
+                return $this->createAndSendMemberInvite($existingInvite['id'], $email, $currentUser['company_name']);
+            }
 
             $newInvite = UserInvite::createInvite($email);
 
-            if ($newInvite) {
+            if (!$newInvite) {
 
-                $userRecord=User::where('email',$email)->first();
-
-                    if($userRecord){
-
-                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('candidate_id',$userRecord['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
-
-                       if($result){
-
-                        return Helpers::validationResponse("{$email} already has an Account with your business in A Future Consideration.");
-
-                    }
-
-                    }
-
-                UserCandidateInvite::createUserInvite($newInvite->id, 0);
-
-                $linke = UserInvite::where('email', $email)->first();
-
-                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=1';
-
-                $emailData = $this->myprepareEmailData($url);
-
-                $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
-
-                return Helpers::successResponse("{$email} invite link generated successfully.");
-
+                return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
             }
 
-            return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
+            DB::commit();
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
+            return $this->createAndSendMemberInvite($newInvite['id'], $email, $currentUser['company_name']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return Helpers::serverErrorResponse($e->getMessage());
         }
+    }
 
+    private function inviteAlreadyExistsResponse($email, $role)
+    {
+
+        $roleText = $role == Admin::IS_CANDIDATE ? 'Candidate' : 'Member';
+
+        return Helpers::validationResponse("{$email} already has an invite/account with your business as a {$roleText}.");
+    }
+
+    private function createAndSendMemberInvite($inviteId, $email, $companyName)
+    {
+
+        $neData = UserCandidateInvite::createUserInvite($inviteId, Admin::IS_TEAM_MEMBER);
+
+        $invite = UserInvite::getSingleInvite($email);
+
+        $url = config('client_url.client_dashboard_url') . '/register?link=' . $invite['link'] . '&company_name=' . urlencode($companyName) . '&prefer=1';
+
+        $emailData = $this->prepareEmailData(null, $url);
+
+        $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
+
+        return Helpers::successResponse("{$email} invite link generated successfully.");
     }
 
     public static function allMemberInvites()
@@ -155,6 +126,7 @@ class MemberController extends Controller
             $memberInvites = [];
 
             foreach ($invites as $invite) {
+
                 $id = $invite['id'];
                 $companyName = $invite['user']['company_name'] ?? 'N/A';
                 $inviteLink = $invite['inviteLinks']['link'] ?? 'N/A';
@@ -169,7 +141,6 @@ class MemberController extends Controller
             }
 
             return Helpers::successResponse("All Member invites.", $memberInvites);
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -177,7 +148,7 @@ class MemberController extends Controller
 
     public function addMember(AddMemberRequest $request)
     {
-
+        DB::beginTransaction();
         try {
 
             $user = Helpers::getUser();
@@ -187,7 +158,6 @@ class MemberController extends Controller
             if (empty($limit)) {
 
                 return Helpers::validationResponse('You have reached the maximum number of candidates allowed per business.');
-
             } else {
 
                 $dataArray = $request->only($this->user->getFillable());
@@ -217,8 +187,9 @@ class MemberController extends Controller
 
                         $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
 
-                        return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
+                        DB::commit();
 
+                        return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
                     } else {
 
                         $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
@@ -228,9 +199,7 @@ class MemberController extends Controller
                         $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
 
                         return Helpers::successResponse('This candidate is already associated with a business. Check your email and continue with login.');
-
                     }
-
                 }
 
                 if (empty($checkUser)) {
@@ -247,16 +216,17 @@ class MemberController extends Controller
 
                     $this->sendEmailVerification($emailData, $createMember['email'], 'b2b-login-link');
 
+                    DB::commit();
+
                     return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
                 }
             }
-
         } catch (\Exception $exception) {
 
+            DB::rollBack();
+
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
     public function AllMembers(Request $request)
@@ -283,6 +253,7 @@ class MemberController extends Controller
                     unset($member['created_at']);
 
                     if (isset($member['share_data']) && $member['share_data'] == Admin::NOT_SHARED_DATA) {
+
                         unset($member['assessments']);
                     }
 
@@ -292,26 +263,34 @@ class MemberController extends Controller
             }
 
             return Helpers::successResponse('All Team members', $formattedmembers);
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
-    private function prepareEmailData($user = null, $url = null, $codeNumber = null)
+    private function prepareEmailData($user = null, $url = null)
     {
-        return [
-            '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
-            '{$link}' => $url,
-            '{$email}' => $user['email'],
-            '{$password}' => Session::get('user_password'),
-            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
-            '{$service}' => url('/term-of-service'),
-            '{$privacy}' => url('/privacy-policy'),
-        ];
+        if (!empty($user)) {
+
+            return [
+                '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+                '{$link}' => $url,
+                '{$email}' => $user['email'],
+                '{$password}' => Session::get('user_password'),
+                '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+                '{$service}' => url('/term-of-service'),
+                '{$privacy}' => url('/privacy-policy'),
+            ];
+        } else {
+
+            return [
+                '{$link}' => $url,
+                '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+                '{$service}' => url('/term-of-service'),
+                '{$privacy}' => url('/privacy-policy'),
+            ];
+        }
     }
 
     private function sendEmailVerification($emailData, $recipientEmail, $name)
@@ -336,12 +315,10 @@ class MemberController extends Controller
             $user = $this->user->UpdateMember($dataArray, $request['member_id']);
 
             return Helpers::successResponse('candidate updated successfully.');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function DeleteMember(Request $request)
@@ -355,19 +332,15 @@ class MemberController extends Controller
             if (empty($member)) {
 
                 return Helpers::validationResponse('You are not authorized to delete this Member.');
-
             } else {
 
                 B2BBusinessCandidates::DeletedCandidate($request['member_id']);
 
                 return Helpers::successResponse('Member deleted successfully.');
-
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -384,15 +357,13 @@ class MemberController extends Controller
                 if ($status) {
 
                     return Helpers::validationResponse('This Member is already deleted with your business.');
-
                 } else {
 
-                    $archive = B2BBusinessCandidates::checkconsideration($request['member_id']);
+                    $archive = B2BBusinessCandidates::checkConsideration($request['member_id']);
 
                     if ($archive) {
 
                         return Helpers::validationResponse('This Member is already archived.');
-
                     } else {
 
                         $member = B2BBusinessCandidates::ArchivedCandidate($request['member_id']);
@@ -400,24 +371,18 @@ class MemberController extends Controller
                         if ($member) {
 
                             return Helpers::successResponse('Member archive successfully.');
-
                         } else {
 
                             return Helpers::validationResponse('Failed to archive the Member.');
                         }
                     }
-
                 }
-
             } else {
                 return Helpers::validationResponse('Failed to find Member id');
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -431,18 +396,16 @@ class MemberController extends Controller
             if (!empty($futureConsideration)) {
 
                 $data = [
-                    'company_name' => $futureConsideration['busers']['company_name'],
+                    'company_name' => $futureConsideration['businessUsers']['company_name'],
                 ];
 
                 return Helpers::successResponse('Future Consideration', $data);
             }
 
             return Helpers::validationResponse('You are not Future Consideration');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -463,7 +426,6 @@ class MemberController extends Controller
             ]);
 
             return Helpers::successResponse('Future Consideration Share data updated successfully.');
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -487,24 +449,19 @@ class MemberController extends Controller
 
                         if ($checklimit['members_limit'] < $checklimit['total_member_limit']) {
 
-                            $changerole = B2BBusinessCandidates::newchangeRole($request['member_id']);
+                            $changerole = B2BBusinessCandidates::newChangeRole($request['member_id']);
 
                             if ($changerole) {
 
                                 return Helpers::successResponse(' Member  Change To Candidate');
-
                             } else {
 
                                 return Helpers::validationResponse('Not Link With Your Business');
-
                             }
-
                         } else {
 
                             return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');
                         }
-
-
                     } else {
                         return Helpers::validationResponse('Already Converted to member');
                     }
@@ -512,11 +469,9 @@ class MemberController extends Controller
             } else {
                 return Helpers::validationResponse('Failed to find member id');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -546,28 +501,20 @@ class MemberController extends Controller
                                 UserCandidateInvite::deleteMemberInvite($request['invite_id']);
 
                                 return Helpers::successResponse('Member Invite deleted successfully.');
-
                             } else {
 
                                 return Helpers::validationResponse('User Did Not complete his Signup process yet');
-
                             }
-
                         } else {
                             return Helpers::validationResponse('User Did Not complete his Signup process yet');
                         }
-
                     }
-
-
                 } else {
                     return Helpers::validationResponse('Please enter valid invite id');
                 }
-
             } else {
                 return Helpers::validationResponse('Please enter invite id');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -583,16 +530,12 @@ class MemberController extends Controller
             $archivemembers = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'], false);
             foreach ($archivemembers as $newmembers) {
                 $newmembers['users']['gender'] = $newmembers['users']['gender'] == 0 ? 'Male' : 'Female';
-
             }
 
             return Helpers::successResponse('Archive Members', $archivemembers);
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -601,41 +544,17 @@ class MemberController extends Controller
     {
         try {
             if (empty($request['member_id'])) {
+
                 return Helpers::validationResponse('Please Enter a Member id');
             } else {
+
                 B2BBusinessCandidates::requestAccess($request['member_id']);
+
                 return Helpers::successResponse('Request For Access Data is Send');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
-
-
-    private function myprepareEmailData($url = null,)
-    {
-        return [
-            '{$link}' => $url,
-            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
-            '{$service}' => url('/term-of-service'),
-            '{$privacy}' => url('/privacy-policy'),
-        ];
-    }
-
-    private function mysendEmailVerification($emailData, $recipientEmail, $name)
-    {
-        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
-
-        Email::sendEmailVerification(
-            ['content' => $emailTemplate],
-            $recipientEmail,
-            'emails.Email_Template',
-            $name
-        );
-    }
-
-
 }

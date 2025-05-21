@@ -232,7 +232,7 @@
                 <th>Date & Time</th>
                 <th>Email</th>
                 <th>Reset Assessment</th>
-                <th></th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -260,6 +260,10 @@
                         </div>
                     </td>
                     <td class="text-md font-weight-normal"><a
+                            href="{{ route('admin_user_answer',['id' => $assessment['id']]) }}" type="submit"
+                            class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">View Answers</a>
+                    </td>
+                    <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"
                             class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">View</a>
                     </td>
@@ -267,7 +271,7 @@
             @endforeach
             </tbody>
         </table>
-               {{ $assessments->links() }}
+        {{ $assessments->links() }}
     </div>
 </div>
 

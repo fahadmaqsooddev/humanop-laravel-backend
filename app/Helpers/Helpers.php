@@ -4,6 +4,9 @@ namespace App\Helpers;
 
 use App\Enums\Admin\Admin;
 use App\Models\Admin\Notification\Notification;
+use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\B2B\UserCandidateInvite;
+use App\Models\Client\Plan\Plan;
 use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -79,8 +82,11 @@ class Helpers
     public static function pagination($all, $pagination = false, $per_page = null)
     {
         if ($pagination && ($pagination === true || $pagination === "true")) {
+
             if ($per_page) {
+
                 $all = $all->paginate($per_page);
+
             } else {
 
                 $all = $all->paginate(10);
@@ -89,8 +95,11 @@ class Helpers
             return $all;
 
         } else {
+
             return $all->get();
+
         }
+
     }
 
     public static function paginateForCollectionsAndArrays($items, $perPage = 1, $page = 1, $options = [], $pagination = false)
@@ -168,26 +177,6 @@ class Helpers
     public static function timeZone()
     {
 
-        // $zones_array = array();
-
-        // $timestamp = time();
-
-        // foreach (timezone_identifiers_list() as $key => $zone) {
-
-        //     date_default_timezone_set($zone);
-
-        //     $zones_array[$key]['zone'] = $zone;
-
-        //     $zones_array[$key]['offset'] = (int)((int)date('O', $timestamp)) / 100;
-
-        //     $zones_array[$key]['diff_from_GMT'] = 'UTC/GMT ' . date('P', $timestamp);
-
-        //     $zones_array[$key] = $zones_array[$key]['diff_from_GMT'] . ' - ' . $zones_array[$key]['zone'];
-
-        // }
-
-        // return $zones_array;
-
         $preferred_zones = array(
             'America/Los_Angeles',
             'America/Denver',
@@ -196,24 +185,30 @@ class Helpers
         );
 
         $zones_array = array();
+
         $timestamp = time();
 
-
         foreach ($preferred_zones as $zone) {
+
             date_default_timezone_set($zone);
+
             $zones_array[] = 'UTC/GMT ' . date('P', $timestamp) . ' - ' . $zone;
+
         }
 
-
         foreach (timezone_identifiers_list() as $key => $zone) {
+
             if (!in_array($zone, $preferred_zones)) {
+
                 date_default_timezone_set($zone);
+
                 $zones_array[] = 'UTC/GMT ' . date('P', $timestamp) . ' - ' . $zone;
+
             }
+
         }
 
         return $zones_array;
-
 
     }
 
@@ -250,16 +245,6 @@ class Helpers
 
             User::createCustomerOnStripe($user, $key);
         }
-
-//        if (!$user->subscription('main')) { // If user has no subscription then create subscription on stripe
-//
-//            $stripe = new StripeClient($key['api_key']);
-//
-//            $stripe->subscriptions->create([
-//                'customer' => $user['stripe_id'],
-//                'items' => [['price' => config('stripeinfo.plans.freemium')]]
-//            ]);
-//        }
 
     }
 
@@ -309,7 +294,9 @@ class Helpers
             }
 
         } else {
+
             if ($original_default == "female_profile_pic.png" || $original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "image_placeholder.png" || $original_default == "humanop_default_image.png"
+
                 || $original_default == "gin_logo.png" || $original_default == "hand_shake.png" || $original_default == "calender.png") {
 
                 $path = url('/') . '/media/files/' . 'original_default' . '/' . $original_default;
@@ -317,24 +304,30 @@ class Helpers
                 $path_thumbnail = url('/') . '/media/thumbnails/' . 'thumbnail_default' . '/' . $original_default;
 
                 return array('url' => $path, 'thumbnail_url' => $path_thumbnail);
+
             }
+
         }
+
     }
 
     public static function getVideo($video, $is_original_name = 0, $sourceUrl = null, $embedLink = null)
     {
 
         if (!empty($sourceUrl)) {
+
             return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
 
         }
 
         if (!empty($embedLink)) {
+
             return array('path' => $embedLink, 'original_name' => $embedLink);
 
         }
 
         if (!empty($video)) {
+
             $upload = Upload::find($video);
 
             if ($upload->extension != 'mp4') {
@@ -343,6 +336,7 @@ class Helpers
             }
 
             $path = url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name;
+
             if ($is_original_name) {
 
                 $original_name = $upload['original_name'];
@@ -357,6 +351,7 @@ class Helpers
     {
 
         if (!empty($audio)) {
+
             $upload = Upload::find($audio);
 
             if ($upload->extension != 'mp3') {
@@ -416,6 +411,7 @@ class Helpers
         $eveningStart = Carbon::createFromTimeString('05:00 PM');
 
         if (count($stylesAndDrivers) > 2) {
+
             if ($currentTime->between($morningStart, $morningEnd)) {
 
                 $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
@@ -429,7 +425,9 @@ class Helpers
                 $optionalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
 
             }
+
         } else {
+
             if ($currentTime->between($morningStart, $morningEnd)) {
 
                 $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
@@ -468,44 +466,13 @@ class Helpers
 
             $minutes = intval($standard_time);
 
-            $userTime = \Carbon\Carbon::parse($assessmentUpdatedAt)
-                ->addMinutes($minutes * 60)
-                ->toDateTimeString();
+            $userTime = \Carbon\Carbon::parse($assessmentUpdatedAt)->addMinutes($minutes * 60)->toDateTimeString();
 
             $difference = \Carbon\Carbon::now()->diffInDays($userTime);
 
             return $difference;
         }
     }
-
-//    public static function sendNumberOtp($phone,$api = null){
-//
-//        $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
-//
-//        $to = $phone;
-//
-//        $message = 'Your Human Op verification code is '.$otpNumber;
-//
-//        $status = TwilioServices::sendOtp($to, $message);
-//
-//        if($status != false) {
-//
-//            if($api){
-//
-//                return $otpNumber;
-//
-//            }else{
-//
-//                Session::put(['two_way_auth.otp' => $otpNumber]);
-//
-//                return true;
-//            }
-//
-//        }else {
-//
-//            return false;
-//        }
-//    }
 
     public static function stringFromPdfOrTextFile($text)
     {
@@ -518,7 +485,6 @@ class Helpers
 
         $client = new Client();
 
-        // $response = $client->request('POST', 'https://api.onesignal.com/apps/03e1446a-4643-4d93-9d96-823cf1ff8d24/users', [
         $response = $client->request('POST', 'https://api.onesignal.com/apps/' . config('oneSignal.app_id') . '/users', [
             'body' => '{"identity":{"external_id":"' . $userId . '"}}',
             'headers' => [
@@ -585,11 +551,67 @@ class Helpers
         }
     }
 
-    public static function findEmailFromString($string){
+    public static function findEmailFromString($string)
+    {
 
         preg_match('/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i', $string, $matches);
 
         return ($matches[0] ?? null);
+
+    }
+
+
+    public static function packageLimitation($companyId = null)
+    {
+
+        $user = User::find($companyId);
+
+        if ($plan_id = $user->getsubscription()->first()) {
+
+            $plan_id = $plan_id->stripe_price;
+
+        } else {
+
+            return Helpers::validationResponse('Please subscribe your plan first');
+
+        }
+
+        $limitations = Plan::singlePlan($plan_id);
+
+        $getExistingMembers = B2BBusinessCandidates::where('business_id', $companyId)
+            ->where('role', Admin::IS_TEAM_MEMBER)
+            ->where('future_consideration', Admin::NOT_IN_FUTURE)
+            ->where('is_permanently_deleted', 0)
+            ->with(['users' => function ($q) {
+                $q->where('step', 3);
+            }])
+            ->get();
+
+        $existingMemberCounts = 0;
+
+        foreach ($getExistingMembers as $member) {
+
+            if (!empty($member->users)) {
+
+                $existingMemberCounts += 1;
+
+            }
+
+        }
+
+        $getMemberInvites = UserCandidateInvite::where('company_id', $companyId)->where('role', Admin::IS_TEAM_MEMBER)->get();
+
+        $allMembers = $existingMemberCounts + count($getMemberInvites);
+
+        if (($allMembers < (int)$limitations['no_of_team_members'])) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
 
     }
 

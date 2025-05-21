@@ -19,6 +19,20 @@ class CreatePricingPlan extends Component
 
     protected $listeners = ['activeInactivePlanModal'];
 
+    protected $rules = [
+        'plan_name' => 'required',
+        'price' => 'required',
+        'plan_type' => 'required',
+        'team_members' => 'required',
+    ];
+
+    protected $messages = [
+        'plan_name.required' => 'Plan name is required.',
+        'price.required' => 'Price is required.',
+        'plan_type.required' => 'Plan type is required.',
+        'team_members.required' => 'Please specify the number of team members.',
+    ];
+
     public function getPlans()
     {
         $this->plans = Plan::getB2BPlans();
@@ -28,9 +42,13 @@ class CreatePricingPlan extends Component
     {
 
         $this->plan_id = $planId;
+
         $this->plan_name = $planName;
+
         $this->price = $planPrice;
+
         $this->team_members = $noOfMembers;
+
         $this->plan_type = $planType;
 
     }
@@ -44,19 +62,16 @@ class CreatePricingPlan extends Component
 
             $getPlan = Plan::getSingleB2BPlan($planId);
 
-            // Step 1: Retrieve the price
             $price = Price::retrieve($getPlan['plan_id']);
 
             $productId = $price->product;
 
             if ($getPlan && $getPlan['status'] == 1) {
 
-                // Step 2: Deactivate the price
                 Price::update($getPlan['plan_id'], [
                     'active' => false,
                 ]);
 
-                // Step 3: Deactivate the product
                 Product::update($productId, [
                     'active' => false,
                 ]);
@@ -71,14 +86,12 @@ class CreatePricingPlan extends Component
 
                 $b2bActivePlan = Plan::activeb2BPlans();
 
-                if ($b2bActivePlan < 4)
-                {
-                    // Step 2: Deactivate the price
+                if ($b2bActivePlan < 4) {
+
                     Price::update($getPlan['plan_id'], [
                         'active' => true,
                     ]);
 
-                    // Step 3: Deactivate the product
                     Product::update($productId, [
                         'active' => true,
                     ]);
@@ -88,11 +101,13 @@ class CreatePricingPlan extends Component
                     DB::commit();
 
                     session()->flash('success', 'Plan activated successfully!');
-                }
-                else
-                {
-                    DB::rollBack(); // Important: Rollback if you can't proceed
+
+                } else {
+
+                    DB::rollBack();
+
                     session()->flash('error', 'You can only have a maximum of 4 active plans.');
+
                 }
 
             }
@@ -104,15 +119,20 @@ class CreatePricingPlan extends Component
             session()->flash('error', 'Something went wrong: ' . $exception->getMessage());
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function submitForm()
     {
         DB::beginTransaction();
+
         try {
 
-            Stripe::setApiKey(config('cashier.secret'));
+            $this->validate();
+
+            Stripe::setApiKey(config('cashier.b2c_secret'));
 
             $product = Product::create([
                 'name' => $this->plan_name,
@@ -166,13 +186,13 @@ class CreatePricingPlan extends Component
             $getPlan = Plan::getSingleB2BPlan($this->plan_id);
 
             $oldPriceId = $getPlan['plan_id'];
+
             $newProductName = $this->plan_name;
 
-            // Step 1: Get the existing price
             $oldPrice = Price::retrieve($oldPriceId);
+
             $productId = $oldPrice->product;
 
-            // Step 2: Update the product name
             $updatedProduct = Product::update($productId, [
                 'name' => $newProductName,
             ]);

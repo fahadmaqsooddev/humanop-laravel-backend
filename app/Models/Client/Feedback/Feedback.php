@@ -53,20 +53,21 @@ class Feedback extends Model
 
     }
 
-    public static function userFeedbacks($paginate = null,$name=null)
+    public static function userFeedbacks($paginate = null, $name = null)
     {
-//            return self::where('approve', 0)->whereHas('user')->with('user')->orderBy('created_at', 'desc')->get();
 
-        $query = self::whereHas('user')
-            ->with('user')
-            ->orderBy('created_at', 'desc');
+        $query = self::whereHas('user')->with('user')->orderBy('created_at', 'desc');
 
         if (!empty($name)) {
+
             $query->whereHas('user', function ($q) use ($name) {
+
                 $q->where('first_name', 'LIKE', "%$name%")
                     ->orWhere('last_name', 'LIKE', "%$name%")
                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
+
             });
+
         }
 
         return $query->paginate($paginate);

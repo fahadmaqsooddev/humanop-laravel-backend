@@ -214,7 +214,7 @@
                                                                 class="caret"></b></span>
                                                     </a>
                                                     <div
-                                                        class="collapse {{ Request::is('admin/assessments',
+                                                        class="collapse {{ Request::is('admin/assessments','admin/user-answers/*',
                                                         'admin/abandoned-assessment','admin/user-grid/*','admin/user-profile-overview/*') ? 'show' : '' }}"
                                                         id="assementexample">
                                                         <ul class="nav nav-sm flex-column">
@@ -329,7 +329,7 @@
                                                                 class="caret"></b></span>
                                                     </a>
                                                     <div
-                                                        class="collapse {{ Request::is('admin/hai-chat-persona', 'admin/clusters', 'admin/hai-chat', 'admin/hai-chat-comparison', 'admin/fine-tune') ? 'show' : '' }}"
+                                                        class="collapse {{ Request::is('admin/hai-chat-persona', 'admin/clusters', 'admin/hai-chat', 'admin/hai-chat-comparison', 'admin/fine-tune', 'admin/hai-dojo') ? 'show' : '' }}"
                                                         id="chat">
                                                         <ul class="nav nav-sm flex-column">
                                                             <li class="nav-item {{ (Request::is('admin/hai-chat-persona') ? 'active-itt-all' : '') }}">
@@ -368,17 +368,37 @@
                                                                     <span class="sidenav-normal"> Knowledge </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/fine-tune') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/fine-tune') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('fine_tune') }}">
+                                                            <li class="nav-item {{ (Request::is('admin/hai-dojo') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link"
+                                                                   data-bs-toggle="collapse" aria-expanded="false" href="#advanced">
                                                                     <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal">
+                                                                        <img style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}">
+                                                                    </span>
                                                                     <span class="sidenav-normal"> Advanced </span>
                                                                 </a>
+
+                                                                <div class="collapse {{ Request::is('admin/hai-dojo') ? 'show' : '' }}"
+                                                                    id="advanced" style="margin-left: 20px;">
+                                                                    <ul class="nav nav-sm flex-column">
+                                                                        <li class="nav-item {{ (Request::is('admin/hai-dojo') ? 'active-itt-all' : '') }}">
+                                                                            <a class="nav-link {{ (Request::is('admin/hai-dojo') ? 'active-itt-all' : '') }}"
+                                                                               href="{{ route('admin_hai_dojo') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                                <span class="sidenav-normal"><img
+                                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                                <span class="sidenav-normal"> HAi Dojo </span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}"
@@ -391,6 +411,7 @@
                                                                             src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
                                                                     <span class="sidenav-normal"> Comparison </span>
                                                                 </a>
+
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -611,6 +632,19 @@
                                                                         class="sidenav-normal"> B2B Support </span>
                                                                 </a>
                                                             </li>
+                                                            <li class="nav-item {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_pricing_plan') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Pricing Plan </span>
+                                                                </a>
+                                                            </li>
 
                                                             {{--                                                            <li class="nav-item {{ (Request::is('admin/cms') ? 'active-itt-all':'') }}">--}}
                                                             {{--                                                                <a class="nav-link {{ (Request::is('admin/cms') ?  'active-itt-all':'') }}"--}}
@@ -743,7 +777,7 @@
                                             <span class="sidenav-normal"> B2B Dashboard <b class="caret"></b></span>
                                         </a>
                                         <div
-                                            class="collapse {{ ( Request::is('admin/b2b-organizations','admin/role-template','admin/role-template','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon') ? 'show' : '') }}"
+                                            class="collapse {{ ( Request::is('admin/b2b-organizations','admin/role-template','admin/role-template','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon','admin/b2b-organizations-users/*') ? 'show' : '') }}"
                                             id="b2bExamples">
                                             <ul class="nav nav-sm flex-column">
                                                 <li class="nav-item {{ (Request::is('admin/b2b-organizations') ? 'active-itt-all' : '') }}">

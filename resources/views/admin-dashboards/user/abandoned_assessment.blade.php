@@ -8,6 +8,11 @@
     .dataTable-table th a{
         color: #1c365e !important;
     }
+    .dataTable-pagination-list .active a {
+        background: #f2661c !important;
+        color: white !important;
+        border-color: #f2661c !important;
+    }
 </style>
 @section('content')
     <div class="row mt-4 container-fluid">

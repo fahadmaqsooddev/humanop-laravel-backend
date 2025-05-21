@@ -10,6 +10,7 @@ use App\Helpers\Helpers;
 class B2BSupport extends Model
 {
     use HasFactory;
+
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
@@ -18,16 +19,14 @@ class B2BSupport extends Model
 
         parent::__construct($attributes);
     }
- 
-    protected $appends=['photo_url'];
 
+    protected $appends = ['photo_url'];
 
 
     // scope
-
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'title',  'description', 'image_id']);
+        return $query->select(['id', 'title', 'description', 'image_id']);
     }
 
     // appends
@@ -38,23 +37,25 @@ class B2BSupport extends Model
     }
 
 
-
     // relationis
     public function image()
     {
         return $this->belongsTo(Upload::class, 'image_id', 'id');
     }
 
-    public static function createSupport($data=null, $imageid=null){
-        $data['image_id']=$imageid;
+    public static function createSupport($data = null, $imageid = null)
+    {
+        $data['image_id'] = $imageid;
         return self::create($data);
     }
 
-    public static function AllSupport(){
-        return self::with('image')->orderBy('id','desc')->get();
+    public static function AllSupport()
+    {
+        return self::with('image')->orderBy('id', 'desc')->get();
     }
 
-    public static function singleSupport($id){
+    public static function singleSupport($id)
+    {
         return self::with('image')->find($id);
     }
 }

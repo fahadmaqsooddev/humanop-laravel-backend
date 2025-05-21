@@ -33,13 +33,17 @@ class createIntentionOption extends Command
 
     public function handle()
     {
-        $intentionOptions = ['Personal Growth and Development','Business Optimization','Relationship Optimization','Career Optimization','Team Optimization','Health & Fitness'];
+        $intentionOptions = ['Personal Growth and Development', 'Business Optimization', 'Relationship Optimization', 'Career Optimization', 'Team Optimization', 'Health & Fitness'];
 
-            DB::transaction(function () use ($intentionOptions) {
-                foreach ($intentionOptions as $option) {
-                    IntentionOption::create(['description' => $option]);
-                }
-            });
+        DB::transaction(function () use ($intentionOptions) {
+
+            foreach ($intentionOptions as $option) {
+
+                IntentionOption::create(['description' => $option]);
+
+            }
+
+        });
 
     }
 }

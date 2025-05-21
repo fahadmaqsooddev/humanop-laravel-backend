@@ -28,13 +28,11 @@ class SessionController extends Controller
 {
     public function create()
     {
-        if (Auth::check())
-        {
-            if (Auth::user()['is_admin'] == '1')
-            {
+        if (Auth::check()) {
+            if (Auth::user()['is_admin'] == '1') {
                 return redirect()->route('admin_dashboard');
             }
-        }else{
+        } else {
             return view('session/login');
         }
 
@@ -46,12 +44,9 @@ class SessionController extends Controller
 
             $user = User::where('first_name', $slug)->where('last_name', $slug2)->where('is_admin', 4)->exists();
 
-            if ($user)
-            {
+            if ($user) {
                 return view('session/login', compact('slug', 'slug2'));
-            }
-            else
-            {
+            } else {
                 return view('errors/404');
 
 //                return redirect()->to(PractitionerHelpers::makePractitionerUrl('login'))->withErrors(['msgError' => 'This Practitioner does not exist']);
@@ -68,34 +63,29 @@ class SessionController extends Controller
 
         try {
             $attributes = request()->validate([
-                'email'=>'required|email',
-                'password'=>'required',
+                'email' => 'required|email',
+                'password' => 'required',
             ]);
 
             $attributes['status'] = 1;
 
             $checkDeletedUser = User::checkDeleteEmail($request['email']);
 
-            if (empty($checkDeletedUser))
-            {
+            if (empty($checkDeletedUser)) {
                 $userEmailVerify = User::where('email', $request['email'])->whereIn('is_admin', [1, 3])->first();
 
-                if($userEmailVerify) {
+                if ($userEmailVerify) {
 
-                    if ($userEmailVerify['email_verified_at'] != null)
-                    {
+                    if ($userEmailVerify['email_verified_at'] != null) {
 
                         $remember_me = $request->has('remember') ? true : false;
 
-                        if(Auth::attempt($attributes, $remember_me))
-                        {
+                        if (Auth::attempt($attributes, $remember_me)) {
 
-                            if (isset($request['remember']) && !empty($request['remember']))
-                            {
-                                setcookie("email", $attributes['email'], 30*time()+3600);
-                                setcookie("password", $attributes['password'], 30*time()+3600);
-                            }else
-                            {
+                            if (isset($request['remember']) && !empty($request['remember'])) {
+                                setcookie("email", $attributes['email'], 30 * time() + 3600);
+                                setcookie("password", $attributes['password'], 30 * time() + 3600);
+                            } else {
                                 setcookie("email", "");
                                 setcookie("password", "");
                             }
@@ -104,12 +94,11 @@ class SessionController extends Controller
 
                             Cache::forget('admin_' . $user->id);
 
-                            if (!empty(Session::get('google_user')))
-                            {
+                            if (!empty(Session::get('google_user'))) {
                                 Session::forget('google_user');
                             }
 
-                            if ($user->is_admin === Admin::IS_PRACTITIONER){
+                            if ($user->is_admin === Admin::IS_PRACTITIONER) {
 
                                 return redirect('/practitioner/dashboard');
                             }
@@ -117,27 +106,29 @@ class SessionController extends Controller
                             return redirect()->route('admin_dashboard');
                         }
 
+
+                        if ($userEmailVerify && $userEmailVerify['status'] == '0') {
+
+                            return back()->withErrors(['msgError' => 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.']);
+                        }
+
                         return back()->withErrors(['msgError' => 'The email or password you entered is incorrect.']);
 
-                    }else
-                    {
+                    } else {
 
                         return back()->withErrors(['msgError' => 'Your email is not verified.']);
 
                     }
-                }
-                else{
+                } else {
                     return back()->withErrors(['msgError' => 'This email does not exist in our records.']);
                 }
-            }
-            else
-            {
+            } else {
                 return back()->withErrors(['msgError' => 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.']);
 
             }
 
 
-        }catch (ValidationException $validationException){
+        } catch (ValidationException $validationException) {
 
             return back()->with(['errors' => $validationException->validator->errors()]);
 
@@ -153,27 +144,22 @@ class SessionController extends Controller
 
 
             $attributes = request()->validate([
-                'email'=>'required|email',
-                'password'=>'required',
+                'email' => 'required|email',
+                'password' => 'required',
             ]);
 
             $practitioner = User::where('first_name', $request['slug'])->where('last_name', $request['slug2'])->where('is_admin', 4)->first();
 
-            if ($practitioner)
-            {
+            if ($practitioner) {
 
                 $checkUser = User::where('email', $request['email'])->where('practitioner_id', $practitioner['id'])->exists();
 
-                if ($checkUser)
-                {
-                    if(Auth::attempt($attributes))
-                    {
-                        if (isset($request['remember']) && !empty($request['remember']))
-                        {
-                            setcookie("email", $attributes['email'], 30*time()+3600);
-                            setcookie("password", $attributes['password'], 30*time()+3600);
-                        }else
-                        {
+                if ($checkUser) {
+                    if (Auth::attempt($attributes)) {
+                        if (isset($request['remember']) && !empty($request['remember'])) {
+                            setcookie("email", $attributes['email'], 30 * time() + 3600);
+                            setcookie("password", $attributes['password'], 30 * time() + 3600);
+                        } else {
                             setcookie("email", "");
                             setcookie("password", "");
                         }
@@ -196,13 +182,11 @@ class SessionController extends Controller
                 }
 
                 return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
-            }
-            else
-            {
+            } else {
                 return view('errors/404');
             }
 
-        }catch (ValidationException $validationException){
+        } catch (ValidationException $validationException) {
 
             return back()->with(['errors' => $validationException->validator->errors()]);
 
@@ -226,7 +210,7 @@ class SessionController extends Controller
 
         Cache::forget('admin');
 
-        return redirect('/')->with(['success'=>'You\'ve been logged out.']);
+        return redirect('/')->with(['success' => 'You\'ve been logged out.']);
     }
 
     public static function destroyPractitioner()
@@ -240,7 +224,7 @@ class SessionController extends Controller
 
         Cache::forget('admin');
 
-        return redirect()->to(PractitionerHelpers::makePractitionerUrl('login'))->with(['success'=>'You\'ve been logged out.']);
+        return redirect()->to(PractitionerHelpers::makePractitionerUrl('login'))->with(['success' => 'You\'ve been logged out.']);
     }
 
     public function loginBackToAdmin()
@@ -252,7 +236,7 @@ class SessionController extends Controller
 
         Auth::logout();
 
-        if (($admin['is_admin'] ?? false) && ($admin['admin_id'] ?? null)){
+        if (($admin['is_admin'] ?? false) && ($admin['admin_id'] ?? null)) {
 
             $admin_user = User::where('id', $admin['admin_id'])->first();
 
@@ -260,7 +244,7 @@ class SessionController extends Controller
 
             return redirect()->to('/admin/users');
 
-        }else{
+        } else {
 
             return redirect()->to('/login');
         }
@@ -311,7 +295,8 @@ class SessionController extends Controller
 
     }
 
-    public function getData(Request $request){
+    public function getData(Request $request)
+    {
 
         dd($request->all());
 

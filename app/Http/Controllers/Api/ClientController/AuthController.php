@@ -15,10 +15,14 @@ use App\Http\Requests\Client\Register\SmsCodeRequest;
 use App\Http\Requests\Client\Register\SmsRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
+use App\Models\Admin\DailyTip\UserDailyTip;
+use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
+use App\Models\IntentionPlan\IntentionOption;
 use App\Models\Notification\PushNotification;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
@@ -32,56 +36,16 @@ use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
 {
-
     protected $auth;
     protected $sns;
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification']);
+        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption']);
 
         $this->auth = Auth::guard('api');
 
         $this->sns = $sns;
-    }
-
-    public function checkUserDetail(CheckCandidate $request)
-    {
-        try {
-            $dataResult = $request->only(['token', 'company_name', 'prefer']);
-
-            $invite = UserInvite::where('link', $dataResult['token'])->first();
-
-            if (!empty($invite)) {
-
-                $data = User::checkEmail($invite['email']);
-
-                if (!empty($data)) {
-                    $url = config('client_url.client_dashboard_url') . '/login?company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
-                    return Helpers::successResponse('An account with this email already exists. Please log in to continue.', [
-                        'url' => $url,
-                        'company_name' => $dataResult['company_name'],
-                        'excisting_candidate' => true,
-
-
-                    ]);
-                } else {
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $dataResult['token'] . '&company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
-                    return Helpers::successResponse('Candidate Does not have an Account', [
-                        'url' => $url,
-                        'company_name' => $dataResult['company_name'],
-                        'excisting_candidate' => false,
-                    ]);
-                }
-            } else {
-                return Helpers::validationResponse('In Valid token');
-            }
-
-        } catch (\Exception $exception) {
-
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
     }
 
     public function registerFirstStep(RegisterFirstStepRequest $request)
@@ -105,7 +69,9 @@ class AuthController extends Controller
                 $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
 
                 if (!empty($checkDeleteAccount)) {
+
                     return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+
                 }
 
                 $checkUser = $user->checkEmail($dataArray['email']);
@@ -126,19 +92,26 @@ class AuthController extends Controller
 
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
 
-//                        if ($authorizedUser['role'] == Admin::B2B_INVITE_ROLE) {
-//
-//                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
-//
-//                        } else if ($authorizedUser['role'] == Admin::B2B_MEMBER_INVITE_ROLE) {
-//
-//                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
-//
-//                        }
-//
-//                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                        if ($request['prefer'] == 1) {
 
-                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                            $result = Helpers::packageLimitation($data['id']);
+
+                            if ($result === true) {
+
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
+                            } else {
+
+                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
+
+                            }
+
+                        } else {
+
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
+                        }
+
                     }
 
                     if (!empty($request['register_from_app'])) {
@@ -158,6 +131,7 @@ class AuthController extends Controller
                         $emailData = $this->prepareEmailData($user, $url);
 
                         $this->sendEmailVerification($emailData, $user['email'], 'Verify Your Email Address');
+
                     }
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
@@ -173,6 +147,7 @@ class AuthController extends Controller
                             'type' => 'bearer',
                         ],
                     ]);
+
                 } else {
 
                     $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
@@ -180,9 +155,13 @@ class AuthController extends Controller
                     if (empty($checkEmailVerified)) {
 
                         if (!empty($request['register_from_app'])) {
+
                             $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'];
+
                         } else {
+
                             $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'] . '&app=azklmwosdf';
+
                         }
 
                         $emailData = $this->prepareEmailData($checkUser, $url);
@@ -198,6 +177,7 @@ class AuthController extends Controller
                                 'type' => 'bearer',
                             ],
                         ]);
+
                     } else {
 
                         $checkLastStep = User::checkLastStep($checkUser['email']);
@@ -208,17 +188,7 @@ class AuthController extends Controller
 
                                 $data = User::getSingleUserFromCompanyName($request['company_name']);
 
-//                                if ($authorizedUser['role'] == Admin::B2B_INVITE_ROLE) {
-//
-//                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
-//
-//                                } else if ($authorizedUser['role'] == Admin::B2B_MEMBER_INVITE_ROLE) {
-//
-//                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
-//
-//                                }
-
-                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                                B2BBusinessCandidates::registerCandidate($data['id'], $checkUser['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
 
                             }
 
@@ -238,12 +208,17 @@ class AuthController extends Controller
                                     'type' => 'bearer',
                                 ],
                             ]);
+
                         }
+
                     }
+
                 }
+
             } else {
 
                 return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+
             }
 
         } catch (\Exception $exception) {
@@ -251,35 +226,44 @@ class AuthController extends Controller
             DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function checkEmailVerification(Request $request)
     {
         try {
 
-
             $user = User::getSingleUser($request['user_id']);
 
-            $user = User::checkEmailVerified($user['email']);
+            $checkEmailVerified = User::checkEmailVerified($user['email']);
 
-            if (!empty($user)) {
+            if (!empty($checkEmailVerified)) {
 
-                $user->setAppends([]);
+                $checkEmailVerified->setAppends([]);
 
-                return Helpers::successResponse('Your Email is verified', $user);
+                return Helpers::successResponse('Your Email is verified', $checkEmailVerified);
+
             } else {
 
                 return Helpers::validationResponse('Your Email is not verified');
+
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function registerLastStep(RegisterLastStepRequest $request)
     {
+
+        DB::beginTransaction();
+
         try {
 
             $getUser = User::getSingleUser($request['user_id']);
@@ -296,15 +280,20 @@ class AuthController extends Controller
 
                 PushNotification::createNotification($request['user_id']);
 
-                $getInvite = UserInvite::where('email', $getUser['email'])->first();
+                $getInvite = UserInvite::getSingleInvite($getUser['email']);
 
                 if ($getInvite) {
-                    $memberCandidateInvite = UserCandidateInvite::where('invite_link_id', $getInvite->id)->latest()->first();
+
+                    $memberCandidateInvite = UserCandidateInvite::getInviteById($getInvite['id']);
 
                     if ($memberCandidateInvite) {
+
                         $memberCandidateInvite->delete();
+
                     }
+
                 }
+
                 $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
 
                 $getUser['app_intro_check'] = ($getUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
@@ -317,6 +306,8 @@ class AuthController extends Controller
                         'user' => $getUser,
                         'b2b_create_Account' => true,
                     ];
+
+                    DB::commit();
 
                     return Helpers::successResponse('Complete Your maestro Signup Process', $data);
 
@@ -332,16 +323,22 @@ class AuthController extends Controller
                         ],
                     ];
 
+                    DB::commit();
+
                     return Helpers::successResponse('User logged in successfully', $data);
                 }
-
             }
 
             return Helpers::validationResponse('User not found');
 
         } catch (\Exception $exception) {
+
+            DB::rollBack();
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function sendSmsCode(SmsRequest $request)
@@ -360,17 +357,20 @@ class AuthController extends Controller
 
                 $user->setAppends([]);
 
-//                $this->sns->sendSms($request['phone'], $message);
+                //                $this->sns->sendSms($request['phone'], $message);
 
                 return Helpers::successResponse('sms code send', $user);
+
             } else {
 
                 return Helpers::validationResponse('Your Email is not verified');
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
 
     public function SmsCodeVerification(SmsCodeRequest $request)
@@ -383,27 +383,119 @@ class AuthController extends Controller
 
                 $smsCode = $user['sms_verify_code'];
 
-                if ($request['verification_code'] == $smsCode)
-                {
+                if ($request['verification_code'] == $smsCode) {
+
                     $user->update(['phone_verified_at' => Carbon::now()]);
 
                     $user->setAppends([]);
 
                     return Helpers::successResponse('phone number is verified', $user);
 
-                }else
-                {
+                } else {
+
                     return Helpers::validationResponse('Your Code is not verified');
+
                 }
 
             } else {
 
                 return Helpers::validationResponse('Your Email is not verified');
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
+    }
+
+    public function EmailVerified(EmailVerifiedRequest $request)
+    {
+        try {
+
+            $token = $request->query('token');
+
+            $user = User::where('email_verify_token', $token)->first();
+
+            if (!$user) {
+
+                return Helpers::validationResponse('Email verification has expired.');
+
+            }
+
+            if (empty($user['email_verified_at'])) {
+
+                User::emailVerified($user['id']);
+
+                $user->refresh();
+            }
+
+            $authToken = $this->auth->login($user);
+
+            $userInvite = UserInvite::getSingleInvite($user['email']);
+
+            $data = [
+                'user' => $user,
+                'user_invite' => $userInvite['link'],
+                'authorization' => [
+                    'token' => $authToken,
+                    'type' => 'bearer',
+                ],
+            ];
+
+            return Helpers::successResponse('Your Email is verified.', $data);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function resendEmailVerification(Request $request)
+    {
+
+        try {
+
+            $user = User::getSingleUser($request->input('user_id'));
+
+            $updateProfile = User::generateEmailVerificationToken($user['email']);
+
+            if (!empty($user['register_from_app'])) {
+
+                $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
+
+            } else {
+
+                $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
+            }
+
+            $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+
+            $privacyUrl = url('/privacy-policy');
+
+            $serviceUrl = url('/term-of-service');
+
+            $data = [
+                '{$userName}' => $updateProfile['first_name'] . ' ' . $updateProfile['last_name'],
+                '{$link}' => $baseUrl,
+                '{$logo}' => $logoUrl,
+                '{$service}' => $serviceUrl,
+                '{$privacy}' => $privacyUrl,
+            ];
+
+            $email_template = EmailTemplate::getTemplate($data, 'Verify Your Email Address');
+
+            Email::sendEmailVerification(['content' => $email_template], $updateProfile['email'], 'emails.Email_Template', 'Verify Your Email Address');
+
+            return Helpers::successResponse('Resend email sent successfully!');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
     }
 
     public function loginClient(LoginRequest $request)
@@ -427,6 +519,7 @@ class AuthController extends Controller
             if (empty($checkUser)) {
 
                 return Helpers::validationResponse("These credentials do not match our records.");
+
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
 
                 $userInvite = UserInvite::getSingleInvite($checkUser['email']);
@@ -441,6 +534,7 @@ class AuthController extends Controller
                 ];
 
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
+
             } else if ($checkUser && $checkUser['step'] != 3) {
 
                 $userInvite = UserInvite::getSingleInvite($checkUser['email']);
@@ -455,6 +549,7 @@ class AuthController extends Controller
                 ];
 
                 return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
+
             } else {
 
                 $remember_me = $request['remember'] == 'true' ? true : false;
@@ -466,6 +561,7 @@ class AuthController extends Controller
                     $getUser = User::getSingleUser($checkUser['id']);
 
                     $getUser->update(['last_login' => Carbon::now()]);
+
                 } else {
 
                     $token = $this->auth->attempt($credentials);
@@ -483,36 +579,45 @@ class AuthController extends Controller
 
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
 
-
-                      
-
                         if (!empty($data)) {
 
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                            if ($request['prefer'] == 1) {
 
-                            $getInvite = UserInvite::where('email', $user['email'])->first();
+                                $result = Helpers::packageLimitation($data['id']);
+
+                                if ($result === true) {
+
+                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                                } else {
+                                    return Helpers::validationResponse('Limit Reached');
+                                }
+                            } else {
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                            }
+
+
+//                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
+                            $getInvite = UserInvite::getSingleInvite($user['email']);
 
                             if ($getInvite) {
-            
-                                $memberCandidateInvite = UserCandidateInvite::where('invite_link_id', $getInvite->id)->where('company_id',$data['id'])->first();
-            
+
+                                $memberCandidateInvite = UserCandidateInvite::where('invite_link_id', $getInvite->id)->where('company_id', $data['id'])->first();
+
                                 if ($memberCandidateInvite) {
-            
+
                                     $memberCandidateInvite->delete();
-                                    
                                 }
                             }
                         }
-
                     }
-
-//                    Helpers::createCustomerAndSubscriptionOnStripe($user);
 
                     Helpers::createClientsOnOneSignal($user['id']);
 
                     $updateUser = User::updateUserIsFeedback();
 
                     $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+
                     $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
                     $data = [
@@ -526,19 +631,73 @@ class AuthController extends Controller
                     DB::commit();
 
                     return Helpers::successResponse('User loggedIn successfully', $data);
+
                 } else {
 
                     DB::rollBack();
 
                     return Helpers::unauthResponse('Wrong Password');
+
                 }
+
             }
+
         } catch (\Exception $exception) {
 
             DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
+    }
+
+    public function logoutClient()
+    {
+
+        try {
+
+            $this->auth->logout();
+
+            return Helpers::successResponse('User logged out successfully');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+
+        try {
+
+            $checkUserEmail = User::checkEmail($request['email']);
+
+            if (!empty($checkUserEmail)) {
+
+                $token = User::generateToken($checkUserEmail['email']);
+
+                $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
+
+                $emailData = $this->prepareEmailData($checkUserEmail, $url);
+
+                $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
+
+                return Helpers::successResponse('We have emailed your password reset link!');
+
+            } else {
+
+                return Helpers::validationResponse('Email does not exists');
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 
     public function socialLogin(Request $request)
@@ -576,15 +735,14 @@ class AuthController extends Controller
                     return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
                 }
 
-
                 if (!empty($request['company_name'])) {
 
                     $data = User::getSingleUserFromCompanyName($request['company_name']);
 
                     if (!empty($data)) {
+
                         B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
                     }
-
                 }
 
                 $token = $this->auth->login($user);
@@ -592,6 +750,7 @@ class AuthController extends Controller
                 $updateUser = User::updateUserIsFeedback();
 
                 $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+
                 $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
                 $data = [
@@ -608,242 +767,6 @@ class AuthController extends Controller
             return Helpers::validationResponse('Email does not exists. Please signup first.');
 
         } catch (Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function SendInvite(Request $request)
-    {
-        try {
-            $email = $request->query('email');
-
-            $inviteKey = config('inviteKey.key');
-
-            $key = $request->query('key');
-
-            $validatedData = \Validator::make(['email' => $email], [
-
-                'email' => 'required|email',
-
-            ])->validate();
-
-            if ($key == $inviteKey) {
-                $getInvite = UserInvite::where('email', $validatedData['email'])->first();
-
-                if (!empty($getInvite)) {
-
-                    //                    $link = env('CLIENT_DASHBOARD_URL') . '/register?link=' . $getInvite['link'];
-                    $link = config('client_url.client_dashboard_url') . '/register?link=' . $getInvite['link'];
-
-                    return response()->json(['link' => $link]);
-                } else {
-
-                    $createlink = UserInvite::sendInvite($validatedData['email']);
-
-                    //                    $link = env('CLIENT_DASHBOARD_URL') . '/register?link=' . $createlink['link'];
-                    $link = config('client_url.client_dashboard_url') . '/register?link=' . $createlink['link'];
-
-                    return response()->json(['link' => $link]);
-                }
-            } else {
-                return response()->json(['error' => 'key is not valid']);
-            }
-        } catch (\Exception $e) {
-
-            return response()->json([
-
-                'success' => false,
-
-                'msg' => $e->getMessage(),
-
-            ]);
-        }
-    }
-
-    public function sendPhoneOtp(SendPhoneOtpRequest $request)
-    {
-        try {
-
-            $email = $request->input('email');
-
-            $checkUserEmail = User::checkEmail($email);
-
-            $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
-
-            $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber);
-
-            $this->sendEmailVerification($emailData, $email, '2fa-verification-code');
-
-            return Helpers::successResponse('Otp sent Successfully', ['otp' => $otpNumber]);
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    private function prepareEmailData($user = null, $url = null, $codeNumber = null)
-    {
-        return [
-            '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
-            '{$link}' => $url,
-            '{$code}' => $codeNumber,
-            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
-            '{$service}' => url('/term-of-service'),
-            '{$privacy}' => url('/privacy-policy'),
-        ];
-    }
-
-    private function sendEmailVerification($emailData, $recipientEmail, $name)
-    {
-        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
-
-        Email::sendEmailVerification(
-            ['content' => $emailTemplate],
-            $recipientEmail,
-            'emails.Email_Template',
-            $name
-        );
-    }
-
-    public function logoutClient()
-    {
-
-        try {
-
-            $this->auth->logout();
-
-            return Helpers::successResponse('User logged out successfully');
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function forgotPassword(ForgotPasswordRequest $request)
-    {
-
-        try {
-
-            $request->validate(['email' => 'required|email']);
-
-
-            $checkUserEmail = User::where('email', $request['email'])->first();
-
-
-            if (!empty($checkUserEmail)) {
-
-                $token = User::generateToken($checkUserEmail['email']);
-
-                //                $url = env('CLIENT_DASHBOARD_URL') . '/reset-password?token=' . $token['reset_password_token'];
-                $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
-
-                $emailData = $this->prepareEmailData($checkUserEmail, $url);
-
-                $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
-
-                return Helpers::successResponse('We have emailed your password reset link!');
-            } else {
-
-                return Helpers::validationResponse('Email does not exists');
-            }
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function appVersion()
-    {
-
-        try {
-
-            return Helpers::successResponse('version', 'Version 1.0.0');
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function resendEmailVerification(Request $request)
-    {
-
-        try {
-
-            $signup = $request->input('signup');
-
-            $user = User::getSingleUser($request->input('user_id'));
-
-            $updateProfile = User::generateEmailVerificationToken($user['email']);
-
-            if (!empty($user['register_from_app'])) {
-
-                $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
-
-            } else {
-
-                $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
-
-            }
-
-
-            $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
-            $privacyUrl = url('/privacy-policy');
-            $serviceUrl = url('/term-of-service');
-
-            $data = [
-                '{$userName}' => $updateProfile['first_name'] . ' ' . $updateProfile['last_name'],
-                '{$link}' => $baseUrl,
-                '{$logo}' => $logoUrl,
-                '{$service}' => $serviceUrl,
-                '{$privacy}' => $privacyUrl,
-            ];
-
-            $email_template = EmailTemplate::getTemplate($data, 'Verify Your Email Address');
-
-            Email::sendEmailVerification(['content' => $email_template], $updateProfile['email'], 'emails.Email_Template', 'Verify Your Email Address');
-
-            return Helpers::successResponse('Resend email sent successfully!');
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function EmailVerified(EmailVerifiedRequest $request)
-    {
-        try {
-            $token = $request->query('token');
-
-            $user = User::where('email_verify_token', $token)->first();
-
-            if (!$user) {
-                return Helpers::validationResponse('Email verification has expired.');
-            }
-
-            if (empty($user->email_verified_at)) {
-
-                User::emailVerified($user->id);
-
-                $user->refresh();
-            }
-
-            $authToken = $this->auth->login($user);
-
-            $userInvite = UserInvite::getSingleInvite($user['email']);
-
-            $data = [
-                'user' => $user,
-                'user_invite' => $userInvite['link'],
-                'authorization' => [
-                    'token' => $authToken,
-                    'type' => 'bearer',
-                ],
-            ];
-
-
-            return Helpers::successResponse('Your Email is verified.', $data);
-        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -876,6 +799,214 @@ class AuthController extends Controller
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
+    }
+
+    public function sendPhoneOtp(SendPhoneOtpRequest $request)
+    {
+        try {
+
+            $email = $request->input('email');
+
+            $checkUserEmail = User::checkEmail($email);
+
+            $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+            $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber);
+
+            $this->sendEmailVerification($emailData, $email, '2fa-verification-code');
+
+            return Helpers::successResponse('Otp sent Successfully', ['otp' => $otpNumber]);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function intentionOption()
+    {
+        try {
+
+            $intention_option = IntentionOption::getOptions();
+
+            return Helpers::successResponse('success', $intention_option);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function checkUserDetail(CheckCandidate $request)
+    {
+        try {
+
+            $dataResult = $request->only(['token', 'company_name', 'prefer']);
+
+            $invite = UserInvite::getInviteLink($dataResult['token']);
+
+            if (!empty($invite)) {
+
+                $data = User::checkEmail($invite['email']);
+
+                if (!empty($data)) {
+
+                    $url = config('client_url.client_dashboard_url') . '/login?company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
+
+                    return Helpers::successResponse('An account with this email already exists. Please log in to continue.', [
+                        'url' => $url,
+                        'company_name' => $dataResult['company_name'],
+                        'excisting_candidate' => true,
+                    ]);
+
+                } else {
+
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $dataResult['token'] . '&company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
+
+                    return Helpers::successResponse('Candidate Does not have an Account', [
+                        'url' => $url,
+                        'company_name' => $dataResult['company_name'],
+                        'excisting_candidate' => false,
+                    ]);
+
+                }
+
+            } else {
+
+                return Helpers::validationResponse('In Valid token');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+    public function SendInvite(Request $request)
+    {
+        try {
+
+            $email = $request->query('email');
+
+            $inviteKey = config('inviteKey.key');
+
+            $key = $request->query('key');
+
+            $validatedData = \Validator::make(['email' => $email], [
+
+                'email' => 'required|email',
+
+            ])->validate();
+
+            if ($key == $inviteKey) {
+
+                $getInvite = UserInvite::getSingleInvite($validatedData['email']);
+
+                if (!empty($getInvite)) {
+
+                    $link = config('client_url.client_dashboard_url') . '/register?link=' . $getInvite['link'];
+
+                    return response()->json(['link' => $link]);
+
+                } else {
+
+                    $createLink = UserInvite::sendInvite($validatedData['email']);
+
+                    $link = config('client_url.client_dashboard_url') . '/register?link=' . $createLink['link'];
+
+                    return response()->json(['link' => $link]);
+
+                }
+
+            } else {
+
+                return response()->json(['error' => 'key is not valid']);
+
+            }
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'success' => false,
+
+                'msg' => $e->getMessage(),
+
+            ]);
+
+        }
+
+    }
+
+    public function getUserInfoForHai()
+    {
+
+        $userData = User::getUserDataForHai();
+
+        $result = [];
+
+        foreach ($userData as $data) {
+
+            $getAssessment = Assessment::getLatestAssessment($data['id']);
+
+            $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($data['id']) : null;
+
+            $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $data['date_of_birth']) : null;
+
+            $userTrait = Assessment::UserTraits($data['id']);
+
+            $userDailyTip = UserDailyTip::where('user_id', $data['id'])->with('dailyTip')->latest()->first();
+
+            $result[] = [
+                'user_detail' => [
+                    'name' => ($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''),
+                    'email' => $data['email'] ?? '',
+                    'phone' => $data['phone'] ?? '',
+                    'date_of_birth' => $data['date_of_birth'] ?? '',
+                    'gender' => $data['gender'] ?? '',
+                    'timezone' => $data['timezone'] ?? '',
+                ],
+                'optimization_plan' => $optimizationPlan,
+                'core_state' => $coreState,
+                'user_trait' => $userTrait,
+                'daily_tip' => $userDailyTip,
+
+            ];
+
+        }
+
+        return Helpers::successResponse('Users Complete Data', $result);
+    }
+
+    private function prepareEmailData($user = null, $url = null, $codeNumber = null)
+    {
+        return [
+            '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+            '{$link}' => $url,
+            '{$code}' => $codeNumber,
+            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$service}' => url('/term-of-service'),
+            '{$privacy}' => url('/privacy-policy'),
+        ];
+    }
+
+    private function sendEmailVerification($emailData, $recipientEmail, $name)
+    {
+        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+
+        Email::sendEmailVerification(
+            ['content' => $emailTemplate],
+            $recipientEmail,
+            'emails.Email_Template',
+            $name
+        );
     }
 }

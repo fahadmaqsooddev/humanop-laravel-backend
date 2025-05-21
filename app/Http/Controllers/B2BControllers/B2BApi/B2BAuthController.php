@@ -23,6 +23,8 @@ use App\Http\Requests\B2B\RegisterRequest;
 use App\Http\Requests\B2B\B2BSupportRequest;
 use App\Models\Upload\Upload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use function Symfony\Component\Translation\t;
 
 class B2BAuthController extends Controller
@@ -69,7 +71,6 @@ class B2BAuthController extends Controller
 
                 if (!empty($checkUser)) {
                     return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
-
                 } else {
 
 
@@ -78,7 +79,6 @@ class B2BAuthController extends Controller
                     if (!empty($request['intention_option_id'])) {
 
                         SelectIntentionOption::storeUserIntentions($b2b_user['id'], $request['intention_option_id']);
-
                     }
 
                     Helpers::createClientsOnOneSignal($b2b_user['id']);
@@ -96,16 +96,13 @@ class B2BAuthController extends Controller
                         ],
                     ]);
                 }
-
             } else {
 
                 return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -119,12 +116,9 @@ class B2BAuthController extends Controller
             $businessStrategies = BusinessStrategies::allBusinessStrategies($searchName);
 
             return Helpers::successResponse('Business Strategies', $businessStrategies);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
-
         }
     }
 
@@ -137,25 +131,20 @@ class B2BAuthController extends Controller
     {
         try {
 
-             if (!empty($request['business_id'])) {
+            if (!empty($request['business_id'])) {
 
-                 $searchName=$request['search_sub_strategy_name'] ?? null;
-                $businessStrategies = BusinessSubStrategies::getSubStrategies($request['business_id'],$searchName);
+                $searchName = $request['search_sub_strategy_name'] ?? null;
+
+                $businessStrategies = BusinessSubStrategies::getSubStrategies($request['business_id'], $searchName);
 
                 return Helpers::successResponse('Business Sub Strategies', $businessStrategies);
-
-            }
-
-                else {
+            } else {
 
                 return Helpers::validationResponse('Business Sub Strategies not found');
-
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -173,13 +162,10 @@ class B2BAuthController extends Controller
                 $updated_user = User::updateUserProfile($dataArray);
 
                 return Helpers::successResponse('User updated successfully', $updated_user);
-
             } else {
 
                 return Helpers::forbiddenResponse('Please Filled Data');
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -189,6 +175,7 @@ class B2BAuthController extends Controller
 
     public function Support(B2BSupportRequest $request)
     {
+        DB::beginTransaction();
         try {
 
             $support = new B2BSupport();
@@ -197,10 +184,11 @@ class B2BAuthController extends Controller
 
             B2BSupport::createSupport($dataArray, $upload_id);
 
+            DB::commit();
+
             return Helpers::successResponse('Support Created successfully.');
-
         } catch (\Exception $exception) {
-
+            DB::rollBack();
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
@@ -212,11 +200,9 @@ class B2BAuthController extends Controller
             $data = B2BIntentionOption::allIntentions();
 
             return Helpers::successResponse('All Intentions', $data);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -236,10 +222,9 @@ class B2BAuthController extends Controller
                         'email' => $data['email'],
                         'b2b_signup_step' => $data['b2b_step'],
                         'b2c_signup_step' => $data['step'],
-                        'company_name'=>$data['company_name'] ?? null,
+                        'company_name' => $data['company_name'] ?? null,
                         'existing_account' => true,
                     ]);
-
                 } else {
 
                     $uniqueEmail = UserInvite::where('email', $request['email'])->first();
@@ -250,11 +235,9 @@ class B2BAuthController extends Controller
                             'url' => config('client_url.client_dashboard_url') . '/register?b2b-signup-link=' . $uniqueEmail['link'],
                             'existing_account' => false,
                         ]);
-
                     } else {
                         return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
                     }
-
                 }
             } else {
 
@@ -265,18 +248,13 @@ class B2BAuthController extends Controller
                     return Helpers::successResponse('signup Link for Maestro HumanOp', [
                         'url' => config('client_url.client_dashboard_url') . '/register?b2b-signup-link=' . $request['invite_link'],
                     ]);
-
                 } else {
                     return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
                 }
-
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -287,9 +265,11 @@ class B2BAuthController extends Controller
 
             $result = User::getSingleUser($request['user_id']);
 
-            if(!empty($result) && $result['b2b_step']==3){
+            if (!empty($result) && $result['b2b_step'] == 3) {
+
                 return Helpers::validationResponse('Already Have an Account Please Login');
-            }else{
+            } else {
+
                 $updateB2B = User::updateWorkEmail($request['user_id'], $data['email']);
 
                 if ($updateB2B) {
@@ -301,34 +281,29 @@ class B2BAuthController extends Controller
                         'user_email' => $result['email'],
                         'b2b_step' => $result['b2b_step']
                     ]);
-
                 } else {
                     return Helpers::validationResponse('Work email not stored succefully');
                 }
-
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
     public function b2bRegisterSecondStep(B2BRegisterSecondStep $request)
     {
 
-
+        DB::beginTransaction();
         try {
             $data = $request->only(['company_name']);
 
             $result = User::getSingleUser($request['user_id']);
-            if(!empty($result) && $result['b2b_step']==3){
+
+            if (!empty($result) && $result['b2b_step'] == 3) {
+
                 return Helpers::validationResponse('Already Have an Account Please Login');
-            }
-            else{
+            } else {
 
                 if (!empty($request['business_strategy_name']) && !empty($request['business_sub_strategy_name'])) {
 
@@ -337,46 +312,47 @@ class B2BAuthController extends Controller
                     $storeSubStrategy = BusinessSubStrategies::storeSubStratergy($storeStrategy['id'], $request['business_sub_strategy_name']);
 
                     $data = User::updateCompany($request['user_id'], $data['company_name'], $storeSubStrategy['id']);
-
                 } else {
 
                     $data = User::updateCompany($request['user_id'], $data['company_name'], $request['business_sub-strategy_id']);
-
                 }
 
                 if ($data) {
 
                     $result = User::getSingleUser($request['user_id']);
 
+                    DB::commit();
+
                     return Helpers::successResponse('Company name stored successfully', [
                         'user_id' => $result['id'],
-                        'company_name'=>$result['company_name'],
+                        'company_name' => $result['company_name'],
                         'b2b_step' => $result['b2b_step']
                     ]);
-
                 } else {
 
                     return Helpers::validationResponse('An error occurred');
-
                 }
-
             }
-
         } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+            DB::rollBack();
 
+            return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
     public function b2bRegisterLastStep(B2BRegisterLastStep $request)
     {
+
+        DB::beginTransaction();
         try {
             $result = User::getSingleUser($request['user_id']);
-            if(!empty($result) && $result['b2b_step']==3){
+
+            if (!empty($result) && $result['b2b_step'] == 3) {
+
                 return Helpers::validationResponse('Already Have an Account Please Login');
-            }
-            else{
+            } else {
+
                 $data = $request->only(['team_department']);
 
                 $data = User::updateTeam($request['user_id'], $data['team_department']);
@@ -384,15 +360,12 @@ class B2BAuthController extends Controller
                 if (!empty($request['intention_option_id'])) {
 
                     SelectIntentionOption::storeUserIntentions($request['user_id'], $request['intention_option_id']);
-
-                } else if(!empty($request['intention_option_name'])) {
+                } else if (!empty($request['intention_option_name'])) {
 
                     $result = B2BIntentionOption::createIntention($request['intention_option_name']);
 
                     SelectIntentionOption::storeUserIntentions($request['user_id'], $result['id']);
-
-                }
-                else{
+                } else {
 
                     return  Helpers::validationResponse('Intention Option Is Required');
                 }
@@ -411,16 +384,15 @@ class B2BAuthController extends Controller
                         ],
                     ];
 
+                    DB::commit();
+
                     return Helpers::successResponse('User logged in successfully', $data);
-
                 }
-
             }
-
         } catch (\Exception $exception) {
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -431,12 +403,9 @@ class B2BAuthController extends Controller
             User::addB2BCompanyName(Helpers::getUser()['id'], $request['company_name']);
 
             return Helpers::successResponse('Company name stored successfully');
-
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
-
 }

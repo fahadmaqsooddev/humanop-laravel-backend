@@ -14,6 +14,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Stripe\Coupon;
 use Stripe\Exception\CardException;
@@ -41,6 +42,7 @@ class B2BSubscriptionController extends Controller
 
     public function pricingPlans()
     {
+        DB::beginTransaction();
         try {
 
             Stripe::setApiKey(config('cashier.secret'));
@@ -67,10 +69,12 @@ class B2BSubscriptionController extends Controller
 
             }
 
+            DB::commit();
+
             return Helpers::successResponse('B2B Pricing Plans', $plans);
 
         } catch (\Exception $exception) {
-
+DB::rollBack();
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }

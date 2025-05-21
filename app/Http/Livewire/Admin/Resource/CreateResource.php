@@ -93,19 +93,6 @@ class CreateResource extends Component
 
                     $message = 'Your New Training & Resource';
 
-//                    foreach ($users as $user) {
-//
-//                        $notification = PushNotification::getSingleNotification($user['id']);
-//
-//                        if ($notification['resource'] == 1) {
-
-                    event(new NewResource($permission, 'new training & resource', $message));
-
-//                        }
-//                    }
-
-                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
-
                     foreach ($users as $user) {
 
                         $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
@@ -113,10 +100,15 @@ class CreateResource extends Component
                         $userPermission = $planMapping[$user['plan_name']] ?? 4;
 
                         if ($isAllPermission || $userPermission == $permission) {
+
                             Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
                         }
                     }
 
+                    event(new NewResource($permission, 'new training & resource', $message));
+
+                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                    
                 }
 
             }
@@ -129,12 +121,16 @@ class CreateResource extends Component
 
             session()->flash('success', 'Library resource created successfully.');
 
-        } catch (\Exception $exception) {
-
+        }catch (\Exception $exception) {
             DB::rollBack();
 
-            session()->flash('error', $exception->getMessage());
+            $file = $exception->getFile();
+            $line = $exception->getLine();
+            $message = $exception->getMessage();
+
+            session()->flash('error', "Error: $message in $file on line $line");
         }
+
     }
 
 
@@ -208,7 +204,11 @@ class CreateResource extends Component
 
         $this->emit('toggleEditResourceModal');
 
+//        dd($resource_id);
+
         $this->editResourceData = LibraryResource::singleLibraryResource($resource_id);
+
+
 
         $this->resourceId = $resource_id;
 
@@ -231,7 +231,19 @@ class CreateResource extends Component
     public function moveResourceToCategory()
     {
 
+        $rule = [
+            'category_id' => 'required',
+        ];
+
+        $message = [
+            'category_id.required' => 'Please Select New Category',
+
+        ];
+
+        $this->validate($rule, $message);
+
         if ($this->current_category) {
+
             LibraryResource::updateCategory($this->current_category, $this->category_id);
         }
         session()->flash('success', 'Resource Moved successfully.');

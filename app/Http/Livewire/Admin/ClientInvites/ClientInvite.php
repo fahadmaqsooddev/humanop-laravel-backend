@@ -16,13 +16,12 @@ class ClientInvite extends Component
     public $email, $file, $searched_email;
     public $role = Admin::CLIENT_INVITE_ROLE;
     public $selectedItems = [];
-
+    protected $invites = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['deleteClientLink', 'bulkDelete','copyClipboard'];
+    protected $listeners = ['deleteClientLink', 'bulkDelete', 'copyClipboard'];
 
     protected $rules = [
-        // 'email' => 'nullable|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL|required_without:file',
         'email' => 'nullable|email|max:255|required_without:file|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
         'file' => 'nullable|file|mimes:csv,txt|max:10240|required_without:email',
     ];
@@ -31,12 +30,16 @@ class ClientInvite extends Component
         'email.required_without' => 'The email is required when a file is not provided.',
         'email.email' => 'Please enter a valid email address.',
         'email.max' => 'The email should not exceed 255 characters.',
-        // 'email.unique' => 'The email address is already Have Invite Link.',
-
         'file.required_without' => 'A file is required when an email is not provided.',
         'file.file' => 'The uploaded file must be a valid file.',
         'file.mimes' => 'Only CSV files are allowed.',
         'file.max' => 'The file size should not exceed 10MB.',
+    ];
+
+    protected $updatesQueryString = [
+
+        'email' => ['except' => '']
+
     ];
 
     public function submitForm()
@@ -45,40 +48,39 @@ class ClientInvite extends Component
 
             $this->validate();
 
-            if ($this->email) {
+            $user = User::checkEmail($this->email);
 
-                $user = User::where('email', $this->email)->first();
+            $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
 
-                if ($user) {
-                    if (!empty($user->email_verified_at)) {
-                        session()->flash('success', "{$this->email} already has a Registered account.");
-                        return;
-                    }
-                }
+            if (!empty($user) && !empty($user->email_verified_at)) {
 
-                $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
+                session()->flash('success', "{$this->email} already has a Registered account.");
 
-                if ($softDeletedUser) {
-                    session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
-                    return;
+            } elseif (!empty($softDeletedUser)) {
 
-                }
+                session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
 
-                $uniqueEmail = UserInvite::where('email', $this->email)->first();
+            } else {
 
-                if ($uniqueEmail) {
+                $uniqueEmail = UserInvite::getSingleInvite($this->email);
+
+                if (!empty($uniqueEmail)) {
+
                     session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
-                    return;
+
+                } else {
+
+                    UserInvite::sendInvite($this->email, $this->file, $this->role);
+
+                    session()->flash('success', "{$this->email} invite link generated successfully.");
+
+                    $this->resetForm();
+
+                    $this->emit('closeModal');
+
                 }
 
-                UserInvite::sendInvite($this->email, $this->file, $this->role);
-
-                session()->flash('success', "{$this->email} invite link generated successfully.");
             }
-
-            $this->resetForm();
-
-            $this->emit('closeModal');
 
         } catch (\Exception $exception) {
 
@@ -87,7 +89,6 @@ class ClientInvite extends Component
         }
 
     }
-
 
     public function bulkDelete()
     {
@@ -114,18 +115,33 @@ class ClientInvite extends Component
         UserInvite::deleteInvite(null, $id);
     }
 
-    public function copyClipboard($id){
+    public function copyClipboard($id)
+    {
 
         UserInvite::sendInviteTime($id);
+    }
+
+
+    public function searchInvites()
+    {
+
+        $this->invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email, $this->role);
+
+        if ($this->invites instanceof \Illuminate\Pagination\AbstractPaginator) {
+
+            $this->invites->withPath(url('/admin/client-invites'));
+
+        }
+
     }
 
     public function render()
     {
 
-        $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email, $this->role);
+        $this->searchInvites();
 
-        $invites->withPath(url('/admin/client-invites'));
+        return view('livewire.admin.client-invites.client-invite', ['invites' => $this->invites]);
 
-        return view('livewire.admin.client-invites.client-invite', ['invites' => $invites]);
     }
+
 }

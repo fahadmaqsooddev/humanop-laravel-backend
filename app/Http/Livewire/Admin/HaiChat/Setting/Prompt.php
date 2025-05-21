@@ -13,7 +13,8 @@ use Livewire\Component;
 use GuzzleHttp\Client;
 class Prompt extends Component
 {
-    public $prompt,$restriction, $keyword = '', $keywords = [], $keyword_restriction_message, $chat_bot_id = null, $name;
+    public $prompt,$restriction, $keyword = '', $keywords = [], $keyword_restriction_message, $chat_bot_id = null, $name,
+        $is_training = 0;
 
     protected $rules = [
         'name' => 'required',
@@ -52,10 +53,14 @@ class Prompt extends Component
 
                 $detail = ChatPrompt::singlePromptByName($chatBotName);
 
+                $settings = HaiChatSetting::where('chat_bot_id',$this->chat_bot_id)->first();
+
                 if($detail){
 
                     $this->prompt = $detail['prompt'];
                     $this->restriction = $detail['restriction'];
+
+                    $this->is_training = $settings['is_training'] ?? false;
 
                 }
 
@@ -69,7 +74,11 @@ class Prompt extends Component
 
     public function viewEditPersona($id = null){
 
-        $this->chat_bot_id = HaiChatSetting::whereId($id)->first()->chat_bot_id ?? null;
+        $settings = HaiChatSetting::whereId($id)->first();
+
+        $this->chat_bot_id = $settings->chat_bot_id ?? null;
+
+        $this->is_training = $settings->is_training ?? false;
     }
 
     public function update(){
@@ -90,7 +99,10 @@ class Prompt extends Component
 
               $prompt = ChatPrompt::createUpdatePrompt($this->name, $this->prompt, $this->restriction);
 
+              HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->update(['is_training' => $this->is_training]);
+
               if ($prompt) {
+
                   session()->flash('success', "Updated Successfully.");
               }
 
@@ -224,10 +236,15 @@ class Prompt extends Component
 
                 $detail = ChatPrompt::singlePromptByName($chatBotName);
 
+                $settings = HaiChatSetting::where('chat_bot_id',$this->chat_bot_id)->first();
+
                 if($detail){
 
                     $this->prompt = $detail['prompt'];
+
                     $this->restriction = $detail['restriction'];
+
+                    $this->is_training = $settings['is_training'] ?? false;
 
                 }
 

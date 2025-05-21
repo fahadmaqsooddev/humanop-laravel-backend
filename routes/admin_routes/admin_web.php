@@ -25,6 +25,7 @@ use App\Http\Controllers\B2BControllers\RoleTemplateController;
 use App\Http\Controllers\B2BControllers\B2BInviteController;
 use App\Http\Controllers\B2BControllers\B2BOrganizationController;
 use App\Http\Controllers\B2BControllers\B2BPricingPlanController;
+use \App\Http\Controllers\AdminControllers\PricingPlanController;
 use App\Http\Controllers\AdminControllers\AssessmentIntroController;
 use App\Http\Controllers\AdminControllers\SummaryReportController;
 
@@ -39,8 +40,6 @@ use App\Http\Controllers\AdminControllers\SummaryReportController;
 |
 */
 
-Route::get('/register', [RegisterController::class, 'create'])->name('create');
-Route::post('/store-register', [RegisterController::class, 'store'])->name('store_user');
 Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/session', [SessionController::class, 'store']);
 Route::get('/login/forgot-password', [ChangePasswordController::class, 'create'])->name('forgot_password');
@@ -67,13 +66,9 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
     // ====================================== Admin Dashboard ================================ //
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
-    Route::get('/intro-assessment', [QuestionController::class, 'introAssessment'])->name('practitioner_intro_assessment');
-    Route::get('/play', [QuestionController::class, 'testPlay'])->name('admin_test_play');
-    Route::get('/all-assessments', [QuestionController::class, 'allAssessment'])->name('admin_all_assessment');
     Route::get('/practitioner-profile-overview/{id?}', [AdminController::class, 'profileOverview'])->name('practitioner_profile_overview');
     Route::get('/practitioner-grid/{id}', [AdminController::class, 'grid'])->name('practitioner_grid');
     Route::get('/download-practitioner-report/{id}', [AdminController::class, 'downloadUserReport'])->name('download_practitioner_report');
-    Route::post('/set-timezone', [AdminController::class, 'setAdminTimezone'])->name('admin_set_timezone');
 
     // ====================================== User Management ================================ //
 
@@ -94,8 +89,6 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/assessments', [AdminController::class, 'assessments'])->name('assessments');
         Route::get('/user-profile-overview/{id?}', [AdminController::class, 'profileOverview'])->name('admin_profile_overview');
         Route::get('/user-grid/{id}', [AdminController::class, 'grid'])->name('admin_user_grid');
-        Route::get('/user-report/{id}', [AdminController::class, 'report'])->name('admin_user_report');
-        Route::get('/generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('admin_generate_pdf');
         Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('admin_generate_grid_pdf');
         Route::get('/user-answers/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
         Route::get('/download-user-report/{id}', [AdminController::class, 'downloadUserReport'])->name('download_user_report');
@@ -137,6 +130,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/create-cluster', [AdminController::class,'createCluster'])->name('admin_create_cluster');
         Route::get('/edit-cluster/{id}', [AdminController::class,'editCluster'])->name('admin_edit_cluster');
         Route::get('/download-zip', [AdminController::class,'downloadZipFile'])->name('download-zip');
+        Route::get('/hai-dojo', [AdminController::class,'haiDojo'])->name('admin_hai_dojo');
+        Route::get('/download-conversation', [AdminController::class,'downloadConversation'])->name('admin_export_conversations');
 
     });
 
@@ -170,9 +165,9 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
         Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');
         Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
-        Route::get('/create-resources', [ResourceController::class, 'createrResources'])->name('admin_create_resources');
         Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
+        Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
 
     });
 

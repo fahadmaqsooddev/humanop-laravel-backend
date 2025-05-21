@@ -15,7 +15,7 @@ class B2BSupportController extends Controller
         try {
 
             $support = B2BSupport::AllSupport();
-            // dd($support);
+
             return view('admin-dashboards/b2b/b2b_support', compact('support'));
 
         } catch (\Exception $exception) {
@@ -23,12 +23,13 @@ class B2BSupportController extends Controller
             return back()->withErrors(['msgError' => $exception->getMessage()]);
         }
     }
+
     public function b2bSupportDetail($id)
     {
         try {
 
             $support = B2BSupport::singleSupport($id);
-            // dd($support);
+
             return view('admin-dashboards/b2b/b2b_support_detail', compact('support'));
 
         } catch (\Exception $exception) {

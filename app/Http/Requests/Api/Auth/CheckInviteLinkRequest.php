@@ -24,16 +24,13 @@ class CheckInviteLinkRequest extends FormRequest
     public function rules()
     {
         return [
-
             'invite_link' => 'required',
-
         ];
     }
 
     public function messages()
     {
         return [
-
             'invite_link.required' => 'Invite Link is required',
         ];
     }

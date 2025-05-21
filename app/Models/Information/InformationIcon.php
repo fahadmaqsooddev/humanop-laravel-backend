@@ -21,7 +21,7 @@ class InformationIcon extends Model
 
     public static function getInfo()
     {
-        return self::select(['id','name','information'])->get();
+        return self::select(['id', 'name', 'information'])->get();
     }
 
     public static function createInfo($name = null, $information = null)
@@ -38,50 +38,11 @@ class InformationIcon extends Model
     {
 
         $infoDetail = self::whereId($id)->update([
-            'name'=> $name,
-            'information'=> $information,
+            'name' => $name,
+            'information' => $information,
         ]);
 
         return $infoDetail;
     }
 
-    // public static function getCoreStatsInfo()
-    // {
-    //     return self::where('id', Admin::CORE_STATS_INFO)->first(['name', 'information']);
-    // }
-
-    // public static function getActionPlanInfo()
-    // {
-    //     return self::where('id', Admin::ACTION_PLAN_INFO)->first(['name', 'information']);
-    // }
-
-    // public static function getDailyTipInfo()
-    // {
-    //     return self::where('id', Admin::DAILY_TIP_INFO)->first(['name', 'information']);
-    // }
-
-    // public static function getPodcastInfo()
-    // {
-    //     return self::where('id', Admin::INTEGRATION_PODCAST_INFO)->first(['name', 'information']);
-    // }
-
-    // public static function getLibraryResourceInfo()
-    // {
-    //     return self::where('id', Admin::RESOURCE_INFO)->first(['name', 'information']);
-    // }
-
-    // public static function getHelpInfo()
-    // {
-    //     return self::where('id', Admin::CHALLENGE_BUTTON_INFO)->first(['name', 'information']);
-    // }
-
-    // public static function getProfileOverviewInfo()
-    // {
-    //     return self::where('id', Admin::PROFILE_OVERVIEW_INFO)->first(['name', 'information']);
-    // }
-
-    // public static function getHaiChatInfo()
-    // {
-    //     return self::where('id', Admin::HAI_CHAT_INFO)->first(['name', 'information']);
-    // }
 }

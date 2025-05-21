@@ -5,8 +5,8 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\StripeSetting\StripeSetting;
-use App\Models\Admin\Coupon\Coupon;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\HAIChai\Chatbot;
@@ -21,7 +21,6 @@ use App\Models\AssessmentDetail;
 use App\Models\AssessmentColorCode;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Client\Dashboard\ActionPlan;
-use App\Models\GenerateFile\PdfGenerate;
 
 class AdminController extends Controller
 {
@@ -82,13 +81,17 @@ class AdminController extends Controller
         try {
 
             $account = StripeSetting::getSingle();
+
             $currentUser = Auth::user();
 
             return view('admin-dashboards.setting', compact('account', 'currentUser'));
 
         } catch (\Exception $exception) {
+
             return redirect()->back()->with('error', $exception->getMessage());
+
         }
+
     }
 
     public function stripeSetting(UpdateStripeRequest $request, $id)
@@ -101,8 +104,11 @@ class AdminController extends Controller
             return redirect()->route('admin_setting')->with('success', 'Stripe Account Update Successfully');
 
         } catch (\Exception $exception) {
+
             return redirect()->back()->with('error', $exception->getMessage());
+
         }
+
     }
 
     public function pagesUsersNewUser()
@@ -154,13 +160,14 @@ class AdminController extends Controller
 
             $grid_code_color = AssessmentColorCode::getCodeColor($grid['id']);
 
-            if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
-            {
+            if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER) {
+
                 return view('practitioner-dashboard.user.grid', compact('grid', 'grid_code_color'));
-            }
-            else
-            {
+
+            } else {
+
                 return view('admin-dashboards.user.user_grid', compact('grid', 'grid_code_color'));
+
             }
 
         } catch (\Exception $exception) {
@@ -168,26 +175,7 @@ class AdminController extends Controller
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
-    }
 
-    public function report($id)
-    {
-        try {
-
-            $reports = Assessment::getReport($id);
-            $alchl_code = Assessment::getAlchlCode($id);
-
-            $style_position = AssessmentColorCode::getStylePosition($id);
-            $feature_position = AssessmentColorCode::getFeaturePosition($id);
-
-            return view('admin-dashboards.user.user_report', compact('reports', 'id','alchl_code','style_position','feature_position'));
-
-        }catch (\Exception $exception)
-        {
-
-            return redirect()->back()->with('error', $exception->getMessage());
-
-        }
     }
 
     public function haiChat()
@@ -261,6 +249,7 @@ class AdminController extends Controller
     {
         try {
             $user = User::getSingleUser($id);
+
             return view('admin-dashboards.user.user_info', compact('user'));
 
         } catch (\Exception $exception) {
@@ -295,16 +284,24 @@ class AdminController extends Controller
 
         }
     }
+
     public function allAdmins()
     {
 
         try {
+
             $admins = User::allSubAdmin();
+
             return view('admin-dashboards.all_admins', compact('admins'));
+
         } catch (\Exception $exception) {
+
             return redirect()->back()->with('error', $exception->getMessage());
+
         }
+
     }
+
     public function allQuestions()
     {
         try {
@@ -333,7 +330,8 @@ class AdminController extends Controller
         }
     }
 
-    public function userFeedback(){
+    public function userFeedback()
+    {
 
         try {
 
@@ -341,33 +339,35 @@ class AdminController extends Controller
 
             return view('admin-dashboards.user-feedback.index', compact('feedbacks'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with(['error' => $exception->getMessage()]);
         }
 
     }
 
-    public function deletedClients(){
+    public function deletedClients()
+    {
 
         try {
 
             return view('admin-dashboards.user.deleted_user');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with(['error' => $exception->getMessage()]);
         }
 
     }
 
-    public function assessments(){
+    public function assessments()
+    {
 
         try {
 
             return view('admin-dashboards.assessments.assessments');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with(['error' => $exception->getMessage()]);
         }
@@ -377,20 +377,26 @@ class AdminController extends Controller
     public function profileOverview($id = null)
     {
         try {
-            if (empty($id))
-            {
+
+            if (empty($id)) {
+
                 $userId = Helpers::getWebUser()['id'];
+
                 $assessment = Assessment::singleAssessmentFromId($id);
+
                 $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
 
-            }else
-            {
+            } else {
+
                 $assessment = Assessment::singleAssessmentFromId($id);
+
                 $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
+
             }
 
 
             $get_user = User::getSingleUser($assessment['user_id']);
+
             $age = Carbon::parse($get_user['date_of_birth'])->age;
 
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
@@ -398,7 +404,7 @@ class AdminController extends Controller
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
-            $perception_life = CodeDetail::getPerceptionStaticText();
+            $perception_life = AssessmentIntro::getPerceptionStaticText();
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
@@ -407,29 +413,33 @@ class AdminController extends Controller
 
             $actionPlan = ActionPlan::getUserActionPlan($assessment['users'] ? $assessment['users']['id'] : '');
 
-            $summary_static = CodeDetail::summaryIntro();
-            $main_result = CodeDetail::mainResult();
-            $cycle_life = CodeDetail::cycleLife();
-            $trait_intro = CodeDetail::traitIntro();
-            $motivation_intro = CodeDetail::motivationIntroduction();
-            $intro_boundaries = CodeDetail::introBoundaries();
-            $intro_communication = CodeDetail::introCommunication();
-            $intro_energypool = CodeDetail::introEnergypool();
+            $summary_static = AssessmentIntro::summaryIntro();
+            $main_result = AssessmentIntro::mainResult();
+            $cycle_life = AssessmentIntro::cycleLife();
+            $trait_intro = AssessmentIntro::traitIntro();
+            $motivation_intro = AssessmentIntro::motivationIntroduction();
+            $intro_boundaries = AssessmentIntro::introBoundaries();
+            $intro_communication = AssessmentIntro::introCommunication();
+            $intro_energypool = AssessmentIntro::introEnergypool();
 
 
-            if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
-            {
-                return view('practitioner-dashboard.user.profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
-            }
-            else
-            {
-                return view('admin-dashboards.user.client_profile_overview', compact('summary_static','main_result','cycle_life','trait_intro','motivation_intro','intro_boundaries','intro_communication','intro_energypool','allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
+            if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER) {
+                return view('practitioner-dashboard.user.profile_overview', compact('allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age', 'id', 'created_at'));
+            } else {
+                return view('admin-dashboards.user.client_profile_overview', compact('summary_static', 'main_result', 'cycle_life', 'trait_intro', 'motivation_intro', 'intro_boundaries', 'intro_communication', 'intro_energypool', 'allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age', 'id', 'created_at'));
             }
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
+            $url = request()->fullUrl(); // Get the URL of the request
+            $file = $exception->getFile(); // Get the file where the exception occurred
+            $line = $exception->getLine(); // Get the line number
+            $message = $exception->getMessage(); // Get the exception message
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+            $errorDetails = "Error at URL: $url\nFile: $file\nLine: $line\nMessage: $message";
+
+            return Helpers::serverErrorResponse($errorDetails);
         }
+
     }
 
     public function downloadUserReport($id)
@@ -453,15 +463,16 @@ class AdminController extends Controller
         $ep = $positive + $negative;
         $pv = $positive - $negative;
 
-        $summary_static = CodeDetail::summaryIntro();
-        $main_result = CodeDetail::mainResult();
-        $cycle_life = CodeDetail::cycleLife();
-        $trait_intro = CodeDetail::traitIntro();
-        $motivation_intro = CodeDetail::motivationIntroduction();
-        $intro_boundaries = CodeDetail::introBoundaries();
-        $intro_communication = CodeDetail::introCommunication();
-        $intro_energypool = CodeDetail::introEnergypool();
-        $intro_perceptionlife = CodeDetail::perceptionLife();
+
+        $summary_static = AssessmentIntro::summaryIntro();
+        $main_result = AssessmentIntro::mainResult();
+        $cycle_life = AssessmentIntro::cycleLife();
+        $trait_intro = AssessmentIntro::traitIntro();
+        $motivation_intro = AssessmentIntro::motivationIntroduction();
+        $intro_boundaries = AssessmentIntro::introBoundaries();
+        $intro_communication = AssessmentIntro::introCommunication();
+        $intro_energypool = AssessmentIntro::introEnergypool();
+        $intro_perceptionlife = AssessmentIntro::perceptionLife();
 
         $contxt = stream_context_create([
             'ssl' => [
@@ -474,47 +485,39 @@ class AdminController extends Controller
         $pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         $pdf->getDomPDF()->setHttpContext($contxt);
 
-        $pdf->loadView('pdf.report_pdf', compact('summary_static','main_result','cycle_life',
-        'trait_intro','motivation_intro','intro_boundaries','intro_perceptionlife','intro_communication','intro_energypool','allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name','style_position','feature_position','alchl_code','ep','pv'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
-        $filename = $user_name. '_report.pdf';
+        $pdf->loadView('pdf.report_pdf', compact('summary_static', 'main_result', 'cycle_life',
+            'trait_intro', 'motivation_intro', 'intro_boundaries', 'intro_perceptionlife', 'intro_communication', 'intro_energypool', 'allStyles', 'topTwoFeatures', 'assessment', 'boundary', 'perception', 'topCommunication', 'energyPool', 'user_name', 'style_position', 'feature_position', 'alchl_code', 'ep', 'pv'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
+        $filename = $user_name . '_report.pdf';
 
         return $pdf->stream($filename);
-    }
-
-    public function setAdminTimezone(Request $request)
-    {
-        try {
-
-            User::updateUserTimezone($request['timezone']);
-
-            return redirect()->back()->with('success', 'Timezone Successfully updated');
-
-        } catch (\Exception $exception) {
-
-            return redirect()->back()->with('error', $exception->getMessage());
-        }
     }
 
     public function userProfileImage(Request $request)
     {
         try {
 
-            if ($request['image']){
+            if ($request['image']) {
 
-                $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image','png', true);
+                $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image', 'png', true);
 
                 $user = Helpers::getWebUser();
 
                 $updateUser = User::profileUpload($user['id'], $upload_id);
 
                 return response()->json([
+
                     'url' => $updateUser['photo_url']
+
                 ]);
-            }
-            else {
+
+            } else {
+
                 return response()->json([
+
                     'error' => 'No image provided.'
+
                 ], 400);
+
             }
 
         } catch (\Exception $exception) {
@@ -524,20 +527,22 @@ class AdminController extends Controller
         }
     }
 
-    public function fineTune(){
+    public function fineTune()
+    {
 
         try {
 
             return view('admin-dashboards.hai-chat.fine-tune');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function haiChatPersona($name = null){
+    public function haiChatPersona($name = null)
+    {
 
         try {
 
@@ -545,88 +550,122 @@ class AdminController extends Controller
 
             return view('admin-dashboards.hai-chat.detail', compact('brain'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function haiChatComparison(){
+    public function haiChatComparison()
+    {
 
         try {
 
             return view('admin-dashboards.hai-chat.comparison');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function createBrain(Request $request){
+    public function createBrain(Request $request)
+    {
 
         try {
 
-            $name = $request->session()->get('name',null);
+            $name = $request->session()->get('name', null);
             $description = $request->session()->get('description', null);
 
-            return view('admin-dashboards.hai-chat.brains.create-brain', compact('name','description'));
+            return view('admin-dashboards.hai-chat.brains.create-brain', compact('name', 'description'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function editBrain($id){
+    public function editBrain($id)
+    {
 
         try {
 
             return view('admin-dashboards.hai-chat.brains.edit-brain', compact('id'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function createCluster(){
+    public function createCluster()
+    {
 
         try {
 
             return view('admin-dashboards.hai-chat.clusters.create-cluster');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function editCluster($id){
+    public function editCluster($id)
+    {
 
         try {
 
             return view('admin-dashboards.hai-chat.clusters.edit-cluster', compact('id'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function downloadZipFile(){
+    public function downloadZipFile()
+    {
 
         $zipPath = storage_path('knowledge.zip');
 
-        if (file_exists($zipPath)){
+        if (file_exists($zipPath)) {
 
             return response()->download($zipPath)->deleteFileAfterSend(true);
+        }
+
+        abort(404);
+
+    }
+
+    public function haiDojo()
+    {
+
+        try {
+
+            return view('admin-dashboards.hai-chat.hai-dojo.hai-dojo');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function downloadConversation()
+    {
+
+        $conversationPath = storage_path('app/training-session-files/conversation.jsonl');
+
+        if (file_exists($conversationPath)) {
+
+            return response()->download($conversationPath)->deleteFileAfterSend(true);
         }
 
         abort(404);
