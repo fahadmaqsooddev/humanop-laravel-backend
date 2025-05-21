@@ -19,9 +19,9 @@ class Assessment extends Component
 
     public $style_code = '', $feature_code = '', $style_color = '', $feature_color = '', $feature_number = '', $feature_carousel_index = '', $style_carousel_index = '', $style_number = '', $name = '', $email = '', $age = '';
 
-    public $selectedStyleCells = [], $selectedFeatureCells = [], $assessments = [];
+    public $selectedStyleCells = [], $selectedFeatureCells = [];
 
-    protected $paginationTheme = 'bootstrap', $perPage = 10;
+    protected $paginationTheme = 'bootstrap', $perPage = 10, $assessments = [];
 
     protected $listeners = ['selectStyleCode', 'selectFeatureCode', 'selectStyleNumber', 'selectFeatureNumber', 'logInAdminAsUser', 'changeUserAssessmentStatus', 'resetAssessment'];
 
