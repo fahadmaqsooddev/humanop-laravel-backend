@@ -1467,7 +1467,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function userDataForHAi($user_id = null)
     {
-        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth'])->first()->setAppends([]);
+        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth','email'])->first()?->setAppends([]);
 
         return $user;
     }

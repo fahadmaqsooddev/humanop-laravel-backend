@@ -1,0 +1,402 @@
+<?php
+
+namespace App\Http\Livewire\Admin\NewHaiChat;
+
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Models\HAIChai\EmbeddingGroup;
+use App\Models\HAIChai\GroupEmbedding;
+use App\Models\HAIChai\HaiChatActiveEmbedding;
+use App\Models\HAIChai\HaiChatEmbedding;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+
+class Group extends Component
+{
+    use WithFileUploads;
+
+    protected $listeners = ['deleteEmbedding'];
+
+    public $groups, $name, $embedding_ids = [], $embedding_name, $embedding, $embeddings, $embedding_id,
+
+        $group_ids = [], $fileInputId, $showGroupDropdownMenu = false, $group_search, $dropDownGroups = [],
+
+        $is_group = true, $showEmbDropdownMenu = false, $dropDownEmbeddings = [], $embedding_search,
+
+        $selectedGroups = [], $selectedEmbeddings = [];
+
+    protected $rules = [
+        'embedding_name' => 'required|max:50',
+        'embedding' => 'required|file|mimes:txt,pdf', // Corrected 'memes' to 'mimes'
+        'group_ids' => 'required|array',
+        'group_ids.*' => 'required|exists:embedding_groups,id',
+    ];
+
+    protected $messages = [
+        'embedding_name.required' => 'The Name field is required.', // Corrected message to use proper text
+        'embedding.required' => 'The Embedding field is required.', // Corrected message to use proper text
+        'embedding.mimes' => 'The Embedding must be a file of type: txt.', // Added message for mime type validation
+        'group_ids.required' => 'Group id are required',
+    ];
+
+    public function render()
+    {
+        $this->groups = EmbeddingGroup::allGroups();
+
+        $this->dropDownGroups = EmbeddingGroup::groupsForDropDown($this->group_search);
+
+        $this->dropDownEmbeddings = HaiChatEmbedding::allEmbeddingsForDropDown($this->embedding_search);
+
+        $this->embeddings = HaiChatEmbedding::allEmbeddings();
+
+        return view('livewire.admin.new-hai-chat.group');
+    }
+
+    public function createEmbedding(){
+        try {
+
+            $this->validate();
+
+//            $file = $this->embedding;
+//
+//            $fileId = Str::uuid();
+//
+//            $embedding = GuzzleHelpers::createOpenAiEmbedding($this->embedding);
+//
+//            $filename = $fileId . '.' . $file->getClientOriginalExtension();
+//
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV") . '/';
+//
+//            $path = $subFolder ? $subFolder . $filename : $filename;
+//
+//            Storage::disk('s3')->put($path, file_get_contents($file->getRealPath()));
+//
+//            $embeddingPath = $subFolder . $fileId . '-embd.txt';
+//
+//            Storage::disk('s3')->put($embeddingPath, json_encode($embedding));
+//
+//            $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
+//
+//            if($embedding){
+//
+//                GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $embedding->id);
+//
+//                session()->flash('embedding_success', "Embedding created successfully.");
+//
+//                $this->emit('closeCreateEmbeddingModal');
+//
+//                $this->reset('embedding_name','group_ids');
+//
+//                $this->fileInputId++; // this is just for remove placeholder for file input field
+//
+//                $this->embedding = null;
+//
+//            }else{
+//
+//                session()->flash('embedding_error', "Something went wrong.");
+//            }
+
+            // Get the real path of the uploaded file
+            $filePath = $this->embedding->getRealPath();
+
+            // Prepare the multipart data for sending
+            $multipart = [
+                [
+                    'name'     => 'file', // Field name expected by the server
+                    'contents' => file_get_contents($filePath), // File contents
+                    'filename' => basename($filePath) // Optional: the file name
+                ]
+            ];
+
+//            // Include other form data like 'name' (if provided)
+//            if ($this->embedding_name) {
+//                $multipart[] = [
+//                    'name'     => 'name',
+//                    'contents' => "dev"
+//                ];
+//            }
+
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            // Send the request
+            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload_embedding', [
+                'multipart' => $multipart
+            ]);
+
+            if(!empty($aiReply['request_id'])){
+
+                $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$aiReply['request_id']);
+
+                if($embedding){
+
+                    GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $embedding->id);
+
+                    session()->flash('embedding_success', "Embedding created successfully.");
+
+                    $this->emit('closeCreateEmbeddingModal');
+
+                    $this->reset('embedding_name','group_ids');
+
+                    $this->fileInputId++; // this is just for remove placeholder for file input field
+
+                    $this->embedding = null;
+
+                }else{
+
+                    session()->flash('embedding_error', "Something went wrong.");
+                }
+            }
+
+        }catch (\Illuminate\Validation\ValidationException $exception){
+
+            session()->flash('embedding_errors', $exception->validator->errors()->getMessages());
+
+        } catch (\Exception $exception) {
+
+            session()->flash('embedding_error', $exception->getMessage());
+        }
+
+        $this->showGroupDropdownMenu = false;
+
+        $this->emit('closeAlert');
+    }
+
+    public function sendCreateRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+        $authorization = Request::header('Authorization');
+
+        $filePath = $this->embedding->getRealPath();
+
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+        // Prepare the query array with headers and multipart data
+        $queryArray = [
+            'headers' => [
+                'Authorization' => $authorization, // Authorization header
+            ],
+//            'multipart' => $body['multipart'] // Send multipart data
+            'multipart' => [
+                [
+                    'name'     => 'file', // Field name expected by the server
+                    'contents' => file_get_contents($filePath), // File contents
+                    'filename' => basename($filePath) // Optional: the file name
+                ],
+                [
+                    'name' => "loc",
+                    'contents' => $subFolder
+                ]
+            ]
+        ];
+
+        // Initialize Guzzle client
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        // Send the request
+        $response = $client->request($method, $route_name, $queryArray);
+
+        // Get and decode the response body
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
+    }
+
+    public function createGroup(){
+
+        try {
+
+            $this->validate([
+
+                'name' => 'required|max:20',
+                'embedding_ids' => 'array',
+                'embedding_ids.*' => 'nullable|exists:hai_chat_embeddings,id',
+
+            ], [
+                    'name.required' => 'Group name is required'
+                ]
+            );
+
+            $group = EmbeddingGroup::createEmbeddingGroup($this->name);
+
+            if (count($this->embedding_ids) > 0){
+
+                GroupEmbedding::addOrUpdateGroupIds($this->embedding_ids, $group->id);
+            }
+
+            session()->flash('success', "Group created successfully.");
+
+            $this->emit('closeCreateGroupModal');
+
+            $this->reset('name','embedding_ids');
+
+        }catch (ValidationException $exception){
+
+            session()->flash('errors', $exception->validator->errors()->getMessages());
+
+        }catch (\Exception $exception){
+
+            session()->flash('success', $exception->getMessage());
+        }
+
+        $this->showEmbDropdownMenu = false;
+
+        $this->emit('closeAlert');
+    }
+
+    public function deleteEmbedding($id)
+    {
+        $embedding = HaiChatEmbedding::singleEmbedding($id);
+
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+        $body = ['folder_n' => $embedding['request_id'], 'loc' => $subFolder];
+
+        $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'delete_embeddings', $body);
+
+//        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
+
+        if ($aiReply)
+        {
+
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
+//
+//            Storage::disk('s3')->delete($subFolder . $embedding->request_id . ".txt");
+//
+//            Storage::disk('s3')->delete($subFolder . $embedding->request_id . "-embd.txt");
+
+            GroupEmbedding::deleteGroupEmbeddings($id);
+
+            HaiChatEmbedding::deleteEmbedding($id);
+
+            session()->flash('embedding_deleted', "{$embedding['name']} deleted successfully.");
+
+            $this->emit('closeAlert');
+
+        }
+
+    }
+
+    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = Request::header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
+    }
+
+    public function setEmbeddingId($embedding_id){
+
+        $this->group_ids = GroupEmbedding::embeddingGroups($embedding_id);
+
+        $this->selectedGroups = EmbeddingGroup::groupNames($this->group_ids);
+
+        $this->embedding_id = $embedding_id;
+    }
+
+    public function addEmbeddingToGroups(){
+
+        try {
+
+            $this->validate(['group_ids' => 'required']);
+
+            GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $this->embedding_id);
+
+            session()->flash('embedding_group_success', 'Embedding are added into groups');
+
+            $this->emit('closeAlert');
+
+            $this->group_ids = GroupEmbedding::embeddingGroups($this->embedding_id);
+
+            $this->emit('closeAddGroupToEmbeddingModal');
+
+            $this->showGroupDropdownMenu = false;
+
+        }catch (ValidationException $validationException){
+
+            session()->flash('embedding_group_errors', $validationException->validator->errors()->getMessages());
+
+        }catch (\Exception $exception){
+
+            session()->flash('embedding_group_error', $exception->getMessage());
+        }
+    }
+
+    public function addGroupIds(int $id, $name = null){
+
+        if(in_array($id,$this->group_ids)){
+
+            $this->group_ids = array_diff($this->group_ids,[$id]);
+
+            $this->selectedGroups = array_diff($this->selectedGroups, [$name]);
+
+        }else{
+
+            array_push($this->group_ids,$id);
+
+            array_push($this->selectedGroups, $name);
+        }
+
+        $this->showGroupDropdownMenu = true;
+
+    }
+
+    public function updatedGroupSearch($value){
+
+        $this->group_search = $value;
+
+        $this->showGroupDropdownMenu = true;
+
+    }
+
+    public function changeIsGroup($value){
+
+        $this->is_group = $value;
+
+        $this->selectedGroups = [];
+
+        $this->group_ids = [];
+    }
+
+    public function addEmbeddingIds(int $id, $name = null){
+
+        if(in_array($id,$this->embedding_ids)){
+
+            $this->embedding_ids = array_diff($this->embedding_ids,[$id]);
+
+            $this->selectedEmbeddings = array_diff($this->selectedEmbeddings, [$name]);
+
+        }else{
+
+            array_push($this->embedding_ids,$id);
+
+            array_push($this->selectedEmbeddings, $name);
+        }
+
+        $this->showEmbDropdownMenu = true;
+
+    }
+
+    public function updatedEmbeddingSearch($value){
+
+        $this->embedding_search = $value;
+
+        $this->showEmbDropdownMenu = true;
+
+    }
+}
