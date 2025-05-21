@@ -91,8 +91,20 @@ class AuthController extends Controller
                     if (!empty($request['company_name'])) {
 
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
+                        if ($request['prefer'] == 1) {
 
-                        B2BBusinessCandidates::registerCandidate($data['id'], $checkUser['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                            $result = Helpers::packageLimitation($data['id']);
+
+                            if ($result === true) {
+
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                            } else {
+                                return Helpers::validationResponse('Limit Reached');
+                            }
+                        }else{
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                        }
+
 
                     }
 
@@ -563,7 +575,24 @@ class AuthController extends Controller
 
                         if (!empty($data)) {
 
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                            if ($request['prefer'] == 1) {
+
+                                $result = Helpers::packageLimitation($data['id']);
+
+                                if ($result === true) {
+
+                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                                } else {
+                                    return Helpers::validationResponse('Limit Reached');
+                                }
+                            }else{
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                            }
+
+
+
+
+//                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
 
                             $getInvite = UserInvite::getSingleInvite($user['email']);
 
