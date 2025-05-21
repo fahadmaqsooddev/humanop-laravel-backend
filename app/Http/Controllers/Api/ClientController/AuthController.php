@@ -708,6 +708,21 @@ class AuthController extends Controller
 
         try {
 
+            if (!empty($request['invite_link']))
+            {
+
+                $getInviteLink = UserInvite::getInviteLink($request['invite_link']);
+
+                if ($getInviteLink['email'] != $request['email']) {
+
+                    $loginMethod = isset($request['google_id']) ? 'Google' : 'App';
+
+                    return Helpers::validationResponse('Invite link is not valid for this email. Please log in using ' . $loginMethod . ' with the valid email address.');
+
+                }
+
+            }
+
             $checkDeletedUser = User::checkDeleteEmail($request->input('email'));
 
             if (!empty($checkDeletedUser)) {
@@ -890,7 +905,7 @@ class AuthController extends Controller
 
                 if (!empty($data)) {
 
-                    $url = config('client_url.client_dashboard_url') . '/login?company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
+                    $url = config('client_url.client_dashboard_url') . '/login?link=' . $dataResult['token'] .'&company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
 
                     return Helpers::successResponse('An account with this email already exists. Please log in to continue.', [
                         'url' => $url,
