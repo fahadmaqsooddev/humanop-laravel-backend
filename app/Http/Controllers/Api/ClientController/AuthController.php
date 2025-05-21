@@ -498,6 +498,54 @@ class AuthController extends Controller
 
     }
 
+    public function logoutClient()
+    {
+
+        try {
+
+            $this->auth->logout();
+
+            return Helpers::successResponse('User logged out successfully');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+
+        try {
+
+            $checkUserEmail = User::checkEmail($request['email']);
+
+            if (!empty($checkUserEmail)) {
+
+                $token = User::generateToken($checkUserEmail['email']);
+
+                $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
+
+                $emailData = $this->prepareEmailData($checkUserEmail, $url);
+
+                $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
+
+                return Helpers::successResponse('We have emailed your password reset link!');
+
+            } else {
+
+                return Helpers::validationResponse('Email does not exists');
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
     public function loginClient(LoginRequest $request)
     {
 
@@ -588,15 +636,18 @@ class AuthController extends Controller
                                 if ($result === true) {
 
                                     B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
                                 } else {
-                                    return Helpers::validationResponse('Limit Reached');
+
+                                    return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
+
                                 }
+
                             } else {
+
                                 B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
                             }
-
-
-//                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
 
                             $getInvite = UserInvite::getSingleInvite($user['email']);
 
@@ -652,54 +703,6 @@ class AuthController extends Controller
 
     }
 
-    public function logoutClient()
-    {
-
-        try {
-
-            $this->auth->logout();
-
-            return Helpers::successResponse('User logged out successfully');
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
-
-    }
-
-    public function forgotPassword(ForgotPasswordRequest $request)
-    {
-
-        try {
-
-            $checkUserEmail = User::checkEmail($request['email']);
-
-            if (!empty($checkUserEmail)) {
-
-                $token = User::generateToken($checkUserEmail['email']);
-
-                $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
-
-                $emailData = $this->prepareEmailData($checkUserEmail, $url);
-
-                $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
-
-                return Helpers::successResponse('We have emailed your password reset link!');
-
-            } else {
-
-                return Helpers::validationResponse('Email does not exists');
-            }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
-    }
-
     public function socialLogin(Request $request)
     {
 
@@ -741,7 +744,37 @@ class AuthController extends Controller
 
                     if (!empty($data)) {
 
-                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                        if ($request['prefer'] == 1) {
+
+                            $result = Helpers::packageLimitation($data['id']);
+
+                            if ($result === true) {
+
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
+                            } else {
+
+                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
+
+                            }
+
+                        } else {
+
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
+                        }
+
+                        $getInvite = UserInvite::getSingleInvite($user['email']);
+
+                        if ($getInvite) {
+
+                            $memberCandidateInvite = UserCandidateInvite::where('invite_link_id', $getInvite->id)->where('company_id', $data['id'])->first();
+
+                            if ($memberCandidateInvite) {
+
+                                $memberCandidateInvite->delete();
+                            }
+                        }
                     }
                 }
 
