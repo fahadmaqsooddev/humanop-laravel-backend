@@ -35,5 +35,7 @@ class AssessmentIntroSeeder extends Seeder
             'text' => $data['text'],
         ]);
              }
+
+            CodeDetail::whereIn('code',$codes)->delete();
     }
 }
