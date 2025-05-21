@@ -553,66 +553,57 @@ class Helpers
     }
 
 
-
-    public static function  packageLimitation($companyId=null)
+    public static function packageLimitation($companyId = null)
     {
 
+        $user = User::find($companyId);
 
+        if ($plan_id = $user->getsubscription()->first()) {
 
+            $plan_id = $plan_id->stripe_price;
 
+        } else {
 
+            return Helpers::validationResponse('Please subscribe your plan first');
 
+        }
 
-        $user=User::find($companyId);
+        $limitations = Plan::singlePlan($plan_id);
 
-            if ($plan_id = $user->getsubscription()->first()) {
+        $getExistingMembers = B2BBusinessCandidates::where('business_id', $companyId)
+            ->where('role', Admin::IS_TEAM_MEMBER)
+            ->where('future_consideration', Admin::NOT_IN_FUTURE)
+            ->where('is_permanently_deleted', 0)
+            ->with(['users' => function ($q) {
+                $q->where('step', 3);
+            }])
+            ->get();
 
-                $plan_id = $plan_id->stripe_price;
+        $existingMemberCounts = 0;
 
-            } else {
+        foreach ($getExistingMembers as $member) {
 
-                return Helpers::validationResponse('Please subscribe your plan first');
+            if (!empty($member->users)) {
+
+                $existingMemberCounts += 1;
 
             }
 
-            $limitations = Plan::singlePlan($plan_id);
+        }
 
+        $getMemberInvites = UserCandidateInvite::where('company_id', $companyId)->where('role', Admin::IS_TEAM_MEMBER)->get();
 
+        $allMembers = $existingMemberCounts + count($getMemberInvites);
 
-            $getExistingMembers = B2BBusinessCandidates::where('business_id', $companyId)
-                    ->where('role', Admin::IS_TEAM_MEMBER)
-                    ->where('future_consideration', Admin::NOT_IN_FUTURE)
-                    ->where('is_permanently_deleted', 0)
-                    ->with(['users' => function ($q) {
-                        $q->where('step', 3);
-                    }])
-                    ->get();
+        if (($allMembers < (int)$limitations['no_of_team_members'])) {
 
-                $existingMemberCounts = 0;
+            return true;
 
-                foreach ($getExistingMembers as $member) {
-                    if (!empty($member->users)) {
-                        $existingMemberCounts += 1;
-                    }
-                }
+        } else {
 
-                $getMemberInvites = UserCandidateInvite::where('company_id', $companyId)->where('role', Admin::IS_TEAM_MEMBER)->get();
+            return false;
 
-                $allMembers = $existingMemberCounts + count($getMemberInvites);
-
-                if (($allMembers < (int)$limitations['no_of_team_members'])) {
-
-                    return true;
-
-                }else{
-
-                    return false;
-
-                }
-
-
-
-
+        }
 
     }
 

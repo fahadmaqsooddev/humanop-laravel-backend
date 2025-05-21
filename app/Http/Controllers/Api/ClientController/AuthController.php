@@ -91,6 +91,7 @@ class AuthController extends Controller
                     if (!empty($request['company_name'])) {
 
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
+
                         if ($request['prefer'] == 1) {
 
                             $result = Helpers::packageLimitation($data['id']);
@@ -98,13 +99,18 @@ class AuthController extends Controller
                             if ($result === true) {
 
                                 B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
-                            } else {
-                                return Helpers::validationResponse('Limit Reached');
-                            }
-                        }else{
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
-                        }
 
+                            } else {
+
+                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
+
+                            }
+
+                        } else {
+
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
+                        }
 
                     }
 
@@ -585,11 +591,9 @@ class AuthController extends Controller
                                 } else {
                                     return Helpers::validationResponse('Limit Reached');
                                 }
-                            }else{
+                            } else {
                                 B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
                             }
-
-
 
 
 //                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
@@ -822,6 +826,7 @@ class AuthController extends Controller
         }
 
     }
+
     public function intentionOption()
     {
         try {
