@@ -2,7 +2,11 @@
 
 namespace App\Helpers;
 
+use App\Enums\Admin\Admin;
 use App\Models\Admin\Notification\Notification;
+use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\B2B\UserCandidateInvite;
+use App\Models\Client\Plan\Plan;
 use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -545,6 +549,70 @@ class Helpers
         preg_match('/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i', $string, $matches);
 
         return ($matches[0] ?? null);
+
+    }
+
+
+
+    public static function  packageLimitation($companyId=null)
+    {
+
+
+
+
+
+
+
+        $user=User::find($companyId);
+
+            if ($plan_id = $user->getsubscription()->first()) {
+
+                $plan_id = $plan_id->stripe_price;
+
+            } else {
+
+                return Helpers::validationResponse('Please subscribe your plan first');
+
+            }
+
+            $limitations = Plan::singlePlan($plan_id);
+
+
+
+            $getExistingMembers = B2BBusinessCandidates::where('business_id', $companyId)
+                    ->where('role', Admin::IS_TEAM_MEMBER)
+                    ->where('future_consideration', Admin::NOT_IN_FUTURE)
+                    ->where('is_permanently_deleted', 0)
+                    ->with(['users' => function ($q) {
+                        $q->where('step', 3);
+                    }])
+                    ->get();
+
+                $existingMemberCounts = 0;
+
+                foreach ($getExistingMembers as $member) {
+                    if (!empty($member->users)) {
+                        $existingMemberCounts += 1;
+                    }
+                }
+
+                $getMemberInvites = UserCandidateInvite::where('company_id', $companyId)->where('role', Admin::IS_TEAM_MEMBER)->get();
+
+                $allMembers = $existingMemberCounts + count($getMemberInvites);
+
+                if (($allMembers < (int)$limitations['no_of_team_members'])) {
+
+                    return true;
+
+                }else{
+
+                    return false;
+
+                }
+
+
+
+
 
     }
 
