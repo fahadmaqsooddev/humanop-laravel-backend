@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Models\Assessment;
 use App\Models\Admin\StripeSetting\StripeSetting;
-use Spatie\PdfToText\Pdf;
-use Stripe\StripeClient;
 use App\Models\User;
 use GuzzleHttp\Client;
 

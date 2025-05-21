@@ -128,8 +128,8 @@ class Plan extends Model
         return self::where('id', $id)->first();
     }
 
-    public static function activeb2BPlans()
-    {
-        return self::where('status', Admin::B2B_ACTIVE_PLAN)->count();
-    }
+//    public static function activeb2BPlans()
+//    {
+//        return self::where('status', Admin::B2B_ACTIVE_PLAN)->count();
+//    }
 }
