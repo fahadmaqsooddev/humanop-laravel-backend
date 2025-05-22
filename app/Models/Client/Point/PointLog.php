@@ -2,6 +2,7 @@
 
 namespace App\Models\Client\Point;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -18,6 +19,8 @@ class PointLog extends Model
 
         parent::__construct($attributes);
     }
+
+    const HAI_Credit = 3;
 
     public static function storePointLog($data = null)
     {
@@ -37,5 +40,17 @@ class PointLog extends Model
     public static function checkLastLoginReward($userId = null, $days = null, $plan = null)
     {
         return self::where('user_id', $userId)->where('type', 1)->where('created_at', '>=', Carbon::now()->subDays($days))->where('plan', $plan)->orderBy('created_at', 'asc')->count();
+    }
+
+    public static function createPointLog($points, $is_added = 0){
+
+        self::create([
+            'user_id' => Helpers::getUser()->id,
+            'type' => self::HAI_Credit,
+            'is_added' => $is_added,
+            'point' => $points,
+            'plan' => Helpers::getUser()->plan_name,
+        ]);
+
     }
 }

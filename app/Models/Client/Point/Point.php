@@ -3,6 +3,7 @@
 namespace App\Models\Client\Point;
 
 use App\Helpers\Helpers;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,6 +37,50 @@ class Point extends Model
         $userCredits->update(['point' => $userCredits['point'] + $point]);
 
         return $userCredits;
+
+    }
+
+    public static function getPoints(){
+
+        $points = self::where('user_id', Helpers::getUser()->id)->first();
+
+        $pointLogs = PointLog::query()->where('user_id', Helpers::getUser()->id)->where('type', PointLog::HAI_Credit);
+
+        if ($points){
+
+                $total_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 1)->sum('point');
+                $used_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 0)->sum('point');
+                $remaining_tokens = $points['point'];
+                $rollover_tokens = ((clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 1)->sum('point') - (clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 0)->sum('point'));
+
+        }
+
+        return [
+            'total_tokens' => $total_tokens,
+            'used_tokens' => $used_tokens,
+            'remaining_tokens' => $remaining_tokens,
+            'rollover_tokens' => $rollover_tokens,
+        ];
+
+    }
+
+    public static function addPoints($points){
+
+        $record = self::where('user_id')->first();
+
+        if ($record){
+
+            $record->increment('point', $points);
+
+        }else{
+
+            self::create([
+                'user_id' => Helpers::getUser()->id,
+                'point' => $points,
+            ]);
+        }
+
+        PointLog::createPointLog($points, 1);
 
     }
 }

@@ -348,7 +348,7 @@ return [
         ],
         'PointLog' => [
             'table' => 'point_logs',
-            'fillable' => ['user_id','point','type','plan'],
+            'fillable' => ['user_id','point','type','plan','is_added'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'LibraryResource' => [
