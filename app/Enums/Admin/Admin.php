@@ -91,6 +91,8 @@ final class Admin
 
     const OPTIMAL_TRAIT = 14;
 
+    const CREDIT_BONUS = 15;
+
     const CLIENT_INVITE_ROLE = 1;
 
     const B2B_INVITE_ROLE = 2;
@@ -149,4 +151,10 @@ final class Admin
     const B2B_INACTIVE_PLAN = 0;
 
     const B2B_ACTIVE_PLAN = 1;
+
+    const FREEMIUM_CREDITS = 50;
+
+    const CORE_CREDITS = 120;
+
+    const PREMIUM_CREDITS = 250;
 }

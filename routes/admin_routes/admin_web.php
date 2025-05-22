@@ -25,6 +25,7 @@ use App\Http\Controllers\B2BControllers\RoleTemplateController;
 use App\Http\Controllers\B2BControllers\B2BInviteController;
 use App\Http\Controllers\B2BControllers\B2BOrganizationController;
 use App\Http\Controllers\B2BControllers\B2BPricingPlanController;
+use \App\Http\Controllers\AdminControllers\PricingPlanController;
 use App\Http\Controllers\AdminControllers\AssessmentIntroController;
 use App\Http\Controllers\AdminControllers\SummaryReportController;
 
@@ -166,6 +167,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
         Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
+        Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
 
     });
 

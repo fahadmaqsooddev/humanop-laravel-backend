@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['checkUser']], function () {
     Route::post('create-invite-link-for-member', 'MemberController@createInviteLinkForMember')->middleware('check_package:add_members');
-    Route::post('edit-member', 'MemberController@EditMember');
-    Route::post('add-member', 'MemberController@addMember')->middleware('check_package:add_members');
+//    Route::post('edit-member', 'MemberController@EditMember');
+//    Route::post('add-member', 'MemberController@addMember')->middleware('check_package:add_members');
     Route::get('all-members','MemberController@AllMembers');
     Route::delete('delete-member','MemberController@DeleteMember');
     Route::post('member-to-candidate','MemberController@ConvertMember');

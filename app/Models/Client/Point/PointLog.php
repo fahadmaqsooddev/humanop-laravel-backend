@@ -23,6 +23,8 @@ class PointLog extends Model
         parent::__construct($attributes);
     }
 
+    const HAI_Credit = 3;
+
     public static function storePointLog($data = null)
     {
         self::create($data);
@@ -56,5 +58,16 @@ class PointLog extends Model
 
         Point::where('user_id', Helpers::getUser()->id)->update(['point' => ($remaining_tokens/$per_credit_token)]);
 
+    }
+
+    public static function createPointLog($points, $is_added = 0){
+
+        self::create([
+            'user_id' => Helpers::getUser()->id,
+            'type' => self::HAI_Credit,
+            'is_added' => $is_added,
+            'point' => $points,
+            'plan' => Helpers::getUser()->plan_name,
+        ]);
     }
 }

@@ -632,6 +632,19 @@
                                                                         class="sidenav-normal"> B2B Support </span>
                                                                 </a>
                                                             </li>
+                                                            <li class="nav-item {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_pricing_plan') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Pricing Plan </span>
+                                                                </a>
+                                                            </li>
 
                                                             {{--                                                            <li class="nav-item {{ (Request::is('admin/cms') ? 'active-itt-all':'') }}">--}}
                                                             {{--                                                                <a class="nav-link {{ (Request::is('admin/cms') ?  'active-itt-all':'') }}"--}}

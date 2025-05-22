@@ -100,7 +100,12 @@ class Plan extends Model
 
     public static function getB2BPlans()
     {
-        return self::where('plan_type', 1)->get();
+        return self::where('plan_type', Admin::B2B_PLAN)->get();
+    }
+
+    public static function getB2CPlans()
+    {
+        return self::where('plan_type', Admin::B2C_PLAN)->get();
     }
 
     public static function getB2BActivePlans()
@@ -123,8 +128,8 @@ class Plan extends Model
         return self::where('id', $id)->first();
     }
 
-    public static function activeb2BPlans()
-    {
-        return self::where('status', Admin::B2B_ACTIVE_PLAN)->count();
-    }
+//    public static function activeb2BPlans()
+//    {
+//        return self::where('status', Admin::B2B_ACTIVE_PLAN)->count();
+//    }
 }

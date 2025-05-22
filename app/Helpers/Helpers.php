@@ -2,7 +2,12 @@
 
 namespace App\Helpers;
 
+use App\Enums\Admin\Admin;
 use App\Models\Admin\Notification\Notification;
+use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\B2B\UserCandidateInvite;
+use App\Models\Client\Plan\Plan;
+use App\Models\Client\Point\Point;
 use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -12,8 +17,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Models\Assessment;
 use App\Models\Admin\StripeSetting\StripeSetting;
-use Spatie\PdfToText\Pdf;
-use Stripe\StripeClient;
 use App\Models\User;
 use GuzzleHttp\Client;
 
@@ -367,7 +370,7 @@ class Helpers
 
             $timezone = explode(' ', $timezone_string);
 
-            $standard_time = isset($timezone[1]) ? $timezone[1] : "+00:00";
+            $standard_time = isset($timezone[2]) ? $timezone[2] : "+00:00";
 
             $exploded_value = explode(':', $standard_time);
 
@@ -545,6 +548,107 @@ class Helpers
         preg_match('/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i', $string, $matches);
 
         return ($matches[0] ?? null);
+
+    }
+
+
+    public static function packageLimitation($companyId = null)
+    {
+
+        $user = User::find($companyId);
+
+        if ($plan_id = $user->getsubscription()->first()) {
+
+            $plan_id = $plan_id->stripe_price;
+
+        } else {
+
+            return Helpers::validationResponse('Please subscribe your plan first');
+
+        }
+
+        $limitations = Plan::singlePlan($plan_id);
+
+        $getExistingMembers = B2BBusinessCandidates::where('business_id', $companyId)
+            ->where('role', Admin::IS_TEAM_MEMBER)
+            ->where('future_consideration', Admin::NOT_IN_FUTURE)
+            ->where('is_permanently_deleted', 0)
+            ->with(['users' => function ($q) {
+                $q->where('step', 3);
+            }])
+            ->get();
+
+        $existingMemberCounts = 0;
+
+        foreach ($getExistingMembers as $member) {
+
+            if (!empty($member->users)) {
+
+                $existingMemberCounts += 1;
+
+            }
+
+        }
+
+        $getMemberInvites = UserCandidateInvite::where('company_id', $companyId)->where('role', Admin::IS_TEAM_MEMBER)->get();
+
+        $allMembers = $existingMemberCounts + count($getMemberInvites);
+
+        if (($allMembers < (int)$limitations['no_of_team_members'])) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+    }
+
+    public static function checkAndAddBonusCredits($user = null)
+    {
+
+
+        $minutes = self::explodeTimezoneWithHours($user['timezone']);
+
+        $currentTime = Carbon::now()->addMinutes($minutes * 60);
+
+        $credits_log = $user['credits_log'] + 1;
+
+        // Check if at least 1 full day has passed since last login
+        if ($currentTime->diffInDays($user['last_login']) == 1) {
+
+            $user->update(['credits_log' => $credits_log, "last_login" => $currentTime]);
+
+        }
+        elseif ($currentTime->diffInDays($user['last_login']) > 1) {
+
+            $user->update(['credits_log' => 1, "last_login" => $currentTime]);
+
+        }else
+        {
+            if ($user['credits_log'] == 5) {
+
+                $user->update(['credits_log' => 0, "last_login" => $currentTime]);
+
+                $point = match ($user['plan_name']) {
+                    'Freemium' => 1,
+                    'Core' => 2,
+                    default => 3,
+                };
+
+
+                Point::updatePoint($user['id'], $point);
+
+                $message = 'THEY GOT ONE ' . $point . ' BONUS CREDIT.';
+
+                Helpers::OneSignalApiUsed($user['id'], 'Credit Bonus', $message);
+
+                Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION);
+
+            }
+        }
 
     }
 

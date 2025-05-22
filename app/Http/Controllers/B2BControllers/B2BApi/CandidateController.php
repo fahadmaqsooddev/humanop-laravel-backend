@@ -66,7 +66,7 @@ class CandidateController extends Controller
                         return $this->inviteAlreadyExistsResponse($email, $candidateRecord['role']);
                     }
                 }
-
+                DB::commit();
                 return $this->createAndSendCandidateInvite($existingInvite['id'], $email, $currentUser['company_name']);
             }
 
@@ -75,10 +75,10 @@ class CandidateController extends Controller
 
             if ($newInvite) {
 
+                DB::commit();
                 return $this->createAndSendCandidateInvite($newInvite['id'], $email, $currentUser['company_name']);
             }
 
-            DB::commit();
 
             return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
         } catch (\Exception $e) {
