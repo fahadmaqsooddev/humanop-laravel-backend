@@ -25,6 +25,7 @@ class Persona extends Component
             'persona_name' => 'required|max:50|unique:hai_chat_setting,persona_name,' . $this->chat_bot_id . ',chat_bot_id',
             'chat_bot_id' => 'required',
             'human_op_app' => 'nullable',
+            'maestro_app' => 'nullable'
         ];
     }
 
@@ -32,18 +33,13 @@ class Persona extends Component
         'persona_name.unique' => 'Persona with same name already exists.',
     ];
 
-//    public function mount($name){
-//
-//        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
-//    }
-
     public function updateOrSave(){
 
         try {
 
             $this->validate();
 
-            HaiChatSetting::updatePersonaConfigurations($this->chat_bot_id, $this->persona_text, $this->persona_name, $this->human_op_app, $this->maestro_app);
+            ChatPrompt::createOrUpdatePersona($this->chat_bot_id,$this->persona_name,$this->human_op_app, $this->maestro_app);
 
             $this->emit('$refresh');
 
@@ -66,14 +62,14 @@ class Persona extends Component
 
         $this->emit('updateChatBotId', $value);
 
-        $setting = HaiChatSetting::getHaiChatSetting($value);
+        $persona = ChatPrompt::singlePersona($value);
 
-        if ($setting){
+        if ($persona){
 
-            $this->persona_text = $setting['persona_text'];
-            $this->persona_name = $setting['persona_name'];
-            $this->human_op_app = $setting['human_op_app'];
-            $this->maestro_app =  $setting['maestro_app'] . '-' . $setting['maestro_app_id'];
+            $this->persona_text = $persona['persona_text'];
+            $this->persona_name = $persona['persona_name'];
+            $this->human_op_app = $persona['human_op_app'];
+            $this->maestro_app =  $persona['maestro_app'] . '-' . $persona['maestro_app_id'];
 
         }
     }
@@ -82,7 +78,7 @@ class Persona extends Component
 
         $this->human_op_app = $human_app;
 
-        HaiChatSetting::where('human_op_app', $human_app)->update(['human_op_app' => 0]);
+        ChatPrompt::where('human_op_app', $human_app)->update(['human_op_app' => 0]);
     }
 
     public function updateChatBotMaestroApp($maestro_app){
@@ -91,14 +87,14 @@ class Persona extends Component
 
         if (isset($maestro_app_array[1])){
 
-            HaiChatSetting::where('maestro_app', $maestro_app_array[0])->where('maestro_app_id', $maestro_app_array[1])->update([
+            ChatPrompt::where('maestro_app', $maestro_app_array[0])->where('maestro_app_id', $maestro_app_array[1])->update([
                 'maestro_app' => 0,
                 'maestro_app_id' => null,
             ]);
 
         }else{
 
-            HaiChatSetting::where('maestro_app', $maestro_app_array[0])->update([
+            ChatPrompt::where('maestro_app', $maestro_app_array[0])->update([
                 'maestro_app' => 0,
                 'maestro_app_id' => null,
             ]);
@@ -110,16 +106,17 @@ class Persona extends Component
 
         $this->reset('persona_name', 'human_op_app');
 
-        $this->chat_bot_id = HaiChatSetting::whereId($id)->first()->chat_bot_id ?? null;
+        $this->chat_bot_id = ChatPrompt::whereId($id)->first()->chat_bot_id ?? null;
 
     }
 
     public function render()
     {
+        $persona = ChatPrompt::query();
 
-        $this->connected_human_apps = HaiChatSetting::pluck('human_op_app')->unique()->toArray();
+        $this->connected_human_apps = $persona->pluck('human_op_app')->unique()->toArray();
 
-        $this->connected_maestro_apps = HaiChatSetting::whereNot('maestro_app', 0)->get()->map(function ($value){
+        $this->connected_maestro_apps = $persona->whereNot('maestro_app', 0)->get()->map(function ($value){
 
             if ($value['maestro_app'] === 1){
 
@@ -133,12 +130,18 @@ class Persona extends Component
 
         if ($this->chat_bot_id && empty($this->human_op_app)){
 
-            $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
+            $personaSetting = ChatPrompt::singlePersona($this->chat_bot_id);
 
-//            $this->persona_text = $setting['persona_text'];
-            $this->persona_name = $setting['persona_name'];
-            $this->human_op_app = $setting['human_op_app'];
-            $this->maestro_app = $setting['maestro_app_id'] ? $setting['maestro_app'] . '-' . $setting['maestro_app_id'] : $setting['maestro_app'];
+            if ($personaSetting){
+
+                $this->persona_name = $personaSetting['persona_name'] ?? null;
+                $this->human_op_app = $personaSetting['human_op_app'] ?? null;
+                $this->maestro_app = $personaSetting['maestro_app_id'] ? $personaSetting['maestro_app'] . '-' . $personaSetting['maestro_app_id'] : $personaSetting['maestro_app'];
+
+            }else{
+
+                $this->reset('persona_name','human_op_app','maestro_app');
+            }
 
         }
 

@@ -13,17 +13,17 @@ use Livewire\Component;
 use GuzzleHttp\Client;
 class Prompt extends Component
 {
-    public $prompt,$restriction, $keyword = '', $keywords = [], $keyword_restriction_message, $chat_bot_id = null, $name,
+    public $prompt,$restriction, $keyword = '', $keywords = [], $keyword_restriction_message, $chat_bot_id = null,
         $is_training = 0;
 
     protected $rules = [
-        'name' => 'required',
+        'chat_bot_id' => 'required',
         'prompt' => 'required|max:5100',
         'restriction' => 'required|max:5100',
     ];
 
     protected $messages = [
-        'name.required' => 'Select chat-bot first',
+        'chat_bot_id.required' => 'Select chat-bot first',
         'prompt.required' => 'Prompt is required.',
         'restriction.required' => 'LLM Restriction is required.',
         'restriction.max' => 'LLM Restriction characters limit are 10000.',
@@ -32,49 +32,30 @@ class Prompt extends Component
 
     public $listeners = ['updateChatBotId','viewEditPersona'];
 
-//    public function mount($name){
-//
-//        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
-//
-//        $this->name = $name;
-//    }
-
     public function updateChatBotId($value){
 
         $this->chat_bot_id = $value;
 
         if ($this->chat_bot_id){
 
-            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name;
+            $persona = ChatPrompt::singlePersona($this->chat_bot_id);
 
-            if ($chatBotName){
+            if($persona){
 
-                $this->name = $chatBotName;
-
-                $detail = ChatPrompt::singlePromptByName($chatBotName);
-
-                $settings = HaiChatSetting::where('chat_bot_id',$this->chat_bot_id)->first();
-
-                if($detail){
-
-                    $this->prompt = $detail['prompt'];
-                    $this->restriction = $detail['restriction'];
-
-                    $this->is_training = $settings['is_training'] ?? false;
-
-                }
-
-                $this->keywords = ChatbotKeyword::chatbotKeywords($chatBotName);
+                $this->prompt = $persona['prompt'];
+                $this->restriction = $persona['restriction'];
+                $this->is_training = $persona['is_training'] ?? false;
 
             }
 
+            $this->keywords = ChatbotKeyword::chatBotKeywordsFromId($this->chat_bot_id);
         }
 
     }
 
     public function viewEditPersona($id = null){
 
-        $settings = HaiChatSetting::whereId($id)->first();
+        $settings = ChatPrompt::whereId($id)->select(['chat_bot_id','id','is_training'])->first();
 
         $this->chat_bot_id = $settings->chat_bot_id ?? null;
 
@@ -87,28 +68,9 @@ class Prompt extends Component
 
             $this->validate();
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+            ChatPrompt::createOrUpdatePersonaText($this->chat_bot_id, $this->prompt, $this->restriction, $this->is_training);
 
-            $body = ['vendor_name' => $this->name,'base_data' => $this->prompt,'restriction_data' => $this->restriction, 'loc' => $subFolder];
-
-            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'update-prompt', $body);
-
-//            $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/update-prompt', ['vendor_name' => $this->name,'base_data' => $this->prompt,'restriction_data' => $this->restriction, 'loc' => $subFolder]);
-
-          if($aiReply > 0) {
-
-              $prompt = ChatPrompt::createUpdatePrompt($this->name, $this->prompt, $this->restriction);
-
-              HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->update(['is_training' => $this->is_training]);
-
-              if ($prompt) {
-
-                  session()->flash('success', "Updated Successfully.");
-              }
-
-          }else{
-              session()->flash('error', "Something went wrong.");
-          }
+            session()->flash('success', "Updated Successfully.");
 
         }catch (ValidationException $exception){
 
@@ -121,31 +83,10 @@ class Prompt extends Component
 
         $this->emit('hideAlerts');
     }
-    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
-    {
-
-        $authorization = Request::header('Authorization');
-
-        $queryArray = [
-            'headers' => ['Authorization' => $authorization],
-            'json' => $body
-        ];
-
-        $client = new Client(['http_errors' => false, 'timeout' => 180]);
-
-        $route = $route_name;
-
-        $response = $client->request($method, $route, $queryArray);
-
-        $response_body = json_decode($response->getBody()->getContents(), true);
-
-        return $response_body;
-    }
 
     public function removeKeyword($id){
 
         ChatbotKeyword::removeChatbotKeyword($id);
-
     }
 
     public function createKeyword(){
@@ -156,19 +97,19 @@ class Prompt extends Component
                 [
                     'keyword_restriction_message' => 'required|max:180',
                     'keyword' => 'required|max:180',
-                    'name' => 'required'
+                    'chat_bot_id' => 'required'
                 ],
                 [
                     'keyword_restriction_message.required' => 'Keyword restriction message is required.',
                     'keyword_restriction_message.max' => 'Keyword restriction message character limit is 180.',
                     'keyword.required' => 'Keyword is required.',
                     'keyword.max' => 'Keyword character limit is 180.',
-                    'name.required' => 'Select chat-bot first',
+                    'chat_bot_id.required' => 'Select chat-bot first',
                 ]);
 
             if ($this->keyword){
 
-                ChatbotKeyword::createChatbotKeyword($this->keyword,$this->name, $this->keyword_restriction_message);
+                ChatbotKeyword::createChatBotKeywordFromId($this->chat_bot_id, $this->keyword, $this->keyword_restriction_message);
             }
 
             $this->keyword_restriction_message = "";
@@ -190,67 +131,24 @@ class Prompt extends Component
 
     }
 
-    public function updateKeywordRestrictionMessage(){
-
-        try {
-
-            $this->validate(
-                ['keyword_restriction_message' => 'required|max:180','name' => 'required'],
-                [
-                    'keyword_restriction_message.required' => 'Keyword restriction message is required.',
-                    'keyword_restriction_message.max' => 'Keyword restriction message character limit is 180.',
-                    'name.required' => 'Select chat-bot first',
-                ]);
-
-            ChatPrompt::createUpdatePrompt($this->name,$this->prompt, $this->restriction, $this->keyword_restriction_message);
-
-            session()->flash('keyword_restriction_success', 'Keyword restriction message updated');
-
-            $this->emit('hideAlerts');
-
-        }catch (ValidationException $exception){
-
-            session()->flash('keyword_restriction_errors', $exception->validator->errors()->getMessages());
-
-            $this->emit('hideAlerts');
-        }
-        catch (\Exception $exception){
-
-            session()->flash('keyword_restriction_error', $exception->getMessage());
-
-            $this->emit('hideAlerts');
-        }
-
-    }
-
     public function render()
     {
 
         if ($this->chat_bot_id){
 
-            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name ?? null;
+            $persona = ChatPrompt::singlePersona($this->chat_bot_id);
 
-            if ($chatBotName){
+            if($persona){
 
-                $this->name = $chatBotName;
+                $this->prompt = $persona['prompt'];
 
-                $detail = ChatPrompt::singlePromptByName($chatBotName);
+                $this->restriction = $persona['restriction'];
 
-                $settings = HaiChatSetting::where('chat_bot_id',$this->chat_bot_id)->first();
-
-                if($detail){
-
-                    $this->prompt = $detail['prompt'];
-
-                    $this->restriction = $detail['restriction'];
-
-                    $this->is_training = $settings['is_training'] ?? false;
-
-                }
-
-                $this->keywords = ChatbotKeyword::chatbotKeywords($chatBotName);
+                $this->is_training = $persona['is_training'] ?? false;
 
             }
+
+            $this->keywords = ChatbotKeyword::chatBotKeywordsFromId($this->chat_bot_id);
 
         }else{
 

@@ -16,6 +16,14 @@ class ChatPrompt extends Model
         parent::__construct($attributes);
     }
 
+    // realtions
+    public function chatbot(){
+
+        return $this->belongsTo(Chatbot::class,'chat_bot_id','id');
+    }
+
+
+    // query
      public static function createUpdatePrompt($name = null, $prompt = null,$restriction = null, $keyword_restriction_message = null)
      {
         $existingPrompt =  self::singlePromptByName($name);
@@ -52,4 +60,76 @@ class ChatPrompt extends Model
         }
 
      }
+
+    public static function duplicatingNewChatBot($chat_bot_id, $new_chat_bot_id){
+
+        $chatbot = self::whereId($chat_bot_id)->first();
+
+        if ($chatbot){
+
+            $duplicateChatBot = $chatbot->replicate();
+            $duplicateChatBot->name = $new_chat_bot_id;
+            $duplicateChatBot->save();
+
+        }
+
+    }
+
+    public static function createOrUpdatePersona($chat_bot_id, $personaName, $human_op_app, $maestro_app){
+
+        $maestro_app_array = explode('-', $maestro_app);
+
+        $persona = self::where('chat_bot_id', $chat_bot_id)->first();
+
+        if ($persona){
+
+            $persona->update([
+                'human_op_app' => $human_op_app,
+                'persona_name' => $personaName,
+                'maestro_app' => !empty($maestro_app_array[0]) ? (int)$maestro_app_array[0] : (int)$maestro_app,
+                'maestro_app_id' => isset($maestro_app_array[1]) ? (int)$maestro_app_array[1] : null,
+            ]);
+
+        }else{
+
+            self::create([
+                'chat_bot_id' => $chat_bot_id,
+                'human_op_app' => $human_op_app,
+                'persona_name' => $personaName,
+                'maestro_app' => !empty($maestro_app_array[0]) ? (int)$maestro_app_array[0] : (int)$maestro_app,
+                'maestro_app_id' => isset($maestro_app_array[1]) ? (int)$maestro_app_array[1] : null,
+            ]);
+        }
+
+    }
+
+    public static function singlePersona($chat_bot_id){
+
+        return self::where('chat_bot_id', $chat_bot_id)->first();
+
+    }
+
+    public static function createOrUpdatePersonaText($chat_bot_id, $prompt, $restriction, $is_training){
+
+        $persona = self::where('chat_bot_id', $chat_bot_id)->first();
+
+        if ($persona){
+
+            $persona->update([
+                'prompt' => $prompt,
+                'restriction' => $restriction,
+                'is_training' => $is_training
+            ]);
+
+        }else{
+
+            self::create([
+                'chat_bot_id' => $chat_bot_id,
+                'prompt' => $prompt,
+                'restriction' => $restriction,
+                'is_training' => $is_training
+            ]);
+        }
+
+    }
 }

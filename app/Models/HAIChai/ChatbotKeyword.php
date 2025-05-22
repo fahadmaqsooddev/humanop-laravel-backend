@@ -90,4 +90,51 @@ class ChatbotKeyword extends Model
 
         return false;
     }
+
+    public static function chatBotKeywordsFromId($chat_bot_id){
+
+        return self::where('chatbot_id', $chat_bot_id)->get();
+    }
+
+    public static function createChatBotKeywordFromId($chat_bot_id, $word, $message){
+
+        self::create([
+            'word' => $word,
+            'chatbot_id' => $chat_bot_id,
+            'message' => $message,
+        ]);
+
+    }
+
+    public static function checkChatBotKeywordsFromId($chat_bot_id, $query){
+
+        $keywords = self::where('chatbot_id', $chat_bot_id)->get();
+
+        foreach ($keywords as $keyword){
+
+            if (stripos($query, $keyword['word']) !== false){
+
+                return $keyword['message'];
+
+            }
+
+        }
+
+        return false;
+    }
+
+    public static function checkPublishedChatBotKeywords($keywords, $question){
+
+        foreach ($keywords as $keyword){
+
+            if (stripos($question, $keyword['word']) !== false){
+
+                return $keyword['message'];
+
+            }
+
+        }
+
+        return false;
+    }
 }

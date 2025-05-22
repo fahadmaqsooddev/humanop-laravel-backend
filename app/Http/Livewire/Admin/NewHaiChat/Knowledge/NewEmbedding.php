@@ -132,7 +132,7 @@ class NewEmbedding extends Component
                     ]
                 ];
 
-                $response = $this->sendCreateRequestFromGuzzle('post', 'http://3.87.21.19:8000/knowledge/upload/', [
+                $response = $this->sendCreateRequestFromGuzzle('post', 'http://18.206.155.155:8000/knowledge/upload/', [
                     'multipart' => $multipart
                 ]);
 

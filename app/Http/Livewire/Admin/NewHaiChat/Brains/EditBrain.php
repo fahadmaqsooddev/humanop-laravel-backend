@@ -9,6 +9,7 @@ use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
 use App\Models\HAIChai\LlmModel;
+use App\Models\HAIChai\PublishedChatBot;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -17,7 +18,7 @@ use function Symfony\Component\String\s;
 class EditBrain extends Component
 {
 
-    public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks, $brain_name, $is_published = 0;
+    public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks, $is_published = 0;
 
     public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [],
         $selectedClusters = [], $selectClustersForRemoval = [];
@@ -25,7 +26,7 @@ class EditBrain extends Component
     public function rules(){
 
         return [
-            'brain_name' => 'required|max:50|unique:chatbot,brain_name,'. $this->chat_bot_id .',id,deleted_at,NULL',
+            'name' => 'required|max:50|unique:chatbot,name,'. $this->chat_bot_id .',id,deleted_at,NULL',
             'description' => 'required|max:1000',
             'temperature' => 'required',
             'max_tokens' => 'required',
@@ -49,8 +50,8 @@ class EditBrain extends Component
     protected function getMessages()
     {
         return [
-            'brain_name.required' => 'Brain name is required.',
-            'brain_name.unique' => 'Brain name already exists. Try another one.',
+            'name.required' => 'Brain name is required.',
+            'name.unique' => 'Brain name already exists. Try another one.',
         ];
     }
 
@@ -89,17 +90,11 @@ class EditBrain extends Component
 
     public function updateBrain(){
 
-        DB::beginTransaction();
-
         try {
 
             $this->validate();
 
-            Chatbot::updateChatBot($this->chat_bot_id, $this->description, $this->brain_name);
-
-            HaiChatSetting::updateHaiChatSetting($this->temperature, $this->max_tokens, $this->chunks, $this->llm_model_id,$this->chat_bot_id);
-
-            DB::commit();
+            Chatbot::updateNewChatBot($this->chat_bot_id, $this->name, $this->description, $this->max_tokens, $this->temperature, $this->chunks, $this->llm_model_id);
 
             session()->flash('success','Brain updated');
 
@@ -107,13 +102,9 @@ class EditBrain extends Component
 
         }catch (ValidationException $exception){
 
-            DB::rollBack();
-
             session()->flash('errors', $exception->validator->errors()->getMessages());
 
         }catch (\Exception $exception){
-
-            DB::rollBack();
 
             session()->flash('error', $exception->getMessage());
         }
@@ -128,18 +119,11 @@ class EditBrain extends Component
 
             $this->name = $chatBotDetail['name'];
             $this->description = $chatBotDetail['description'];
-            $this->brain_name = $chatBotDetail['brain_name'];
-            $this->is_published = $chatBotDetail['is_published'];
-
-            $settings = HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->first();
-
-            if ($settings){
-                $this->temperature = $settings['temperature'];
-                $this->max_tokens = $settings['max_token'];
-                $this->chunks = $settings['chunk'];
-                $this->llm_model_id = $settings['model_type'];
-
-            }
+            $this->is_published = $chatBotDetail['is_connected'];
+            $this->temperature = $chatBotDetail['temperature'];
+            $this->max_tokens = $chatBotDetail['max_tokens'];
+            $this->chunks = $chatBotDetail['chunks'];
+            $this->llm_model_id = $chatBotDetail['model_type'];
 
         }
 
@@ -156,12 +140,7 @@ class EditBrain extends Component
 
     public function addAllClustersToActiveClusters(){
 
-//        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
-
         BrainCluster::addClustersWithBrain($this->selectedClusters, $this->chat_bot_id);
-
-//        $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
-
     }
 
     public function selectClusterForRemove($group_id){
@@ -170,25 +149,11 @@ class EditBrain extends Component
 
             array_push($this->selectClustersForRemoval, $group_id);
         }
-
     }
 
     public function removeAllSelectedClusters(){
 
         BrainCluster::removeClustersFromBrain($this->selectClustersForRemoval, $this->chat_bot_id);
-
-//        GroupEmbedding::removeAllGroupEmbeddings($this->selectClustersForRemoval, $this->name);
-
-//        foreach ($this->selectClustersForRemoval as $group_id){
-//
-//            $search = array_search($group_id, $this->activeGroupIds);
-//
-//            if ($search >= 0){
-//
-//                unset($this->activeGroupIds[$search]);
-//            }
-//
-//        }
 
         $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
 
@@ -196,40 +161,39 @@ class EditBrain extends Component
 
     public function publishChatBot(){
 
-        $active_embedding_ids = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
+        $active_embedding_ids = BrainCluster::connectedNewClusterEmbeddingIds($this->chat_bot_id);
 
-        $settings = HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->first();
+        $chat_bot = Chatbot::whereId($this->chat_bot_id)
 
-        if ($settings){
+            ->with(['persona','restrictedKeywords:chatbot_id,word,message'])
 
-            $model_value = LlmModel::singleModelFromValue($settings['model_type']);
+            ->first();
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+        if ($chat_bot){
 
-            $body = [
-                'temperature' => $settings['temperature'],
-                'max_tokens' => $settings['max_token'],
-                'file_name' => $active_embedding_ids['file_name'],
-                'prompt_folder' => $this->name,
-                'total_chunks' => $settings['chunk'],
-                'gpt_model' => $model_value['model_value'] ?? null,
-                'loc' => $subFolder
+            $data = [
+                'temperature' => $chat_bot['temperature'],
+                'max_tokens' => $chat_bot['max_tokens'],
+                'embedding_ids' => $active_embedding_ids,
+                'name' => $chat_bot['name'],
+                'chunks' => $chat_bot['chunks'],
+                'model_type' => $chat_bot['model_type'],
+                'description' => $chat_bot['description'],
+                'prompt' => $chat_bot->persona?->prompt,
+                'restriction' => $chat_bot->persona?->restriction,
+                'persona_name' => $chat_bot->persona?->persona_name,
+                'chat_bot_id' => $chat_bot['id'],
+                'restricted_keywords' => $chat_bot['restrictedKeywords']->toArray(),
+                'is_connected' => 1,
             ];
 
-            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'save-llm-params', $body);
+            PublishedChatBot::addPublishedChatBot($data);
 
-            if (isset($aiReply['s3_path'])){
+            $chat_bot->update(['is_connected' => 1]);
 
-                Chatbot::where('is_published', 1)->update(['is_published' => 0]);
+            Chatbot::whereNot('id', $chat_bot->id)->update(['is_connected' => 0]);
 
-                Chatbot::where('name', $this->name)->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
-
-                session()->flash('success', 'Chatbot published');
-
-            }else{
-
-                session()->flash('error', 'Something went wrong.');
-            }
+            session()->flash('success', 'Chatbot published');
 
         }
 
@@ -239,8 +203,6 @@ class EditBrain extends Component
     {
 
         BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
-
-        $this->llmModels = LlmModel::all();
 
         if ($this->searching){
 
@@ -253,6 +215,8 @@ class EditBrain extends Component
             $this->groups = EmbeddingGroup::nonActiveGroups($this->chat_bot_id);
 
             $this->connectedGroups = EmbeddingGroup::activeGroups($this->chat_bot_id);
+
+            $this->llmModels = LlmModel::all();
         }
 
         return view('livewire.admin.new-hai-chat.brains.edit-brain');

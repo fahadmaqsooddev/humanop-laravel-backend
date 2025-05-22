@@ -1319,6 +1319,7 @@ class User extends Authenticatable implements JWTSubject
         $users = self::whereHas('assessments', function ($query) {
 
             $query->where('page', 0)
+
                 ->orderBy('updated_at', 'desc');
 
         })->select(['id', 'first_name', 'last_name'])->orderBy('first_name')->get();

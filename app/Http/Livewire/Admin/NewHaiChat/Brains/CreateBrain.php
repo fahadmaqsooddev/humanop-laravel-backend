@@ -99,19 +99,13 @@ class CreateBrain extends Component
 
             $this->validate();
 
-            $chatBot = Chatbot::createChatBot(null, $this->description, $this->name);
+            $chatBot = Chatbot::createNewChatBot( $this->name, $this->description, $this->max_tokens, $this->temperature, $this->chunks,$this->llm_model_id);
 
             LearningClusterHelpers::addContentToLearningCluster($this->name);
 
             if (count($this->activeGroupIds) > 0){
 
                 BrainCluster::addClustersWithBrain($this->activeGroupIds, $chatBot['id']);
-
-            }
-
-            if ($chatBot){
-
-                HaiChatSetting::updateHaiChatSetting($this->temperature, $this->max_tokens, $this->chunks, $this->llm_model_id,$chatBot->id);
 
             }
 

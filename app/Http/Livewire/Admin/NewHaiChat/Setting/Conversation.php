@@ -30,21 +30,21 @@ use Livewire\Component;
 class Conversation extends Component
 {
 
-    public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0,
+    public $message, $name, $conversations, $user_details, $user_id, $is_restricted_word = false, $disliked = 0,
 
-        $editConversation = null, $updated_reply = null, $convo_id;
+        $editConversation = null, $updated_reply = null, $convo_id, $chat_bot_id;
 
     protected $listeners = ['updateUserId','updateChatBotId','viewEditPersona'];
 
     protected $rules = [
         'message' => 'required|max:2000',
-        'name' => 'required',
+        'chat_bot_id' => 'required',
     ];
 
     protected $messages = [
         'message.required' => 'The Message field is required.',
         'message.max' => 'Query does not contain more than 2000 characters',
-        'name.required' => 'Select chat-bot first',
+        'chat_bot_id.required' => 'Select chat-bot first',
     ];
 
     public function updateChatBotId($value){
@@ -53,19 +53,11 @@ class Conversation extends Component
 
         if ($this->chat_bot_id){
 
-            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name;
+            $this->user_details = User::getUserDetailByIds();
 
-            if ($chatBotName){
+            $this->is_restricted_word ? '' : $this->getChatBotConversation();
 
-                $this->name = $chatBotName;
-
-                $this->user_details = User::getUserDetailByIds();
-
-                $this->is_restricted_word ? '' : $this->getChatBotConversation();
-
-                $this->emit('scrollToBottom');
-
-            }
+            $this->emit('scrollToBottom');
 
         }
 
@@ -73,11 +65,11 @@ class Conversation extends Component
 
     public function viewEditPersona($id = null){
 
-        $chat_bot_id = HaiChatSetting::whereId($id)->first()->chat_bot_id ?? null;
+        $this->chat_bot_id = ChatPrompt::whereId($id)->first()->chat_bot_id ?? null;
 
-        if ($chat_bot_id) {
+        if ($this->chat_bot_id) {
 
-            $this->name = Chatbot::whereId($chat_bot_id)->first()?->name;
+            $this->name = Chatbot::whereId($this->chat_bot_id)->first()?->name;
 
         }else{
 
@@ -91,15 +83,15 @@ class Conversation extends Component
 
             $this->validate();
 
-            $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
+            $chat_bot_id = $this->chat_bot_id;
 
-            $prompts = ChatPrompt::where('name',$this->name)->first();
+            $prompts = ChatPrompt::where('chat_bot_id',$chat_bot_id)->first();
 
-            $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
+            $setting = Chatbot::whereId($chat_bot_id)->first();
 
             $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($chat_bot_id);
 
-            $this->is_restricted_word = ChatbotKeyword::checkChatBotKeywords($this->name, $this->message);
+            $this->is_restricted_word = ChatbotKeyword::checkChatBotKeywordsFromId($this->chat_bot_id, $this->message);
 
             if (!$this->is_restricted_word){
 
@@ -184,14 +176,27 @@ class Conversation extends Component
 
                 }else{
 
-                    $body = ['user_query' => $this->message,'user_detail' => $result ?? [] ,'base_data' => ($prompts['prompt'] ?? null), 'restriction_data' => ($prompts['restriction'] ?? null), 'formatted_docs' => $activeChatAndEmbedding,
-                        'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'chunks' => $setting['chunk'], 'user_id' => $this->user_id,'user_trait' => $userTrait ?? []];
+                    if ($this->user_id){
 
-                    $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/api/chat', $body);
+                        $body = ['user_query' => $this->message,'user_detail' => $result ?? [] ,'base_data' => ($prompts['prompt'] ?? null), 'restriction_data' => ($prompts['restriction'] ?? null), 'formatted_docs' => $activeChatAndEmbedding,
+                            'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_tokens'], 'chunks' => $setting['chunks'], 'user_id' => $this->user_id,'user_trait' => $userTrait ?? [], 'flag' => $this->disliked];
+
+                        $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/api/chat', $body);
+
+                    }else{
+
+                        $body = ['query' => $this->message,'base_data' => ($prompts['prompt'] ?? null), 'restriction_data' => ($prompts['restriction'] ?? null), 'formatted_docs' => $activeChatAndEmbedding,
+                            'brain_id' => $this->chat_bot_id,'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_tokens'], 'chunks' => $setting['chunks'], 'flag' => $this->disliked];
+
+                        $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/admin/chat', $body);
+
+                    }
+
+                    dd($response);
 
                     if (isset($response['response'])){
 
-                        HaiChatConversation::createConversation($this->name, $this->message,$response['response'], $this->user_id);
+                        HaiChatConversation::createNewConversation($this->chat_bot_id, $this->message,$response['response'], $this->user_id);
 
                     }else{
 
@@ -236,7 +241,7 @@ class Conversation extends Component
 
     public function getChatBotConversation()
     {
-        $this->conversations = HaiChatConversation::getConversation($this->name, $this->user_id);
+        $this->conversations = HaiChatConversation::getConversationFromId($this->chat_bot_id, $this->user_id);
     }
 
     public function updateUserId($id){
@@ -269,7 +274,12 @@ class Conversation extends Component
 
             LearningClusterHelpers::updateLearningCluster($this->name, $body['question'],$body['answer'],'Like');
 
-            GuzzleHelpers::sendRequestFromGuzzle('post', 'qa_bucket', $body);
+            $body = [
+                'query' => $conversation->message ?? null,
+                'response' => strip_tags($conversation->reply ?? null),
+            ];
+
+            GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/like', $body);
 
         }
 
@@ -313,8 +323,8 @@ class Conversation extends Component
 
     public function updateHaiReply(){
 
-//        $this->validate(['updated_reply' => 'required|max:100000'],
-//            ['updated_reply.required' => 'Reply is required']);
+        $this->validate(['updated_reply' => 'required|max:100000'],
+            ['updated_reply.required' => 'Reply is required']);
 
         $conversation = HaiChatConversation::whereId($this->convo_id)->first();
 

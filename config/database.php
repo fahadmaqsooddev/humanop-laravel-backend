@@ -416,14 +416,14 @@ return [
             'hidden' => ['created_at','updated_at'],
         ],
         'Chatbot' => [
-            'table' => 'chatbot',
-            'fillable' => ['name','description','publish_path','is_published','brain_name'],
-            'hidden' => ['created_at','updated_at'],
+            'table' => 'chat_bots', //chatbot
+            'fillable' => ['name','description','temperature','max_tokens','chunks','model_type','is_connected'], //'name','description','publish_path','is_published','brain_name'
+            'hidden' => ['created_at','updated_at','deleted_at'], //'created_at','updated_at'
         ],
         'ChatPrompt' => [
-            'table' => 'hai_chat_prompts',
-            'fillable' => ['name','prompt','restriction'],
-            'hidden' => ['created_at','updated_at'],
+            'table' => 'hai_chat_prompts', //hai_chat_prompts
+            'fillable' => ['name','prompt','restriction','chat_bot_id','persona_name','human_op_app','maestro_app','is_training','maestro_app_id'], // 'name','prompt','restriction'
+            'hidden' => ['created_at','updated_at'], //'created_at','updated_at'
         ],
         'HaiChatEmbedding' => [
             'table' => 'hai_chat_embeddings',
@@ -442,7 +442,7 @@ return [
         ],
         'HaiChatConversation' => [
             'table' => 'hai_chat_conversation',
-            'fillable' => ['id','chatbot','message','reply','user_id','is_liked'],
+            'fillable' => ['id','message','reply','user_id','is_liked','chat_bot_id'], //'id','chatbot','message','reply','user_id','is_liked'
             'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingSetting' => [
@@ -594,5 +594,10 @@ return [
             'fillable' => ['name','code','public_name','number','type','text','video','p_name'],
             'hidden' => ['created_at', 'updated_at']
         ],
+        'PublishedChatBot' => [
+            'table' => 'published_chat_bot',
+            'fillable' => ['name','description','max_tokens','temperature','chunks','model_type','persona_name','prompt','restriction','embedding_ids','restricted_keywords','chat_bot_id','is_connected'],
+            'hidden' => ['updated_at','created_at'],
+        ]
     ]
 ];

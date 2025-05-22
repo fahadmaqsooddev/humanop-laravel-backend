@@ -83,11 +83,12 @@ class QueryAnswer extends Model
 
         FineTuneContent::addLisaApprovedQuestionAnswers($body);
 
-        $app_env = env('APP_ENV');
+        $body = [
+            'query' => $answer['question']['query'] ?? null,
+            'response' => strip_tags($answer->answer ?? null),
+        ];
 
-        $url = $app_env === 'staging' ? 'http://54.227.7.149:8000/qa_bucket' : 'http://54.227.7.149:8000/qa_bucket';
-
-        GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+        GuzzleHelpers::sendRequestFromGuzzle('post', "persona/like", $body);
 
     }
 }

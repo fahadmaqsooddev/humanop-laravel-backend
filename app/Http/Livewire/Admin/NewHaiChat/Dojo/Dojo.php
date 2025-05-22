@@ -13,30 +13,32 @@ use Livewire\Component;
 class Dojo extends Component
 {
 
-    public $training_session_name, $session_id, $message, $persona_id, $brainName;
+    public $training_session_name, $session_id, $message, $persona_id, $chat_bot_id;
 
     public $allSessions = [], $conversations = [], $personas = [];
 
     protected $rules = [
         'message' => 'required',
         'session_id' => 'required',
+        'persona_id' => 'required',
     ];
 
     protected $messages = [
-        'message' => 'Message is required',
-        'session_id' => 'Select or Create new session'
+        'message.required' => 'Message is required',
+        'session_id.required' => 'Select or Create new session',
+        'persona_id.required' => 'Select persona for training.'
     ];
 
     public function updatedPersonaId($value){
 
-        $this->brainName = Chatbot::whereId($value)->first()->name ?? null;
+        $this->chat_bot_id = $value;
     }
 
     public function render()
     {
         $this->allSessions();
 
-        $this->personas = HaiChatSetting::where('is_training', 1)->select(['chat_bot_id','persona_name'])->get();
+        $this->personas = ChatPrompt::where('is_training', 1)->select(['chat_bot_id','persona_name'])->get();
 
         if ($this->session_id){
 
@@ -109,7 +111,7 @@ class Dojo extends Component
 
             $this->validate();
 
-            $settings = ChatPrompt::where('name', $this->brainName)->first();
+            $settings = ChatPrompt::where('chat_bot_id', $this->chat_bot_id)->first();
 
             $body = ['content' => $this->message, 'base_data' => ($settings['prompt'] ?? null), 'restriction_data' => ($settings['restriction'] ?? null)];
 

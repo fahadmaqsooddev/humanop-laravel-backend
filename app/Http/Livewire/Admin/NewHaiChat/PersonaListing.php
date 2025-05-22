@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\NewHaiChat;
 
+use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatSetting;
 use Livewire\Component;
 
@@ -23,7 +24,7 @@ class PersonaListing extends Component
     public function render()
     {
 
-        $this->personas = HaiChatSetting::has('chatbot')->whereNotNull('persona_name')->with('chatbot')->get();
+        $this->personas = ChatPrompt::has('chatbot')->whereNotNull('persona_name')->with('chatbot')->get();
 
         return view('livewire.admin.new-hai-chat.persona-listing');
     }
@@ -44,7 +45,7 @@ class PersonaListing extends Component
 
     public function deletePersona($id){
 
-        HaiChatSetting::whereId($id)->update([
+        ChatPrompt::whereId($id)->update([
             'maestro_app' => 0,
             'maestro_app_id' => null,
             'persona_name' => null,

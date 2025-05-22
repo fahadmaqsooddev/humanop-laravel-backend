@@ -2,6 +2,7 @@
 
 namespace App\Models\Client\Point;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -9,6 +10,9 @@ use Carbon\Carbon;
 class PointLog extends Model
 {
     use HasFactory;
+
+    // Types enum
+    const HAI_CREDIT = 3;
 
     public function __construct(array $attributes = [])
     {
@@ -37,5 +41,20 @@ class PointLog extends Model
     public static function checkLastLoginReward($userId = null, $days = null, $plan = null)
     {
         return self::where('user_id', $userId)->where('type', 1)->where('created_at', '>=', Carbon::now()->subDays($days))->where('plan', $plan)->orderBy('created_at', 'asc')->count();
+    }
+
+    public static function updateHaiCreditLogs($per_credit_token, $current_tokens, $used_token){
+
+        $remaining_tokens = $current_tokens - $used_token;
+
+        self::create([
+            'user_id' => Helpers::getUser()->id,
+            'point' => $used_token/$per_credit_token,
+            'plan' => Helpers::getUser()->plan_name,
+            'type' => self::HAI_CREDIT,
+        ]);
+
+        Point::where('user_id', Helpers::getUser()->id)->update(['point' => ($remaining_tokens/$per_credit_token)]);
+
     }
 }

@@ -65,7 +65,7 @@
         @foreach($chats as $chat)
 
             <div class="mt-1 col-12" style="padding-right: 20px;">
-                <div class="card card-body " style="border: 3px solid {{$chat->chat_bot_color}}; background-color: {{$chat->chat_bot_color}}">
+                <div class="card card-body " style="border: 3px solid #F3DEBA; background-color: #F3DEBA">
 
                     <div class="d-flex justify-content-between w-100">
                         <a href="{{route('admin_edit_brain', $chat['id'])}}" class="w-60">
@@ -87,19 +87,19 @@
                         </a>
                         <div>
                             <div class="d-flex justify-content-between">
-                                @if($chat['is_published'] == 1)
+                                @if($chat['is_connected'] == 1)
                                     <div class="py-2 px-2">
                                         <a href="javascript:void(0)" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected</a>
                                     </div>
                                 @endif
-                                @if($chat['setting'] && $chat['setting']['maestro_app'] != 0)
+                                @if($chat['persona'] && $chat['persona']['maestro_app'] != 0)
                                     <div class="py-2 px-2">
                                         <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to B2B</a>
                                     </div>
                                 @endif
                                 <div class="py-2">
-                                    @if($chat['setting']['persona_name'] ?? false)
-                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{ strlen($chat['setting']['persona_name']) > 20 ? substr($chat['setting']['persona_name'], 0, 20) . "..." : $chat['setting']['persona_name']}}</a>
+                                    @if($chat['persona']['persona_name'] ?? false)
+                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{ strlen($chat['persona']['persona_name']) > 20 ? substr($chat['persona']['persona_name'], 0, 20) . "..." : $chat['persona']['persona_name']}}</a>
                                     @else
                                         <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
                                     @endif
@@ -107,8 +107,6 @@
 
                             </div>
                             <div class="d-flex justify-content-end py-4">
-                                {{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
-                                {{--                                than a minute</p>--}}
                                 <div class="d-flex gap-2">
                                     <button class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button navButtonResponsive"
                                             data-bs-toggle="modal" data-bs-target="#copyChatBot"
@@ -122,52 +120,6 @@
                         </div>
                     </div>
 
-{{--                    <div class="d-flex flex-column gap-3 chat-card">--}}
-{{--                        <div class="d-flex justify-content-between">--}}
-{{--                            <a href="{{route('admin_edit_brain', $chat['id'])}}">--}}
-{{--                                <h5 style="color: #f2661c" class="text-decoration-none"><i--}}
-{{--                                        class="bi bi-robot"></i> {{ $chat['name'] }}--}}
-{{--                                </h5>--}}
-{{--                            </a>--}}
-
-{{--                            <div>--}}
-
-{{--                                @if($chat['setting']['persona_name'] ?? false)--}}
-{{--                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>--}}
-{{--                                @else--}}
-{{--                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>--}}
-{{--                                @endif--}}
-
-{{--                                @if($chat['is_published'] === 1)--}}
-{{--                                    <a style="border: 2px solid #f2661c; color: white; background-color: #f2661c;border-radius: 10px; padding: 7px;">Published</a>--}}
-{{--                                @else--}}
-{{--                                    <a wire:click="publishChatBot({{$chat->id}})" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;cursor: pointer;">Publish</a>--}}
-{{--                                @endif--}}
-
-{{--                            </div>--}}
-
-{{--                        </div>--}}
-{{--                        @if(strlen($chat['description']) > 50)--}}
-
-{{--                            <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>--}}
-
-{{--                        @else--}}
-{{--                            <p class="card-text " style="color: black">{{ $chat['description'] }}</p>--}}
-{{--                        @endif--}}
-{{--                        <div class="d-flex justify-content-end">--}}
-{{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
-{{--                                than a minute</p>--}}
-{{--                            <div class="d-flex gap-2">--}}
-{{--                                <button class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button navButtonResponsive"--}}
-{{--                                        data-bs-toggle="modal" data-bs-target="#copyChatBot"--}}
-{{--                                wire:click="copyChatBot({{$chat->id}})">--}}
-{{--                                    <i class="fa-solid fa-copy"></i></button>--}}
-{{--                                <button  onclick="deleteChatBot({{ $chat['id'] }})"--}}
-{{--                                        class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">--}}
-{{--                                    <i class="fa-solid fa-trash"></i></button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
                 </div>
             </div>
         @endforeach

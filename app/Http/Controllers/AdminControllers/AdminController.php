@@ -593,7 +593,7 @@ class AdminController extends Controller
 
         try {
 
-            return view('admin-dashboards.hai-chat.new-brains.edit-brain', compact('id'));
+            return view('admin-dashboards.new-hai-chat.brains.edit-brain', compact('id'));
 
         } catch (\Exception $exception) {
 
