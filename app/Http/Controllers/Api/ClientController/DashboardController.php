@@ -161,7 +161,7 @@ class DashboardController extends Controller
 
             if (!$daily_tip_updated) {
 
-                $point = PointHelper::addPointsOnDailyTipRead();
+//                $point = PointHelper::addPointsOnDailyTipRead();
             }
 
             DB::commit();
