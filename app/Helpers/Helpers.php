@@ -7,6 +7,7 @@ use App\Models\Admin\Notification\Notification;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
 use App\Models\Client\Plan\Plan;
+use App\Models\Client\Point\Point;
 use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -369,7 +370,7 @@ class Helpers
 
             $timezone = explode(' ', $timezone_string);
 
-            $standard_time = isset($timezone[1]) ? $timezone[1] : "+00:00";
+            $standard_time = isset($timezone[2]) ? $timezone[2] : "+00:00";
 
             $exploded_value = explode(':', $standard_time);
 
@@ -601,6 +602,52 @@ class Helpers
 
             return false;
 
+        }
+
+    }
+
+    public static function checkAndAddBonusCredits($user = null)
+    {
+
+
+        $minutes = self::explodeTimezoneWithHours($user['timezone']);
+
+        $currentTime = Carbon::now()->addMinutes($minutes * 60);
+
+        $credits_log = $user['credits_log'] + 1;
+
+        // Check if at least 1 full day has passed since last login
+        if ($currentTime->diffInDays($user['last_login']) == 1) {
+
+            $user->update(['credits_log' => $credits_log, "last_login" => $currentTime]);
+
+        }
+        elseif ($currentTime->diffInDays($user['last_login']) > 1) {
+
+            $user->update(['credits_log' => 1, "last_login" => $currentTime]);
+
+        }else
+        {
+            if ($user['credits_log'] == 5) {
+
+                $user->update(['credits_log' => 0, "last_login" => $currentTime]);
+
+                $point = match ($user['plan_name']) {
+                    'Freemium' => 1,
+                    'Core' => 2,
+                    default => 3,
+                };
+
+
+                Point::updatePoint($user['id'], $point);
+
+                $message = 'THEY GOT ONE ' . $point . ' BONUS CREDIT.';
+
+                Helpers::OneSignalApiUsed($user['id'], 'Credit Bonus', $message);
+
+                Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION);
+
+            }
         }
 
     }

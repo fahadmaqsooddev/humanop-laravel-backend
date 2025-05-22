@@ -20,6 +20,7 @@ use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Client\Point\Point;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionOption;
@@ -314,6 +315,16 @@ class AuthController extends Controller
                 } else {
 
                     $token = $this->auth->login($getUser);
+
+                    $createCredits = ['user_id' => $getUser['id'], 'point' => Admin::FREEMIUM_CREDITS];
+
+                    Point::storePoint($createCredits);
+
+                    $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
+
+                    $signupTime = $getUser['created_at']->addMinutes($userTimezone * 60);
+
+                    $getUser->update(['last_login' => $signupTime->format('Y-m-d H:i:s')]);
 
                     $data = [
                         'user' => $getUser,
@@ -614,9 +625,8 @@ class AuthController extends Controller
 
                     $token = $this->auth->attempt($credentials);
 
-                    $getUser = User::getSingleUser($checkUser['id']);
+                    Helpers::checkAndAddBonusCredits($checkUser);
 
-                    $getUser->update(['last_login' => Carbon::now()]);
                 }
 
                 if ($token) {

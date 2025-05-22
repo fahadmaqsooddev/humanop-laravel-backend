@@ -9,22 +9,33 @@ use Illuminate\Database\Eloquent\Model;
 class Point extends Model
 {
     use HasFactory;
+
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
 
-    public static function storePoint($data = null){
+    public static function storePoint($data = null)
+    {
         self::create($data);
     }
-    public static function userExists($user_id = null){
-        return self::where('user_id',$user_id)->first();
+
+    public static function userExists($user_id = null)
+    {
+        return self::where('user_id', $user_id)->first();
     }
-    public static function updatePoint($user_id = null,$data = null){
-        return self::where('user_id',$user_id)->update($data);
+
+    public static function updatePoint($user_id = null, $point = null)
+    {
+        $userCredits = self::where('user_id', $user_id)->first();
+
+        $userCredits->update(['point' => $userCredits['point'] + $point]);
+
+        return $userCredits;
+
     }
 }
