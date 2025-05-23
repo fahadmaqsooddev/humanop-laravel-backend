@@ -38,7 +38,7 @@ class AllUser extends Component
         'name' => ['except' => ''],
         'email' => ['except' => ''],
         'age' => ['except' => ''],
-        
+
     ];
 
     public function updated($field)
@@ -154,13 +154,13 @@ class AllUser extends Component
 
         $this->searchFilter();
 
-        $this->is_chatBot_published = Chatbot::where('is_published', 1)->exists();
+        $this->is_chatBot_published = Chatbot::where('is_connected', 1)->exists();
 
         return view('livewire.admin.user.all-user', [
 
-           
+
             'users' => $this->users
-            
+
 
         ]);
     }
