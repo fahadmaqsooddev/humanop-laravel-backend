@@ -13,17 +13,18 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\Client\Plan\Plan;
+use App\Models\Client\Point\Point;
 use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Stripe\BaseStripeClient;
 use Stripe\Charge;
 use Stripe\Exception\CardException;
 use Stripe\Stripe;
 use Stripe\StripeClient;
+use Stripe\Token;
 
 class PaymentController extends Controller
 {
@@ -170,6 +171,51 @@ class PaymentController extends Controller
             $data = Subscription::checkoutPlan($request);
 
             return Helpers::successResponse('Payment method has been created successfully!',$data);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function haiCreditCheckout(Request $request){
+
+        try {
+
+            Stripe::setApiKey(config('cashier.b2c_secret'));
+
+//            $token = Token::create([
+//                'card' => [
+//                    'number' => '4242424242424242',
+//                    'exp_month' => 5,
+//                    'exp_year' => 2026,
+//                    'cvc' => '314',
+//                ],
+//            ]);
+//
+//            dd($token);
+
+            $charge = Charge::create([
+                "amount" => $request['amount'] * 100, // amount in cents
+                "currency" => "usd",
+                "source" => $request['stripeToken'],
+                "description" => "HAI CREDIT Payment"
+            ]);
+
+            if($charge){
+
+                $credits = match ($user['plan_name']) {
+                    'Freemium' => 25,
+                    'Core' => 75,
+                    default => 100,
+                };
+
+                Point::addPoints($credits);
+
+                return Helpers::successResponse("You've successfully received {$credits} credits based on your plan!");
+
+            }
 
         }catch (\Exception $exception){
 
