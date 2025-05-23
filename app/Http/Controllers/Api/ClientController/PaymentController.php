@@ -188,8 +188,8 @@ class PaymentController extends Controller
             $charge = Charge::create([
                 "amount" => $request['amount'] * 100, // amount in cents
                 "currency" => "usd",
-//                "source" => 'tok_visa',
-                "source" => $request['stripeToken'],
+                "source" => 'tok_visa',
+//                "source" => $request['stripeToken'],
                 "description" => "HAI CREDIT Payment"
             ]);
 
