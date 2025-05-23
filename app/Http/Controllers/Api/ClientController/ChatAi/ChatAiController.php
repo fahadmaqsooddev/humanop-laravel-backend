@@ -13,6 +13,7 @@ use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
 use App\Jobs\SummarizeChatHistory;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Assessment;
+use App\Models\Client\Connection\Connection;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Point\Point;
 use App\Models\Client\Point\PointLog;
@@ -153,6 +154,8 @@ class ChatAiController extends Controller
 
                     $userDailyTip = UserDailyTip::where('user_id', $user_id)->with('dailyTip')->latest()->first();
 
+                    $connection = Connection::sendConnectedUsersDataForHAi();
+
                     $result = [
                         'name' => $user_name,
                         'email' => $user['email'] ?? '',
@@ -166,15 +169,37 @@ class ChatAiController extends Controller
                     ];
 
                     $body = ['user_query' => $request->input('question'),'user_detail' => $result ?? [] ,'base_data' => ($chat_bot['prompt'] ?? null), 'restriction_data' => ($chat_bot['restriction'] ?? null), 'formatted_docs' => $chat_bot['embedding_ids'],
-                        'temperature' => $chat_bot['temperature'], 'max_tokens' => $chat_bot['max_tokens'], 'chunks' => $chat_bot['chunks'], 'user_id' => Helpers::getUser()->id,'user_trait' => $userTrait ?? []];
+                        'temperature' => $chat_bot['temperature'], 'max_tokens' => $chat_bot['max_tokens'], 'chunks' => $chat_bot['chunks'], 'user_id' => Helpers::getUser()->id,'user_trait' => ($userTrait ?? []), 'user_tokens' => $user_credits];
 
-                    $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/api/chat', $body);
+                    if($user && $user['hai_status'] === 1){
+
+                        $body['connected'] = ($connection['friends'] ?? []);
+
+                        $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/api/connected/user', $body);
+
+                        if(isset($response['detail']) && $response['detail'] === '303'){ // When user does not Allow him self to access HAi
+
+                            return Helpers::validationResponse("Ask Hai request from User");
+
+                        }
+
+                    }else{
+
+                        $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/api/chat', $body);
+
+                        if(isset($response['detail']) && $response['detail'] === '303'){ // When user does not Allow him self to access HAi
+
+                            return Helpers::validationResponse("Allow Hai for user");
+
+                        }
+
+                    }
 
                     if (isset($response['response'])){
 
                         HaiChat::createChat($request->input("question"), $response['response'], null, $request->input("is_repeat_answer"));
 
-                        PointLog::updateHaiCreditLogs($per_credit_token,(int)$user_credits, (int)100);
+                        PointLog::updateHaiCreditLogs($per_credit_token,(int)$user_credits, ($response['tokens_used'] ?? 0));
 
                         $reply = [
                             $response['response'],

@@ -368,6 +368,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasManyThrough(B2BIntentionOption::class, SelectIntentionOption::class, 'business_id', 'id', 'id', 'intention_option_id');
     }
 
+    public function friends(){
+
+        return $this->hasManyThrough(User::class,Connection::class,'user_id','id','id','friend_id')->where('connections.status', 1);
+    }
+
     // query
     public function isAdmin()
     {
@@ -1469,7 +1474,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function userDataForHAi($user_id = null)
     {
-        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth','email'])->first()?->setAppends([]);
+        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth','email','hai_status'])->first()?->setAppends([]);
 
         return $user;
     }

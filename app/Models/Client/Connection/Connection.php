@@ -65,7 +65,6 @@ class Connection extends Model
 
         if ($data['type'] === 'connect') {
 
-
             $connection = self::where('user_id', $data['user_id'])->whereIn('status', [0, 1])->where('friend_id', $data['friend_id'])->exists();
 
             if (!$connection) {
@@ -117,6 +116,8 @@ class Connection extends Model
             Helpers::OneSignalApiUsed($data['friend_id'], 'Dis-Connection Request', $msg);
             Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_CANCEL_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
+//            self::sendConnectedUsersDataForHAi();
+
         } else if ($data['type'] === 'accept') {
 
             $received_request = self::where('user_id', $data['friend_id'])->where('friend_id', $data['user_id'])->first();
@@ -150,6 +151,8 @@ class Connection extends Model
 
                 Notification::createNotification('connection accept', $msg, $user['device_token'],  $friend['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
+//                self::sendConnectedUsersDataForHAi();
+
             } elseif ($received_request && $send_request) {
 
                 $received_request->update(['status' => 1]);
@@ -165,6 +168,8 @@ class Connection extends Model
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
                 Notification::createNotification('connection accept', $msg, $user['device_token'],  $friend['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION,Admin::B2C_NOTIFICATION);
+
+//                self::sendConnectedUsersDataForHAi();
 
             }
 
@@ -269,6 +274,30 @@ class Connection extends Model
             ->latest();
 
         return Helpers::pagination($connection_requests, $request->input('pagination'), $request->input('per_page'));
+    }
+
+    public static function sendConnectedUsersDataForHAi(){
+
+        $user_connections = User::whereId(Helpers::getUser()->id)
+
+            ->select(['id'])
+
+            ->with(['friends' => function($query){
+
+                $query->select(['users.id','users.first_name','users.last_name'])->with('haiAssessments', function ($q){
+
+                    $q->where('page', 0);
+
+                });
+
+            }])
+
+            ->where('status', 1)
+
+            ->first()->toArray();
+
+        return $user_connections;
+
     }
 
 }
