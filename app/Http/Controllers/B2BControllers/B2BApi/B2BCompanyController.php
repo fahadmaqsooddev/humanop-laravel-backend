@@ -10,40 +10,40 @@ use Illuminate\Http\Request;
 
 class B2BCompanyController extends Controller
 {
-    protected $user;
+    // protected $user;
 
-    public function __construct(User $user)
-    {
+    // public function __construct(User $user)
+    // {
 
-        $this->middleware('auth:api');
+    //     $this->middleware('auth:api');
 
-        $this->user = $user;
-    }
+    //     $this->user = $user;
+    // }
 
-    public static function allCompanies()
-    {
-        try {
+    // public static function allCompanies()
+    // {
+    //     try {
 
-            $companies = User::allCompanies();
+    //         $companies = User::allCompanies();
 
-            return Helpers::successResponse("All Companies Information", $companies);
+    //         return Helpers::successResponse("All Companies Information", $companies);
 
-        } catch (\Exception $exception) {
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //     } catch (\Exception $exception) {
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
-    public static function candidateSelectedCompanies()
-    {
-        try {
+    // public static function candidateSelectedCompanies()
+    // {
+    //     try {
 
-            $companies = B2BBusinessCandidates::getCandidateBusiness();
+    //         $companies = B2BBusinessCandidates::getCandidateBusiness();
 
-            return Helpers::successResponse("All Companies Information", $companies);
+    //         return Helpers::successResponse("All Companies Information", $companies);
 
-        } catch (\Exception $exception) {
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //     } catch (\Exception $exception) {
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
 }

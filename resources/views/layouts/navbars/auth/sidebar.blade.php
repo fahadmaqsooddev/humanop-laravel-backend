@@ -439,7 +439,7 @@
                                                         'admin/all-coupons','admin/cms','admin/all-optimization-plan',
                                                         'admin/all-intention-plans',
                                                         'admin/admin_resources','admin/podcast','admin/version-control',
-                                                        'admin/b2b-support','admin/information-icon','admin/payment-history',
+                                                        'admin/information-icon','admin/payment-history',
                                                         'admin/edit-version-control*','admin/create-version-control',
                                                         'admin/summary-report',
                                                         'admin/assessment-introduction',
@@ -448,7 +448,7 @@
                                                         'admin/create-version-control',
                                                         'admin/edit-version-control/*',
                                                         'admin/edit-code/*',
-                                                        'admin/b2b-support-detail/*',
+                                                        
 
                                                         'admin/admin_get_client_invite') ? 'show' : '' }}"
                                                         id="vrExamples">
@@ -619,19 +619,7 @@
                                                                     </a>
                                                                 </li>
                                                             @endif
-                                                            <li class="nav-item {{ (Request::is('admin/b2b-support') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/b2b-support') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_b2b_support') }}">
-                                                                    <span class="sidenav-mini-icon"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> B2B Support </span>
-                                                                </a>
-                                                            </li>
+                                                            
                                                             <li class="nav-item {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_pricing_plan') }}">
@@ -766,84 +754,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                @if(Auth::user()->hasRole('super admin'))
-                                    <li class="nav-item ">
-                                        <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                           data-bs-toggle="collapse" aria-expanded="false" href="#b2bExamples">
-                                            <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                                 src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                            <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                              src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                            <span class="sidenav-normal"> B2B Dashboard <b class="caret"></b></span>
-                                        </a>
-                                        <div
-                                            class="collapse {{ ( Request::is('admin/b2b-organizations','admin/role-template','admin/role-template','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon','admin/b2b-organizations-users/*') ? 'show' : '') }}"
-                                            id="b2bExamples">
-                                            <ul class="nav nav-sm flex-column">
-                                                <li class="nav-item {{ (Request::is('admin/b2b-organizations') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/b2b-organizations') ? 'active-itt-all' : '') }}"
-                                                       href="{{ route('all_b2b_organizations') }}">
-                                                        <span class="sidenav-mini-icon"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"> Organizations </span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item {{ (Request::is('admin/role-template') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/role-template') ? 'active-itt-all' : '') }}"
-                                                       href="{{ route('admin_role_template') }}">
-                                                        <span class="sidenav-mini-icon"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"> Role Template Manage </span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item {{ (Request::is('admin/b2b-invites') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/b2b-invites') ? 'active-itt-all' : '') }}"
-                                                       href="{{ route('admin_b2b_invites') }}">
-                                                        <span class="sidenav-mini-icon"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"> B2B Invites </span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item {{ (Request::is('admin/b2b-pricing-plans') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/b2b-pricing-plans') ? 'active-itt-all' : '') }}"
-                                                       href="{{ route('admin_b2b_pricing_plan') }}">
-                                                        <span class="sidenav-mini-icon"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"> B2B Pricing Plans </span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item {{ (Request::is('admin/b2b-coupon') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/b2b-coupon') ? 'active-itt-all' : '') }}"
-                                                       href="{{ route('admin_b2b_coupon') }}">
-                                                        <span class="sidenav-mini-icon"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"> B2B Coupon </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                @endif
+                                
                             @endif
 
                             <li class="nav-item {{ (Request::is('admin/settings') ? 'active-itt-all' : '') }}">

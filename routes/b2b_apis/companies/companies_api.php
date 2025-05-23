@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['checkUser']], function () {
 
-    Route::get('all-companies', 'B2BCompanyController@allCompanies');
-    Route::get('candidate-selected-companies', 'B2BCompanyController@candidateSelectedCompanies');
+    // Route::get('all-companies', 'B2BCompanyController@allCompanies');
+    // Route::get('candidate-selected-companies', 'B2BCompanyController@candidateSelectedCompanies');
 
 
 });

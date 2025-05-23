@@ -27,534 +27,534 @@ use Illuminate\Support\Facades\Validator;
 class MemberController extends Controller
 {
 
-    protected $user;
+    // protected $user;
 
-    public function __construct(User $user)
-    {
+    // public function __construct(User $user)
+    // {
 
-        $this->middleware('auth:api');
+    //     $this->middleware('auth:api');
 
-        $this->user = $user;
-    }
+    //     $this->user = $user;
+    // }
 
-    public function createInviteLinkForMember(CheckEmailRequest $request)
-    {
-        DB::beginTransaction();
-        try {
+    // public function createInviteLinkForMember(CheckEmailRequest $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
 
-            $email = $request['email'];
+    //         $email = $request['email'];
 
-            $currentUser = Helpers::getUser();
+    //         $currentUser = Helpers::getUser();
 
-            if ($currentUser['email'] === $email) {
+    //         if ($currentUser['email'] === $email) {
 
-                return Helpers::validationResponse("It’s a B2B Admin Account. You can directly login to HumanOP Account.");
-            }
+    //             return Helpers::validationResponse("It’s a B2B Admin Account. You can directly login to HumanOP Account.");
+    //         }
 
-            $existingInvite = UserInvite::getSingleInvite($email);
+    //         $existingInvite = UserInvite::getSingleInvite($email);
 
-            $user = User::checkEmail($email);
+    //         $user = User::checkEmail($email);
 
-            if ($existingInvite) {
+    //         if ($existingInvite) {
 
-                $existingCandidate = UserCandidateInvite::getSingleInvite($existingInvite['id']);
+    //             $existingCandidate = UserCandidateInvite::getSingleInvite($existingInvite['id']);
 
-                if ($existingCandidate) {
+    //             if ($existingCandidate) {
 
-                    return $this->inviteAlreadyExistsResponse($email, $existingCandidate['role']);
-                }
+    //                 return $this->inviteAlreadyExistsResponse($email, $existingCandidate['role']);
+    //             }
 
-                if ($user) {
+    //             if ($user) {
 
-                    $candidateRecord = B2BBusinessCandidates::where([['business_id', $currentUser['id']], ['candidate_id', $user['id']]])->first();
+    //                 $candidateRecord = B2BBusinessCandidates::where([['business_id', $currentUser['id']], ['candidate_id', $user['id']]])->first();
 
-                    if ($candidateRecord) {
+    //                 if ($candidateRecord) {
 
-                        return $this->inviteAlreadyExistsResponse($email, $candidateRecord['role']);
-                    }
-                }
-                DB::commit();
-                return $this->createAndSendMemberInvite($existingInvite['id'], $email, $currentUser['company_name']);
-            }
+    //                     return $this->inviteAlreadyExistsResponse($email, $candidateRecord['role']);
+    //                 }
+    //             }
+    //             DB::commit();
+    //             return $this->createAndSendMemberInvite($existingInvite['id'], $email, $currentUser['company_name']);
+    //         }
 
-            $newInvite = UserInvite::createInvite($email);
+    //         $newInvite = UserInvite::createInvite($email);
 
-            if (!$newInvite) {
+    //         if (!$newInvite) {
 
-                return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
-            }
+    //             return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
+    //         }
 
-            DB::commit();
+    //         DB::commit();
 
-            return $this->createAndSendMemberInvite($newInvite['id'], $email, $currentUser['company_name']);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return Helpers::serverErrorResponse($e->getMessage());
-        }
-    }
+    //         return $this->createAndSendMemberInvite($newInvite['id'], $email, $currentUser['company_name']);
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return Helpers::serverErrorResponse($e->getMessage());
+    //     }
+    // }
 
-    private function inviteAlreadyExistsResponse($email, $role)
-    {
+    // private function inviteAlreadyExistsResponse($email, $role)
+    // {
 
-        $roleText = $role == Admin::IS_CANDIDATE ? 'Candidate' : 'Member';
+    //     $roleText = $role == Admin::IS_CANDIDATE ? 'Candidate' : 'Member';
 
-        return Helpers::validationResponse("{$email} already has an invite/account with your business as a {$roleText}.");
-    }
+    //     return Helpers::validationResponse("{$email} already has an invite/account with your business as a {$roleText}.");
+    // }
 
-    private function createAndSendMemberInvite($inviteId, $email, $companyName)
-    {
+    // private function createAndSendMemberInvite($inviteId, $email, $companyName)
+    // {
 
-        $neData = UserCandidateInvite::createUserInvite($inviteId, Admin::IS_TEAM_MEMBER);
+    //     $neData = UserCandidateInvite::createUserInvite($inviteId, Admin::IS_TEAM_MEMBER);
 
-        $invite = UserInvite::getSingleInvite($email);
+    //     $invite = UserInvite::getSingleInvite($email);
 
-        $url = config('client_url.client_dashboard_url') . '/register?link=' . $invite['link'] . '&company_name=' . urlencode($companyName) . '&prefer=1';
+    //     $url = config('client_url.client_dashboard_url') . '/register?link=' . $invite['link'] . '&company_name=' . urlencode($companyName) . '&prefer=1';
 
-        $emailData = $this->prepareEmailData(null, $url);
+    //     $emailData = $this->prepareEmailData(null, $url);
 
-        $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
+    //     $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
 
-        return Helpers::successResponse("{$email} invite link generated successfully.");
-    }
+    //     return Helpers::successResponse("{$email} invite link generated successfully.");
+    // }
 
-    public static function allMemberInvites()
-    {
-        try {
+    // public static function allMemberInvites()
+    // {
+    //     try {
 
-            $invites = UserCandidateInvite::allMemberInvites();
+    //         $invites = UserCandidateInvite::allMemberInvites();
 
-            $memberInvites = [];
+    //         $memberInvites = [];
 
-            foreach ($invites as $invite) {
+    //         foreach ($invites as $invite) {
 
-                $id = $invite['id'];
-                $companyName = $invite['user']['company_name'] ?? 'N/A';
-                $inviteLink = $invite['inviteLinks']['link'] ?? 'N/A';
-                $email = $invite['inviteLinks']['email'] ?? 'N/A';
+    //             $id = $invite['id'];
+    //             $companyName = $invite['user']['company_name'] ?? 'N/A';
+    //             $inviteLink = $invite['inviteLinks']['link'] ?? 'N/A';
+    //             $email = $invite['inviteLinks']['email'] ?? 'N/A';
 
-                $memberInvites[] = [
-                    'id' => $id,
-                    'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName . '&prefer=1',
-                    'email' => $email,
-                    'company_name' => $companyName
-                ];
-            }
+    //             $memberInvites[] = [
+    //                 'id' => $id,
+    //                 'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName . '&prefer=1',
+    //                 'email' => $email,
+    //                 'company_name' => $companyName
+    //             ];
+    //         }
 
-            return Helpers::successResponse("All Member invites.", $memberInvites);
-        } catch (\Exception $exception) {
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::successResponse("All Member invites.", $memberInvites);
+    //     } catch (\Exception $exception) {
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
-    public function addMember(AddMemberRequest $request)
-    {
-        DB::beginTransaction();
-        try {
+    // public function addMember(AddMemberRequest $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
 
-            $user = Helpers::getUser();
+    //         $user = Helpers::getUser();
 
-            $limit = $this->user->MembersLimit($user['email']);
+    //         $limit = $this->user->MembersLimit($user['email']);
 
-            if (empty($limit)) {
+    //         if (empty($limit)) {
 
-                return Helpers::validationResponse('You have reached the maximum number of candidates allowed per business.');
-            } else {
+    //             return Helpers::validationResponse('You have reached the maximum number of candidates allowed per business.');
+    //         } else {
 
-                $dataArray = $request->only($this->user->getFillable());
+    //             $dataArray = $request->only($this->user->getFillable());
 
-                $checkDeletedUser = User::checkDeleteEmail($dataArray['email']);
+    //             $checkDeletedUser = User::checkDeleteEmail($dataArray['email']);
 
-                if (!empty($checkDeletedUser)) {
+    //             if (!empty($checkDeletedUser)) {
 
-                    return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
-                }
+    //                 return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+    //             }
 
-                $checkUser = User::checkEmail($dataArray['email']);
+    //             $checkUser = User::checkEmail($dataArray['email']);
 
-                if (!empty($checkUser)) {
+    //             if (!empty($checkUser)) {
 
-                    $checkCandidate = B2BBusinessCandidates::checkBusinessCandidate($user['id'], $checkUser['id']);
+    //                 $checkCandidate = B2BBusinessCandidates::checkBusinessCandidate($user['id'], $checkUser['id']);
 
-                    if ($checkCandidate == false) {
+    //                 if ($checkCandidate == false) {
 
-                        B2BBusinessCandidates::registerCandidate($user['id'], $checkUser['id'], 0, Admin::NOT_SHARED_DATA);
+    //                     B2BBusinessCandidates::registerCandidate($user['id'], $checkUser['id'], 0, Admin::NOT_SHARED_DATA);
 
-                        User::UpdateMembersLimit($user['email']);
+    //                     User::UpdateMembersLimit($user['email']);
 
-                        $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
+    //                     $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
 
-                        $emailData = $this->prepareEmailData($checkUser, $url);
+    //                     $emailData = $this->prepareEmailData($checkUser, $url);
 
-                        $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
+    //                     $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
 
-                        DB::commit();
+    //                     DB::commit();
 
-                        return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
-                    } else {
+    //                     return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
+    //                 } else {
 
-                        $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
+    //                     $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
 
-                        $emailData = $this->prepareEmailData($checkUser, $url);
+    //                     $emailData = $this->prepareEmailData($checkUser, $url);
 
-                        $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
+    //                     $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
 
-                        return Helpers::successResponse('This candidate is already associated with a business. Check your email and continue with login.');
-                    }
-                }
+    //                     return Helpers::successResponse('This candidate is already associated with a business. Check your email and continue with login.');
+    //                 }
+    //             }
 
-                if (empty($checkUser)) {
+    //             if (empty($checkUser)) {
 
-                    $createMember = User::addB2BMember($dataArray);
+    //                 $createMember = User::addB2BMember($dataArray);
 
-                    B2BBusinessCandidates::registerCandidate($user['id'], $createMember['id'], 0, Admin::NOT_SHARED_DATA);
+    //                 B2BBusinessCandidates::registerCandidate($user['id'], $createMember['id'], 0, Admin::NOT_SHARED_DATA);
 
-                    User::UpdateMembersLimit($user['email']);
+    //                 User::UpdateMembersLimit($user['email']);
 
-                    $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
+    //                 $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
 
-                    $emailData = $this->prepareEmailData($createMember, $url);
+    //                 $emailData = $this->prepareEmailData($createMember, $url);
 
-                    $this->sendEmailVerification($emailData, $createMember['email'], 'b2b-login-link');
+    //                 $this->sendEmailVerification($emailData, $createMember['email'], 'b2b-login-link');
 
-                    DB::commit();
+    //                 DB::commit();
 
-                    return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
-                }
-            }
-        } catch (\Exception $exception) {
+    //                 return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
+    //             }
+    //         }
+    //     } catch (\Exception $exception) {
 
-            DB::rollBack();
+    //         DB::rollBack();
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
-    public function AllMembers(Request $request)
-    {
-        try {
+    // public function AllMembers(Request $request)
+    // {
+    //     try {
 
-            $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id']);
+    //         $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id']);
 
-            $formattedmembers = [];
+    //         $formattedmembers = [];
 
-            foreach ($members as $member) {
+    //         foreach ($members as $member) {
 
-                if (!empty($member['users'])) {
+    //             if (!empty($member['users'])) {
 
-                    $member['users']['gender'] = $member['users']['gender'] == 0 ? 'Male' : 'Female';
+    //                 $member['users']['gender'] = $member['users']['gender'] == 0 ? 'Male' : 'Female';
 
-                    $member['users']['status'] = $member['users']['last_login'] ? 'on-board' : 'pending';
+    //                 $member['users']['status'] = $member['users']['last_login'] ? 'on-board' : 'pending';
 
-                    $member['users']['last_login'] = $member['users']['last_login'] ? Carbon::parse($member['users']['last_login'])->format('m/d/Y h:i A') : null;
+    //                 $member['users']['last_login'] = $member['users']['last_login'] ? Carbon::parse($member['users']['last_login'])->format('m/d/Y h:i A') : null;
 
 
-                    $member['user_created_at'] = $member['created_at'] ? Carbon::parse($member['created_at'])->format('m/d/Y h:i A') : null;
+    //                 $member['user_created_at'] = $member['created_at'] ? Carbon::parse($member['created_at'])->format('m/d/Y h:i A') : null;
 
-                    unset($member['created_at']);
+    //                 unset($member['created_at']);
 
-                    if (isset($member['share_data']) && $member['share_data'] == Admin::NOT_SHARED_DATA) {
+    //                 if (isset($member['share_data']) && $member['share_data'] == Admin::NOT_SHARED_DATA) {
 
-                        unset($member['assessments']);
-                    }
+    //                     unset($member['assessments']);
+    //                 }
 
 
-                    $formattedmembers[] = $member;
-                }
-            }
+    //                 $formattedmembers[] = $member;
+    //             }
+    //         }
 
-            return Helpers::successResponse('All Team members', $formattedmembers);
-        } catch (\Exception $exception) {
+    //         return Helpers::successResponse('All Team members', $formattedmembers);
+    //     } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
-    private function prepareEmailData($user = null, $url = null)
-    {
-        if (!empty($user)) {
+    // private function prepareEmailData($user = null, $url = null)
+    // {
+    //     if (!empty($user)) {
 
-            return [
-                '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
-                '{$link}' => $url,
-                '{$email}' => $user['email'],
-                '{$password}' => Session::get('user_password'),
-                '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
-                '{$service}' => url('/term-of-service'),
-                '{$privacy}' => url('/privacy-policy'),
-            ];
-        } else {
+    //         return [
+    //             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+    //             '{$link}' => $url,
+    //             '{$email}' => $user['email'],
+    //             '{$password}' => Session::get('user_password'),
+    //             '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+    //             '{$service}' => url('/term-of-service'),
+    //             '{$privacy}' => url('/privacy-policy'),
+    //         ];
+    //     } else {
 
-            return [
-                '{$link}' => $url,
-                '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
-                '{$service}' => url('/term-of-service'),
-                '{$privacy}' => url('/privacy-policy'),
-            ];
-        }
-    }
+    //         return [
+    //             '{$link}' => $url,
+    //             '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+    //             '{$service}' => url('/term-of-service'),
+    //             '{$privacy}' => url('/privacy-policy'),
+    //         ];
+    //     }
+    // }
 
-    private function sendEmailVerification($emailData, $recipientEmail, $name)
-    {
-        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+    // private function sendEmailVerification($emailData, $recipientEmail, $name)
+    // {
+    //     $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
 
-        Email::sendEmailVerification(
-            ['content' => $emailTemplate],
-            $recipientEmail,
-            'emails.Email_Template',
-            $name
-        );
-    }
+    //     Email::sendEmailVerification(
+    //         ['content' => $emailTemplate],
+    //         $recipientEmail,
+    //         'emails.Email_Template',
+    //         $name
+    //     );
+    // }
 
-    public function EditMember(EditMemberRequest $request)
-    {
+    // public function EditMember(EditMemberRequest $request)
+    // {
 
-        try {
+    //     try {
 
-            $dataArray = $request->only($this->user->getFillable());
+    //         $dataArray = $request->only($this->user->getFillable());
 
-            $user = $this->user->UpdateMember($dataArray, $request['member_id']);
+    //         $user = $this->user->UpdateMember($dataArray, $request['member_id']);
 
-            return Helpers::successResponse('candidate updated successfully.');
-        } catch (\Exception $exception) {
+    //         return Helpers::successResponse('candidate updated successfully.');
+    //     } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
-    public function DeleteMember(Request $request)
-    {
-        try {
+    // public function DeleteMember(Request $request)
+    // {
+    //     try {
 
-            $user = Helpers::getUser()->id;
+    //         $user = Helpers::getUser()->id;
 
-            $member = B2BBusinessCandidates::checkBusinessCandidate($user, $request['member_id']);
+    //         $member = B2BBusinessCandidates::checkBusinessCandidate($user, $request['member_id']);
 
-            if (empty($member)) {
+    //         if (empty($member)) {
 
-                return Helpers::validationResponse('You are not authorized to delete this Member.');
-            } else {
+    //             return Helpers::validationResponse('You are not authorized to delete this Member.');
+    //         } else {
 
-                B2BBusinessCandidates::DeletedCandidate($request['member_id']);
+    //             B2BBusinessCandidates::DeletedCandidate($request['member_id']);
 
-                return Helpers::successResponse('Member deleted successfully.');
-            }
-        } catch (\Exception $exception) {
+    //             return Helpers::successResponse('Member deleted successfully.');
+    //         }
+    //     } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
 
-    public function ArchivesingleMember(Request $request)
-    {
+    // public function ArchivesingleMember(Request $request)
+    // {
 
-        try {
+    //     try {
 
-            if (!empty($request['member_id'])) {
+    //         if (!empty($request['member_id'])) {
 
-                $status = B2BBusinessCandidates::getInfo($request['member_id']);
+    //             $status = B2BBusinessCandidates::getInfo($request['member_id']);
 
-                if ($status) {
+    //             if ($status) {
 
-                    return Helpers::validationResponse('This Member is already deleted with your business.');
-                } else {
+    //                 return Helpers::validationResponse('This Member is already deleted with your business.');
+    //             } else {
 
-                    $archive = B2BBusinessCandidates::checkConsideration($request['member_id']);
+    //                 $archive = B2BBusinessCandidates::checkConsideration($request['member_id']);
 
-                    if ($archive) {
+    //                 if ($archive) {
 
-                        return Helpers::validationResponse('This Member is already archived.');
-                    } else {
+    //                     return Helpers::validationResponse('This Member is already archived.');
+    //                 } else {
 
-                        $member = B2BBusinessCandidates::ArchivedCandidate($request['member_id']);
+    //                     $member = B2BBusinessCandidates::ArchivedCandidate($request['member_id']);
 
-                        if ($member) {
+    //                     if ($member) {
 
-                            return Helpers::successResponse('Member archive successfully.');
-                        } else {
+    //                         return Helpers::successResponse('Member archive successfully.');
+    //                     } else {
 
-                            return Helpers::validationResponse('Failed to archive the Member.');
-                        }
-                    }
-                }
-            } else {
-                return Helpers::validationResponse('Failed to find Member id');
-            }
-        } catch (\Exception $exception) {
+    //                         return Helpers::validationResponse('Failed to archive the Member.');
+    //                     }
+    //                 }
+    //             }
+    //         } else {
+    //             return Helpers::validationResponse('Failed to find Member id');
+    //         }
+    //     } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
-    public function checkFutureConsiderationShareData(CandidatetoMember $request)
-    {
+    // public function checkFutureConsiderationShareData(CandidatetoMember $request)
+    // {
 
-        try {
+    //     try {
 
-            $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
+    //         $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
 
-            if (!empty($futureConsideration)) {
+    //         if (!empty($futureConsideration)) {
 
-                $data = [
-                    'company_name' => $futureConsideration['businessUsers']['company_name'],
-                ];
+    //             $data = [
+    //                 'company_name' => $futureConsideration['businessUsers']['company_name'],
+    //             ];
 
-                return Helpers::successResponse('Future Consideration', $data);
-            }
+    //             return Helpers::successResponse('Future Consideration', $data);
+    //         }
 
-            return Helpers::validationResponse('You are not Future Consideration');
-        } catch (\Exception $exception) {
+    //         return Helpers::validationResponse('You are not Future Consideration');
+    //     } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
-    public function futureConsiderationShareData(CandidatetoMember $request)
-    {
-        try {
-            $futureConsideration = B2BBusinessCandidates::where('candidate_id', $request->candidate_id)
-                ->where('future_consideration', 1)
-                ->where('role', Admin::IS_TEAM_MEMBER)
-                ->first();
+    // public function futureConsiderationShareData(CandidatetoMember $request)
+    // {
+    //     try {
+    //         $futureConsideration = B2BBusinessCandidates::where('candidate_id', $request->candidate_id)
+    //             ->where('future_consideration', 1)
+    //             ->where('role', Admin::IS_TEAM_MEMBER)
+    //             ->first();
 
-            if (!$futureConsideration) {
-                return Helpers::notFoundResponse('Candidate not found or not marked for future consideration.');
-            }
+    //         if (!$futureConsideration) {
+    //             return Helpers::notFoundResponse('Candidate not found or not marked for future consideration.');
+    //         }
 
-            $futureConsideration->update([
-                'future_consideration_share_date' => 1,
-            ]);
+    //         $futureConsideration->update([
+    //             'future_consideration_share_date' => 1,
+    //         ]);
 
-            return Helpers::successResponse('Future Consideration Share data updated successfully.');
-        } catch (\Exception $exception) {
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::successResponse('Future Consideration Share data updated successfully.');
+    //     } catch (\Exception $exception) {
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
 
-    public function ConvertMember(MembertoCandidate $request)
-    {
-        try {
+    // public function ConvertMember(MembertoCandidate $request)
+    // {
+    //     try {
 
-            $data = $request['member_id'];
-            if ($data) {
-                $status = B2BBusinessCandidates::getInfo($request['member_id']);
-                if ($status) {
-                    return Helpers::validationResponse('This member is  already deleted');
-                } else {
-                    $checkrole = B2BBusinessCandidates::checkRole($request['member_id']);
+    //         $data = $request['member_id'];
+    //         if ($data) {
+    //             $status = B2BBusinessCandidates::getInfo($request['member_id']);
+    //             if ($status) {
+    //                 return Helpers::validationResponse('This member is  already deleted');
+    //             } else {
+    //                 $checkrole = B2BBusinessCandidates::checkRole($request['member_id']);
 
-                    if ($checkrole) {
-                        $checklimit = B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
+    //                 if ($checkrole) {
+    //                     $checklimit = B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
 
-                        if ($checklimit['members_limit'] < $checklimit['total_member_limit']) {
+    //                     if ($checklimit['members_limit'] < $checklimit['total_member_limit']) {
 
-                            $changerole = B2BBusinessCandidates::newChangeRole($request['member_id']);
+    //                         $changerole = B2BBusinessCandidates::newChangeRole($request['member_id']);
 
-                            if ($changerole) {
+    //                         if ($changerole) {
 
-                                return Helpers::successResponse(' Member  Change To Candidate');
-                            } else {
+    //                             return Helpers::successResponse(' Member  Change To Candidate');
+    //                         } else {
 
-                                return Helpers::validationResponse('Not Link With Your Business');
-                            }
-                        } else {
+    //                             return Helpers::validationResponse('Not Link With Your Business');
+    //                         }
+    //                     } else {
 
-                            return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');
-                        }
-                    } else {
-                        return Helpers::validationResponse('Already Converted to member');
-                    }
-                }
-            } else {
-                return Helpers::validationResponse('Failed to find member id');
-            }
-        } catch (\Exception $exception) {
+    //                         return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');
+    //                     }
+    //                 } else {
+    //                     return Helpers::validationResponse('Already Converted to member');
+    //                 }
+    //             }
+    //         } else {
+    //             return Helpers::validationResponse('Failed to find member id');
+    //         }
+    //     } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
 
-    public function DeleteInvite(Request $request)
-    {
-        try {
+    // public function DeleteInvite(Request $request)
+    // {
+    //     try {
 
-            if (!empty($request['invite_id'])) {
+    //         if (!empty($request['invite_id'])) {
 
-                $check = UserCandidateInvite::getMemberInvite($request['invite_id']);
+    //             $check = UserCandidateInvite::getMemberInvite($request['invite_id']);
 
-                if (!empty($check)) {
+    //             if (!empty($check)) {
 
-                    $getinvite = UserInvite::getMemberInvite($check['invite_link_id']);
+    //                 $getinvite = UserInvite::getMemberInvite($check['invite_link_id']);
 
-                    if (!empty($getinvite)) {
+    //                 if (!empty($getinvite)) {
 
-                        $getmember = User::checkEmail($getinvite['email']);
+    //                     $getmember = User::checkEmail($getinvite['email']);
 
-                        if (!empty($getmember) && $getmember['step'] == 3) {
+    //                     if (!empty($getmember) && $getmember['step'] == 3) {
 
-                            $result = B2BBusinessCandidates::getMemberRecord($check['company_id'], $getmember['id']);
+    //                         $result = B2BBusinessCandidates::getMemberRecord($check['company_id'], $getmember['id']);
 
-                            if (!empty($result)) {
+    //                         if (!empty($result)) {
 
-                                UserCandidateInvite::deleteMemberInvite($request['invite_id']);
+    //                             UserCandidateInvite::deleteMemberInvite($request['invite_id']);
 
-                                return Helpers::successResponse('Member Invite deleted successfully.');
-                            } else {
+    //                             return Helpers::successResponse('Member Invite deleted successfully.');
+    //                         } else {
 
-                                return Helpers::validationResponse('User Did Not complete his Signup process yet');
-                            }
-                        } else {
-                            return Helpers::validationResponse('User Did Not complete his Signup process yet');
-                        }
-                    }
-                } else {
-                    return Helpers::validationResponse('Please enter valid invite id');
-                }
-            } else {
-                return Helpers::validationResponse('Please enter invite id');
-            }
-        } catch (\Exception $exception) {
+    //                             return Helpers::validationResponse('User Did Not complete his Signup process yet');
+    //                         }
+    //                     } else {
+    //                         return Helpers::validationResponse('User Did Not complete his Signup process yet');
+    //                     }
+    //                 }
+    //             } else {
+    //                 return Helpers::validationResponse('Please enter valid invite id');
+    //             }
+    //         } else {
+    //             return Helpers::validationResponse('Please enter invite id');
+    //         }
+    //     } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
 
-    public function AllArchiveMembers(Request $request)
-    {
-        try {
+    // public function AllArchiveMembers(Request $request)
+    // {
+    //     try {
 
 
-            $archivemembers = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'], false);
-            foreach ($archivemembers as $newmembers) {
-                $newmembers['users']['gender'] = $newmembers['users']['gender'] == 0 ? 'Male' : 'Female';
-            }
+    //         $archivemembers = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'], false);
+    //         foreach ($archivemembers as $newmembers) {
+    //             $newmembers['users']['gender'] = $newmembers['users']['gender'] == 0 ? 'Male' : 'Female';
+    //         }
 
-            return Helpers::successResponse('Archive Members', $archivemembers);
-        } catch (\Exception $exception) {
+    //         return Helpers::successResponse('Archive Members', $archivemembers);
+    //     } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
 
-    public function requestAccessData(Request $request)
-    {
-        try {
-            if (empty($request['member_id'])) {
+    // public function requestAccessData(Request $request)
+    // {
+    //     try {
+    //         if (empty($request['member_id'])) {
 
-                return Helpers::validationResponse('Please Enter a Member id');
-            } else {
+    //             return Helpers::validationResponse('Please Enter a Member id');
+    //         } else {
 
-                B2BBusinessCandidates::requestAccess($request['member_id']);
+    //             B2BBusinessCandidates::requestAccess($request['member_id']);
 
-                return Helpers::successResponse('Request For Access Data is Send');
-            }
-        } catch (\Exception $exception) {
+    //             return Helpers::successResponse('Request For Access Data is Send');
+    //         }
+    //     } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 }

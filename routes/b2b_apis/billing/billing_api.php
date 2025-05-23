@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['checkUser']], function () {
-    Route::get('b2b-pricing-plans','B2BSubscriptionController@pricingPlans');
-    Route::get('b2b-coupon-list','B2BSubscriptionController@getCoupons');
-    Route::post('b2b-checkout-plan','B2BSubscriptionController@checkoutPlan');
-    Route::post('b2b-process-plan','B2BSubscriptionController@processPlan');
+    // Route::get('b2b-pricing-plans','B2BSubscriptionController@pricingPlans');
+    // Route::get('b2b-coupon-list','B2BSubscriptionController@getCoupons');
+    // Route::post('b2b-checkout-plan','B2BSubscriptionController@checkoutPlan');
+    // Route::post('b2b-process-plan','B2BSubscriptionController@processPlan');
 
 });

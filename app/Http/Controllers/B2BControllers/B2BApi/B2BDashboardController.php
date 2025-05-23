@@ -20,282 +20,268 @@ use App\Http\Requests\B2B\UpdateNotes;
 
 class B2BDashboardController extends Controller
 {
-    protected $auth;
+    // protected $auth;
 
-    protected $user;
+    // protected $user;
 
-    public function __construct(User $user)
-    {
-        $this->auth = Auth::guard('api');
+    // public function __construct(User $user)
+    // {
+    //     $this->auth = Auth::guard('api');
 
-        $this->user = $user;
-    }
+    //     $this->user = $user;
+    // }
 
-    public function candidateOptimizationAndCoreState(\Illuminate\Http\Request $request)
-    {
-        try {
-            if (!empty($request['candidate_id'])) {
+    // public function candidateOptimizationAndCoreState(\Illuminate\Http\Request $request)
+    // {
+    //     try {
+    //         if (!empty($request['candidate_id'])) {
 
-                $checkShareStatus = B2BBusinessCandidates::checkShare($request['candidate_id']);
+    //             $checkShareStatus = B2BBusinessCandidates::checkShare($request['candidate_id']);
 
-                if (!empty($checkShareStatus) && !empty($checkShareStatus['users']) && $checkShareStatus['share_data'] == Admin::SHARED_DATA) {
+    //             if (!empty($checkShareStatus) && !empty($checkShareStatus['users']) && $checkShareStatus['share_data'] == Admin::SHARED_DATA) {
 
-                    $userId = $checkShareStatus['users']['id'];
+    //                 $userId = $checkShareStatus['users']['id'];
 
-                    $getAssessment = Assessment::getLatestAssessment($userId);
-                    // if($getAssessment){
-                    //     $getAssessment['users']['gender']= $getAssessment['users']['gender']==1 ?'FeMale':'Male';
-                    // }
+    //                 $getAssessment = Assessment::getLatestAssessment($userId);
+                   
 
-                    if (!empty($getAssessment)) {
-                        $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
-                        $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['users']['date_of_birth']) : null;
-                        $userTrait = Assessment::UserTraits($userId);
-                        $userNote = B2BNotes::getNoteFromUserId($userId) ?? '';
-                        if($coreState){
-                            $coreState['assessment']['users']['gender']= $coreState['assessment']['users']['gender']==1 ?'FeMale':'Male';
-                        }
-                        // dd($coreState['assessment']['users']);
+    //                 if (!empty($getAssessment)) {
+    //                     $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
+    //                     $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['users']['date_of_birth']) : null;
+    //                     $userTrait = Assessment::UserTraits($userId);
+    //                     $userNote = B2BNotes::getNoteFromUserId($userId) ?? '';
+    //                     if($coreState){
+    //                         $coreState['assessment']['users']['gender']= $coreState['assessment']['users']['gender']==1 ?'FeMale':'Male';
+    //                     }
 
-                        return Helpers::successResponse('candidates optimization and core state', [
-                            'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
-                            'optimization_plan' => $optimizationPlan,
-                            'core_state' => $coreState,
-                            'user_trait' => $userTrait,
-                            'user_note' => $userNote
-                        ]);
-                    } else {
-                        return Helpers::successResponse('candidates optimization and core state', [
-                            'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
-                            'optimization_plan' => null,
-                            'core_state' => null,
-                            'user_trait' => null,
-                            'user_note' => null
-                        ]);
-                    }
-                } else {
+    //                     return Helpers::successResponse('candidates optimization and core state', [
+    //                         'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
+    //                         'optimization_plan' => $optimizationPlan,
+    //                         'core_state' => $coreState,
+    //                         'user_trait' => $userTrait,
+    //                         'user_note' => $userNote
+    //                     ]);
+    //                 } else {
+    //                     return Helpers::successResponse('candidates optimization and core state', [
+    //                         'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
+    //                         'optimization_plan' => null,
+    //                         'core_state' => null,
+    //                         'user_trait' => null,
+    //                         'user_note' => null
+    //                     ]);
+    //                 }
+    //             } else {
                     
-                    return Helpers::successResponse('candidates optimization and core state', [
-                        'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
-                        'optimization_plan' => null,
-                        'core_state' => null,
-                        'user_trait' => null,
-                        'user_note' => null
-                    ]);
-                }
-            }
+    //                 return Helpers::successResponse('candidates optimization and core state', [
+    //                     'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
+    //                     'optimization_plan' => null,
+    //                     'core_state' => null,
+    //                     'user_trait' => null,
+    //                     'user_note' => null
+    //                 ]);
+    //             }
+    //         }
 
-            // If no candidate_id is provided, fetch a random business candidate
-            $candidate = B2BBusinessCandidates::getBusinessCandidate();
-
-            if (!$candidate) {
-                return Helpers::successResponse('candidates optimization and core state', [
-                    'candidates_name' => null,
-                    'optimization_plan' => null,
-                    'core_state' => null,
-                    'user_trait' => null,
-                    'user_note' => null
-                ]);
-            }
-
-            $userId = $candidate['users']['id'] ?? null;
-
-
-            $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id']);
-            $coreState = Assessment::getCoreState($candidate['assessments'], $candidate['users']['date_of_birth']);
-            $userTrait = Assessment::UserTraits($candidate['users']['id']);
-            $userNote = B2BNotes::getNoteFromUserId($candidate['users']['id']) ?? '';
             
-            if($coreState){
-                $coreState['assessment']['users']['gender']= $coreState['assessment']['users']['gender']==1 ?'FeMale':'Male';
-            }
+    //         $candidate = B2BBusinessCandidates::getBusinessCandidate();
 
-//            if ($isCandidateAvailable) {
-//                if (!$isRecentUpdate) {
-//                    B2BCandidateStat::updateRecord($candidate['candidate_id'], $optimizationPlan['id']);
-//                }
-//            } else {
-//                B2BCandidateStat::createRecord($candidate['candidate_id'], $optimizationPlan['id']);
-//            }
+    //         if (!$candidate) {
+    //             return Helpers::successResponse('candidates optimization and core state', [
+    //                 'candidates_name' => null,
+    //                 'optimization_plan' => null,
+    //                 'core_state' => null,
+    //                 'user_trait' => null,
+    //                 'user_note' => null
+    //             ]);
+    //         }
 
-            return Helpers::successResponse('candidates optimization and core state', [
-                'candidates_name' => ($candidate['users']['first_name'] ?? '') . ' ' . ($candidate['users']['last_name'] ?? ''),
-                'optimization_plan' => $optimizationPlan,
-                'core_state' => $coreState,
-                'user_trait' => $userTrait,
-                'user_note' => $userNote
-            ]);
-        } catch (\Exception $exception) {
-            return Helpers::serverErrorResponse(
-                'Error: ' . $exception->getMessage() .
-                ' | Line: ' . $exception->getLine() .
-                ' | File: ' . $exception->getFile()
-            );
-        }
+    //         $userId = $candidate['users']['id'] ?? null;
+
+
+    //         $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id']);
+    //         $coreState = Assessment::getCoreState($candidate['assessments'], $candidate['users']['date_of_birth']);
+    //         $userTrait = Assessment::UserTraits($candidate['users']['id']);
+    //         $userNote = B2BNotes::getNoteFromUserId($candidate['users']['id']) ?? '';
+            
+    //         if($coreState){
+    //             $coreState['assessment']['users']['gender']= $coreState['assessment']['users']['gender']==1 ?'FeMale':'Male';
+    //         }
+
+    //         return Helpers::successResponse('candidates optimization and core state', [
+    //             'candidates_name' => ($candidate['users']['first_name'] ?? '') . ' ' . ($candidate['users']['last_name'] ?? ''),
+    //             'optimization_plan' => $optimizationPlan,
+    //             'core_state' => $coreState,
+    //             'user_trait' => $userTrait,
+    //             'user_note' => $userNote
+    //         ]);
+    //     } catch (\Exception $exception) {
+    //         return Helpers::serverErrorResponse(
+    //             'Error: ' . $exception->getMessage() .
+    //             ' | Line: ' . $exception->getLine() .
+    //             ' | File: ' . $exception->getFile()
+    //         );
+    //     }
+
+    // }
+
+
+
+
+//     public function AdminOptimizationAndCoreState(\Illuminate\Http\Request $request)
+//     {
+//         try {
+//             if (!empty($request['candidate_id'])) {
+
+//                 $checkShareStatus = B2BBusinessCandidates::checkB2BAdminShare($request['candidate_id']);
+
+//                 if (!empty($checkShareStatus) && !empty($checkShareStatus['businessUsers'])) {
+
+//                     $userId = $checkShareStatus['businessUsers']['id'];
+
+//                     $getAssessment = Assessment::getLatestAssessment($userId);
+                    
+
+//                     if (!empty($getAssessment)) {
+//                         $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
+//                         $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['businessUsers']['date_of_birth']) : null;
+//                         $userTrait = Assessment::UserTraits($userId);
+//                         $userNote = B2BNotes::getNoteFromUserId($userId) ?? '';
+                        
+//                         if($coreState){
+//                             $coreState['assessment']['users']['gender']= $coreState['assessment']['users']['gender']==1 ?'FeMale':'Male';
+//                         }
+                        
+
+//                         return Helpers::successResponse('candidates optimization and core state', [
+//                             'candidates_name' => ($checkShareStatus['businessUsers']['first_name'] ?? '') . ' ' . ($checkShareStatus['businessUsers']['last_name'] ?? ''),
+//                             'optimization_plan' => $optimizationPlan,
+//                             'core_state' => $coreState,
+//                             'user_trait' => $userTrait,
+//                             'user_note' => $userNote
+//                         ]);
+//                     } else {
+//                         return Helpers::successResponse('candidates optimization and core state', [
+//                             'candidates_name' => ($checkShareStatus['businessUsers']['first_name'] ?? '') . ' ' . ($checkShareStatus['businessUsers']['last_name'] ?? ''),
+//                             'optimization_plan' => null,
+//                             'core_state' => null,
+//                             'user_trait' => null,
+//                             'user_note' => null
+//                         ]);
+//                     }
+//                 } else {
+                    
+//                     return Helpers::successResponse('candidates optimization and core state', [
+//                         'candidates_name' => ($checkShareStatus['businessUsers']['first_name'] ?? '') . ' ' . ($checkShareStatus['businessUsers']['last_name'] ?? ''),
+//                         'optimization_plan' => null,
+//                         'core_state' => null,
+//                         'user_trait' => null,
+//                         'user_note' => null
+//                     ]);
+//                 }
+//             }else{
+//                 Helpers::validationResponse('candidate Id Is required');
+//             }
+
+           
+//         } 
+//         // catch (\Exception $exception) {
+//         //     return Helpers::serverErrorResponse(
+//         //         'Error: ' . $exception->getMessage() .
+//         //         ' | Line: ' . $exception->getLine() .
+//         //         ' | File: ' . $exception->getFile()
+//         //     );
+//         // }
 
 // catch (\Exception $exception) {
 //            return Helpers::serverErrorResponse($exception->getMessage());
 //        }
-    }
+//     }
 
 
+//     public function b2bOptimizationAndCoreState(\Illuminate\Http\Request $request)
+//     {
+//         try {
+
+//             $user = User::getSingleUser($request['id']);
+
+//             $getAssessment = Assessment::getLatestAssessment($user['id']);
+
+//             if (!empty($getAssessment)) {
+
+//                 $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($user['id']) : null;
+
+//                 $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $user['date_of_birth']) : null;
+
+//                 $userTrait = Assessment::UserTraits($user['id']);
+
+//                 $userNote = B2BNotes::getNoteFromUserId($user['id']) ?? '';
+
+//                 return Helpers::successResponse('candidates optimization and core state', [
+//                     'candidates_name' => ($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''),
+//                     'optimization_plan' => $optimizationPlan,
+//                     'core_state' => $coreState,
+//                     'user_trait' => $userTrait,
+//                     'user_note' => $userNote
+//                 ]);
+
+//             } else {
+
+//                 return Helpers::successResponse('candidates optimization and core state', [
+//                     'candidates_name' => ($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''),
+//                     'optimization_plan' => null,
+//                     'core_state' => null,
+//                     'user_trait' => null,
+//                     'user_note' => null
+//                 ]);
+//             }
 
 
-    public function AdminOptimizationAndCoreState(\Illuminate\Http\Request $request)
-    {
-        try {
-            if (!empty($request['candidate_id'])) {
+//         } catch (\Exception $exception) {
 
-                $checkShareStatus = B2BBusinessCandidates::checkB2BAdminShare($request['candidate_id']);
+//             return Helpers::serverErrorResponse($exception->getMessage());
 
-                if (!empty($checkShareStatus) && !empty($checkShareStatus['businessUsers'])) {
+//         }
+//     }
 
-                    $userId = $checkShareStatus['businessUsers']['id'];
+//     public function StoreNotes(CreateNotes $request)
+//     {
+//         try {
 
-                    $getAssessment = Assessment::getLatestAssessment($userId);
-                    
+//             $dataArray = $request->only(['user_id', 'note_id', 'note']);
 
-                    if (!empty($getAssessment)) {
-                        $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
-                        $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['businessUsers']['date_of_birth']) : null;
-                        $userTrait = Assessment::UserTraits($userId);
-                        $userNote = B2BNotes::getNoteFromUserId($userId) ?? '';
-                        
-                        if($coreState){
-                            $coreState['assessment']['users']['gender']= $coreState['assessment']['users']['gender']==1 ?'FeMale':'Male';
-                        }
-                        
+//             $getNote = B2BNotes::singleNote($dataArray['note_id'] ?? null);
 
-                        return Helpers::successResponse('candidates optimization and core state', [
-                            'candidates_name' => ($checkShareStatus['businessUsers']['first_name'] ?? '') . ' ' . ($checkShareStatus['businessUsers']['last_name'] ?? ''),
-                            'optimization_plan' => $optimizationPlan,
-                            'core_state' => $coreState,
-                            'user_trait' => $userTrait,
-                            'user_note' => $userNote
-                        ]);
-                    } else {
-                        return Helpers::successResponse('candidates optimization and core state', [
-                            'candidates_name' => ($checkShareStatus['businessUsers']['first_name'] ?? '') . ' ' . ($checkShareStatus['businessUsers']['last_name'] ?? ''),
-                            'optimization_plan' => null,
-                            'core_state' => null,
-                            'user_trait' => null,
-                            'user_note' => null
-                        ]);
-                    }
-                } else {
-                    
-                    return Helpers::successResponse('candidates optimization and core state', [
-                        'candidates_name' => ($checkShareStatus['businessUsers']['first_name'] ?? '') . ' ' . ($checkShareStatus['businessUsers']['last_name'] ?? ''),
-                        'optimization_plan' => null,
-                        'core_state' => null,
-                        'user_trait' => null,
-                        'user_note' => null
-                    ]);
-                }
-            }else{
-                Helpers::validationResponse('candidate Id Is required');
-            }
+//             if (!empty($dataArray['note_id']) && !empty($getNote)) {
 
-           
-        } 
-        // catch (\Exception $exception) {
-        //     return Helpers::serverErrorResponse(
-        //         'Error: ' . $exception->getMessage() .
-        //         ' | Line: ' . $exception->getLine() .
-        //         ' | File: ' . $exception->getFile()
-        //     );
-        // }
+//                 B2BNotes::UpdateNote($dataArray);
 
-catch (\Exception $exception) {
-           return Helpers::serverErrorResponse($exception->getMessage());
-       }
-    }
+//             } else {
 
+//                 B2BNotes::CreateNote($dataArray);
 
-    public function b2bOptimizationAndCoreState(\Illuminate\Http\Request $request)
-    {
-        try {
+//             }
 
-            $user = User::getSingleUser($request['id']);
+//             return Helpers::successResponse('Note Store Successfully');
 
-            $getAssessment = Assessment::getLatestAssessment($user['id']);
+//         } catch (\Exception $exception) {
 
-            if (!empty($getAssessment)) {
+//             return Helpers::serverErrorResponse($exception->getMessage());
 
-                $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($user['id']) : null;
+//         }
+//     }
 
-                $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $user['date_of_birth']) : null;
+//     public function getNote(\Illuminate\Http\Request $request)
+//     {
+//         try {
 
-                $userTrait = Assessment::UserTraits($user['id']);
+//             $note = B2BNotes::getNoteFromUserId($request['user_id']);
 
-                $userNote = B2BNotes::getNoteFromUserId($user['id']) ?? '';
+//             return Helpers::successResponse('get note', $note);
 
-                return Helpers::successResponse('candidates optimization and core state', [
-                    'candidates_name' => ($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''),
-                    'optimization_plan' => $optimizationPlan,
-                    'core_state' => $coreState,
-                    'user_trait' => $userTrait,
-                    'user_note' => $userNote
-                ]);
+//         } catch (\Exception $exception) {
 
-            } else {
+//             return Helpers::serverErrorResponse($exception->getMessage());
 
-                return Helpers::successResponse('candidates optimization and core state', [
-                    'candidates_name' => ($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''),
-                    'optimization_plan' => null,
-                    'core_state' => null,
-                    'user_trait' => null,
-                    'user_note' => null
-                ]);
-            }
-
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
-    }
-
-    public function StoreNotes(CreateNotes $request)
-    {
-        try {
-
-            $dataArray = $request->only(['user_id', 'note_id', 'note']);
-
-            $getNote = B2BNotes::singleNote($dataArray['note_id'] ?? null);
-
-            if (!empty($dataArray['note_id']) && !empty($getNote)) {
-
-                B2BNotes::UpdateNote($dataArray);
-
-            } else {
-
-                B2BNotes::CreateNote($dataArray);
-
-            }
-
-            return Helpers::successResponse('Note Store Successfully');
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
-    }
-
-    public function getNote(\Illuminate\Http\Request $request)
-    {
-        try {
-
-            $note = B2BNotes::getNoteFromUserId($request['user_id']);
-
-            return Helpers::successResponse('get note', $note);
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
-    }
+//         }
+//     }
 }

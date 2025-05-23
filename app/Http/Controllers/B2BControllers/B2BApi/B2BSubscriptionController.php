@@ -27,340 +27,340 @@ use Illuminate\Support\Facades\Storage;
 class B2BSubscriptionController extends Controller
 {
 
-    protected $auth;
+//     protected $auth;
 
-    protected $user;
+//     protected $user;
 
-    public function __construct(User $user)
-    {
-        $this->middleware('auth:api')->except(['subscriptionUpdateWebhook']);
+//     public function __construct(User $user)
+//     {
+//         $this->middleware('auth:api')->except(['subscriptionUpdateWebhook']);
 
-        $this->auth = Auth::guard('api');
+//         $this->auth = Auth::guard('api');
 
-        $this->user = $user;
-    }
+//         $this->user = $user;
+//     }
 
-    public function pricingPlans()
-    {
-        DB::beginTransaction();
-        try {
+//     public function pricingPlans()
+//     {
+//         DB::beginTransaction();
+//         try {
 
-            Stripe::setApiKey(config('cashier.secret'));
+//             Stripe::setApiKey(config('cashier.secret'));
 
-            $prices = Plan::getB2BActivePlans();
+//             $prices = Plan::getB2BActivePlans();
 
-            $plans = [];
+//             $plans = [];
 
-            foreach ($prices as $getPrice) {
-                // Step 1: Get the Price
-                $price = Price::retrieve($getPrice['plan_id']);
+//             foreach ($prices as $getPrice) {
+//                 // Step 1: Get the Price
+//                 $price = Price::retrieve($getPrice['plan_id']);
 
-                // Step 2: Get the associated Product
-                $product = Product::retrieve($price->product);
+//                 // Step 2: Get the associated Product
+//                 $product = Product::retrieve($price->product);
 
-                $plans[] = [
-                    'price_id' => $price->id,
-                    'product_id' => $product->id,
-                    'product_name' => $product->name,
-                    'unit_amount' => $getPrice['price'],
-                    'interval' => $price->recurring->interval ?? null,
-                    'no_of_team_members' => $getPrice['no_of_team_members'],
-                ];
+//                 $plans[] = [
+//                     'price_id' => $price->id,
+//                     'product_id' => $product->id,
+//                     'product_name' => $product->name,
+//                     'unit_amount' => $getPrice['price'],
+//                     'interval' => $price->recurring->interval ?? null,
+//                     'no_of_team_members' => $getPrice['no_of_team_members'],
+//                 ];
 
-            }
+//             }
 
-            DB::commit();
+//             DB::commit();
 
-            return Helpers::successResponse('B2B Pricing Plans', $plans);
+//             return Helpers::successResponse('B2B Pricing Plans', $plans);
 
-        } catch (\Exception $exception) {
-DB::rollBack();
-            return Helpers::serverErrorResponse($exception->getMessage());
+//         } catch (\Exception $exception) {
+// DB::rollBack();
+//             return Helpers::serverErrorResponse($exception->getMessage());
 
-        }
-    }
+//         }
+//     }
 
-    public function checkoutPlan(Request $request)
-    {
+//     public function checkoutPlan(Request $request)
+//     {
 
-        try {
+//         try {
 
-            $data = Subscription::checkoutPlan($request);
+//             $data = Subscription::checkoutPlan($request);
 
-            return Helpers::successResponse('Payment method has been created successfully!', $data);
+//             return Helpers::successResponse('Payment method has been created successfully!', $data);
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//             return Helpers::serverErrorResponse($exception->getMessage());
+//         }
 
-    }
+//     }
 
-    public function processPlan(Request $request)
-    {
+//     public function processPlan(Request $request)
+//     {
 
-        try {
+//         try {
 
-            $plan = Subscription::processPlan($request);
+//             $plan = Subscription::processPlan($request);
 
-            return Helpers::successResponse('Payment has been done successfully!', $plan);
+//             return Helpers::successResponse('Payment has been done successfully!', $plan);
 
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            if ($exception instanceof CardException) {
+//             if ($exception instanceof CardException) {
 
-                return Helpers::validationResponse($exception->getMessage());
+//                 return Helpers::validationResponse($exception->getMessage());
 
-            } else {
+//             } else {
 
-                return Helpers::serverErrorResponse($exception->getMessage());
-            }
-        }
-    }
+//                 return Helpers::serverErrorResponse($exception->getMessage());
+//             }
+//         }
+//     }
 
-    public function subscriptionUpdateWebhook(){
+//     public function subscriptionUpdateWebhook(){
 
-        // Set your secret key. Remember to switch to your live secret key in production.
-        // See your keys here: https://dashboard.stripe.com/apikeys
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+//         // Set your secret key. Remember to switch to your live secret key in production.
+//         // See your keys here: https://dashboard.stripe.com/apikeys
+//         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        // If you are testing your webhook locally with the Stripe CLI you
-        // can find the endpoint's secret by running `stripe listen`
-        // Otherwise, find your endpoint's secret in your webhook settings in the Developer Dashboard
-        $endpoint_secret = config('stripe_info.update_subscription_webhook_secret');
+//         // If you are testing your webhook locally with the Stripe CLI you
+//         // can find the endpoint's secret by running `stripe listen`
+//         // Otherwise, find your endpoint's secret in your webhook settings in the Developer Dashboard
+//         $endpoint_secret = config('stripe_info.update_subscription_webhook_secret');
 
-        $payload = @file_get_contents('php://input');
-        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
-        $event = null;
+//         $payload = @file_get_contents('php://input');
+//         $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+//         $event = null;
 
-        try {
-            $event = \Stripe\Webhook::constructEvent(
-                $payload, $sig_header, $endpoint_secret
-            );
-        } catch(\UnexpectedValueException $e) {
-            // Invalid payload
-            http_response_code(400);
-            echo json_encode(['Error parsing payload: ' => $e->getMessage()]);
-            exit();
-        } catch(\Stripe\Exception\SignatureVerificationException $e) {
-            // Invalid signature
-            http_response_code(400);
-            echo json_encode(['Error verifying webhook signature: ' => $e->getMessage()]);
-            exit();
-        }
+//         try {
+//             $event = \Stripe\Webhook::constructEvent(
+//                 $payload, $sig_header, $endpoint_secret
+//             );
+//         } catch(\UnexpectedValueException $e) {
+//             // Invalid payload
+//             http_response_code(400);
+//             echo json_encode(['Error parsing payload: ' => $e->getMessage()]);
+//             exit();
+//         } catch(\Stripe\Exception\SignatureVerificationException $e) {
+//             // Invalid signature
+//             http_response_code(400);
+//             echo json_encode(['Error verifying webhook signature: ' => $e->getMessage()]);
+//             exit();
+//         }
 
 
-        // Handle the event
-        switch ($event->type) {
+//         // Handle the event
+//         switch ($event->type) {
 
-            case 'customer.subscription.updated':
+//             case 'customer.subscription.updated':
 
-                $paymentIntent = $event->data->object; // contains a \Stripe\PaymentIntent
+//                 $paymentIntent = $event->data->object; // contains a \Stripe\PaymentIntent
 
-                $cancel_subscription = $paymentIntent['canceled_at'];
+//                 $cancel_subscription = $paymentIntent['canceled_at'];
 
-                $customer_id = $paymentIntent['customer'] ?? null;
+//                 $customer_id = $paymentIntent['customer'] ?? null;
 
-                $plan_id = $paymentIntent['items']['data'][0]['plan']['id'] ?? null;
+//                 $plan_id = $paymentIntent['items']['data'][0]['plan']['id'] ?? null;
 
-                $product_id = $paymentIntent['items']['data'][0]['plan']['product'] ?? null;
+//                 $product_id = $paymentIntent['items']['data'][0]['plan']['product'] ?? null;
 
-                $user = User::where('stripe_id', $customer_id)->first();
+//                 $user = User::where('stripe_id', $customer_id)->first();
 
 
-                if ($user){ // User already subscribed to any subscription
+//                 if ($user){ // User already subscribed to any subscription
 
-                    $subs = Subscription::where('user_id', $user->id)->latest()->first(); // find it's subscription
+//                     $subs = Subscription::where('user_id', $user->id)->latest()->first(); // find it's subscription
 
-                    if ($subs){
+//                     if ($subs){
 
 
-                        if (!empty($cancel_subscription)){ // if user cancel their subscription
+//                         if (!empty($cancel_subscription)){ // if user cancel their subscription
 
-                            $sub_item = SubscriptionItem::where('subscription_id', $subs->id)->first();
+//                             $sub_item = SubscriptionItem::where('subscription_id', $subs->id)->first();
 
-                            Subscription::where('user_id', $user->id)->delete(); // delete it's subscriptions
+//                             Subscription::where('user_id', $user->id)->delete(); // delete it's subscriptions
 
-                            $sub_item->delete(); // delete it's subscription items
+//                             $sub_item->delete(); // delete it's subscription items
 
-                        }else{ // if user update their plan
+//                         }else{ // if user update their plan
 
-                            $sub_item = SubscriptionItem::where('subscription_id', $subs->id)->first();
+//                             $sub_item = SubscriptionItem::where('subscription_id', $subs->id)->first();
 
-                            $sub_item_id = $sub_item->id;
+//                             $sub_item_id = $sub_item->id;
 
-                            $remaining_sub_item = SubscriptionItem::where('subscription_id', $subs->id)->where('id', '!=', $sub_item_id)->get();
+//                             $remaining_sub_item = SubscriptionItem::where('subscription_id', $subs->id)->where('id', '!=', $sub_item_id)->get();
 
-                            foreach ($remaining_sub_item as $items){
+//                             foreach ($remaining_sub_item as $items){
 
-                                $items->delete();
+//                                 $items->delete();
 
-                            }
+//                             }
 
-                            $subs->update(['stripe_price' => $plan_id]);
+//                             $subs->update(['stripe_price' => $plan_id]);
 
 
-                            if ($sub_item && ($sub_item->stripe_price != $plan_id)){
+//                             if ($sub_item && ($sub_item->stripe_price != $plan_id)){
 
-                                $sub_item->update(['stripe_product' => $product_id, 'stripe_price' => $plan_id]);
+//                                 $sub_item->update(['stripe_product' => $product_id, 'stripe_price' => $plan_id]);
 
-                            }
+//                             }
 
-                        }
+//                         }
 
 
 
-                    }else {
+//                     }else {
 
-                        // restore the deleted subscription
-                        $user->getDeletedSubscription()->restore();
+//                         // restore the deleted subscription
+//                         $user->getDeletedSubscription()->restore();
 
-                        $subs = Subscription::where('user_id', $user->id)->first();
+//                         $subs = Subscription::where('user_id', $user->id)->first();
 
 
-                        if ($subs){
+//                         if ($subs){
 
-                            // restore the deleted subscription items
-                            $subs->deletedSubscriptionItems()->restore();
+//                             // restore the deleted subscription items
+//                             $subs->deletedSubscriptionItems()->restore();
 
-                            $sub_item = SubscriptionItem::where('subscription_id', $subs->id)->first();
+//                             $sub_item = SubscriptionItem::where('subscription_id', $subs->id)->first();
 
-                            $subs->update(['stripe_price' => $plan_id]); // update the plan after subscription
+//                             $subs->update(['stripe_price' => $plan_id]); // update the plan after subscription
 
-                            if ($sub_item){
+//                             if ($sub_item){
 
-                                $sub_item->update(['stripe_product' => $product_id, 'stripe_price' => $plan_id]);
+//                                 $sub_item->update(['stripe_product' => $product_id, 'stripe_price' => $plan_id]);
 
-                            }
+//                             }
 
-                        }
+//                         }
 
 
-                    }
+//                     }
 
-                    if ($user->stripe_invoice_id || !empty($paymentIntent['latest_invoice'])){
+//                     if ($user->stripe_invoice_id || !empty($paymentIntent['latest_invoice'])){
 
 
-                        $invoice_id = $user->stripe_invoice_id ?? $paymentIntent['latest_invoice'];
+//                         $invoice_id = $user->stripe_invoice_id ?? $paymentIntent['latest_invoice'];
 
-                        $billing_info = $user->billingInfo()->first() ?? "";
+//                         $billing_info = $user->billingInfo()->first() ?? "";
 
-                        if ($billing_info){
+//                         if ($billing_info){
 
-                            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+//                             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
-                            $invoice = $user->findInvoice($invoice_id)->toArray();
+//                             $invoice = $user->findInvoice($invoice_id)->toArray();
 
-                            $charge_id = $invoice['charge'];
+//                             $charge_id = $invoice['charge'];
 
-                            if ($charge_id){
+//                             if ($charge_id){
 
-                                $receipt_data = $stripe->charges->retrieve($charge_id, [])->toArray();
+//                                 $receipt_data = $stripe->charges->retrieve($charge_id, [])->toArray();
 
-                                $url = parse_url($receipt_data['receipt_url']);
+//                                 $url = parse_url($receipt_data['receipt_url']);
 
-                                $final_link = $url['scheme'] . '://' . $url['host'] . $url['path'] . '/pdf?s=ap';
+//                                 $final_link = $url['scheme'] . '://' . $url['host'] . $url['path'] . '/pdf?s=ap';
 
-                                $pdf = GuzzleHelpers::getStripeReceiptPdf($final_link, 'Get');
+//                                 $pdf = GuzzleHelpers::getStripeReceiptPdf($final_link, 'Get');
 
-                                $disk = Storage::disk('invoice');
+//                                 $disk = Storage::disk('invoice');
 
-                                $folder_name = config('stripe_info.invoice_folder_name') . '/' . date('Y');
+//                                 $folder_name = config('stripe_info.invoice_folder_name') . '/' . date('Y');
 
-                                $file_name = strtotime(Carbon::now()->format('Y-m-d H:i:s')) . "-" . $user->id;
+//                                 $file_name = strtotime(Carbon::now()->format('Y-m-d H:i:s')) . "-" . $user->id;
 
-                                $disk->put($folder_name . '/' . $file_name . '.pdf', $pdf);
+//                                 $disk->put($folder_name . '/' . $file_name . '.pdf', $pdf);
 
-                            }
+//                             }
 
-                        }
+//                         }
 
 
-                    }
+//                     }
 
-                }
+//                 }
 
-                break;
+//                 break;
 
-            case 'customer.subscription.deleted':
+//             case 'customer.subscription.deleted':
 
-                $paymentIntent = $event->data->object; // contains a \Stripe\PaymentIntent
+//                 $paymentIntent = $event->data->object; // contains a \Stripe\PaymentIntent
 
-                $cancel_subscription = $paymentIntent['canceled_at'];
+//                 $cancel_subscription = $paymentIntent['canceled_at'];
 
-                $customer_id = $paymentIntent['customer'] ?? null;
+//                 $customer_id = $paymentIntent['customer'] ?? null;
 
-                $user = User::where('stripe_id', $customer_id)->first();
+//                 $user = User::where('stripe_id', $customer_id)->first();
 
-                if ($user){ // User already subscribed to any subscription
+//                 if ($user){ // User already subscribed to any subscription
 
-                    $subs = Subscription::where('user_id', $user->id)->first(); // find it's subscription
+//                     $subs = Subscription::where('user_id', $user->id)->first(); // find it's subscription
 
-                    if ($subs){
+//                     if ($subs){
 
-                        if (!empty($cancel_subscription)){ // if user cancel their subscription
+//                         if (!empty($cancel_subscription)){ // if user cancel their subscription
 
-                            $sub_item = SubscriptionItem::where('subscription_id', $subs->id)->first();
+//                             $sub_item = SubscriptionItem::where('subscription_id', $subs->id)->first();
 
-                            Subscription::where('user_id', $user->id)->delete(); // delete it's subscription
+//                             Subscription::where('user_id', $user->id)->delete(); // delete it's subscription
 
-                            $sub_item->delete(); // delete it's subscription items
+//                             $sub_item->delete(); // delete it's subscription items
 
-                        }
+//                         }
 
-                    }
+//                     }
 
-                }
+//                 }
 
-                break;
+//                 break;
 
-            default:
+//             default:
 
 
-                echo 'Received unknown event type ' . $event->type;
-        }
+//                 echo 'Received unknown event type ' . $event->type;
+//         }
 
 
-        http_response_code(200);
+//         http_response_code(200);
 
-    }
+//     }
 
 
-    public function getCoupons(Request $request)
-    {
+//     public function getCoupons(Request $request)
+//     {
 
-        try {
+//         try {
 
-            Stripe::setApiKey(config('cashier.secret')); // or env('STRIPE_SECRET')
+//             Stripe::setApiKey(config('cashier.secret')); // or env('STRIPE_SECRET')
 
-            $coupons = B2BCoupon::allCoupons();
+//             $coupons = B2BCoupon::allCoupons();
 
-            $data = [];
+//             $data = [];
 
-            foreach ($coupons as $coupon) {
+//             foreach ($coupons as $coupon) {
 
-                $data[] =[
-                    'coupon_code' => $coupon['coupon_code'] ?? null,
-                    'coupon_percentage' => (int)$coupon['coupon_limit'] ?? null,
-                    'coupon_duration' => $coupon['coupon_duration'] ?? null,
-                ];
-            }
+//                 $data[] =[
+//                     'coupon_code' => $coupon['coupon_code'] ?? null,
+//                     'coupon_percentage' => (int)$coupon['coupon_limit'] ?? null,
+//                     'coupon_duration' => $coupon['coupon_duration'] ?? null,
+//                 ];
+//             }
 
-            return Helpers::successResponse('B2B Coupon Lists', $data);
+//             return Helpers::successResponse('B2B Coupon Lists', $data);
 
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            if ($exception instanceof CardException) {
+//             if ($exception instanceof CardException) {
 
-                return Helpers::validationResponse($exception->getMessage());
+//                 return Helpers::validationResponse($exception->getMessage());
 
-            } else {
+//             } else {
 
-                return Helpers::serverErrorResponse($exception->getMessage());
-            }
-        }
-    }
+//                 return Helpers::serverErrorResponse($exception->getMessage());
+//             }
+//         }
+//     }
 
 }
