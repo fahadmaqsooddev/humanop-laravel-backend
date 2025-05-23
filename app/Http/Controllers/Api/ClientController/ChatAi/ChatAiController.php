@@ -12,6 +12,7 @@ use App\Http\Requests\Api\Client\ChatAi\LikeDisLikeAiReplyRequest;
 use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
 use App\Jobs\SummarizeChatHistory;
 use App\Models\Assessment;
+use App\Models\Client\Point\PointLog;
 use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatbotKeyword;
@@ -55,6 +56,15 @@ class ChatAiController extends Controller
     public function askQuestion(AskQuestionRequest $request){
 
         try {
+
+            $per_credit_token = config('chat.hai_one_credit_token_count');
+
+            $user_credits = (float)(Point::where('user_id', Helpers::getUser()->id)->first()->point ?? 0) * $per_credit_token;
+
+            if ($user_credits <= 20){
+
+                return Helpers::upgradePackageResponse("Upgrade your account.");
+            }
 
             $chat_bot = Chatbot::where('is_published', 1)->first();
 
@@ -158,6 +168,8 @@ class ChatAiController extends Controller
                         {
 
                             HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
+
+                            PointLog::updateHaiCreditLogs($per_credit_token,(int)$user_credits, (int)100);
 
                             $reply = [
                                 $choice['message']['content'] ?? "",
