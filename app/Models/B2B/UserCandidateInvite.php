@@ -35,11 +35,6 @@ class UserCandidateInvite extends Model
 
     }
 
-    public static function getSingleInvite($inviteId = null)
-    {
-
-        return self::where('company_id', Helpers::getUser()['id'])->where('invite_link_id', $inviteId)->first();
-    }
 
     public static function getInviteById($inviteId = null)
     {
@@ -47,49 +42,8 @@ class UserCandidateInvite extends Model
         return self::where('invite_link_id', $inviteId)->latest()->first();
     }
 
-    public static function createUserInvite($linkId = null, $role = null)
-    {
-        return self::create([
-            'company_id' => Helpers::getUser()['id'],
-            'invite_link_id' => $linkId,
-            'role' => $role,
-        ]);
-    }
-
-    public static function allCandidateInvites()
-    {
-
-        return self::where('company_id', Helpers::getUser()['id'])->where('role', Admin::IS_CANDIDATE)->whereHas('inviteLinks')->with([
-            'inviteLinks',
-            'user'
-        ])
-            ->orderBy('id', 'desc')
-            ->get();
-
-    }
-
-    public static function allMemberInvites()
-    {
-
-        return self::where('company_id', Helpers::getUser()['id'])->where('role', Admin::IS_TEAM_MEMBER)->whereHas('inviteLinks')->with([
-            'inviteLinks',
-            'user'
-        ])
-            ->orderBy('id', 'desc')
-            ->get();
-
-    }
 
 
-    public static function getMemberInvite($id = null)
-    {
-        return self::where('id', $id)->where('role', Admin::IS_TEAM_MEMBER)->first();
-    }
-
-    public static function deleteMemberInvite($id = null)
-    {
-        return self::where('id', $id)->delete();
-    }
 
     public static function deleteInvite($inviteId = null)
     {
