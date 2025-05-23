@@ -39,24 +39,5 @@ class B2BCandidateStat extends Model
         }])->first();
     }
 
-    public static function createRecord($candidateId = null, $actionPlanId = null)
-    {
 
-        $data['business_id'] = Helpers::getUser()['id'];
-
-        $data['candidate_id'] = $candidateId;
-
-        $data['action_plan_id'] = $actionPlanId;
-
-        return self::create($data);
-    }
-
-    public static function updateRecord($candidateId = null, $actionPlanId = null)
-    {
-
-        return self::where('business_id', Helpers::getUser()['id'])->update([
-            'candidate_id' => $candidateId,
-            'action_plan_id' => $actionPlanId,
-        ]);
-    }
 }
