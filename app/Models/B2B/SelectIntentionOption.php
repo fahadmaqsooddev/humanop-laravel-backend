@@ -18,17 +18,6 @@ class SelectIntentionOption extends Model
     }
 
 
-    public static function storeUserIntentions($userId, $intentionIds)
-    {
-        $intentionIds = is_array($intentionIds) ? $intentionIds : [$intentionIds];
-
-        foreach ($intentionIds as $intentionId) {
-            self::create([
-                'business_id' => $userId,
-                'intention_option_id' => $intentionId
-            ]);
-        }
-    }
 
 
 

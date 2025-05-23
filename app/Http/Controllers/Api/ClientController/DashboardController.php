@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Http\Requests\Api\Client\ShareDataRequest;
+use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Notification\PushNotification;
@@ -762,6 +763,43 @@ class DashboardController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+    }
+
+
+    public static function allCompanies()
+    {
+        try {
+
+            $companies = User::allCompanies();
+
+            return Helpers::successResponse("All Companies Information", $companies);
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function checkFutureConsiderationShareData(CandidatetoMember $request)
+    {
+
+        try {
+
+            $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
+
+            if (!empty($futureConsideration)) {
+
+                $data = [
+                    'company_name' => $futureConsideration['businessUsers']['company_name'],
+                ];
+
+                return Helpers::successResponse('Future Consideration', $data);
+            }
+
+            return Helpers::validationResponse('You are not Future Consideration');
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
 }

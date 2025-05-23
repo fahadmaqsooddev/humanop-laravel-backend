@@ -55,17 +55,17 @@ class Point extends Model
         }
 
         return [
-            'total_tokens' => $total_tokens,
-            'used_tokens' => $used_tokens,
-            'remaining_tokens' => $remaining_tokens,
-            'rollover_tokens' => $rollover_tokens,
+            'total_tokens' => $total_tokens ?? 0,
+            'used_tokens' => $used_tokens ?? 0,
+            'remaining_tokens' => $remaining_tokens ?? 0,
+            'rollover_tokens' => $rollover_tokens ?? 0,
         ];
 
     }
 
     public static function addPoints($points){
 
-        $record = self::where('user_id')->first();
+        $record = self::where('user_id', Helpers::getUser()->id)->first();
 
         if ($record){
 

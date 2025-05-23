@@ -23,4 +23,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('process-subscription', 'PaymentController@processSubscription');
     Route::get('plans', 'PaymentController@plans');
 
+
+    Route::post('hai-credit-checkout', 'PaymentController@haiCreditCheckout');
+
 });
