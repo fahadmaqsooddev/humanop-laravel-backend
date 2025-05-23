@@ -69,33 +69,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/auth/auth_api.php'));
 
-            // Route::prefix('api')->middleware('api')
-            //     ->namespace($this->B2BApiClientController)
-            //     ->group(base_path('routes/b2b_apis/b2b_auth/b2b_auth_api.php'));
 
-            Route::prefix('api')->middleware('api')
-                ->namespace($this->B2BApiClientController)
-                ->group(base_path('routes/b2b_apis/members/members_api.php'));
 
-            // Route::prefix('api')->middleware('api')
-            //     ->namespace($this->B2BApiClientController)
-            //     ->group(base_path('routes/b2b_apis/candidates/candidate_api.php'));
 
-            Route::prefix('api')->middleware('api')
-                ->namespace($this->B2BApiClientController)
-                ->group(base_path('routes/b2b_apis/companies/companies_api.php'));
-
-            // Route::prefix('api')->middleware('api')
-            //     ->namespace($this->B2BApiClientController)
-            //     ->group(base_path('routes/b2b_apis/b2b_profile/b2b_profile_api.php'));
-
-            // Route::prefix('api')->middleware('api')
-            //     ->namespace($this->B2BApiClientController)
-            //     ->group(base_path('routes/b2b_apis/billing/billing_api.php'));
-
-            // Route::prefix('api')->middleware('api')
-            //     ->namespace($this->B2BApiClientController)
-            //     ->group(base_path('routes/b2b_apis/dashboard/b2b_dashboard_api.php'));
 
 
             Route::prefix('api')->middleware('api')

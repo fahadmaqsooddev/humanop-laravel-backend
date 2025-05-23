@@ -35,6 +35,12 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('latest-library-resource','DashboardController@topLibraryResourcses');
 
 
+    Route::get('all-companies', 'DashboardController@allCompanies');
+    Route::get('check-future-consideration-member-share-data','DashboardController@checkFutureConsiderationShareData');
+
+
+
+
 
    Route::get('hai-chat-status', 'DashboardController@haiChatStatus');
 });
