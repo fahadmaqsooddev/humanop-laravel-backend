@@ -183,18 +183,7 @@ class PaymentController extends Controller
 
         try {
 
-            Stripe::setApiKey(config('cashier.b2c_secret'));
-
-//            $token = Token::create([
-//                'card' => [
-//                    'number' => '4242424242424242',
-//                    'exp_month' => 5,
-//                    'exp_year' => 2026,
-//                    'cvc' => '314',
-//                ],
-//            ]);
-//
-//            dd($token);
+            Stripe::setApiKey(config('cashier.secret'));
 
             $charge = Charge::create([
                 "amount" => $request['amount'] * 100, // amount in cents
@@ -203,9 +192,9 @@ class PaymentController extends Controller
                 "description" => "HAI CREDIT Payment"
             ]);
 
-            if($charge){
+            if ($charge && $charge->status === 'succeeded') {
 
-                $credits = match ($user['plan_name']) {
+                $credits = match (Helpers::getUser()['plan_name']) {
                     'Freemium' => 25,
                     'Core' => 75,
                     default => 100,
@@ -214,6 +203,10 @@ class PaymentController extends Controller
                 Point::addPoints($credits);
 
                 return Helpers::successResponse("You've successfully received {$credits} credits based on your plan!");
+
+            } else {
+
+                return Helpers::validationResponse("Payment failed. Please try again.");
 
             }
 
