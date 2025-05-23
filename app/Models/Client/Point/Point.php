@@ -65,7 +65,7 @@ class Point extends Model
 
     public static function addPoints($points){
 
-        $record = self::where('user_id')->first();
+        $record = self::where('user_id', Helpers::getUser()->id)->first();
 
         if ($record){
 
