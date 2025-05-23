@@ -12,6 +12,7 @@ use App\Http\Requests\Api\Client\ChatAi\LikeDisLikeAiReplyRequest;
 use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
 use App\Jobs\SummarizeChatHistory;
 use App\Models\Assessment;
+use App\Models\Client\Point\Point;
 use App\Models\Client\Point\PointLog;
 use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
