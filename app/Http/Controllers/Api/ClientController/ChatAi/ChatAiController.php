@@ -64,7 +64,7 @@ class ChatAiController extends Controller
 
             if ($user_credits <= 20){
 
-                return Helpers::upgradePackageResponse("Upgrade your account.");
+                return Helpers::upgradePackageResponse("Purchase credits.");
             }
 
             $chat_bot = Chatbot::where('is_published', 1)->first();
