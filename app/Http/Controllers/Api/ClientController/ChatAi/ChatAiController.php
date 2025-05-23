@@ -57,14 +57,14 @@ class ChatAiController extends Controller
 
         try {
 
-//            $per_credit_token = config('chat.hai_one_credit_token_count');
-//
-//            $user_credits = (float)(Point::where('user_id', Helpers::getUser()->id)->first()->point ?? 0) * $per_credit_token;
-//
-//            if ($user_credits <= 20){
-//
-//                return Helpers::upgradePackageResponse("Upgrade your account.");
-//            }
+            $per_credit_token = config('chat.hai_one_credit_token_count');
+
+            $user_credits = (float)(Point::where('user_id', Helpers::getUser()->id)->first()->point ?? 0) * $per_credit_token;
+
+            if ($user_credits <= 20){
+
+                return Helpers::upgradePackageResponse("Upgrade your account.");
+            }
 
             $chat_bot = Chatbot::where('is_published', 1)->first();
 
