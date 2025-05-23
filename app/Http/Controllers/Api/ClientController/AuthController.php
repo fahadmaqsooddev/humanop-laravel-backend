@@ -316,9 +316,7 @@ class AuthController extends Controller
 
                     $token = $this->auth->login($getUser);
 
-                    $createCredits = ['user_id' => $getUser['id'], 'point' => Admin::FREEMIUM_CREDITS];
-
-                    Point::storePoint($createCredits);
+                    Point::addPoints(Admin::FREEMIUM_CREDITS);
 
                     $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
