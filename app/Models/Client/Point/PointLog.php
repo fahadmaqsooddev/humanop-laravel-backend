@@ -70,19 +70,4 @@ class PointLog extends Model
             'plan' => Helpers::getUser()->plan_name,
         ]);
     }
-
-    public static function updateHaiCreditLogs($per_credit_token, $current_tokens, $used_token){
-
-        $remaining_tokens = $current_tokens - $used_token;
-
-        self::create([
-            'user_id' => Helpers::getUser()->id,
-            'point' => $used_token/$per_credit_token,
-            'plan' => Helpers::getUser()->plan_name,
-            'type' => self::HAI_Credit,
-        ]);
-
-        Point::where('user_id', Helpers::getUser()->id)->update(['point' => ($remaining_tokens/$per_credit_token)]);
-
-    }
 }
