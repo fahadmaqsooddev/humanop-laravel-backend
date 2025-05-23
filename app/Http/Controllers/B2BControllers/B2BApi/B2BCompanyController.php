@@ -20,18 +20,18 @@ class B2BCompanyController extends Controller
     //     $this->user = $user;
     // }
 
-    // public static function allCompanies()
-    // {
-    //     try {
+    public static function allCompanies()
+    {
+        try {
 
-    //         $companies = User::allCompanies();
+            $companies = User::allCompanies();
 
-    //         return Helpers::successResponse("All Companies Information", $companies);
+            return Helpers::successResponse("All Companies Information", $companies);
 
-    //     } catch (\Exception $exception) {
-    //         return Helpers::serverErrorResponse($exception->getMessage());
-    //     }
-    // }
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 
     // public static function candidateSelectedCompanies()
     // {

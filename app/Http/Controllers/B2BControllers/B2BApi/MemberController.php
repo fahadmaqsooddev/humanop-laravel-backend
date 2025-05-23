@@ -386,28 +386,28 @@ class MemberController extends Controller
     //     }
     // }
 
-    // public function checkFutureConsiderationShareData(CandidatetoMember $request)
-    // {
+    public function checkFutureConsiderationShareData(CandidatetoMember $request)
+    {
 
-    //     try {
+        try {
 
-    //         $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
+            $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
 
-    //         if (!empty($futureConsideration)) {
+            if (!empty($futureConsideration)) {
 
-    //             $data = [
-    //                 'company_name' => $futureConsideration['businessUsers']['company_name'],
-    //             ];
+                $data = [
+                    'company_name' => $futureConsideration['businessUsers']['company_name'],
+                ];
 
-    //             return Helpers::successResponse('Future Consideration', $data);
-    //         }
+                return Helpers::successResponse('Future Consideration', $data);
+            }
 
-    //         return Helpers::validationResponse('You are not Future Consideration');
-    //     } catch (\Exception $exception) {
+            return Helpers::validationResponse('You are not Future Consideration');
+        } catch (\Exception $exception) {
 
-    //         return Helpers::serverErrorResponse($exception->getMessage());
-    //     }
-    // }
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 
     // public function futureConsiderationShareData(CandidatetoMember $request)
     // {

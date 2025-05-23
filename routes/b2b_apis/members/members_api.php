@@ -22,7 +22,7 @@ Route::group(['middleware' => ['checkUser']], function () {
 //     Route::post('member-to-candidate','MemberController@ConvertMember');
 //     Route::get('all-member-invites', 'MemberController@allMemberInvites');
 //     Route::get('future-consideration-member','MemberController@ArchivesingleMember');
-//     Route::get('check-future-consideration-member-share-data','MemberController@checkFutureConsiderationShareData');
+    Route::get('check-future-consideration-member-share-data','MemberController@checkFutureConsiderationShareData');
 //     Route::post('future-consideration-member-share-data','MemberController@futureConsiderationShareData');
 //     Route::get('all-future-consideration-members','MemberController@AllArchiveMembers');
 //     Route::delete('delete-member-invite','MemberController@DeleteInvite');
