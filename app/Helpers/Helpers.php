@@ -638,8 +638,7 @@ class Helpers
                     default => 3,
                 };
 
-
-                Point::updatePoint($user['id'], $point);
+                Point::addPoints($point);
 
                 $message = 'THEY GOT ONE ' . $point . ' BONUS CREDIT.';
 
