@@ -187,4 +187,32 @@ class B2BBusinessCandidates extends Model
             ->count();
 
     }
+
+        public static function shareDataWithBusiness($businessId = null, $candidateId = null)
+    {
+        $candidate = Helpers::getUser();
+
+        $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
+
+        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
+
+        if ($checkBusinessCandidate) {
+
+            $newShareStatus = $checkBusinessCandidate->share_data == 0 ? 1 : 0;
+
+            $checkBusinessCandidate->update(['share_data' => $newShareStatus]);
+
+            if ($checkBusinessCandidate['share_data'] == 1) {
+
+                event(new SharedDataWithBusiness($businessId, "[ $candidateName ] elected to share their data with your company"));
+
+                Notification::createNotification('Data Share Granted', "[ $candidateName ] elected to share their data with your company", '', $businessId, 0, Admin::B2B_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+            }
+
+            return $checkBusinessCandidate;
+        }
+
+        return null;
+    }
+
 }
