@@ -10,16 +10,12 @@ use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
-use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\GenerateFile\PdfGenerate;
 use Carbon\Carbon;
-use Faker\Extension\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Alchemy\AlchemyCode;
-use Illuminate\Support\Facades\Log;
 
 class Assessment extends Model
 {
@@ -1439,6 +1435,8 @@ class Assessment extends Model
             AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
 
             AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+
+            self::createAssessmentWeight($existingAssessment);
         }
 
         foreach ($answer_ids as $answer_id) {
@@ -1657,5 +1655,36 @@ class Assessment extends Model
         ];
 
         return $data;
+    }
+
+    public static function createAssessmentWeight($assessment = null)
+    {
+
+        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
+        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+
+        $third_row_sa = $assessment['sa'] * $second_row_sa;
+        $third_row_ma = $assessment['ma'] * $second_row_ma;
+        $third_row_jo = $assessment['jo'] * $second_row_jo;
+        $third_row_lu = $assessment['lu'] * $second_row_lu;
+        $third_row_ven = $assessment['ven'] * $second_row_ven;
+        $third_row_mer = $assessment['mer'] * $second_row_mer;
+
+        $third_row_style = [
+            'sa' => $third_row_sa,
+            'ma' => $third_row_ma,
+            'jo' => $third_row_jo,
+            'lu' => $third_row_lu,
+            'ven' => $third_row_ven,
+            'mer' => $third_row_mer,
+            'so' => 0,
+        ];
+
+        AssessmentStyleWeight::createStyleWeights($assessment['id'], $third_row_style);
+
     }
 }
