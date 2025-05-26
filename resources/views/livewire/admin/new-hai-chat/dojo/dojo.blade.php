@@ -107,7 +107,7 @@
 
                 <div>
 
-                    <p style="line-height: 0; font-weight: 700;color: black;">Previous Training Sessions :</p>
+                    <p style="line-height: 1; font-weight: 700;color: black;">Previous Training Sessions :</p>
                     <div style="border-radius: 5px; border: 2px solid #f2661c; max-height: 300px;overflow-y: scroll;" id="session_container" class="py-2 px-1">
 
                         <table class="table">
