@@ -1437,6 +1437,7 @@ class Assessment extends Model
             AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
             self::createAssessmentWeight($existingAssessment);
+
         }
 
         foreach ($answer_ids as $answer_id) {
