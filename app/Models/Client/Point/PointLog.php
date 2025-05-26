@@ -47,11 +47,11 @@ class PointLog extends Model
 
     public static function updateHaiCreditLogs($per_credit_token, $current_tokens, $used_token){
 
-        $remaining_tokens = is_float($used_token) ? 0 : (($current_tokens - $used_token)/$per_credit_token);
+        $remaining_tokens = ($used_token > $current_tokens) ? 0 : (($current_tokens - $used_token)/$per_credit_token);
 
         self::create([
             'user_id' => Helpers::getUser()->id,
-            'point' => is_float($used_token) ? ($current_tokens/$per_credit_token) : ($used_token/$per_credit_token),
+            'point' => ($used_token > $current_tokens) ? ($current_tokens/$per_credit_token) : ($used_token/$per_credit_token),
             'plan' => Helpers::getUser()->plan_name,
             'type' => self::HAI_CREDIT,
         ]);
