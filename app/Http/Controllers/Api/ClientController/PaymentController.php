@@ -188,7 +188,8 @@ class PaymentController extends Controller
             $charge = Charge::create([
                 "amount" => $request['amount'] * 100, // amount in cents
                 "currency" => "usd",
-                "source" => $request['stripeToken'],
+                "source" => 'tok_visa',
+//                "source" => $request['stripeToken'],
                 "description" => "HAI CREDIT Payment"
             ]);
 
@@ -200,7 +201,7 @@ class PaymentController extends Controller
                     default => 100,
                 };
 
-                Point::addPoints($credits);
+                Point::where('user_id', Helpers::getUser()['id'])->update(['point' => $credits]);
 
                 return Helpers::successResponse("You've successfully received {$credits} credits based on your plan!");
 
