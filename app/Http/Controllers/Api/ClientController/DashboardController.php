@@ -183,25 +183,25 @@ class DashboardController extends Controller
 
         try {
 
-            if (!empty($request['user_id'])) {
+            if ($request->has('assessment_id')) {
 
-                $userId = $request['user_id'];
-
-                $user = User::getSingleUser($userId);
+                $assessment = Assessment::getSingleAssessment($request->input('assessment_id'));
 
             } else {
 
-                $user = Helpers::getUser();
+                $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
 
             }
 
-            $assessment = Assessment::getLatestAssessment($user['id']);
+            $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment['id']);
 
-            ActionPlan::checkUserActionPlan($assessment, $user);
+            if (empty($actionPlan)) {
 
-            $plan = ActionPlan::userActionPlan($user);
+                $actionPlan = ActionPlan::storeUserActionPlan($assessment);
 
-            return Helpers::successResponse('Action plan', $plan);
+            }
+
+            return Helpers::successResponse('Action plan', $actionPlan);
 
         } catch (\Exception $exception) {
 

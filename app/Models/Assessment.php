@@ -238,6 +238,12 @@ class Assessment extends Model
         return self::where('user_id', $user_id)->where('page', 0)->latest()->first();
     }
 
+    public static function getSingleAssessment($assessmentId = null)
+    {
+
+        return self::whereId($assessmentId)->where('page', 0)->latest()->first();
+    }
+
     public static function getAllAssessmentCount($user_id = null)
     {
 
@@ -1439,6 +1445,12 @@ class Assessment extends Model
             AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
 
             AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+        }
+
+        if ($existingAssessment['page'] == 0) {
+
+            ActionPlan::storeUserActionPlan($existingAssessment);
+
         }
 
         foreach ($answer_ids as $answer_id) {

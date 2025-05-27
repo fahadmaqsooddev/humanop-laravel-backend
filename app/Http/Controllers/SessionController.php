@@ -170,10 +170,6 @@ class SessionController extends Controller
 
                         Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-//                        DailyTip::updateUserDailyTip();
-
-//                        ActionPlan::storeUserActionPlan();
-
                         User::updateUserIsFeedback();
 
                         return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));

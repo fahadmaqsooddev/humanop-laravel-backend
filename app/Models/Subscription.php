@@ -87,10 +87,6 @@ class Subscription extends Model
 
         }
 
-//        DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
-//
-//        ActionPlan::storeUserActionPlan(true);
-
         $plan = \App\Models\Client\Plan\Plan::singlePlan($request->input('plan_id'));
 
         $data = [
@@ -100,14 +96,6 @@ class Subscription extends Model
         return $data;
 
     }
-
-    // public static function allSubscriptions(){
-
-    //     $subscriptions = self::all();
-
-    //     dd($subscriptions);
-
-    // }
 
     public static function updateUserSubscriptionFromAdmin($plan_id, $user_id){
 
