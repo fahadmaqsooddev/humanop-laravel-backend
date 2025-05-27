@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::table('points', function (Blueprint $table) {
 
-            $table->double('point')->change();
+            $table->double('point', 5, 2)->change();
 
         });
 
         Schema::table('point_logs', function (Blueprint $table) {
 
-            $table->double('point')->change();
+            $table->double('point', 5, 2)->change();
 
             $table->boolean('is_added')->default(0);
 
