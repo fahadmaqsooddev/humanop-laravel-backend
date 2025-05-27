@@ -129,7 +129,7 @@ class AssessmentController extends Controller
 
                 }
                 else{
-                    return Helpers::successResponse('Assessment Statu', [
+                    return Helpers::successResponse('Assessment Status', [
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
                         'assessment_count' => $assessment_count,
                         'retake_assessment' => null,
