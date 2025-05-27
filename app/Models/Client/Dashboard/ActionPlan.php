@@ -525,5 +525,15 @@ class ActionPlan extends Model
         return self::where('user_id', $user_id)->select(['id','priority', 'plan_text', 'text'])->latest()->first();
     }
 
+    public static function deleteUserActionPlan($user_id = null)
+    {
+        $record = self::where('user_id', $user_id)->latest()->first();
+
+        if ($record) {
+            return $record->delete();
+        }
+
+        return false;
+    }
 
 }

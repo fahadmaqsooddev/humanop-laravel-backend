@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Events\Admin\Assessment\ResetAssessment;
 use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Notification\PushNotification;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -144,6 +145,8 @@ class Assessment extends Component
                 $message = 'The assessment has been successfully reset.';
 
                 $user = User::getSingleUser($assessment['user_id']);
+
+                ActionPlan::deleteUserActionPlan($assessment['user_id']);
 
                 $deviceToken = $user['device_token'];
 
