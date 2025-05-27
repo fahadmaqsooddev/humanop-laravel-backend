@@ -796,26 +796,10 @@ class DashboardController extends Controller
             }
 
             return Helpers::validationResponse('You are not Future Consideration');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
-    }
-
-    public function assessmentStyleWeights(Request $request)
-    {
-
-        try {
-
-            Assessment::createAssessmentWeight();
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
     }
 
 }

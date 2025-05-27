@@ -123,7 +123,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
         ],
 
         'default' => [
@@ -146,457 +146,452 @@ return [
     'models' => [
         'Answer' => [
             'table' => 'answers',
-            'fillable' => ['answer', 'sort', 'image', 'user_id', 'question_id', 'answer_id'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['answer','sort','image','user_id','question_id', 'answer_id'],
+            'hidden' => ['created_at','updated_at']
         ],
         'AnswerCode' => [
             'table' => 'answer_codes',
-            'fillable' => ['code', 'number', 'answer_id', 'code_id'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['code','number','answer_id','code_id'],
+            'hidden' => ['created_at','updated_at']
         ],
         'BillingInfo' => [
             'table' => 'billing_infos',
-            'fillable' => ['first_name', 'last_name', 'email', 'zip_code', 'address', 'user_id'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['first_name','last_name','email','zip_code','address','user_id'],
+            'hidden' => ['created_at','updated_at']
         ],
         'CodeDetail' => [
             'table' => 'code_details',
-            'fillable' => ['name', 'code', 'public_name', 'number', 'type', 'text'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['name','code','public_name','number','type','text'],
+            'hidden' => ['created_at','updated_at']
         ],
         'GeneralSetting' => [
             'table' => 'general_settings',
-            'fillable' => ['sidebar_color', 'text_color', 'background_color', 'navbar_color', 'user_id'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['sidebar_color','text_color','background_color','navbar_color','user_id'],
+            'hidden' => ['created_at','updated_at']
         ],
         'Question' => [
             'table' => 'questions',
-            'fillable' => ['question', 'sort', 'active', 'multiple', 'gender', 'question_id'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['question','sort','active','multiple','gender', 'question_id'],
+            'hidden' => ['created_at','updated_at']
         ],
         'StripeSetting' => [
             'table' => 'stripe_settings',
-            'fillable' => ['api_key', 'public_key', 'account_name', 'account_email', 'amount'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['api_key','public_key','account_name','account_email', 'amount'],
+            'hidden' => ['created_at','updated_at']
         ],
         'Subscription' => [
             'table' => 'subscriptions',
-            'fillable' => ['stripe_id', 'stripe_status', 'stripe_price', 'quantity', 'trial_end_at', 'user_id', 'plan_id', 'name'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['stripe_id','stripe_status','stripe_price','quantity','trial_end_at','user_id','plan_id','name'],
+            'hidden' => ['created_at','updated_at']
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['first_name', 'last_name', 'email', 'password', 'phone', 'date_of_birth', 'gender', 'signup_date', 'last_login', 'status', 'stripe_id', 'is_admin', 'payment_method', 'pm_type', 'pm_last_four', 'pm_exp_month', 'pm_exp_year', 'google_id', 'is_feedback', 'password_set', 'is_permanently_deleted', 'image_id', 'apple_id', 'hai_chat', 'referral_code', 'referred_by', 'practitioner_id', 'timezone', 'two_way_auth', 'intro_check', 'reset_password', 'app_intro_check', 'reset_password_token', 'email_verify_token', 'step', 'email_verified_at', 'register_from_app', 'device_token', 'company_name', 'business_sub_stratergy_id', 'business_id', 'work_email', 'b2b_step', 'team_department', 'prompt_notification', 'version_update', 'sms_verify_code', 'phone_verified_at', 'complete_assessment_walkthrough', 'complete_tutorial', 'chat_summary', 'profile_status', 'hai_status', 'credits_log'],
-            'hidden' => ['created_at', 'updated_at', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret']
+            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','b2b_step','team_department','prompt_notification','version_update','sms_verify_code','phone_verified_at','complete_assessment_walkthrough','complete_tutorial','chat_summary','profile_status','hai_status','credits_log'],
+            'hidden' => ['created_at','updated_at','remember_token','two_factor_recovery_codes','two_factor_secret']
         ],
         'Page' => [
             'table' => 'pages',
-            'fillable' => ['name', 'title', 'meta_key', 'meta_description', 'text'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['name','title','meta_key','meta_description','text'],
+            'hidden' => ['created_at','updated_at']
         ],
         'Slide' => [
             'table' => 'slides',
-            'fillable' => ['heading', 'body', 'slide_id', 'sub', 'sub1', 'sub2'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['heading','body','slide_id','sub','sub1', 'sub2'],
+            'hidden' => ['created_at','updated_at']
         ],
         'SlideMedia' => [
             'table' => 'slide_media',
             'fillable' => ['image', 'slide_id'],
-            'hidden' => ['created_at', 'updated_at']
+            'hidden' => ['created_at','updated_at']
         ],
         'Assessment' => [
             'table' => 'assessments',
-            'fillable' => ['user_id', 'page', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'created_at', 'type', 'updated_at', 'reset_assessment', 'web_page', 'app_page', 'after_reset_assessment_updated_at'],
+            'fillable' => ['user_id', 'page','sa','ma','jo','lu','ven','mer','so','de','dom','fe','gre','lun','nai','ne','pow','sp','tra','van','wil','g','s','c','em','ins','int','mov','created_at','type','updated_at','reset_assessment','web_page','app_page','after_reset_assessment_updated_at'],
 //            'hidden' => ['updated_at']
-        ],
-        'AssessmentStyleWeight' => [
-            'table' => 'assessment_style_weights',
-            'fillable' => ['assessment_id', 'sa_weight', 'ma_weight', 'jo_weight', 'lu_weight', 'ven_weight', 'mer_weight', 'so_weight'],
-            'hidden' => ['created_at', 'updated_at']
         ],
         'AssessmentDetail' => [
             'table' => 'assessment_details',
-            'fillable' => ['user_id', 'assessment_id', 'question', 'answer'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['user_id','assessment_id','question','answer'],
+            'hidden' => ['created_at','updated_at']
         ],
         'DailyTip' => [
             'table' => 'daily_tips',
-            'fillable' => ['title', 'description', 'code', 'user_id', 'is_read', 'text', 'subscription_type', 'min_point', 'max_point', 'interval_of_life'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['title', 'description','code','user_id','is_read', 'text','subscription_type','min_point','max_point','interval_of_life'],
+            'hidden' => ['created_at','updated_at']
         ],
 
-        'RoleTemplate' => [
-            'table' => 'role_templates',
-            'fillable' => ['code', 'min_point', 'max_point', 'role_name'],
-            'hidden' => ['created_at', 'updated_at']
+        'RoleTemplate'=>[
+            'table'=>'role_templates',
+            'fillable' => ['code','min_point','max_point','role_name'],
+            'hidden' => ['created_at','updated_at']
         ],
-        'TaskResponsibilities' => [
-            'table' => 'task_responsibilities',
+        'TaskResponsibilities'=>[
+            'table'=>'task_responsibilities',
             'fillable' => ['role_template_id', 'tags'],
-            'hidden' => ['created_at', 'updated_at']
+            'hidden' => ['created_at','updated_at']
         ],
         'TipRecord' => [
             'table' => 'tip_records',
             'fillable' => ['user_id', 'tip_id'],
-            'hidden' => ['created_at', 'updated_at']
+            'hidden' => ['created_at','updated_at']
         ],
         'Coupon' => [
             'table' => 'coupons',
             'fillable' => ['discount', 'limit', 'coupon', 'remaining_redemption'],
-            'hidden' => ['created_at', 'updated_at']
+            'hidden' => ['created_at','updated_at']
         ],
         'CouponRedemption' => [
             'table' => 'coupon_redemptions',
             'fillable' => ['user_id', 'coupon_id'],
-            'hidden' => ['created_at', 'updated_at']
+            'hidden' => ['created_at','updated_at']
         ],
         'AlchemyCode' => [
             'table' => 'alchemy_codes',
             'fillable' => ['number', 'code', 'image'],
-            'hidden' => ['created_at', 'updated_at']
+            'hidden' => ['created_at','updated_at']
         ],
         'Payment' => [
             'table' => 'payments',
-            'fillable' => ['user_id', 'coupon_id', 'discount_price', 'total_price', 'assessment_id', 'created_at'],
+            'fillable' => ['user_id', 'coupon_id', 'discount_price', 'total_price', 'assessment_id','created_at'],
             'hidden' => ['updated_at']
         ],
         'Upload' => [
 
             'table' => 'uploads',
-            'fillable' => ['name', 'path', 'extension', 'hash', 'pre_fill'],
-            'hidden' => ['created_at', 'updated_at', 'deleted_at'],
+            'fillable' => ['name','path','extension','hash','pre_fill'],
+            'hidden' => ['created_at','updated_at','deleted_at'],
         ],
         'Story' => [
             'table' => 'stories',
-            'fillable' => ['user_id', 'upload_id', 'created_at', 'file_type'],
-            'hidden' => ['updated_at', 'deleted_at']
+            'fillable' => ['user_id','upload_id','created_at','file_type'],
+            'hidden' => ['updated_at','deleted_at']
         ],
         'StoryView' => [
             'table' => 'story_views',
-            'fillable' => ['user_id', 'story_id'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['user_id','story_id'],
+            'hidden' => ['created_at','updated_at']
         ],
         'Post' => [
             'table' => 'posts',
-            'fillable' => ['description', 'upload_id', 'user_id', 'approve', 'post_id', 'created_at'],
-            'hidden' => ['deleted_at', 'updated_at'],
+            'fillable' => ['description','upload_id','user_id','approve','post_id','created_at'],
+            'hidden' => ['deleted_at','updated_at'],
         ],
         'PostLike' => [
             'table' => 'post_likes',
-            'fillable' => ['post_id', 'user_id', 'post_comment_id'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['post_id','user_id','post_comment_id'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'PostComment' => [
             'table' => 'post_comments',
-            'fillable' => ['comment', 'post_id', 'user_id'],
-            'hidden' => ['deleted_at', 'created_at', 'updated_at'],
+            'fillable' => ['comment','post_id','user_id'],
+            'hidden' => ['deleted_at','created_at','updated_at'],
         ],
         'AssessmentColorCode' => [
             'table' => 'assessment_color_code',
-            'fillable' => ['assessment_id', 'code', 'code_color', 'code_number'],
-            'hidden' => ['created_at', 'updated_at']
+            'fillable' => ['assessment_id','code','code_color','code_number'],
+            'hidden' => ['created_at','updated_at']
         ],
         'Follow' => [
             'table' => 'follows',
-            'fillable' => ['user_id', 'follow_id'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['user_id','follow_id'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'MessageThread' => [
             'table' => 'message_threads',
-            'fillable' => ['sender_id', 'receiver_id', 'updated_at'],
-            'hidden' => ['deleted_at', 'created_at']
+            'fillable' => ['sender_id','receiver_id','updated_at'],
+            'hidden' => ['deleted_at','created_at']
         ],
         'Message' => [
             'table' => 'messages',
-            'fillable' => ['sender_id', 'message', 'upload_id', 'is_read', 'message_thread_id', 'created_at'],
+            'fillable' => ['sender_id','message','upload_id','is_read','message_thread_id','created_at'],
             'hidden' => ['updated_at']
         ],
         'Feedback' => [
             'table' => 'feedbacks',
-            'fillable' => ['comment', 'user_id', 'approve', 'rating', 'title', 'platform', 'image_id'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['comment','user_id','approve','rating','title','platform','image_id'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'Connection' => [
             'table' => 'connections',
-            'fillable' => ['status', 'friend_id', 'user_id'],
+            'fillable' => ['status', 'friend_id','user_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Podcast' => [
             'table' => 'podcast',
-            'fillable' => ['embedded_url', 'user_id'],
+            'fillable' => ['embedded_url','user_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'HaiChat' => [
             'table' => 'haichat',
-            'fillable' => ['user_id', 'query', 'answer', 'likedislike', 'admin_id'],
+            'fillable' => ['user_id','query','answer','likedislike','admin_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'ClientQuery' => [
             'table' => 'client_query',
-            'fillable' => ['user_id', 'query', 'response', 'chat_id', 'conversation_id'],
+            'fillable' => ['user_id','query','response','chat_id','conversation_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'QueryAnswer' => [
             'table' => 'query_answer',
-            'fillable' => ['query_id', 'answer', 'approved'],
+            'fillable' => ['query_id','answer','approved'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Plan' => [
             'table' => 'plans',
-            'fillable' => ['plan_id', 'name', 'billing_method', 'interval_count', 'price', 'currency', 'plan_type', 'no_of_team_members', 'status'],
+            'fillable' => ['plan_id','name','billing_method','interval_count','price','currency','plan_type','no_of_team_members','status'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Point' => [
             'table' => 'points',
-            'fillable' => ['user_id', 'point'],
+            'fillable' => ['user_id','point'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'PointLog' => [
             'table' => 'point_logs',
-            'fillable' => ['user_id', 'point', 'type', 'plan', 'is_added'],
+            'fillable' => ['user_id','point','type','plan','is_added'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'LibraryResource' => [
             'table' => 'library_resources',
-            'fillable' => ['heading', 'slug', 'upload_id', 'resource_category_id', 'description', 'content', 'source_id', 'source_url', 'embed_link'],
+            'fillable' => ['heading','slug','upload_id','resource_category_id','description','content','source_id','source_url','embed_link'],
             'hidden' => ['updated_at'],
         ],
         'PermissionResource' => [
             'table' => 'permission_resources',
-            'fillable' => ['resource_id', 'permission'],
+            'fillable' => ['resource_id','permission'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'ActionPlan' => [
             'table' => 'action_plans',
-            'fillable' => ['plan_text', 'user_id', 'updated_at', 'text', 'assessment_id', 'priority'],
+            'fillable' => ['plan_text','user_id','updated_at','text','assessment_id','priority'],
             'hidden' => ['created_at'],
         ],
         'ResourceCategory' => [
             'table' => 'resource_categories',
             'fillable' => ['name'],
-            'hidden' => ['created_at', 'updated_at'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'IntentionPlan' => [
             'table' => 'intention_plan',
             'fillable' => ['user_id', 'intention_option_id'],
-            'hidden' => ['created_at', 'updated_at'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'PdfGenerate' => [
             'table' => 'pdf_generates',
-            'fillable' => ['user_id', 'assessment_id', 'code_detail_id', 'code_number'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['user_id', 'assessment_id','code_detail_id','code_number'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'ModelHasRole' => [
             'table' => 'model_has_roles',
-            'fillable' => ['role_id', 'model_type', 'model_id']
+            'fillable' => ['role_id', 'model_type','model_id']
         ],
         'IntentionOption' => [
             'table' => 'intention_options',
             'fillable' => ['description'],
-            'hidden' => ['created_at', 'updated_at'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'InformationIcon' => [
             'table' => 'information_icon',
-            'fillable' => ['name', 'information'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['name','information'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'Emailtemplate' => [
             'table' => 'email_templates',
-            'fillable' => ['name', 'format'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['name','format'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'UserDailyTip' => [
             'table' => 'user_daily_tips',
-            'fillable' => ['user_id', 'daily_tip_id', 'is_read', 'assessment_id'],
+            'fillable' => ['user_id','daily_tip_id','is_read','assessment_id'],
             'hidden' => ['updated_at'],
         ],
         'Version' => [
             'table' => 'version_control',
-            'fillable' => ['version', 'note'],
-            'hidden' => ['created_at', 'updated_at', 'deleted_at'],
+            'fillable' => ['version','note'],
+            'hidden' => ['created_at','updated_at','deleted_at'],
         ],
         'OptimizationPlan' => [
             'table' => 'optimization_plan',
-            'fillable' => ['priority', 'condition', 'content'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['priority','condition','content'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'Chatbot' => [
             'table' => 'chatbot',
-            'fillable' => ['name', 'description', 'publish_path', 'is_published', 'brain_name'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['name','description','publish_path','is_published','brain_name'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'ChatPrompt' => [
             'table' => 'hai_chat_prompts',
-            'fillable' => ['name', 'prompt', 'restriction'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['name','prompt','restriction'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatEmbedding' => [
             'table' => 'hai_chat_embeddings',
-            'fillable' => ['name', 'request_id', 'created_at', 'updated_at', 'ready_for_training'],
+            'fillable' => ['name','request_id','created_at','updated_at','ready_for_training'],
             'hidden' => [],
         ],
         'HaiChatActiveEmbedding' => [
             'table' => 'hai_chat_active_embeddings',
-            'fillable' => ['chat_bot', 'request_id', 'group_id'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['chat_bot','request_id','group_id'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatSetting' => [
             'table' => 'hai_chat_setting',
-            'fillable' => ['id', 'temperature', 'max_token', 'chunk', 'model_type', 'chat_bot_id', 'plan_id', 'persona_text', 'persona_name', 'human_op_app', 'maestro_app', 'maestro_app_id', 'is_training'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['id','temperature','max_token','chunk','model_type','chat_bot_id','plan_id','persona_text','persona_name','human_op_app','maestro_app','maestro_app_id','is_training'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatConversation' => [
             'table' => 'hai_chat_conversation',
-            'fillable' => ['id', 'chatbot', 'message', 'reply', 'user_id', 'is_liked'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['id','chatbot','message','reply','user_id','is_liked'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingSetting' => [
             'table' => 'embedding_setting',
-            'fillable' => ['id', 'embedding', 'chunk'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['id','embedding','chunk'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'HaiChaiChunk' => [
             'table' => 'hai_chat_chunks',
-            'fillable' => ['id', 'embedding', 'chatbot', 'query', 'retrieved_docs'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['id','embedding','chatbot','query','retrieved_docs'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'UserInvite' => [
             'table' => 'user_invites',
-            'fillable' => ['id', 'email', 'link', 'role', 'members_limit', 'total_member_limit', 'send_invite_time'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['id','email','link','role','members_limit','total_member_limit','send_invite_time'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingGroup' => [
             'table' => 'embedding_groups',
-            'fillable' => ['id', 'name', 'created_at', 'updated_at', 'description'],
+            'fillable' => ['id','name','created_at','updated_at','description'],
             'hidden' => ['deleted_at'],
         ],
         'ChatbotKeyword' => [
             'table' => 'chatbot_keywords',
-            'fillable' => ['word', 'chatbot_id', 'message'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['word','chatbot_id','message'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'GroupEmbedding' => [
             'table' => 'group_embeddings',
-            'fillable' => ['embedding_id', 'group_id'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['embedding_id','group_id'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'Notification' => [
             'table' => 'notifications',
-            'fillable' => ['type', 'message', 'read', 'created_at', 'user_id', 'device_token', 'permission', 'notification_priority', 'role'],
-            'hidden' => ['updated_at', 'deleted_at'],
+            'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority','role'],
+            'hidden' => ['updated_at','deleted_at'],
         ],
         'LlmModel' => [
             'table' => 'llm_models',
-            'fillable' => ['model_name', 'model_value'],
-            'hidden' => ['updated_at', 'deleted_at'],
+            'fillable' => ['model_name','model_value'],
+            'hidden' => ['updated_at','deleted_at'],
         ],
         'AnalyticsModel' => [
             'table' => 'analytics',
-            'fillable' => ['llm_model_id', 'prompt_token', 'completion_token', 'total_token', 'query'],
-            'hidden' => ['updated_at', 'deleted_at'],
+            'fillable' => ['llm_model_id','prompt_token','completion_token','total_token','query'],
+            'hidden' => ['updated_at','deleted_at'],
         ],
         'BusinessStrategies' => [
             'table' => 'business_strategies',
             'fillable' => ['name'],
-            'hidden' => ['updated_at', 'created_at'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'BusinessSubStrategies' => [
             'table' => 'business_sub_strategies',
-            'fillable' => ['business_strategy_id', 'name'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['business_strategy_id','name'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'B2BTaskAndResponsibilities' => [
             'table' => 'b2b_tasks_responsibilities',
-            'fillable' => ['role_template_id', 'name', 'tag1', 'tag2', 'tag3'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['role_template_id','name','tag1','tag2','tag3'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'UserOptimalTrait' => [
             'table' => 'user_optimal_trait',
-            'fillable' => ['user_id', 'optimal_trait', 'status'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['user_id','optimal_trait','status'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'FineTuneContent' => [
             'table' => 'fine_tune_content',
-            'fillable' => ['question', 'answer', 'is_fine_tuned', 'queued_for_fine_tuning'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['question','answer','is_fine_tuned','queued_for_fine_tuning'],
+            'hidden' => ['created_at','updated_at'],
         ],
-        'B2BSupport' => [
-            'table' => 'b2b_support',
-            'fillable' => ['title', 'description', 'image_id'],
-            'hidden' => ['created_at', 'updated_at'],
+        'B2BSupport'=>[
+            'table'=>'b2b_support',
+            'fillable'=>['title','description','image_id'],
+            'hidden'=>['created_at','updated_at'],
         ],
         'B2BBusinessCandidates' => [
             'table' => 'business_candidates',
-            'fillable' => ['business_id', 'candidate_id', 'is_permanently_deleted', 'future_consideration', 'role', 'share_data', 'request_access', 'future_consideration_share_date'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['business_id','candidate_id','is_permanently_deleted','future_consideration','role','share_data','request_access','future_consideration_share_date'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'B2BCandidateStat' => [
             'table' => 'b2b_candidate_stats',
-            'fillable' => ['business_id', 'candidate_id', 'action_plan_id'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['business_id','candidate_id','action_plan_id'],
+            'hidden' => ['updated_at','created_at'],
         ],
-        'B2BNotes' => [
-            'table' => 'b2b_notes',
-            'fillable' => ['business_id', 'user_id', 'note'],
-            'hidden' => ['updated_at', 'created_at']
+        'B2BNotes'=>[
+            'table'=>'b2b_notes',
+            'fillable'=>['business_id','user_id','note'],
+            'hidden'=>['updated_at','created_at']
         ],
-        'B2BIntentionOption' => [
-            'table' => 'b2b_intention_option',
-            'fillable' => ['intention_option'],
-            'hidden' => ['updated_at', 'created_at']
+        'B2BIntentionOption'=>[
+            'table'=>'b2b_intention_option',
+            'fillable'=>['intention_option'],
+            'hidden'=>['updated_at','created_at']
         ],
-        'SelectIntentionOption' => [
-            'table' => 'select_b2b_intention',
-            'fillable' => ['business_id', 'intention_option_id'],
-            'hidden' => ['updated_at', 'created_at']
+        'SelectIntentionOption'=>[
+            'table'=>'select_b2b_intention',
+            'fillable'=>['business_id','intention_option_id'],
+            'hidden'=>['updated_at','created_at']
         ],
-        'UserCandidateInvite' => [
-            'table' => 'b2b_users_invites',
-            'fillable' => ['company_id', 'invite_link_id', 'role'],
+        'UserCandidateInvite'=>[
+            'table'=>'b2b_users_invites',
+            'fillable'=>['company_id','invite_link_id','role'],
         ],
-        'AssessmentWalkThrough' => [
-            'table' => 'assessment_walkthrough',
-            'fillable' => ['code_name', 'title', 'overview', 'optimal', 'optimization'],
-            'hidden' => ['updated_at', 'created_at']
+        'AssessmentWalkThrough'=>[
+            'table'=>'assessment_walkthrough',
+            'fillable'=>['code_name','title','overview','optimal','optimization'],
+            'hidden'=>['updated_at','created_at']
         ],
         'TrainingFile' => [
             'table' => 'training_files',
-            'fillable' => ['name', 'file_name'],
-            'hidden' => ['created_at', 'updated_at'],
+            'fillable' => ['name','file_name'],
+            'hidden' => ['created_at','updated_at'],
         ],
         'BrainCluster' => [
             'table' => 'brain_clusters',
-            'fillable' => ['chat_bot_id', 'cluster_id'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['chat_bot_id','cluster_id'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'PushNotification' => [
             'table' => 'push_notification',
-            'fillable' => ['user_id', 'optimal_trait', 'daily_tip', 'reset_assessment', 'resource'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['user_id','optimal_trait','daily_tip','reset_assessment','resource'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'VersionControlDescription' => [
             'table' => 'version_control_descriptions',
-            'fillable' => ['version_id', 'description', 'platform', 'version_heading'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['version_id','description','platform','version_heading'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'SmsNotification' => [
             'table' => 'aws_credential',
-            'fillable' => ['public_key', 'secret_key', 'region'],
-            'hidden' => ['updated_at', 'created_at'],
+            'fillable' => ['public_key','secret_key','region'],
+            'hidden' => ['updated_at','created_at'],
         ],
         'SubscriptionItem' => [
             'table' => 'subscription_items',
-            'fillable' => ['subscription_id', 'stripe_id', 'stripe_product', 'stripe_price', 'quantity'],
+            'fillable' => ['subscription_id','stripe_id','stripe_product','stripe_price','quantity'],
             'hidden' => ['created_at']
         ],
         'B2BCoupon' => [
             'table' => 'b2b_coupons',
-            'fillable' => ['coupon_name', 'coupon_code', 'coupon_limit', 'coupon_duration'],
+            'fillable' => ['coupon_name','coupon_code','coupon_limit','coupon_duration'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'AssessmentIntro' => [
             'table' => 'assessment_intro',
-            'fillable' => ['name', 'code', 'public_name', 'number', 'type', 'text', 'video', 'p_name'],
+            'fillable' => ['name','code','public_name','number','type','text','video','p_name'],
             'hidden' => ['created_at', 'updated_at']
         ],
     ]
