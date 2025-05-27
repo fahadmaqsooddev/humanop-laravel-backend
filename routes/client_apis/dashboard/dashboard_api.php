@@ -43,5 +43,4 @@ Route::group(['middleware' => ['checkUser']], function () {
 
 
    Route::get('hai-chat-status', 'DashboardController@haiChatStatus');
-   Route::get('assessment-style-weights', 'DashboardController@assessmentStyleWeights');
 });
