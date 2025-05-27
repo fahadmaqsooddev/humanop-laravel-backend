@@ -123,10 +123,6 @@ class ChangePasswordController extends Controller
 
             $user = User::userLoggedInData();
 
-//            DailyTip::updateUserDailyTip();
-
-            ActionPlan::storeUserActionPlan();
-
             return redirect()->route('email_verified');
 
         } else {

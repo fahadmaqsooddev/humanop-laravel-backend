@@ -357,11 +357,6 @@ class UserController extends Controller
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                    //                    DailyTip::updateUserDailyTip();
-
-                    //                    ActionPlan::storeUserActionPlan();
-
-
                     $data = [
 
                         'user' => $user_data,
@@ -395,10 +390,6 @@ class UserController extends Controller
                     $user = Helpers::getUser();
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-                    //                    DailyTip::updateUserDailyTip();
-
-                    //                    ActionPlan::storeUserActionPlan();
 
                     $data = [
 
