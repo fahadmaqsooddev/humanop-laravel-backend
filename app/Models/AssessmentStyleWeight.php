@@ -34,7 +34,7 @@ class AssessmentStyleWeight extends Model
 
         } else {
 
-            $styleWeight = self::create([
+            self::create([
                 'assessment_id' => $assessmentId,
                 'sa_weight' => $styleWeights['sa'],
                 'ma_weight' => $styleWeights['ma'],
