@@ -135,10 +135,10 @@ class ActionPlan extends Model
     public static function storeUserActionPlan($assessment = null, $user = null)
     {
 
-        $checkActionPlan = self::getUserActionPlan($user['id']);
-
-        if (empty($checkActionPlan))
-        {
+//        $checkActionPlan = self::getUserActionPlan($user['id']);
+//
+//        if (empty($checkActionPlan))
+//        {
             $assessmentDetails = Assessment::getAllRowGrid($assessment['id']);
 
             $bridge = [];
@@ -498,7 +498,7 @@ class ActionPlan extends Model
 
             return $plan;
 
-        }
+//        }
 
 
     }
