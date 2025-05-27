@@ -128,6 +128,21 @@ class AssessmentController extends Controller
                     ]);
 
                 }
+                else{
+                    return Helpers::successResponse('Assessment Statu', [
+                        'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                        'assessment_count' => $assessment_count,
+                        'retake_assessment' => null,
+                        'assessment_page_number' => $status,
+                        'assessment_price' => ($assessment_price->amount ?? 0),
+                        'user' => [
+                            'last_four_digits' => $user['pm_last_four'],
+                            'exp_month' => $user['pm_exp_month'],
+                            'exp_year' => $user['pm_exp_year'],
+                            'name' => $user['card_name'],
+                        ]
+                    ]);
+                }
             } else {
 
                 return Helpers::successResponse('Assessment Status', [
