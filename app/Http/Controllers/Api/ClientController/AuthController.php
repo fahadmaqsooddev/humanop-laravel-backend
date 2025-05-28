@@ -24,6 +24,7 @@ use App\Models\Client\Point\Point;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionOption;
+use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Notification\PushNotification;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
@@ -1021,6 +1022,8 @@ class AuthController extends Controller
 
             $userDailyTip = UserDailyTip::where('user_id', $data['id'])->with('dailyTip')->latest()->first();
 
+            $intention = IntentionPlan::getUserIntentionPlan($data['id']);
+
             $result[] = [
                 'user_detail' => [
                     'name' => ($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''),
@@ -1029,11 +1032,21 @@ class AuthController extends Controller
                     'date_of_birth' => $data['date_of_birth'] ?? '',
                     'gender' => $data['gender'] ?? '',
                     'timezone' => $data['timezone'] ?? '',
+                    'plan_name' => $data['plan_name'] ?? ''
                 ],
+                'interval_of_life' => $coreState['interval_of_life'],
+                'intention_option' => $intention,
+                'assessment' => $coreState['assessment'],
+                'all_traits' => $userTrait,
+                'top_three_traits' => $coreState['topThreeStyles'],
+                'top_two_features' => $coreState['topTwoFeatures'],
+                'tertiary_features' => $coreState['tertiaryFeatures'],
+                'alchemy' => $coreState['boundary'],
+                'energy_center' => $coreState['topCommunication'],
+                'energy_pool' => $coreState['energyPool'],
+                'perception' => $coreState['perception'],
                 'optimization_plan' => $optimizationPlan,
-                'core_state' => $coreState,
-                'user_trait' => $userTrait,
-                'daily_tip' => $userDailyTip,
+                'daily_tip' => $userDailyTip['dailyTip'],
 
             ];
 

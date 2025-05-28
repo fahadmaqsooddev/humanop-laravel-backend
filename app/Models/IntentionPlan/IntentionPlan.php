@@ -38,11 +38,6 @@ class IntentionPlan extends Model
         return $intention_plan;
     }
 
-    // public static function getIntentionPlan($userId = null)
-    // {
-    //     return self::where('user_id', $userId)->with('intentionOptions')->get();
-    // }
-
     public static function updateIntentionPlan($userId = null, $intentionPlan = [])
     {
         $plan = self::where('user_id', $userId)->first();
@@ -56,6 +51,25 @@ class IntentionPlan extends Model
         });
 
         return $intentionPlan;
+    }
+
+    public static function getUserIntentionPlan($user_id = null)
+    {
+        $intentions = self::where('user_id', $user_id)->with('intentionOptions', function ($q){
+
+            return $q->select(['id','description']);
+
+        })->get();
+
+        $intentionOption = [];
+
+        foreach ($intentions as $intention) {
+
+            $intentionOption[] = $intention['intentionOptions']['description'];
+
+        }
+
+        return $intentionOption;
     }
 
 }
