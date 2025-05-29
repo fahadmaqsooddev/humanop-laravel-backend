@@ -24,6 +24,7 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
+use App\Models\Client\Connection\Connection;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
 use App\Models\IntentionPlan\IntentionPlan;
@@ -621,6 +622,8 @@ class UserController extends Controller
             $user = Helpers::getUser();
 
             User::changeProfileAccess($request['change_profile_access']);
+
+            HaiChatHelpers::syncUserRecordWithHAi();
 
             DB::commit();
 

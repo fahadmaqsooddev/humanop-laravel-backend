@@ -137,7 +137,7 @@ class HaiChatHelpers
 
         ];
 
-        $body = ["user_id" => Helpers::getUser()->id, "connected_users_data" => $data];
+        $body = ["user_id" => $user['id'], "connected_users_data" => $data];
 
         GuzzleHelpers::sendRequestFromGuzzleForNewHai('post',"NewHaiApi/users", $body);
 
