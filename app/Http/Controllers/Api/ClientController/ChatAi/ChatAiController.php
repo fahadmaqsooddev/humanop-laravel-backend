@@ -134,68 +134,28 @@ class ChatAiController extends Controller
 
                 }else{
 
-                    $user_id = Helpers::getUser()->id;
+                    $user = Helpers::getUser();
 
-                    $user_grid = Assessment::getLatestAssessment($user_id);
+                    $connections = Connection::userConnectionIdsForHAi();
 
-                    $user = User::userDataForHAi($user_id);
+                    $body = ['user_query' => $request->input('question'),"user_id" => $user['id'], "document_ids" => $chat_bot['embedding_ids'], "temperature" => $chat_bot['temperature'],
+                        "max_tokens" => $chat_bot['max_tokens'], "relevent_chunks" => $chat_bot['chunks'], "base_data" => $chat_bot['prompt'], "restriction_data" => $chat_bot['restriction'],
+                        "user_tokens" => $user_credits, "flag" => $request->input('is_repeat_answer'), "connection" => $connections];
 
-                    $user_name = $user['first_name'];
+                    $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'NewHaiApi/network', $body);
 
-//                    $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
+                    if(isset($response['detail']) && $response['detail'] === '303'){ // 303 error in case of user ask about their connections
 
-//                    $interval_life = User::userIntervalOfLife($user['date_of_birth']);
-
-                    $optimizationPlan = $user_grid ? ActionPlan::getUserActionPlan($user_id) : null;
-
-                    $coreState = $user_grid ? Assessment::getCoreState($user_grid, $user['date_of_birth']) : null;
-
-                    $userTrait = Assessment::UserTraits($user_id);
-
-                    $userDailyTip = UserDailyTip::where('user_id', $user_id)->with('dailyTip')->latest()->first();
-
-                    $connection = Connection::sendConnectedUsersDataForHAi();
-
-                    $result = [
-                        'name' => $user_name,
-                        'email' => $user['email'] ?? '',
-                        'phone' => $user['phone'] ?? '',
-                        'date_of_birth' => $user['date_of_birth'] ?? '',
-                        'gender' => $user['gender'] ?? '',
-                        'timezone' => $user['timezone'] ?? '',
-                        'optimization_plan' => $optimizationPlan,
-                        'core_state' => $coreState,
-                        'daily_tip' => $userDailyTip,
-                    ];
-
-                    $body = ['user_query' => $request->input('question'),'user_detail' => $result ?? [] ,'base_data' => ($chat_bot['prompt'] ?? null), 'restriction_data' => ($chat_bot['restriction'] ?? null), 'formatted_docs' => $chat_bot['embedding_ids'],
-                        'temperature' => $chat_bot['temperature'], 'max_tokens' => $chat_bot['max_tokens'], 'chunks' => $chat_bot['chunks'], 'user_id' => Helpers::getUser()->id,'user_trait' => ($userTrait ?? []), 'user_tokens' => $user_credits];
-
-                    if($user && $user['hai_status'] === 1){
-
-                        $body['connected'] = ($connection['friends'] ?? []);
-
-                        $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/api/connected/user', $body);
-
-                        if(isset($response['detail']) && $response['detail'] === '303'){ // When user does not Allow him self to access HAi
+                        if ($user['hai_status'] === 1){//When user does not allow him self to access HAi
 
                             return Helpers::validationResponse("Ask Hai request from User");
 
-                        }
-
-                    }else{
-
-                        $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/api/chat', $body);
-
-                        if(isset($response['detail']) && $response['detail'] === '303'){ // When user does not Allow him self to access HAi
+                        }else{//When user another user not allow access of data to HAi
 
                             return Helpers::validationResponse("Allow Hai for user");
-
                         }
 
-                    }
-
-                    if (isset($response['response'])){
+                    }else if (isset($response['response'])){
 
                         HaiChat::createChat($request->input("question"), $response['response'], null, $request->input("is_repeat_answer"));
 

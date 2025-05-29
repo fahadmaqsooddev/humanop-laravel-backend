@@ -2,26 +2,14 @@
 
 namespace App\Helpers\HaiChat;
 
-use App\Models\Upload\Upload;
-use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
+
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\Helpers;
+use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Assessment;
-use App\Models\Admin\StripeSetting\StripeSetting;
-use App\Models\Client\Plan\Plan;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
-use OpenAI\Client;
+use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\IntentionPlan\IntentionPlan;
 use Smalot\PdfParser\Parser;
-use Spatie\PdfToText\Pdf;
-use Stripe\BaseStripeClient;
-use Stripe\Stripe;
-use Stripe\StripeClient;
-use App\Models\User;
-use App\Services\TwilioServices\TwilioServices;
 class HaiChatHelpers
 {
     public static function cosineSimilarity($vectorA, $vectorB) {
@@ -107,5 +95,51 @@ class HaiChatHelpers
         return $finalResults;
     }
 
+    public static function syncUserRecordWithHAi(){
 
+        $user = Helpers::getUser();
+
+        $getAssessment = Assessment::getLatestAssessment($user['id']);
+
+        $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($user['id']) : null;
+
+        $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $user['date_of_birth']) : null;
+
+        $userTrait = Assessment::UserTraits($user['id']);
+
+        $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
+
+        $intention = IntentionPlan::getUserIntentionPlan($user['id']);
+
+        $data = [
+            'user_detail' => [
+                'name' => ($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''),
+                'email' => $user['email'] ?? '',
+                'phone' => $user['phone'] ?? '',
+                'date_of_birth' => $user['date_of_birth'] ?? '',
+                'gender' => $user['gender'] ?? '',
+                'timezone' => $user['timezone'] ?? '',
+                'plan_name' => $user['plan_name'] ?? ''
+            ],
+            'interval_of_life' => $coreState['interval_of_life'],
+            'intention_option' => $intention,
+            'assessment' => $coreState['assessment'],
+            'all_traits' => $userTrait,
+            'top_three_traits' => $coreState['topThreeStyles'],
+            'top_two_features' => $coreState['topTwoFeatures'],
+            'tertiary_features' => $coreState['tertiaryFeatures'],
+            'alchemy' => $coreState['boundary'],
+            'energy_center' => $coreState['topCommunication'],
+            'energy_pool' => $coreState['energyPool'],
+            'perception' => $coreState['perception'],
+            'optimization_plan' => $optimizationPlan,
+            'daily_tip' => $userDailyTip['dailyTip'],
+
+        ];
+
+        $body = ["user_id" => Helpers::getUser()->id, "connected_users_data" => $data];
+
+        GuzzleHelpers::sendRequestFromGuzzleForNewHai('post',"NewHaiApi/users", $body);
+
+    }
 }

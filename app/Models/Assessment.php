@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Admin\Admin;
 use App\Events\Assessment\SubmitAssessment;
 use App\Events\DailyTip\NewDailyTip;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -1357,6 +1358,8 @@ class Assessment extends Model
                 event(new SubmitAssessment(Helpers::getUser()['id'], 0));
 
                 $latestAssessment = Assessment::getLatestAssessment($userId);
+
+                HaiChatHelpers::syncUserRecordWithHAi();
 
                 $user = Helpers::getWebUser() ?? Helpers::getUser();
 

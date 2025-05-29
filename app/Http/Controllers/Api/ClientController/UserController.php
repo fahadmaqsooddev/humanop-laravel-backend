@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\BlueHelper\BlueHelpers;
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
@@ -104,13 +106,18 @@ class UserController extends Controller
 
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
-
             if ($request) {
 
                 $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone']);
+
                 $updated_user = User::updateUserProfile($dataArray);
+
+                HaiChatHelpers::syncUserRecordWithHAi();
+
                 return Helpers::successResponse('User updated successfully', $updated_user);
+
             } else {
+
                 return Helpers::forbiddenResponse('Please Filled Data');
             }
         } catch (\Exception $exception) {
@@ -426,6 +433,8 @@ class UserController extends Controller
             IntentionPlan::where('user_id', $user['id'])->delete();
 
             IntentionPlan::updateIntentionPlan($user['id'], $request->ninety_day_intention);
+
+            HaiChatHelpers::syncUserRecordWithHAi();
 
             return Helpers::successResponse('updated successfully.', $request->ninety_day_intention);
         } catch (\Exception $exception) {

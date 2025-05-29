@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
@@ -55,6 +56,8 @@ class DashboardController extends Controller
                     $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
                     if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
+
+                        HaiChatHelpers::syncUserRecordWithHAi();
 
                         $data = [
                             'title' => $userDailyTip['dailyTip']['title'] ?? '',
