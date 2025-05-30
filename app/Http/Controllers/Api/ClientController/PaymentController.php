@@ -201,7 +201,12 @@ class PaymentController extends Controller
                     default => 100,
                 };
 
-                Point::where('user_id', Helpers::getUser()['id'])->update(['point' => $credits]);
+                $userId = Helpers::getUser()['id'];
+
+                Point::updateOrCreate(
+                    ['user_id' => $userId],
+                    ['point' => $credits]
+                );
 
                 return Helpers::successResponse("You've successfully received {$credits} credits based on your plan!");
 
