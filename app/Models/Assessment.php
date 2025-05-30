@@ -1359,8 +1359,6 @@ class Assessment extends Model
 
                 $latestAssessment = Assessment::getLatestAssessment($userId);
 
-                HaiChatHelpers::syncUserRecordWithHAi();
-
                 $user = Helpers::getWebUser() ?? Helpers::getUser();
 
                 if (!empty($latestAssessment)) {
@@ -1427,9 +1425,12 @@ class Assessment extends Model
                     }
                 }
 
+                HaiChatHelpers::syncUserRecordWithHAi();
+
                 if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
                     $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
+
                 } else {
 
                     $message = "Congratulations on finishing your assessment!";
