@@ -76,7 +76,15 @@ class Dojo extends Component
 
         }elseif ($reply['detail']){
 
-            session()->flash('training_error', $reply['detail']);
+            if ($reply['detail'] === "303"){
+
+                session()->flash('training_error', "Session with same name already exists.");
+
+            }else{
+
+                session()->flash('training_error', $reply['detail']);
+            }
+
 
         }else{
 
