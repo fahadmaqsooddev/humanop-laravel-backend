@@ -186,7 +186,7 @@ class Conversation extends Component
                     }else{
 
                         $body = ['query' => $this->message,'base_data' => ($prompts['prompt'] ?? null), 'restriction_data' => ($prompts['restriction'] ?? null), 'formatted_docs' => $activeChatAndEmbedding,
-                            'brain_id' => $this->chat_bot_id,'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_tokens'], 'chunks' => $setting['chunks'], 'flag' => $this->disliked];
+                            'brain_id' => $this->chat_bot_id,'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_tokens'], 'chunks' => $setting['chunks'], 'flag' => $this->disliked, 'brain_name' => "Random Brain"];
 
                         $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'persona/admin/chat', $body);
 
