@@ -150,6 +150,8 @@ class ChatAiController extends Controller
 
                         Log::info(['status' => $user['hai_status'] ?? null]);
 
+                        Log::info(['statys' => $user['hai_status'] === 0]);
+
                         if ($user['hai_status'] === 0){//When user does not allow him self to access HAi
 
                             return Helpers::validationResponse("Ask Hai request from User");
