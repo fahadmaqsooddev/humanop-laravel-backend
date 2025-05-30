@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\NewHaiChat\Dojo;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatSetting;
@@ -121,7 +122,9 @@ class Dojo extends Component
 
             $settings = ChatPrompt::where('chat_bot_id', $this->chat_bot_id)->first();
 
-            $body = ['content' => $this->message, 'base_data' => ($settings['prompt'] ?? null), 'restriction_data' => ($settings['restriction'] ?? null)];
+            $embedding_ids = BrainCluster::connectedNewClusterEmbeddingIds($this->chat_bot_id);
+
+            $body = ['content' => $this->message, 'base_data' => ($settings['prompt'] ?? null), 'restriction_data' => ($settings['restriction'] ?? null), "formatted_docs" => $embedding_ids];
 
             $reply = GuzzleHelpers::sendRequestFromGuzzleForDojo('post', "conversations/$this->session_id/messages", $body);
 
