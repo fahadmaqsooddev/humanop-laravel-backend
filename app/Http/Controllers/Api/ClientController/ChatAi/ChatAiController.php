@@ -148,7 +148,7 @@ class ChatAiController extends Controller
 
                     if(isset($response['detail']) && $response['detail'] === '303'){ // 303 error in case of user ask about their connections
 
-                        Log::info(['status' => $user['hai_status']]);
+                        Log::info(['status' => $user['hai_status'] ?? null]);
 
                         if ($user['hai_status'] === 0){//When user does not allow him self to access HAi
 
