@@ -206,7 +206,7 @@
 
             </div>
 
-                <div class="col-9">
+            <div class="col-6">
 
                     <div style="border-radius: 5px;border: 2px solid #f2661c; width: 100%;height: auto; padding-top: 10px;">
 
@@ -305,6 +305,26 @@
                         <span wire:loading wire:target="endTrainingSession">Ending...</span>
 
                     </button>
+
+                </div>
+
+            </div>
+
+            <div class="col-3">
+
+                <div style="border-radius: 5px; border: 2px solid #f2661c; width: 100%; height: 500px; padding-top: 10px;">
+
+                    <div class="custom-text-dark" style="position: relative; top: 40%; text-align: center; font-style: italic;">
+
+                        [HAi Training Window]
+
+                        <p>
+                            This will allow admin user to
+                            observe how HAi is thinking and
+                            processing its learning
+                        </p>
+
+                    </div>
 
                 </div>
 

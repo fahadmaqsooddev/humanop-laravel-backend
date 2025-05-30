@@ -124,7 +124,7 @@ class Dojo extends Component
 
             $embedding_ids = BrainCluster::connectedNewClusterEmbeddingIds($this->chat_bot_id);
 
-            $body = ['content' => $this->message, 'base_data' => ($settings['prompt'] ?? null), 'restriction_data' => ($settings['restriction'] ?? null), "formatted_docs" => $embedding_ids];
+            $body = ['content' => $this->message, 'base_data' => ($settings['prompt'] ?? null), 'restriction_data' => ($settings['restriction'] ?? null), "document_ids" => $embedding_ids];
 
             $reply = GuzzleHelpers::sendRequestFromGuzzleForDojo('post', "conversations/$this->session_id/messages", $body);
 
