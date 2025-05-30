@@ -142,15 +142,11 @@ class ChatAiController extends Controller
                         "max_tokens" => $chat_bot['max_tokens'], "relevent_chunks" => $chat_bot['chunks'], "base_data" => $chat_bot['prompt'], "restriction_data" => $chat_bot['restriction'],
                         "user_tokens" => $user_credits, "flag" => $request->input('is_repeat_answer'), "connection" => $connections];
 
-                    Log::info(['boddy' => $body]);
-
                     $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'NewHaiApi/network', $body);
 
                     if(isset($response['detail']) && $response['detail'] === '303'){ // 303 error in case of user ask about their connections
 
-                        Log::info(['status' => $user['hai_status']]);
-
-                        if ($user['hai_status'] === 1){//When user does not allow him self to access HAi
+                        if ($user['hai_status'] === 0){//When user does not allow him self to access HAi
 
                             return Helpers::validationResponse("Ask Hai request from User");
 

@@ -275,7 +275,7 @@ class Connection extends Model
 
         $user_connection_ids = self::whereHas('friend', function ($q){
 
-            $q->where('hai_status', 1);
+            $q->where('hai_status', 0);
 
         })->where('user_id', Helpers::getUser()->id)->where('status', 1)->get()->pluck('friend_id');
 
