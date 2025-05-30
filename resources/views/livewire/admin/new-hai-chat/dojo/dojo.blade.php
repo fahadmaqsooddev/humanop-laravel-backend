@@ -312,19 +312,31 @@
 
             <div class="col-3">
 
-                <div style="border-radius: 5px; border: 2px solid #f2661c; width: 100%; height: 500px; padding-top: 10px;">
+                <div style="border-radius: 5px; border: 2px solid #f2661c; width: 100%; height: 500px; padding-top: 10px;max-height: 500px;overflow-y: scroll;" id="training_div">
 
-                    <div class="custom-text-dark" style="position: relative; top: 40%; text-align: center; font-style: italic;">
+                    @if($thinking)
 
-                        [HAi Training Window]
+                        <div class="custom-text-dark">
 
-                        <p>
-                            This will allow admin user to
-                            observe how HAi is thinking and
-                            processing its learning
-                        </p>
+                            {!! $thinking !!}
 
-                    </div>
+                        </div>
+
+                    @else
+
+                        <div class="custom-text-dark" style="position: relative; top: 40%; text-align: center; font-style: italic;">
+
+                            [HAi Training Window]
+
+                            <p>
+                                This will allow admin user to
+                                observe how HAi is thinking and
+                                processing its learning
+                            </p>
+
+                        </div>
+
+                    @endif
 
                 </div>
 
@@ -453,6 +465,15 @@
                 event.preventDefault();
 
                 sessionContainer.scrollBy({
+                    top: event.deltaY < 0 ? -30 : 30
+                });
+            }, {passive: true});
+
+            const trainingContainer = document.querySelector('#training_div');
+            trainingContainer.addEventListener('wheel', (event) => {
+                event.preventDefault();
+
+                trainingContainer.scrollBy({
                     top: event.deltaY < 0 ? -30 : 30
                 });
             }, {passive: true});

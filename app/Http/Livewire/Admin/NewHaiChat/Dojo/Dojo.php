@@ -14,7 +14,7 @@ use Livewire\Component;
 class Dojo extends Component
 {
 
-    public $training_session_name, $session_id, $message, $persona_id, $chat_bot_id;
+    public $training_session_name, $session_id, $message, $persona_id, $chat_bot_id, $thinking;
 
     public $allSessions = [], $conversations = [], $personas = [];
 
@@ -131,6 +131,8 @@ class Dojo extends Component
             if (isset($reply['content'])){
 
                 $this->reset('message');
+
+                $this->thinking = $reply['thinking'] ?? null;
 
             }elseif (isset($reply['detail'])){
 
