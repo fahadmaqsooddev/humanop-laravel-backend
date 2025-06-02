@@ -19,13 +19,4 @@ class B2BIntentionOption extends Model
     }
 
 
-    public static function allIntentions()
-    {
-        return self::all();
-    }
-
-    public static function createIntention($name = null)
-    {
-        return self::create(['intention_option' => $name]);
-    }
 }

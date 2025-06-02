@@ -131,11 +131,11 @@ class User extends Authenticatable implements JWTSubject
 
         if ($userId !== null) {
 
-            $point = Point::where('user_id', $userId)->select('point')->first();
+            $point = Point::userExists($userId);
 
             if ($point) {
 
-                return $point->point;
+                return $point['point'];
 
             }
 
@@ -222,7 +222,8 @@ class User extends Authenticatable implements JWTSubject
     public function getPlanNameAttribute()
     {
 
-        return $this->userSubscription->plan->name ?? "Freemium";
+//        return $this->userSubscription->plan->name ?? "Freemium";
+        return "Freemium";
     }
 
     public function getIsViewedStoriesAttribute()
@@ -1696,7 +1697,7 @@ class User extends Authenticatable implements JWTSubject
         $users = self::where('is_admin', 2)->whereHas('haiAssessments', function ($query) {
             $query->where('page', 0);
 
-        })->limit(10)->get();
+        })->limit(3)->get();
 
         foreach ($users as $user) {
 

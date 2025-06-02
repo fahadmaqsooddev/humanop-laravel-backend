@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Http\Requests\Api\Client\ShareDataRequest;
+use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Notification\PushNotification;
@@ -161,7 +162,7 @@ class DashboardController extends Controller
 
             if (!$daily_tip_updated) {
 
-                $point = PointHelper::addPointsOnDailyTipRead();
+//                $point = PointHelper::addPointsOnDailyTipRead();
             }
 
             DB::commit();
@@ -182,25 +183,25 @@ class DashboardController extends Controller
 
         try {
 
-            if (!empty($request['user_id'])) {
+            if ($request->has('assessment_id')) {
 
-                $userId = $request['user_id'];
-
-                $user = User::getSingleUser($userId);
+                $assessment = Assessment::getSingleAssessment($request->input('assessment_id'));
 
             } else {
 
-                $user = Helpers::getUser();
+                $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
 
             }
 
-            $assessment = Assessment::getLatestAssessment($user['id']);
+            $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment['id']);
 
-            ActionPlan::checkUserActionPlan($assessment, $user);
+            if (empty($actionPlan)) {
 
-            $plan = ActionPlan::userActionPlan($user);
+                $actionPlan = ActionPlan::storeUserActionPlan($assessment);
 
-            return Helpers::successResponse('Action plan', $plan);
+            }
+
+            return Helpers::successResponse('Action plan', $actionPlan);
 
         } catch (\Exception $exception) {
 
@@ -762,6 +763,43 @@ class DashboardController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+    }
+
+
+    public static function allCompanies()
+    {
+        try {
+
+            $companies = User::allCompanies();
+
+            return Helpers::successResponse("All Companies Information", $companies);
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function checkFutureConsiderationShareData(CandidatetoMember $request)
+    {
+
+        try {
+
+            $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
+
+            if (!empty($futureConsideration)) {
+
+                $data = [
+                    'company_name' => $futureConsideration['businessUsers']['company_name'],
+                ];
+
+                return Helpers::successResponse('Future Consideration', $data);
+            }
+
+            return Helpers::validationResponse('You are not Future Consideration');
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
 }

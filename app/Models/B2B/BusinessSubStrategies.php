@@ -18,27 +18,6 @@ class BusinessSubStrategies extends Model
         parent::__construct($attributes);
     }
 
-    public static function getSubStrategies($businessId = null,$name=null)
-    {
-        $query = self::where('business_strategy_id', $businessId);
-
-        if (!empty($name)) {
-            $query->where(function ($q) use ($name) {
-                $q->where('name', 'like', '%' . $name . '%');
-            });
-        }
-
-        $data = $query->get();
-        return $data;
-
-    }
 
 
-    public static function storeSubStratergy($stratergyid = null, $substratergy = null)
-    {
-        return self::create([
-            'business_strategy_id' => $stratergyid,
-            'name' => $substratergy,
-        ]);
-    }
 }

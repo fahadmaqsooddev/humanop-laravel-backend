@@ -157,8 +157,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
         Route::get('/create-version-control',[VersionController::class,'createVersion'])->name('create-version');
         Route::get('/edit-version-control/{id}',[VersionController::class,'EditVersion'])->name('edit-version');
-        Route::get('/b2b-support', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupport'])->name('admin_b2b_support');
-        Route::get('/b2b-support-detail/{id}', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupportDetail'])->name('admin_b2b_support_detail');
+
         Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
         Route::get('/assessment-walkthrough', [App\Http\Controllers\AdminControllers\AssessmentWalkthrough::class,'getWalkThrough'])->name('admin_get_assessment_walkthrough');
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
@@ -197,14 +196,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
 
-    Route::get('/role-template', [RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
-    Route::get('/b2b-organizations', [B2BOrganizationController::class, 'allOrganizations'])->name('all_b2b_organizations');
-    // Route::get('/b2b-deleted-clients', [B2BOrganizationController::class, 'allB2BDeletedClients'])->name('all_b2b_deleted_organiozations');
-    Route::get('/b2b-organizations-users/{id?}/{prefer?}', [B2BOrganizationController::class, 'allOrganizationsUsers'])->name('b2b_organizations_users');
-    Route::get('/b2b-organizations-users/{id?}/{prefer?}', [B2BOrganizationController::class, 'allOrganizationsUsers'])->name('b2b_organizations_users');
-    Route::get('/b2b-invites',[B2BInviteController::class,'getB2BInvite'])->name('admin_b2b_invites');
-    Route::get('/b2b-pricing-plans',[B2BPricingPlanController::class,'getB2BPricingPlan'])->name('admin_b2b_pricing_plan');
-    Route::get('/b2b-coupon',[B2BPricingPlanController::class,'getB2BCoupon'])->name('admin_b2b_coupon');
+
+
 
     Route::group(['middleware' => ['permission:practitioner']], function () {
         Route::get('/practitioners', [PractitionerController::class, 'allPractitioners'])->name('admin_all_practitioners');

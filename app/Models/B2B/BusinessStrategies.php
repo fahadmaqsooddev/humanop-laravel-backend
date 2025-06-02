@@ -24,25 +24,5 @@ class BusinessStrategies extends Model
         return $this->hasMany(BusinessSubStrategies::class, 'business_strategy_id', 'id');
     }
 
-    public static function allBusinessStrategies($searchBusinessName = null)
-    {
-        $business = self::query();
 
-        if (!empty($searchBusinessName))
-        {
-            $business->where(function ($query) use ($searchBusinessName) {
-                $query->where('name', 'like', '%'.$searchBusinessName.'%');
-            });
-        }
-
-        return $business->get();
-    }
-
-
-    public static function storeStratergy($stratergy = null)
-    {
-
-        return self::create(['name' => $stratergy]);
-    }
-
-    }
+}

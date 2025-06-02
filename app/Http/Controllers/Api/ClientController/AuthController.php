@@ -20,9 +20,11 @@ use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Client\Point\Point;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionOption;
+use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Notification\PushNotification;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
@@ -315,6 +317,14 @@ class AuthController extends Controller
 
                     $token = $this->auth->login($getUser);
 
+                    Point::addPoints(Admin::FREEMIUM_CREDITS);
+
+                    $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
+
+                    $signupTime = $getUser['created_at']->addMinutes($userTimezone * 60);
+
+                    $getUser->update(['last_login' => $signupTime->format('Y-m-d H:i:s')]);
+
                     $data = [
                         'user' => $getUser,
                         'authorization' => [
@@ -498,6 +508,54 @@ class AuthController extends Controller
 
     }
 
+    public function logoutClient()
+    {
+
+        try {
+
+            $this->auth->logout();
+
+            return Helpers::successResponse('User logged out successfully');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+
+        try {
+
+            $checkUserEmail = User::checkEmail($request['email']);
+
+            if (!empty($checkUserEmail)) {
+
+                $token = User::generateToken($checkUserEmail['email']);
+
+                $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
+
+                $emailData = $this->prepareEmailData($checkUserEmail, $url);
+
+                $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
+
+                return Helpers::successResponse('We have emailed your password reset link!');
+
+            } else {
+
+                return Helpers::validationResponse('Email does not exists');
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
     public function loginClient(LoginRequest $request)
     {
 
@@ -566,9 +624,8 @@ class AuthController extends Controller
 
                     $token = $this->auth->attempt($credentials);
 
-                    $getUser = User::getSingleUser($checkUser['id']);
+                    Helpers::checkAndAddBonusCredits($checkUser);
 
-                    $getUser->update(['last_login' => Carbon::now()]);
                 }
 
                 if ($token) {
@@ -588,15 +645,18 @@ class AuthController extends Controller
                                 if ($result === true) {
 
                                     B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
                                 } else {
-                                    return Helpers::validationResponse('Limit Reached');
+
+                                    return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
+
                                 }
+
                             } else {
+
                                 B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
                             }
-
-
-//                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
 
                             $getInvite = UserInvite::getSingleInvite($user['email']);
 
@@ -652,58 +712,25 @@ class AuthController extends Controller
 
     }
 
-    public function logoutClient()
-    {
-
-        try {
-
-            $this->auth->logout();
-
-            return Helpers::successResponse('User logged out successfully');
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
-
-    }
-
-    public function forgotPassword(ForgotPasswordRequest $request)
-    {
-
-        try {
-
-            $checkUserEmail = User::checkEmail($request['email']);
-
-            if (!empty($checkUserEmail)) {
-
-                $token = User::generateToken($checkUserEmail['email']);
-
-                $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
-
-                $emailData = $this->prepareEmailData($checkUserEmail, $url);
-
-                $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
-
-                return Helpers::successResponse('We have emailed your password reset link!');
-
-            } else {
-
-                return Helpers::validationResponse('Email does not exists');
-            }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
-    }
-
     public function socialLogin(Request $request)
     {
 
         try {
+
+            if (!empty($request['invite_link']))
+            {
+
+                $getInviteLink = UserInvite::getInviteLink($request['invite_link']);
+
+                if ($getInviteLink['email'] != $request['email']) {
+
+                    $loginMethod = isset($request['google_id']) ? 'Google' : 'App';
+
+                    return Helpers::validationResponse('Invite link is not valid for this email. Please log in using ' . $loginMethod . ' with the valid email address.');
+
+                }
+
+            }
 
             $checkDeletedUser = User::checkDeleteEmail($request->input('email'));
 
@@ -741,7 +768,37 @@ class AuthController extends Controller
 
                     if (!empty($data)) {
 
-                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                        if ($request['prefer'] == 1) {
+
+                            $result = Helpers::packageLimitation($data['id']);
+
+                            if ($result === true) {
+
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
+                            } else {
+
+                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
+
+                            }
+
+                        } else {
+
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+
+                        }
+
+                        $getInvite = UserInvite::getSingleInvite($user['email']);
+
+                        if ($getInvite) {
+
+                            $memberCandidateInvite = UserCandidateInvite::where('invite_link_id', $getInvite->id)->where('company_id', $data['id'])->first();
+
+                            if ($memberCandidateInvite) {
+
+                                $memberCandidateInvite->delete();
+                            }
+                        }
                     }
                 }
 
@@ -857,7 +914,7 @@ class AuthController extends Controller
 
                 if (!empty($data)) {
 
-                    $url = config('client_url.client_dashboard_url') . '/login?company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
+                    $url = config('client_url.client_dashboard_url') . '/login?link=' . $dataResult['token'] .'&company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
 
                     return Helpers::successResponse('An account with this email already exists. Please log in to continue.', [
                         'url' => $url,
@@ -965,6 +1022,8 @@ class AuthController extends Controller
 
             $userDailyTip = UserDailyTip::where('user_id', $data['id'])->with('dailyTip')->latest()->first();
 
+            $intention = IntentionPlan::getUserIntentionPlan($data['id']);
+
             $result[] = [
                 'user_detail' => [
                     'name' => ($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''),
@@ -973,11 +1032,21 @@ class AuthController extends Controller
                     'date_of_birth' => $data['date_of_birth'] ?? '',
                     'gender' => $data['gender'] ?? '',
                     'timezone' => $data['timezone'] ?? '',
+                    'plan_name' => $data['plan_name'] ?? ''
                 ],
+                'interval_of_life' => $coreState['interval_of_life'],
+                'intention_option' => $intention,
+                'assessment' => $coreState['assessment'],
+                'all_traits' => $userTrait,
+                'top_three_traits' => $coreState['topThreeStyles'],
+                'top_two_features' => $coreState['topTwoFeatures'],
+                'tertiary_features' => $coreState['tertiaryFeatures'],
+                'alchemy' => $coreState['boundary'],
+                'energy_center' => $coreState['topCommunication'],
+                'energy_pool' => $coreState['energyPool'],
+                'perception' => $coreState['perception'],
                 'optimization_plan' => $optimizationPlan,
-                'core_state' => $coreState,
-                'user_trait' => $userTrait,
-                'daily_tip' => $userDailyTip,
+                'daily_tip' => $userDailyTip['dailyTip'],
 
             ];
 
