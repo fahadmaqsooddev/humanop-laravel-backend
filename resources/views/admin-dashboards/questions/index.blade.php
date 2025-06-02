@@ -10,14 +10,14 @@
     }
 
     .page-link:hover {
-        background: #f2661c !important;
+        background: #1B3A62 !important;
         color: white !important;
     }
 
     .page-item.active .page-link {
-        background: #f2661c !important;
+        background: #1B3A62 !important;
         color: white !important;
-        border-color: #f2661c !important;
+        border-color: #1B3A62 !important;
     }
 
     .table-text-color {

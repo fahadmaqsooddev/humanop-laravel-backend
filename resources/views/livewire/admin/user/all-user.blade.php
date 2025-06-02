@@ -1,28 +1,27 @@
-
 @push('css')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<style>
-    .pagination {
-        float: right;
-        margin-right: 24px;
-    }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .pagination {
+            float: right;
+            margin-right: 24px;
+        }
 
-    .page-link {
-        background: none !important;
-    }
+        .page-link {
+            background: none !important;
+        }
 
-    .page-link:hover {
-        background: #f2661c !important;
-        color: white !important;
-    }
+        .page-link:hover {
+            background: #1B3A62 !important;
+            color: white !important;
+        }
 
-    .page-item.active .page-link {
-        background: #f2661c !important;
-        color: white !important;
-        border-color: #f2661c !important;
-    }
+        .page-item.active .page-link {
+            background: #1B3A62 !important;
+            color: white !important;
+            border-color: #1B3A62 !important;
+        }
 
-</style>
+    </style>
 @endpush
 
 <div>
@@ -62,7 +61,7 @@
 
     @if(Auth::user()->hasRole('super admin'))
         <button wire:click="hideHaiChatFromAllClients" class=" btn-sm float-end m-2 mb-0"
-                style="background:#f2661c;color:white;font-weight:bolder;border:none;">Hai Chat Change Status
+                style="background:#1B3A62;color:white;font-weight:bolder;border:none;">Hai Chat Change Status
         </button>
         @if(count($selectedItems) > 0)
             <div class=" d-flex justify-content-end ms-md-4 pe-md-4 mt-2">
@@ -74,7 +73,7 @@
     @endif
 
     <div class="table-responsive table-header-text w-100 pt-4 table-orange-color">
-        <table class="table table-flush" >
+        <table class="table table-flush">
             <thead class="thead-light">
             <tr class="text-color-blue">
                 <th>Name</th>
@@ -147,13 +146,11 @@
                     @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                         <td class="text-sm font-weight-normal">
                             <select class="form-control table-orange-color table-text-color search-bar"
-{{--                                    onchange="changeUserMemberShip(this, {{$user['id']}})"--}}
+                                    {{--                                    onchange="changeUserMemberShip(this, {{$user['id']}})"--}}
                                     style="background-color: #0F1535;border-radius: 12px;">
                                 <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>
                                     Freemium
                                 </option>
-{{--                                <option value="Core" {{$user['plan_name'] === "Core" ? 'selected' : "" }}>Core</option>--}}
-{{--                                <option value="Premium" {{$user['plan_name'] === "Premium" ? 'selected' : "" }}>Premium--}}
                                 </option>
                             </select>
                         </td>
@@ -166,7 +163,7 @@
                                         $practitionerStatus = false;
                                 @endphp
                                 <input class="form-check-input" disabled
-{{--                                       onchange="changeUserToPractitioner({{$user['id']}}, '{{$user['first_name']}}', this , event)"--}}
+                                       {{--                                       onchange="changeUserToPractitioner({{$user['id']}}, '{{$user['first_name']}}', this , event)"--}}
                                        name="practitioner"
                                        type="checkbox"
                                     @checked($practitionerStatus)>
@@ -174,7 +171,7 @@
                         </td>
                         <td class="text-center"><input type="checkbox" wire:model="selectedItems"
                                                        value="{{ $user->id }}"
-                                                       style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
+                                                       style="width: 20px; height: 20px; cursor: pointer; accent-color: #1B3A62; border-radius: 50%;">
                         </td>
                         <td class="text-sm font-weight-normal">
                             <a onclick="deleteClientProfile({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
@@ -193,7 +190,7 @@
 </div>
 
 @push('js')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script>
         function updateUserHaiChatStatus(id, name, checkbox, e) {
@@ -251,7 +248,7 @@
                 buttonsStyling: false,
                 background: '#3442b4',
             });
-        let title = '<span style="color: white;">Are you sure?</span>';
+            let title = '<span style="color: white;">Are you sure?</span>';
 
             let html = '';
             if (status == 1) {
@@ -287,9 +284,6 @@
             }
 
         }
-
-
-
 
 
         function adminLoggedInToUserAccount(id, firstName, lastName, identify) {

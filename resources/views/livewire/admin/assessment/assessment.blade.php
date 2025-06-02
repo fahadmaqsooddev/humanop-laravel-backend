@@ -41,7 +41,7 @@
             </div>
         </div>
         <div class="pe-md-4">
-            <button class=" btn-sm float-end mt-4 mb-4 text-white clickBtn" style="background:#f2661c;color:white;font-weight:bolder;border:none;">
+            <button class=" btn-sm float-end mt-4 mb-4 text-white clickBtn" style="background:#1B3A62;color:white;font-weight:bolder;border:none;">
                 Advance Filters
             </button>
         </div>
@@ -261,11 +261,11 @@
                     </td>
                     <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_user_answer',['id' => $assessment['id']]) }}" type="submit"
-                            class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">View Answers</a>
+                            class=" btn-sm float-end mt-2 mb-0" style="background:#1B3A62;color:white;font-weight:bolder;border:none;">View Answers</a>
                     </td>
                     <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"
-                            class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">View</a>
+                            class=" btn-sm float-end mt-2 mb-0" style="background:#1B3A62;color:white;font-weight:bolder;border:none;">View</a>
                     </td>
                 </tr>
             @endforeach

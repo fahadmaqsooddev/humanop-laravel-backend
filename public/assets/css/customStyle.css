@@ -1,9 +1,9 @@
 .table-orange-color{
-    background-color: #F6BA81 !important;
+    background-color: white !important;
 }
 
 .table-header-text{
-    background-color: #F6BA81;
+    background-color: white;
 }
 
 /*.navbar-background-color{*/
@@ -38,5 +38,5 @@
 }
 
 .modal-dialog > .modal-content{
-    background-color: #1C365E;
+    background-color: white;
 }

@@ -39,7 +39,7 @@
 
 
                                 @foreach($answer->answerCodes as $code)
-                                    <p class="px-2" style="color: #f2661c">{{ $code->code }} + {{ $code->number }}</p>
+                                    <p class="px-2" style="color: #1B3A62">{{ $code->code }} + {{ $code->number }}</p>
                                 @endforeach
                             </div>
                         @endforeach

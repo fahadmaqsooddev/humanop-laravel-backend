@@ -3,7 +3,7 @@
 @section('content')
     <style>
         .card{
-            background-color: #1C365E !important;
+            background-color: white !important;
         }
     </style>
     <div class="row container-fluid">
@@ -28,8 +28,8 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">Daily Assessments</p>
-                                            <h5 class="font-weight-bolder mb-0">
+                                               style="color: #1B3A62;">Daily Assessments</p>
+                                            <h5 class="font-weight-bolder mb-0" style="color: #1B3A62">
                                                 9
                                                 <span class="text-success text-sm font-weight-bolder">+55%</span>
                                             </h5>
@@ -53,9 +53,9 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">Weekly Assessments
+                                               style="color: #1B3A62;">Weekly Assessments
                                             </p>
-                                            <h5 class="font-weight-bolder mb-0">
+                                            <h5 class="font-weight-bolder mb-0" style="color: #1B3A62">
                                                 45
                                                 <span class="text-success text-sm font-weight-bolder">+3%</span>
                                             </h5>
@@ -81,9 +81,9 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">Monthly Assessments
+                                               style="color: #1B3A62;">Monthly Assessments
                                             </p>
-                                            <h5 class="font-weight-bolder mb-0">
+                                            <h5 class="font-weight-bolder mb-0" style="color: #1B3A62">
                                                 130
                                                 <span class="text-success text-sm font-weight-bolder">+2%</span>
                                             </h5>
@@ -107,9 +107,9 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">Yearly Assessments
+                                               style="color: #1B3A62;">Yearly Assessments
                                             </p>
-                                            <h5 class="font-weight-bolder mb-0">
+                                            <h5 class="font-weight-bolder mb-0" style="color: #1B3A62">
                                                 1560
                                                 <span class="text-success text-sm font-weight-bolder">+5%</span>
                                             </h5>
@@ -138,7 +138,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">
+                                               style="color: #1B3A62;">
                                                 Practitioner Activity Stats</p>
                                             <h5 class="font-weight-bolder mb-0">
                                                 <span class="text-success text-sm font-weight-bolder"></span>
@@ -163,7 +163,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">
+                                               style="color: #1B3A62;">
                                                 Revenue Stats</p>
                                             <h5 class="font-weight-bolder mb-0">
                                                 <span class="text-success text-sm font-weight-bolder"></span>
@@ -191,7 +191,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">
+                                               style="color: #1B3A62;">
                                                 Project Stats</p>
                                             <h5 class="font-weight-bolder mb-0">
                                                 <span class="text-success text-sm font-weight-bolder"></span>
@@ -216,7 +216,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">
+                                               style="color: #1B3A62;">
                                                 Enterprise stats</p>
                                             <h5 class="font-weight-bolder mb-0">
                                                 <span class="text-success text-sm font-weight-bolder"></span>

@@ -23,7 +23,7 @@
                 <div class="col-sm-4 col-6 w-50">
                     @foreach(['user_management', 'assessment_management','technology_management', 'team_management', 'hai_admin'] as $permissionName)
                         <input type="checkbox" class="form-check-input" wire:model="permission" value="{{$permissionName}}">
-                        <label class="form-check-label text-white">@if($permissionName === 'hai_admin')
+                        <label class="form-check-label" style="color: #1B3A62">@if($permissionName === 'hai_admin')
                                 HAi Admin
                             @else
                                 {{ ucwords(str_replace('_', ' ', $permissionName)) }}
@@ -34,7 +34,7 @@
                 <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
                     @foreach(['cms_admin', 'support_admin', 'client_queries','approve_queries'] as $permissionName)
                         <input type="checkbox" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
-                        <label class="form-check-label text-white">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
+                        <label class="form-check-label" style="color: #1B3A62">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
                         <br>
                     @endforeach
                 </div>

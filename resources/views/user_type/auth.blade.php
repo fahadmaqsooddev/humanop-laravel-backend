@@ -161,7 +161,7 @@
                     @include('client-dashboard/chat-ai/chat-ai-modal')
                 @endif
                 <!-- added px-0 class -->
-                    <div class="container-fluid pt-2 pb-2" style="margin-left: 25px">
+                    <div class="container-fluid pt-2 pb-2" style="margin-left: 25px; background-color: #eaf3ff !important;">
 
                         <button type="button" data-bs-toggle="modal"
                                 data-bs-target="#feedBackModal"
