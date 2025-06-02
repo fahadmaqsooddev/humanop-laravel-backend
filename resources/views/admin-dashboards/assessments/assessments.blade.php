@@ -44,27 +44,27 @@
     }
 
     .page-link:hover {
-        background: #f2661c !important;
+        background: #1B3A62 !important;
         color: white !important;
     }
 
     .page-item.active .page-link {
-        background: #f2661c !important;
+        background: #1B3A62 !important;
         color: white !important;
-        border-color: #f2661c !important;
+        border-color: #1B3A62 !important;
     }
 
     .carousel-control-next {
         margin-right: -35px !important;
         width: 36px !important;
-        background-color: #f2661c !important;
+        background-color: #1B3A62 !important;
         height: 52px !important;
     }
 
     .carousel-control-prev {
         margin-right: -35px !important;
         width: 36px !important;
-        background-color: #f2661c !important;
+        background-color: #1B3A62 !important;
         height: 52px !important;
     }
 

@@ -60,7 +60,7 @@
                        style="background:#ff0000;color:white;font-weight:bolder;cursor:pointer;">Delete</a>
                     <a data-bs-toggle="modal" data-bs-target="#subadmindetail{{ $admin->id }}"
                        class=" btn-sm float-end mt-2 mb-0"
-                       style="background:#f2661c;color:white;font-weight:bolder;margin-right:1rem;">View</a>
+                       style="background:#1B3A62;color:white;font-weight:bolder;margin-right:1rem;">View</a>
                 </td>
 
             </tr>

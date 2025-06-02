@@ -69,7 +69,7 @@
     </div>
 @endif
 <aside
-    style="z-index: 1024; !important;{{\App\Helpers\Helpers::getWebUser()['is_admin'] == 2  ? 'width: 155px; height: auto;border-radius: 40px !important;margin-left: 30px;' : ''}}background: #1C365E !important"
+    style="z-index: 1024; !important;{{\App\Helpers\Helpers::getWebUser()['is_admin'] == 2  ? 'width: 155px; height: auto;border-radius: 40px !important;margin-left: 30px;' : ''}}background: #1B3A62 !important"
     class=" {{\App\Helpers\Helpers::getWebUser()['is_admin'] == 2 ? "mt-4 mb-4" : ''}}  sidenav sidenavHideClass myspecial navbar navbar-vertical navbar-expand-xs border-0   {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start' ) }} "
     id="sidenav-main">
     <div class="d-flex ">
@@ -448,7 +448,7 @@
                                                         'admin/create-version-control',
                                                         'admin/edit-version-control/*',
                                                         'admin/edit-code/*',
-                                                        
+
 
                                                         'admin/admin_get_client_invite') ? 'show' : '' }}"
                                                         id="vrExamples">
@@ -619,7 +619,7 @@
                                                                     </a>
                                                                 </li>
                                                             @endif
-                                                            
+
                                                             <li class="nav-item {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_pricing_plan') }}">
@@ -754,7 +754,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                
+
                             @endif
 
                             <li class="nav-item {{ (Request::is('admin/settings') ? 'active-itt-all' : '') }}">
