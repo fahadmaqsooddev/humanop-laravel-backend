@@ -69,7 +69,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-body" style=" border-radius: 9px">
-                            <label class="form-label fs-4 text-white">Permissions</label>
+                            <label class="form-label fs-4" style="color: #1B3A62">Permissions</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
