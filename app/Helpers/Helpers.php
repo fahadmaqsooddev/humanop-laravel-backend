@@ -557,7 +557,7 @@ class Helpers
     public static function packageLimitation($companyId = null)
     {
 
-        $user = User::find($companyId);
+        $user = User::getSingleUser($companyId);
 
         if ($plan_id = $user->getsubscription()->first()) {
 
@@ -592,11 +592,7 @@ class Helpers
 
         }
 
-        $getMemberInvites = UserCandidateInvite::where('company_id', $companyId)->where('role', Admin::IS_TEAM_MEMBER)->get();
-
-        $allMembers = $existingMemberCounts + count($getMemberInvites);
-
-        if (($allMembers < (int)$limitations['no_of_team_members'])) {
+        if (($existingMemberCounts < (int)$limitations['no_of_team_members'])) {
 
             return true;
 
