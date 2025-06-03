@@ -11,6 +11,7 @@
         }
 
         .active-itt-all {
+            background-color: #eaf3ff !important;
             color: #1b3a62 !important;
         }
 
