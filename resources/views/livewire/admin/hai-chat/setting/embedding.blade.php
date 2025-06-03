@@ -6,7 +6,7 @@
         }
 
         .new-orange-button{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             padding: 10px 20px 10px 20px;
             border-radius: 8px;
             color: white;
@@ -23,7 +23,7 @@
             width: 100%;
             padding: 5px;
             border-radius: 8px;
-            border: 1px solid #f2661c;
+            border: 1px solid #1b3a62;
             background-color: #F3DEBA;
             color: black;
         }
@@ -50,7 +50,7 @@
                                     <div style="padding: 10px;">
 
                                         <div style="padding-bottom: 5px;">
-                                            <input type="text" placeholder="search group" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                            <input type="text" placeholder="search group" wire:model="group_search" style="border-radius: 1px; border: 1px solid #1b3a62; width: 100%;">
                                         </div>
 
                                         @if(count($groups) > 0)
@@ -110,7 +110,7 @@
                                     <div style="padding: 10px;">
 
                                         <div style="padding-bottom: 5px;">
-                                            <input type="text" placeholder="search embedding" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                            <input type="text" placeholder="search embedding" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #1b3a62; width: 100%;">
                                         </div>
 
                                         @if(count($embeddings) > 0)
@@ -205,7 +205,7 @@
                 <div class="modal-body" style=" border-radius: 9px">
                     <div class="text-center">
 
-                        <label class="form-label fs-4" style="color: #F95520;"><strong>Active Embeddings</strong></label>
+                        <label class="form-label fs-4" style="color: #1b3a62;"><strong>Active Embeddings</strong></label>
 
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>

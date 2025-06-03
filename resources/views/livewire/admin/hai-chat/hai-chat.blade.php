@@ -2,7 +2,7 @@
 
     <style>
         .new-orange-button{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             padding: 10px 20px 10px 20px;
             border-radius: 8px;
             color: white;
@@ -17,7 +17,7 @@
 
         .input-bg{
             background-color: #F3DEBA !important;
-            color: #F95520 !important;
+            color: #1b3a62 !important;
             border-radius: 40px !important;
             border: none !important;
             text-align: center;
@@ -25,15 +25,15 @@
         }
 
         .input-bg::placeholder{
-            color: #F95520 !important;
+            color: #1b3a62 !important;
         }
 
         textarea::placeholder{
-            color: #F95520 !important;
+            color: #1b3a62 !important;
         }
 
         .create-new-brain-btn{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             border-radius: 40px !important;
             border: none !important;
             text-align: center;
@@ -70,7 +70,7 @@
                     <div class="d-flex justify-content-between w-100">
                         <a href="{{route('admin_edit_brain', $chat['id'])}}" class="w-60">
                             <div class="py-2">
-                                <h5 style="color: #f2661c" class="text-decoration-none">
+                                <h5 style="color: #1b3a62" class="text-decoration-none">
                                     <i class="bi bi-robot"></i>
                                     {{ $chat['brain_name'] ?? $chat['name'] }}
                                 </h5>
@@ -78,7 +78,7 @@
                             <div class="py-2">
                                 @if(strlen($chat['description']) > 100)
 
-                                    <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>
+                                    <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #1b3a62; cursor: pointer;"><b>read more...</b></span></p>
 
                                 @else
                                     <p class="card-text " style="color: black">{{ $chat['description'] }}</p>
@@ -89,19 +89,19 @@
                             <div class="d-flex justify-content-between">
                                 @if($chat['is_published'] == 1)
                                     <div class="py-2 px-2">
-                                        <a href="javascript:void(0)" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected</a>
+                                        <a href="javascript:void(0)" style="border: 2px solid #1b3a62; color: #1b3a62;border-radius: 10px; padding: 7px;">Connected</a>
                                     </div>
                                 @endif
                                 @if($chat['setting'] && $chat['setting']['maestro_app'] != 0)
                                     <div class="py-2 px-2">
-                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to B2B</a>
+                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #1b3a62; color: #1b3a62;border-radius: 10px; padding: 7px;">Connected to B2B</a>
                                     </div>
                                 @endif
                                 <div class="py-2">
                                     @if($chat['setting']['persona_name'] ?? false)
-                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{ strlen($chat['setting']['persona_name']) > 20 ? substr($chat['setting']['persona_name'], 0, 20) . "..." : $chat['setting']['persona_name']}}</a>
+                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #1b3a62; color: #1b3a62;border-radius: 10px; padding: 7px;">Connected to {{ strlen($chat['setting']['persona_name']) > 20 ? substr($chat['setting']['persona_name'], 0, 20) . "..." : $chat['setting']['persona_name']}}</a>
                                     @else
-                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
+                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #1b3a62; color: #1b3a62;border-radius: 10px; padding: 7px;">Not Connected</a>
                                     @endif
                                 </div>
 
@@ -125,7 +125,7 @@
 {{--                    <div class="d-flex flex-column gap-3 chat-card">--}}
 {{--                        <div class="d-flex justify-content-between">--}}
 {{--                            <a href="{{route('admin_edit_brain', $chat['id'])}}">--}}
-{{--                                <h5 style="color: #f2661c" class="text-decoration-none"><i--}}
+{{--                                <h5 style="color: #1b3a62" class="text-decoration-none"><i--}}
 {{--                                        class="bi bi-robot"></i> {{ $chat['name'] }}--}}
 {{--                                </h5>--}}
 {{--                            </a>--}}
@@ -133,15 +133,15 @@
 {{--                            <div>--}}
 
 {{--                                @if($chat['setting']['persona_name'] ?? false)--}}
-{{--                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>--}}
+{{--                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #1b3a62; color: #1b3a62;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>--}}
 {{--                                @else--}}
-{{--                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>--}}
+{{--                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #1b3a62; color: #1b3a62;border-radius: 10px; padding: 7px;">Not Connected</a>--}}
 {{--                                @endif--}}
 
 {{--                                @if($chat['is_published'] === 1)--}}
-{{--                                    <a style="border: 2px solid #f2661c; color: white; background-color: #f2661c;border-radius: 10px; padding: 7px;">Published</a>--}}
+{{--                                    <a style="border: 2px solid #1b3a62; color: white; background-color: #1b3a62;border-radius: 10px; padding: 7px;">Published</a>--}}
 {{--                                @else--}}
-{{--                                    <a wire:click="publishChatBot({{$chat->id}})" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;cursor: pointer;">Publish</a>--}}
+{{--                                    <a wire:click="publishChatBot({{$chat->id}})" style="border: 2px solid #1b3a62; color: #1b3a62;border-radius: 10px; padding: 7px;cursor: pointer;">Publish</a>--}}
 {{--                                @endif--}}
 
 {{--                            </div>--}}
@@ -149,7 +149,7 @@
 {{--                        </div>--}}
 {{--                        @if(strlen($chat['description']) > 50)--}}
 
-{{--                            <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>--}}
+{{--                            <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #1b3a62; cursor: pointer;"><b>read more...</b></span></p>--}}
 
 {{--                        @else--}}
 {{--                            <p class="card-text " style="color: black">{{ $chat['description'] }}</p>--}}
@@ -195,8 +195,8 @@
                                 <div class="col-12">
                                     <label class="form-label text-white">Name of Brain</label>
                                     <div class="form-group">
-                                        <input style="background-color: #0f1534;color: lightgrey !important"
-                                               class="form-control text-white"
+                                        <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                               class="form-control"
                                                type="text" name="limit"
                                                placeholder="Enter name of brain"
                                                wire:model="name">
@@ -210,7 +210,7 @@
                                 <div class="col-12">
                                     <label class="form-label text-white">Description of Brain</label>
                                     <div class="form-group">
-                                            <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                            <textarea style="background-color: #eaf3ff;" class="form-control"
                                                       rows="5" cols="5"
                                                       name="description"
                                                       placeholder="Enter description of brain"
@@ -275,8 +275,8 @@
                                 <div class="col-12">
                                     <label class="form-label text-white">Name of Duplicate Brain</label>
                                     <div class="form-group">
-                                        <input style="background-color: #0f1534;color: lightgrey !important"
-                                               class="form-control text-white"
+                                        <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                               class="form-control"
                                                type="text" name="limit"
                                                placeholder="Enter duplicate brain name"
                                                wire:model="name">
@@ -290,7 +290,7 @@
                                 <div class="col-12">
                                     <label class="form-label text-white">Description of Duplicate Brain</label>
                                     <div class="form-group">
-                                            <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                            <textarea style="background-color: #eaf3ff;" class="form-control"
                                                       rows="5" cols="5"
                                                       name="description"
                                                       placeholder="Enter duplicate brain description"

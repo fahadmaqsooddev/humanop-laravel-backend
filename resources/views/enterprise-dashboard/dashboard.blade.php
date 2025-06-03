@@ -216,7 +216,7 @@
                                     <td>2</td>
                                     <td>0</td>
                                     <td style="color: greenyellow">6</td>
-                                    <td><a href="{{ url('client-grid') }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                    <td><a href="{{ url('client-grid') }}" type="submit" style="background-color: #1B3A62 ; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
                                 </tr>
                                 <tr class="text-center">
                                     <td>Nancy Grace</td>
@@ -228,7 +228,7 @@
                                     <td>1</td>
                                     <td>0</td>
                                     <td>5</td>
-                                    <td><a href="{{ url('client-grid') }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                    <td><a href="{{ url('client-grid') }}" type="submit" style="background-color: #1B3A62 ; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
                                 </tr>
                                 <tr class="text-center">
                                     <td>Ronald jordge</td>
@@ -240,7 +240,7 @@
                                     <td>4</td>
                                     <td>0</td>
                                     <td>6</td>
-                                    <td><a href="{{ url('client-grid') }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                    <td><a href="{{ url('client-grid') }}" type="submit" style="background-color: #1B3A62 ; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
                                 </tr>
 
                                 </tbody>
@@ -255,10 +255,10 @@
 
     <div class="row mt-lg-4 mt-2">
         <div class="fixed-plugin">
-            <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
+            <a style="background-color: #1b3a62; color: white; border-radius: 5px !important;"
                class="btn col-12 fixed-plugin-button">H.A.I CHAT INTERFACE</a>
             <div class="card shadow-lg blur" style="background-color: #0f1534 !important;">
-                <div class="card-header pb-0 pt-3" style="background-color: #f2661c">
+                <div class="card-header pb-0 pt-3" style="background-color: #1b3a62">
                     <h5 class="text-center text-white">H.A.I CHAT INTERFACE</h5>
                     <div class="float-start d-flex">
                         <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">
@@ -277,7 +277,7 @@
                 <div class="d-flex">
                     <div class="col-3">
                         <div class="chatbox">
-                            <div class="chatbox-content" style="background-color: #f2661c">
+                            <div class="chatbox-content" style="background-color: #1b3a62">
                                 <div class="mt-4 chat-hover d-flex" style="cursor: pointer;">
                                     <i class="fa fa-plus" style="color: white; margin-top: 8px"></i>
                                     <h5 class="text-white text-bold" style="margin-left: 12px">New chat</h5>

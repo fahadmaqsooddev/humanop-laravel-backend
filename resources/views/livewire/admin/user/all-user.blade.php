@@ -175,7 +175,7 @@
                         </td>
                         <td class="text-sm font-weight-normal">
                             <a onclick="deleteClientProfile({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
-                               style="border: 1px solid #f2661c; color: white; background-color: red;"
+                               style="border: 1px solid #1b3a62; color: white; background-color: red;"
                                class="btn btn-sm float-end mt-2 mb-0">Delete</a>
                         </td>
                     @endif

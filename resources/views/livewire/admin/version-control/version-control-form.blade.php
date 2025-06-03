@@ -1,6 +1,6 @@
 <div class="row mt-4 container-fluid ms-2">
 
-    
+
     <div class="col-lg-12 position-relative z-index-2">
         <div class="mb-4">
             <div class="card-body ">
@@ -13,7 +13,7 @@
                     <div class="col-lg-6 text-end">
                         <button class=" btn-sm mt-2 mb-0 me-auto" type="button" data-toggle="modal"
                                 data-target=""
-                                style="background:#f2661c;color:white;font-weight:bolder;border:none;">
+                                style="background:#1b3a62;color:white;font-weight:bolder;border:none;">
                                 <a href="{{route('create-version')}}" style="color: white">
 
                                     Add version
@@ -26,9 +26,9 @@
 
 
 
-        
+
     </div>
-  
+
     <div class="table-responsive table-orange-color " style="border-radius: 10px;">
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
@@ -48,21 +48,21 @@
                             <tr class="table-text-color">
                                 <td class="text-md font-weight-normal ">{{$item['version'] ?? 'N/A'}} </td>
                                 <td class="text-md font-weight-normal">{{$item['created_at']->format('F j, Y')}} </td>
-                             
+
                                 <td class="text-center">
                                     <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px"
                                     onclick="confirmDeleteVersion('{{$item->id }}')" class="btn btn-sm mb-2">Delete
                                 Version
                             </button>
 
-                            <button style="background-color: #f2661c; color: white;margin-bottom: 0px"
+                            <button style="background-color: #1b3a62; color: white;margin-bottom: 0px"
                             data-bs-toggle="modal"
                             wire:click=""
                             data-bs-target="#versionModel"  class="btn btn-sm mb-2 ">
                             <a href="{{ route('edit-version', ['id' => $item->id]) }}" style="color: white">
                                 Edit Version
                             </a>
-                            
+
                             </button>
                                 </td>
                             </tr>
@@ -74,14 +74,14 @@
         </table>
     </div>
 
-    
+
 </div>
 
 @push('js')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
-    
+
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
 
 
@@ -96,7 +96,7 @@
 
 
 
-        
+
         function confirmDeleteVersion(category_id) {
 
 const swalWithBootstrapButtons = Swal.mixin({
@@ -118,7 +118,7 @@ swalWithBootstrapButtons.fire({
     }
 })
 }
-       
+
 function confirmDeleteDescription(description_id) {
 
 const swalWithBootstrapButtons = Swal.mixin({
@@ -142,7 +142,7 @@ swalWithBootstrapButtons.fire({
 }
 
 
-    
+
     </script>
 
 

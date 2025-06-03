@@ -14,7 +14,7 @@
         }
 
         .card {
-            background-color: #1C365E !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck.ck-balloon-panel {
@@ -49,13 +49,13 @@
                     <div class="col-lg-6">
                         <button class=" btn-sm mt-2 mb-0" type="button" data-toggle="modal"
                                 data-target="#createCategory"
-                                style="background:#f2661c;color:white;font-weight:bolder;border:none;">
+                                style="background:#1b3a62;color:white;font-weight:bolder;border:none;">
                             Add Category
                         </button>
                         <button data-bs-toggle="modal" data-bs-target="#createResource" wire:click="emptyCreateForm"
                                 id="create_resourse_btn"
                                 class=" btn-sm float-end mt-2 mb-0"
-                                style="background:#f2661c;color:white;font-weight:bolder;border:none;">Create Resource
+                                style="background:#1b3a62;color:white;font-weight:bolder;border:none;">Create Resource
                         </button>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                                 Category
                             </button>
 
-                            <button style="background-color: #f2661c; color: white;margin-bottom: 0px"
+                            <button style="background-color: #1b3a62; color: white;margin-bottom: 0px"
                                     wire:click="editMoveResource(`{{$category->id}}`)" data-bs-toggle="modal"
                                     data-bs-target="#moveResource" class="btn btn-sm mb-2 ">Edit Category
                             </button>
@@ -167,7 +167,7 @@
                 <a class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content" style=" border-radius: 9px">
                         <div class="modal-body">
-                            <label class="form-label fs-4 text-white">Library Resource</label>
+                            <label class="form-label fs-4" style="color: #1b3a62">Library Resource</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -223,7 +223,7 @@
                                 </span>
                             </button>
                             <button wire:click="editResource({{ $resource['id'] }})"
-                                    style="background-color: #f2661c; color: white"
+                                    style="background-color: #1B3A62 ; color: white"
                                     class="btn btn-sm float-end mt-2 mb-4 mx-3">Edit Resource
                                 <span wire:loading wire:target="editResource" class="swal2-loader"
                                       style="font-size: 8px;">
@@ -248,7 +248,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Create Library Resource</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Create Library Resource</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -256,8 +256,8 @@
                                     @include('layouts.message')
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Category</label>
-                                        <select style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Category</label>
+                                        <select style="background-color: #eaf3ff;" class="form-control"
                                                 wire:model.defer="category_id" placeholder="Select category">
 
                                             <option>Select a category</option>
@@ -274,23 +274,23 @@
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Heading</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Heading</label>
+                                        <input style="background-color: #eaf3ff;" class="form-control"
                                                wire:model.defer="heading" placeholder="heading" type="text"
                                                maxlength="150">
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Description</label>
-                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Description</label>
+                                        <textarea style="background-color: #eaf3ff;" class="form-control"
                                                   wire:model.defer="description" placeholder="Enter description"
                                                   rows="3">
                                         </textarea>
                                     </div>
 
                                     <div class="form-group mt-4" wire:ignore>
-                                        <label class="form-label fs-4 text-white">Content</label>
-                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Content</label>
+                                        <textarea style="background-color: #eaf3ff;" class="form-control"
                                                   id="editor" name="content" wire:model="content" rows="10" cols="10">
                                         </textarea>
                                     </div>
@@ -298,8 +298,8 @@
 
                                     {{-- <div class="form-group mt-4  {{  $booleanValue ? 'd-none' : 'd-block' }}"> --}}
                                     <div class="form-group mt-4 ">
-                                        <label class="form-label fs-4 text-white">Gumlet Video Url</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white "
+                                        <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
+                                        <input style="background-color: #eaf3ff;" class="form-control text-white "
                                         wire:model.debounce.500ms="link" placeholder="Link" type="text" id="embedlink"
                                          wire:change="getVideoLink"
                                         >
@@ -314,9 +314,9 @@
                                     {{-- <div class="form-group mt-4 {{ !empty($link) ? 'd-none' : 'd-block' }}"> --}}
 
                                     <div class="form-group mt-4 ">
-                                        <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or Audio
                                             [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input style="background-color: #0f1534;" wire:model="resource_file"
+                                        <input style="background-color: #eaf3ff;" wire:model="resource_file"
                                                id="resourse_file"
                                                wire:change="getResourceFile"
                                                class="form-control text-white resource_file" type="file"
@@ -329,10 +329,10 @@
 
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status"
-                                                     style="color: #f2661c !important;">
+                                                     style="color: #1b3a62 !important;">
 
                                                 </div>
-                                                <span class="ms-2" style="color: #f2661c;">Uploading...</span>
+                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
                                               </div>
 
                                         </span>
@@ -344,7 +344,7 @@
                                     </div>
 
 
-                                    <label class="form-label fs-4 text-white">Permission Level</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-check">
@@ -405,7 +405,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Edit Library Resource</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Edit Library Resource</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -413,8 +413,8 @@
                                     @include('layouts.message')
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Category</label>
-                                        <select style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Category</label>
+                                        <select style="background-color: #eaf3ff;" class="form-control"
                                                 wire:model.defer="category_id" placeholder="Select category">
                                             @foreach($dropDownCategories as $category)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
@@ -423,22 +423,22 @@
                                         </select>
                                     </div>
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Heading</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Heading</label>
+                                        <input style="background-color: #eaf3ff;" class="form-control"
                                                wire:model.defer="heading" placeholder="heading" type="text">
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Description</label>
-                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Description</label>
+                                        <textarea style="background-color: #eaf3ff;" class="form-control"
                                                   wire:model.defer="description" placeholder="Enter description"
                                                   rows="3">
                                         </textarea>
                                     </div>
 
                                     <div class="form-group mt-4" wire:ignore>
-                                        <label class="form-label fs-4 text-white">Content</label>
-                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Content</label>
+                                        <textarea style="background-color: #eaf3ff;" class="form-control"
                                                   id="resourse_editor" name="update_content" wire:model="update_content"
                                                   rows="10">
                                         </textarea>
@@ -446,10 +446,10 @@
 
                                     {{-- <div class="form-group mt-4 {{ $booleanValue ? 'd-none' : 'd-block' }}"> --}}
                                     <div class="form-group mt-4 ">
-                                        <label class="form-label fs-4 text-white">Gumlet Video Url</label>
-                                        {{-- <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
+                                        {{-- <input style="background-color: #eaf3ff;" class="form-control"
                                                wire:model="link" placeholder="Link" type="text" > --}}
-                                               <input style="background-color: #0f1534;" class="form-control text-white "
+                                               <input style="background-color: #eaf3ff;" class="form-control text-white "
                                         wire:model.debounce.500ms="link" placeholder="Link" type="text" id="embedlink"
                                          wire:change="getVideoLink"
                                         >
@@ -463,16 +463,16 @@
                                     @endif --}}
 
                                     <div class="form-group mt-4 " hidden>
-                                        <label class="form-label fs-4 text-white">Resource Id</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource Id</label>
+                                        <input style="background-color: #eaf3ff;" class="form-control"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
 
 
                                         <div class="form-group mt-4 ">
-                                            <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
+                                            <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or Audio
                                                 [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                                <input style="background-color: #0f1534;" wire:model="resource_file"
+                                                <input style="background-color: #eaf3ff;" wire:model="resource_file"
                                                 id="resource_file"
                                                 wire:change="getResourceFile"
                                                 class="form-control text-white resource_file1" type="file"
@@ -484,10 +484,10 @@
                                             {{-- Uploading ... --}}
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status"
-                                                     style="color: #f2661c !important;">
+                                                     style="color: #1b3a62 !important;">
 
                                                 </div>
-                                                <span class="ms-2" style="color: #f2661c;">Uploading...</span>
+                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
                                               </div>
                                         </span>
                                         @if(!empty($editResourceData['photo_url']))
@@ -514,7 +514,7 @@
 
 
 
-                                    <label class="form-label fs-4 text-white">Permission Level</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
 
                                         <ul>
@@ -617,7 +617,7 @@ if (resourceFileInput) {
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
 
-                    <label class="form-label fs-4 text-white">Create Resource Category</label>
+                    <label class="form-label fs-4" style="color: #1b3a62">Create Resource Category</label>
                     <button type="button" class="close modal-close-btn" data-dismiss="modal" aria-label="Close"
                             id="create-category-close-modal">
                         <span aria-hidden="true">&times;</span>
@@ -626,7 +626,7 @@ if (resourceFileInput) {
                     @include('layouts.message')
 
                     <label class="text-white">Category Name </label>
-                    <input style="background-color: #0f1534;" class="form-control text-white"
+                    <input style="background-color: #eaf3ff;" class="form-control"
                            wire:model.defer="category_name" placeholder="Enter category name" type="text"
                            maxlength="191">
 
@@ -635,7 +635,7 @@ if (resourceFileInput) {
                     @endif
 
                     <div class="p-2">
-                        <button wire:click="createCategory" style="background-color: #f2661c; color: white"
+                        <button wire:click="createCategory" style="background-color: #1B3A62 ; color: white"
                                 class="btn btn-sm float-end">submit
                             <span wire:loading wire:target="createCategory" class="swal2-loader"
                                   style="font-size: 8px;">
@@ -658,7 +658,7 @@ if (resourceFileInput) {
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Edit Category</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Edit Category</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -669,7 +669,7 @@ if (resourceFileInput) {
                                     <label class="form-label fs-5 text-white">Move Resources To An Other
                                         Category</label>
                                     <br/>
-                                    <select style="background-color: #0f1534;" class="form-control text-white"
+                                    <select style="background-color: #eaf3ff;" class="form-control"
                                             wire:model.defer="category_id" placeholder="Select category">
                                         <option value="">Select Category</option>
                                         @foreach($dropDownCategories as $category)

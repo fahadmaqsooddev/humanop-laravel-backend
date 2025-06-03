@@ -173,7 +173,7 @@
                                                     <span class="position-absolute" id="togglePassword"
                                                           style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
                                         <i class="fas fa-eye-slash pt-1 password-eye" id="password-eye"
-                                           style="    color: #f2661c !important;"></i>
+                                           style="    color: #1b3a62 !important;"></i>
                                     </span>
                                                     <div id="validatePassword"></div>
                                                     @error('password')
@@ -200,7 +200,7 @@
                                                     <span class="position-absolute" id="toggleConfirmPassword"
                                                           style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
                                         <i class="fas fa-eye-slash pt-1 confirm-password-eye" id="confirm-password-eye"
-                                           style="    color: #f2661c !important;"></i>
+                                           style="    color: #1b3a62 !important;"></i>
                                     </span>
                                                 </div>
                                             </div>
@@ -300,7 +300,7 @@
                                             </div>
                                             <div class="mt-3">
                                                 {{--                                                <label for="name" style="color: #0f1535; font-size: 17px">Your Intention for using the HumanOp® Technology</label><br>--}}
-                                                <label for="name" style="color: #f2661c; font-size: 15px">Your Intention
+                                                <label for="name" style="color: #1b3a62; font-size: 15px">Your Intention
                                                     for using the HumanOp® Technology</label>
                                                 @foreach($intention_options as $option)
                                                     <div class="form-check">
@@ -321,7 +321,7 @@
                                             </div>
                                             <div class="text-center">
                                                 <button type="submit" class="btn w-100 my-4 mb-2" id="signupButton"
-                                                        style="background-color: #f2661c;color:white">Sign up
+                                                        style="background-color: #1b3a62;color:white">Sign up
                                                 </button>
                                             </div>
                                             <p class="text-sm mt-3 mb-0" style="color: #0f1535">Already have an account?

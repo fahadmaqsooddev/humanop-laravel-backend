@@ -205,7 +205,7 @@
                                             <textarea id="comment-value" rows="5" class="comment-box"
                                                       placeholder="Add a Comment..." required></textarea>
                                             <a type="submit" onclick="submitFeedBackForm()" class="btn"
-                                               style="inline-size: 100%;background-color: #f2661c;color: white;">
+                                               style="inline-size: 100%;background-color: #1b3a62;color: white;">
                                                 Submit Feedback
                                             </a>
 
@@ -246,7 +246,7 @@
                                             <textarea id="feedback-comment-value" rows="5" class="comment-box"
                                                       placeholder="Add a Comment..." required></textarea>
                                             <button type="submit" onclick="submitAfterThirtyFeedBackForm()" class="btn"
-                                                    style="inline-size: 100%;background-color: #f2661c;color: white;">
+                                                    style="inline-size: 100%;background-color: #1b3a62;color: white;">
                                                 Submit Feedback
                                             </button>
 

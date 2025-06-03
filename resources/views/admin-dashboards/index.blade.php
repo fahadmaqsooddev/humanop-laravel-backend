@@ -27,7 +27,7 @@
                                             <div class="d-flex">
                                                 <p>{{$answer['answer']}}</p>
                                                 @foreach($answer['answerCodes'] as $code)
-                                                    <p class="px-2" style="color: #f2661c"> {{$code['code']}}
+                                                    <p class="px-2" style="color: #1b3a62"> {{$code['code']}}
                                                         + {{$code['number']}}</p>
                                                 @endforeach
                                             </div>
@@ -37,7 +37,7 @@
                                 <td class="text-sm font-weight-normal">{{$question['gender'] === '2' ? 'Male & Female' : ($question['gender'] === '1' ? 'Female' : ($question['gender'] === '0' ? 'Male' : ''))}}</td>
                                 <td class="text-sm font-weight-normal"><a href="{{route('admin_edit_questions', $question['id'])}}"
                                                                           type="submit"
-                                                                          style="background-color: #f2661c; color: white"
+                                                                          style="background-color: #1B3A62 ; color: white"
                                                                           class="btn btn-sm float-end mt-2 mb-0">Edit</a>
                                 </td>
                             </tr>

@@ -25,7 +25,7 @@
                 <div class="col-6">
                     <label class="form-label text-color-dark">First Name</label>
                     <div class="input-group">
-                        <input style="background-color: #0f1534;" id="firstName"
+                        <input style="background-color: #eaf3ff;" id="firstName"
                                wire:model.defer="currentUser.first_name"
                                class="form-control text-color-dark setting-box-background" type="text">
                     </div>
@@ -33,7 +33,7 @@
                 <div class="col-6">
                     <label class="form-label text-color-dark">Last Name</label>
                     <div class="input-group">
-                        <input style="background-color: #0f1534;" id="lastName" wire:model.defer="currentUser.last_name"
+                        <input style="background-color: #eaf3ff;" id="lastName" wire:model.defer="currentUser.last_name"
                                class="form-control text-color-dark setting-box-background" type="text" placeholder="{{$currentUser['last_name']}}">
                     </div>
                 </div>
@@ -43,14 +43,14 @@
                 <div class="col-6">
                     <label class="form-label mt-4 text-color-dark">Email</label>
                     <div class="input-group">
-                        <input style="background-color: #0f1534;" id="email" wire:model.defer="currentUser.email"
+                        <input style="background-color: #eaf3ff;" id="email" wire:model.defer="currentUser.email"
                                class="form-control text-color-dark setting-box-background" type="email" placeholder="{{$currentUser['email']}}">
                     </div>
                 </div>
                 <div class="col-6">
                     <label class="form-label mt-4 text-color-dark">Phone Number</label>
                     <div class="input-group">
-                        <input style="background-color: #0f1534;" id="phone" wire:model.defer="currentUser.phone"
+                        <input style="background-color: #eaf3ff;" id="phone" wire:model.defer="currentUser.phone"
                                class="form-control text-color-dark setting-box-background" type="text" placeholder="Phone #">
                     </div>
                 </div>
@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4 text-color-dark">I'm</label>
-                    <select style="background-color: #0f1535" class="form-control text-color-dark setting-box-background" wire:model.defer="currentUser.gender" >
+                    <select style="background-color: #eaf3ff" class="form-control text-color-dark setting-box-background" wire:model.defer="currentUser.gender" >
                         <option value="0">Male [XY]</option>
                         <option value="1">Female [XX]</option>
                     </select>
@@ -115,7 +115,7 @@
 
 
             </div>
-            <button type="submit" class=" btn-sm float-end mt-4 mb-4" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
+            <button type="submit" class=" btn-sm float-end mt-4 mb-4" style="background:#1b3a62 !important;color:white;font-weight:bolder;border:none;">
                 Update Info
             </button>
         </div>
@@ -128,7 +128,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <label class="form-label fs-4 text-white">Update User Profile</label>
+                    <label class="form-label fs-4" style="color: #1b3a62">Update User Profile</label>
                     <button type="button" class="close modal-close-btn closeCropperModel" data-bs-dismiss="modal"
                             aria-label="Close" id="close-info-modal-button">
                         <span aria-hidden="true">&times;</span>
@@ -147,7 +147,7 @@
                     <div class="mt-4 float-end">
                         <button type="button" class="btn btn-secondary closeCropperModel" class="close modal-close-btn" data-bs-dismiss="modal"
                                 aria-label="Close" id="close-info-modal-button" >Cancel</button>
-                        <button type="button" class="btn" style="background-color: #f2661c; color: white" id="crop">Save</button>
+                        <button type="button" class="btn" style="background-color: #1B3A62 ; color: white" id="crop">Save</button>
                     </div>
                 </div>
             </div>

@@ -113,7 +113,7 @@
                                                 <a class="position-absolute" id="togglePassword"
                                                    style="right: 15px; top: 65%; transform: translateY(-50%); cursor: pointer; color: white; z-index: 20;">
                                                     <i class="fas fa-eye-slash pt-1 password-eye" id="password-eye"
-                                                       style="color: #f2661c !important;"></i>
+                                                       style="color: #1b3a62 !important;"></i>
                                                 </a>
                                             </div>
 
@@ -133,7 +133,7 @@
 
                                             <div class="text-center">
                                                 <button type="submit" class="btn w-100 my-4 mb-2"
-                                                        style="background-color: #f2661c; color: white;">Sign in
+                                                        style="background-color: #1b3a62; color: white;">Sign in
                                                 </button>
                                             </div>
                                             <p class="text-sm text-center mt-3 mb-0"><a style="color:rgb(210, 103, 34);"

@@ -1,7 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
     .modal-close-btn {
-        background: #f2661c;
+        background: #1b3a62;
         border: none;
         color: white;
         font-weight: bold;
@@ -21,14 +21,14 @@
     }
 
     .page-link:hover {
-        background: #f2661c !important;
+        background: #1b3a62 !important;
         color: white !important;
     }
 
     .page-item.active .page-link {
-        background: #f2661c !important;
+        background: #1b3a62 !important;
         color: white !important;
-        border-color: #f2661c !important;
+        border-color: #1b3a62 !important;
     }
 
     .box-grid-size {
@@ -77,7 +77,7 @@
                     <h5 class="mb-0">Client Invites</h5>
                     <a data-bs-toggle="modal"
                        data-bs-target="#inviteLinkSendModel"
-                       style="background-color: #f2661c; color: white" class=" btn-sm float-end mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">send invite</a>
+                       style="background-color: #1B3A62 ; color: white" class=" btn-sm float-end mb-0" style="background:#1B3A62 ;color:white;font-weight:bolder;border:none;">send invite</a>
                 </div>
                 @livewire('admin.client-invites.client-invite')
 

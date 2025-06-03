@@ -16,14 +16,14 @@
                 <td class="text-md font-weight-normal">{{$query['query']}}</td>
                 <td class="text-md font-weight-normal">
                     <a type="submit" data-bs-toggle="modal"
-                       data-bs-target="#answerQueryModal{{$query['id']}}" class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">Answer</a>
+                       data-bs-target="#answerQueryModal{{$query['id']}}" class=" btn-sm float-end mt-2 mb-0" style="background:#1b3a62 !important;color:white;font-weight:bolder;border:none;">Answer</a>
                 </td>
             </tr>
             @livewire('admin.client-query.query-answer-form', ['queryId' => $query['id']], key($query->id))
 
         @endforeach
-        
-        
+
+
     </tbody>
 </table>
 {{ $queries->links() }}

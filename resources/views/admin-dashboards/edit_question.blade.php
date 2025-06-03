@@ -15,8 +15,8 @@
                             <div class="col-12">
                                 <label class="form-label text-white">Question</label>
                                 <div class="input-group">
-                                    <input style="background-color: #0f1534;" name="question"
-                                           class="form-control text-white" type="text" value="{{$question['question']}}"
+                                    <input style="background-color: #eaf3ff;" name="question"
+                                           class="form-control" type="text" value="{{$question['question']}}"
                                            placeholder="Alec">
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c">Update question</button>
+                        <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #1b3a62">Update question</button>
                     </form>
                 </div>
             </div>

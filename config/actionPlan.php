@@ -2,10 +2,10 @@
 
 return [
 
-    'priority_1' => "<h3 style='color: #f2661c'>90-Day Optimization Plan Intention</h3>
+    'priority_1' => "<h3 style='color: #1b3a62'>90-Day Optimization Plan Intention</h3>
         <p class='text-color-blue'>To cultivate a deeper connection with yourself by generating an awareness that you are uniquely designed, significant, and worthy, even if you don't currently feel this way. That your life has a purpose and that you possess distinctive gifts meant to be activated and shared as part of your life's mission.</p>
 
-        <h3 style='color: #f2661c'>90-Day Optimization Plan</h3>
+        <h3 style='color: #1b3a62'>90-Day Optimization Plan</h3>
         <p class='text-color-blue'>Each morning, at noon, and in the evening, “open the doors” to all four of your Energy Centers in your uniquely ordered configuration. In other words, engage in a quick activity to “open” each Energy Center. Here are examples of general activities that “open the door” to each Energy Center:</p>
         <ul>
             <li class='text-color-blue'><strong>Emotional:</strong> Make sure you are in the presence of living things.</li>
@@ -22,17 +22,17 @@ return [
     'priority_2' => [
         'regal' => "<p class='text-color-blue'>At this point in time, your ability to see life as an organized, vast picture is somewhat compromised, and it has you questioning your ability to lead and command attention. Your ability to gain access to the big picture is temporarily compromised.</p>
 
-    <h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+    <h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
     <p class='text-color-blue'>To cultivate greater awareness around what you are saying to yourself about yourself.</p>
 
-    <h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+    <h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
     <p class='text-color-blue'>For the next 90 days, focus on optimizing your self-talk.</p>
     <p class='text-color-blue'><strong>What you will need:</strong></p>
     <ul>
         <li class='text-color-blue'>A notebook and pen reserved just for your 90-Day Optimization Plan Notes.</li>
         <li class='text-color-blue'>Reserve pages within your notebook for your daily morning optimization plan and your daily evening optimization plan.</li>
     </ul>
-    <h3 style=\"color: #f2661c;\">Daily Morning Optimization Plan</h3>
+    <h3 style=\"color: #1b3a62;\">Daily Morning Optimization Plan</h3>
     <p class='text-color-blue'>Write down the following questions in your 90-Day Optimization Plan notebook:</p>
     <ul>
         <li class='text-color-blue'>Am I beating myself up? If yes, about what?</li>
@@ -42,7 +42,7 @@ return [
     </ul>
     <p class='text-color-blue'>Each morning, over the next 90 days, get out your notebook, date a fresh page, ask yourself the questions above, and write down the answers.</p>
 
-    <h3 style=\"color: #f2661c;\">Daily Evening Optimization Plan</h3>
+    <h3 style=\"color: #1b3a62;\">Daily Evening Optimization Plan</h3>
     <p class='text-color-blue'>Write down the following statements in your 90-Day Optimization Plan notebook:</p>
     <ul>
         <li class='text-color-blue'>The last thing I did or said today...</li>
@@ -55,10 +55,10 @@ return [
 
         "energetic" => "<p class='text-color-blue'>At this point in time, you are experiencing an absence of physical energy. It is difficult for you to access sustainable endurance. You may even feel apathetic about life and somewhat immobilized when it comes to addressing the challenges of life.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To generate greater physical energy and rejuvenation.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because your two drivers are the motivating forces that generate energy for you and keep you engaged in life, for the next 90 days focus on “feeding or fueling” the strong states of your pilot and co-pilot drivers. Create a repository of GO TO Activities that will keep you in the strong states of both drivers and support you in maintaining Optimal Performance.</p>
 
 <p class='text-color-blue'><strong>What you will need:</strong></p>
@@ -68,12 +68,12 @@ return [
     <li class='text-color-blue'>Reserve pages within your notebook for your Co-Pilot Driver and write the name of your Co-Pilot on the top of the first reserved page.</li>
 </ul>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <p class='text-color-blue'>Each day, for the next 90 days, list at least one activity in your notebook that keeps your PILOT Driver in the STRONG STATE.</p>
 <p class='text-color-blue'>Each day, for the next 90 days, list at least one activity that keeps your CO-PILOT Driver in the STRONG STATE.</p>
 <p class='text-color-blue'>Ideally, list activities that CONSISTENTLY energize you 90%-100% of the time. This ongoing repository will take the guesswork out of what to do when there is energy depletion or fatigue impacting your performance.</p>
 
-<h3 style=\"color: #f2661c;\">Reminders:</h3>
+<h3 style=\"color: #1b3a62;\">Reminders:</h3>
 <ul>
     <li class='text-color-blue'>Review the videos of your Pilot and Co-Pilot drivers for reminders of the strong states of each driver.</li>
     <li class='text-color-blue'>When you run out of ideas on what activities “feed or fuel” the strong states of your pilot and co-pilot drivers, ask HAi!</li>
@@ -83,13 +83,13 @@ return [
 
         "absorptive" => "<p class='text-color-blue'>At this point in time, you are experiencing difficulty entertaining information. In other words, your natural ability to determine what information is worthy of committing to memory is compromised. This can be a result of situations that have had you struggling with prioritizing various aspects of your life as well as situations that have created stress and catered to bouts of low self-esteem.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To focus on basic self-care and service towards others.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because situations in life can contribute to a disconnection with yourself, it’s important to refocus your energy on yourself by prioritizing your well-being. One of the quickest ways to do so is to boost your serotonin levels.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <p class='text-color-blue'>Each day, for the next 90 days, commit yourself to focus on the following ways to boost your serotonin levels:</p>
 <ul>
     <li class='text-color-blue'><strong>Exercise:</strong> Move your body in some way every day (Ask HAi for the most appropriate types of exercise that aligns with your “vehicle of self”).</li>
@@ -101,13 +101,13 @@ return [
 
         "romantic" => "<p class='text-color-blue'>Currently, your ability to believe in romance has reached an all-time low. Oftentimes this occurs when breakups or divorce happen, when the death of a loved one occurs, or an individual has put themselves in extreme solitary isolation. It also frequently occurs for new parents who are consumed by their new role.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To cultivate the romance in life.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Choose and apply at least one strategy from the following list every day:</p>
 
-<h3 style=\"color: #f2661c;\">Strategies to Bring Back the Romance (if you have a partner):</h3>
+<h3 style=\"color: #1b3a62;\">Strategies to Bring Back the Romance (if you have a partner):</h3>
 <ul>
     <li class='text-color-blue'>Feed the strong states of your two drivers.</li>
     <li class='text-color-blue'>Hold hands with your partner more often.</li>
@@ -119,7 +119,7 @@ return [
     <li class='text-color-blue'>Make your partner laugh or simply laugh with each other every day.</li>
 </ul>
 
-<h3 style=\"color: #f2661c;\">Strategies to Bring Back the Romance (if you don’t currently have a partner):</h3>
+<h3 style=\"color: #1b3a62;\">Strategies to Bring Back the Romance (if you don’t currently have a partner):</h3>
 <ul>
     <li class='text-color-blue'>Focus each day on the following:</li>
 </ul>
@@ -137,19 +137,19 @@ return [
 <p class='text-color-blue'>Exercise regularly, eat nutritious foods, and get adequate sleep to improve your overall health and mood.</p>
 <p class='text-color-blue'>Reward yourself each day with something you enjoy, like a favorite meal, a new book, or a leisurely activity.</p>
 
-<h3 style=\"color: #f2661c;\">Reminder:</h3>
+<h3 style=\"color: #1b3a62;\">Reminder:</h3>
 <p class='text-color-blue'>Putting yourself first is the first step to bringing back the romance in your life.</p>
 ",
 
         "sympathetic" => "<p class='text-color-blue'>At this point in time, you are experiencing difficulty seeing what others need. You may feel more easily distracted and overwhelmed by the demands of daily life. There could be several reasons for this, and it's important to identify which ones apply to you. You might be struggling to relax, feeling burdened by particular life stresses, or simply too busy. Perhaps everything in your life feels urgent and important.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To prioritize stillness and relaxation, fostering a sense of calm and presence in your daily life.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because life's demands can lead to feelings of overwhelm and disconnection, it's important to refocus your energy on cultivating inner peace. Over the next 90 days, your strategy is to prioritize stillness and relaxation. This will help you become more present and attentive to both your needs and the needs of others.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <p class='text-color-blue'>Each day, for the next 90 days, commit yourself to focus on at least three of the following practices each day to bring back the calm:</p>
 <ul>
     <li class='text-color-blue'><strong>Spend Quality Time with a Friend:</strong> Visit a friend and offer a listening ear. Engaging in meaningful conversations can help you reconnect with others and shift your focus outward.</li>
@@ -167,13 +167,13 @@ return [
 
         "perceptive" => "<p class='text-color-blue'>Currently, your critical thinking abilities are not functioning at their best. When this happens, it can become challenging to access analytical and strategic thinking skills, making it difficult to develop effective plans of action. As a result, you might find yourself hesitating or delaying important decisions, which can lead to missed opportunities or increased stress. You may also find yourself questioning your ability to remember things.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To regain your sharpness by creating space for mental clarity, focus, and reflection, allowing your decision-making process to flow more naturally and effectively.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because your critical thinking abilities are currently compromised, it's important to focus on activities that will help reactivate your analytical and strategic thinking skills. Over the next 90 days, your strategy is to create space for mental clarity, focus, and reflection, enabling your decision-making process to improve.</p>
 
-<h3 style=\"color: #f2661c;\">Weekly Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Weekly Optimization Plan</h3>
 <p class='text-color-blue'>Each week, for the next 90 days, commit yourself to focus on at least one of the following practices to activate critical thinking:</p>
 <ul>
     <li class='text-color-blue'><strong>Spend Time with Strategic Thinkers:</strong>
@@ -213,13 +213,13 @@ return [
 
         "effervescent" => "<p class='text-color-blue'>At this point in time, one aspect of your nature may be encountering moments of hopelessness. This may lead to feelings of defeat, indifference, and alienation. It's important to recognize these emotions and understand that they are temporary. Taking proactive steps can help reignite your will to move forward and rediscover a sense of hope.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To reignite your sense of hope by immersing yourself in life-affirming experiences that promote joy, connection, and creativity.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because feelings of hopelessness can create a sense of isolation and disconnection, it's crucial to actively seek out activities that nurture your spirit and rekindle your enthusiasm for life. Over the next 90 days, your strategy is to immerse yourself in environments and experiences that foster positivity and growth.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <p class='text-color-blue'>Each day, for the next 90 days, commit yourself to focus on at least three of the following practices to activate hope:</p>
 <ol>
     <li class='text-color-blue'><strong>Stay in the Company of Living Things:</strong>
@@ -277,13 +277,13 @@ return [
 
     'priority_3' => "<p class='text-color-blue'>At this point in time, you are experiencing difficulty making decisions. This is because your ability to reason is compromised by fatigue. This can result from not having the basics covered—you may not be eating right, getting enough rest, or exercising sufficiently. As a consequence, you might find yourself hesitating or delaying important decisions, which can lead to missed opportunities or increased stress.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To restore your decision-making abilities by focusing on foundational self-care and nurturing the strong states of your two main drivers.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because your ability to reason is currently compromised by fatigue, it's important to prioritize basic self-care over the next 90 days. Focus on eating right, getting plenty of rest, and engaging in regular exercise. As you attend to these foundational components, also discover and consistently apply new ways to “fuel” the strong states of your two driving forces. Ask HAi for suggestions on what healthy “fuel” is for you.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <p class='text-color-blue'>Each day, for the next 90 days, commit yourself to the following steps to nurture your two main drivers:</p>
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
@@ -318,7 +318,7 @@ return [
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>Review the videos and resources about your Pilot and Co-Pilot Drivers for reminders of the strong states of each driver.</li>
     <li class='text-color-blue'>When you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
@@ -329,13 +329,13 @@ return [
 
 
     'priority_4' => "<p class='text-color-blue'>At this point in time, you're not fully tapping into your potential, which can leave you feeling tired and less motivated. To optimize this over the next 90 days, concentrate on nurturing your two main drivers. Discover and consistently apply new ways to “fuel” the strong states of these two driving forces in you. By doing so, you'll feel more energized and engaged, and this in turn provides you with greater access to your full potential. Ask HAi for suggestions on what healthy “fuel” is for you.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention:</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention:</h3>
 <p class='text-color-blue'>To regain energy and motivation by consistently fueling the strong states of your two main drivers.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan:</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan:</h3>
 <p class='text-color-blue'>Because your two drivers are the motivating forces that generate energy for you and keep you engaged in life. Over the next 90 days, focus on “feeding or fueling” the strong states of your pilot and co-pilot drivers. Create a repository of \"Go-To\" activities that will keep you in the strong states of both drivers and support you in maintaining optimal performance.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan:</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan:</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
@@ -371,13 +371,13 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 ",
 
     'priority_5' => "<p class='text-color-blue'>At this point in time, you are experiencing difficulty getting things done. This can make you feel overwhelmed or stressed. It's important to acknowledge this challenge and approach it with kindness towards yourself.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To reduce overwhelm by focusing on manageable tasks and practicing self-compassion, allowing you to increase productivity without overextending yourself.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because taking on too much at once can lead to burnout and decreased effectiveness, it's important to prioritize tasks and seek support when needed. Over the next 90 days, your strategy is to be good to yourself by avoiding overcommitment, pacing yourself, and focusing on the most urgent tasks.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <p class='text-color-blue'>Each day, for the next 90 days, commit yourself to focus on the following practices to enhance productivity and reduce stress:</p>
 
 <ol>
@@ -408,13 +408,13 @@ Benefit: Helps maintain steady progress without exhaustion, improving overall pr
 
     'priority_6' => "<p class='text-color-blue'>At this point in time, your ability to see life as an expanded vast picture and even see the minute subtleties within the moment is somewhat compromised. This may leave you feeling uncertain or disconnected from your usual sense of direction. It's important to acknowledge that this aspect within you can be optimized by taking proactive steps to regain clarity.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To restore a holistic view of life by aligning with individuals who offer reasoned guidance and support, aiding you in seeing direction and avenues for healing.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because feeling uncertainty and disconnectedness can impact your overall well-being and decision-making, it's important to surround yourself with people who can provide clarity and wisdom. Over the next 90 days, your strategy is to align yourself with individuals who have the voice of reason when it comes to seeking direction or healing a situation.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <p class='text-color-blue'>Each day, for the next 90 days, commit yourself to focus on the following practices to enhance your perspective and regain a sense of organization:</p>
 <ol>
     <li class='text-color-blue'><strong>Connect with Wise Individuals:</strong>
@@ -441,13 +441,13 @@ Benefit: Helps maintain steady progress without exhaustion, improving overall pr
 
 
     'priority_7' => "<p class='text-color-blue'>At this point in time, you are putting attention on many driving forces that do not have a \"license\" to drive your \"vehicle of self.\" These inauthentic drivers are not aligned with your true self, and as a result, you experience them in a weakened form. This misalignment drains all of your energy each day, leaving you feeling exhausted and disconnected from your authentic path.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy and sense of purpose.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because focusing on inauthentic drivers drains energy and hinders your ability to reach your full potential. Over the next 90 days, shift your attention to your genuine driving forces by “feeding” the strong states of both of your authentic drivers. Identify what constitutes healthy “fuel” for each driver and make these your daily go-to activities. As you nourish these authentic drivers, the inauthentic ones will naturally fade away. Consult HAi if you need personalized suggestions for healthy “fuel.”</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <p class='text-color-blue'>Each day, for the next 90 days, commit yourself to the following steps to realign with your authentic drivers:</p>
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
@@ -484,14 +484,14 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 
 
     'priority_8' => "<p class='text-color-blue'>At this point in time, you are putting attention on three driving forces that do not have a \"license\" to drive your \"vehicle of self.\" Since these forces aren't truly aligned with your authentic self, you experience them only in a weakened form. This misalignment drains your energy each day and can leave you feeling exhausted and disconnected from your true path.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because focusing on inauthentic drivers depletes your energy and hinders your ability to reach your full potential, it's crucial to shift your attention to your genuine driving forces. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll empower your true self. The more you nourish the strong states of your authentic driving forces, the faster the inauthentic drivers will fade away due to lack of attention. If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
 </p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
@@ -529,16 +529,16 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 ",
 
     'priority_9' => "<p class='text-color-blue'>At this point in time, you are putting attention on two driving forces that do not have a \"license\" to drive your \"vehicle of self.\" Since these forces aren't truly aligned with your authentic self, you experience them only in a weakened form. This misalignment drains most of your energy each day, and can leave you feeling exhausted and disconnected from your true path.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because focusing on inauthentic drivers depletes your energy and hinders your ability to reach your full potential, it's crucial to shift your attention to your genuine driving forces. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll empower your true self. The more you nourish the strong states of your authentic driving forces, the faster the inauthentic drivers will fade away due to lack of attention.
 <br>
 If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
 </p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
@@ -576,16 +576,16 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 ",
 
     'priority_10' => "<p class='text-color-blue'>At this point in time, you are putting attention on one driving force that does not have a \"license\" to drive your \"vehicle of self.\" Since this force isn't truly aligned with your authentic self, you experience it only in a weakened form. This misalignment will drain some of your energy each day and leave you somewhat disconnected from your true path.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because focusing on inauthentic drivers depletes your energy and hinders your ability to reach your full potential, it's crucial to shift your attention to your genuine driving forces. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll empower your true self. The more you nourish the strong states of your authentic driving forces, the faster the inauthentic drivers will fade away due to lack of attention.
 <br>
 If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
 </p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
@@ -623,16 +623,16 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 ",
 
     'priority_11' => "<p class='text-color-blue'>At this time both of your drivers aren’t getting enough “fuel”. This results in a lack of motivation and the weak state behavior of both drivers is likely more prevalent for you. Over the next 90-days, explore and implement more ways to “fuel” the strong states of your two driving forces. Ask HAI for suggestions on what healthy “fuel” is for you.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To nourish the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because both of your driving forces aren’t currently receiving enough “food or fuel”, your motivation is lacking. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll re-energize yourself and re-activate your motivation.
 <br>
 If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
 </p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
@@ -670,16 +670,16 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 ",
 
     'priority_12' => "<p class='text-color-blue'>At this point in time, your Co-Pilot Driver isn’t getting enough “fuel”. This results in a lack of motivation and the weak state behavior of this driver is likely more prevalent for you. Over the next 90-days, explore and implement more ways to “fuel” the strong states of both of your  driving forces (spending a little extra time “feeding or fueling” your Co-Pilot).  Ask HAI for suggestions on what healthy “fuel” is for you.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To nourish the strong states of both of your drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because your Co-Pilot Driver isn’t currently receiving enough “food or fuel”, your motivation is waning. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll re-energize yourself and re-activate your motivation.
 <br>
 If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
 </p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
@@ -719,14 +719,14 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 
     'priority_13' => "<p class='text-color-blue'>At this point in time, you are experiencing a lot of “mind chatter,” which can deny you the ability to focus and target your two authentic motivating forces. Over the next 90 days, explore and implement more ways to “fuel” the strong states of both of your driving forces. This optimization strategy will help you re-align your focus with those two driving forces that are most prominent in you. This, in turn, helps fine-tune your focus and raise your energy levels. Ask HAi for suggestions on what healthy “fuel” is for you.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To nourish the strong states of both of your drivers, thereby restoring your energy, vitality, and focus.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Because the “voices in your head” currently have more volume, it’s impacting your ability to focus. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll refocus your energy on the driving forces that give you energy.</p>
 <p class='text-color-blue'>If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
         <ul>
@@ -760,7 +760,7 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>Review the videos and resources about your Pilot and Co-Pilot Drivers for reminders of the strong states of each driver.</li>
     <li class='text-color-blue'>When you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
@@ -772,14 +772,14 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 
     'priority_14' => "<p class='text-color-blue'>At this point in time, you are likely experiencing a separation from fully experiencing the physical world in which we live. This can be a result of a physical challenge, boredom, or too much self-reflection. Over the next 90 days, explore and implement more ways to “fuel” the strong states of both of your driving forces. This optimization strategy will help you fully engage in the driving forces that keep you energized and optimized in this physical world. This, in turn, helps fine-tune your focus and raise your energy levels. Ask HAi for suggestions on what healthy “fuel” is for you.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To nourish the strong states of both of your drivers, thereby restoring your energy, vitality, and focus.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll refocus your energy on the driving forces that give you energy.</p>
 <p class='text-color-blue'>If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>
         <ul>
@@ -813,7 +813,7 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>Review the videos and resources about your Pilot and Co-Pilot Drivers for reminders of the strong states of each driver.</li>
     <li class='text-color-blue'>When you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
@@ -826,16 +826,16 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 
     'priority_15' => "<p class='text-color-blue'>At this time, your focus for the next 90 days is to cultivate a deeper understanding and acceptance of your tolerance for people, places, and things. Given your high level of refinement, this optimization strategy will help you align more fully with environments, relationships, and choices that energize you, enhancing your well-being and satisfaction. If you need guidance, ask HAi for personalized suggestions on how to create greater alignment.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To cultivate understanding and acceptance of your tolerance levels for people, places, and things, allowing you to align more closely with what gives you energy and enhances your lifestyle.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Over the next 90 days, your strategy is to focus on four key areas—people, places, things, and personal care. By identifying and choosing environments, relationships, and possessions that resonate with your preferences and give you energy, you’ll create greater alignment with your refined lifestyle. Give yourself permission to prioritize high-quality experiences and dynamics that support your energy.</p>
 <p class='text-color-blue'>If you find yourself running out of ways to align with the people, places, or things that nourish you, consult HAi for personalized suggestions on how to further refine these areas of your life.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 <ol>
     <li class='text-color-blue'><strong>People:</strong>
         <p class='text-color-blue'>When interacting with others—whether in public, while networking, at work, or in social settings—consider whether you share any basic common interests that support your lifestyle preferences. If you find little common ground for developing long-term relationships, monitor how much time you spend in their presence to avoid draining your energy.</p>
@@ -851,7 +851,7 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>If you run out of ideas on how to align with people, places, and things that resonate with you, ask HAi for suggestions.</li>
     <li class='text-color-blue'>Regularly review the videos and resources available to deepen your understanding of your preferences and alignment needs.</li>
@@ -862,16 +862,16 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 
     'priority_16' => "<p class='text-color-blue'>At this time, your focus for the next 90 days is to cultivate a deeper understanding and acceptance of your tolerance for people, places, and things. Given your high tolerance for natural and more primitive lifestyle preferences, this optimization strategy will help you align more fully with environments, relationships, and choices that energize you, enhancing your well-being and satisfaction. If you need guidance, ask HAi for personalized suggestions on how to create greater alignment.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To cultivate understanding and acceptance of your tolerance levels for people, places, and things, allowing you to align more closely with what gives you energy and enhances your lifestyle.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Over the next 90 days, your strategy is to focus on four key areas—people, places, things, and personal care. By identifying and choosing environments, relationships, and possessions that resonate with your natural and more primitive lifestyle preferences, you’ll create greater alignment with your energy and well-being. Give yourself permission to prioritize experiences that allow you to live authentically and support your alchemical nature.</p>
 <p class='text-color-blue'>If you find yourself running out of ways to align with the people, places, or things that nourish you, consult HAi for personalized suggestions on how to further refine these areas of your life.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 <ol>
     <li class='text-color-blue'><strong>People:</strong>
         <p class='text-color-blue'>When encountering people—whether in public, while networking, at work, or in social settings—consider whether you share any basic common interests that support your natural lifestyle preferences. If you have little in common for developing long-term relationships, monitor how much time you spend in their presence to conserve your energy.</p>
@@ -887,7 +887,7 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>If you run out of ideas on how to align with people, places, and things that resonate with you, ask HAi for suggestions.</li>
     <li class='text-color-blue'>Regularly review the videos and resources available to deepen your understanding of your preferences and alignment needs.</li>
@@ -897,17 +897,17 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 
     'priority_17' => "<p class='text-color-blue'>At this time, your focus for the next 90 days is to cultivate a more balanced connection with your Four Energy Centers. Similar to the tires on a car, when one or more Energy Centers are overinflated or underinflated, your \"ride\" becomes unsteady. Currently, your first two Energy Centers are overactive, which disrupts your ability to engage with the world in a harmonious way. This optimization strategy will help you achieve better balance, allowing for more grounded communication and connection. If you need guidance, ask HAi for personalized suggestions on how to effectively open each “door.”</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To bring greater balance to your Four Energy Centers by focusing on reducing overactivity, thereby enhancing your overall connection with yourself and the world around you.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Over the next 90 days, your strategy is to focus on opening the “doors” to your Four Energy Centers three times a day (morning, noon & night), in the sequence that is unique to you (refer to your “Core Stats” section under Communication Style to see the order of your Energy Center “doors”).</p>
 <p class='text-color-blue'>Make a concerted effort to spend extra time on activities that engage your fourth or last Energy Center, as this will help counterbalance the overactivity of your two heightened centers and create a more stable flow of energy.</p>
 <p class='text-color-blue'>If you run out of ideas on how to engage each Energy Center, consult HAi for suggestions on how to activate each “door” in alignment with your unique sequence.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 <ol>
     <li class='text-color-blue'><strong>Open All Four Energy Centers Three Times a Day:</strong>
         <p class='text-color-blue'>Action: Each day, consciously open the \"doors\" to your Four Energy Centers three times (morning, noon & night), following your specific sequence as outlined in your Core Stats.<br>
@@ -923,7 +923,7 @@ Benefit: This approach allows you to redirect excess energy and strengthen under
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>If you run out of ideas or need more examples of how to open each Energy Center \"door,\" ask HAi for additional suggestions.</li>
     <li class='text-color-blue'>Regularly review the videos and resources on your dashboard to deepen your understanding of your Energy Centers and the unique sequence in which they operate.</li>
@@ -933,17 +933,17 @@ Benefit: This approach allows you to redirect excess energy and strengthen under
 
     'priority_18' => "<p class='text-color-blue'>At this time, your focus for the next 90 days is to cultivate a more balanced connection with your Four Energy Centers. Similar to the tires on a car, when one or more Energy Centers are overinflated or underinflated, the \"ride\" becomes bumpy. Currently, your primary (first) Energy Center has too much \"air,\" meaning it is being overused, which is impacting your ability to engage with the world in a balanced way. This optimization strategy will help you achieve better balance, allowing for more grounded communication and connection. If you need guidance, ask HAi for personalized suggestions on how to effectively open each “door.”</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To bring greater balance to your Four Energy Centers by focusing on reducing overactivity in the primary center, thereby enhancing your overall connection with yourself and the world around you.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Over the next 90 days, your strategy is to focus on opening the “doors” to your Four Energy Centers three times a day (morning, noon & night), in the sequence that is unique to you (refer to your “Core Stats” section under Communication Style to see the order of your Energy Center “doors”).</p>
 <p class='text-color-blue'>Make an effort to spend extra time on activities that engage your fourth or last Energy Center, as this will help counterbalance the overactivity of your primary center and create a more stable flow of energy.</p>
 <p class='text-color-blue'>If you run out of ideas on how to engage each Energy Center, consult HAi for suggestions on how to activate each “door” in alignment with your unique sequence.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 <ol>
     <li class='text-color-blue'><strong>Open All Four Energy Centers Three Times a Day:</strong>
         <p class='text-color-blue'>Action: Each day, consciously open the \"doors\" to your Four Energy Centers three times (morning, noon & night), following your specific sequence as outlined in your Core Stats.<br>
@@ -959,7 +959,7 @@ Benefit: This approach allows you to redirect excess energy and strengthen under
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>If you run out of ideas or need more examples of how to open each Energy Center \"door,\" ask HAi for additional suggestions.</li>
     <li class='text-color-blue'>Regularly review the videos and resources on your dashboard to deepen your understanding of your Energy Centers and the unique sequence in which they operate.</li>
@@ -969,17 +969,17 @@ Benefit: This approach allows you to redirect excess energy and strengthen under
 
     'priority_19' => "<p class='text-color-blue'>At this time, your focus for the next 90 days is to cultivate a more balanced connection with your Four Energy Centers. Similar to the tires on a car, when one or more Energy Centers are underinflated or overinflated, the \"ride\" becomes unsteady. Currently, your last two Energy Centers are underinflated, meaning they are being underutilized, which is impacting your ability to engage with the world in a balanced way. This optimization strategy will help you achieve better balance, allowing for more grounded communication and connection. If you need guidance, ask HAi for personalized suggestions on how to effectively open each “door.”</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To bring greater balance to your Four Energy Centers by focusing on increasing activity in the underutilized centers, thereby enhancing your overall connection with yourself and the world around you.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Over the next 90 days, your suggested optimization strategy is to focus on opening the “doors” to your Four Energy Centers three times a day (morning, noon & night), following the sequence that is unique to you (refer to your “Core Stats” section under Communication Style to see the order of your Energy Center “doors”).</p>
 <p class='text-color-blue'>Make a conscious effort to spend extra time engaging in activities that align with your last two “doors.” This approach will help activate these underactive Energy Centers, creating a more balanced flow across all four centers.</p>
 <p class='text-color-blue'>If you run out of ideas on how to engage each Energy Center, consult HAi for suggestions on how to activate each “door” in alignment with your unique sequence.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 <ol>
     <li class='text-color-blue'><strong>Open All Four Energy Centers Three Times a Day:</strong>
         <p class='text-color-blue'>Action: Each day, consciously open the \"doors\" to your Four Energy Centers three times (morning, noon & night), following your specific sequence as outlined in your Core Stats.<br>
@@ -995,7 +995,7 @@ Benefit: This approach helps redirect energy to the underactive centers, fosteri
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>If you run out of ideas or need more examples of how to open each Energy Center \"door,\" ask HAi for additional suggestions.</li>
     <li class='text-color-blue'>Regularly review the videos and resources on your dashboard to deepen your understanding of your Energy Centers and the unique sequence in which they operate.</li>
@@ -1005,17 +1005,17 @@ Benefit: This approach helps redirect energy to the underactive centers, fosteri
 
     'priority_20' => "<p class='text-color-blue'>At this time, your focus for the next 90 days is to cultivate a more balanced connection with your Four Energy Centers. Similar to the tires on a car, when one is underinflated or overinflated, the ride can get bumpy. Currently, your last Energy Center is underinflated, meaning it’s not being used enough, which is affecting your ability to connect with the world in a balanced way. This optimization strategy will help you achieve greater internal balance, allowing for more grounded communication and connection. If you need guidance, ask HAi for personalized suggestions on how to effectively open each “door.”</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To bring greater balance to your Four Energy Centers by focusing on increasing activity in the underutilized last center, thereby enhancing your overall connection with yourself and the world around you.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>For the next 90 days, your optimization strategy is to focus on opening the “doors” to your Four Energy Centers three times a day (morning, noon, and night), following the sequence that is unique to you (refer to your “Core Stats” section under Communication Style to see the specific order of your Energy Center “doors”).</p>
 <p class='text-color-blue'>Make a conscious effort to spend extra time engaging in activities that align with your fourth or last “door.” This approach will bring more attention to your underactive last Energy Center, creating a more balanced flow across all centers.</p>
 <p class='text-color-blue'>If you run out of ideas on how to engage each Energy Center, consult HAi for suggestions on how to activate each “door” in alignment with your unique sequence.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 <ol>
     <li class='text-color-blue'><strong>Open All Four Energy Centers Three Times a Day:</strong>
         <p class='text-color-blue'>Action: Each day, consciously open the \"doors\" to your Four Energy Centers three times (morning, noon, and night), following your specific sequence as outlined in your Core Stats.<br>
@@ -1031,7 +1031,7 @@ Benefit: This approach helps redirect energy to the underactive center, fosterin
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>If you run out of ideas or need more examples of how to open each Energy Center \"door,\" ask HAi for additional suggestions.</li>
     <li class='text-color-blue'>Regularly review the videos and resources on your dashboard to deepen your understanding of your Energy Centers and the unique sequence in which they operate.</li>
@@ -1041,10 +1041,10 @@ Benefit: This approach helps redirect energy to the underactive center, fosterin
 
     'priority_21' => "<p class='text-color-blue'>At this time, your focus for the next 90 days is to develop a deeper understanding and acceptance of your Perception of Life. Your perspective is unique in that it doesn’t generate a strong enough electromagnetic charge to either attract or repel people and situations that might influence your enthusiasm for life. As a result, you might sometimes feel dismissed or overlooked, as others aren't naturally drawn to engage with you. This can lead to feelings of loneliness and exclusion. This optimization strategy will help you cultivate greater connection and presence, allowing you to feel more integrated and engaged in your environment. If you need guidance, ask HAi for personalized suggestions on how to approach these practices effectively.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To deepen your understanding and acceptance of your unique Perception of Life, creating stronger connections with others and increasing your sense of inclusion and enthusiasm for life.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>For the next 90 days, your strategy is to honor your unique perspective by focusing on specific engagement practices. Select one practice from the list below and dedicate two weeks to it before transitioning to a new practice:</p>
 
 <ul>
@@ -1060,9 +1060,9 @@ Benefit: This approach helps redirect energy to the underactive center, fosterin
 
 <p class='text-color-blue'>If you find it challenging to select or engage with these practices, consult HAi for personalized guidance and suggestions on how to adapt them to your unique perspective.</p>
 
-<h3 style=\"color: #f2661c;\">Weekly Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Weekly Optimization Plan</h3>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 <ol>
     <li class='text-color-blue'><strong>Choose and Focus on One Engagement Practice:</strong>
         <p class='text-color-blue'>Action: Select one of the listed practices and focus on it for two weeks before transitioning to a new one.<br>
@@ -1078,7 +1078,7 @@ Benefit: This approach helps redirect energy to the underactive center, fosterin
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>If you need ideas on how to adapt the listed practices to better suit your nature or situation, ask HAi for additional suggestions.</li>
     <li class='text-color-blue'>Regularly review the videos and resources available on your dashboard to deepen your understanding of your Perception of Life and how to enhance it.</li>
@@ -1088,13 +1088,13 @@ Benefit: This approach helps redirect energy to the underactive center, fosterin
 
     'priority_22' => "<p class='text-color-blue'>At this time, your focus for the next 90 days is to concentrate on deepening your understanding and acceptance of your unique Perception of Life, which influences how you initially interact with your environment and those around you. You have a natural talent for identifying what isn’t working, bringing necessary issues to light so that solutions can be found. However, this ability may sometimes cause others to perceive you as critical or a killjoy. Despite these perceptions, it’s important to value your skill in identifying problems, as it’s crucial for gaining a complete view. Recognizing what isn’t working is essential for a full perspective. This optimization strategy will help you cultivate more constructive connections, allowing for improved engagement and acceptance of your perspective. If you need guidance, ask HAi for personalized suggestions on how to approach these practices effectively.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To deepen your understanding and acceptance of your unique Perception of Life, creating stronger connections with others while maintaining your critical insight for more effective communication and engagement.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>For the next 90 days, your optimization strategy is to embrace your unique perspective while focusing on improving your interactions with others. Use the following practices as a guide:</p>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Educate and Communicate Your Perspective:</strong>
@@ -1115,7 +1115,7 @@ Benefit: Educating others about your perspective can reduce misunderstandings an
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>If you need more ideas on how to adapt these practices, ask HAi for additional strategies that align with your nature.</li>
     <li class='text-color-blue'>Regularly review the resources available on your dashboard to deepen your understanding of your Perception of Life and its impact on your interactions.</li>
@@ -1123,15 +1123,15 @@ Benefit: Educating others about your perspective can reduce misunderstandings an
     <p class='text-color-blue'>As you engage in this 90-day plan, observe how your interactions unfold, particularly in family, social, and professional networks. By consistently implementing these engagement strategies, you’ll experience improved connections, increased receptivity to your perspective, and greater inclusion. This renewed approach will not only enhance your communication skills but also optimize your relationships, enthusiasm for life, and overall sense of fulfillment.</p>
 ",
 
-    'priority_23' => "<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+    'priority_23' => "<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To deepen your understanding of your unique Perception of Life while fostering stronger connections, particularly with individuals who tend to focus on identifying problems. The goal is to maintain your positive perspective while improving engagement with less positive individuals for more empowered interactions.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>For the next 90 days, focus on developing a deeper understanding of your Perception of Life, as it shapes how you initially engage with your environment and those around you. You often exhibit a solution-oriented approach, typically perceiving what's working first and drawing attention, sometimes unintentionally. It's crucial to recognize that your upbeat perspective may occasionally seem unrealistic to others.</p>
 
 <p class='text-color-blue'>The plan emphasizes improved interactions with those who identify problems first while maintaining your optimistic outlook. Use the following optimization strategies as a guide:</p>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Establish Common Ground Before Positivity:</strong>
@@ -1160,7 +1160,7 @@ Benefit: Creates space for others to feel heard, making them more open to hearin
     </li>
 </ol>
 
-<h3 style=\"color: #f2661c;\">Reminders</h3>
+<h3 style=\"color: #1b3a62;\">Reminders</h3>
 <ul>
     <li class='text-color-blue'>If you want more strategies, ask HAi for additional suggestions that align with your nature.</li>
     <li class='text-color-blue'>Regularly review resources on your dashboard to enhance your understanding of your Perception of Life and its impact on interactions.</li>
@@ -1169,13 +1169,13 @@ Benefit: Creates space for others to feel heard, making them more open to hearin
 ",
 
     'priority_24' => "<p class='text-color-blue'>Maintaining energy reserves is crucial for effective life management. However, the chaos of daily life can often deplete or overstimulate one’s energy, compromising performance. Both energy deficiency and excess can lead to judgment from others and cause personal feelings of depression or even anger. At this time, your Energy Pool is compromised, which often indicates an underlying physical issue. This could be a known condition or a silent one, such as a congenital disorder, thyroid problem, or other. Regardless of the cause, there are ways to boost your energy levels to keep pace with life’s demand.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To restore and optimize your energy levels, enabling more effective life management. The focus is on sustaining balanced energy reserves, preventing depletion or overstimulation, and promoting overall well-being.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>For the next 90 days, your optimization strategy is to enhance your physical energy while maintaining daily life demands. It’s important to address both potential physical issues and energy-boosting actions to restore balance. Start slowly, focusing on one action item at a time, and write about your experiences. Use the following practices as a guide:</p>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Consult with Your Healthcare Provider:</strong>
@@ -1215,13 +1215,13 @@ Benefit: Provides a reset for mental and physical energy, enhancing long-term pe
 
 <p class='text-color-blue'>Currently, you possess an abundance of energy, known as \"BIG ENERGY.\" This natural access to significant potential makes you a \"big vehicle,\" meaning you tend to approach daily demands quickly. While this high-performance nature offers advantages, it can also increase mental chatter, expressive behavior, and even frustration. You often take on many responsibilities, which may lead to overlooked details and over-addressing issues, resulting in disappointment.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention:</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention:</h3>
 <p class='text-color-blue'>To optimize your energy, enabling you to align with life’s natural flow while maintaining effective performance.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan:</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan:</h3>
 <p class='text-color-blue'>For the next 90 days, focus on maintaining equilibrium, applying the following strategies to harness and direct your \"BIG ENERGY.\" Start slowly, focusing on one action item at a time, and reflect on your experiences.</p>
 
-<h3 style=\"color: #f2661c;\">Key Areas of Focus:</h3>
+<h3 style=\"color: #1b3a62;\">Key Areas of Focus:</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Step Out of the \"Rat Race\":</strong>
@@ -1254,14 +1254,14 @@ Benefit: Harmonizes energy, allowing for better interpersonal interactions.</p>
 ",
 
     'priority_26' => "<p class='text-color-blue'>Over the next 90-days, explore and implement more ways to “fuel” the strong states of both of your driving forces.  This optimization strategy will help you fully engage in the driving forces that keep you energized and optimized.  This, in turn, helps fine-tune your focus and raise your energy levels so you can remain energized and optimized. Ask HAi for suggestions on what healthy “fuel” is for you.</p>
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan Intention</h3>
 <p class='text-color-blue'>To nourish the strong states of both of your drivers, thereby restoring your energy, vitality, and focus.</p>
 
-<h3 style=\"color: #f2661c;\">90-Day Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">90-Day Optimization Plan</h3>
 <p class='text-color-blue'>Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll refocus your energy on the driving forces that give you energy.</p>
 <p class='text-color-blue'>If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.</p>
 
-<h3 style=\"color: #f2661c;\">Daily Optimization Plan</h3>
+<h3 style=\"color: #1b3a62;\">Daily Optimization Plan</h3>
 
 <ol>
     <li class='text-color-blue'><strong>Prepare Your Notebook:</strong>

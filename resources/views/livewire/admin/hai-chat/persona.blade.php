@@ -2,7 +2,7 @@
 
     <style>
         .new-orange-button{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             padding: 10px 20px 10px 20px;
             border-radius: 8px;
             color: white;
@@ -206,7 +206,7 @@
 {{--    <style>--}}
 
 {{--        .input-styling{--}}
-{{--            background: #F4E3C7 !important;--}}
+{{--            background: #eaf3ff !important;--}}
 {{--            box-shadow: 0 8px 20px 0 #0000001A !important;--}}
 {{--            border-radius: 20px !important;--}}
 {{--            border: none !important;--}}
@@ -245,9 +245,9 @@
 
 {{--            <div class="py-3 d-flex justify-content-between">--}}
 {{--                <span></span>--}}
-{{--                <span id="success_message_span" class="d-none" style="color: #F95520; font-size: 14px; font-weight: 600;">Persona Updated</span>--}}
+{{--                <span id="success_message_span" class="d-none" style="color: #1b3a62; font-size: 14px; font-weight: 600;">Persona Updated</span>--}}
 {{--                <button--}}
-{{--                    style="background:#F95520;color:white;border-radius: 24px;border: 2px;--}}
+{{--                    style="background:#1b3a62;color:white;border-radius: 24px;border: 2px;--}}
 {{--                    font-weight: 400;padding: 10px 15px 10px 15px; font-size: 13px;"--}}
 {{--                wire:click="savePersona">--}}
 

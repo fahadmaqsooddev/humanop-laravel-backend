@@ -3,7 +3,7 @@
     <style>
 
         .new-orange-button {
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             padding: 10px 20px 10px 20px;
             border-radius: 8px;
             color: white;
@@ -89,8 +89,8 @@
                                    class="form-label fw-bold text-orange">LLM Models</label>
                             <select class="form-control input-bg"
                                     wire:model.defer="model_type">
-                                
-                                
+
+
                                 @foreach($modelTypes as $type)
                                     <option value="{{ $type->model_value }}"
                                             style="color: black">{{ $type->model_name }}</option>

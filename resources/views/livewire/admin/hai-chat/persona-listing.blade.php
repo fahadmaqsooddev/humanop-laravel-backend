@@ -56,7 +56,7 @@
                                             </span>
                                     </td>
                                     <td>
-                                        <a class="px-2 py-1" href="{{route('admin_hai_chat_persona', ['name' => $persona['chatbot']['name']])}}" style="background-color: #f2661c; color: white; font-size: small; border-radius: 8px; border: none;">
+                                        <a class="px-2 py-1" href="{{route('admin_hai_chat_persona', ['name' => $persona['chatbot']['name']])}}" style="background-color: #1b3a62; color: white; font-size: small; border-radius: 8px; border: none;">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
                                         &nbsp;

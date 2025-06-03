@@ -1,7 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
     .modal-close-btn {
-        background: #f2661c;
+        background: #1b3a62;
         border: none;
         color: white;
         font-weight: bold;
@@ -135,7 +135,7 @@
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">Time Zone</label>
+                            <label class="form-label fs-4" style="color: #1b3a62">Time Zone</label>
 
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close">
@@ -145,7 +145,7 @@
                             <form method="post" action="{{route('admin_set_timezone')}}" class="mb-4">
                                 @csrf
                                 <div class="card-body pt-0">
-                                    <label class="form-label" style="color: #f2661c; font-size: 18px">Timezone</label>
+                                    <label class="form-label" style="color: #1b3a62; font-size: 18px">Timezone</label>
                                     <div class="form-group">
                                         <select class="form-control text-color-dark" style="background-color: #1c365e; color: white" name="timezone">
                                             @foreach($timezones as $timezone)
@@ -153,7 +153,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn-sm float-end mt-2 mb-0" style="background-color: #f2661c; color: white; font-size: 14px">
+                                    <button type="submit" class="btn-sm float-end mt-2 mb-0" style="background-color: #1b3a62; color: white; font-size: 14px">
                                         set timezone
                                     </button>
                                 </div>

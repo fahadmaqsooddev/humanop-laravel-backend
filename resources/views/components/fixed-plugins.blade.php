@@ -3,7 +3,7 @@
 {{--        <i class="fa fa-commenting py-2"> </i>--}}
 {{--    </a>--}}
 {{--    <div class="card shadow-lg blur" style="background-color: #0f1534 !important;">--}}
-{{--        <div class="card-header pb-0 pt-3" style="background-color: #f2661c">--}}
+{{--        <div class="card-header pb-0 pt-3" style="background-color: #1b3a62">--}}
 {{--                        <div class="float-start d-flex">--}}
 {{--                            <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">--}}
 {{--                            <div class="header-info text-white">--}}

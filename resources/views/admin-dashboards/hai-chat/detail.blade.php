@@ -26,7 +26,7 @@
             }
 
             .text-orange{
-                color: #f2661c !important;
+                color: #1b3a62 !important;
             }
 
             .input-bg{

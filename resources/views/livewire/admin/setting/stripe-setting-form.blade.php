@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class=" btn-sm float-end mt-6 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">Update
+                <button type="submit" class=" btn-sm float-end mt-6 mb-0" style="background:#1b3a62 !important;color:white;font-weight:bolder;border:none;">Update
                     account
                 </button>
             </div>

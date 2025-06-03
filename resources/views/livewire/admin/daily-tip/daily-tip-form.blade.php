@@ -8,7 +8,7 @@
                         <thead class="thead-light">
                         <tr>
                             @foreach(['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'] as $select_code)
-                                <th class="text-center border border-white cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}"
+                                <th class="text-center border cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}" style="color: #1b3a62"
                                     wire:click="selectCode('{{ $select_code }}')">
                                     {{ strtoupper($select_code) }}
                                 </th>
@@ -28,7 +28,7 @@
                         <thead class="thead-light">
                         <tr>
                             @foreach(['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil'] as $select_code)
-                                <th class="text-center border border-white cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}"
+                                <th class="text-center border cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}" style="color: #1b3a62"
                                     wire:click="selectCode('{{ $select_code }}')">
                                     {{ strtoupper($select_code) }}
                                 </th>
@@ -48,7 +48,7 @@
                         <thead class="thead-light">
                         <tr>
                             @foreach(['g', 's', 'c'] as $select_code)
-                                <th class="text-center border border-white cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}"
+                                <th class="text-center border cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}" style="color: #1b3a62"
                                     wire:click="selectCode('{{ $select_code }}')">
                                     {{ strtoupper($select_code) }}
                                 </th>
@@ -68,7 +68,7 @@
                         <thead class="thead-light">
                         <tr>
                             @foreach(['em', 'ins', 'int', 'mov'] as $select_code)
-                                <th class="text-center border border-white cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}"
+                                <th class="text-center border cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}" style="color: #1b3a62"
                                     wire:click="selectCode('{{ $select_code }}')">
                                     {{ strtoupper($select_code) }}
                                 </th>
@@ -88,7 +88,7 @@
                         <thead class="thead-light">
                         <tr>
                             @foreach(['+', '-', 'pv', 'ep'] as $select_code)
-                                <th class="text-center border border-white cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}"
+                                <th class="text-center border cursor-pointer {{ $code === $select_code ? 'bg-success' : '' }}" style="color: #1b3a62"
                                     wire:click="selectCode('{{ $select_code }}')">
                                     {{ strtoupper($select_code) }}
                                 </th>
@@ -118,7 +118,7 @@
                               wire:model="description"></textarea>
             </div>
             <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                    style="background-color: #f2661c">Update Info
+                    style="background-color: #1b3a62">Update Info
             </button>
         </div>
 

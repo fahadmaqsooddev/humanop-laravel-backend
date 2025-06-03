@@ -60,7 +60,7 @@
                         <div style="background-color: #F4ECE0; padding: 10px; border-radius: 20px;">
 
                             @if(count($embeddings) === 0)
-                                <div style="color: #F95520;">
+                                <div style="color: #1b3a62;">
                                     <p class="text-center">No knowledge found.</p>
                                 </div>
                             @endempty
@@ -201,7 +201,7 @@
 
                             <div class="py-4 d-flex justify-content-center">
                                 <button class="m-1"
-                                        style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
+                                        style="background:#1b3a62;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
                                     <img src="{{asset('assets/img/icons/Add.svg')}}" width="20">
                                     Update
                                 </button>

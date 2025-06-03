@@ -31,7 +31,7 @@
 
 
         @foreach($feedbacks as $key => $feedback)
-          
+
             <tr class="table-text-color">
                 <td class="text-md font-weight-normal">{{$feedback['user'] ? $feedback['user']['first_name'] . ' ' . $feedback['user']['last_name'] : ""}}</td>
                 <td class="text-md font-weight-normal">
@@ -39,7 +39,7 @@
                         {{substr($feedback['comment'], 0, 40)}}
                         &nbsp;&nbsp;<a data-bs-toggle="modal"
                                        data-bs-target="#viewQueryModal{{$feedback['id']}}"
-                                       style="color: #f2661c; cursor: pointer;"
+                                       style="color: #1b3a62; cursor: pointer;"
                                        class="mt-2 mb-0">
                             view more...
                         </a>
@@ -60,7 +60,7 @@
                             <i class="far fa-star fa-stack-1x" ></i>
 
                             @if($rating > 0)
-                                <i class="fas fa-star fa-stack-1x" style="color: #f2661c"></i>
+                                <i class="fas fa-star fa-stack-1x" style="color: #1b3a62"></i>
                             @endif
                             @php $rating--; @endphp
                         </span>
@@ -70,7 +70,7 @@
                     @if(!empty($feedback['image_id']))
                         <a href="{{ $feedback['photo_url']['url'] }}" target="_blank"
                            class="btn-sm"
-                           style="background:#f2661c;color:white;font-weight:bolder;border:none;">
+                           style="background:#1b3a62;color:white;font-weight:bolder;border:none;">
                             View
                         </a>
                     @else
@@ -82,18 +82,18 @@
                 <td class="text-md font-weight-normal " style="padding-top: 1rem !important;">
                     @if($feedback['approve']==1)
                         <a class="btn-sm mt-2 mb-0"
-                           style="background:#f2661c;color:white;font-weight:bolder;border:none; pointer-events: none; cursor: not-allowed;">
+                           style="background:#1b3a62;color:white;font-weight:bolder;border:none; pointer-events: none; cursor: not-allowed;">
                             Approved
                         </a>
 
                     @else
                         <a wire:click="approveFeedback({{$feedback['id']}})"
-                           class=" btn-sm mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;cursor: pointer">
+                           class=" btn-sm mt-2 mb-0" style="background:#1b3a62;color:white;font-weight:bolder;border:none;cursor: pointer">
                             Approve
                         </a>
                     @endif
 {{--                    <a wire:click="approveFeedback({{$feedback['id']}})"--}}
-{{--                       class=" btn-sm mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">--}}
+{{--                       class=" btn-sm mt-2 mb-0" style="background:#1b3a62;color:white;font-weight:bolder;border:none;">--}}
 {{--                        Approve--}}
 {{--                    </a>--}}
                 </td>
@@ -118,7 +118,7 @@
                                                 </button>
 
                                                 <label class="form-label fs-6 "
-                                                       style="font-size: 24px !important;font-weight: 800 !important;color: #f2661c;"><strong>FeedBack:</strong></label>
+                                                       style="font-size: 24px !important;font-weight: 800 !important;color: #1b3a62;"><strong>FeedBack:</strong></label>
                                                 <span class="mt-3"
                                                       style="color: white;font-size: 20px;font-weight: 800;display: flex;">{{ $feedback['comment']  ?? null}}</span>
                                             </div>
@@ -142,7 +142,7 @@
 {{--                            {{substr($approvedFeedBack['comment'], 0, 40)}}--}}
 {{--                            &nbsp;&nbsp;<a data-bs-toggle="modal"--}}
 {{--                                           data-bs-target="#viewQueryModal{{'approved_'.$approvedFeedBack['id']}}"--}}
-{{--                                           style="color: #f2661c; cursor: pointer;"--}}
+{{--                                           style="color: #1b3a62; cursor: pointer;"--}}
 {{--                                           class="mt-2 mb-0">--}}
 {{--                                view more...--}}
 {{--                            </a>--}}
@@ -178,7 +178,7 @@
 {{--                                                    </button>--}}
 
 {{--                                                    <label class="form-label fs-6 "--}}
-{{--                                                           style="font-size: 24px !important;font-weight: 800 !important;color: #f2661c;"><strong>FeedBack:</strong></label>--}}
+{{--                                                           style="font-size: 24px !important;font-weight: 800 !important;color: #1b3a62;"><strong>FeedBack:</strong></label>--}}
 {{--                                                    <span class="mt-3"--}}
 {{--                                                          style="color: white;font-size: 20px;font-weight: 800;display: flex;">{{ $approvedFeedBack['comment']  ?? null}}</span>--}}
 {{--                                                </div>--}}

@@ -7,7 +7,7 @@
 
                 @include('layouts.message')
                 <div class="card-body pt-0">
-                    <label class="form-label fs-4 text-white">Update Intention Plan</label>
+                    <label class="form-label fs-4" style="color: #1b3a62">Update Intention Plan</label>
 
                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                             aria-label="Close">
@@ -19,13 +19,13 @@
                                 <div class="col-12">
                                     <label class="form-label text-white">Plan Description</label>
                                     <div class="form-group">
-                                        <input style="background-color: #0f1534;" class="form-control text-white" type="text" name="limit" wire:model="description"
+                                        <input style="background-color: #eaf3ff;" class="form-control" type="text" name="limit" wire:model="description"
                                                placeholder="limit">
                                     </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                    style="background-color: #f2661c ">Update Intention Plan
+                                    style="background-color: #1b3a62 ">Update Intention Plan
                             </button>
                         </div>
                     </form>

@@ -28,7 +28,7 @@
         <div class="row mb-5">
             <div class="col-lg-3">
                 <div class="card position-sticky top-1">
-                    <ul class="nav rainbow-border-user-nav-btn flex-column border-radius-lg p-3">
+                    <ul class="nav flex-column border-radius-lg p-3" style="border: 2px solid #1b3a62">
                         <li class="nav-item">
                             <a class="nav-link setting-options text-body" data-scroll="" href="#profile">
                                 <div class="icon me-2">
@@ -271,7 +271,7 @@
     </div>
 </div>
             @endif
-            
+
             </div>
         </div>
         @include('layouts/footers/auth/footer')

@@ -11,7 +11,7 @@
         }
 
         .active-itt-all {
-            color: #f2661c !important;
+            color: #1b3a62 !important;
         }
 
         .nav-active {
@@ -53,14 +53,14 @@
     <div class="position-sticky w-100 sticky_header" style="top: 28;z-index: 9999999;">
         <div class="d-flex justify-content-between px-5">
             <div
-                style="border-radius: 50%;background: #F4E3C7;box-shadow: 0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer"
+                style="border-radius: 50%;background: #eaf3ff;box-shadow: 0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer"
                 id="nav-show-btn" onclick="showNavbar()">
                 <img src="{{asset('assets/new-design/icon/dashboard/menu-icon.svg')}}" id="menu_back_arrow"
                      alt="notification"
                      width="50" height="50">
             </div>
             <div
-                style="border-radius: 50%;background: #F4E3C7;box-shadow:0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer"
+                style="border-radius: 50%;background: #eaf3ff;box-shadow:0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer"
                 data-toggle="modal" data-target="#humanOpWalletModal">
                 <img src="{{asset('assets/new-design/icon/dashboard/orange_crown.svg')}}" alt="notification"
                      width="50" height="50">
@@ -119,7 +119,7 @@
             <div class="d-flex justify-content-center">
                 <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/admin/login-back-to-admin')}}"
                    class="btn btn-sm"
-                   style="background-color: #f2661c; color: white;" id="logInBackToAdmin_1" hidden>Back to admin</a>
+                   style="background-color: #1b3a62; color: white;" id="logInBackToAdmin_1" hidden>Back to admin</a>
             </div>
         @endif
         <ul class="navbar-nav">
@@ -790,7 +790,7 @@
 {{--                        <div class="d-flex justify-content-center">--}}
 {{--                            <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/client/login-back-to-admin')}}"--}}
 {{--                               class="btn btn-sm"--}}
-{{--                               style="background-color: #f2661c; color: white;" id="logInBackToAdmin_3" hidden>Back to--}}
+{{--                               style="background-color: #1b3a62; color: white;" id="logInBackToAdmin_3" hidden>Back to--}}
 {{--                                admin</a>--}}
 {{--                        </div>--}}
 {{--                    @endif--}}

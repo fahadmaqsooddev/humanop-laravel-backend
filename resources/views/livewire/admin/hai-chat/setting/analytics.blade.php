@@ -7,7 +7,7 @@
       .chatDot {
           width: 10px;
           height: 10px;
-          background-color: #f2661c;
+          background-color: #1b3a62;
           display: inline-block;
           margin: 1px;
           border-radius: 50%;
@@ -48,13 +48,13 @@
 
       .dislike:hover,
       .like:hover {
-          color: #f2661c;
+          color: #1b3a62;
           transition: all .2s ease-in-out;
           transform: scale(1.1);
       }
 
       .active {
-          color: #f2661c;
+          color: #1b3a62;
       }
 
       .disabledCard {
@@ -76,7 +76,7 @@
 
         <div class="row h-100">
 
-      
+
 {{-- {{dd($model_value)}} --}}
 
         <!-- Chatbot Conversation Section -->
@@ -87,7 +87,7 @@
                 <div class="row">
                     <div class="col-8">
                         <div class="d-flex justify-content-start" style="margin-left: 24px;margin-top: 14px;">
-                         
+
                             <div style="margin-left: 10px;font-weight: 600;font-size: 20px;margin-top: 5px;margin-bottom:0px;">
                                 <p class="mb-0" style="color: #E05A35;line-height: 20px">Select LLM Model</p>
                                 {{-- <p class="mb-0" style="color: #000000;font-size: 14px;font-weight: 400">Online</p> --}}
@@ -103,24 +103,24 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div wire:click="refreshComponent" style="background-color:#f2661c;margin-left:20px;border-radius:5px;cursor:pointer;">
+                            <div wire:click="refreshComponent" style="background-color:#1b3a62;margin-left:20px;border-radius:5px;cursor:pointer;">
                                 <i class="fa-solid fa-arrows-rotate" style="color: white;padding:10px;"></i>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="col-4">
                         <div class="d-flex justify-content-end" style="margin-right: 24px;margin-top: 18px" >
                             <div class="d-flex justify-content-end w-50" wire:ignore>
-                            
+
 
 
                             </div>
                         </div>
-                      
+
                     </div>
                 </div>
-                <hr style="color: #f2661c;" class="bold">
+                <hr style="color: #1b3a62;" class="bold">
                 <div class="d-flex flex-column justify-content-between flex-grow-1 p-3" id="chat_container"
                      style="overflow-y: auto; margin-bottom:-10px; ">
 
@@ -135,22 +135,22 @@
 <table class="table table-flush">
     <thead class="thead-light" style=" margin-top:-10px;">
     <tr class="table-text-color text-dark">
-        <th style="color: #f2661c;">Query</th>
-        <th style="color: #f2661c;">Prompt Tokens</th>
-        <th style="color: #f2661c;">Completion Tokens</th>
-        <th style="color: #f2661c;">Total Tokens</th>
+        <th style="color: #1b3a62;">Query</th>
+        <th style="color: #1b3a62;">Prompt Tokens</th>
+        <th style="color: #1b3a62;">Completion Tokens</th>
+        <th style="color: #1b3a62;">Total Tokens</th>
     </tr>
     </thead>
     <tbody>
-        color: #f2661c;
+        color: #1b3a62;
             @foreach($data as $item)
-         
+
              @php
                     $totalcompletiontokens +=  $item['completion_token'];
                     $totalprompttokens += $item['prompt_token'];
                     $totalalltokens += $item['total_token'];
                 @endphp
-       
+
                 <tr>
                     <td style="color: black">{{ $item['query'] ?? 'N/A' }}</td>
                     <td style="color: black">{{ $item['prompt_token'] ?? 'N/A' }}</td>
@@ -162,7 +162,7 @@
     </table>
 {{-- @else --}}
 <tr>
-    <td style="color: #f2661c;"></td>
+    <td style="color: #1b3a62;"></td>
     <td></td>
     <td></td>
     <td></td>
@@ -174,23 +174,23 @@
 <div style="color: black; width:35%;margin-left:auto;margin-top:3rem;">
     <div style="display: flex;">
         <span>Total Completion Tokens : </span>
-        <p style="padding-left:5px; ">{{ $totalcompletiontokens }}</p> 
+        <p style="padding-left:5px; ">{{ $totalcompletiontokens }}</p>
      </div>
      <div style="display: flex;">
         <span>Total Prompt Tokens : </span>
-        <p style="padding-left:5px; ">{{ $totalprompttokens }}</p> 
+        <p style="padding-left:5px; ">{{ $totalprompttokens }}</p>
      </div>
      <div style="display: flex;">
         <span>Total All Tokens : </span>
-        <p style="padding-left:5px; ">{{ $totalalltokens }}</p> 
+        <p style="padding-left:5px; ">{{ $totalalltokens }}</p>
      </div>
 </div>
 @endif
 
-                   
+
                 </div>
                 <hr>
-              
+
             </div>
         </div>
 
@@ -200,12 +200,12 @@
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   
+
 @endpush
 
 @push('js')
 
- 
+
 
 @endpush
 

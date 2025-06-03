@@ -23,10 +23,10 @@
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn w-100 mt-4 mb-0 text-white"
-                                    style="background-color: #f2661c !important;" id="submitButton">
+                                    style="background-color: #1b3a62 !important;" id="submitButton">
                                 Reset
                             </button>
-                            <p id="timerDisplay" style="margin-top: 10px; display: none; color: #f2661c;"></p>
+                            <p id="timerDisplay" style="margin-top: 10px; display: none; color: #1b3a62;"></p>
                             <div class="mt-3" style="color: #0f1535;">
                                 Already have an account?
                                 <a href="{{url('login')}}" style="color: #0f1535; font-weight: bold">Sign in</a>
