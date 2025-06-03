@@ -15,7 +15,7 @@
         }
 
         .card {
-            background-color: #1C365E !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck.ck-balloon-panel {
@@ -27,7 +27,7 @@
         }
 
 
-        
+
             .setting-options:hover {
                 background-color: white !important;
             }
@@ -46,7 +46,7 @@
             }
 
             .new-orange-button{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             padding: 10px 20px 10px 20px;
             border-radius: 8px;
             color: white;
@@ -62,28 +62,28 @@
             background-color: #fff !important;
         }
         .text-orange {
-    color: #f2661c !important;
+    color: #1b3a62 !important;
 }
 .card{
-    border: 2px solid #F95520 !important;
+    border: 2px solid #1b3a62 !important;
     border-radius: 10px;
 }
 
 .teaxt{
-    background-color: #F4E3C7 !important;
+    background-color: #eaf3ff !important;
 }
 .thead-light{
-    color: #f2661c !important;
+    color: #1b3a62 !important;
 }
 .border-style{
-    border: 2px solid #F95520 !important;
+    border: 2px solid #1b3a62 !important;
 }
 
         </style>
         @endpush
         <div>
 
- 
+
             <div class="table-responsive m-2">
                 <table class="table table-flush " style="border-collapse: separate">
                     <thead class="thead-light ">
@@ -111,16 +111,16 @@
                                 </th>
                             @endforeach
                         </tr>
-                  
 
-                    
 
-                  
-                 
+
+
+
+
                     </thead>
                 </table>
         </div>
-    
+
         {{-- <div class="card-header">
             <h6 class="text-orange setting-form-heading py-2">Overview</h6>
             <textarea class="form-control  teaxt" id="chatDescription" wire:model="prompt"
@@ -148,12 +148,12 @@ Triggers</h6>
             <h6 class="text-orange setting-form-heading py-2">Overview</h6>
             <textarea class="form-control teaxt" id="overview" wire:model="overview" rows="6" placeholder=""></textarea>
         </div>
-        
+
         <div class="card-header">
             <h6 class="text-orange setting-form-heading py-2">Highest and Optimal Expression</h6>
             <textarea class="form-control teaxt" id="expression" wire:model="optimal" rows="6" placeholder=""></textarea>
         </div>
-        
+
         <div class="card-header">
             <h6 class="text-orange setting-form-heading py-2">Optimization Hot Spots And Things To Recognize As Natural Triggers</h6>
             <textarea class="form-control teaxt" id="optimization" wire:model="optimization" rows="6" placeholder=""></textarea>
@@ -184,15 +184,15 @@ Triggers</h6>
                 Link,
                 AutoLink
             } from 'ckeditor5';
-        
+
             function initializeEditor(id) {
                 const editorElement = document.getElementById(id);
-                
+
                 // Check if the editor is already initialized
                 if (!editorElement || window[`editor_${id}`]) {
                     return;
                 }
-        
+
                 ClassicEditor
                     .create(editorElement, {
                         plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
@@ -205,7 +205,7 @@ Triggers</h6>
                     .then(editor => {
                         console.log(`CKEditor initialized for #${id}`);
                         window[`editor_${id}`] = editor; // Store editor instance
-        
+
                         // Update Livewire model on change
                         editor.model.document.on('change:data', () => {
                             window.livewire.find('@this').set(id, editor.getData());
@@ -215,13 +215,13 @@ Triggers</h6>
                         console.error(`Error initializing CKEditor for #${id}:`, error);
                     });
             }
-        
+
             document.addEventListener("DOMContentLoaded", function () {
                 initializeEditor('overview');
                 initializeEditor('expression');
                 initializeEditor('optimization');
             });
-        
+
             document.addEventListener("livewire:load", function () {
                 Livewire.hook('message.processed', (message, component) => {
                     initializeEditor('overview');
@@ -230,5 +230,5 @@ Triggers</h6>
                 });
             });
         </script>
-        
+
         @endpush

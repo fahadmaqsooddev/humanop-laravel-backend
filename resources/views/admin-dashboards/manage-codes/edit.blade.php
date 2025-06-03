@@ -6,7 +6,7 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header">
-                    <h5 class="mb-0 text-white">Edit Code</h5>
+                    <h5 class="mb-0" style="color: #1b3a62">Edit Code</h5>
                 </div>
                 <div class="card-body pt-0">
                     @livewire('admin.manage-code.manage-code-form', ['code' => $code])

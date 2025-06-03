@@ -53,7 +53,7 @@
 
                 @else
 
-                   
+
 
                 @endif
             @endif
@@ -68,7 +68,7 @@
             {{\Illuminate\Support\Facades\Log::info(['333' => $is_admin, 'id' => auth()->id()])}}
             <div class="d-flex justify-content-center">
                 <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/admin/login-back-to-admin')}}" class="btn btn-sm"
-                   style="background-color: #f2661c; color: white;" id="logInBackToAdmin_1" hidden>Back to admin</a>
+                   style="background-color: #1b3a62; color: white;" id="logInBackToAdmin_1" hidden>Back to admin</a>
             </div>
         @endif
         <ul class="navbar-nav">
@@ -565,7 +565,7 @@
                         {{\Illuminate\Support\Facades\Log::info(['2222' => $is_admin, 'id' => auth()->id()])}}
                         <div class="d-flex justify-content-center">
                             <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
-                               style="background-color: #f2661c; color: white;" id="logInBackToAdmin_3" hidden>Back to admin</a>
+                               style="background-color: #1b3a62; color: white;" id="logInBackToAdmin_3" hidden>Back to admin</a>
                         </div>
                     @endif
 

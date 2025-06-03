@@ -15,7 +15,7 @@
         }
 
         .card {
-            background-color: #1C365E !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck.ck-balloon-panel {
@@ -34,39 +34,39 @@
         <div class="col-12">
             <label class="form-label text-white">Name</label>
             <div class="input-group">
-                <input style="background-color: #0f1534;" name="name"
-                       class="form-control text-white" type="text" wire:model="name">
+                <input style="background-color: #eaf3ff;" name="name"
+                       class="form-control" type="text" wire:model="name">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label text-white">Public Name</label>
             <div class="input-group">
-                <input style="background-color: #0f1534;" name="public_name"
-                       class="form-control text-white" type="text" wire:model="public_name"
+                <input style="background-color: #eaf3ff;" name="public_name"
+                       class="form-control" type="text" wire:model="public_name"
                        placeholder="Alec">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label text-white">Code</label>
             <div class="input-group">
-                <input style="background-color: #0f1534;" name="code"
-                       class="form-control text-white" type="text" wire:model="code"
+                <input style="background-color: #eaf3ff;" name="code"
+                       class="form-control" type="text" wire:model="code"
                        placeholder="Alec">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label text-white">Number</label>
             <div class="input-group">
-                <input style="background-color: #0f1534;" name="number"
-                       class="form-control text-white" type="text" wire:model="number"
+                <input style="background-color: #eaf3ff;" name="number"
+                       class="form-control" type="text" wire:model="number"
                        placeholder="Alec">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label text-white">Type</label>
             <div class="input-group">
-                <input style="background-color: #0f1534;" name="type"
-                       class="form-control text-white" type="text" wire:model="type"
+                <input style="background-color: #eaf3ff;" name="type"
+                       class="form-control" type="text" wire:model="type"
                        placeholder="Alec">
             </div>
         </div>
@@ -81,7 +81,7 @@
         </div>
         {{-- </div> --}}
     </div>
-    <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c">Create code</button>
+    <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #1b3a62">Create code</button>
 </form>
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">

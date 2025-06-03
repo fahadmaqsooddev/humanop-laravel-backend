@@ -321,11 +321,11 @@
         }
 
         .orange-border {
-            border: 1px solid #f2661c;
+            border: 1px solid #1b3a62;
         }
 
 
-        
+
         .text-tiny{
     font-size: 0.6rem !important;
          }
@@ -361,7 +361,7 @@
                                             <div class="video-timeline">
                                                 <div class="progress-area">
                                                     <span id="progree-area-span">00:00</span>
-                                                    <div class="progress-bar" style="color: #f2661c;"></div>
+                                                    <div class="progress-bar" style="color: #1b3a62;"></div>
                                                 </div>
                                             </div>
                                             <ul class="video-controls">
@@ -371,26 +371,26 @@
                                                     </button>
                                                     <input type="range" min="0" max="1" step="any">
                                                     <div class="video-timer">
-                                                        <span class="current-time" style="color: #f2661c;">00:00</span>
-                                                        <span class="separator" style="color: #f2661c;"> / </span>
+                                                        <span class="current-time" style="color: #1b3a62;">00:00</span>
+                                                        <span class="separator" style="color: #1b3a62;"> / </span>
                                                         <span class="video-duration"
-                                                              style="color: #f2661c;">00:00</span>
+                                                              style="color: #1b3a62;">00:00</span>
                                                     </div>
                                                 </li>
                                                 <li class="options center">
                                                     <button class="skip-backward"><i class="fas fa-backward"
-                                                                                     style="color: #f2661c;"></i>
+                                                                                     style="color: #1b3a62;"></i>
                                                     </button>
                                                     <button class="play-pause"><i class="fas fa-play"
-                                                                                  style="color: #f2661c;"></i>
+                                                                                  style="color: #1b3a62;"></i>
                                                     </button>
                                                     <button class="skip-forward"><i class="fas fa-forward"
-                                                                                    style="color: #f2661c;"></i>
+                                                                                    style="color: #1b3a62;"></i>
                                                     </button>
                                                 </li>
                                                 <li class="options right">
                                                     <button class="fullscreen"><i class="fa-solid fa-expand"
-                                                                                  style="color: #f2661c;"></i></button>
+                                                                                  style="color: #1b3a62;"></i></button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -404,7 +404,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192); text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life Introduction: </span>
+                                                        style="color: #1b3a62;">Cycle of Life Introduction: </span>
                                                     This video is an introduction to the Cycle of Life. The
                                                     Cycle of Life simply explains our relationship with time
                                                     as it's consistently unfolding for us. Now even though
@@ -442,7 +442,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Roadworthy (21-29): </span>
+                                                        style="color: #1b3a62;">Cycle of Life - Roadworthy (21-29): </span>
                                                     Your current interval of life between 21 and 29
                                                     is what we call “The Road Worthy Interval”. Now,
                                                     if you were to consider your body as the vehicle
@@ -544,7 +544,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);"><span
-                                                        style="color: #f2661c;text-align: justify">Cycle of Life - The Power Interval (30-33):</span>
+                                                        style="color: #1b3a62;text-align: justify">Cycle of Life - The Power Interval (30-33):</span>
                                                     Your current interval of life between 30 and 33
                                                     is “The Power Interval”. This is a time of life
                                                     when you have the most physical energy in all of
@@ -588,7 +588,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Mid-Life Transformation (34-42):</span>
+                                                        style="color: #1b3a62;">Cycle of Life - Mid-Life Transformation (34-42):</span>
                                                     Your current interval of life starts at 34 and
                                                     ends at 43, and it is the most transformational
                                                     aspect of anyone's life. It's called the
@@ -675,7 +675,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Awareness (43-52):</span>
+                                                        style="color: #1b3a62;">Cycle of Life - Awareness (43-52):</span>
                                                     Your current interval begins at age 43 and it
                                                     ends at 52. This interval is called “The
                                                     Interval of Awareness”, and it marks the
@@ -734,7 +734,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Pay It Forward (52-66):</span>
+                                                        style="color: #1b3a62;">Cycle of Life - Pay It Forward (52-66):</span>
                                                     Your current interval begins at age 52 and it
                                                     ends at 66. This interval is called “The Pay It
                                                     Forward Interval”. All that you've collected
@@ -771,7 +771,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Liberated (66-70): </span>
+                                                        style="color: #1b3a62;">Cycle of Life - Liberated (66-70): </span>
                                                     Your current interval begins at age 66 and ends
                                                     at 70, and even for some, it can go on up to 75.
                                                     It's the interval where you experience
@@ -803,7 +803,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Being (70-75):</span>
+                                                        style="color: #1b3a62;">Cycle of Life - Being (70-75):</span>
                                                     Your current interval begins at age 70 and ends
                                                     at 75. And we call this interval “The Interval
                                                     of Being”. So much has been archived in the
@@ -842,7 +842,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Life Review (75-84):</span>
+                                                        style="color: #1b3a62;">Cycle of Life - Life Review (75-84):</span>
                                                     Your current interval begins at age 75 and ends
                                                     at 84. It is in this interval where a “Natural
                                                     Life Review” takes place. It's a time when
@@ -866,7 +866,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Traits Introduction:</span>
+                                                        style="color: #1b3a62;">Traits Introduction:</span>
                                                     This video is an introduction to traits. Traits are the
                                                     natural physical traits that make you unique. The color
                                                     of your hair and eyes, the shape of your face and other
@@ -891,7 +891,7 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$style[1] }} : </span>{{$style[2]}}
+                                                            style="color: #1b3a62;">{{$style[1] }} : </span>{{$style[2]}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -904,7 +904,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Motivation Introduction:</span>
+                                                        style="color: #1b3a62;">Motivation Introduction:</span>
                                                     This video is an
                                                     introduction to Motivation (or what's driving you to do
                                                     what you do). There are 12 motivators or drivers in
@@ -928,7 +928,7 @@
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify">
                                                                     <span
-                                                                        style="color: #f2661c;">{{$feature[1] }} : </span>{{$feature[2]}}
+                                                                        style="color: #1b3a62;">{{$feature[1] }} : </span>{{$feature[2]}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -940,7 +940,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Intro To Boundaries:</span>
+                                                        style="color: #1b3a62;">Intro To Boundaries:</span>
                                                     This video is an introduction to boundaries. Boundaries
                                                     refer to what your personal preferences reveal about
                                                     your boundaries of tolerance for people, places and
@@ -1107,7 +1107,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Intro To Communication Style:</span>
+                                                        style="color: #1b3a62;">Intro To Communication Style:</span>
                                                     This video is an introduction to Communication Style.
                                                     Energy Centers define your Communication Style. In other
                                                     words, how you are presently wired to engage in life.
@@ -1172,7 +1172,7 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify">
-                                                        <span style="color: #f2661c;">{{$communication['public_name'] }} : </span>{{$communication['description']}}
+                                                        <span style="color: #1b3a62;">{{$communication['public_name'] }} : </span>{{$communication['description']}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1184,7 +1184,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Intro To Energy Pool:</span>
+                                                        style="color: #1b3a62;">Intro To Energy Pool:</span>
                                                     This video is an introduction to Energy Pool. Your
                                                     Energy Pool represents how much physical energy you have
                                                     to expend on a daily basis. And here are some important
@@ -1221,7 +1221,7 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$energyPool['code']}}:</span>
+                                                            style="color: #1b3a62;">{{$energyPool['code']}}:</span>
                                                         {{$energyPool['text']}}
                                                     </p>
                                                 </div>
@@ -1236,7 +1236,7 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">Intro To Perception of Life:</span>
+                                                            style="color: #1b3a62;">Intro To Perception of Life:</span>
                                                         This video is an introduction to Perception. Your
                                                         Perception of Life defines your electromagnetic
                                                         potential. It reveals whether you perceive what is
@@ -1298,7 +1298,7 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}</span>
+                                                            style="color: #1b3a62;">{{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}</span>
                                                         {{$perception['text']}}
                                                     </p>
                                                 </div>
@@ -1361,7 +1361,7 @@
                                                     <a href="{{url('practitioner/download-practitioner-report/'. $assessment->id)}}"
                                                        target="_blank"
                                                        class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0"
-                                                       style="background-color: #f2661c">Download Summary Report</a>
+                                                       style="background-color: #1b3a62">Download Summary Report</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -1397,7 +1397,7 @@
                                                     <br>
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
                                                        data-bs-target="#resultIntroductionModal"
-                                                       style="color: #f2661c;">read
+                                                       style="color: #1b3a62;">read
                                                         more...
                                                     </a>
                                                 </p>
@@ -1407,7 +1407,7 @@
                                                              style="height: auto;">
                                                             <div class="card-body p-3">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}', 1, 'main_result_intro')"
-                                                                    style="cursor: pointer;color: #f2661c;"
+                                                                    style="cursor: pointer;color: #1b3a62;"
                                                                     class="fs-10px">
                                                                     Main Results Introduction:
                                                                 </h5>
@@ -1421,7 +1421,7 @@
                                                              style="height: auto;">
                                                             <div class="card-body p-3">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to The Cycle of Life.mp4')}}', 1, 'intro_to_cycle_to_life')"
-                                                                    style="cursor: pointer;color: #f2661c;"
+                                                                    style="cursor: pointer;color: #1b3a62;"
                                                                     class="fs-10px">
                                                                     Cycle of Life Introduction:
                                                                 </h5>
@@ -1613,7 +1613,7 @@
                                                              style="height: auto;">
                                                             <div class="card-body p-3">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Traits.mp4')}}', 1, 'intro_to_trait')"
-                                                                    style="cursor: pointer;color: #f2661c;"
+                                                                    style="cursor: pointer;color: #1b3a62;"
                                                                     class="fs-10px">
                                                                     Traits Introduction:
                                                                 </h5>
@@ -1644,7 +1644,7 @@
                                                              style="height: auto;">
                                                             <div class="card-body p-3 ">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}', 1, 'your_motivation')"
-                                                                    style="cursor: pointer;color: #f2661c;"
+                                                                    style="cursor: pointer;color: #1b3a62;"
                                                                     class="fs-10px">
                                                                     Motivation Introduction:
                                                                 </h5>
@@ -1685,7 +1685,7 @@
                                                                     data-target="#your_boundaries" aria-expanded="true"
                                                                     aria-controls="your_boundaries"
                                                                     onclick="showFeatureVideo('{{asset('assets/video/Intro to Alchemy.mp4')}}', 1, 'your_boundary')"
-                                                                    style="cursor: pointer;color: #f2661c;"
+                                                                    style="cursor: pointer;color: #1b3a62;"
                                                                     class="fs-10px">
                                                                     Intro To Boundaries:
                                                                 </h5>
@@ -1717,7 +1717,7 @@
                                                              style="height: auto">
                                                             <div class="card-body p-3 ">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Communication Style.mp4')}}', 1, 'your_communication')"
-                                                                    style="cursor: pointer;color: #f2661c;"
+                                                                    style="cursor: pointer;color: #1b3a62;"
                                                                     class="fs-10px">
                                                                     Intro To Communication Style:
                                                                 </h5>
@@ -1752,7 +1752,7 @@
                                                         <div id="energy_pool_heading" class="card" style="height: auto">
                                                             <div class="card-body p-3 ">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Energy Pool.mp4')}}', 1, 'energy_pool')"
-                                                                    style="cursor: pointer;color: #f2661c;"
+                                                                    style="cursor: pointer;color: #1b3a62;"
                                                                     class="fs-10px">
                                                                     Intro To Energy Pool:
                                                                 </h5>
@@ -1785,7 +1785,7 @@
                                                                  style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$perception_life['video_url']}}', 1, 'your_perception')"
-                                                                        style="cursor: pointer;color: #f2661c;"
+                                                                        style="cursor: pointer;color: #1b3a62;"
                                                                         class="fs-10px">
                                                                         Intro To Perception of Life:
                                                                     </h5>
@@ -1842,7 +1842,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <label class="form-label fs-4" style="color: #f2661c;">Main Results
+                                <label class="form-label fs-4" style="color: #1b3a62;">Main Results
                                     Introduction:</label>
                                 <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                         aria-label="Close">

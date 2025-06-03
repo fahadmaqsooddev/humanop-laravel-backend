@@ -1,11 +1,11 @@
 @push('css')
 <style>
     .no-select {
-        user-select: none; 
+        user-select: none;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        
+
     }
     </style>
 @endpush
@@ -19,7 +19,7 @@
                    class="table-orange-color search-bar" placeholder="Search Email">
         </div>
     </div>
-    
+
     @if(count($selectedItems) > 0)
     <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
         <button type="button" onclick="deleteBulkLink()"  class="btn btn-danger">All Delete Links</button>
@@ -46,16 +46,16 @@
                         <td class="text-md font-weight-normal no-select">{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }} </td>
                         <td class="text-center">
                             <input type="checkbox" wire:model="selectedItems" value="{{ $invite->id }}"
-                                style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
+                                style="width: 20px; height: 20px; cursor: pointer; accent-color: #1b3a62; border-radius: 50%;">
                         </td>
-                        
-                       
-          
+
+
+
                         <td>
                             <button class="btn mb-0 text-white" id="copy_link_{{$index+1}}"
                                     onclick="copyToClipboard('{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }}','{{$index +1}}','{{ $invite['id'] }}')"
-                                  
-                                    style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
+
+                                    style="background-color: #1b3a62;border-radius: 0px 5px 5px 0px">Copy Link
                             </button>
                             <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})" style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link</button>
                         </td>
@@ -63,7 +63,7 @@
                 @endforeach
                 </tbody>
             </table>
-           
+
         @else
             <div class="text-center p-5">
 
@@ -82,7 +82,7 @@
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body pt-0">
-                        <label class="form-label fs-4 text-white">Send Client Invite Link For Signup</label>
+                        <label class="form-label fs-4" style="color: #1b3a62">Send Client Invite Link For Signup</label>
 
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                 aria-label="Close" id="close-modal-button">
@@ -95,8 +95,8 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label class="text-white">Email</label>
-                                            <input style="background-color: #0f1534;color: lightgrey !important"
-                                                   class="form-control text-white"
+                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                                   class="form-control"
                                                    type="email" wire:model="email" name="email" placeholder="icon name">
                                             @error('email')
                                             <span class="text-sm text-danger">{{$message}}</span>
@@ -104,8 +104,8 @@
 
                                             <label class="text-white mt-4">Upload csv file</label>
                                             <input
-                                                style="background-color: #0f1534; color: lightgrey !important;"
-                                                class="form-control text-white"
+                                                style="background-color: #eaf3ff; color: #0f1534 !important;"
+                                                class="form-control"
                                                 type="file"
                                                 wire:model="file"
                                                 name="file"
@@ -115,7 +115,7 @@
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
-                                                    style="background-color: #f2661c ">Generate Invite
+                                                    style="background-color: #1b3a62 ">Generate Invite
                                             </button>
                                         </div>
                                     </div>
@@ -155,7 +155,7 @@
                 $('#copy_link_' + id).text('Copied!')
                 // Hide the tooltip after 2 seconds
                 Livewire.emit('copyClipboard',ide);
-         
+
                 setTimeout(() => {
                     setTimeout(() => {
                         $('#copy_link_' + id).text('Copy Link')
@@ -222,7 +222,7 @@
                $('#copy_link_'+id).text('Copied!')
                // Hide the tooltip after 2 seconds
                Livewire.emit('copyClipboard',ide);
-              
+
                setTimeout(() => {
                    setTimeout(() => {
                        $('#copy_link_'+id).text('Copy Link')

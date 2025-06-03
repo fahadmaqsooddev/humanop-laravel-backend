@@ -7,14 +7,14 @@
     <div>
         <div class="d-flex mt-4">
             <div class="input-group ms-md-4 pe-md-4">
-                {{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+                {{--        <span style="background-color: #eaf3ff;" class="input-group-text text-body"><i class="fas fa-search"--}}
                 {{--                                                                                       aria-hidden="true"></i></span>--}}
                 <input type="text" name="name" wire:model.debounce.500ms="name"
                        class="form-control table-orange-color search-bar" placeholder="Search Name">
                        {{-- <div>{{ $name }}</div> --}}
             </div>
             <div class="input-group ms-md-4 pe-md-4">
-                {{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+                {{--        <span style="background-color: #eaf3ff;" class="input-group-text text-body"><i class="fas fa-search"--}}
                 {{--                                                                                       aria-hidden="true"></i></span>--}}
                 <input type="email" name="email" wire:model.debounce="email"
                        class="form-control table-orange-color search-bar" placeholder="Search Email">

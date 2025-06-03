@@ -1,7 +1,7 @@
 @push('css')
     <style>
         .new-orange-button{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             padding: 10px 20px 10px 20px;
             border-radius: 8px;
             color: white;
@@ -22,7 +22,7 @@
             width: 100%;
             padding: 10px;
             border-radius: 8px;
-            border: 1px solid #f2661c;
+            border: 1px solid #1b3a62;
             background-color: #F3DEBA;
             color: black;
         }
@@ -97,7 +97,7 @@
                                         <div class="d-flex flex-row">
                                             <div class="col-12 text-center">
                                                 <a href="{{route('admin_embedding', $group['id'])}}">
-                                                    <h4 style="color: #f2661c" class="text-decoration-none w-100"><i
+                                                    <h4 style="color: #1b3a62" class="text-decoration-none w-100"><i
                                                             class="bi bi-robot"></i> {{ $group['name'] }}
                                                     </h4>
                                                 </a>
@@ -114,7 +114,7 @@
                 <div class="tab-pane fade pt-3 {{(!$is_group || session('embedding_deleted') ? 'show active' : '')}}" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
 
                     @empty($embeddings[0])
-                        <p style="color: #f2661c;font-size: 20px; font-weight: bold">No embedding found</p>
+                        <p style="color: #1b3a62;font-size: 20px; font-weight: bold">No embedding found</p>
                     @endempty
 
                     <div class="row">
@@ -126,7 +126,7 @@
                                         <div class="d-flex flex-row">
                                             <div class="col-12">
                                                 <a href="{{route('admin_embedding_detail', $embedding['name'])}}">
-                                                    <h5 style="color: #f2661c" class="text-decoration-none w-100"><i
+                                                    <h5 style="color: #1b3a62" class="text-decoration-none w-100"><i
                                                             class="bi bi-robot"></i> {{ $embedding['name'] }}
                                                     </h5>
                                                 </a>
@@ -178,7 +178,7 @@
                         <div class="card-body w-100">
                             <div class="row w-100">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Create Embedding</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Create Embedding</label>
                                     <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
                                             aria-label="Close" id="embedding-close-modal-button" style="padding: 1px 10px 1px 10px;">
                                         <span aria-hidden="true">&times;</span>
@@ -218,15 +218,15 @@
 
 {{--                                    End Alert error--}}
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Name</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Name</label>
+                                        <input style="background-color: #eaf3ff;" class="form-control"
                                                wire:model.defer="embedding_name" placeholder="Enter Embedding Name" type="text">
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Embedding (TXT,PDF)</label>
-                                        <input style="background-color: #0f1534;" wire:model="embedding" id="embedding_file{{$fileInputId}}"
-                                               class="form-control text-white" type="file"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Embedding (TXT,PDF)</label>
+                                        <input style="background-color: #eaf3ff;" wire:model="embedding" id="embedding_file{{$fileInputId}}"
+                                               class="form-control" type="file"
                                                accept="file/*">
                                         <span wire:loading.flex wire:target="embedding">
                                             Uploading ...
@@ -234,14 +234,14 @@
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Clusters</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Clusters</label>
                                         <div class="dropdown w-100">
                                             <button class="dropdown-toggle multi-select-button {{($showGroupDropdownMenu ? 'show' : '')}}"
                                                     style="background-color: #0f1534; color: white;{{(count($selectedGroups) > 0 ? 'text-align:left;' : '')}}" type="button"
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if(count($selectedGroups) > 0)
                                                     @foreach($selectedGroups as $selectedGroup)
-                                                        <span class="badge" style="background-color: #f2661c; color: white; border: 1px solid #f2661c;">
+                                                        <span class="badge" style="background-color: #1b3a62; color: white; border: 1px solid #1b3a62;">
                                                             {{$selectedGroup}}
                                                         </span>
                                                     @endforeach
@@ -254,7 +254,7 @@
                                                 <div style="padding: 10px;">
 
                                                     <div style="padding-bottom: 5px;">
-                                                        <input type="text" placeholder="search group" class="dropdown-search" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                                        <input type="text" placeholder="search group" class="dropdown-search" wire:model="group_search" style="border-radius: 1px; border: 1px solid #1b3a62; width: 100%;">
                                                     </div>
 
                                                     @if(count($dropDownGroups) > 0)
@@ -309,20 +309,20 @@
                         <div class="card-body w-100">
                             <div class="row w-100">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Create Cluster</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Create Cluster</label>
                                     <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
                                             aria-label="Close" id="group-close-modal-button" style="padding: 1px 10px 1px 10px;">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Name</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label fs-4" style="color: #1b3a62">Name</label>
+                                        <input style="background-color: #0f1534;" class="form-control"
                                                wire:model.defer="name" placeholder="Enter cluster name" type="text">
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Embeddings </label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Embeddings </label>
 {{--                                        <select wire:model.defer="embedding_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">--}}
 {{--                                            <option value="">Select Embeddings</option>--}}
 {{--                                            @foreach($embeddings as $embedding)--}}
@@ -337,7 +337,7 @@
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if(count($selectedEmbeddings) > 0)
                                                     @foreach($selectedEmbeddings as $selectedEmbedding)
-                                                        <span class="badge" style="background-color: #f2661c; color: white; border: 1px solid #f2661c;">
+                                                        <span class="badge" style="background-color: #1b3a62; color: white; border: 1px solid #1b3a62;">
                                                             {{$selectedEmbedding}}
                                                         </span>
                                                     @endforeach
@@ -355,7 +355,7 @@
                                                 <div style="padding: 10px;">
 
                                                     <div style="padding-bottom: 5px;">
-                                                        <input type="text" placeholder="search embedding" class="dropdown-search" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                                        <input type="text" placeholder="search embedding" class="dropdown-search" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #1b3a62; width: 100%;">
                                                     </div>
 
                                                     @if(count($dropDownEmbeddings) > 0)
@@ -411,7 +411,7 @@
                         <div class="card-body w-100">
                             <div class="row w-100">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Add embedding into clusters</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Add embedding into clusters</label>
                                     <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
                                             aria-label="Close" id="embedding-group-close-modal-button"
                                             style="padding: 1px 10px 1px 10px;">
@@ -453,7 +453,7 @@
                                     {{--                                    End Alert error--}}
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Clusters</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Clusters</label>
 {{--                                        <select wire:model.defer="group_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">--}}
 {{--                                            <option value="">Select Group</option>--}}
 {{--                                            @foreach($groups as $group)--}}
@@ -467,7 +467,7 @@
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if(count($selectedGroups) > 0)
                                                     @foreach($selectedGroups as $selectedGroup)
-                                                        <span class="badge" style="background-color: #f2661c; color: white; border: 1px solid #f2661c;">
+                                                        <span class="badge" style="background-color: #1b3a62; color: white; border: 1px solid #1b3a62;">
                                                             {{$selectedGroup}}
                                                         </span>
                                                     @endforeach
@@ -480,7 +480,7 @@
                                                 <div style="padding: 10px;">
 
                                                     <div style="padding-bottom: 5px;">
-                                                        <input type="text" placeholder="search group" class="dropdown-search" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                                        <input type="text" placeholder="search group" class="dropdown-search" wire:model="group_search" style="border-radius: 1px; border: 1px solid #1b3a62; width: 100%;">
                                                     </div>
 
                                                     @if(count($dropDownGroups) > 0)

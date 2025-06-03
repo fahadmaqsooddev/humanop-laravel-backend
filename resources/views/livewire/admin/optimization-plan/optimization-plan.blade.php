@@ -2,11 +2,11 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
         .ck-editor__editable_inline {
-            background-color: #0f1534; /* Example: Change this to your desired background color */
+            background-color: #eaf3ff; /* Example: Change this to your desired background color */
         }
 
         .ck-editor__editable {
-            background-color: #0f1534 !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck-editor {
@@ -15,7 +15,7 @@
         }
 
         .card {
-            background-color: #1C365E !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck.ck-balloon-panel {
@@ -48,7 +48,7 @@
                     <td>
                         <button class="btn btn-sm text-white" data-bs-toggle="modal"
                                 wire:click="updateOptimizationModal({{ $plan['id']}},`{{$plan['condition']}}`,`{{$plan['priority']}}`,`{{$plan['content']}}`)"
-                                data-bs-target="#optimizationPlanModel" style="background-color: #f2661c;">
+                                data-bs-target="#optimizationPlanModel" style="background-color: #1b3a62;">
                             update
                         </button>
                     </td>
@@ -67,7 +67,7 @@
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body pt-0">
-                        <label class="form-label fs-4 text-white">Optimization Plan</label>
+                        <label class="form-label fs-4" style="color: #1b3a62">Optimization Plan</label>
 
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                 aria-label="Close" id="close-optimization-modal-button">
@@ -77,10 +77,10 @@
                             <div class="row mt-4">
                                 <div class="col-12">
 
-                                    <label class="form-label text-white">Priority</label>
+                                    <label class="form-label" style="color: #1b3a62">Priority</label>
                                     <div class="input-group">
-                                        <input style="background-color: #0f1534;color: lightgrey !important"
-                                               class="form-control text-white"
+                                        <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                               class="form-control"
                                                type="text" disabled
                                                wire:model="priority" placeholder="icon name">
                                     </div>
@@ -88,9 +88,9 @@
                             </div>
                             <div class="row mt-4">
                                 <div class="col-12">
-                                    <label class="form-label text-white">Condition</label>
+                                    <label class="form-label" style="color: #1b3a62">Condition</label>
                                     <div class="input-group">
-                                        <input style="background-color: #0f1534;color: lightgrey !important"
+                                        <input style="background-color: #eaf3ff;color: #1b3a62 !important"
                                                wire:model="condition" disabled
                                                class="form-control table-header-text" type="text">
                                     </div>
@@ -98,8 +98,8 @@
                             </div>
                             <div class="row mt-4">
                                 <div class="col-12">
-                                    <label class="form-label text-white">Description</label>
-                                    <div class="input-group w-100" wire:ignore>
+                                    <label class="form-label" style="color: #1b3a62">Description</label>
+                                    <div class="input-group w-100" wire:ignore style="color: #1b3a62">
                                         <textarea class="form-control table-header-text" id="editor" rows="10" cols="10"
                                        name="content"
                                        wire:model="content"></textarea>
@@ -107,7 +107,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                    style="background-color: #f2661c ">Update Optimization plan
+                                    style="background-color: #1b3a62 ">Update Optimization plan
                             </button>
                         </form>
                     </div>

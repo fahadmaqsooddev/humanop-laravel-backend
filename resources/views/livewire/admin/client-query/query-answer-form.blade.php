@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-                            <label class="form-label fs-4 text-white">Query Answer</label>
+                            <label class="form-label fs-4" style="color: #1b3a62">Query Answer</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-answer-modal-button-{{$query['id']}}">
                                 <span aria-hidden="true">&times;</span>
@@ -14,10 +14,10 @@
                             @include('layouts.message')
                             <form wire:submit.prevent="submitForm">
                                 <div class="form-group mt-4">
-                                    <label class="form-label fs-6 text-white">Client Query:</label>
+                                    <label class="form-label fs-6" style="color: #1b3a62">Client Query:</label>
                                     <span
-                                        style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$query['query'] ?? null}}</span>
-                                    <label class="form-label fs-6 text-white mt-2">HAI Answer:</label>
+                                        style="color: #1b3a62;font-size: 20px;font-weight: 800;display: flex;">{{$query['query'] ?? null}}</span>
+                                    <label class="form-label fs-6 mt-2" style="color: #1b3a62">HAI Answer:</label>
                                     <br>
                                     @if($query['conversation'])
                                         <span class="mt-2">{!!$query['conversation']['reply'] ?? null!!}</span>
@@ -25,9 +25,9 @@
                                         <span class="mt-2">{!!$query['haiChatMessage']['answer'] ?? null!!}</span>
                                     @endif
                                     <br>
-                                    <label class="form-label fs-6 text-white mt-4">Answer:</label>
+                                    <label class="form-label fs-6 mt-4" style="color: #1b3a62">Answer:</label>
                                     <textarea rows="4" class="form-control text-white mt-2"
-                                              style="background-color: #0f1535"
+                                              style="background-color: #eaf3ff"
                                               wire:model.defer="answer" id="message-text"
                                               placeholder="Type your answer here...">
                                     </textarea>

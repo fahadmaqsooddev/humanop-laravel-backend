@@ -17,7 +17,7 @@
 
                         {{substr($query['question']['query'], 0, 40)}}
                         &nbsp;&nbsp;<a data-bs-toggle="modal"
-                                       data-bs-target="#viewQueryModal{{$query['id']}}" style="color: #f2661c; cursor: pointer;"
+                                       data-bs-target="#viewQueryModal{{$query['id']}}" style="color: #1b3a62; cursor: pointer;"
                                        class="mt-2 mb-0">
                             view more...
                         </a>
@@ -32,7 +32,7 @@
 
                         {{substr($query['answer'], 0, 40)}}
                         &nbsp;&nbsp;<a data-bs-toggle="modal"
-                           data-bs-target="#viewQueryModal{{$query['id']}}" style="color: #f2661c; cursor: pointer;"
+                           data-bs-target="#viewQueryModal{{$query['id']}}" style="color: #1b3a62; cursor: pointer;"
                                        class="mt-2 mb-0">
                             view more...
                         </a>
@@ -44,12 +44,12 @@
                 </td>
                 <td class="text-md font-weight-normal">
                     <a type="submit" data-bs-toggle="modal"
-                       data-bs-target="#editQueryModal{{$query['id']}}" class=" btn-sm mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
+                       data-bs-target="#editQueryModal{{$query['id']}}" class=" btn-sm mt-2 mb-0" style="background:#1b3a62 !important;color:white;font-weight:bolder;border:none;">
                         Edit
                     </a>
                 </td>
                 <td class="text-md font-weight-normal">
-                    <a wire:click="approveAnswer({{$query['id']}})" class="btn btn-sm mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
+                    <a wire:click="approveAnswer({{$query['id']}})" class="btn btn-sm mt-2 mb-0" style="background:#1b3a62 !important;color:white;font-weight:bolder;border:none;">
                         Approve
                     </a>
                 </td>

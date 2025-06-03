@@ -216,13 +216,13 @@
                         <div class="col-6">
                             <label class="form-label text-white">First Name</label>
                             <div class="input-group">
-                                <input style="background-color: #0f1534;" id="firstName" name="firstName" class="form-control" type="text" placeholder="Alec" required="required">
+                                <input style="background-color: #eaf3ff;" id="firstName" name="firstName" class="form-control" type="text" placeholder="Alec" required="required">
                             </div>
                         </div>
                         <div class="col-6">
                             <label class="form-label text-white">Last Name</label>
                             <div class="input-group">
-                                <input style="background-color: #0f1534;" id="lastName" name="lastName" class="form-control" type="text" placeholder="Thompson" required="required">
+                                <input style="background-color: #eaf3ff;" id="lastName" name="lastName" class="form-control" type="text" placeholder="Thompson" required="required">
                             </div>
                         </div>
                     </div>
@@ -255,13 +255,13 @@
                         <div class="col-6">
                             <label class="form-label mt-4 text-white">Email</label>
                             <div class="input-group">
-                                <input style="background-color: #0f1534;" id="email" name="email" class="form-control" type="email" placeholder="example@email.com">
+                                <input style="background-color: #eaf3ff;" id="email" name="email" class="form-control" type="email" placeholder="example@email.com">
                             </div>
                         </div>
                         <div class="col-6">
                             <label class="form-label mt-4 text-white">Confirmation Email</label>
                             <div class="input-group">
-                                <input style="background-color: #0f1534;" id="confirmation" name="confirmation" class="form-control" type="email" placeholder="example@email.com">
+                                <input style="background-color: #eaf3ff;" id="confirmation" name="confirmation" class="form-control" type="email" placeholder="example@email.com">
                             </div>
                         </div>
                     </div>
@@ -269,13 +269,13 @@
                         <div class="col-6">
                             <label class="form-label mt-4 text-white">Your location</label>
                             <div class="input-group">
-                                <input style="background-color: #0f1534;" id="location" name="location" class="form-control" type="text" placeholder="Sydney, A">
+                                <input style="background-color: #eaf3ff;" id="location" name="location" class="form-control" type="text" placeholder="Sydney, A">
                             </div>
                         </div>
                         <div class="col-6">
                             <label class="form-label mt-4 text-white">Phone Number</label>
                             <div class="input-group">
-                                <input style="background-color: #0f1534;" id="phone" name="phone" class="form-control" type="number" placeholder="+40 735 631 620">
+                                <input style="background-color: #eaf3ff;" id="phone" name="phone" class="form-control" type="number" placeholder="+40 735 631 620">
                             </div>
                         </div>
                     </div>
@@ -290,7 +290,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label mt-4 text-white">Skills</label>
-                            <input style="background-color: #0f1534;" class="form-control" id="choices-skills" type="text" value="vuejs, angular, react" placeholder="Enter something" />
+                            <input style="background-color: #eaf3ff;" class="form-control" id="choices-skills" type="text" value="vuejs, angular, react" placeholder="Enter something" />
                         </div>
                     </div>
                 </div>
@@ -303,15 +303,15 @@
                 <div class="card-body pt-0">
                     <label class="form-label text-white">Current password</label>
                     <div class="form-group">
-                        <input style="background-color: #0f1534;" class="form-control" type="password" placeholder="Current password">
+                        <input style="background-color: #eaf3ff;" class="form-control" type="password" placeholder="Current password">
                     </div>
                     <label class="form-label text-white">New password</label>
                     <div class="form-group">
-                        <input style="background-color: #0f1534;" class="form-control" type="password" placeholder="New password">
+                        <input style="background-color: #eaf3ff;" class="form-control" type="password" placeholder="New password">
                     </div>
                     <label class="form-label">Confirm new password</label>
                     <div class="form-group">
-                        <input style="background-color: #0f1534;" class="form-control" type="password" placeholder="Confirm password">
+                        <input style="background-color: #eaf3ff;" class="form-control" type="password" placeholder="Confirm password">
                     </div>
                     <h5 class="mt-5 text-white">Password requirements</h5>
                     <p class="text-muted mb-2 text-white">

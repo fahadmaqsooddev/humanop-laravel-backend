@@ -24,7 +24,7 @@
     }
 
     .modal-close-btn {
-        background: #f2661c;
+        background: #1b3a62;
         border: none;
         color: white;
         font-weight: bold;

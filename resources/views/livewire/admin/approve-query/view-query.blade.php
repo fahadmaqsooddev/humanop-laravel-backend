@@ -16,7 +16,7 @@
                                     </button>
 
                                     <label class="form-label fs-6 text-white">Client Query:</label>
-                                    <span style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$question['query'] ?? null}}</span>
+                                    <span style="color: #1b3a62;font-size: 20px;font-weight: 800;display: flex;">{{$question['query'] ?? null}}</span>
 
                                     <label class="form-label fs-6 text-white">Admin Answer:</label>
                                     <span style="color: white;font-size: 18px;font-weight: 600;display: flex;">{{$answer ?? null}}</span>

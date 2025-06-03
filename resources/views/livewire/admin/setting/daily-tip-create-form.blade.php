@@ -4,11 +4,11 @@
 
     <style>
         .ck-editor__editable_inline {
-            background-color: #0f1534; /* Example: Change this to your desired background color */
+            background-color: #eaf3ff; /* Example: Change this to your desired background color */
         }
 
         .ck-editor__editable {
-            background-color: #0f1534 !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck-editor {
@@ -75,7 +75,7 @@
         }
 
         .card {
-            background-color: #1C365E !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck.ck-balloon-panel {
@@ -96,7 +96,7 @@
             <div class="modal-body" style=" border-radius: 9px">
                 @include('layouts.message')
                 <div class="card-body pt-0">
-                    <label class="form-label fs-4 text-white"><span>Daily Tip</span>
+                    <label class="form-label fs-4" style="color: #1b3a62"><span>Daily Tip</span>
                         <span style="margin-left: 10px">
                             <input type="radio" name="subscription_type" value="Freemium" wire:model="subscription_type"
                                    wire:change="changeSubscriptionType"> Freemium
@@ -122,10 +122,10 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="w-25 mb-5" id="interval_of_life">
-                                        <select class="form-control bg-transparent text-white text-center"
+                                        <select class="form-control bg-transparent text-center"
                                                 wire:model="interval_of_life"
-                                                style="border-color: white;padding: 0px !important">
-                                            <option value="" style="color: black">Select Interval Of Life</option>
+                                                style="border-color: #1b3a62 !important;padding: 0px !important">
+                                            <option value="" style="color: #1b3a62">Select Interval Of Life</option>
                                             @foreach($interval_of_life_array as $key => $interval)
                                                 <option value="{{$interval}}"
                                                         style="color: black">{{$interval}}</option>
@@ -139,7 +139,7 @@
                                             <tr>
                                                 @foreach(['SA', 'MA', 'JO', 'LU', 'VEN', 'MER', 'SO'] as $select_code)
 
-                                                    <th class="text-center border border-white cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
+                                                    <th class="text-center border cursor-pointer{{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}" style="color: #1b3a62; border-color: #1b3a62 !important"
                                                         wire:click="selectCode('{{ $select_code }}')">
                                                         {{ strtoupper($select_code) }}
                                                     </th>
@@ -147,12 +147,12 @@
                                             </tr>
                                             <tr>
                                                 @foreach(['SA', 'MA', 'JO', 'LU', 'VEN', 'MER', 'SO'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer">
+                                                    <th class="text-center border border-white cursor-pointer" style="color: #1b3a62; border-color: #1b3a62 !important" >
                                                         <div class="d-flex">
                                                             <select
-                                                                class="form-control bg-transparent text-white text-center"
+                                                                class="form-control bg-transparent text-center"
                                                                 wire:model="min_point_array.{{ $select_code }}"
-                                                                style="border-color: white;padding: 0px !important;">
+                                                                style="border-color: #1b3a62;padding: 0px !important;">
                                                                 <option value="0" style="color: black">0</option>
                                                                 <option value="1" style="color: black">1</option>
                                                                 <option value="2" style="color: black">2</option>
@@ -166,9 +166,9 @@
                                                                 <option value="10" style="color: black">10</option>
                                                             </select>
                                                             <select
-                                                                class="form-control bg-transparent text-white text-center"
+                                                                class="form-control bg-transparent text-center"
                                                                 wire:model="max_point_array.{{ $select_code }}"
-                                                                style="border-color: white;padding: 0px !important;">
+                                                                style="border-color: #1b3a62;padding: 0px !important;">
                                                                 <option value="0" style="color: black">0</option>
                                                                 <option value="1" style="color: black">1</option>
                                                                 <option value="2" style="color: black">2</option>
@@ -200,7 +200,7 @@
                                             <thead class="thead-light">
                                             <tr style="">
                                                 @foreach(['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer  {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
+                                                    <th class="text-center border cursor-pointer  {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}" style="color: #1b3a62; border-color: #1b3a62 !important"
                                                         wire:click="selectCode('{{ $select_code }}')">
                                                         {{ strtoupper($select_code) }}
                                                     </th>
@@ -208,10 +208,10 @@
                                             </tr>
                                             <tr class="">
                                                 @foreach(['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer ">
+                                                    <th class="text-center border cursor-pointer " style="color: #1b3a62; border-color: #1b3a62 !important">
                                                         <div class="d-flex">
                                                             <select
-                                                                class="form-control bg-transparent text-white text-center"
+                                                                class="form-control bg-transparent text-center"
                                                                 wire:model="min_point_array.{{ $select_code }}"
                                                                 style="padding: 0px !important; border-color:white;width:100%;">
                                                                 <option value="0" style="color: black">0</option>
@@ -221,9 +221,9 @@
                                                                 <option value="4" style="color: black">4</option>
                                                             </select>
                                                             <select
-                                                                class="form-control bg-transparent text-white text-center"
+                                                                class="form-control bg-transparent text-center"
                                                                 wire:model="max_point_array.{{ $select_code }}"
-                                                                style="padding: 0px !important; border-color: white">
+                                                                style="padding: 0px !important; border-color: #1b3a62">
                                                                 <option value="0" style="color: black">0</option>
                                                                 <option value="1" style="color: black">1</option>
                                                                 <option value="2" style="color: black">2</option>
@@ -248,7 +248,7 @@
                                             <thead class="thead-light">
                                             <tr>
                                                 @foreach(['G', 'S', 'C','GS','SG','SC','CS'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
+                                                    <th class="text-center border cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}" style="color: #1b3a62; border-color: #1b3a62 !important"
                                                         wire:click="selectCode('{{ $select_code }}')">
                                                         {{ strtoupper($select_code) }}
 
@@ -258,13 +258,13 @@
 
                                             <tr>
                                                 @foreach(['G', 'S', 'C','GS','SG','SC','CS'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer "
+                                                    <th class="text-center border cursor-pointer " style="color: #1b3a62; border-color: #1b3a62 !important"
                                                     >
                                                         @if($select_code == 'G')
                                                             <select
-                                                                class="form-control text-center bg-transparent text-white"
+                                                                class="form-control text-center bg-transparent"
                                                                 wire:model="min_point_array.{{ $select_code }}"
-                                                                style="border-color: white !important;padding: 0px !important;">
+                                                                style="border-color: #1b3a62 !important;padding: 0px !important;">
                                                                 <option value="502" style="color: black">502</option>
                                                                 <option value="511" style="color: black">511</option>
                                                                 <option value="520" style="color: black">520</option>
@@ -275,9 +275,9 @@
                                                         @endif
                                                         @if($select_code == 'GS')
                                                             <select
-                                                                class="form-control text-center bg-transparent text-white"
+                                                                class="form-control text-center bg-transparent"
                                                                 wire:model="min_point_array.{{ $select_code }}"
-                                                                style="border-color: white !important;padding: 0px !important;">
+                                                                style="border-color: #1b3a62 !important;padding: 0px !important;">
                                                                 <option value="403" style="color: black">403</option>
                                                                 <option value="412" style="color: black">412</option>
                                                                 <option value="421" style="color: black">421</option>
@@ -288,9 +288,9 @@
 
                                                         @if($select_code == 'SG')
                                                             <select
-                                                                class="form-control text-center bg-transparent text-white"
+                                                                class="form-control text-center bg-transparent"
                                                                 wire:model="min_point_array.{{ $select_code }}"
-                                                                style="border-color: white !important;padding: 0px !important;">
+                                                                style="border-color: #1b3a62 !important;padding: 0px !important;">
                                                                 <option value="322" style="color: black">322</option>
                                                                 <option value="331" style="color: black">331</option>
                                                                 <option value="340" style="color: black">340</option>
@@ -299,9 +299,9 @@
 
                                                         @if($select_code == 'S')
                                                             <select
-                                                                class="form-control text-center bg-transparent text-white"
+                                                                class="form-control text-center bg-transparent"
                                                                 wire:model="min_point_array.{{ $select_code }}"
-                                                                style="border-color: white !important;padding: 0px !important;">
+                                                                style="border-color: #1b3a62 !important;padding: 0px !important;">
                                                                 <option value="52" style="color: black">52</option>
                                                                 <option value="61" style="color: black">61</option>
                                                                 <option value="70" style="color: black">70</option>
@@ -318,9 +318,9 @@
 
                                                         @if($select_code == 'SC')
                                                             <select
-                                                                class="form-control text-center bg-transparent text-white"
+                                                                class="form-control text-center bg-transparent"
                                                                 wire:model="min_point_array.{{ $select_code }}"
-                                                                style="border-color: white !important;padding: 0px !important;">
+                                                                style="border-color: #1b3a62 !important;padding: 0px !important;">
                                                                 <option value="43" style="color: black">43</option>
                                                                 <option value="133" style="color: black">133</option>
                                                                 <option value="214" style="color: black">214</option>
@@ -329,9 +329,9 @@
                                                         @endif
                                                         @if($select_code == 'CS')
                                                             <select
-                                                                class="form-control text-center bg-transparent text-white"
+                                                                class="form-control text-center bg-transparent"
                                                                 wire:model="min_point_array.{{ $select_code }}"
-                                                                style="border-color: white !important;padding: 0px !important;">
+                                                                style="border-color: #1b3a62 !important;padding: 0px !important;">
                                                                 <option value="34" style="color: black">34</option>
                                                                 <option value="115" style="color: black">115</option>
                                                                 <option value="124" style="color: black">124</option>
@@ -339,9 +339,9 @@
                                                         @endif
                                                         @if($select_code == 'C')
                                                             <select
-                                                                class="form-control text-center bg-transparent text-white"
+                                                                class="form-control text-center bg-transparent"
                                                                 wire:model="min_point_array.{{ $select_code }}"
-                                                                style="border-color: white !important;padding: 0px !important;">
+                                                                style="border-color: #1b3a62 !important;padding: 0px !important;">
                                                                 <option value="7" style="color: black">7</option>
                                                                 <option value="16" style="color: black">16</option>
                                                                 <option value="25" style="color: black">25</option>
@@ -366,7 +366,7 @@
                                             <thead class="thead-light">
                                             <tr>
                                                 @foreach(['EM', 'INS', 'INT', 'MOV'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
+                                                    <th class="text-center border cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}" style="color: #1b3a62; border-color: #1b3a62 !important"
                                                         wire:click="selectCode('{{ $select_code }}')">
                                                         {{ strtoupper($select_code) }}
                                                     </th>
@@ -375,13 +375,13 @@
 
                                             <tr>
                                                 @foreach(['EM', 'INS', 'INT', 'MOV'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer "
+                                                    <th class="text-center border cursor-pointer " style="color: #1b3a62; border-color: #1b3a62 !important"
                                                     >
 
                                                         <select
-                                                            class="form-control bg-transparent text-white text-center"
+                                                            class="form-control bg-transparent text-center"
                                                             wire:model="min_point_array.{{ $select_code }}"
-                                                            style="border-color: white !important;padding: 0px !important">
+                                                            style="border-color: #1b3a62 !important;padding: 0px !important">
                                                             <option value="3" style="color: black">3</option>
                                                             <option value="4" style="color: black">4</option>
                                                             <option value="5" style="color: black">5</option>
@@ -407,20 +407,20 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <h5 class="text-white">PV</h5>
+                            <h5 style="color: #1b3a62">PV</h5>
                         </div>
                         <div id="pv_slider" wire:ignore></div>
                         <div class="d-flex justify-content-center mt-5">
-                            <h5 class="text-white">EP</h5>
+                            <h5 style="color: #1b3a62">EP</h5>
                         </div>
                         <div id="ep_slider" wire:ignore></div>
                         <div class="row mt-5">
                             <div class="col-12">
-                                <label class="form-label text-white">Title</label>
+                                <label class="form-label" style="color: #1b3a62">Title</label>
                                 <div class="input-group">
                                     <input id="firstName" wire:model="title" name="title"
-                                           class="form-control table-header-text text-white"
-                                           style="background-color: #0f1534 !important;" type="text">
+                                           class="form-control table-header-text"
+                                           style="background-color: #eaf3ff !important; color: #1b3a62" type="text">
                                     <input id="code" wire:model="code" name="code"
                                            class="form-control table-header-text" type="hidden">
                                 </div>
@@ -428,19 +428,19 @@
                         </div>
                         <div class="row mt-4">
                             <div class="col-12">
-                                <label class="form-label text-white">Description</label>
+                                <label class="form-label" style="color: #1b3a62">Description</label>
                                 <div class="input-group w-100" wire:ignore><textarea
                                         class="form-control table-header-text editor" rows="5" cols="5"
-                                        name="description"
+                                        name="description" style="background-color: #eaf3ff"
                                         wire:model="description"></textarea>
                                 </div>
                                 @if($tip_id)
                                     <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                            style="background-color: #f2661c">Update Tip
+                                            style="background-color: #1b3a62">Update Tip
                                     </button>
                                 @else
                                     <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                            style="background-color: #f2661c">Add Tip
+                                            style="background-color: #1b3a62">Add Tip
                                     </button>
                                 @endif
                             </div>
@@ -537,17 +537,17 @@
                     {
                         start: 1,
                         end: 25,
-                        color: '#e0e0ff',
+                        color: '#1b3a62',
                     },
                     {
                         start: 25,
                         end: 30,
-                        color: '#b4f2de',
+                        color: '#1b3a62',
                     },
                     {
                         start: 30,
                         end: 35,
-                        color: '#c0e9ff',
+                        color: '#1b3a62',
                     },
                     {
                         start: 35,
@@ -568,22 +568,22 @@
                     {
                         start: -30,
                         end: -8,
-                        color: '#e0e0ff',
+                        color: '#1b3a62',
                     },
                     {
                         start: -8,
                         end: -4,
-                        color: '#b4f2de',
+                        color: '#1b3a62',
                     },
                     {
                         start: -4,
                         end: 0,
-                        color: '#c0e9ff',
+                        color: '#1b3a62',
                     },
                     {
                         start: 0,
                         end: 1,
-                        color: '#d6d6d6',
+                        color: '#1b3a62',
                     },
                     {
                         start: 1,

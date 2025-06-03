@@ -86,7 +86,7 @@
             {{\Illuminate\Support\Facades\Log::info(['333' => $is_admin, 'id' => auth()->id()])}}
             <div class="d-flex justify-content-center">
                 <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/admin/login-back-to-admin')}}" class="btn btn-sm"
-                   style="background-color: #f2661c; color: white;" id="logInBackToAdmin_1" hidden>Back to admin</a>
+                   style="background-color: #1b3a62; color: white;" id="logInBackToAdmin_1" hidden>Back to admin</a>
             </div>
         @endif
         <ul class="navbar-nav">
@@ -585,7 +585,7 @@
                         {{\Illuminate\Support\Facades\Log::info(['111' => $is_admin, 'id' => auth()->id()])}}
                         <div class="d-flex justify-content-center">
                             <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
-                               style="background-color: #f2661c; color: white;" id="logInBackToAdmin_2" hidden>Back to admin</a>
+                               style="background-color: #1b3a62; color: white;" id="logInBackToAdmin_2" hidden>Back to admin</a>
                         </div>
                     @endif
 
@@ -632,7 +632,7 @@
                                 @if(Request::is('client/new-dashboard'))
                                 <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Dashboard </p>
                                 @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Dashboard </p>
+                                    <p class="sidenav-normal mb-0" style="color: #eaf3ff !important;font-size: 14px"> Dashboard </p>
                                 @endif
                             </li>
                             <li class="nav-item text-center mt-2 {{ (Request::is('client/stripe-checkout')  ? 'nav-active' : '') }}"   data-step="1" style="margin-left: 10px">
@@ -650,7 +650,7 @@
                                 @if(Request::is('client/stripe-checkout'))
                                 <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Assessment </p>
                                 @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Assessment </p>
+                                    <p class="sidenav-normal mb-0" style="color: #eaf3ff !important;font-size: 14px"> Assessment </p>
                                 @endif
                             </li>
                             <li class="nav-item text-center mt-2 {{ (Request::is('client/all-assessments')  ? 'nav-active' : '') }}" style="margin-left: 10px">
@@ -668,7 +668,7 @@
                                 @if(Request::is('client/all-assessments'))
                                 <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Results </p>
                                 @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Results </p>
+                                    <p class="sidenav-normal mb-0" style="color: #eaf3ff !important;font-size: 14px"> Results </p>
                                 @endif
                             </li>
 
@@ -688,7 +688,7 @@
                                 @if(Request::is('client/resource'))
                                 <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Resources <br>& Trainings </p>
                                     @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Resources <br>& Trainings </p>
+                                    <p class="sidenav-normal mb-0" style="color: #eaf3ff !important;font-size: 14px"> Resources <br>& Trainings </p>
                                     @endif
                             </li>
                             <li class="nav-item mt-2">
@@ -709,7 +709,7 @@
                                         <img
                                             src="{{URL::asset('assets/new-design/icon/dashboard/navbar/down_arrow.svg')}}" style="margin-left: 10px" width="12" height="12"></a>
                                     @else
-                                        <a class="sidenav-normal d-block" data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples" style="color: #F4E3C7 !important;font-size: 14px"> Network
+                                        <a class="sidenav-normal d-block" data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples" style="color: #eaf3ff !important;font-size: 14px"> Network
                                             <img
                                                 src="{{URL::asset('assets/new-design/icon/dashboard/navbar/down_arrow.svg')}}" style="margin-left: 10px" width="12" height="12"></a>
                                     @endif
@@ -724,7 +724,7 @@
 
                                                 <span ><img
                                                         src="{{URL::asset('assets/new-design/icon/dashboard/navbar/search.svg')}}" width="25" height="25"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Find <br> Connections</span>
+                                                <span class="sidenav-normal" style="color: #eaf3ff !important;font-size: 16px;margin-left: 5px"> Find <br> Connections</span>
                                             </a>
 
                                         </li>
@@ -733,7 +733,7 @@
                                                href="{{ route('messages') }}">
                                                 <span><img
                                                         src="{{URL::asset('assets/new-design/icon/dashboard/navbar/message.svg')}}" width="25" height="25"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Messages </span>
+                                                <span class="sidenav-normal" style="color: #eaf3ff !important;font-size: 16px;margin-left: 5px"> Messages </span>
                                             </a>
                                         </li>
                                         <li class="nav-item ">
@@ -743,7 +743,7 @@
                                                     <img
                                                         width="25" height="25"
                                                         src="{{URL::asset('assets/new-design/icon/dashboard/navbar/add_people.svg')}}"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Connection<br> Request </span>
+                                                <span class="sidenav-normal" style="color: #eaf3ff !important;font-size: 16px;margin-left: 5px"> Connection<br> Request </span>
                                             </a>
                                         </li>
                                         <li class="nav-item ">
@@ -752,7 +752,7 @@
                                                 <span><img
                                                         width="25" height="25"
                                                         src="{{URL::asset('assets/new-design/icon/dashboard/navbar/people.svg')}}"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Followers </span>
+                                                <span class="sidenav-normal" style="color: #eaf3ff !important;font-size: 16px;margin-left: 5px"> Followers </span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -761,7 +761,7 @@
                                                 <span ><img
                                                         width="25" height="25"
                                                         src="{{URL::asset('assets/new-design/icon/dashboard/navbar/people_tick.svg')}}"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Following </span>
+                                                <span class="sidenav-normal" style="color: #eaf3ff !important;font-size: 16px;margin-left: 5px"> Following </span>
                                             </a>
                                         </li>
                                     </ul>
@@ -786,7 +786,7 @@
                                     <a class="sidenav-normal d-block"  data-bs-toggle="collapse" aria-expanded="false" href="#support" style="color: #1C365E !important;font-size: 14px"> Support       <img
                                             style="margin-left: 10px"    src="{{URL::asset('assets/new-design/icon/dashboard/navbar/down_arrow.svg')}}" width="12" height="12"> </a>
                                     @else
-                                        <a class="sidenav-normal d-block"  data-bs-toggle="collapse" aria-expanded="false" href="#support" style="color: #F4E3C7 !important;font-size: 14px"> Support       <img
+                                        <a class="sidenav-normal d-block"  data-bs-toggle="collapse" aria-expanded="false" href="#support" style="color: #eaf3ff !important;font-size: 14px"> Support       <img
                                                 style="margin-left: 10px"    src="{{URL::asset('assets/new-design/icon/dashboard/navbar/down_arrow.svg')}}" width="12" height="12"> </a>
                                     @endif
                                 </div>
@@ -799,7 +799,7 @@
                                                 <span ><img
                                                         width="25" height="25"
                                                         src="{{URL::asset('assets/new-design/icon/dashboard/navbar/comment.svg')}}"></span>
-                                                <span class="sidenav-normal"  style="font-size:16px;color: #F4E3C7 !important;margin-left: 5px">Beta <br> Feedback</span>
+                                                <span class="sidenav-normal"  style="font-size:16px;color: #eaf3ff !important;margin-left: 5px">Beta <br> Feedback</span>
                                             </a>
                                         </li>
                                         <li class="nav-item px-0 mx-0 {{ (Request::is('client/tutorials') ? 'active' : '') }}">
@@ -809,7 +809,7 @@
                                                 <span class="sidenav-normal"><img
                                                         width="25" height="25"
                                                         src="{{URL::asset('assets/new-design/icon/dashboard/navbar/tutorial.svg')}}"></span>
-                                                <span class="sidenav-normal" style="font-size:16px;color: #F4E3C7 !important;margin-left: 5px">Tutorials</span>
+                                                <span class="sidenav-normal" style="font-size:16px;color: #eaf3ff !important;margin-left: 5px">Tutorials</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -819,7 +819,7 @@
                                                 <span ><img
                                                         width="25" height="25"
                                                         src="{{URL::asset('assets/new-design/icon/dashboard/navbar/flag.svg')}}"></span>
-                                                <span class="sidenav-normal" style="font-size:16px;color: #F4E3C7 !important;margin-left: 5px">Tour Guide</span>
+                                                <span class="sidenav-normal" style="font-size:16px;color: #eaf3ff !important;margin-left: 5px">Tour Guide</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -841,7 +841,7 @@
                                 @if(Request::is('client/pricing'))
                                 <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Pricing </p>
                                 @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Pricing </p>
+                                    <p class="sidenav-normal mb-0" style="color: #eaf3ff !important;font-size: 14px"> Pricing </p>
                                 @endif
                             </li>
                             <li class="nav-item text-center mt-2 {{ (Request::is('client/setting') ? 'nav-active' : '') }}" style="margin-left: 10px">
@@ -861,7 +861,7 @@
                                 @if(Request::is('client/setting'))
                                 <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Setting </p>
                                 @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Setting </p>
+                                    <p class="sidenav-normal mb-0" style="color: #eaf3ff !important;font-size: 14px"> Setting </p>
                                 @endif
                             </li>
 
@@ -872,7 +872,7 @@
                                                src="{{URL::asset('assets/new-design/icon/dashboard/navbar/logout.svg')}}" style="margin-top:5px"></span>
                                     {{--                                    <span class="sidenav-normal text-bold"> Sign Out </span>--}}
                                 </a>
-                                <p class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 14px"> Signout </p>
+                                <p class="sidenav-normal" style="color: #eaf3ff !important;font-size: 14px"> Signout </p>
                             </li>
                             {{--                            download on apple--}}
                             <li class="nav-item mt-5 d-flex justify-content-center">
@@ -940,7 +940,7 @@
                         {{\Illuminate\Support\Facades\Log::info(['2222' => $is_admin, 'id' => auth()->id()])}}
                         <div class="d-flex justify-content-center">
                             <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
-                               style="background-color: #f2661c; color: white;" id="logInBackToAdmin_3" hidden>Back to admin</a>
+                               style="background-color: #1b3a62; color: white;" id="logInBackToAdmin_3" hidden>Back to admin</a>
                         </div>
                     @endif
 

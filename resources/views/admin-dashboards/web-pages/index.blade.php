@@ -30,7 +30,7 @@
                             <tr class="table-text-color">
                                 <td class="text-md font-weight-normal">{{$page['name']}} </td>
                                 <td class="text-md font-weight-normal">{{$page['title']}}</td>
-                                <td class="text-md font-weight-normal"><a href="{{ route('admin_edit_web_pages',['id' => $page['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>
+                                <td class="text-md font-weight-normal"><a href="{{ route('admin_edit_web_pages',['id' => $page['id'] ]) }}" type="submit" style="background-color: #1B3A62 ; color: white" class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>
                             </tr>
                         @endforeach
 

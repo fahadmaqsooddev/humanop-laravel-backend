@@ -6,7 +6,7 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header">
-                    <h5 class="mb-0 text-white">Edit Intro</h5>
+                    <h5 class="mb-0 text-bold" style="color: #1B3A62 ">Edit Intro</h5>
                 </div>
                 <div class="card-body pt-0">
                     @livewire('admin.assessment-intro.manage-intro-form', ['assessment' => $assessment])

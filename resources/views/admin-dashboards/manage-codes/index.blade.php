@@ -13,7 +13,7 @@
         <div class="col-12">
             {{-- <button class="text-md font-weight-normal" style="padding: 0; border: none; background: none;">
                 <a href="{{ route('admin_create_code') }}"
-                   style="background-color: #f2661c; color: white; display: inline-block; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none;"
+                   style="background-color: #1b3a62; color: white; display: inline-block; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none;"
                    class="btn btn-sm mt-2 mb-0">
                     Create Code
                 </a>
@@ -43,7 +43,7 @@
                                 <td class="text-md font-weight-normal">{{$code['public_name']}}</td>
                                 <td class="text-md font-weight-normal">{{$code['code']}}</td>
                                 <td class="text-md font-weight-normal">{{$code['number']}}</td>
-                                <td class="text-md font-weight-normal"><a href="{{ route('admin_edit_manage_code',['id' => $code['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>
+                                <td class="text-md font-weight-normal"><a href="{{ route('admin_edit_manage_code',['id' => $code['id'] ]) }}" type="submit" style="background-color: #1B3A62 ; color: white" class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>
                             </tr>
                         @endforeach
 

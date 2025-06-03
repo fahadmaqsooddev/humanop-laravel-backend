@@ -2,7 +2,7 @@
 
     <style>
         .new-orange-button{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             padding: 10px 20px 10px 20px;
             border-radius: 8px;
             color: white;
@@ -46,7 +46,7 @@
                 <button class="m-1"
                         data-bs-toggle="modal"
                         data-bs-target="#addEmbeddingModel"
-                        style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 400;padding: 5px 10px 5px 10px;">
+                        style="background:#1b3a62;color:white;border-radius: 24px;border: 2px; font-weight: 400;padding: 5px 10px 5px 10px;">
                     <img src="{{asset('assets/img/icons/Add.svg')}}" width="20">
                     Add Embedding
                 </button>
@@ -185,7 +185,7 @@
 
                             <div class="py-4 d-flex justify-content-center">
                                 <button class="m-1"
-                                        style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
+                                        style="background:#1b3a62;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
                                     <img src="{{asset('assets/img/icons/Add.svg')}}" width="20">
                                     Add
                                 </button>
@@ -209,20 +209,20 @@
 {{--                                        <div class="form-group">--}}
 {{--                                            <div class="p-1">--}}
 {{--                                                <label class="text-white">Question</label>--}}
-{{--                                                <input style="background-color: #0f1534;color: lightgrey !important"--}}
-{{--                                                       class="form-control text-white"--}}
+{{--                                                <input style="background-color: #eaf3ff;color: #1b3a62 !important"--}}
+{{--                                                       class="form-control"--}}
 {{--                                                       type="text" wire:model="question" placeholder="Enter question">--}}
 {{--                                            </div>--}}
 
 {{--                                            <div class="p-1">--}}
 {{--                                                <label for="textarea" class="text-white">Answer</label>--}}
-{{--                                                <textarea id="textarea" rows="3" style="background-color: #0f1534;color: lightgrey !important"--}}
-{{--                                                          class="form-control text-white"--}}
+{{--                                                <textarea id="textarea" rows="3" style="background-color: #eaf3ff;color: #1b3a62 !important"--}}
+{{--                                                          class="form-control"--}}
 {{--                                                          type="text" wire:model="answer" placeholder="Enter question's answer">--}}
 {{--                                                </textarea>--}}
 {{--                                            </div>--}}
 {{--                                            <button type="submit" class="btn btn-sm mt-4 float-end text-white"--}}
-{{--                                                    style="background-color: #f2661c ">Add--}}
+{{--                                                    style="background-color: #1b3a62 ">Add--}}
 {{--                                            </button>--}}
 {{--                                        </div>--}}
 {{--                                    </div>--}}
@@ -312,7 +312,7 @@
 
                             <div class="py-4 d-flex justify-content-center">
                                 <button class="m-1"
-                                        style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
+                                        style="background:#1b3a62;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
                                     <img src="{{asset('assets/img/icons/Add.svg')}}" width="20">
                                     Update
                                 </button>
@@ -375,20 +375,20 @@
 {{--                                        <div class="form-group">--}}
 {{--                                            <div class="p-1">--}}
 {{--                                                <label class="text-white">Question</label>--}}
-{{--                                                <input style="background-color: #0f1534;color: lightgrey !important"--}}
-{{--                                                       class="form-control text-white"--}}
+{{--                                                <input style="background-color: #eaf3ff;color: #1b3a62 !important"--}}
+{{--                                                       class="form-control"--}}
 {{--                                                       type="text" wire:model="updateEmbeddingName" placeholder="Enter question">--}}
 {{--                                            </div>--}}
 
 {{--                                            <div class="p-1">--}}
 {{--                                                <label for="textarea" class="text-white">Answer</label>--}}
-{{--                                                <textarea id="textarea" rows="3" style="background-color: #0f1534;color: lightgrey !important"--}}
-{{--                                                          class="form-control text-white"--}}
+{{--                                                <textarea id="textarea" rows="3" style="background-color: #eaf3ff;color: #1b3a62 !important"--}}
+{{--                                                          class="form-control"--}}
 {{--                                                          type="text" wire:model="updateEmbeddingText" placeholder="Enter question's answer">--}}
 {{--                                                </textarea>--}}
 {{--                                            </div>--}}
 {{--                                            <button type="submit" class="btn btn-sm mt-4 float-end text-white"--}}
-{{--                                                    style="background-color: #f2661c ">Update--}}
+{{--                                                    style="background-color: #1b3a62 ">Update--}}
 {{--                                            </button>--}}
 {{--                                        </div>--}}
 {{--                                    </div>--}}
@@ -412,7 +412,7 @@
 {{--    <div id="chatbotCardsContainer" class="mt-3 row p-3">--}}
 
 {{--        @if(count($embeddings) == 0)--}}
-{{--            <p style="color: #f2661c;">No embedding is linked with this Group</p>--}}
+{{--            <p style="color: #1b3a62;">No embedding is linked with this Group</p>--}}
 {{--        @endif--}}
 
 {{--        <!-- Example Card -->--}}
@@ -423,7 +423,7 @@
 {{--                        <div class="d-flex flex-row">--}}
 {{--                            <div class="col-12">--}}
 {{--                                <a href="{{route('admin_embedding_detail', $embedding['embedding']['name'] ?? null)}}">--}}
-{{--                                    <h5 style="color: #f2661c" class="text-decoration-none w-100"><i--}}
+{{--                                    <h5 style="color: #1b3a62" class="text-decoration-none w-100"><i--}}
 {{--                                            class="bi bi-robot"></i> {{ $embedding['embedding']['name'] ?? null }}--}}
 {{--                                    </h5>--}}
 {{--                                    --}}{{--                                                        <p class="card-text text-white">{{ $chat['description'] }}</p>--}}
@@ -500,14 +500,14 @@
 {{--                                    --}}{{--                                    End Alert error--}}
 {{--                                    <div class="form-group mt-4">--}}
 {{--                                        <label class="form-label fs-4 text-white">Name</label>--}}
-{{--                                        <input style="background-color: #0f1534;" class="form-control text-white"--}}
+{{--                                        <input style="background-color: #eaf3ff;" class="form-control"--}}
 {{--                                               wire:model.defer="embedding_name" placeholder="Enter Embedding Name" type="text">--}}
 {{--                                    </div>--}}
 
 {{--                                    <div class="form-group mt-4">--}}
 {{--                                        <label class="form-label fs-4 text-white">Embedding (TXT,PDF)</label>--}}
-{{--                                        <input style="background-color: #0f1534;" wire:model="embedding" id="embedding_file{{$fileInputId}}"--}}
-{{--                                               class="form-control text-white" type="file"--}}
+{{--                                        <input style="background-color: #eaf3ff;" wire:model="embedding" id="embedding_file{{$fileInputId}}"--}}
+{{--                                               class="form-control" type="file"--}}
 {{--                                               accept="file/*">--}}
 {{--                                        <span wire:loading.flex wire:target="embedding">--}}
 {{--                                            Uploading ...--}}

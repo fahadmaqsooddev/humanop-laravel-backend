@@ -10,7 +10,7 @@
           <div class="col-lg-6 my-auto">
             <h1 class="text-bolder text-gradient text-danger">Unauthorized Access</h1>
             <p class="lead text-white">You'r Not Authorized to Access This Page</p>
-            <a href="{{route('admin_dashboard')}}" type="button" class="btn text-white mt-4" style="background-color: #f2661c">Go to Homepage</a>
+            <a href="{{route('admin_dashboard')}}" type="button" class="btn text-white mt-4" style="background-color: #1b3a62">Go to Homepage</a>
           </div>
           <div class="col-lg-6 my-auto position-relative">
             <img class="w-100 position-relative" src="{{ URL::asset('assets/img/illustrations/error-404.png') }}" alt="404-error">

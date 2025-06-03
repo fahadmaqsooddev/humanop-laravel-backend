@@ -3,7 +3,7 @@
     <style>
 
         .session-buttons{
-            background-color: #f2661c;
+            background-color: #1b3a62;
             border-radius: 7px;
             color: white;
             border: none;
@@ -33,7 +33,7 @@
         .chatDot {
             width: 10px;
             height: 10px;
-            background-color: #f2661c;
+            background-color: #1b3a62;
             display: inline-block;
             margin: 1px;
             border-radius: 50%;
@@ -65,7 +65,7 @@
         }
 
         .highlighted-td{
-            color: #f2661c;
+            color: #1b3a62;
         }
 
         .disabledCard {
@@ -108,7 +108,7 @@
                 <div>
 
                     <p style="line-height: 0; font-weight: 700;color: black;">Previous Training Sessions :</p>
-                    <div style="border-radius: 5px; border: 2px solid #f2661c; max-height: 300px;overflow-y: scroll;" id="session_container" class="py-2 px-1">
+                    <div style="border-radius: 5px; border: 2px solid #1b3a62; max-height: 300px;overflow-y: scroll;" id="session_container" class="py-2 px-1">
 
                         <table class="table">
 
@@ -197,7 +197,7 @@
 
                 <div class="col-9">
 
-                    <div style="border-radius: 5px;border: 2px solid #f2661c; width: 100%;height: auto; padding-top: 10px;">
+                    <div style="border-radius: 5px;border: 2px solid #1b3a62; width: 100%;height: auto; padding-top: 10px;">
 
                         <div class="spinner-border custom-text-dark" id="chat_switch_spinner" role="status" style="width: 30px; height: 30px;top: 250px;
                         position: relative; left: 50%;" wire:loading wire:target="selectSession">
@@ -272,7 +272,7 @@
                     <div class="px-3 py-2">
                         <form wire:submit.prevent="sendMessage">
 
-                            <input wire:model="message" placeholder="Enter your message here." type="text" style="width: 90%; border-radius: 15px;border: 1px solid #f2661c;" class="px-1">
+                            <input wire:model="message" placeholder="Enter your message here." type="text" style="width: 90%; border-radius: 15px;border: 1px solid #1b3a62;" class="px-1">
 
                             <button class="bg-transparent" type="submit" style="border:none" id="submit_btn">
                                 <img src="{{asset('assets\img\icons\mynaui_send-solid.png')}}"  width="25" height="25" >
@@ -374,7 +374,7 @@
 
                             <div class="py-4 d-flex justify-content-center">
                                 <button class="m-1"
-                                        style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
+                                        style="background:#1b3a62;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
                                     <img src="{{asset('assets/img/icons/Add.svg')}}" width="20">
 
                                     <span wire:loading.remove wire:target="createNewTrainingSession">Add</span>

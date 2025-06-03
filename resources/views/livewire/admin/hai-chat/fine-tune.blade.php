@@ -11,7 +11,7 @@
                 <button class="m-1"
                         data-bs-toggle="modal"
                         data-bs-target="#addQuestionAnswerModel"
-                        style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 400;padding: 5px 10px 5px 10px;">
+                        style="background:#1b3a62;color:white;border-radius: 24px;border: 2px; font-weight: 400;padding: 5px 10px 5px 10px;">
                     <img src="{{asset('assets/img/icons/Add.svg')}}" width="20">
                     Add Question
                 </button>
@@ -20,7 +20,7 @@
                         title="It download questions in jsonl format"
                         wire:click="downloadQuestions"
                         wire:target="downloadQuestions" wire:loading.attr="disabled"
-                        style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 400;padding: 5px 10px 5px 10px;">
+                        style="background:#1b3a62;color:white;border-radius: 24px;border: 2px; font-weight: 400;padding: 5px 10px 5px 10px;">
                     <img src="{{asset('assets/img/icons/pushicon.svg')}}" width="20">
                     Push Fine Tune
                 </button>
@@ -47,7 +47,7 @@
                         <td class="text-md" style="padding-left: 15px !important;">
                             @if(strlen($content['question']) > 25)
                                 {{substr($content['question'], 0, 22)}}
-                                &nbsp;<span style="color: #f2661c; cursor: pointer;font-size: 11px;"
+                                &nbsp;<span style="color: #1b3a62; cursor: pointer;font-size: 11px;"
                                         data-bs-toggle="modal" data-bs-target="#viewQuestionAnswerModel_{{$content['id']}}">
                                     Read More</span>
                             @else
@@ -58,7 +58,7 @@
                         <td class="text-md">
                             @if(strlen($content['answer']) > 45)
                                 {!! substr($content['answer'], 0, 42) !!}
-                                &nbsp;<span style="color: #f2661c; cursor: pointer; font-size: 11px;"
+                                &nbsp;<span style="color: #1b3a62; cursor: pointer; font-size: 11px;"
                                             data-bs-toggle="modal" data-bs-target="#viewQuestionAnswerModel_{{$content['id']}}">
                                     Read More</span>
                             @else
@@ -69,7 +69,7 @@
                         <td class="text-center">
                             @if($content['is_fine_tuned'])
                                 <img src="{{asset('assets/img/icons/Group 33730.svg')}}" width="20">
-{{--                                <i class="fa-solid fa-check" style="color: #f2661c;"></i>--}}
+{{--                                <i class="fa-solid fa-check" style="color: #1b3a62;"></i>--}}
                             @else
                                 <img src="{{asset('assets/img/icons/Cross.svg')}}" width="20">
 {{--                                <i class="fa-solid fa-xmark"></i>--}}
@@ -106,7 +106,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                         <div>
-                                            <h4 style="color: #f2661c;">{{$content['question']}}</h4>
+                                            <h4 style="color: #1b3a62;">{{$content['question']}}</h4>
                                             <div style="color: white !important;">{!! $content['answer']  !!}</div>
                                         </div>
                                     </div>
@@ -139,7 +139,7 @@
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body pt-0">
-                        <label class="form-label fs-4 text-white">Add content for Fine-tuning</label>
+                        <label class="form-label fs-4" style="color: #1b3a62">Add content for Fine-tuning</label>
 
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                 aria-label="Close" id="close-add-modal-button">
@@ -153,20 +153,20 @@
                                         <div class="form-group">
                                             <div class="p-1">
                                                 <label class="text-white">Question</label>
-                                                <input style="background-color: #0f1534;color: lightgrey !important"
-                                                       class="form-control text-white"
+                                                <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                                       class="form-control"
                                                        type="text" wire:model="question" placeholder="Enter question">
                                             </div>
 
                                             <div class="p-1">
                                                 <label for="textarea" class="text-white">Answer</label>
-                                                <textarea id="textarea" rows="3" style="background-color: #0f1534;color: lightgrey !important"
-                                                       class="form-control text-white"
+                                                <textarea id="textarea" rows="3" style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                                       class="form-control"
                                                        type="text" wire:model="answer" placeholder="Enter question's answer">
                                                 </textarea>
                                             </div>
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
-                                                    style="background-color: #f2661c ">Add
+                                                    style="background-color: #1b3a62 ">Add
                                             </button>
                                         </div>
                                     </div>
@@ -186,7 +186,7 @@
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body pt-0">
-                        <label class="form-label fs-4 text-white">Edit content for Fine-tuning</label>
+                        <label class="form-label fs-4" style="color: #1b3a62">Edit content for Fine-tuning</label>
 
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                 aria-label="Close" id="close-edit-modal-button">
@@ -200,20 +200,20 @@
                                         <div class="form-group">
                                             <div class="p-1">
                                                 <label class="text-white">Question</label>
-                                                <input style="background-color: #0f1534;color: lightgrey !important"
-                                                       class="form-control text-white"
+                                                <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                                       class="form-control"
                                                        type="text" wire:model="updateQuestion" placeholder="Enter question">
                                             </div>
 
                                             <div class="p-1">
                                                 <label for="textarea" class="text-white">Answer</label>
-                                                <textarea id="textarea" rows="3" style="background-color: #0f1534;color: lightgrey !important"
-                                                          class="form-control text-white"
+                                                <textarea id="textarea" rows="3" style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                                          class="form-control"
                                                           type="text" wire:model="updateAnswer" placeholder="Enter question's answer">
                                                 </textarea>
                                             </div>
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
-                                                    style="background-color: #f2661c ">Update
+                                                    style="background-color: #1b3a62 ">Update
                                             </button>
                                         </div>
                                     </div>

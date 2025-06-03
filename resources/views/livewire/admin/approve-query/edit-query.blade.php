@@ -6,7 +6,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <label class="form-label fs-4 text-white">Query Answer</label>
+                                <label class="form-label fs-4" style="color: #1b3a62">Query Answer</label>
                                 <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                         aria-label="Close" id="close-query-edit-modal-{{$queryId}}">
                                     <span aria-hidden="true">&times;</span>
@@ -15,22 +15,22 @@
                     <form wire:submit.prevent="updateAndApproveAnswer">
                         @csrf
                             <div class="form-group mt-2">
-                                    <label class="form-label fs-6 text-white">Client Query:</label>
+                                    <label class="form-label fs-6" style="color: #1b3a62">Client Query:</label>
                                     <span
-                                        style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$question['query'] ?? null}}</span>
-                                    <label class="form-label fs-4 text-white">Answer:</label>
+                                        style="color: #1b3a62;font-size: 20px;font-weight: 800;display: flex;">{{$question['query'] ?? null}}</span>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Answer:</label>
                                     <span class="copy-text float-end" >
                                        <!-- Copy text link -->
-                                        <a class="btn-sm text-white px-3"  style="background-color: #f2661c;" onclick="copyToClipboard(`{{$answer}}`,`{{$queryId}}`, this)"><strong id="copy-text{{$queryId}}">Copy</strong></a>
+                                        <a class="btn-sm text-white px-3"  style="background-color: #1b3a62;" onclick="copyToClipboard(`{{$answer}}`,`{{$queryId}}`, this)"><strong id="copy-text{{$queryId}}">Copy</strong></a>
 
                                   </span>
                                     <br>
-                                    <span class="mt-2">{{$answer ?? null}}</span>
+                                    <span class="mt-2" style="color: #1b3a62">{{$answer ?? null}}</span>
                                     <br>
-                                    <label class="form-label fs-6 text-white mt-4">Update Answer:</label>
+                                    <label class="form-label fs-6 mt-4" style="color: #1b3a62">Update Answer:</label>
                                     <div class="form-group">
                                         <textarea rows="4" class="form-control text-white mt-2"
-                                                  style="background-color: #0f1535"
+                                                  style="background-color: #1b3a62"
                                                   wire:model.defer="updatedAnswer"
                                                   placeholder="update answer">
                                         </textarea>
@@ -316,287 +316,287 @@
                             @endphp
                             <div class="row mt-4">
                                 <div class="d-flex">
-                                    <div class="text-white box-grid-size" id="style_sa" onmousemove="changeColorStyleSA()"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="style_sa" onmousemove="changeColorStyleSA()"
                                          onmouseout="clearColorStyleSA()">SA
                                     </div>
-                                    <div class="text-white box-grid-size" id="style_ma" onmousemove="changeColorStyleMA()"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="style_ma" onmousemove="changeColorStyleMA()"
                                          onmouseout="clearColorStyleMA()">MA
                                     </div>
-                                    <div class="text-white box-grid-size" id="style_jo" onmousemove="changeColorStyleJO()"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="style_jo" onmousemove="changeColorStyleJO()"
                                          onmouseout="clearColorStyleJO()">JO
                                     </div>
-                                    <div class="text-white box-grid-size" id="style_lu" onmousemove="changeColorStyleLU()"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="style_lu" onmousemove="changeColorStyleLU()"
                                          onmouseout="clearColorStyleLU()">LU
                                     </div>
-                                    <div class="text-white box-grid-size" id="style_ven" onmousemove="changeColorStyleVEN()"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="style_ven" onmousemove="changeColorStyleVEN()"
                                          onmouseout="clearColorStyleVEN()">VEN
                                     </div>
-                                    <div class="text-white box-grid-size" id="style_mer" onmousemove="changeColorStyleMER()"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="style_mer" onmousemove="changeColorStyleMER()"
                                          onmouseout="clearColorStyleMER()">MER
                                     </div>
-                                    <div class="text-white box-grid-size" id="style_so" onmousemove="changeColorStyleSO()"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="style_so" onmousemove="changeColorStyleSO()"
                                          onmouseout="clearColorStyleSO()">SO
                                     </div>
-                                    <div class="text-white box-grid-size">#</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">#</div>
                                 </div>
                                 <div class="d-flex">
                                     <div
-                                        class="text-white box-grid-size {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30? 'border-success' : 'border-white')) }}">{{$grid['sa']}}</div>
+                                        class=" box-grid-size {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['sa']}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : 'border-white')) }}">{{$grid['ma']}}</div>
+                                        class=" box-grid-size {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['ma']}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : 'border-white')) }}">{{$grid['jo']}}</div>
+                                        class=" box-grid-size {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['jo']}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}">{{$grid['lu']}}</div>
+                                        class=" box-grid-size {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['lu']}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}">{{$grid['ven']}}</div>
+                                        class=" box-grid-size {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['ven']}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}">{{$grid['mer']}}</div>
+                                        class=" box-grid-size {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['mer']}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">{{$grid['so']}}</div>
+                                        class=" box-grid-size {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">{{$grid['so']}}</div>
                                     <div
-                                        class="text-white box-grid-size">{{$grid['sa'] + $grid['ma'] + $grid['jo'] + $grid['lu'] + $grid['ven'] + $grid['mer'] + $grid['so']}}</div>
+                                        class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['sa'] + $grid['ma'] + $grid['jo'] + $grid['lu'] + $grid['ven'] + $grid['mer'] + $grid['so']}}</div>
                                 </div>
                                 <div class="d-flex">
                                     <div
-                                        class="text-white box-grid-size {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30? 'border-success' : 'border-white')) }}">{{$second_row_sa}}</div>
+                                        class=" box-grid-size {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_sa}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_ma}}</div>
+                                        class=" box-grid-size {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_ma}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_jo}}</div>
+                                        class=" box-grid-size {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_jo}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_lu}}</div>
+                                        class=" box-grid-size {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_lu}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_ven}}</div>
+                                        class=" box-grid-size {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_ven}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_mer}}</div>
+                                        class=" box-grid-size {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_mer}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">
+                                        class=" box-grid-size {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">
                                         0
                                     </div>
                                     <div
-                                        class="text-white box-grid-size">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</div>
+                                        class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</div>
                                 </div>
                                 <div class="d-flex">
                                     <div
-                                        class="text-white box-grid-size {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30? 'border-success' : 'border-white')) }}">{{$third_row_sa}}</div>
+                                        class=" box-grid-size {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_sa}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_ma}}</div>
+                                        class=" box-grid-size {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_ma}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_jo}}</div>
+                                        class=" box-grid-size {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_jo}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_lu}}</div>
+                                        class=" box-grid-size {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_lu}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_ven}}</div>
+                                        class=" box-grid-size {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_ven}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_mer}}</div>
+                                        class=" box-grid-size {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_mer}}</div>
                                     <div
-                                        class="text-white box-grid-size {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">
+                                        class=" box-grid-size {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">
                                         0
                                     </div>
                                     <div
-                                        class="text-white box-grid-size">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer + $third_row_so}}</div>
+                                        class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer + $third_row_so}}</div>
                                 </div>
                             </div>
                             <div class="row mt-4" style="overflow: overlay;">
                                 <div class="d-flex">
-                                    <div class="text-white box-grid-size" id="feature_de"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_de"
                                          onmousemove="changeColorFeatureDE()" onmouseout="clearColorFeatureDE()">DE
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_dom"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_dom"
                                          onmousemove="changeColorFeatureDOM()" onmouseout="clearColorFeatureDOM()">DOM
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_fe"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_fe"
                                          onmousemove="changeColorFeatureFE()" onmouseout="clearColorFeatureFE()">FE
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_gre"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_gre"
                                          onmousemove="changeColorFeatureGRE()" onmouseout="clearColorFeatureGRE()">GRE
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_lun"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_lun"
                                          onmousemove="changeColorFeatureLUN()" onmouseout="clearColorFeatureLUN()">LUN
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_nai"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_nai"
                                          onmousemove="changeColorFeatureNAI()" onmouseout="clearColorFeatureNAI()">NAI
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_ne"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_ne"
                                          onmousemove="changeColorFeatureNE()" onmouseout="clearColorFeatureNE()">NE
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_pow"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_pow"
                                          onmousemove="changeColorFeaturePOW()" onmouseout="clearColorFeaturePOW()">POW
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_sp"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_sp"
                                          onmousemove="changeColorFeatureSP()" onmouseout="clearColorFeatureSP()">SP
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_tra"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_tra"
                                          onmousemove="changeColorFeatureTRA()" onmouseout="clearColorFeatureTRA()">TRA
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_van"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_van"
                                          onmousemove="changeColorFeatureVAN()" onmouseout="clearColorFeatureVAN()">VAN
                                     </div>
-                                    <div class="text-white box-grid-size" id="feature_wil"
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62" id="feature_wil"
                                          onmousemove="changeColorFeatureWIL()" onmouseout="clearColorFeatureWIL()">WIL
                                     </div>
-                                    <div class="text-white box-grid-size">#</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">#</div>
                                 </div>
                                 <div class="d-flex">
                                     <div
-                                        class="text-white box-grid-size @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif">{{$de}}</div>
+                                        class=" box-grid-size @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$de}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif">{{$dom}}</div>
+                                        class=" box-grid-size @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$dom}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif">{{$fe}}</div>
+                                        class=" box-grid-size @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$fe}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif">{{$gre}}</div>
+                                        class=" box-grid-size @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$gre}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif">{{$lun}}</div>
+                                        class=" box-grid-size @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$lun}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif">{{$nai}}</div>
+                                        class=" box-grid-size @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$nai}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif">{{$ne}}</div>
+                                        class=" box-grid-size @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$ne}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif">{{$pow}}</div>
+                                        class=" box-grid-size @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$pow}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif">{{$sp}}</div>
+                                        class=" box-grid-size @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$sp}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif">{{$tra}}</div>
+                                        class=" box-grid-size @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$tra}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif">{{$van}}</div>
+                                        class=" box-grid-size @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$van}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif">{{$wil}}</div>
-                                    <div class="text-white box-grid-size">{{$result}}</div>
+                                        class=" box-grid-size @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$wil}}</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">{{$result}}</div>
                                 </div>
                                 <div class="d-flex">
                                     <div
-                                        class="text-white box-grid-size @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif">{{$second_row_de}}</div>
+                                        class=" box-grid-size @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_de}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif">{{$second_row_dom}}</div>
+                                        class=" box-grid-size @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_dom}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif">{{$second_row_fe}}</div>
+                                        class=" box-grid-size @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_fe}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif">{{$second_row_gre}}</div>
+                                        class=" box-grid-size @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_gre}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif">{{$second_row_lun}}</div>
+                                        class=" box-grid-size @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_lun}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif">{{$second_row_nai}}</div>
+                                        class=" box-grid-size @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_nai}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif">{{$second_row_ne}}</div>
+                                        class=" box-grid-size @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_ne}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif">{{$second_row_pow}}</div>
+                                        class=" box-grid-size @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_pow}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif">{{$second_row_sp}}</div>
+                                        class=" box-grid-size @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_sp}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif">{{$second_row_tra}}</div>
+                                        class=" box-grid-size @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_tra}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif">{{$second_row_van}}</div>
+                                        class=" box-grid-size @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_van}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif">{{$second_row_wil}}</div>
-                                    <div class="text-white box-grid-size">{{$second_row_result}}</div>
+                                        class=" box-grid-size @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_wil}}</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_result}}</div>
                                 </div>
                                 <div class="d-flex">
                                     <div
-                                        class="text-white box-grid-size @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif">{{$third_row_de}}</div>
+                                        class=" box-grid-size @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_de}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif">{{$third_row_dom}}</div>
+                                        class=" box-grid-size @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_dom}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif">{{$third_row_fe}}</div>
+                                        class=" box-grid-size @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_fe}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif">{{$third_row_gre}}</div>
+                                        class=" box-grid-size @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_gre}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif">{{$third_row_lun}}</div>
+                                        class=" box-grid-size @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_lun}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif">{{$third_row_nai}}</div>
+                                        class=" box-grid-size @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_nai}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif">{{$third_row_ne}}</div>
+                                        class=" box-grid-size @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_ne}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif">{{$third_row_pow}}</div>
+                                        class=" box-grid-size @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_pow}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif">{{$third_row_sp}}</div>
+                                        class=" box-grid-size @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_sp}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif">{{$third_row_tra}}</div>
+                                        class=" box-grid-size @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_tra}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif">{{$third_row_van}}</div>
+                                        class=" box-grid-size @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_van}}</div>
                                     <div
-                                        class="text-white box-grid-size @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif">{{$third_row_wil}}</div>
-                                    <div class="text-white box-grid-size">{{$third_row_result}}</div>
-                                </div>
-                            </div>
-                            <div class="row mt-4">
-                                <div class="d-flex">
-                                    <div class="text-white box-grid-size">G</div>
-                                    <div class="text-white box-grid-size">S</div>
-                                    <div class="text-white box-grid-size">C</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="text-white box-grid-size ">{{$gold = $grid['g']}}</div>
-                                    <div class="text-white box-grid-size ">{{$silver = $grid['s']}}</div>
-                                    <div class="text-white box-grid-size ">{{$copper = $grid['c']}}</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div
-                                        class="text-white box-grid-size ">{{$second_row_gold = $grid['mer'] + $grid['sa'] + $grid['so']}}</div>
-                                    <div
-                                        class="text-white box-grid-size ">{{$second_row_silver = $grid['ven'] + $grid['jo']}}</div>
-                                    <div
-                                        class="text-white box-grid-size ">{{$second_row_copper = $grid['ma'] + $grid['lu']}}</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="text-white box-grid-size ">{{$gold * $second_row_gold}}</div>
-                                    <div class="text-white box-grid-size ">{{$silver * $second_row_silver}}</div>
-                                    <div class="text-white box-grid-size ">{{$copper * $second_row_copper}}</div>
+                                        class=" box-grid-size @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_wil}}</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_result}}</div>
                                 </div>
                             </div>
                             <div class="row mt-4">
                                 <div class="d-flex">
-                                    <div class="text-white box-grid-size">EM</div>
-                                    <div class="text-white box-grid-size">INS</div>
-                                    <div class="text-white box-grid-size">INT</div>
-                                    <div class="text-white box-grid-size">MOV</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">G</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">S</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">C</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$gold = $grid['g']}}</div>
+                                    <div class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$silver = $grid['s']}}</div>
+                                    <div class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$copper = $grid['c']}}</div>
                                 </div>
                                 <div class="d-flex">
                                     <div
-                                        class="text-white box-grid-size {{$grid['em'] < 7 || $grid['em'] > 12 ? 'redBox' : ''}}">{{$grid['em']}}</div>
+                                        class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_gold = $grid['mer'] + $grid['sa'] + $grid['so']}}</div>
                                     <div
-                                        class="text-white box-grid-size {{$grid['ins'] < 7 || $grid['ins'] > 12 ? 'redBox' : ''}}">{{$grid['ins']}}</div>
+                                        class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_silver = $grid['ven'] + $grid['jo']}}</div>
                                     <div
-                                        class="text-white box-grid-size {{$grid['int'] < 7 || $grid['int'] > 12 ? 'redBox' : ''}}">{{$grid['int']}}</div>
-                                    <div
-                                        class="text-white box-grid-size {{$grid['mov'] < 7 || $grid['mov'] > 12 ? 'redBox' : ''}}">{{$grid['mov']}}</div>
+                                        class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_copper = $grid['ma'] + $grid['lu']}}</div>
                                 </div>
                                 <div class="d-flex">
-                                    <div
-                                        class="text-white box-grid-size {{ $second_row_em ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_em}}</div>
-                                    <div
-                                        class="text-white box-grid-size {{ $second_row_ins ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_ins}}</div>
-                                    <div
-                                        class="text-white box-grid-size {{ $second_row_int ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_int}}</div>
-                                    <div
-                                        class="text-white box-grid-size {{ $second_row_mov ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_mov}}</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div
-                                        class="text-white box-grid-size {{($third_row_em > 29 && $third_row_em < 301 && $third_row_em == $communication_third_style) ? 'greenBox' : (($third_row_em < 30 || $third_row_em > 300) ? 'redBox' : '') }}">{{$third_row_em}}</div>
-                                    <div
-                                        class="text-white box-grid-size {{($third_row_ins > 29 && $third_row_ins < 301 && $third_row_ins == $communication_third_style) ? 'greenBox' : (($third_row_ins < 30 || $third_row_ins > 300) ? 'redBox' : '') }}">{{$third_row_ins}}</div>
-                                    <div
-                                        class="text-white box-grid-size {{($third_row_int > 29 && $third_row_int < 301 && $third_row_int == $communication_third_style) ? 'greenBox' : (($third_row_int < 30 || $third_row_int > 300) ? 'redBox' : '') }}">{{$third_row_int}}</div>
-                                    <div
-                                        class="text-white box-grid-size {{($third_row_mov > 29 && $third_row_mov < 301 && $third_row_mov == $communication_third_style) ? 'greenBox' : (($third_row_mov < 30 || $third_row_mov > 300) ? 'redBox' : '') }}">{{$third_row_mov}}</div>
+                                    <div class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$gold * $second_row_gold}}</div>
+                                    <div class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$silver * $second_row_silver}}</div>
+                                    <div class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$copper * $second_row_copper}}</div>
                                 </div>
                             </div>
                             <div class="row mt-4">
                                 <div class="d-flex">
-                                    <div class="text-white box-grid-size">+</div>
-                                    <div class="text-white box-grid-size">-</div>
-                                    <div class="text-white box-grid-size">PV</div>
-                                    <div class="text-white box-grid-size">EP</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">EM</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">INS</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">INT</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">MOV</div>
                                 </div>
                                 <div class="d-flex">
                                     <div
-                                        class="text-white box-grid-size ">{{$positive = $grid['sa'] + $grid['jo'] + $grid['ven'] + $grid['so']}}</div>
+                                        class=" box-grid-size {{$grid['em'] < 7 || $grid['em'] > 12 ? 'redBox' : ''}}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['em']}}</div>
                                     <div
-                                        class="text-white box-grid-size ">{{$negative = $grid['ma'] + $grid['lu'] + $grid['mer']}}</div>
-                                    <div class="text-white box-grid-size ">{{$positive - $negative}}</div>
-                                    <div class="text-white box-grid-size ">{{$positive + $negative}}</div>
+                                        class=" box-grid-size {{$grid['ins'] < 7 || $grid['ins'] > 12 ? 'redBox' : ''}}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['ins']}}</div>
+                                    <div
+                                        class=" box-grid-size {{$grid['int'] < 7 || $grid['int'] > 12 ? 'redBox' : ''}}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['int']}}</div>
+                                    <div
+                                        class=" box-grid-size {{$grid['mov'] < 7 || $grid['mov'] > 12 ? 'redBox' : ''}}" style="color: #1b3a62 ; border-color: #1b3a62">{{$grid['mov']}}</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div
+                                        class=" box-grid-size {{ $second_row_em ==  $communication_style ? 'greenBox' : ''}}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_em}}</div>
+                                    <div
+                                        class=" box-grid-size {{ $second_row_ins ==  $communication_style ? 'greenBox' : ''}}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_ins}}</div>
+                                    <div
+                                        class=" box-grid-size {{ $second_row_int ==  $communication_style ? 'greenBox' : ''}}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_int}}</div>
+                                    <div
+                                        class=" box-grid-size {{ $second_row_mov ==  $communication_style ? 'greenBox' : ''}}" style="color: #1b3a62 ; border-color: #1b3a62">{{$second_row_mov}}</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div
+                                        class=" box-grid-size {{($third_row_em > 29 && $third_row_em < 301 && $third_row_em == $communication_third_style) ? 'greenBox' : (($third_row_em < 30 || $third_row_em > 300) ? 'redBox' : '') }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_em}}</div>
+                                    <div
+                                        class=" box-grid-size {{($third_row_ins > 29 && $third_row_ins < 301 && $third_row_ins == $communication_third_style) ? 'greenBox' : (($third_row_ins < 30 || $third_row_ins > 300) ? 'redBox' : '') }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_ins}}</div>
+                                    <div
+                                        class=" box-grid-size {{($third_row_int > 29 && $third_row_int < 301 && $third_row_int == $communication_third_style) ? 'greenBox' : (($third_row_int < 30 || $third_row_int > 300) ? 'redBox' : '') }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_int}}</div>
+                                    <div
+                                        class=" box-grid-size {{($third_row_mov > 29 && $third_row_mov < 301 && $third_row_mov == $communication_third_style) ? 'greenBox' : (($third_row_mov < 30 || $third_row_mov > 300) ? 'redBox' : '') }}" style="color: #1b3a62 ; border-color: #1b3a62">{{$third_row_mov}}</div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="d-flex">
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">+</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">-</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">PV</div>
+                                    <div class=" box-grid-size" style="color: #1b3a62 ; border-color: #1b3a62">EP</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div
+                                        class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$positive = $grid['sa'] + $grid['jo'] + $grid['ven'] + $grid['so']}}</div>
+                                    <div
+                                        class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$negative = $grid['ma'] + $grid['lu'] + $grid['mer']}}</div>
+                                    <div class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$positive - $negative}}</div>
+                                    <div class=" box-grid-size " style="color: #1b3a62 ; border-color: #1b3a62">{{$positive + $negative}}</div>
                                 </div>
                             </div>
                         @endif
