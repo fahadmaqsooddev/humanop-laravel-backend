@@ -198,7 +198,7 @@
             </div>
             <div class="col-lg-9 mt-lg-0 mt-4">
                 <!-- Card Profile -->
-                <div class="card card-body background-none" id="profile">
+                <div class="card card-body" style="background-color: white !important;" id="profile">
                     <div class="row">
                         <div class="col-sm-auto col-4">
                             <div class="avatar avatar-xl position-relative">
