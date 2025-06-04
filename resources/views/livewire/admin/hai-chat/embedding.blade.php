@@ -418,7 +418,7 @@
 {{--        <!-- Example Card -->--}}
 {{--        @foreach($embeddings as $embedding)--}}
 {{--            <div class="mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">--}}
-{{--                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #d26622;">--}}
+{{--                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #1b3a62;">--}}
 {{--                    <div class="d-flex flex-column gap-3 chat-card" style="width: 100%">--}}
 {{--                        <div class="d-flex flex-row">--}}
 {{--                            <div class="col-12">--}}

@@ -30,7 +30,7 @@
         }
 
         button.play-pause-center {
-            color: rgb(210, 102, 34);
+            color: #1b3a62;
             font-size: 6rem;
             padding: 0 0 15% 0;
 
@@ -383,7 +383,7 @@
                                             <div
                                                 class="center-play-pause d-flex align-items-center justify-content-center h-75 w-100   mx-auto">
                                                 <button class="btn play-pause-center fs-1"
-                                                        style="color: rgb(210, 102, 34);"><i class="fas fa-play"></i>
+                                                        style="color: #1b3a62;"><i class="fas fa-play"></i>
                                                 </button>
                                             </div>
                                             <div class="video-timeline">

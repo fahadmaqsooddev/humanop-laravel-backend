@@ -41,7 +41,7 @@ use App\Http\Controllers\AdminControllers\SummaryReportController;
 */
 
 Route::get('/login', [SessionController::class, 'create'])->name('login');
-Route::post('/session', [SessionController::class, 'store']);
+Route::any('/session', [SessionController::class, 'store']);
 Route::get('/login/forgot-password', [ChangePasswordController::class, 'create'])->name('forgot_password');
 Route::get('/check-email-from-app/{id}', [ChangePasswordController::class, 'checkEmailFromApp'])->name('check_email_app');
 Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
@@ -66,6 +66,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
     // ====================================== Admin Dashboard ================================ //
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
+    Route::get('/welcome-dashboard', [AdminController::class, 'welcomeDashboard'])->name('admin_welcome_dashboard');
     Route::get('/practitioner-profile-overview/{id?}', [AdminController::class, 'profileOverview'])->name('practitioner_profile_overview');
     Route::get('/practitioner-grid/{id}', [AdminController::class, 'grid'])->name('practitioner_grid');
     Route::get('/download-practitioner-report/{id}', [AdminController::class, 'downloadUserReport'])->name('download_practitioner_report');
