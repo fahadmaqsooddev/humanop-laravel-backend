@@ -413,24 +413,24 @@
                                                                     </ul>
                                                                 </div>
 
-{{--                                                            </li>--}}
-{{--                                                            <li class="nav-item {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}">--}}
-{{--                                                                <a class="nav-link {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}"--}}
-{{--                                                                   href="{{ route('admin_hai_chat_comparison') }}">--}}
-{{--                                                                    <span class="sidenav-mini-icon"><img--}}
-{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
-{{--                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>--}}
-{{--                                                                    <span class="sidenav-normal"><img--}}
-{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
-{{--                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>--}}
-{{--                                                                    <span class="sidenav-normal"> Comparison </span>--}}
-{{--                                                                </a>--}}
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_hai_chat_comparison') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Comparison </span>
+                                                                </a>
 
-{{--                                                            </li>--}}
-{{--                                                        </ul>--}}
-{{--                                                    </div>--}}
-{{--                                                </li>--}}
-{{--                                            @endcan--}}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            @endcan
                                             @can('cms_admin')
                                                 <li class="nav-item ">
                                                     <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
