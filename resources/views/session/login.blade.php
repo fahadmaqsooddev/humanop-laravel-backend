@@ -10,7 +10,7 @@
             <div class="container">
                 <div class="row d-flex flex-column justify-content-center">
                     <div class="col-lg-5 text-center mx-auto">
-                        <h1 class="text-white mb-2 mt-5">Welcome!</h1>
+                        <h1 class="mb-2 mt-6" style="color: #0f1534">Welcome!</h1>
                     </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
         <div class="container">
             <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
                 <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
-                    <div class="card z-index-0" style="background-color: #F3DEBA">
+                    <div class="card z-index-0" style="background-color: white">
                         @if($errors->any())
                             <div class="m-3  alert alert-warning alert-dismissible fade show text-center" role="alert">
                                 @if(count($errors->messages()) > 1)
@@ -48,32 +48,6 @@
                             </div>
                         @endif
                         <div class="card-header text-center pt-4">
-                            <h5 class="" style="color: #0f1535">Click To Login With:</h5>
-                        </div>
-                        <div class="css-mgpqwz d-flex justify-content-center">
-                            <div>
-                                @if(!empty($slug) && !empty($slug2))
-                                    <a href="{{ url('/' . $slug. '/'. $slug2 .'/auth/google') }}">
-                                        <button
-                                            class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
-                                            type="button"
-                                            style="background-color: rgb(19, 21, 54);">
-                                            <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt=""
-                                                 width="30px" ;>
-                                        </button>
-                                    </a>
-                                @else
-                                    <a href="{{ url('auth/google') }}">
-                                        <button
-                                            class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
-                                            type="button"
-                                            style="background-color: rgb(19, 21, 54);">
-                                            <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt=""
-                                                 width="30px" ;>
-                                        </button>
-                                    </a>
-                                @endif
-                            </div>
                         </div>
                         <p class="text-center" style="color: #0f1535"><b>Login with your email:</b></p>
                         <div class="card-body">
@@ -84,10 +58,10 @@
                                               action="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('login-client-to-practitioner')}}"
                                               method="POST">
                                             <input type="text" class="form-control" hidden name="slug" value="{{$slug}}"
-                                                   style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                   style="background-color: #eaf3ff; color: black; border-radius: 15px;">
                                             <input type="text" class="form-control" hidden name="slug2"
                                                    value="{{$slug2}}"
-                                                   style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                   style="background-color: #eaf3ff; color: black; border-radius: 15px;">
                                             @endif
                                             @csrf
                                             <div class="mb-3">
@@ -96,7 +70,7 @@
                                                        aria-label="Email" name="email" id="email"
                                                        @if(isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}"
                                                        @endif
-                                                       style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                       style="background-color: #eaf3ff; color: black; border-radius: 15px;">
                                             </div>
 
                                             <div class="mb-1 position-relative">
@@ -107,7 +81,7 @@
                                                        maxlength="30"
                                                        @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}"
                                                        @endif
-                                                       style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                       style="background-color: #eaf3ff; color: black; border-radius: 15px;">
 
                                                 <!-- Password toggle icon -->
                                                 <a class="position-absolute" id="togglePassword"
@@ -136,10 +110,10 @@
                                                         style="background-color: #1b3a62; color: white;">Sign in
                                                 </button>
                                             </div>
-                                            <p class="text-sm text-center mt-3 mb-0"><a style="color:rgb(210, 103, 34);"
+                                            <p class="text-sm text-center mt-3 mb-0"><a style="color: #0f1534;"
                                                                                         href="{{route('privacy')}}">privacy
                                                     policy</a></p>
-                                            <p class="text-sm text-center mt-3 mb-0"><a style="color:rgb(210, 103, 34);"
+                                            <p class="text-sm text-center mt-3 mb-0"><a style="color: #0f1534;"
                                                                                         href="{{route('term_of_service')}}">term
                                                     of service</a></p>
                                         </form>
