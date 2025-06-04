@@ -139,7 +139,7 @@ class PermissionSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'name' => 'support_admin',
+                'name' => 'b2b_support_admin',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()

@@ -44,6 +44,7 @@
                         </div>
                     </div>
                 </div>
+                @canany(['user_management', 'assessment_management', 'technology_management', 'team_management', 'cms_admin', 'support_admin', 'client_queries', 'approve_queries'])
                 <div class="row" style="justify-content: center">
                     <div class="col-lg-5 col-sm-5 mt-6">
                         <a href="{{ route('admin_dashboard') }}" target="_blank">
@@ -62,6 +63,8 @@
                         </a>
                     </div>
                 </div>
+                @endcanany
+                @canany(['organizations', 'support', 'role_template_manage', 'invites', 'pricing_plan', 'b2b_support_admin', 'coupons'])
                 <div class="row" style="justify-content: center">
                     <div class="col-lg-5 col-sm-5 mt-3">
                         <a href="https://maestro-dev.humanoptech.com/session?email={{ urlencode(Illuminate\Support\Facades\Session::get('login_user_email')) }}&password={{ urlencode(Illuminate\Support\Facades\Session::get('login_user_password')) }}" target="_blank">
@@ -80,6 +83,8 @@
                         </a>
                     </div>
                 </div>
+                @endcanany
+                @canany(['persona', 'brains', 'knowledge', 'advance', 'comparison'])
                 <div class="row" style="justify-content: center">
                     <div class="col-lg-5 col-sm-5 mt-3">
                         <a href="https://dev-hai.humanoptech.com/session?email={{ urlencode(Illuminate\Support\Facades\Session::get('login_user_email')) }}&password={{ urlencode(Illuminate\Support\Facades\Session::get('login_user_password')) }}" target="_blank">
@@ -98,6 +103,7 @@
                         </a>
                     </div>
                 </div>
+                @endcanany
             </div>
         </div>
     </main>
