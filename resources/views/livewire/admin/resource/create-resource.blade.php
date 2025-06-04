@@ -32,10 +32,6 @@
     </style>
 @endpush
 <div class="row container-fluid">
-    {{-- {{dd($booleanValue)}} --}}
-    {{-- {{dd($resource_file)}}  --}}
-{{-- {{dd($link)}} --}}
-{{-- {{dd($editResourceData)}} --}}
 
     <div class="col-lg-9 position-relative z-index-2">
         <div class="mb-4">
@@ -69,7 +65,7 @@
                 <div class="col-lg-8 col-sm-8">
 
                     <div class="card mb-4">
-                        <a style="cursor: pointer;" onclick="toggleCategoryBtn(`{{$category->id}}`)"
+                        <a style="cursor: pointer; background-color: white; border-radius: 15px; border: 2px solid #1b3a62" onclick="toggleCategoryBtn(`{{$category->id}}`);"
                            data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false"
                            aria-controls="collapse-{{$category->name}}">
                             <div class="card-body p-3">
@@ -78,7 +74,7 @@
                                         <div class="numbers">
 
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">
+                                               style="color: #1b3a62;">
                                                 {{$category['name']}}
                                             </p>
 
@@ -98,7 +94,7 @@
                                 </div>
                             </div>
                         </a>
-                        <div class="d-none p-3 py-0" id="category_edit_{{$category->id}}">
+                        <div class="d-none p-3 py-0 mt-4" id="category_edit_{{$category->id}}">
                             <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px"
                                     onclick="confirmDeleteCategory('{{$category->id }}')" class="btn btn-sm mb-2">Delete
                                 Category
@@ -248,7 +244,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4" style="color: #1b3a62">Create Library Resource</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Create Library
+                                        Resource</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -300,11 +297,12 @@
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
                                         <input style="background-color: #eaf3ff;" class="form-control text-white "
-                                        wire:model.debounce.500ms="link" placeholder="Link" type="text" id="embedlink"
-                                         wire:change="getVideoLink"
+                                               wire:model.debounce.500ms="link" placeholder="Link" type="text"
+                                               id="embedlink"
+                                               wire:change="getVideoLink"
                                         >
                                         {{-- <p class="text-white mt-3">Updated Link: {{ $link }}</p> --}}
-                                    {{-- </div> --}}
+                                        {{-- </div> --}}
                                     </div>
                                     <label class="form-label fs-4 text-white ">OR</label>
                                     {{-- @if ($booleanValue==false && empty($link))
@@ -314,7 +312,8 @@
                                     {{-- <div class="form-group mt-4 {{ !empty($link) ? 'd-none' : 'd-block' }}"> --}}
 
                                     <div class="form-group mt-4 ">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or Audio
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
+                                            Audio
                                             [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input style="background-color: #eaf3ff;" wire:model="resource_file"
                                                id="resourse_file"
@@ -338,9 +337,7 @@
                                         </span>
 
 
-
-
-                                    {{-- </div> --}}
+                                        {{-- </div> --}}
                                     </div>
 
 
@@ -449,11 +446,12 @@
                                         <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
                                         {{-- <input style="background-color: #eaf3ff;" class="form-control"
                                                wire:model="link" placeholder="Link" type="text" > --}}
-                                               <input style="background-color: #eaf3ff;" class="form-control text-white "
-                                        wire:model.debounce.500ms="link" placeholder="Link" type="text" id="embedlink"
-                                         wire:change="getVideoLink"
+                                        <input style="background-color: #eaf3ff;" class="form-control text-white "
+                                               wire:model.debounce.500ms="link" placeholder="Link" type="text"
+                                               id="embedlink"
+                                               wire:change="getVideoLink"
                                         >
-                                    {{-- </div> --}}
+                                        {{-- </div> --}}
                                     </div>
 
                                     <label class="form-label fs-4 text-white ">OR</label>
@@ -469,18 +467,19 @@
                                     </div>
 
 
-                                        <div class="form-group mt-4 ">
-                                            <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or Audio
-                                                [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                                <input style="background-color: #eaf3ff;" wire:model="resource_file"
-                                                id="resource_file"
-                                                wire:change="getResourceFile"
-                                                class="form-control text-white resource_file1" type="file"
-                                                accept="image/,video/,audio/*"
-                                                onchange="logSelectedFile(event)">
-                                        </div>
+                                    <div class="form-group mt-4 ">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
+                                            Audio
+                                            [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
+                                        <input style="background-color: #eaf3ff;" wire:model="resource_file"
+                                               id="resource_file"
+                                               wire:change="getResourceFile"
+                                               class="form-control text-white resource_file1" type="file"
+                                               accept="image/,video/,audio/*"
+                                               onchange="logSelectedFile(event)">
+                                    </div>
 
-                                        <span wire:loading.flex wire:target="resource_file">
+                                    <span wire:loading.flex wire:target="resource_file">
                                             {{-- Uploading ... --}}
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status"
@@ -490,28 +489,27 @@
                                                 <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
                                               </div>
                                         </span>
-                                        @if(!empty($editResourceData['photo_url']))
-                                            <div class="form-group mt-4">
-                                                <img src="{{$editResourceData['photo_url']['url'] ?? null}}"
-                                                     height="120"
-                                                     width="200">
-                                            </div>
-                                        @elseif(!empty($editResourceData['video_url']))
-                                            <div class="form-group mt-4">
-                                                <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
-                                                       style="height: 200px;"></video>
-                                            </div>
-                                        @elseif(!empty($editResourceData['audio_url']))
-                                            <div class="form-group mt-4">
-                                                <audio controls style="width: 100%;">
-                                                    <source src="{{ $editResourceData['audio_url']['path'] }}"
-                                                            type="audio/mpeg">
-                                                    Your browser does not support the audio element.
-                                                </audio>
-                                            </div>
-                                        @else
-                                        @endif
-
+                                    @if(!empty($editResourceData['photo_url']))
+                                        <div class="form-group mt-4">
+                                            <img src="{{$editResourceData['photo_url']['url'] ?? null}}"
+                                                 height="120"
+                                                 width="200">
+                                        </div>
+                                    @elseif(!empty($editResourceData['video_url']))
+                                        <div class="form-group mt-4">
+                                            <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
+                                                   style="height: 200px;"></video>
+                                        </div>
+                                    @elseif(!empty($editResourceData['audio_url']))
+                                        <div class="form-group mt-4">
+                                            <audio controls style="width: 100%;">
+                                                <source src="{{ $editResourceData['audio_url']['path'] }}"
+                                                        type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </div>
+                                    @else
+                                    @endif
 
 
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
@@ -579,36 +577,36 @@
     </div>
 
     @if($booleanValue)
-<script>
+        <script>
 
-const resourceFileInput = document.querySelector('.resource_file1');
+            const resourceFileInput = document.querySelector('.resource_file1');
 
-if (resourceFileInput) {
+            if (resourceFileInput) {
 
-    resourceFileInput.value = "";
+                resourceFileInput.value = "";
 
-} else {
-    console.log("Resource file input not found.");
-}
+            } else {
+                console.log("Resource file input not found.");
+            }
 
-</script>
-@endif
+        </script>
+    @endif
 
     @if($booleanValue)
-<script>
+        <script>
 
-const resourceFileInput = document.querySelector('.resource_file');
+            const resourceFileInput = document.querySelector('.resource_file');
 
-if (resourceFileInput) {
+            if (resourceFileInput) {
 
-    resourceFileInput.value = "";
+                resourceFileInput.value = "";
 
-} else {
-    console.log("Resource file input not found.");
-}
+            } else {
+                console.log("Resource file input not found.");
+            }
 
-</script>
-@endif
+        </script>
+    @endif
 
     <!--Create Category Modal -->
     <div wire:ignore.self class="modal fade" id="createCategory" tabindex="-1" role="dialog"
@@ -625,7 +623,7 @@ if (resourceFileInput) {
                     <br>
                     @include('layouts.message')
 
-                    <label class="text-white">Category Name </label>
+                    <label >Category Name </label>
                     <input style="background-color: #eaf3ff;" class="form-control"
                            wire:model.defer="category_name" placeholder="Enter category name" type="text"
                            maxlength="191">
@@ -693,14 +691,12 @@ if (resourceFileInput) {
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="importmap">
-    {
-        "imports": {
-            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
-            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
+            }
         }
-    }
-
-
 
 
     </script>
@@ -735,7 +731,8 @@ if (resourceFileInput) {
                 })
                 .then(editor => {
                     editor.model.document.on('change:data', () => {
-                    @this.set('content', editor.getData());
+                    @this.set('content', editor.getData())
+                        ;
                     })
                     Livewire.on('editorContentUpdated', content => {
                         editor.setData(content); // Set new content into CKEditor
@@ -766,7 +763,8 @@ if (resourceFileInput) {
                 })
                 .then(editor => {
                     editor.model.document.on('change:data', () => {
-                    @this.set('update_content', editor.getData());
+                    @this.set('update_content', editor.getData())
+                        ;
                     })
                     Livewire.on('contentUpdated', content => {
                         editor.setData(content); // Set new content into CKEditor
@@ -899,17 +897,6 @@ if (resourceFileInput) {
         }
 
 
-
-
-
-
-
-
-
-
     </script>
-
-
-
 
 @endpush
