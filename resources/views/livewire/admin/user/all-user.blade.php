@@ -99,7 +99,7 @@
                 <tr class="text-color-blue">
                     <td class="text-sm font-weight-normal text-center">{{$user['first_name'].' '.$user['last_name'] }} </td>
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
-                    <td class="text-sm font-weight-normal text-center">{{$user['gender'] != null ? $user['gender'] === '0' ? 'Male' : 'Female' : '-'}}</td>
+                    <td class="text-sm font-weight-normal text-center">{{$user['gender'] != null ? $user['gender'] == 1 ? 'Female' : 'Male' : '-'}}</td>
                     <td class="text-sm font-weight-normal">
                         <div class="form-check form-switch mb-0 d-flex justify-content-center">
                             @php

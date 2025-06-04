@@ -32,21 +32,8 @@ class ResourceCategory extends Model
 
     public static function createCategory($name)
     {
-        // Check if a category with a similar name exists
-//        $category = self::whereRaw("name like ?", ["%{$name}%"])->get();
-
-        // If no category exists, create a new one
-//        if ($category->isEmpty()) {
             self::create(['name' => $name]);
 
-//            session()->flash('success', 'Category added');
-//
-//        }
-//        else
-//        {
-//            session()->flash('error', 'Category name is required');
-//
-//        }
     }
 
     public static function deleteSingleCategory($id){

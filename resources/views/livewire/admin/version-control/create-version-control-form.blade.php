@@ -80,7 +80,7 @@
                                                wire:model="versionDetails.{{ $index }}.type"
                                                value="Web"
                                                id="web_{{ $index }}">
-                                        <label class="form-check-label text-white" for="web_{{ $index }}">Web</label>
+                                        <label class="form-check-label" for="web_{{ $index }}">Web</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input"
@@ -88,7 +88,7 @@
                                                wire:model="versionDetails.{{ $index }}.type"
                                                value="App"
                                                id="app_{{ $index }}">
-                                        <label class="form-check-label text-white" for="app_{{ $index }}">App</label>
+                                        <label class="form-check-label" for="app_{{ $index }}">App</label>
                                     </div>
                                 </div>
                                 <!-- Description -->

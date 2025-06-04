@@ -33,14 +33,14 @@
     <input type="hidden" wire:model.defer="select_code.id">
     <div class="row">
         <div class="col-12">
-            <label class="form-label text-white">Name</label>
+            <label class="form-label">Name</label>
             <div class="input-group">
                 <input style="background-color: #eaf3ff ; color: #1B3A62 " name="name"
                        class="form-control" type="text" wire:model.defer="select_code.name">
             </div>
         </div>
         <div class="col-12 mt-4">
-            <label class="form-label text-white">Public Name</label>
+            <label class="form-label">Public Name</label>
             <div class="input-group">
                 <input style="background-color: #eaf3ff ; color: #1B3A62 " name="public_name"
                        class="form-control" type="text" wire:model.defer="select_code.public_name"
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="col-12 mt-4">
-            <label class="form-label text-white">Code</label>
+            <label class="form-label">Code</label>
             <div class="input-group">
                 <input style="background-color: #eaf3ff ; color: #1B3A62 " name="code"
                        class="form-control" type="text" wire:model.defer="select_code.code"
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="col-12 mt-4">
-            <label class="form-label text-white">Type</label>
+            <label class="form-label">Type</label>
             <div class="input-group">
                 <input style="background-color: #eaf3ff ; color: #1B3A62 " name="type"
                        class="form-control" type="text" wire:model.defer="select_code.type"
@@ -65,7 +65,7 @@
         </div>
         {{-- <div class="row"> --}}
         <div class="col-12 mt-4">
-            <label class="form-label text-white">Text</label>
+            <label class="form-label">Text</label>
             <div class="input-group w-100" wire:ignore>
                 {{-- <textarea id="summernote" rows="10" cols="10" style="background-color: #eaf3ff ; color: #1B3A62 " name="text"
                           class="form-control text-white summernote" wire:model.defer="select_code.text">{{ $select_code['text'] }}</textarea> --}}

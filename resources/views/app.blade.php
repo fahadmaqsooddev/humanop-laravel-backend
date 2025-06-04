@@ -213,13 +213,13 @@
 
             function clearColorStyleSA() {
                 document.getElementById("style_sa").style.backgroundColor = "";
-                document.getElementById("style_sa").style.color = "";
+                document.getElementById("style_sa").style.color = "#1b3a62";
 
                 document.getElementById("feature_dom").style.backgroundColor = "";
-                document.getElementById("feature_dom").style.color = "";
+                document.getElementById("feature_dom").style.color = "#1b3a62";
 
                 document.getElementById("feature_ne").style.backgroundColor = "";
-                document.getElementById("feature_ne").style.color = "";
+                document.getElementById("feature_ne").style.color = "#1b3a62";
             }
 
             function changeColorStyleMA() {
@@ -241,19 +241,19 @@
 
             function clearColorStyleMA() {
                 document.getElementById("style_ma").style.backgroundColor = "";
-                document.getElementById("style_ma").style.color = "";
+                document.getElementById("style_ma").style.color = "#1b3a62";
 
                 document.getElementById("feature_de").style.backgroundColor = "";
-                document.getElementById("feature_de").style.color = "";
+                document.getElementById("feature_de").style.color = "#1b3a62";
 
                 document.getElementById("feature_dom").style.backgroundColor = "";
-                document.getElementById("feature_dom").style.color = "";
+                document.getElementById("feature_dom").style.color = "#1b3a62";
 
                 document.getElementById("feature_fe").style.backgroundColor = "";
-                document.getElementById("feature_fe").style.color = "";
+                document.getElementById("feature_fe").style.color = "#1b3a62";
 
                 document.getElementById("feature_wil").style.backgroundColor = "";
-                document.getElementById("feature_wil").style.color = "";
+                document.getElementById("feature_wil").style.color = "#1b3a62";
             }
 
             function changeColorStyleJO() {
@@ -275,19 +275,19 @@
 
             function clearColorStyleJO() {
                 document.getElementById("style_jo").style.backgroundColor = "";
-                document.getElementById("style_jo").style.color = "";
+                document.getElementById("style_jo").style.color = "#1b3a62";
 
                 document.getElementById("feature_pow").style.backgroundColor = "";
-                document.getElementById("feature_pow").style.color = "";
+                document.getElementById("feature_pow").style.color = "#1b3a62";
 
                 document.getElementById("feature_sp").style.backgroundColor = "";
-                document.getElementById("feature_sp").style.color = "";
+                document.getElementById("feature_sp").style.color = "#1b3a62";
 
                 document.getElementById("feature_tra").style.backgroundColor = "";
-                document.getElementById("feature_tra").style.color = "";
+                document.getElementById("feature_tra").style.color = "#1b3a62";
 
                 document.getElementById("feature_van").style.backgroundColor = "";
-                document.getElementById("feature_van").style.color = "";
+                document.getElementById("feature_van").style.color = "#1b3a62";
             }
 
             function changeColorStyleLU() {
@@ -309,19 +309,19 @@
 
             function clearColorStyleLU() {
                 document.getElementById("style_lu").style.backgroundColor = "";
-                document.getElementById("style_lu").style.color = "";
+                document.getElementById("style_lu").style.color = "#1b3a62";
 
                 document.getElementById("feature_fe").style.backgroundColor = "";
-                document.getElementById("feature_fe").style.color = "";
+                document.getElementById("feature_fe").style.color = "#1b3a62";
 
                 document.getElementById("feature_lun").style.backgroundColor = "";
-                document.getElementById("feature_lun").style.color = "";
+                document.getElementById("feature_lun").style.color = "#1b3a62";
 
                 document.getElementById("feature_ne").style.backgroundColor = "";
-                document.getElementById("feature_ne").style.color = "";
+                document.getElementById("feature_ne").style.color = "#1b3a62";
 
                 document.getElementById("feature_wil").style.backgroundColor = "";
-                document.getElementById("feature_wil").style.color = "";
+                document.getElementById("feature_wil").style.color = "#1b3a62";
             }
 
             function changeColorStyleVEN() {
@@ -343,19 +343,19 @@
 
             function clearColorStyleVEN() {
                 document.getElementById("style_ven").style.backgroundColor = "";
-                document.getElementById("style_ven").style.color = "";
+                document.getElementById("style_ven").style.color = "#1b3a62";
 
                 document.getElementById("feature_fe").style.backgroundColor = "";
-                document.getElementById("feature_fe").style.color = "";
+                document.getElementById("feature_fe").style.color = "#1b3a62";
 
                 document.getElementById("feature_lun").style.backgroundColor = "";
-                document.getElementById("feature_lun").style.color = "";
+                document.getElementById("feature_lun").style.color = "#1b3a62";
 
                 document.getElementById("feature_tra").style.backgroundColor = "";
-                document.getElementById("feature_tra").style.color = "";
+                document.getElementById("feature_tra").style.color = "#1b3a62";
 
                 document.getElementById("feature_van").style.backgroundColor = "";
-                document.getElementById("feature_van").style.color = "";
+                document.getElementById("feature_van").style.color = "#1b3a62";
             }
 
             function changeColorStyleMER() {
@@ -374,16 +374,16 @@
 
             function clearColorStyleMER() {
                 document.getElementById("style_mer").style.backgroundColor = "";
-                document.getElementById("style_mer").style.color = "";
+                document.getElementById("style_mer").style.color = "#1b3a62";
 
                 document.getElementById("feature_gre").style.backgroundColor = "";
-                document.getElementById("feature_gre").style.color = "";
+                document.getElementById("feature_gre").style.color = "#1b3a62";
 
                 document.getElementById("feature_pow").style.backgroundColor = "";
-                document.getElementById("feature_pow").style.color = "";
+                document.getElementById("feature_pow").style.color = "#1b3a62";
 
                 document.getElementById("feature_van").style.backgroundColor = "";
-                document.getElementById("feature_van").style.color = "";
+                document.getElementById("feature_van").style.color = "#1b3a62";
             }
 
             function changeColorStyleSO() {
@@ -399,13 +399,13 @@
 
             function clearColorStyleSO() {
                 document.getElementById("style_so").style.backgroundColor = "";
-                document.getElementById("style_so").style.color = "";
+                document.getElementById("style_so").style.color = "#1b3a62";
 
                 document.getElementById("feature_nai").style.backgroundColor = "";
-                document.getElementById("feature_nai").style.color = "";
+                document.getElementById("feature_nai").style.color = "#1b3a62";
 
                 document.getElementById("feature_van").style.backgroundColor = "";
-                document.getElementById("feature_van").style.color = "";
+                document.getElementById("feature_van").style.color = "#1b3a62";
             }
 
             function changeColorFeatureDE() {
@@ -418,10 +418,10 @@
 
             function clearColorFeatureDE() {
                 document.getElementById("feature_de").style.backgroundColor = "";
-                document.getElementById("feature_de").style.color = "";
+                document.getElementById("feature_de").style.color = "#1b3a62";
 
                 document.getElementById("style_ma").style.backgroundColor = "";
-                document.getElementById("style_ma").style.color = "";
+                document.getElementById("style_ma").style.color = "#1b3a62";
             }
 
             function changeColorFeatureDOM() {
@@ -437,13 +437,13 @@
 
             function clearColorFeatureDOM() {
                 document.getElementById("feature_dom").style.backgroundColor = "";
-                document.getElementById("feature_dom").style.color = "";
+                document.getElementById("feature_dom").style.color = "#1b3a62";
 
                 document.getElementById("style_sa").style.backgroundColor = "";
-                document.getElementById("style_sa").style.color = "";
+                document.getElementById("style_sa").style.color = "#1b3a62";
 
                 document.getElementById("style_ma").style.backgroundColor = "";
-                document.getElementById("style_ma").style.color = "";
+                document.getElementById("style_ma").style.color = "#1b3a62";
             }
 
             function changeColorFeatureFE() {
@@ -462,16 +462,16 @@
 
             function clearColorFeatureFE() {
                 document.getElementById("feature_fe").style.backgroundColor = "";
-                document.getElementById("feature_fe").style.color = "";
+                document.getElementById("feature_fe").style.color = "#1b3a62";
 
                 document.getElementById("style_ma").style.backgroundColor = "";
-                document.getElementById("style_ma").style.color = "";
+                document.getElementById("style_ma").style.color = "#1b3a62";
 
                 document.getElementById("style_lu").style.backgroundColor = "";
-                document.getElementById("style_lu").style.color = "";
+                document.getElementById("style_lu").style.color = "#1b3a62";
 
                 document.getElementById("style_ven").style.backgroundColor = "";
-                document.getElementById("style_ven").style.color = "";
+                document.getElementById("style_ven").style.color = "#1b3a62";
             }
 
             function changeColorFeatureGRE() {
@@ -484,10 +484,10 @@
 
             function clearColorFeatureGRE() {
                 document.getElementById("feature_gre").style.backgroundColor = "";
-                document.getElementById("feature_gre").style.color = "";
+                document.getElementById("feature_gre").style.color = "#1b3a62";
 
                 document.getElementById("style_mer").style.backgroundColor = "";
-                document.getElementById("style_mer").style.color = "";
+                document.getElementById("style_mer").style.color = "#1b3a62";
             }
 
             function changeColorFeatureLUN() {
@@ -500,10 +500,10 @@
 
             function clearColorFeatureLUN() {
                 document.getElementById("feature_lun").style.backgroundColor = "";
-                document.getElementById("feature_lun").style.color = "";
+                document.getElementById("feature_lun").style.color = "#1b3a62";
 
                 document.getElementById("style_lu").style.backgroundColor = "";
-                document.getElementById("style_lu").style.color = "";
+                document.getElementById("style_lu").style.color = "#1b3a62";
             }
 
             function changeColorFeatureNAI() {
@@ -516,10 +516,10 @@
 
             function clearColorFeatureNAI() {
                 document.getElementById("feature_nai").style.backgroundColor = "";
-                document.getElementById("feature_nai").style.color = "";
+                document.getElementById("feature_nai").style.color = "#1b3a62";
 
                 document.getElementById("style_so").style.backgroundColor = "";
-                document.getElementById("style_so").style.color = "";
+                document.getElementById("style_so").style.color = "#1b3a62";
             }
 
             function changeColorFeatureNE() {
@@ -538,16 +538,16 @@
 
             function clearColorFeatureNE() {
                 document.getElementById("feature_ne").style.backgroundColor = "";
-                document.getElementById("feature_ne").style.color = "";
+                document.getElementById("feature_ne").style.color = "#1b3a62";
 
                 document.getElementById("style_sa").style.backgroundColor = "";
-                document.getElementById("style_sa").style.color = "";
+                document.getElementById("style_sa").style.color = "#1b3a62";
 
                 document.getElementById("style_lu").style.backgroundColor = "";
-                document.getElementById("style_lu").style.color = "";
+                document.getElementById("style_lu").style.color = "#1b3a62";
 
                 document.getElementById("style_ven").style.backgroundColor = "";
-                document.getElementById("style_ven").style.color = "";
+                document.getElementById("style_ven").style.color = "#1b3a62";
             }
 
             function changeColorFeaturePOW() {
@@ -563,13 +563,13 @@
 
             function clearColorFeaturePOW() {
                 document.getElementById("feature_pow").style.backgroundColor = "";
-                document.getElementById("feature_pow").style.color = "";
+                document.getElementById("feature_pow").style.color = "#1b3a62";
 
                 document.getElementById("style_jo").style.backgroundColor = "";
-                document.getElementById("style_jo").style.color = "";
+                document.getElementById("style_jo").style.color = "#1b3a62";
 
                 document.getElementById("style_mer").style.backgroundColor = "";
-                document.getElementById("style_mer").style.color = "";
+                document.getElementById("style_mer").style.color = "#1b3a62";
             }
 
             function changeColorFeatureSP() {
@@ -582,10 +582,10 @@
 
             function clearColorFeatureSP() {
                 document.getElementById("feature_sp").style.backgroundColor = "";
-                document.getElementById("feature_sp").style.color = "";
+                document.getElementById("feature_sp").style.color = "#1b3a62";
 
                 document.getElementById("style_jo").style.backgroundColor = "";
-                document.getElementById("style_jo").style.color = "";
+                document.getElementById("style_jo").style.color = "#1b3a62";
             }
 
             function changeColorFeatureTRA() {
@@ -601,13 +601,13 @@
 
             function clearColorFeatureTRA() {
                 document.getElementById("feature_tra").style.backgroundColor = "";
-                document.getElementById("feature_tra").style.color = "";
+                document.getElementById("feature_tra").style.color = "#1b3a62";
 
                 document.getElementById("style_jo").style.backgroundColor = "";
-                document.getElementById("style_jo").style.color = "";
+                document.getElementById("style_jo").style.color = "#1b3a62";
 
                 document.getElementById("style_ven").style.backgroundColor = "";
-                document.getElementById("style_ven").style.color = "";
+                document.getElementById("style_ven").style.color = "#1b3a62";
             }
 
             function changeColorFeatureVAN() {
@@ -629,19 +629,19 @@
 
             function clearColorFeatureVAN() {
                 document.getElementById("feature_van").style.backgroundColor = "";
-                document.getElementById("feature_van").style.color = "";
+                document.getElementById("feature_van").style.color = "#1b3a62";
 
                 document.getElementById("style_jo").style.backgroundColor = "";
-                document.getElementById("style_jo").style.color = "";
+                document.getElementById("style_jo").style.color = "#1b3a62";
 
                 document.getElementById("style_ven").style.backgroundColor = "";
-                document.getElementById("style_ven").style.color = "";
+                document.getElementById("style_ven").style.color = "#1b3a62";
 
                 document.getElementById("style_mer").style.backgroundColor = "";
-                document.getElementById("style_mer").style.color = "";
+                document.getElementById("style_mer").style.color = "#1b3a62";
 
                 document.getElementById("style_so").style.backgroundColor = "";
-                document.getElementById("style_so").style.color = "";
+                document.getElementById("style_so").style.color = "#1b3a62";
             }
 
             function changeColorFeatureWIL() {
@@ -657,13 +657,13 @@
 
             function clearColorFeatureWIL() {
                 document.getElementById("feature_wil").style.backgroundColor = "";
-                document.getElementById("feature_wil").style.color = "";
+                document.getElementById("feature_wil").style.color = "#1b3a62";
 
                 document.getElementById("style_ma").style.backgroundColor = "";
-                document.getElementById("style_ma").style.color = "";
+                document.getElementById("style_ma").style.color = "#1b3a62";
 
                 document.getElementById("style_lu").style.backgroundColor = "";
-                document.getElementById("style_lu").style.color = "";
+                document.getElementById("style_lu").style.color = "#1b3a62";
             }
 
             (function () {
