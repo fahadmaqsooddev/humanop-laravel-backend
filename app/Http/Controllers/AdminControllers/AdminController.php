@@ -50,6 +50,19 @@ class AdminController extends Controller
         }
     }
 
+    public function welcomeDashboard()
+    {
+        try {
+
+            return view('admin-dashboards.welcome-dashboard');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
     public function cms()
     {
         try {

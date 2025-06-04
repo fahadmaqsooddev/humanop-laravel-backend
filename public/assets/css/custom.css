@@ -123,7 +123,7 @@
 }
 
 .sign-out-btn {
-    background-color: rgb(210, 102, 34);
+    background-color: #1b3a62;
 }
 
 .navbar > .container-fluid {
@@ -133,7 +133,7 @@
 }
 
 #nav-toggle {
-    background-color: rgb(210, 102, 34);
+    background-color: #1b3a62;
     border-radius: 0 8px 8px 0 !important;
 }
 

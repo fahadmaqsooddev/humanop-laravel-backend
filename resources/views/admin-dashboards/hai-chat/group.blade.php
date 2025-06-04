@@ -7,7 +7,7 @@
 
     .card-bg-white-orange-border{
         background-color: #eaf3ff !important;
-        /*border: 2px solid #d26622 !important;*/
+        /*border: 2px solid #1b3a62 !important;*/
     }
 
     .input-bg{

@@ -92,7 +92,7 @@
 
                         @foreach($groups as $group)
                             <div class="mt-3 col-md-3 col-sm-3 col-lg-3" style="padding-right: 5px;">
-                                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #d26622;">
+                                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #1b3a62;">
                                     <div class="d-flex flex-column gap-3 chat-card" style="width: 100%">
                                         <div class="d-flex flex-row">
                                             <div class="col-12 text-center">
@@ -121,7 +121,7 @@
 
                         @foreach($embeddings as $embedding)
                             <div class="mt-3 col-md-6 col-sm-6 col-lg-6" style="padding-right: 5px;">
-                                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #d26622;">
+                                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #1b3a62;">
                                     <div class="d-flex flex-column gap-3 chat-card" style="width: 100%">
                                         <div class="d-flex flex-row">
                                             <div class="col-12">

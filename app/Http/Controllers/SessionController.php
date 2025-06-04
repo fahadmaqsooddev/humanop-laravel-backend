@@ -2,13 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Admin\Admin;
-use App\Events\RealTimeMessage;
 use App\Helpers\Practitioner\PractitionerHelpers;
-use App\Models\Admin\DailyTip\DailyTip;
-use App\Models\Client\Dashboard\ActionPlan;
-use App\Models\Email\Email;
-use App\Models\Email\EmailTemplate;
 use App\Models\HAIChai\HaiChat;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,10 +11,8 @@ use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
-use Stripe\Price;
 use Stripe\Product;
 use Stripe\Stripe;
 
@@ -98,12 +90,10 @@ class SessionController extends Controller
                                 Session::forget('google_user');
                             }
 
-                            if ($user->is_admin === Admin::IS_PRACTITIONER) {
+                            Session::put('login_user_email', $request['email']);
+                            Session::put('login_user_password', $request['password']);
 
-                                return redirect('/practitioner/dashboard');
-                            }
-
-                            return redirect()->route('admin_dashboard');
+                            return redirect()->route('admin_welcome_dashboard');
                         }
 
 
