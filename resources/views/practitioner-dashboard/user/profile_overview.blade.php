@@ -105,7 +105,7 @@
             width: 0%;
             height: 100%;
             position: relative;
-            background: rgb(242, 102, 28);
+            background: #1b3a62;
         }
 
         .progress-bar::before {
@@ -116,7 +116,7 @@
             width: 13px;
             position: absolute;
             border-radius: 50%;
-            background: rgb(242, 102, 28);
+            background: #1b3a62;
             transform: translateY(-50%);
         }
 
@@ -180,7 +180,7 @@
             height: 4px;
             margin-left: 3px;
             max-width: 75px;
-            accent-color: rgb(242, 102, 28);
+            accent-color: #1b3a62;
         }
 
         .options .video-timer {
@@ -367,7 +367,7 @@
                                             <ul class="video-controls">
                                                 <li class="options left">
                                                     <button class="volume"><i class="fa-solid fa-volume-high"
-                                                                              style="color: rgb(242, 102, 28)"></i>
+                                                                              style="color: #1b3a62"></i>
                                                     </button>
                                                     <input type="range" min="0" max="1" step="any">
                                                     <div class="video-timer">
@@ -1404,7 +1404,7 @@
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-5 col-sm-12 col-md-6">
                                                         <div id="main_result_intro_heading" class="card"
-                                                             style="height: auto;">
+                                                             style="height: auto; border: 2px solid #1b3a62 !important;">
                                                             <div class="card-body p-3">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}', 1, 'main_result_intro')"
                                                                     style="cursor: pointer;color: #1b3a62;"

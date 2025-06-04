@@ -128,7 +128,7 @@
             width: 0%;
             height: 100%;
             position: relative;
-            background: rgb(242, 102, 28);
+            background: #1b3a62;
         }
 
         .progress-bar::before {
@@ -139,7 +139,7 @@
             width: 13px;
             position: absolute;
             border-radius: 50%;
-            background: rgb(242, 102, 28);
+            background: #1b3a62;
             transform: translateY(-50%);
         }
 
@@ -202,7 +202,7 @@
             height: 4px;
             margin-left: 3px;
             max-width: 75px;
-            accent-color: rgb(242, 102, 28);
+            accent-color: #1b3a62;
         }
 
         .options .video-timer {
@@ -1026,7 +1026,7 @@
                                                     <ul class="video-controls">
                                                         <li class="options left">
                                                             <button class="volume"><i class="fa-solid fa-volume-high"
-                                                                                      style="color: rgb(242, 102, 28)"></i></button>
+                                                                                      style="color: #1b3a62"></i></button>
                                                             <input type="range" min="0" max="1" step="any">
                                                             <div class="video-timer">
                                                                 <span class="current-time" style="color: #1b3a62;">00:00</span>

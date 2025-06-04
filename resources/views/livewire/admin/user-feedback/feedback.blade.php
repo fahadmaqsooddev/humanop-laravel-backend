@@ -25,10 +25,6 @@
                 <td>No any feedback...</td>
             </tr>
         @endif
-        <?php
-        ?>
-
-
         @foreach($feedbacks as $key => $feedback)
 
             <tr class="table-text-color">
@@ -92,10 +88,6 @@
                             Approve
                         </a>
                     @endif
-                    {{--                    <a wire:click="approveFeedback({{$feedback['id']}})"--}}
-                    {{--                       class=" btn-sm mt-2 mb-0" style="background:#1b3a62;color:white;font-weight:bolder;border:none;">--}}
-                    {{--                        Approve--}}
-                    {{--                    </a>--}}
                 </td>
             </tr>
             @if($feedback['comment'] && strlen($feedback['comment']) > 40)
