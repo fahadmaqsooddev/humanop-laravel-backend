@@ -9,7 +9,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex flex-column h-100" style="align-items: center">
-                                    <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}"
+                                    <img src="{{ URL::asset('assets/img/new_logo_dark.png') }}"
                                          style="width: 15%"
                                          alt="main_logo">
                                 </div>
