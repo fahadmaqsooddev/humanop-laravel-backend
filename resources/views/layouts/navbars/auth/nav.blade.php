@@ -2,7 +2,8 @@
     <nav class="navbar navbar-main navbar-expand-lg left px-1 shadow-none border-radius-xl z-index-sticky"
          style="background-color: white; border-radius: 0px !important; padding: 0px !important;"
          id="navbarBlur" data-scroll="true">
-        <div class="navbar-background-color d-flex align-items-end justify-content-end">
+        <div class="navbar-background-color d-flex"
+             style="justify-content: center; align-items: center; margin: auto; width: 100%;">
             <div class="d-flex "
                  style="width: 100%; border-radius: 0px !important;" data-step="4">
                 <div class="container-fluid py-1 px-3 d-flex"
@@ -26,23 +27,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn"
-                         role="tablist">
-                        <div class="nav-item pt-2">
-                            <a href="{{route('assessments')}}"
-                               style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#1B3A62 !important;color:white;font-weight:bolder;border:none;"
-                               class="btn-sm-1 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results
-                            </a>
-                        </div>
-                        <div class="nav-item pt-2" style="margin-left: 5px">
-                            <button
-                                style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#1B3A62;color:white;font-weight:bolder;border:none;"
-                                class=" btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd"
-                                data-bs-toggle="modal"
-                                data-bs-target="#qrCodeModal">Get Free Pro Access!
-                            </button>
-                        </div>
-                    </div>
+                    {{--                    <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn"--}}
+                    {{--                         role="tablist">--}}
+                    {{--                        <div class="nav-item pt-2">--}}
+                    {{--                            <a href="{{route('assessments')}}"--}}
+                    {{--                               style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#1B3A62 !important;color:white;font-weight:bolder;border:none;"--}}
+                    {{--                               class="btn-sm-1 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results--}}
+                    {{--                            </a>--}}
+                    {{--                        </div>--}}
+                    {{--                        <div class="nav-item pt-2" style="margin-left: 5px">--}}
+                    {{--                            <button--}}
+                    {{--                                style="padding: 10px 16px 10px 16px; border-radius: 7px;background:#1B3A62;color:white;font-weight:bolder;border:none;"--}}
+                    {{--                                class=" btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd"--}}
+                    {{--                                data-bs-toggle="modal"--}}
+                    {{--                                data-bs-target="#qrCodeModal">Get Free Pro Access!--}}
+                    {{--                            </button>--}}
+                    {{--                        </div>--}}
+                    {{--                    </div>--}}
                 </div>
                 <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">
             </div>
@@ -80,7 +81,8 @@
                                 @endif
                                 <div class="d-flex justify-content-center">
                                     <button class="btn" id="downloadButton"
-                                            style="margin-top: 20px; background-color: #1B3A62; color: white">Save QR Code
+                                            style="margin-top: 20px; background-color: #1B3A62; color: white">Save QR
+                                        Code
                                     </button>
                                 </div>
                             </div>
