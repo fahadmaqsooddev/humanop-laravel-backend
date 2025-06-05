@@ -1,8 +1,8 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 
 @section('content')
-    <main class="main-content" style="background-color: #eaf3ff">
-            <div class="col-lg-12 position-relative z-index-2">
+    <main class="main-content" style="background-color: #eaf3ff; max-width: 99% !important;">
+            <div class="col-lg-12 position-relative z-index-2" style="max-width: 99% !important;">
                 <div class="">
                     <div class="card-body p-3">
                         <div class="row">

@@ -251,18 +251,6 @@
             be certain.</p>
     </div>
     <div class="card-body d-sm-flex pt-0">
-        <div class="d-flex align-items-center mb-sm-0 mb-4">
-            <div>
-                <div class="form-check form-switch mb-0">
-                    <input style="background-color: #1C365E;" class="form-check-input" type="checkbox"
-                           id="flexSwitchCheckDefault0">
-                </div>
-            </div>
-            <div class="ms-2">
-                <span class="text-color-dark font-weight-bold d-block text-sm">Confirm</span>
-                <span class="text-xs d-block text-color-dark">I want to delete my account.</span>
-            </div>
-        </div>
         <button class="btn btn-outline-secondary mb-0 ms-auto invisible" type="button" name="button">
             Deactivate
         </button>

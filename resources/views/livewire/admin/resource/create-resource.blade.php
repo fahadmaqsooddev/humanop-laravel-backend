@@ -2,11 +2,11 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
         .ck-editor__editable_inline {
-            background-color: #0f1534; /* Example: Change this to your desired background color */
+            background-color: #eaf3ff; /* Example: Change this to your desired background color */
         }
 
         .ck-editor__editable {
-            background-color: #0f1534 !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck-editor {
@@ -346,32 +346,32 @@
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="1"
-                                                       class="form-check-input option-checkbox" id="freemium">
-                                                <label class="form-check-label text-white"
+                                                       class="form-check-input option-checkbox" style="border: 2px solid #1b3a62" id="freemium">
+                                                <label class="form-check-label"
                                                        for="freemium">Freemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input option-checkbox" id="preemium">
-                                                <label class="form-check-label text-white"
+                                                       class="form-check-input option-checkbox" style="border: 2px solid #1b3a62" id="preemium">
+                                                <label class="form-check-label"
                                                        for="preemium">Preemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
-                                                       class="form-check-input option-checkbox" id="core">
-                                                <label class="form-check-label text-white"
+                                                       class="form-check-input option-checkbox" style="border: 2px solid #1b3a62" id="core">
+                                                <label class="form-check-label"
                                                        for="coew">Core</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
-                                                       class="form-check-input" id="allOptions">
-                                                <label class="form-check-label text-white" for="allOptions">All Of The
+                                                       class="form-check-input" style="border: 2px solid #1b3a62" id="allOptions">
+                                                <label class="form-check-label" for="allOptions">All Of The
                                                     Above</label>
                                             </div>
                                         </div>
@@ -535,29 +535,29 @@
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="1"
-                                                       class="form-check-input option-checkbox1">
-                                                <label class="form-check-label text-white">Freemium</label>
+                                                       class="form-check-input option-checkbox1" style="border: 2px solid #1b3a62">
+                                                <label class="form-check-label">Freemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input option-checkbox1">
-                                                <label class="form-check-label text-white">Preemium</label>
+                                                       class="form-check-input option-checkbox1" style="border: 2px solid #1b3a62">
+                                                <label class="form-check-label">Preemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
-                                                       class="form-check-input option-checkbox1">
-                                                <label class="form-check-label text-white">Core</label>
+                                                       class="form-check-input option-checkbox1" style="border: 2px solid #1b3a62">
+                                                <label class="form-check-label">Core</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
-                                                       class="form-check-input" id="editOptions">
-                                                <label class="form-check-label text-white" for="editOptions">All Of The
+                                                       class="form-check-input" style="border: 2px solid #1b3a62" id="editOptions">
+                                                <label class="form-check-label" for="editOptions">All Of The
                                                     Above</label>
                                             </div>
                                         </div>

@@ -13,6 +13,7 @@ class ApproveQuery extends Component
     public $listeners = ['rerenderUnApprovedQueries'];
 
     use WithPagination;
+
     protected $paginationTheme = 'bootstrap';
 
     public function render()
@@ -23,12 +24,14 @@ class ApproveQuery extends Component
         return view('livewire.admin.approve-query.approve-query', compact('unApprovedQueries'));
     }
 
-    public function approveAnswer($id){
+    public function approveAnswer($id)
+    {
 
         QueryAnswer::approveAnswer($id);
     }
 
-    public function rerenderUnApprovedQueries(){
+    public function rerenderUnApprovedQueries()
+    {
 
         $this->render();
     }

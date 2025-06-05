@@ -2,10 +2,10 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
         .ck-editor__editable_inline {
-            background-color: #0f1534; /* Example: Change this to your desired background color */
+            background-color: #eaf3ff; /* Example: Change this to your desired background color */
         }
         .ck-editor__editable{
-            background-color: #0f1534 !important;
+            background-color: #eaf3ff !important;
         }
         .ck-editor{
             border-radius: 0 !important;
