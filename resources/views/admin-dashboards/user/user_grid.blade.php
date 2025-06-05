@@ -339,67 +339,67 @@
 
         <div class="row mt-4">
             <div class="col-12 col-md-8">
-                <div class="card left-nav-blue-light-color">
+                <div class="card left-nav-blue-light-color" style="background-color: white !important">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
                             <tr>
-                                <th class="text-center border border-white" id="style_sa"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="style_sa"
                                     onmousemove="changeColorStyleSA()" onmouseout="clearColorStyleSA()">SA
                                 </th>
-                                <th class="text-center border border-white" id="style_ma"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="style_ma"
                                     onmousemove="changeColorStyleMA()" onmouseout="clearColorStyleMA()">MA
                                 </th>
-                                <th class="text-center border border-white" id="style_jo"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="style_jo"
                                     onmousemove="changeColorStyleJO()" onmouseout="clearColorStyleJO()">JO
                                 </th>
-                                <th class="text-center border border-white" id="style_lu"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="style_lu"
                                     onmousemove="changeColorStyleLU()" onmouseout="clearColorStyleLU()">LU
                                 </th>
-                                <th class="text-center border border-white" id="style_ven"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="style_ven"
                                     onmousemove="changeColorStyleVEN()" onmouseout="clearColorStyleVEN()">VEN
                                 </th>
-                                <th class="text-center border border-white" id="style_mer"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="style_mer"
                                     onmousemove="changeColorStyleMER()" onmouseout="clearColorStyleMER()">MER
                                 </th>
-                                <th class="text-center border border-white" id="style_so"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="style_so"
                                     onmousemove="changeColorStyleSO()" onmouseout="clearColorStyleSO()">SO
                                 </th>
-                                <th class="text-center border border-white">#</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">#</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30? 'border-success' : 'border-white')) }}">{{$grid['sa']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : 'border-white')) }}">{{$grid['ma']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : 'border-white')) }}">{{$grid['jo']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}">{{$grid['lu']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}">{{$grid['ven']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}">{{$grid['mer']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">{{$grid['so']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$grid['sa'] + $grid['ma'] + $grid['jo'] + $grid['lu'] + $grid['ven'] + $grid['mer'] + $grid['so']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30? 'border-success' : '')) }}">{{$grid['sa']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : '')) }}">{{$grid['ma']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : '')) }}">{{$grid['jo']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : '')) }}">{{$grid['lu']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : '')) }}">{{$grid['ven']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : '')) }}">{{$grid['mer']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">{{$grid['so']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center ">{{$grid['sa'] + $grid['ma'] + $grid['jo'] + $grid['lu'] + $grid['ven'] + $grid['mer'] + $grid['so']}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_sa}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_ma}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_jo}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_lu}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_ven}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_mer}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30 ? 'border-success' : '')) }}">{{$second_row_sa}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : '')) }}">{{$second_row_ma}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : '')) }}">{{$second_row_jo}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : '')) }}">{{$second_row_lu}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : '')) }}">{{$second_row_ven}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : '')) }}">{{$second_row_mer}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">
                                     0
                                 </td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center ">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_sa}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_ma}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_jo}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_lu}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_ven}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}">{{$third_row_mer}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">{{$third_row_so}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer + $third_row_so}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30 ? 'border-success' : '')) }}">{{$third_row_sa}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : '')) }}">{{$third_row_ma}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : '')) }}">{{$third_row_jo}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : '')) }}">{{$third_row_lu}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : '')) }}">{{$third_row_ven}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : '')) }}">{{$third_row_mer}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">{{$third_row_so}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center ">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer + $third_row_so}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -409,95 +409,95 @@
         </div>
         <div class="row mt-4">
             <div class="col-12">
-                <div class="card left-nav-blue-light-color">
+                <div class="card left-nav-blue-light-color" style="background-color: white !important">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
                             <tr>
-                                <th class="text-center border border-white" id="feature_de"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_de"
                                     onmousemove="changeColorFeatureDE()" onmouseout="clearColorFeatureDE()">DE
                                 </th>
-                                <th class="text-center border border-white" id="feature_dom"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_dom"
                                     onmousemove="changeColorFeatureDOM()" onmouseout="clearColorFeatureDOM()">DOM
                                 </th>
-                                <th class="text-center border border-white" id="feature_fe"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_fe"
                                     onmousemove="changeColorFeatureFE()" onmouseout="clearColorFeatureFE()">FE
                                 </th>
-                                <th class="text-center border border-white" id="feature_gre"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_gre"
                                     onmousemove="changeColorFeatureGRE()" onmouseout="clearColorFeatureGRE()">GRE
                                 </th>
-                                <th class="text-center border border-white" id="feature_lun"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_lun"
                                     onmousemove="changeColorFeatureLUN()" onmouseout="clearColorFeatureLUN()">LUN
                                 </th>
-                                <th class="text-center border border-white" id="feature_nai"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_nai"
                                     onmousemove="changeColorFeatureNAI()" onmouseout="clearColorFeatureNAI()">NAI
                                 </th>
-                                <th class="text-center border border-white" id="feature_ne"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_ne"
                                     onmousemove="changeColorFeatureNE()" onmouseout="clearColorFeatureNE()">NE
                                 </th>
-                                <th class="text-center border border-white" id="feature_pow"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_pow"
                                     onmousemove="changeColorFeaturePOW()" onmouseout="clearColorFeaturePOW()">POW
                                 </th>
-                                <th class="text-center border border-white" id="feature_sp"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_sp"
                                     onmousemove="changeColorFeatureSP()" onmouseout="clearColorFeatureSP()">SP
                                 </th>
-                                <th class="text-center border border-white" id="feature_tra"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_tra"
                                     onmousemove="changeColorFeatureTRA()" onmouseout="clearColorFeatureTRA()">TRA
                                 </th>
-                                <th class="text-center border border-white" id="feature_van"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_van"
                                     onmousemove="changeColorFeatureVAN()" onmouseout="clearColorFeatureVAN()">VAN
                                 </th>
-                                <th class="text-center border border-white" id="feature_wil"
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;" id="feature_wil"
                                     onmousemove="changeColorFeatureWIL()" onmouseout="clearColorFeatureWIL()">WIL
                                 </th>
-                                <th class="text-center border border-white">#</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">#</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif">{{$de}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif">{{$dom}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif">{{$fe}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif">{{$gre}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif">{{$lun}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif">{{$nai}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif">{{$ne}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif">{{$pow}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif">{{$sp}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif">{{$tra}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif">{{$van}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif">{{$wil}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$result}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif">{{$de}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif">{{$dom}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif">{{$fe}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif">{{$gre}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif">{{$lun}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif">{{$nai}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif">{{$ne}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif">{{$pow}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif">{{$sp}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif">{{$tra}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif">{{$van}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif">{{$wil}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$result}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif">{{$second_row_de}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif">{{$second_row_dom}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif">{{$second_row_fe}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif">{{$second_row_gre}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif">{{$second_row_lun}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif">{{$second_row_nai}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif">{{$second_row_ne}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif">{{$second_row_pow}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif">{{$second_row_sp}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif">{{$second_row_tra}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif">{{$second_row_van}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif">{{$second_row_wil}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_result}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif">{{$second_row_de}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif">{{$second_row_dom}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif">{{$second_row_fe}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif">{{$second_row_gre}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif">{{$second_row_lun}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif">{{$second_row_nai}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif">{{$second_row_ne}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif">{{$second_row_pow}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif">{{$second_row_sp}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif">{{$second_row_tra}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif">{{$second_row_van}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif">{{$second_row_wil}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$second_row_result}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif">{{$third_row_de}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif">{{$third_row_dom}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif">{{$third_row_fe}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif">{{$third_row_gre}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif">{{$third_row_lun}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif">{{$third_row_nai}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif">{{$third_row_ne}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif">{{$third_row_pow}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif">{{$third_row_sp}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif">{{$third_row_tra}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif">{{$third_row_van}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif">{{$third_row_wil}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$third_row_result}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('de', $topTwoKeys)) greenBox @elseif(in_array('de', $nextTwoKeys)) lightGreenBox @elseif(in_array('de', $redKeys)) redBox @endif">{{$third_row_de}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('dom', $topTwoKeys)) greenBox @elseif(in_array('dom', $nextTwoKeys)) lightGreenBox @elseif(in_array('dom', $redKeys)) redBox  @endif">{{$third_row_dom}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('fe', $topTwoKeys)) greenBox @elseif(in_array('fe', $nextTwoKeys)) lightGreenBox @elseif(in_array('fe', $redKeys)) redBox @endif">{{$third_row_fe}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('gre', $topTwoKeys)) greenBox @elseif(in_array('gre', $nextTwoKeys)) lightGreenBox @elseif(in_array('gre', $redKeys)) redBox @endif">{{$third_row_gre}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('lun', $topTwoKeys)) greenBox @elseif(in_array('lun', $nextTwoKeys)) lightGreenBox @elseif(in_array('lun', $redKeys)) redBox @endif">{{$third_row_lun}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('nai', $topTwoKeys)) greenBox @elseif(in_array('nai', $nextTwoKeys)) lightGreenBox @elseif(in_array('nai', $redKeys)) redBox @endif">{{$third_row_nai}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('ne', $topTwoKeys)) greenBox @elseif(in_array('ne', $nextTwoKeys)) lightGreenBox @elseif(in_array('ne', $redKeys)) redBox  @endif">{{$third_row_ne}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('pow', $topTwoKeys)) greenBox @elseif(in_array('pow', $nextTwoKeys)) lightGreenBox @elseif(in_array('pow', $redKeys)) redBox @endif">{{$third_row_pow}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('sp', $topTwoKeys)) greenBox @elseif(in_array('sp', $nextTwoKeys)) lightGreenBox @elseif(in_array('sp', $redKeys)) redBox @endif">{{$third_row_sp}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('tra', $topTwoKeys)) greenBox @elseif(in_array('tra', $nextTwoKeys)) lightGreenBox @elseif(in_array('tra', $redKeys)) redBox @endif">{{$third_row_tra}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('van', $topTwoKeys)) greenBox @elseif(in_array('van', $nextTwoKeys)) lightGreenBox @elseif(in_array('van', $redKeys)) redBox @endif">{{$third_row_van}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center @if(in_array('wil', $topTwoKeys)) greenBox @elseif(in_array('wil', $nextTwoKeys)) lightGreenBox @elseif(in_array('wil', $redKeys)) redBox @endif">{{$third_row_wil}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$third_row_result}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -507,31 +507,31 @@
         </div>
         <div class="row mt-4">
             <div class="col-12 col-md-5">
-                <div class="card left-nav-blue-light-color">
+                <div class="card left-nav-blue-light-color" style="background-color: white !important">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
                             <tr>
-                                <th class="text-center border border-white">G</th>
-                                <th class="text-center border border-white">S</th>
-                                <th class="text-center border border-white">C</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">G</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">S</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">C</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$gold = $grid['g']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$silver = $grid['s']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$copper = $grid['c']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$gold = $grid['g']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$silver = $grid['s']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$copper = $grid['c']}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_gold = $grid['mer'] + $grid['sa'] + $grid['so']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_silver = $grid['ven'] + $grid['jo']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_copper = $grid['ma'] + $grid['lu']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$second_row_gold = $grid['mer'] + $grid['sa'] + $grid['so']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$second_row_silver = $grid['ven'] + $grid['jo']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$second_row_copper = $grid['ma'] + $grid['lu']}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$gold * $second_row_gold}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$silver * $second_row_silver}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$copper * $second_row_copper}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$gold * $second_row_gold}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$silver * $second_row_silver}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$copper * $second_row_copper}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -541,35 +541,35 @@
         </div>
         <div class="row mt-4">
             <div class="col-12 col-md-5">
-                <div class="card left-nav-blue-light-color">
+                <div class="card left-nav-blue-light-color" style="background-color: white !important">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
                             <tr>
-                                <th class="text-center border border-white">EM</th>
-                                <th class="text-center border border-white">INS</th>
-                                <th class="text-center border border-white">INT</th>
-                                <th class="text-center border border-white">MOV</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">EM</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">INS</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">INT</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">MOV</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['em'] < 7 || $grid['em'] > 12 ? 'redBox' : ''}}">{{$grid['em']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['ins'] < 7 || $grid['ins'] > 12 ? 'redBox' : ''}}">{{$grid['ins']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['int'] < 7 || $grid['int'] > 12 ? 'redBox' : ''}}">{{$grid['int']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['mov'] < 7 || $grid['mov'] > 12 ? 'redBox' : ''}}">{{$grid['mov']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{$grid['em'] < 7 || $grid['em'] > 12 ? 'redBox' : ''}}">{{$grid['em']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{$grid['ins'] < 7 || $grid['ins'] > 12 ? 'redBox' : ''}}">{{$grid['ins']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{$grid['int'] < 7 || $grid['int'] > 12 ? 'redBox' : ''}}">{{$grid['int']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{$grid['mov'] < 7 || $grid['mov'] > 12 ? 'redBox' : ''}}">{{$grid['mov']}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_em ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_em}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_ins ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_ins}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_int ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_int}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_mov ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_mov}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $second_row_em ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_em}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $second_row_ins ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_ins}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $second_row_int ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_int}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $second_row_mov ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_mov}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_em > 29 && $third_row_em < 301 && $third_row_em == $communication_third_style) ? 'greenBox' : (($third_row_em < 30 || $third_row_em > 300) ? 'redBox' : '') }}">{{$third_row_em}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_ins > 29 && $third_row_ins < 301 && $third_row_ins == $communication_third_style) ? 'greenBox' : (($third_row_ins < 30 || $third_row_ins > 300) ? 'redBox' : '') }}">{{$third_row_ins}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_int > 29 && $third_row_int < 301 && $third_row_int == $communication_third_style) ? 'greenBox' : (($third_row_int < 30 || $third_row_int > 300) ? 'redBox' : '') }}">{{$third_row_int}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_mov > 29 && $third_row_mov < 301 && $third_row_mov == $communication_third_style) ? 'greenBox' : (($third_row_mov < 30 || $third_row_mov > 300) ? 'redBox' : '') }}">{{$third_row_mov}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{($third_row_em > 29 && $third_row_em < 301 && $third_row_em == $communication_third_style) ? 'greenBox' : (($third_row_em < 30 || $third_row_em > 300) ? 'redBox' : '') }}">{{$third_row_em}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{($third_row_ins > 29 && $third_row_ins < 301 && $third_row_ins == $communication_third_style) ? 'greenBox' : (($third_row_ins < 30 || $third_row_ins > 300) ? 'redBox' : '') }}">{{$third_row_ins}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{($third_row_int > 29 && $third_row_int < 301 && $third_row_int == $communication_third_style) ? 'greenBox' : (($third_row_int < 30 || $third_row_int > 300) ? 'redBox' : '') }}">{{$third_row_int}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{($third_row_mov > 29 && $third_row_mov < 301 && $third_row_mov == $communication_third_style) ? 'greenBox' : (($third_row_mov < 30 || $third_row_mov > 300) ? 'redBox' : '') }}">{{$third_row_mov}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -579,23 +579,23 @@
         </div>
         <div class="row mt-4">
             <div class="col-12 col-md-5">
-                <div class="card left-nav-blue-light-color">
+                <div class="card left-nav-blue-light-color" style="background-color: white !important">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
                             <tr>
-                                <th class="text-center border border-white">+</th>
-                                <th class="text-center border border-white">-</th>
-                                <th class="text-center border border-white">PV</th>
-                                <th class="text-center border border-white">EP</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">+</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">-</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">PV</th>
+                                <th class="text-center border" style="color: #1b3a62; border: 2px solid #1b3a62 !important;">EP</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$positive = $grid['sa'] + $grid['jo'] + $grid['ven'] + $grid['so']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$negative = $grid['ma'] + $grid['lu'] + $grid['mer']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$positive - $negative}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">{{$positive + $negative}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$positive = $grid['sa'] + $grid['jo'] + $grid['ven'] + $grid['so']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$negative = $grid['ma'] + $grid['lu'] + $grid['mer']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$positive - $negative}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center">{{$positive + $negative}}</td>
                             </tr>
                             </tbody>
                         </table>
