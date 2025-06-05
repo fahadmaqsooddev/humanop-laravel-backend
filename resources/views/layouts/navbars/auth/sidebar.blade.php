@@ -11,7 +11,8 @@
         }
 
         .active-itt-all {
-            color: #f2661c !important;
+            background-color: #eaf3ff !important;
+            color: #1b3a62 !important;
         }
 
         .nav-active {
@@ -53,14 +54,14 @@
     <div class="position-sticky w-100 sticky_header" style="top: 28;z-index: 9999999;">
         <div class="d-flex justify-content-between px-5">
             <div
-                style="border-radius: 50%;background: #F4E3C7;box-shadow: 0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer"
+                style="border-radius: 50%;background: #eaf3ff;box-shadow: 0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer"
                 id="nav-show-btn" onclick="showNavbar()">
                 <img src="{{asset('assets/new-design/icon/dashboard/menu-icon.svg')}}" id="menu_back_arrow"
                      alt="notification"
                      width="50" height="50">
             </div>
             <div
-                style="border-radius: 50%;background: #F4E3C7;box-shadow:0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer"
+                style="border-radius: 50%;background: #eaf3ff;box-shadow:0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer"
                 data-toggle="modal" data-target="#humanOpWalletModal">
                 <img src="{{asset('assets/new-design/icon/dashboard/orange_crown.svg')}}" alt="notification"
                      width="50" height="50">
@@ -69,7 +70,7 @@
     </div>
 @endif
 <aside
-    style="z-index: 1024; !important;{{\App\Helpers\Helpers::getWebUser()['is_admin'] == 2  ? 'width: 155px; height: auto;border-radius: 40px !important;margin-left: 30px;' : ''}}background: #1C365E !important"
+    style="z-index: 1024; !important;{{\App\Helpers\Helpers::getWebUser()['is_admin'] == 2  ? 'width: 155px; height: auto;border-radius: 40px !important;margin-left: 30px;' : ''}}background: #1B3A62 !important"
     class=" {{\App\Helpers\Helpers::getWebUser()['is_admin'] == 2 ? "mt-4 mb-4" : ''}}  sidenav sidenavHideClass myspecial navbar navbar-vertical navbar-expand-xs border-0   {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start' ) }} "
     id="sidenav-main">
     <div class="d-flex ">
@@ -119,7 +120,7 @@
             <div class="d-flex justify-content-center">
                 <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/admin/login-back-to-admin')}}"
                    class="btn btn-sm"
-                   style="background-color: #f2661c; color: white;" id="logInBackToAdmin_1" hidden>Back to admin</a>
+                   style="background-color: #1b3a62; color: white;" id="logInBackToAdmin_1" hidden>Back to admin</a>
             </div>
         @endif
         <ul class="navbar-nav">
@@ -315,108 +316,121 @@
                                                     </div>
                                                 </li>
                                             @endcan
-                                            @can('hai_admin')
-                                                <li class="nav-item ">
-                                                    <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                                       data-bs-toggle="collapse" aria-expanded="false" href="#chat">
-                                                        <span class="sidenav-mini-icon"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                        <span class="sidenav-normal"> HAI Admin <b
-                                                                class="caret"></b></span>
-                                                    </a>
-                                                    <div
-                                                        class="collapse {{ Request::is('admin/hai-chat-persona', 'admin/clusters', 'admin/hai-chat', 'admin/hai-chat-comparison', 'admin/fine-tune', 'admin/hai-dojo') ? 'show' : '' }}"
-                                                        id="chat">
-                                                        <ul class="nav nav-sm flex-column">
-                                                            <li class="nav-item {{ (Request::is('admin/hai-chat-persona') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/hai-chat-persona') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_hai_chat_persona') }}">
-                                                                    <span class="sidenav-mini-icon"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Persona </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/hai-chat') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/hai-chat') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_hai_chat') }}">
-                                                                    <span class="sidenav-mini-icon"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Brains </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_embedding_groups') }}">
-                                                                    <span class="sidenav-mini-icon"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Knowledge </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/hai-dojo') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link"
-                                                                   data-bs-toggle="collapse" aria-expanded="false" href="#advanced">
-                                                                    <span class="sidenav-mini-icon"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal">
-                                                                        <img style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}">
-                                                                    </span>
-                                                                    <span class="sidenav-normal"> Advanced </span>
-                                                                </a>
+{{--                                            @can('hai_admin')--}}
+{{--                                                <li class="nav-item ">--}}
+{{--                                                    <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"--}}
+{{--                                                       data-bs-toggle="collapse" aria-expanded="false" href="#chat">--}}
+{{--                                                        <span class="sidenav-mini-icon"><img--}}
+{{--                                                                style="width: 18px; margin-right: 10px"--}}
+{{--                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>--}}
+{{--                                                        <span class="sidenav-normal"><img--}}
+{{--                                                                style="width: 18px; margin-right: 10px"--}}
+{{--                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>--}}
+{{--                                                        <span class="sidenav-normal"> HAI Admin <b--}}
+{{--                                                                class="caret"></b></span>--}}
+{{--                                                    </a>--}}
+{{--                                                    <div--}}
+{{--                                                        class="collapse {{ Request::is('admin/hai-chat-persona', 'admin/clusters', 'admin/hai-chat', 'admin/hai-chat-comparison', 'admin/fine-tune', 'admin/hai-dojo') ? 'show' : '' }}"--}}
+{{--                                                        id="chat">--}}
+{{--                                                        <ul class="nav nav-sm flex-column">--}}
+{{--                                                            <li class="nav-item {{ (Request::is('admin/hai-chat-persona') ? 'active-itt-all' : '') }}">--}}
+{{--                                                                <a class="nav-link {{ (Request::is('admin/hai-chat-persona') ? 'active-itt-all' : '') }}"--}}
+{{--                                                                   href="{{ route('admin_hai_chat_persona') }}">--}}
+{{--                                                                    <span class="sidenav-mini-icon"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>--}}
+{{--                                                                    <span class="sidenav-normal"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>--}}
+{{--                                                                    <span class="sidenav-normal"> Persona </span>--}}
+{{--                                                                </a>--}}
+{{--                                                            </li>--}}
+{{--                                                            <li class="nav-item {{ (Request::is('admin/hai-chat') ? 'active-itt-all' : '') }}">--}}
+{{--                                                                <a class="nav-link {{ (Request::is('admin/hai-chat') ? 'active-itt-all' : '') }}"--}}
+{{--                                                                   href="{{ route('admin_hai_chat') }}">--}}
+{{--                                                                    <span class="sidenav-mini-icon"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>--}}
+{{--                                                                    <span class="sidenav-normal"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>--}}
+{{--                                                                    <span class="sidenav-normal"> Brains </span>--}}
+{{--                                                                </a>--}}
+{{--                                                            </li>--}}
+{{--                                                            <li class="nav-item {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}">--}}
+{{--                                                                <a class="nav-link {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}"--}}
+{{--                                                                   href="{{ route('admin_embedding_groups') }}">--}}
+{{--                                                                    <span class="sidenav-mini-icon"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>--}}
+{{--                                                                    <span class="sidenav-normal"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>--}}
+{{--                                                                    <span class="sidenav-normal"> Knowledge </span>--}}
+{{--                                                                </a>--}}
+{{--                                                            </li>--}}
+{{--                                                            <li class="nav-item {{ (Request::is('admin/hai-dojo', 'admin/fine-tune') ? 'active-itt-all' : '') }}">--}}
+{{--                                                                <a class="nav-link"--}}
+{{--                                                                   data-bs-toggle="collapse" aria-expanded="false" href="#advanced">--}}
+{{--                                                                    <span class="sidenav-mini-icon"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>--}}
+{{--                                                                    <span class="sidenav-normal">--}}
+{{--                                                                        <img style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}">--}}
+{{--                                                                    </span>--}}
+{{--                                                                    <span class="sidenav-normal"> Advanced </span>--}}
+{{--                                                                </a>--}}
 
-                                                                <div class="collapse {{ Request::is('admin/hai-dojo') ? 'show' : '' }}"
-                                                                    id="advanced" style="margin-left: 20px;">
-                                                                    <ul class="nav nav-sm flex-column">
-                                                                        <li class="nav-item {{ (Request::is('admin/hai-dojo') ? 'active-itt-all' : '') }}">
-                                                                            <a class="nav-link {{ (Request::is('admin/hai-dojo') ? 'active-itt-all' : '') }}"
-                                                                               href="{{ route('admin_hai_dojo') }}">
-                                                                    <span class="sidenav-mini-icon"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                                <span class="sidenav-normal"><img
-                                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                                <span class="sidenav-normal"> HAi Dojo </span>
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
+{{--                                                                <div class="collapse {{ Request::is('admin/hai-dojo') ? 'show' : '' }}"--}}
+{{--                                                                    id="advanced" style="margin-left: 20px;">--}}
+{{--                                                                    <ul class="nav nav-sm flex-column">--}}
+{{--                                                                        <li class="nav-item {{ (Request::is('admin/hai-dojo') ? 'active-itt-all' : '') }}">--}}
+{{--                                                                            <a class="nav-link {{ (Request::is('admin/hai-dojo') ? 'active-itt-all' : '') }}"--}}
+{{--                                                                               href="{{ route('admin_hai_dojo') }}">--}}
+{{--                                                                    <span class="sidenav-mini-icon"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>--}}
+{{--                                                                                <span class="sidenav-normal"><img--}}
+{{--                                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>--}}
+{{--                                                                                <span class="sidenav-normal"> HAi Dojo </span>--}}
+{{--                                                                            </a>--}}
+{{--                                                                        </li>--}}
 
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_hai_chat_comparison') }}">
-                                                                    <span class="sidenav-mini-icon"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Comparison </span>
-                                                                </a>
+{{--                                                                        <li class="nav-item {{ (Request::is('admin/fine-tune') ? 'active-itt-all' : '') }}">--}}
+{{--                                                                            <a class="nav-link {{ (Request::is('admin/fine-tune') ? 'active-itt-all' : '') }}"--}}
+{{--                                                                               href="{{ route('fine_tune') }}">--}}
+{{--                                                                    <span class="sidenav-mini-icon"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>--}}
+{{--                                                                                <span class="sidenav-normal"><img--}}
+{{--                                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>--}}
+{{--                                                                                <span class="sidenav-normal"> Fine Tune </span>--}}
+{{--                                                                            </a>--}}
+{{--                                                                        </li>--}}
+{{--                                                                    </ul>--}}
+{{--                                                                </div>--}}
 
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                            @endcan
+{{--                                                            </li>--}}
+{{--                                                            <li class="nav-item {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}">--}}
+{{--                                                                <a class="nav-link {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}"--}}
+{{--                                                                   href="{{ route('admin_hai_chat_comparison') }}">--}}
+{{--                                                                    <span class="sidenav-mini-icon"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>--}}
+{{--                                                                    <span class="sidenav-normal"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>--}}
+{{--                                                                    <span class="sidenav-normal"> Comparison </span>--}}
+{{--                                                                </a>--}}
+
+{{--                                                            </li>--}}
+{{--                                                        </ul>--}}
+{{--                                                    </div>--}}
+{{--                                                </li>--}}
+{{--                                            @endcan--}}
                                             @can('cms_admin')
                                                 <li class="nav-item ">
                                                     <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
@@ -448,7 +462,7 @@
                                                         'admin/create-version-control',
                                                         'admin/edit-version-control/*',
                                                         'admin/edit-code/*',
-                                                        
+
 
                                                         'admin/admin_get_client_invite') ? 'show' : '' }}"
                                                         id="vrExamples">
@@ -619,7 +633,7 @@
                                                                     </a>
                                                                 </li>
                                                             @endif
-                                                            
+
                                                             <li class="nav-item {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_pricing_plan') }}">
@@ -754,7 +768,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                
+
                             @endif
 
                             <li class="nav-item {{ (Request::is('admin/settings') ? 'active-itt-all' : '') }}">
@@ -790,7 +804,7 @@
 {{--                        <div class="d-flex justify-content-center">--}}
 {{--                            <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/client/login-back-to-admin')}}"--}}
 {{--                               class="btn btn-sm"--}}
-{{--                               style="background-color: #f2661c; color: white;" id="logInBackToAdmin_3" hidden>Back to--}}
+{{--                               style="background-color: #1b3a62; color: white;" id="logInBackToAdmin_3" hidden>Back to--}}
 {{--                                admin</a>--}}
 {{--                        </div>--}}
 {{--                    @endif--}}

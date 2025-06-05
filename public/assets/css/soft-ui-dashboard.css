@@ -2701,10 +2701,10 @@ progress {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.4rem;
-  color: #f2661c;
+  color: #1B3A62;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #f2661c;
+  border: 1px solid #1B3A62;
   appearance: none;
   border-radius: 0.5rem;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
@@ -3004,7 +3004,7 @@ textarea.form-control-lg {
 }
 
 /*.form-check-input:checked[type="checkbox"] {*/
-/*  background-image: linear-gradient(310deg, #f2661c 0%, #f2661c 100%);*/
+/*  background-image: linear-gradient(310deg, #1b3a62 0%, #1b3a62 100%);*/
 /*}*/
 
 .form-check-input:checked[type="radio"] {
@@ -5605,7 +5605,7 @@ fieldset:disabled .btn {
 }
 
 .left-nav-blue-light-color{
-    background: #2C4C7E !important;
+    background: #eaf3ff !important;
 }
 
 .card {
@@ -5614,7 +5614,7 @@ fieldset:disabled .btn {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #1C365E;
+  background-color: white;
     color: white;
   /*background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;*/
   /*background-clip: border-box;*/
@@ -20419,7 +20419,7 @@ fieldset:disabled .btn {
 .chat-message {
     margin-top: 15px;
     margin-left: 13px;
-    background-color: #f2661c;
+    background-color: #1b3a62;
     color: white;
     text-align: start;
 }
@@ -20429,14 +20429,14 @@ fieldset:disabled .btn {
     margin-bottom: 30px;
     /*width: 520px;*/
     margin-left: 295px;
-    background-color: #f2661c;
+    background-color: #1b3a62;
     color: white;
     align-self: flex-end;
 }
 
 .updateBtn
 {
-    background-color: #f2661c;
+    background-color: #1B3A62;
     color: white;
 }
 
@@ -20490,7 +20490,7 @@ fieldset:disabled .btn {
 }
 
 /*.chatbox-input button:hover {*/
-/*    background-color: #f2661c;*/
+/*    background-color: #1b3a62;*/
 /*}*/
 .chat-hover:hover {
     background-color: #0f1534;
@@ -20514,7 +20514,7 @@ fieldset:disabled .btn {
 }
 /* end chat box css */
 .fixed-plugin .fixed-plugin-button {
-  background: #f2661c;
+  background: #1b3a62;
   border-radius: 50%;
   bottom: 30px;
   right: 30px;
@@ -20525,7 +20525,7 @@ fieldset:disabled .btn {
 }
 
 .fixed-plugin .fixed-plugin-btn {
-    background: #f2661c;
+    background: #1b3a62;
     bottom: 30px;
     right: 30px;
     font-size: 1.25rem;
@@ -20721,8 +20721,8 @@ fieldset:disabled .btn {
 }
 
 .form-switch .form-check-input:checked {
-  border-color: #f2661c;
-  background-color: #f2661c;
+  border-color: #1B3A62;
+  background-color: #1B3A62;
 }
 
 .form-select {
@@ -20760,7 +20760,7 @@ label,
 }
 
 .bg-gradient-primary {
-  background-image: linear-gradient(310deg, #f2661c 0%, #f2661c 100%);
+  background-image: linear-gradient(310deg, #1B3A62 0%, #1B3A62 100%);
 }
 
 .bg-gradient-secondary {
@@ -21777,7 +21777,7 @@ hr.horizontal.gray-light {
 
 .connection-btn {
     color: #FFFFFF !important;
-    background-color: #F95520 !important;
+    background-color: #1b3a62 !important;
     cursor: pointer !important;
     border-radius: 10px !important;
     border: 0px !important;
@@ -21818,7 +21818,7 @@ hr.horizontal.gray-light {
 {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: #F95520;
+    background-color: #1b3a62;
 }
 
 @media (min-width: 768px) {
@@ -22315,7 +22315,7 @@ hr.horizontal.gray-light {
 }
 
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active .icon {
-  background-image: linear-gradient(310deg, #f2661c 0%, #f2661c 100%);
+  background-image: linear-gradient(310deg, #1b3a62 0%, #1b3a62 100%);
 }
 
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active .icon svg .color-background,
@@ -22403,7 +22403,7 @@ hr.horizontal.gray-light {
 .navbar-vertical .navbar-nav .nav-item .collapsing .nav .nav-item.active .nav-link:before {
   height: 8px;
   width: 8px;
-  background: #f2661c;
+  background: #1b3a62;
 }
 
 .navbar-vertical .navbar-nav .nav-item .collapse .nav .nav-item .nav-item .nav-link:before,
@@ -22616,7 +22616,7 @@ hr.horizontal.gray-light {
 }
 
 .nav.nav-pills .nav-link.active {
-    background-color: #f2661c !important;
+    background-color: #1b3a62 !important;
     height: 43px;
   animation: 0.2s ease;
   color: white;

@@ -3,6 +3,7 @@
 namespace App\Models\Client\Connection;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Client\MessageThread\MessageThread;
@@ -268,6 +269,18 @@ class Connection extends Model
             ->latest();
 
         return Helpers::pagination($connection_requests, $request->input('pagination'), $request->input('per_page'));
+    }
+
+    public static function userConnectionIdsForHAi(){
+
+        $user_connection_ids = self::whereHas('friend', function ($q){
+
+            $q->where('hai_status', 0);
+
+        })->where('user_id', Helpers::getUser()->id)->where('status', 1)->get()->pluck('friend_id');
+
+        return $user_connection_ids;
+
     }
 
 }

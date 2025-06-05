@@ -78,4 +78,21 @@ class HaiChatConversation extends Model
 
         return [[],[]];
     }
+
+    public static function getConversationFromId($chatBotId, $user_id)
+    {
+        $user_id = empty($user_id) ? null : $user_id;
+
+        return self::where('chat_bot_id', $chatBotId)->where('user_id', $user_id)->get();
+    }
+
+    public static function createNewConversation($chatBotId, $message = null, $reply = null, $user_id = null)
+    {
+        return self::create([
+            'chat_bot_id' => $chatBotId,
+            'message' => $message,
+            'reply' => $reply,
+            'user_id' => $user_id
+        ]);
+    }
 }

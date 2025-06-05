@@ -34,7 +34,7 @@ class Point extends Model
     {
         $userCredits = self::where('user_id', $user_id)->first();
 
-        $userCredits->update(['point' => $userCredits['point'] + $point]);
+//        $userCredits->update(['point' => $userCredits['point'] + $point]);
 
         return $userCredits;
 
@@ -48,10 +48,10 @@ class Point extends Model
 
         if ($points){
 
-                $total_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 1)->sum('point') * 1000;
-                $used_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 0)->sum('point') * 1000;
-                $remaining_tokens = $points['point'] * 1000;
-                $rollover_tokens = ((clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 1)->sum('point') - (clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 0)->sum('point')) * 1000;
+                $total_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 1)->sum('point');
+                $used_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 0)->sum('point');
+                $remaining_tokens = $points['point'];
+                $rollover_tokens = ((clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 1)->sum('point') - (clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 0)->sum('point'));
         }
 
         return [

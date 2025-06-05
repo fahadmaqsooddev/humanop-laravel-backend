@@ -3,7 +3,7 @@
 @section('content')
     <style>
         .card{
-            background-color: #1C365E !important;
+            background-color: white !important;
         }
     </style>
     <div class="row container-fluid">
@@ -28,8 +28,8 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">Daily Assessments</p>
-                                            <h5 class="font-weight-bolder mb-0">
+                                               style="color: #1B3A62;">Daily Assessments</p>
+                                            <h5 class="font-weight-bolder mb-0" style="color: #1B3A62">
                                                 9
                                                 <span class="text-success text-sm font-weight-bolder">+55%</span>
                                             </h5>
@@ -53,9 +53,9 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">Weekly Assessments
+                                               style="color: #1B3A62;">Weekly Assessments
                                             </p>
-                                            <h5 class="font-weight-bolder mb-0">
+                                            <h5 class="font-weight-bolder mb-0" style="color: #1B3A62">
                                                 45
                                                 <span class="text-success text-sm font-weight-bolder">+3%</span>
                                             </h5>
@@ -81,9 +81,9 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">Monthly Assessments
+                                               style="color: #1B3A62;">Monthly Assessments
                                             </p>
-                                            <h5 class="font-weight-bolder mb-0">
+                                            <h5 class="font-weight-bolder mb-0" style="color: #1B3A62">
                                                 130
                                                 <span class="text-success text-sm font-weight-bolder">+2%</span>
                                             </h5>
@@ -107,9 +107,9 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">Yearly Assessments
+                                               style="color: #1B3A62;">Yearly Assessments
                                             </p>
-                                            <h5 class="font-weight-bolder mb-0">
+                                            <h5 class="font-weight-bolder mb-0" style="color: #1B3A62">
                                                 1560
                                                 <span class="text-success text-sm font-weight-bolder">+5%</span>
                                             </h5>
@@ -138,7 +138,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">
+                                               style="color: #1B3A62;">
                                                 Practitioner Activity Stats</p>
                                             <h5 class="font-weight-bolder mb-0">
                                                 <span class="text-success text-sm font-weight-bolder"></span>
@@ -163,7 +163,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">
+                                               style="color: #1B3A62;">
                                                 Revenue Stats</p>
                                             <h5 class="font-weight-bolder mb-0">
                                                 <span class="text-success text-sm font-weight-bolder"></span>
@@ -191,7 +191,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">
+                                               style="color: #1B3A62;">
                                                 Project Stats</p>
                                             <h5 class="font-weight-bolder mb-0">
                                                 <span class="text-success text-sm font-weight-bolder"></span>
@@ -216,7 +216,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">
+                                               style="color: #1B3A62;">
                                                 Enterprise stats</p>
                                             <h5 class="font-weight-bolder mb-0">
                                                 <span class="text-success text-sm font-weight-bolder"></span>
@@ -1199,10 +1199,10 @@
     </script>
 {{--    <div class="row mt-lg-4 mt-2">--}}
 {{--        <div class="fixed-plugin">--}}
-{{--            <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"--}}
+{{--            <a style="background-color: #1b3a62; color: white; border-radius: 5px !important;"--}}
 {{--               class="btn col-12 fixed-plugin-button">H.A.I CHAT INTERFACE</a>--}}
 {{--            <div class="card shadow-lg blur" style="background-color: #0f1534 !important;">--}}
-{{--                <div class="card-header pb-0 pt-3" style="background-color: #f2661c">--}}
+{{--                <div class="card-header pb-0 pt-3" style="background-color: #1b3a62">--}}
 {{--                    <h5 class="text-center text-white">H.A.I CHAT INTERFACE</h5>--}}
 {{--                    <div class="float-start d-flex">--}}
 {{--                        <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">--}}
@@ -1221,7 +1221,7 @@
 {{--                <div class="d-flex">--}}
 {{--                    <div class="col-3">--}}
 {{--                        <div class="chatbox">--}}
-{{--                            <div class="chatbox-content" style="background-color: #f2661c">--}}
+{{--                            <div class="chatbox-content" style="background-color: #1b3a62">--}}
 {{--                                <div class="mt-4 chat-hover d-flex" style="cursor: pointer;">--}}
 {{--                                    <i class="fa fa-plus" style="color: white; margin-top: 8px"></i>--}}
 {{--                                    <h5 class="text-white text-bold" style="margin-left: 12px">New chat</h5>--}}
@@ -1319,14 +1319,14 @@
                         <!-- Points Counter Circle -->
                         <div class="fw-bold display-5 d-flex align-items-center justify-content-center"
                              id="coin-count"
-                             style="border-radius: 50%; height: 50px; width: 50px; font-size: 16px; border: 1px solid white; color: white; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; background-color: #f2661c; margin-right: -5px;;z-index:4">
+                             style="border-radius: 50%; height: 50px; width: 50px; font-size: 16px; border: 1px solid white; color: white; text-shadow: 0 0 5px #1b3a62, 0 0 10px #1b3a62; background-color: #1b3a62; margin-right: -5px;;z-index:4">
                             <span>{{ Auth::user()['point'] }}</span>
                         </div>
                         <!-- Coins Label - extending from the circle -->
                         <div class="fw-bold display-5 d-flex align-items-center justify-content-center"
                              id="coin-label"
-                             style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:2; width: 70px; font-size: 16px; border: 1px solid #f2661c; color: #f2661c; background-color: white; margin-left: -4px;margin-top: 5px">
-                            <span style="color: #f2661c;">coins</span>
+                             style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:2; width: 70px; font-size: 16px; border: 1px solid #1b3a62; color: #1b3a62; background-color: white; margin-left: -4px;margin-top: 5px">
+                            <span style="color: #1b3a62;">coins</span>
                         </div>
                     </div>
 

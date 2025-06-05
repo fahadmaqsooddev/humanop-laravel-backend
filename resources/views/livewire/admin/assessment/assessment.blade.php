@@ -7,14 +7,14 @@
     <div>
         <div class="d-flex mt-4">
             <div class="input-group ms-md-4 pe-md-4">
-                {{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+                {{--        <span style="background-color: #eaf3ff;" class="input-group-text text-body"><i class="fas fa-search"--}}
                 {{--                                                                                       aria-hidden="true"></i></span>--}}
                 <input type="text" name="name" wire:model.debounce.500ms="name"
                        class="form-control table-orange-color search-bar" placeholder="Search Name">
                        {{-- <div>{{ $name }}</div> --}}
             </div>
             <div class="input-group ms-md-4 pe-md-4">
-                {{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+                {{--        <span style="background-color: #eaf3ff;" class="input-group-text text-body"><i class="fas fa-search"--}}
                 {{--                                                                                       aria-hidden="true"></i></span>--}}
                 <input type="email" name="email" wire:model.debounce="email"
                        class="form-control table-orange-color search-bar" placeholder="Search Email">
@@ -41,7 +41,7 @@
             </div>
         </div>
         <div class="pe-md-4">
-            <button class=" btn-sm float-end mt-4 mb-4 text-white clickBtn" style="background:#f2661c;color:white;font-weight:bolder;border:none;">
+            <button class=" btn-sm float-end mt-4 mb-4 text-white clickBtn" style="background:#1B3A62;color:white;font-weight:bolder;border:none;">
                 Advance Filters
             </button>
         </div>
@@ -261,11 +261,11 @@
                     </td>
                     <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_user_answer',['id' => $assessment['id']]) }}" type="submit"
-                            class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">View Answers</a>
+                            class=" btn-sm float-end mt-2 mb-0" style="background:#1B3A62;color:white;font-weight:bolder;border:none;">View Answers</a>
                     </td>
                     <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"
-                            class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">View</a>
+                            class=" btn-sm float-end mt-2 mb-0" style="background:#1B3A62;color:white;font-weight:bolder;border:none;">View</a>
                     </td>
                 </tr>
             @endforeach

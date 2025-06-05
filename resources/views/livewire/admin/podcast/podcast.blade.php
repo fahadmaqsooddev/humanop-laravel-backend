@@ -25,13 +25,13 @@
                         <div class="col-4">
                             @if($latest_podcast)
                             <button type="button" data-bs-toggle="modal"
-                                    data-bs-target="#podcastModal" style="background-color: #f2661c; color: white"
+                                    data-bs-target="#podcastModal" style="background-color: #1B3A62 ; color: white"
                                     class="btn btn-sm float-end mt-2 mb-0">
                                 update
                             </button>
                             @else
                                 <button type="button" data-bs-toggle="modal"
-                                        data-bs-target="#podcastModal" style="background-color: #f2661c; color: white"
+                                        data-bs-target="#podcastModal" style="background-color: #1B3A62 ; color: white"
                                         class="btn btn-sm float-end mt-2 mb-0">
                                     create
                                 </button>
@@ -76,13 +76,13 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Podcast</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Podcast</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     <div class="form-group mt-4">
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <input style="background-color: #eaf3ff;" class="form-control"
                                                type="url" wire:model.defer="podcast_url"
                                                placeholder="Add your podcast's Hiro.FM embedded link here">
 

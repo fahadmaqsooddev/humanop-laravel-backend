@@ -103,7 +103,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div wire:click="refreshComponent" style="background-color:#f2661c;margin-left:20px;border-radius:5px;cursor:pointer;">
+                            <div wire:click="refreshComponent" style="background-color:#1b3a62;margin-left:20px;border-radius:5px;cursor:pointer;">
                                 <i class="fa-solid fa-arrows-rotate" style="color: white;padding:10px;"></i>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
 
                     </div>
                 </div>
-                <hr style="color: #f2661c;" class="bold">
+                <hr style="color: #1b3a62;" class="bold">
                 <div class="d-flex flex-column justify-content-between flex-grow-1 p-3" id="chat_container"
                      style="overflow-y: auto; margin-bottom:-10px; ">
 

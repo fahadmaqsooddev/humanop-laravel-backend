@@ -2,7 +2,7 @@
 
 @section('content')
     @push('css')
-        <link href="{{ URL::asset('assets/css/cropper.min.css') }}" rel="stylesheet" />
+        <link href="{{ URL::asset('assets/css/cropper.min.css') }}" rel="stylesheet"/>
         <style>
             .setting-options:hover {
                 background-color: white !important;
@@ -28,7 +28,7 @@
         <div class="row mb-5">
             <div class="col-lg-3">
                 <div class="card position-sticky top-1">
-                    <ul class="nav rainbow-border-user-nav-btn flex-column border-radius-lg p-3">
+                    <ul class="nav flex-column border-radius-lg p-3" style="border: 2px solid #1b3a62">
                         <li class="nav-item">
                             <a class="nav-link setting-options text-body" data-scroll="" href="#profile">
                                 <div class="icon me-2">
@@ -165,7 +165,7 @@
                                 </a>
                             </li>
                         @endif
-                        {{-- @if (Auth::user()->hasRole('sub admin'))
+                        @if (Auth::user()->hasRole('sub admin'))
                             <li class="nav-item pt-2">
                                 <a class="nav-link setting-options text-body" data-scroll="" href="#delete">
                                     <div class="icon me-2">
@@ -192,13 +192,14 @@
                                     <span class="text-sm custom-text-dark">Delete Account</span>
                                 </a>
                             </li>
-                        @endif --}}
+                        @endif
                     </ul>
                 </div>
             </div>
             <div class="col-lg-9 mt-lg-0 mt-4">
                 <!-- Card Profile -->
-                <div class="card card-body background-none" id="profile">
+                <div class="card card-body" style="background-color: white !important; border: 2px solid #1b3a62"
+                     id="profile">
                     <div class="row">
                         <div class="col-sm-auto col-4">
                             <div class="avatar avatar-xl position-relative">
@@ -227,51 +228,27 @@
                         </div>
                     </div>
                 </div>
-            {{--                @php($currentUser->age_range = $currentUser->age_min . '-' . $currentUser->age_max)--}}
-            <!-- Card Basic Info -->
+                {{--                @php($currentUser->age_range = $currentUser->age_min . '-' . $currentUser->age_max)--}}
+                <!-- Card Basic Info -->
                 @livewire('admin.setting.basic-setting-form',['user' => $currentUser])
 
                 <!-- Card Change Password -->
                 @livewire('admin.setting.password-setting-form')
-            @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == \App\Enums\Admin\Admin::IS_PRACTITIONER)
-                <!-- Change Timezone -->
+                @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == \App\Enums\Admin\Admin::IS_PRACTITIONER)
+                    <!-- Change Timezone -->
                     @livewire('admin.setting.change-timezone-form')
-            @endif
-            @if (Auth::user()->hasRole('super admin'))
-                <!-- Add sub Admin -->
+                @endif
+                @if (Auth::user()->hasRole('super admin'))
+                    <!-- Add sub Admin -->
                     @livewire('admin.setting.add-sub-admin')
                     <!-- Stripe -->
                     @livewire('admin.setting.stripe-setting-form',['account' => $account])
-<!-- Card Delete Account -->
-<div class="card setting-box-background mt-4" id="delete">
-    <div class="card-header">
-        <h5 class="text-color-dark setting-form-heading">Delete Account</h5>
-        <p class="text-sm mb-0 text-color-dark">Once you delete your account, there is no going back.
-            Please
-            be certain.</p>
-    </div>
-    <div class="card-body d-sm-flex pt-0">
-        <div class="d-flex align-items-center mb-sm-0 mb-4">
-            <div>
-                <div class="form-check form-switch mb-0">
-                    <input style="background-color: #1C365E;" class="form-check-input" type="checkbox"
-                           id="flexSwitchCheckDefault0">
-                </div>
-            </div>
-            <div class="ms-2">
-                <span class="text-color-dark font-weight-bold d-block text-sm">Confirm</span>
-                <span class="text-xs d-block text-color-dark">I want to delete my account.</span>
-            </div>
-        </div>
-        <button class="btn btn-outline-secondary mb-0 ms-auto invisible" type="button" name="button">
-            Deactivate
-        </button>
-        <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Delete Account
-        </button>
-    </div>
-</div>
-            @endif
-            
+                @endif
+                <!-- Card Delete Account -->
+                @if(Auth::user()->hasRole('sub admin'))
+                    @livewire('admin.setting.delete-account')
+                @endif
+
             </div>
         </div>
         @include('layouts/footers/auth/footer')
@@ -281,7 +258,31 @@
 @push('js')
     <script src="{{ URL::asset('assets/js/cropper.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/plugins/choices.min.js') }}"></script>
+    <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script>
+
+        function deleteClientProfile(id, name) {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to delete " + name + " Profile</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('deleteClientProfile', id)
+                }
+            })
+        }
+
         if (document.getElementById('choices-gender')) {
             var gender = document.getElementById('choices-gender');
             const example = new Choices(gender);

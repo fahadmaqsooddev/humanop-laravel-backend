@@ -41,7 +41,7 @@ use App\Http\Controllers\AdminControllers\SummaryReportController;
 */
 
 Route::get('/login', [SessionController::class, 'create'])->name('login');
-Route::post('/session', [SessionController::class, 'store']);
+Route::any('/session', [SessionController::class, 'store']);
 Route::get('/login/forgot-password', [ChangePasswordController::class, 'create'])->name('forgot_password');
 Route::get('/check-email-from-app/{id}', [ChangePasswordController::class, 'checkEmailFromApp'])->name('check_email_app');
 Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
@@ -66,6 +66,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
     // ====================================== Admin Dashboard ================================ //
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
+    Route::get('/welcome-dashboard', [AdminController::class, 'welcomeDashboard'])->name('admin_welcome_dashboard');
     Route::get('/practitioner-profile-overview/{id?}', [AdminController::class, 'profileOverview'])->name('practitioner_profile_overview');
     Route::get('/practitioner-grid/{id}', [AdminController::class, 'grid'])->name('practitioner_grid');
     Route::get('/download-practitioner-report/{id}', [AdminController::class, 'downloadUserReport'])->name('download_practitioner_report');
@@ -115,25 +116,25 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     // ====================================== HAi Admin ================================ //
 
-    Route::group(['middleware' => ['permission:hai_admin']], function () {
-
-        Route::get('/hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');
-        Route::get('/hai-chat-detail/{name}', [AdminController::class, 'haiChatDetail'])->name('admin_hai_chat_detail');
-        Route::get('/clusters', [AdminController::class, 'embeddingGroups'])->name('admin_embedding_groups');
-        Route::get('/embeddings/{id}', [AdminController::class, 'embeddings'])->name('admin_embedding');
-        Route::get('/embedding-detail/{name}', [AdminController::class, 'embeddingDetail'])->name('admin_embedding_detail');
-        Route::get('/fine-tune', [AdminController::class,'fineTune'])->name('fine_tune');
-        Route::get('/hai-chat-persona/{name?}', [AdminController::class,'haiChatPersona'])->name('admin_hai_chat_persona');
-        Route::get('/hai-chat-comparison', [AdminController::class,'haiChatComparison'])->name('admin_hai_chat_comparison');
-        Route::get('/create-brain', [AdminController::class,'createBrain'])->name('admin_create_brain');
-        Route::get('/edit-brain/{id}', [AdminController::class,'editBrain'])->name('admin_edit_brain');
-        Route::get('/create-cluster', [AdminController::class,'createCluster'])->name('admin_create_cluster');
-        Route::get('/edit-cluster/{id}', [AdminController::class,'editCluster'])->name('admin_edit_cluster');
-        Route::get('/download-zip', [AdminController::class,'downloadZipFile'])->name('download-zip');
-        Route::get('/hai-dojo', [AdminController::class,'haiDojo'])->name('admin_hai_dojo');
-        Route::get('/download-conversation', [AdminController::class,'downloadConversation'])->name('admin_export_conversations');
-
-    });
+//    Route::group(['middleware' => ['permission:hai_admin']], function () {
+//
+//        Route::get('/hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');
+//        Route::get('/hai-chat-detail/{name}', [AdminController::class, 'haiChatDetail'])->name('admin_hai_chat_detail');
+//        Route::get('/clusters', [AdminController::class, 'embeddingGroups'])->name('admin_embedding_groups');
+//        Route::get('/embeddings/{id}', [AdminController::class, 'embeddings'])->name('admin_embedding');
+//        Route::get('/embedding-detail/{name}', [AdminController::class, 'embeddingDetail'])->name('admin_embedding_detail');
+//        Route::get('/fine-tune', [AdminController::class,'fineTune'])->name('fine_tune');
+//        Route::get('/hai-chat-persona/{name?}', [AdminController::class,'haiChatPersona'])->name('admin_hai_chat_persona');
+//        Route::get('/hai-chat-comparison', [AdminController::class,'haiChatComparison'])->name('admin_hai_chat_comparison');
+//        Route::get('/create-brain', [AdminController::class,'createBrain'])->name('admin_create_brain');
+//        Route::get('/edit-brain/{id}', [AdminController::class,'editBrain'])->name('admin_edit_brain');
+//        Route::get('/create-cluster', [AdminController::class,'createCluster'])->name('admin_create_cluster');
+//        Route::get('/edit-cluster/{id}', [AdminController::class,'editCluster'])->name('admin_edit_cluster');
+//        Route::get('/download-zip', [AdminController::class,'downloadZipFile'])->name('download-zip');
+//        Route::get('/hai-dojo', [AdminController::class,'haiDojo'])->name('admin_hai_dojo');
+//        Route::get('/download-conversation', [AdminController::class,'downloadConversation'])->name('admin_export_conversations');
+//
+//    });
 
     // ====================================== CMS Admin ================================ //
 

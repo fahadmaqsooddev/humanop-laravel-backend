@@ -2,13 +2,13 @@
     <div>
         <div class="d-flex mt-4">
             <div class="input-group ms-md-4 pe-md-4">
-{{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+{{--        <span style="background-color: #eaf3ff;" class="input-group-text text-body"><i class="fas fa-search"--}}
 {{--                                                                                       aria-hidden="true"></i></span>--}}
                 <input type="text" name="name" wire:model.debounce="name"
                        class="form-control table-orange-color search-bar" placeholder="Search Name">
             </div>
             <div class="input-group ms-md-4 pe-md-4">
-{{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+{{--        <span style="background-color: #eaf3ff;" class="input-group-text text-body"><i class="fas fa-search"--}}
 {{--                                                                                       aria-hidden="true"></i></span>--}}
                 <input type="email" name="email" wire:model.debounce="email"
                        class="form-control table-orange-color search-bar" placeholder="Search Email">
@@ -63,7 +63,7 @@
                     <td class="text-sm font-weight-normal">{{request()->getHttpHost(). '/' . $user['first_name'].'/'.$user['last_name']. '/login'}}</td>
                     <td class="text-sm font-weight-normal">
                         <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
-                           class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
+                           class=" btn-sm float-end mt-2 mb-0" style="background:#1b3a62 !important;color:white;font-weight:bolder;border:none;">
                             Login
                         </a>
                     </td>

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Admin\Admin;
 use App\Events\Assessment\SubmitAssessment;
 use App\Events\DailyTip\NewDailyTip;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -1424,9 +1425,12 @@ class Assessment extends Model
                     }
                 }
 
+                HaiChatHelpers::syncUserRecordWithHAi();
+
                 if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
                     $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
+
                 } else {
 
                     $message = "Congratulations on finishing your assessment!";

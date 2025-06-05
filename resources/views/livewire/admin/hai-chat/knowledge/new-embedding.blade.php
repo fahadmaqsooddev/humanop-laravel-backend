@@ -52,7 +52,7 @@
                                 <tbody>
 
                                 @if(count($allFiles) === 0)
-                                    <div style="color: #F95520;">
+                                    <div style="color: #1b3a62;">
                                         <p class="text-center">Add training files to display here.</p>
                                     </div>
                                 @endif
@@ -65,10 +65,10 @@
 
                                             @if($edit_file_id === $file->id)
 
-                                                <input class="input-bg" style="border: 1px solid #F95520 !important;" wire:model="edited_name">
+                                                <input class="input-bg" style="border: 1px solid #1b3a62 !important;" wire:model="edited_name">
                                                 <button
                                                     wire:click="updateFileName"
-                                                    style="border-radius: 10px; background-color: #F95520;
+                                                    style="border-radius: 10px; background-color: #1b3a62;
                                                     color: white; font-size: 12px;border: none; padding: 5px;">
                                                     UPDATE
                                                 </button>

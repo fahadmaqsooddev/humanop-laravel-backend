@@ -50,6 +50,19 @@ class AdminController extends Controller
         }
     }
 
+    public function welcomeDashboard()
+    {
+        try {
+
+            return view('admin-dashboards.welcome-dashboard');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
     public function cms()
     {
         try {
@@ -182,7 +195,7 @@ class AdminController extends Controller
     {
         try {
 
-            return view('admin-dashboards.hai-chat.index');
+            return view('admin-dashboards.new-hai-chat.index');
 
         } catch (\Exception $exception) {
 
@@ -195,7 +208,7 @@ class AdminController extends Controller
     {
         try {
 
-            return view('admin-dashboards.hai-chat.embedding', compact('id'));
+            return view('admin-dashboards.new-hai-chat.embedding', compact('id'));
 
         } catch (\Exception $exception) {
 
@@ -208,7 +221,7 @@ class AdminController extends Controller
     {
         try {
 
-            return view('admin-dashboards.hai-chat.group');
+            return view('admin-dashboards.new-hai-chat.group');
 
         } catch (\Exception $exception) {
 
@@ -223,7 +236,7 @@ class AdminController extends Controller
 
             $chatName = Chatbot::getChatFromVendorName($name);
 
-            return view('admin-dashboards.hai-chat.detail', compact('chatName'));
+            return view('admin-dashboards.new-hai-chat.detail', compact('chatName'));
 
         } catch (\Exception $exception) {
 
@@ -236,7 +249,7 @@ class AdminController extends Controller
     {
         try {
 
-            return view('admin-dashboards.hai-chat.embedding-detail');
+            return view('admin-dashboards.new-hai-chat.embedding-detail');
 
         } catch (\Exception $exception) {
 
@@ -532,7 +545,7 @@ class AdminController extends Controller
 
         try {
 
-            return view('admin-dashboards.hai-chat.fine-tune');
+            return view('admin-dashboards.new-hai-chat.fine-tune');
 
         } catch (\Exception $exception) {
 
@@ -548,7 +561,7 @@ class AdminController extends Controller
 
             $brain = Chatbot::getChatFromVendorName($name);
 
-            return view('admin-dashboards.hai-chat.detail', compact('brain'));
+            return view('admin-dashboards.new-hai-chat.detail', compact('brain'));
 
         } catch (\Exception $exception) {
 
@@ -562,7 +575,7 @@ class AdminController extends Controller
 
         try {
 
-            return view('admin-dashboards.hai-chat.comparison');
+            return view('admin-dashboards.new-hai-chat.comparison');
 
         } catch (\Exception $exception) {
 
@@ -579,7 +592,7 @@ class AdminController extends Controller
             $name = $request->session()->get('name', null);
             $description = $request->session()->get('description', null);
 
-            return view('admin-dashboards.hai-chat.brains.create-brain', compact('name', 'description'));
+            return view('admin-dashboards.new-hai-chat.brains.create-brain', compact('name', 'description'));
 
         } catch (\Exception $exception) {
 
@@ -593,7 +606,7 @@ class AdminController extends Controller
 
         try {
 
-            return view('admin-dashboards.hai-chat.brains.edit-brain', compact('id'));
+            return view('admin-dashboards.new-hai-chat.brains.edit-brain', compact('id'));
 
         } catch (\Exception $exception) {
 
@@ -607,7 +620,7 @@ class AdminController extends Controller
 
         try {
 
-            return view('admin-dashboards.hai-chat.clusters.create-cluster');
+            return view('admin-dashboards.new-hai-chat.clusters.create-cluster');
 
         } catch (\Exception $exception) {
 
@@ -621,7 +634,7 @@ class AdminController extends Controller
 
         try {
 
-            return view('admin-dashboards.hai-chat.clusters.edit-cluster', compact('id'));
+            return view('admin-dashboards.new-hai-chat.clusters.edit-cluster', compact('id'));
 
         } catch (\Exception $exception) {
 
@@ -649,7 +662,7 @@ class AdminController extends Controller
 
         try {
 
-            return view('admin-dashboards.hai-chat.hai-dojo.hai-dojo');
+            return view('admin-dashboards.new-hai-chat.hai-dojo.hai-dojo');
 
         } catch (\Exception $exception) {
 

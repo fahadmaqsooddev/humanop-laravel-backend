@@ -2,11 +2,11 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
         .ck-editor__editable_inline {
-            background-color: #0f1534; /* Example: Change this to your desired background color */
+            background-color: #eaf3ff; /* Example: Change this to your desired background color */
         }
 
         .ck-editor__editable {
-            background-color: #0f1534 !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck-editor {
@@ -15,7 +15,7 @@
         }
 
         .card {
-            background-color: #1C365E !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck.ck-balloon-panel {
@@ -37,8 +37,8 @@
                 <div class="form-group">
                     <label class="form-label text-white">Name</label>
                     <input
-                        style="background-color: #0f1534;"
-                        class="form-control text-white"
+                        style="background-color: #eaf3ff;"
+                        class="form-control"
                         type="text" name="name"
                         wire:model.defer="page.name"
                         placeholder="name">
@@ -46,8 +46,8 @@
                 <div class="form-group">
                     <label class="form-label text-white">Title</label>
                     <input
-                        style="background-color: #0f1534;"
-                        class="form-control text-white"
+                        style="background-color: #eaf3ff;"
+                        class="form-control"
                         type="text" name="title"
                         wire:model.defer="page.title"
                         placeholder="name">
@@ -55,8 +55,8 @@
                 <div class="form-group">
                     <label class="form-label text-white">Meta Key</label>
                     <input
-                        style="background-color: #0f1534;"
-                        class="form-control text-white"
+                        style="background-color: #eaf3ff;"
+                        class="form-control"
                         type="text" name="meta_key"
                         wire:model.defer="page.meta_key"
                         placeholder="name">
@@ -64,15 +64,15 @@
                 <div class="form-group">
                     <label class="form-label text-white">Meta Description</label>
                     <input
-                        style="background-color: #0f1534;"
-                        class="form-control text-white"
+                        style="background-color: #eaf3ff;"
+                        class="form-control"
                         type="text" name="meta_description"
                         wire:model.defer="page.meta_description"
                         placeholder="name">
                 </div>
                 {{-- <div class="form-group" wire:ignore>
                     <label class="form-label text-white">Text</label>
-                    <textarea cols="10" rows="10" style="background-color: #0f1534;"
+                    <textarea cols="10" rows="10" style="background-color: #eaf3ff;"
                               class="form-control text-white summernote" id="summernote" type="text" name="text"
                               wire:model.defer="page.text" placeholder="name">{{$page['text']}}</textarea>
                 </div> --}}
@@ -80,13 +80,13 @@
                 <div class="form-group" wire:ignore>
                     <label class="form-label text-white">Text</label>
                    <textarea class="form-control text-white summernote" id="neditor"
-                   style="background-color: #0f1534;"
+                   style="background-color: #eaf3ff;"
                    rows="10" cols="10"
                    name="text"
                    wire:model.defer="page.text">{{$page['text']}}</textarea>
-                  
+
                 </div>
-        
+
             </div>
         </div>
         <button type="submit"
@@ -106,10 +106,10 @@
             "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
         }
     }
-    
-    
-    
-    
+
+
+
+
 </script>
 
 <script type="text/javascript">

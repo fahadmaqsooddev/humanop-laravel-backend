@@ -8,23 +8,23 @@
         }
 
         .card-bg-white-orange-border{
-            background-color: #F4E3C7 !important;
-            /*border: 2px solid #d26622 !important;*/
+            background-color: #eaf3ff !important;
+            /*border: 2px solid #1b3a62 !important;*/
         }
 
         .input-bg{
             background-color: #F4ECE0 !important;
-            color: #F95520 !important;
+            color: #1b3a62 !important;
             border-radius: 40px !important;
             border: none !important;
         }
 
         .input-bg::placeholder{
-            color: #F95520 !important;
+            color: #1b3a62 !important;
         }
 
         .cluster-buttons{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             color: #F4ECE0;
             padding: 5px 10px;
             border-radius: 32px;
@@ -36,7 +36,7 @@
             min-width: 250px;
             text-align: center;
             background-color: #F4ECE0 !important;
-            color: #F95520 !important;
+            color: #1b3a62 !important;
             border-radius: 40px !important;
             border: none !important;
             padding: 7px;
@@ -44,21 +44,21 @@
 
         .cluster-table-rows{
             padding: 5px;
-            /*border: 1px solid #F95520;*/
+            /*border: 1px solid #1b3a62;*/
         }
 
         h5, h4, h6, .text-color-orange{
-            color: #F95520 !important;
+            color: #1b3a62 !important;
         }
 
         .cluster-badge{
             border-radius: 5px;
-            background-color:#F4E3C7 !important;
-            color: #F95520 !important;
+            background-color:#eaf3ff !important;
+            color: #1b3a62 !important;
         }
 
         .add-selected-btn{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             color: #F4ECE0;
             padding: 8px 13px;
             border-radius: 32px;
@@ -471,7 +471,7 @@
 
                             <div class="py-4 d-flex justify-content-center">
                                 <button class="m-1"
-                                        style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
+                                        style="background:#1b3a62;color:white;border-radius: 24px;border: 2px; font-weight: 600;padding: 5px 15px 5px 15px;">
                                     <img src="{{asset('assets/img/icons/Add.svg')}}" width="20">
                                     Update
                                 </button>

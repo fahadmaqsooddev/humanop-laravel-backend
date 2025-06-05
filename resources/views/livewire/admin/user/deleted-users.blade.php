@@ -3,18 +3,15 @@
 
 @endpush
 
-
-
 <div>
-
 
 
     <div class="card-header table-header-text">
         <h5 class="mb-0 mt-2 text-color-blue">Deleted Client's</h5>
         @if(count($selectedItems) > 0)
-        <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
-        <button type="button" onclick="bulkDeleted()"  class="btn btn-danger">Delete Clients Permanently</button>
-        </div>
+            <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
+                <button type="button" onclick="bulkDeleted()" class="btn btn-danger">Delete Clients Permanently</button>
+            </div>
         @endif
     </div>
 
@@ -54,9 +51,6 @@
     </div>
 
 
-
-
-
     <div class="table-responsive table-orange-color">
         <table class="table table-flush">
             <thead class="thead-light">
@@ -83,7 +77,7 @@
                     <td class="text-md font-weight-normal">{{$user['is_admin'] == 4 ? "Practitioner" : "Client"}}</td>
                     <td class="text-center">
                         <input type="checkbox" wire:model="selectedItems" value="{{ $user->id }}"
-                            style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
+                               style="width: 20px; height: 20px; cursor: pointer; accent-color: #1B3A62; border-radius: 50%;">
                     </td>
 
                     <td>
@@ -92,7 +86,7 @@
                         </button>
 
                         <button class="btn btn-danger" title="delete permanently"
-                        onclick="confirmBoxForPermanentDelete({{$user->id}})">
+                                onclick="confirmBoxForPermanentDelete({{$user->id}})">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </td>
@@ -118,15 +112,15 @@
     //     fixedHeight: true
     // });
 
-    function confirmBoxForPermanentDelete(user_id){
+    function confirmBoxForPermanentDelete(user_id) {
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn bg-gradient-danger m-2',
-                cancelButton:  'btn bg-gradient-primary m-2',
+                cancelButton: 'btn bg-gradient-primary m-2',
             },
             buttonsStyling: false,
-            background : '#3442b4',
+            background: '#3442b4',
         })
         swalWithBootstrapButtons.fire({
             title: '<span style="color: white;">Are you sure?</span>',
@@ -134,19 +128,20 @@
             showCancelButton: true,
             confirmButtonText: 'Delete',
         }).then((result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
                 window.livewire.emit('deleteUser', [user_id])
             }
         })
     }
-    function bulkDeleted(){
+
+    function bulkDeleted() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn bg-gradient-danger m-2',
-                cancelButton:  'btn bg-gradient-primary m-2',
+                cancelButton: 'btn bg-gradient-primary m-2',
             },
             buttonsStyling: false,
-            background : '#3442b4',
+            background: '#3442b4',
         })
         swalWithBootstrapButtons.fire({
             title: '<span style="color: white;">Are you sure?</span>',
@@ -154,21 +149,21 @@
             showCancelButton: true,
             confirmButtonText: 'Delete',
         }).then((result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
                 window.livewire.emit('bulkDelete')
             }
         })
     }
 
-    function confirmBoxForRestoreUser(user_id){
+    function confirmBoxForRestoreUser(user_id) {
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn bg-gradient-primary m-2',
-                cancelButton:  'btn bg-gradient-danger m-2',
+                cancelButton: 'btn bg-gradient-danger m-2',
             },
             buttonsStyling: false,
-            background : '#3442b4',
+            background: '#3442b4',
         })
         swalWithBootstrapButtons.fire({
             title: '<span style="color: white;">Are you sure?</span>',
@@ -176,7 +171,7 @@
             showCancelButton: true,
             confirmButtonText: 'Restore',
         }).then((result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
                 window.livewire.emit('restoreUser', [user_id])
             }
         })

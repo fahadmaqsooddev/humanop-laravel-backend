@@ -2,10 +2,10 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
         .ck-editor__editable_inline {
-            background-color: #0f1534; /* Example: Change this to your desired background color */
+            background-color: #eaf3ff; /* Example: Change this to your desired background color */
         }
         .ck-editor__editable{
-            background-color: #0f1534 !important;
+            background-color: #eaf3ff !important;
         }
         .ck-editor{
             border-radius: 0 !important;
@@ -13,7 +13,7 @@
         }
 
         .card{
-            background-color: #1C365E !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck.ck-balloon-panel {
@@ -34,11 +34,11 @@
             <div class="modal-body" style=" border-radius: 9px">
                 <div class="card-body pt-0">
                     @if($description_id)
-                    <label class="form-label fs-4 text-white">Edit Version Description</label>
+                    <label class="form-label fs-4" style="color: #1b3a62">Edit Version Description</label>
 
 
                                 @else
-                                <label class="form-label fs-4 text-white">Add Version Description </label>
+                                <label class="form-label fs-4" style="color: #1b3a62">Add Version Description </label>
 
                                 @endif
 
@@ -49,11 +49,11 @@
                     <form wire:submit.prevent="updateDescription">
                         <div class="row mt-4">
                             <div class="col-12">
-                                
+
                                 <div class="form-group mt-4">
-                                    
+
                                     <label class="form-label text-white">Select Version</label>
-                                    <select style="background-color: #0f1534;" class="form-control text-white"
+                                    <select style="background-color: #eaf3ff;" class="form-control"
                                             wire:model.defer="version_id" placeholder="Select category">
 
                                         <option>Select a category</option>
@@ -77,7 +77,7 @@
                                             App
                                         </label>
                                     </div>
-                                
+
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input bg-white border-white" type="checkbox" wire:model="platform" value="Web" id="webPlatform">
                                         <label class="form-check-label text-white fw-semibold" for="webPlatform">
@@ -85,11 +85,11 @@
                                         </label>
                                     </div>
                                 </div>
-                                
-                                
+
+
                                 <label class="form-label text-white">Description</label>
                                 <div class="input-group w-100" wire:ignore >
-                             <textarea class="form-control table-header-text" style="background-color: #0f1534;color:white;"  rows="5" cols="5"
+                             <textarea class="form-control table-header-text" style="background-color: #eaf3ff;color:#style="background-color: #0f1534;color:white;";"  rows="5" cols="5"
                                        name="description"
                                        wire:model="description"></textarea>
                                 </div>
@@ -105,12 +105,12 @@
 
                                 @if($description_id)
                                     <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                            style="background-color: #f2661c">Update Description
+                                            style="background-color: #1b3a62">Update Description
                                     </button>
 
                                 @else
                                     <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                            style="background-color: #f2661c">Add Description
+                                            style="background-color: #1b3a62">Add Description
                                     </button>
                                 @endif
                             </div>
@@ -126,10 +126,10 @@
 
 
 
-    
+
 @push('javascript')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
+
     <script>
         document.addEventListener('livewire:load', function () {
             Livewire.on('closeModal', () => {
@@ -139,7 +139,7 @@
         });
     </script>
 
-    
+
 <script>
     $(document).ready(function () {
         $('#descriptionModel').on('hidden.bs.modal', function () {

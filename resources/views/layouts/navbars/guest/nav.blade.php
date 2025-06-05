@@ -4,25 +4,25 @@
         @if(Auth::check() && Auth::user()->is_admin == 2 && Auth::user()->practitioner_id == null)
             <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
                href="{{ url('client/dashboard') }}">
-                <img src="{{ asset('assets/logos/HumanOp dark.png') }}"
+                <img src="{{ asset('assets/img/new_logo_dark.png') }}"
                      alt="" style="width: auto; height: 80px; margin-left: -5px;">
             </a>
         @elseif(Auth::check() && Auth::user()->is_admin == 2 && Auth::user()->practitioner_id != null)
             <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
                href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}">
-                <img src="{{ asset('assets/logos/HumanOp dark.png') }}"
+                <img src="{{ asset('assets/img/new_logo_dark.png') }}"
                      alt="" style="width: auto; height: 80px; margin-left: -5px;">
             </a>
         @elseif(Auth::check() && (Auth::user()->is_admin == 4))
             <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
                href="{{ url('practitioner/dashboard') }}">
-                <img src="{{ asset('assets/logos/HumanOp dark.png') }}"
+                <img src="{{ asset('assets/img/new_logo_dark.png') }}"
                      alt="" style="width: auto; height: 80px; margin-left: -5px;">
             </a>
         @else
             <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
                href="{{ request()->segment(1) != null && request()->segment(1) !== 'login' ? \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('login') :  url('login') }}">
-                <img src="{{ asset('assets/img/new_logo.png') }}"
+                <img src="{{ asset('assets/img/new_logo_dark.png') }}"
                      alt="" style="width: auto; height: 80px; margin-left: -5px;">
             </a>
         @endif

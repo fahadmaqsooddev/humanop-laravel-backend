@@ -13,14 +13,14 @@
     }
 
     .page-link:hover {
-        background: #f2661c !important;
+        background: #1b3a62 !important;
         color: white !important;
     }
 
     .dataTable-pagination-list .active a {
-        background: #f2661c !important;
+        background: #1b3a62 !important;
         color: white !important;
-        border-color: #f2661c !important;
+        border-color: #1b3a62 !important;
     }
 
 </style>
@@ -60,7 +60,7 @@
                                             {{ $assessment['answer'] }}
                                         @endif
                                     </td>
-                                    
+
                                 </tr>
                             @endforeach
 

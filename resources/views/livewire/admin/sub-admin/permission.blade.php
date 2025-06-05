@@ -20,10 +20,11 @@
         @endif
         <div class="card-body">
             <div class="row">
+                <h5 class="text-bold">Please assign permissions to Sub Admin for B2C Admin Dashboard:</h5>
                 <div class="col-sm-4 col-6 w-50">
-                    @foreach(['user_management', 'assessment_management','technology_management', 'team_management', 'hai_admin'] as $permissionName)
-                        <input type="checkbox" class="form-check-input" wire:model="permission" value="{{$permissionName}}">
-                        <label class="form-check-label text-white">@if($permissionName === 'hai_admin')
+                    @foreach(['user_management', 'assessment_management','technology_management', 'team_management'] as $permissionName)
+                        <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}">
+                        <label class="form-check-label" style="color: #1B3A62">@if($permissionName === 'hai_admin')
                                 HAi Admin
                             @else
                                 {{ ucwords(str_replace('_', ' ', $permissionName)) }}
@@ -33,8 +34,50 @@
                 </div>
                 <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
                     @foreach(['cms_admin', 'support_admin', 'client_queries','approve_queries'] as $permissionName)
-                        <input type="checkbox" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
-                        <label class="form-check-label text-white">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
+                        <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
+                        <label class="form-check-label" style="color: #1B3A62">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
+                        <br>
+                    @endforeach
+                </div>
+            </div>
+            <div class="row">
+                <h5 class="text-bold">Please assign permissions to Sub Admin for HAi Admin Dashboard:</h5>
+                <div class="col-sm-4 col-6 w-50">
+                    @foreach(['persona', 'brains'] as $permissionName)
+                        <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}">
+                        <label class="form-check-label" style="color: #1B3A62">@if($permissionName === 'hai_admin')
+                                HAi Admin
+                            @else
+                                {{ ucwords(str_replace('_', ' ', $permissionName)) }}
+                            @endif</label>
+                        <br>
+                    @endforeach
+                </div>
+                <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
+                    @foreach(['knowledge', 'advance'] as $permissionName)
+                        <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
+                        <label class="form-check-label" style="color: #1B3A62">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
+                        <br>
+                    @endforeach
+                </div>
+            </div>
+            <div class="row">
+                <h5 class="text-bold">Please assign permissions to Sub Admin for B2B Admin Dashboard:</h5>
+                <div class="col-sm-4 col-6 w-50">
+                    @foreach(['organizations', 'support','role_template_manage', 'invites'] as $permissionName)
+                        <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}">
+                        <label class="form-check-label" style="color: #1B3A62">@if($permissionName === 'hai_admin')
+                                HAi Admin
+                            @else
+                                {{ ucwords(str_replace('_', ' ', $permissionName)) }}
+                            @endif</label>
+                        <br>
+                    @endforeach
+                </div>
+                <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
+                    @foreach(['pricing_plan', 'b2b_support_admin', 'coupons'] as $permissionName)
+                        <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
+                        <label class="form-check-label" style="color: #1B3A62">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
                         <br>
                     @endforeach
                 </div>

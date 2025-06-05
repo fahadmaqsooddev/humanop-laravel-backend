@@ -1,7 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
     .modal-close-btn {
-        background: #f2661c;
+        background: #1b3a62;
         border: none;
         color: white;
         font-weight: bold;
@@ -21,14 +21,14 @@
     }
 
     .page-link:hover {
-        background: #f2661c !important;
+        background: #1b3a62 !important;
         color: white !important;
     }
 
     .page-item.active .page-link {
-        background: #f2661c !important;
+        background: #1b3a62 !important;
         color: white !important;
-        border-color: #f2661c !important;
+        border-color: #1b3a62 !important;
     }
 
 </style>

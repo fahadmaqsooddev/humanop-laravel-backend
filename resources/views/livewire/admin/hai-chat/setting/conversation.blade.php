@@ -20,12 +20,12 @@
       }
 
       .modal-body::-webkit-scrollbar-thumb {
-          background: #f2661c;
+          background: #1b3a62;
           border-radius: 10px;
       }
 
       .modal-body::-webkit-scrollbar-thumb:hover {
-          background: #f2661c;
+          background: #1b3a62;
       }
 
       .cke_notification_warning{
@@ -41,7 +41,7 @@
       .chatDot {
           width: 10px;
           height: 10px;
-          background-color: #f2661c;
+          background-color: #1b3a62;
           display: inline-block;
           margin: 1px;
           border-radius: 50%;
@@ -82,13 +82,13 @@
 
       .dislike:hover,
       .like:hover {
-          color: #f2661c;
+          color: #1b3a62;
           transition: all .2s ease-in-out;
           transform: scale(1.1);
       }
 
       .active {
-          color: #f2661c;
+          color: #1b3a62;
       }
 
       .disabledCard {
@@ -179,7 +179,7 @@
                         </div>
                     </div>
                 </div>
-                <hr style="color: #f2661c;" class="bold">
+                <hr style="color: #1b3a62;" class="bold">
                 <div class="d-flex flex-column justify-content-between flex-grow-1 p-3" id="chat_container"
                      style="overflow-y: auto;">
                     <!-- Message Container -->
@@ -270,11 +270,11 @@
                                                                         <div class="form-group mt-2">
                                                                             <label class="form-label fs-6 text-white">Client Query :</label>
                                                                             <span
-                                                                                style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$conversation['message'] ?? null}}</span>
+                                                                                style="color: #1b3a62;font-size: 20px;font-weight: 800;display: flex;">{{$conversation['message'] ?? null}}</span>
                                                                             <label class="form-label fs-6 text-white mt-4">Update Answer :</label>
                                                                     <div class="form-group" wire:ignore>
                                                                         <textarea rows="4" class="form-control text-white mt-2 editor"
-                                                                                  style="background-color: #0f1535"
+                                                                                  style="background-color: #eaf3ff"
                                                                                   wire:model.defer="updated_reply"
                                                                                   placeholder="update answer">
                                                                         </textarea>

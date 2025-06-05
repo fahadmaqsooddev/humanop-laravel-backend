@@ -6,6 +6,10 @@
             padding: 8px 12px !important; /* Button padding */
         }
 
+        .note-editing-area
+        {
+            color: #0f1534;
+        }
         .note-editor .note-toolbar {
             height: auto;
             min-height: 50px;
@@ -31,9 +35,9 @@
                 <!-- Card header -->
                 <div class="card-header">
                     @if (!empty($versionId))
-                        <h5 class="mb-0 text-white">Edit Version Control</h5>
+                        <h5 class="mb-0" style="color: #1b3a62">Edit Version Control</h5>
                     @else
-                        <h5 class="mb-0 text-white">Create Version Control</h5>
+                        <h5 class="mb-0" style="color: #1b3a62">Create Version Control</h5>
                     @endif
                 </div>
                 <div class="card-body pt-0">
@@ -42,24 +46,24 @@
                         <!-- Version Field -->
                         <div class="row mt-4">
                             <div class="col-12">
-                                <label class="form-label text-white">Version</label>
-                                <input style="background-color: #0f1534;color:white;" wire:model="version"
+                                <label class="form-label" style="color: #1b3a62">Version</label>
+                                <input style="background-color: #eaf3ff;color:#1b3a62" wire:model="version"
                                        class="form-control table-header-text" type="text">
                                 {{-- @error('version') <span class="text-danger">{{ $message }}</span> @enderror --}}
                             </div>
                         </div>
                         <div class="row mt-4">
                             <div class="col-12">
-                                <label class="form-label text-white">Note</label>
+                                <label class="form-label" style="color: #1b3a62">Note</label>
                                 <div wire:ignore>
                                     <textarea class="form-control " id="editor" wire:model='note'
-                                              style="background-color: #0f1534; color: white;" rows="2"></textarea>
+                                              style="background-color: #eaf3ff; color: #1b3a62;" rows="2"></textarea>
                                 </div>
                                 {{-- @error('note') <span class="text-danger">{{ $message }}</span> @enderror --}}
                             </div>
                         </div>
                         <div class="text-end mt-3">
-                            <button type="button" class="btn text-white fw-bolder" style="background-color: #f2661c"
+                            <button type="button" class="btn text-white fw-bolder" style="background-color: #1b3a62"
                                     wire:click="addVersionField">
                                 <span style="font-weight: bolder;font-size:1rem;">Add More Features and  Descriptions</span>
                             </button>
@@ -69,14 +73,14 @@
                             <div class="row mb-3">
                                 <!-- Version Type Checkboxes -->
                                 <div class="col-md-12 mb-3">
-                                    <label class="text-white mb-1">Select Type</label><br>
+                                    <label class="mb-1" style="color: #1b3a62">Select Type</label><br>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input"
                                                type="checkbox"
                                                wire:model="versionDetails.{{ $index }}.type"
                                                value="Web"
                                                id="web_{{ $index }}">
-                                        <label class="form-check-label text-white" for="web_{{ $index }}">Web</label>
+                                        <label class="form-check-label" for="web_{{ $index }}">Web</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input"
@@ -84,25 +88,25 @@
                                                wire:model="versionDetails.{{ $index }}.type"
                                                value="App"
                                                id="app_{{ $index }}">
-                                        <label class="form-check-label text-white" for="app_{{ $index }}">App</label>
+                                        <label class="form-check-label" for="app_{{ $index }}">App</label>
                                     </div>
                                 </div>
                                 <!-- Description -->
                                 <div class="col-md-12 mt-3">
-                                    <label class="text-white mb-1">Description</label>
+                                    <label class=" mb-1" style="color: #1b3a62">Description</label>
                                     <div wire:ignore>
                                         <textarea class="form-control editor"
                                                   data-index="{{ $index }}"
                                                   wire:model='versionDetails.{{ $index }}.description'
                                                   data-property="versionDetails.{{ $index }}.description"
-                                                  style="background-color: #0f1534; color: white;" rows="3"></textarea>
+                                                  style="background-color: #0f1534; color: #1b3a62;" rows="3"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mt-3">
-                                    <label for="version_heading" class="form-label text-white">Select Version
+                                    <label for="version_heading" class="form-label" style="color: #1b3a62">Select Version
                                         Heading</label>
                                     <select wire:model='versionDetails.{{ $index }}.version_heading'
-                                            style="background-color: #0f1534;" class="form-control text-white">
+                                            style="background-color: #eaf3ff;" class="form-control">
                                         <option value="">Select Option</option>
                                         <option value="0">Issue Fixed</option>
                                         <option value="1">New Feature</option>
@@ -122,13 +126,13 @@
                         <!-- Submit Button -->
                         @if(!empty($versionId))
                             <div class="text-end">
-                                <button type="submit" class="btn btn-sm text-white" style="background-color: #f2661c;">
+                                <button type="submit" class="btn btn-sm text-white" style="background-color: #1b3a62;">
                                     Update Version
                                 </button>
                             </div>
                         @else
                             <div class="text-end">
-                                <button type="submit" class="btn btn-sm text-white" style="background-color: #f2661c;">
+                                <button type="submit" class="btn btn-sm text-white" style="background-color: #1b3a62;">
                                     Save Version
                                 </button>
                             </div>
@@ -156,12 +160,12 @@
                             height: 200,
                             callbacks: {
                                 onChange: function (contents, $editable) {
-                                    
+
                                     // const property = $(this).data('property');
                                     const property = $(this).val();
                                     // console.log(property);
                                     Livewire.emit('updateNote',property)
-                                    
+
                                     // if (property) {
                                     //     Livewire.emit('updateEditorContent', {
                                     //         property: property,
@@ -202,11 +206,11 @@
                             height: 200,
                             // callbacks: {
                             //     onChange: function (contents, $editable) {
-                                    
+
                             //         // const property = $(this).data('property');
                             //         const property = $(this).val();
                             //         console.log(property);
-                                    
+
                             //     }
                             // }
                             callbacks: {

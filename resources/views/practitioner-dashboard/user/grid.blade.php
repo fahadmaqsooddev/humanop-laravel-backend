@@ -26,7 +26,7 @@
         <div>
             <a href="{{url('admin/generate-grid-pdf/'. $grid['id'])}}" target="_blank"
                class="btn btn-sm float-end mt-4 mb-4 text-white mx-4"
-               style="background-color: #f2661c">PDF</a>
+               style="background-color: #1b3a62">PDF</a>
         </div>
         @php
             $second_row_sa = $grid['sa'] + $grid['ma'] + $grid['mer'];

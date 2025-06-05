@@ -4,7 +4,7 @@
             <h5 class="mb-0">All Pricing Plans</h5>
             <a data-bs-toggle="modal"
                data-bs-target="#createPlanModel"
-               style="background-color: #f2661c; color: white" class="btn btn-sm float-end mb-0">Add Plans</a>
+               style="background-color: #1B3A62 ; color: white" class="btn btn-sm float-end mb-0">Add Plans</a>
 
         </div>
         <div class="table-responsive w-100 pt-4 table-orange-color">
@@ -26,11 +26,11 @@
                         <td class="text-sm font-weight-normal">{{$plan['billing_method']}}</td>
                         <td class="text-sm font-weight-normal text-center">{{$plan['price']}}</td>
                         <td class="text-sm font-weight-normal text-center">
-                            <button class="btn text-white" style="background-color: #f2661c"
+                            <button class="btn text-white" style="background-color: #1b3a62"
                                     onclick="confirmBoxForActiveInactivePlan('{{$plan['id']}}')">{{$plan['status'] == 0 ? 'Inactive' : 'Active'}}</button>
                         </td>
                         <td>
-                            <button class="btn btn-sm text-white" style="background-color: #f2661c"
+                            <button class="btn btn-sm text-white" style="background-color: #1b3a62"
                                     data-bs-toggle="modal"
                                     wire:click="updatePlanModal({{ $plan['id']}},`{{$plan['name']}}`,`{{$plan['price']}}`,`{{$plan['no_of_team_members']}}`,`{{$plan['billing_method']}}`)"
                                     data-bs-target="#editPlan">edit
@@ -49,7 +49,7 @@
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">Create Plan</label>
+                            <label class="form-label fs-4" style="color: #1b3a62">Create Plan</label>
 
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-optimization-modal-button">
@@ -59,10 +59,10 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
 
-                                        <label class="form-label text-white">Plan Name</label>
+                                        <label class="form-label" style="color: #1b3a62">Plan Name</label>
                                         <div class="input-group">
-                                            <input style="background-color: #0f1534;color: lightgrey !important"
-                                                   class="form-control text-white" type="text"
+                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                                   class="form-control" type="text"
                                                    wire:model="plan_name"
                                                    placeholder="plan name">
                                         </div>
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-12">
-                                        <select class="form-control bg-transparent text-white"
+                                        <select class="form-control bg-transparent" style="color: #1b3a62"
                                                 wire:model="plan_type">
                                             <option value="" style="color: black">Select Plan Type</option>
                                             <option value="month" style="color: black">Month</option>
@@ -80,16 +80,16 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-12">
-                                        <label class="form-label text-white">Plan Amount</label>
+                                        <label class="form-label" style="color: #1b3a62">Plan Amount</label>
                                         <div class="input-group">
-                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
                                                    wire:model="price"
                                                    class="form-control table-header-text" type="text">
                                         </div>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                        style="background-color: #f2661c ">create plan
+                                        style="background-color: #1b3a62 ">create plan
                                 </button>
                             </form>
                         </div>
@@ -105,7 +105,7 @@
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">Edit Plan</label>
+                            <label class="form-label fs-4" style="color: #1b3a62">Edit Plan</label>
 
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-optimization-modal-button">
@@ -115,10 +115,10 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
 
-                                        <label class="form-label text-white">Plan Name</label>
+                                        <label class="form-label" style="color: #1b3a62">Plan Name</label>
                                         <div class="input-group">
-                                            <input style="background-color: #0f1534;color: lightgrey !important"
-                                                   class="form-control text-white" type="text"
+                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                                   class="form-control" type="text"
                                                    wire:model="plan_name"
                                                    placeholder="plan name">
                                         </div>
@@ -126,7 +126,7 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-12">
-                                        <select class="form-control bg-transparent text-white"
+                                        <select class="form-control bg-transparent" style="color: #1b3a62"
                                                 wire:model="plan_type" disabled>
                                             <option value="" style="color: black">Select Plan Type</option>
                                             <option value="month" style="color: black">Month</option>
@@ -136,9 +136,9 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-12">
-                                        <label class="form-label text-white">Plan Amount</label>
+                                        <label class="form-label" style="color: #1b3a62">Plan Amount</label>
                                         <div class="input-group">
-                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
                                                    disabled
                                                    wire:model="price"
                                                    class="form-control table-header-text" type="text">
@@ -146,7 +146,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                        style="background-color: #f2661c ">Update plan
+                                        style="background-color: #1b3a62 ">Update plan
                                 </button>
                             </form>
                         </div>

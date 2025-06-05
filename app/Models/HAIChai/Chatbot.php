@@ -21,6 +21,17 @@ class Chatbot extends Model
 
     protected $appends = ['chat_bot_color'];
 
+    //relations
+    public function persona(){
+
+        return $this->hasOne(ChatPrompt::class,'chat_bot_id','id');
+    }
+
+    public function restrictedKeywords(){
+
+        return $this->hasMany(ChatbotKeyword::class,'chatbot_id','id');
+    }
+
     // Appends
     public function getChatBotColorAttribute(){
 
@@ -94,5 +105,50 @@ class Chatbot extends Model
 
         self::whereId($chat_bot_id)->update(['description' => $description, 'brain_name' => $brain_name]);
 
+    }
+
+    public static function chatBots($brainName = null)
+    {
+        return self::when($brainName, function ($query, $name){
+
+            $query->where('name', 'like', "%$name%");
+
+        })->orderBy('created_at', 'desc')
+
+            ->with('persona:chat_bot_id,persona_name,maestro_app')
+
+            ->select(['id', 'name', 'description','is_connected'])
+
+            ->get();
+    }
+
+    public static function createNewChatBot($name, $description, $max_tokens, $temperature, $chunks, $llm_model_id){
+
+        return self::create([
+            'name' => $name,
+            'description' => $description,
+            'max_tokens' => $max_tokens,
+            'temperature' => $temperature,
+            'chunks' => $chunks,
+            'model_type' => $llm_model_id,
+        ]);
+    }
+
+    public static function updateNewChatBot($chat_bot_id, $name, $description, $max_tokens, $temperature, $chunks, $llm_model_id){
+
+        self::whereId($chat_bot_id)->update([
+            'name' => $name,
+            'description' => $description,
+            'max_tokens' => $max_tokens,
+            'temperature' => $temperature,
+            'chunks' => $chunks,
+            'model_type' => $llm_model_id,
+        ]);
+
+    }
+
+    public static function singleChatBot($chat_bot_id){
+
+        return self::whereId($chat_bot_id)->with('persona')->first();
     }
 }

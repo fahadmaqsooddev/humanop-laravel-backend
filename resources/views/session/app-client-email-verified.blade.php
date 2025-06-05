@@ -14,7 +14,7 @@
 
     @livewireStyles
     <style>
-        
+
 @media only screen and (max-width: 768px) {
     .card {
         width: 90%;
@@ -63,7 +63,7 @@
                 <div class="card z-index-0" style="background-color: #F3DEBA">
                     <div class="card-header text-center" style="padding: 0px !important;">
                         <div class="card-body">
-                            <h5 class="mb-2" style="color: #f2661c">Email Verified Successfully!</h5>
+                            <h5 class="mb-2" style="color: #1b3a62">Email Verified Successfully!</h5>
                             <p class="d-flex text-justify text-bold" style="color: #0f1534">Your email has been
                                 successfully verified. Thank you for completing the verification process. Please click
                                 the button above to access the app and continue the registration process. Once

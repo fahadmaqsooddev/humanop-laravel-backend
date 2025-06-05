@@ -3,7 +3,7 @@
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
             <tr class="table-text-color">
-           
+
                 <th>Description</th>
                 <th>Action</th>
             </tr>
@@ -14,7 +14,7 @@
 
                     <td class="text-md font-weight-normal">{{$option['description']}} </td>
                     <td>
-                        <button class="btn btn-sm text-white" style="background-color: #f2661c;" data-bs-toggle="modal"
+                        <button class="btn btn-sm text-white" style="background-color: #1b3a62;" data-bs-toggle="modal"
                                 data-bs-target="#intentionPlan{{$option['id']}}" >
                             update
                         </button>

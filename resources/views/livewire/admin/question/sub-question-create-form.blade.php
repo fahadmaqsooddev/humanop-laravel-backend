@@ -8,20 +8,20 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <label class="form-label fs-4 text-white">Question</label>
+                                <label class="form-label fs-4" style="color: #1b3a62">Question</label>
                                 <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                         aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 @include('layouts.message')
                                 <div class="form-group mt-4">
-                                    <input style="background-color: #0f1534;" class="form-control text-white"
+                                    <input style="background-color: #eaf3ff;" class="form-control"
                                            type="text" wire:model.defer="sub_question">
                                 </div>
-                                <label class="form-label fs-4 text-white">Answers</label>
+                                <label class="form-label fs-4" style="color: #1b3a62">Answers</label>
                                 @foreach($question['answers'] as $index => $answer)
                                     <div class="form-group">
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <input style="background-color: #eaf3ff;" class="form-control"
                                                type="text" wire:model.defer="sub_answer.{{ $index }}"
                                                placeholder="answer">
                                     </div>

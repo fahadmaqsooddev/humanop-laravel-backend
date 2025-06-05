@@ -11,6 +11,9 @@ class PointLog extends Model
 {
     use HasFactory;
 
+    // Types enum
+    const HAI_CREDIT = 3;
+
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
@@ -42,6 +45,21 @@ class PointLog extends Model
         return self::where('user_id', $userId)->where('type', 1)->where('created_at', '>=', Carbon::now()->subDays($days))->where('plan', $plan)->orderBy('created_at', 'asc')->count();
     }
 
+    public static function updateHaiCreditLogs($per_credit_token, $current_tokens, $used_token){
+
+        $remaining_tokens = ($used_token > $current_tokens) ? 0 : (($current_tokens - $used_token)/$per_credit_token);
+
+        self::create([
+            'user_id' => Helpers::getUser()->id,
+            'point' => ($used_token > $current_tokens) ? ($current_tokens/$per_credit_token) : ($used_token/$per_credit_token),
+            'plan' => Helpers::getUser()->plan_name,
+            'type' => self::HAI_CREDIT,
+        ]);
+
+        Point::where('user_id', Helpers::getUser()->id)->update(['point' => $remaining_tokens]);
+
+    }
+
     public static function createPointLog($points, $is_added = 0){
 
         self::create([
@@ -51,21 +69,5 @@ class PointLog extends Model
             'point' => $points,
             'plan' => Helpers::getUser()->plan_name,
         ]);
-
-    }
-
-    public static function updateHaiCreditLogs($per_credit_token, $current_tokens, $used_token){
-
-        $remaining_tokens = $current_tokens - $used_token;
-
-        self::create([
-            'user_id' => Helpers::getUser()->id,
-            'point' => $used_token/$per_credit_token,
-            'plan' => Helpers::getUser()->plan_name,
-            'type' => self::HAI_Credit,
-        ]);
-
-        Point::where('user_id', Helpers::getUser()->id)->update(['point' => ($remaining_tokens/$per_credit_token)]);
-
     }
 }

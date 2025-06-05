@@ -6,7 +6,7 @@
             <div class="modal-body" style=" border-radius: 9px">
                 @include('layouts.message')
                 <div class="card-body pt-0">
-                    <label class="form-label fs-4 text-white">Coupon Discount</label>
+                    <label class="form-label fs-4" style="color: #1b3a62">Coupon Discount</label>
 
                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                             aria-label="Close">
@@ -18,7 +18,7 @@
                                 <div class="col-12">
                                     <label class="form-label text-white">Discount</label>
                                     <div class="form-group">
-                                        <select style="background-color: #0f1535" class="form-control" name="discount" wire:model="discount">
+                                        <select style="background-color: #eaf3ff" class="form-control" name="discount" wire:model="discount">
                                             <option value="0">0%</option>
                                             <option value="5">5%</option>
                                             <option value="10">10%</option>
@@ -46,13 +46,13 @@
                                 <div class="col-12">
                                     <label class="form-label text-white">Discount Limit</label>
                                     <div class="form-group">
-                                        <input style="background-color: #0f1534;" class="form-control text-white" type="text" name="limit" wire:model="limit"
+                                        <input style="background-color: #eaf3ff;" class="form-control" type="text" name="limit" wire:model="limit"
                                                placeholder="limit">
                                     </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                    style="background-color: #f2661c ">Create Coupon
+                                    style="background-color: #1b3a62 ">Create Coupon
                             </button>
                         </div>
                     </form>

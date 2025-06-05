@@ -34,30 +34,30 @@
                                 <h1 class="text-white">HumanOp Summary Report</h1>
                                 <h2 class="text-white text-bold">{{$user_name}}</h2>
                                 <div class="text-white mt-4" style="text-align: justify">
-                                  
+
                                     {!!$summary_static['description']!!}
 
                                 </div>
 
-                     
+
                                <div style="text-align: justify" class="mystyle">
-                                <h2 style="color: #f2661c;">YOUR TRAITS</h2>
+                                <h2 style="color: #1b3a62;">YOUR TRAITS</h2>
                                 {!!$trait_intro['description']!!}
                                </div>
-                               
+
 
 
                                 @foreach($allStyles as $style)
                                     <h2 class="mt-4"
-                                        style="color: #f2661c; text-align: justify">{{ $style['public_name'] }}</h2>
+                                        style="color: #1b3a62; text-align: justify">{{ $style['public_name'] }}</h2>
                                         <div style="text-align: justify">
                                             <p class="text-white" style="text-align: justify !important;">{!! $style['description'] !!}</p>
                                         </div>
                                 @endforeach
 
-                               
+
                                     <div style="text-align: justify"  class="mystyle">
-                                        <h2 style="color: #f2661c;">YOUR MOTIVATION</h2>
+                                        <h2 style="color: #1b3a62;">YOUR MOTIVATION</h2>
                                       {!!$motivation_intro['description']!!}
                                     </div>
 
@@ -65,7 +65,7 @@
                                     <?php
                                     $featureHeading = '';
                                     $featureText = '';
-                            
+
 
 
                                     ?>
@@ -74,7 +74,7 @@
                                         <?php
                                         $featureHeading = 'Initiating Change';
                                         $featureTextArray = [
-                                      
+
                                             "0"=>$feature['description'],
                                         ];
                                         $randomKey = array_rand($featureTextArray); // Randomly select a text from array
@@ -185,9 +185,9 @@
 
 "0"=>$feature['description']
                                         ];
-                                        $randomKey = array_rand($featureTextArray); 
+                                        $randomKey = array_rand($featureTextArray);
 
-                                        $featureText = $featureTextArray[$randomKey]; 
+                                        $featureText = $featureTextArray[$randomKey];
                                         ?>
                                         @break
 
@@ -207,7 +207,7 @@
                                         <?php
                                         $featureHeading = 'Perseverance';
                                         $featureTextArray = [
-                                     
+
 "0"=>$feature['description']
                                         ];
                                         $randomKey = array_rand($featureTextArray); // Randomly select a text from array
@@ -217,16 +217,16 @@
                                     @endswitch
 
                                     <h2 class="mt-4"
-                                        style="color: #f2661c; text-align: justify">{{ $index == 0 ? 'Pilot ' : 'Co-pilot ' }} {{$featureHeading}}</h2>
+                                        style="color: #1b3a62; text-align: justify">{{ $index == 0 ? 'Pilot ' : 'Co-pilot ' }} {{$featureHeading}}</h2>
                                         <div style="text-align: justify">
                                             <p class="text-white" style="text-align: justify">{!! $featureText !!}</p>
                                         </div>
-                                   
+
                                 @endforeach
 
-                               
+
                                  <div style="text-align: justify"  class="mystyle">
-                                    <h2 style="color: #f2661c;">YOUR BOUNDARIES</h2>
+                                    <h2 style="color: #1b3a62;">YOUR BOUNDARIES</h2>
                                    {!!$intro_boundaries['description']!!}
                                  </div>
                                 @if($boundary)
@@ -243,7 +243,7 @@
                                         $boundaryImage = 'img/gold.png';
 
                                         $boundaryTextArray = [
-            
+
             "0"=>$boundary['description']
                                         ];
 
@@ -337,26 +337,26 @@
                                         @break
                                     @endswitch
 
-                                    <h2 class="mt-4" style="color: #f2661c; text-align: justify">YOU HAVE
+                                    <h2 class="mt-4" style="color: #1b3a62; text-align: justify">YOU HAVE
                                         A {{ $boundaryHeading }} Alchemy</h2>
                                     <div class="mt-4" style="border: 0px solid #ccc;">
                                      @if(!empty($boundaryImage))
                                         <img
                                             src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/' . $boundaryImage))) }}"
                                             style="background:#351a0d; padding: 0px; max-width: 500px"/>
-                                      @endif      
+                                      @endif
                                     </div>
                                     <div style="text-align: justify">
                                         <p class="text-white mt-4" style="text-align: justify">{!! $boundaryText !!}</p>
                                     </div>
-                                    
+
                                     <!-- Render HTML tags -->
                                 @endif
 
-                              
+
 
                                     <div style="text-align:justify"  class="mystyle">
-                                        <h2 style="color: #f2661c;">YOUR COMMUNICATION STYLE</h2>
+                                        <h2 style="color: #1b3a62;">YOUR COMMUNICATION STYLE</h2>
                                      {!!$intro_communication['description']!!}
                                     </div>
 
@@ -395,7 +395,7 @@
                                         <?php
                                         $communicationHeading = 'The Intellectual Energy Center';
                                         $communicationTextArray = [
-                                          
+
 
                                             "0"=>$communication['description']
                                         ];
@@ -418,16 +418,16 @@
                                         @break
                                     @endswitch
                                     <h2 class="mt-4"
-                                        style="color: #f2661c; text-align: justify"> {{ $index == 0 ? 'Your First “Door” is ' : ($index == 1 ? 'Your Second “Door” is ' : ($index == 2 ? 'Your Third “Door” is ' : 'Your Fourth “Door” is ')) }}{{ $communicationHeading }}</h2>
+                                        style="color: #1b3a62; text-align: justify"> {{ $index == 0 ? 'Your First “Door” is ' : ($index == 1 ? 'Your Second “Door” is ' : ($index == 2 ? 'Your Third “Door” is ' : 'Your Fourth “Door” is ')) }}{{ $communicationHeading }}</h2>
                                         <div style="text-align: justify">
                                             <p class="text-white" style="text-align: justify">{!! $communicationText !!}</p>
                                         </div>
-                                    
+
                                 @endforeach
 
-                          
+
                                  <div style="text-align: justify"  class="mystyle">
-                                    <h2 style="color: #f2661c;">YOUR PERCEPTION OF LIFE</h2>
+                                    <h2 style="color: #1b3a62;">YOUR PERCEPTION OF LIFE</h2>
                                 {!!$intro_perceptionlife['description']!!}
                                  </div>
                                 @if($perception)
@@ -441,7 +441,7 @@
                                         <?php
                                         $perceptionHeading = 'Neutral Perception of Life';
                                         $perceptionTextArray = [
-                                        
+
                                             "0"=>$perception['description']
                                         ];
                                         $randomKey = array_rand($perceptionTextArray);
@@ -452,7 +452,7 @@
                                         <?php
                                         $perceptionHeading = 'Positive Perception of Life';
                                         $perceptionTextArray = [
-                                        
+
                                             "0"=>$perception['description']
                                         ];
                                         $randomKey = array_rand($perceptionTextArray);
@@ -463,7 +463,7 @@
                                         <?php
                                         $perceptionHeading = 'Negative Perception of Life';
                                         $perceptionTextArray = [
-                                         
+
                                             "0"=>$perception['description']
                                         ];
                                         $randomKey = array_rand($perceptionTextArray);
@@ -472,35 +472,35 @@
                                         @break
                                     @endswitch
                                     <h2 class="mt-4"
-                                        style="color: #f2661c; text-align: justify">{{ $perceptionHeading }}</h2>
+                                        style="color: #1b3a62; text-align: justify">{{ $perceptionHeading }}</h2>
                                         <div style="text-align: justify">
-                                            <p class="text-white" style="text-align: justify">{!! $perceptionText !!}</p> 
+                                            <p class="text-white" style="text-align: justify">{!! $perceptionText !!}</p>
                                         </div>
-                                   
+
                                 @endif
 
-                          
+
 
                                     <div style="text-align: justify"  class="mystyle">
-                                        <h2 style="color: #f2661c;">YOUR ENERGY POOL</h2>
+                                        <h2 style="color: #1b3a62;">YOUR ENERGY POOL</h2>
                                     {!!$intro_energypool['description']!!}
                                     </div>
-                                   
+
 
                                 @if($energyPool)
-                                
+
                                     <?php
                                     $energyPoolHeading = '';
                                     $energyPoolText = '';
                                     $randomKey = 0;
-                                    
+
                                     ?>
                                     @switch($energyPool['public_name'])
                                         @case(' Excellent')
                                         <?php
                                         $energyPoolHeading = 'Energy - Excellent';
                                         $energyPoolTextArray = [
-                                         
+
                                             "0"=>$energyPool['text']
                                         ];
                                         $randomKey = array_rand($energyPoolTextArray);
@@ -511,7 +511,7 @@
                                         <?php
                                         $energyPoolHeading = 'Energy - Above Excellent';
                                         $energyPoolTextArray = [
-                                        
+
                                             "0"=>$energyPool['text']
                                         ];
                                         $randomKey = array_rand($energyPoolTextArray);
@@ -522,7 +522,7 @@
                                         <?php
                                         $energyPoolHeading = 'Energy - Average';
                                         $energyPoolTextArray = [
-                                        
+
                                             "0"=>$energyPool['text']
                                         ];
                                         $randomKey = array_rand($energyPoolTextArray);
@@ -533,7 +533,7 @@
                                         <?php
                                         $energyPoolHeading = 'Energy - Fair';
                                         $energyPoolTextArray = [
-                                         
+
                                             "0"=>$energyPool['text']
                                         ];
                                         $randomKey = array_rand($energyPoolTextArray);
@@ -542,18 +542,18 @@
                                         @break
                                     @endswitch
                                     <h2 class="mt-4"
-                                        style="color: #f2661c; text-align: justify">{{ $energyPoolHeading }}</h2>
+                                        style="color: #1b3a62; text-align: justify">{{ $energyPoolHeading }}</h2>
                                         <div style="text-align: justify">
                                             <p class="text-white" style="text-align: justify">{!! $energyPoolText !!}</p>
                                         </div>
-                                    
+
                                 @endif
 
                                 <div style="text-align: justify" class="text-white mt-4"
                                      style="text-align: justify">
                                      <?php
                                      $text=config('pdffooter.footer');
-                                   
+
                                      ?>
                                    <div style="color: black !important;">
 
@@ -563,7 +563,7 @@
                                 </div>
 
                                 <p class="text-white mt-4"
-                                   style="text-align: justify; padding-bottom: 20px; border-bottom: 2px solid #f2661c">
+                                   style="text-align: justify; padding-bottom: 20px; border-bottom: 2px solid #1b3a62">
                                     Your practitioner
                                     is N/A
                                     <br>{{\Illuminate\Support\Facades\Auth::user()['email']}}</p>

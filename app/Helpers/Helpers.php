@@ -604,9 +604,7 @@ class Helpers
 
     }
 
-    public static function checkAndAddBonusCredits($user = null)
-    {
-
+    public static function checkAndAddBonusCredits($user = null){
 
         $minutes = self::explodeTimezoneWithHours($user['timezone']);
 
@@ -619,13 +617,12 @@ class Helpers
 
             $user->update(['credits_log' => $credits_log, "last_login" => $currentTime]);
 
-        }
-        elseif ($currentTime->diffInDays($user['last_login']) > 1) {
+        } elseif ($currentTime->diffInDays($user['last_login']) > 1) {
 
             $user->update(['credits_log' => 1, "last_login" => $currentTime]);
 
-        }else
-        {
+        }else {
+
             if ($user['credits_log'] == 5) {
 
                 $user->update(['credits_log' => 0, "last_login" => $currentTime]);

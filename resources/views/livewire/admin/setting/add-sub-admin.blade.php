@@ -92,63 +92,129 @@
                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                     @enderror
                 </div>
-                <p class="text-muted mt-4 mb-2">
-                    Please assign permissions to Sub Admin:
-                </p>
+                <h5 class="text-bold mt-4 mb-2">
+                    Please assign permissions to Sub Admin for B2C Admin Dashboard:
+                </h5>
                 <div class="row">
                     <div class="col-sm-4 col-6 w-50">
                         <input type="checkbox"
-                               class="form-check-input"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.user_management">
                         <label class="form-check-label text-color-dark">User Management</label>
                         <br>
                         <input type="checkbox"
-                               class="form-check-input"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.assessment_management">
                         <label class="form-check-label text-color-dark">Assessment Management</label>
                         <br>
                         <input type="checkbox"
-                               class="form-check-input"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.technology_management">
                         <label class="form-check-label text-color-dark">Technology Management</label>
                         <br>
                         <input type="checkbox"
-                               class="form-check-input"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.team_management">
                         <label class="form-check-label text-color-dark">Team Management</label>
-                        <br>
-                        <input type="checkbox"
-                               class="form-check-input"
-                               wire:model.defer="permission.hai_admin">
-                        <label class="form-check-label text-color-dark">HAi Admin</label>
 
                     </div>
                     <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
                         <input type="checkbox"
-                               class="form-check-input"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.cms_admin">
                         <label class="form-check-label text-color-dark">CMS Admin</label>
                         <br>
                         <input type="checkbox"
-                               class="form-check-input"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.support_admin">
                         <label class="form-check-label text-color-dark">Support Admin</label>
                         <br>
                         <input type="checkbox"
-                               class="form-check-input"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.client_queries">
                         <label class="form-check-label text-color-dark">Client Queries</label>
                         <br>
                         <input type="checkbox"
-                               class="form-check-input"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.approve_queries">
                         <label class="form-check-label text-color-dark">Approve Queries</label>
                         <br>
                     </div>
                 </div>
+                <h5 class="text-bold mt-4 mb-2">
+                    Please assign permissions to Sub Admin for HAi Admin Dashboard:
+                </h5>
+                <div class="row">
+                    <div class="col-sm-4 col-6 w-50">
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.persona">
+                        <label class="form-check-label text-color-dark">Persona</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.brains">
+                        <label class="form-check-label text-color-dark">Brains</label>
+
+                    </div>
+                    <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.advance">
+                        <label class="form-check-label text-color-dark">Advance</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.knowledge">
+                        <label class="form-check-label text-color-dark">Knowledge</label>
+                    </div>
+                </div>
+                <h5 class="text-bold mt-4 mb-2">
+                    Please assign permissions to Sub Admin for B2B Admin Dashboard:
+                </h5>
+                <div class="row">
+                    <div class="col-sm-4 col-6 w-50">
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.organizations">
+                        <label class="form-check-label text-color-dark">Organizations</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.support">
+                        <label class="form-check-label text-color-dark">Support</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.role_template_manage">
+                        <label class="form-check-label text-color-dark">Role Template Manage</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.invites">
+                        <label class="form-check-label text-color-dark">Invites</label>
+
+                    </div>
+                    <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.pricing_plan">
+                        <label class="form-check-label text-color-dark">Pricing Plan</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.support_admin">
+                        <label class="form-check-label text-color-dark">Support Admin</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input" style="border: 2px solid #1b3a62"
+                               wire:model.defer="permission.coupons">
+                        <label class="form-check-label text-color-dark">Coupons</label>
+                    </div>
+                </div>
             </div>
             <button type="submit" class=" btn-sm float-end mt-4 mb-4"
-                    style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
+                    style="background:#1b3a62 !important;color:white;font-weight:bolder;border:none;">
                 Create Sub Admin
             </button>
         </div>

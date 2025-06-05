@@ -9,7 +9,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Question</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Question</label>
 
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
@@ -18,22 +18,22 @@
 
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <input style="background-color: #eaf3ff;" class="form-control"
                                                type="text" wire:model.defer="question.question">
                                     </div>
-                                    <label class="form-label fs-4 text-white">Gender</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Gender</label>
                                     <div class="form-group">
-                                        <select style="background-color: #0f1535" class="form-control"
+                                        <select style="background-color: #eaf3ff" class="form-control"
                                                 wire:model.defer="question.gender">
                                             <option value="0">Male</option>
                                             <option value="1">Female</option>
                                             <option value="2">Male & Female</option>
                                         </select>
                                     </div>
-                                    <label class="form-label fs-4 text-white">Answers</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Answers</label>
                                     @foreach($question['answers'] as $index => $answer)
                                         <div class="form-group">
-                                            <input style="background-color: #0f1534;" class="form-control text-white"
+                                            <input style="background-color: #eaf3ff;" class="form-control"
                                                    type="text" wire:model.defer="answers.{{ $index }}.answer"
                                                    placeholder="answer">
                                         </div>
@@ -63,20 +63,20 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Question</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Question</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                        <input style="background-color: #eaf3ff;" class="form-control"
                                                type="text" wire:model.defer="sub_question">
                                     </div>
-                                    <label class="form-label fs-4 text-white">Answers</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Answers</label>
                                     @foreach($question['answers'] as $index => $answer)
                                         <div class="form-group">
-                                            <input style="background-color: #0f1534;" class="form-control text-white"
+                                            <input style="background-color: #eaf3ff;" class="form-control"
                                                    type="text" wire:model.defer="sub_answer.{{ $index }}"
                                                    placeholder="answer">
                                         </div>
@@ -101,7 +101,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <label class="form-label fs-4 text-white">Question</label>
+                                <label class="form-label fs-4" style="color: #1b3a62">Question</label>
                                 <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -126,12 +126,12 @@
                                         @endif
                                     <form wire:submit.prevent="updateSubQuestion({{ $subQuestion['id'] }})">
                                         <div class="form-group mt-4">
-                                            <input wire:model.defer="subQuestions.{{ $subIndex }}.question" style="background-color: #0f1534;" class="form-control text-white" type="text">
+                                            <input wire:model.defer="subQuestions.{{ $subIndex }}.question" style="background-color: #eaf3ff;" class="form-control" type="text">
                                         </div>
-                                        <label class="form-label fs-4 text-white">Answers</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Answers</label>
                                         @foreach($subQuestion['answers'] as $answerIndex => $subAnswer)
                                             <div class="form-group">
-                                                <input wire:model.defer="subQuestions.{{ $subIndex }}.answers.{{ $answerIndex }}.answer" style="background-color: #0f1534;" class="form-control text-white" type="text" placeholder="Answer">
+                                                <input wire:model.defer="subQuestions.{{ $subIndex }}.answers.{{ $answerIndex }}.answer" style="background-color: #eaf3ff;" class="form-control" type="text" placeholder="Answer">
                                             </div>
                                         @endforeach
                                         <button type="submit" class="btn updateBtn btn-sm float-end text-white mb-0" >Update</button>

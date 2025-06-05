@@ -1221,8 +1221,6 @@ class User extends Authenticatable implements JWTSubject
     public static function deleteClientProfile($id)
     {
 
-        self::whereId($id)->first();
-
         self::whereId($id)->delete();
 
     }
@@ -1320,6 +1318,7 @@ class User extends Authenticatable implements JWTSubject
         $users = self::whereHas('assessments', function ($query) {
 
             $query->where('page', 0)
+
                 ->orderBy('updated_at', 'desc');
 
         })->select(['id', 'first_name', 'last_name'])->orderBy('first_name')->get();
@@ -1468,7 +1467,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function userDataForHAi($user_id = null)
     {
-        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth'])->first()->setAppends([]);
+        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth','email','hai_status'])->first()?->setAppends([]);
 
         return $user;
     }

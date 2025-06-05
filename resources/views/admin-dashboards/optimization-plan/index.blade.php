@@ -1,7 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
     .modal-close-btn {
-        background: #f2661c;
+        background: #1b3a62;
         border: none;
         color: white;
         font-weight: bold;
@@ -18,14 +18,14 @@
         background: none !important;
     }
     .page-link:hover{
-        background: #f2661c !important;
+        background: #1b3a62 !important;
         color:white !important;
     }
 
     .page-item.active .page-link {
-        background: #f2661c !important;
+        background: #1b3a62 !important;
         color: white !important;
-        border-color: #f2661c !important;
+        border-color: #1b3a62 !important;
     }
 
     .table-text-color{
@@ -46,7 +46,7 @@
                     <h5 class="mb-0">All Optimization Plan</h5>
 {{--                    <a data-bs-toggle="modal"--}}
 {{--                       data-bs-target="#dailyTipModel"--}}
-{{--                       style="background-color: #f2661c; color: white"--}}
+{{--                       style="background-color: #1b3a62; color: white"--}}
 {{--                       onclick="emptyDailytipModal();"--}}
 {{--                       class="btn btn-sm float-end mb-0 createForm">Add Daily Tip</a>--}}
                 </div>

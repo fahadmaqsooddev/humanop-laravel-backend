@@ -107,7 +107,7 @@
                                 <h6 class="mb-0">Invoices</h6>
                             </div>
                             <div class="col-6 text-end">
-                                <button class="btn btn-sm mb-0" style="color: #F2661B; border: 1px solid #f2661c;">View All</button>
+                                <button class="btn btn-sm mb-0" style="color: #F2661B; border: 1px solid #1b3a62;">View All</button>
                             </div>
                         </div>
                     </div>

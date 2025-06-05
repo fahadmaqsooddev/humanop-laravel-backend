@@ -1,0 +1,195 @@
+<?php
+
+namespace App\Http\Livewire\Admin\NewHaiChat\Dojo;
+
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Models\HAIChai\BrainCluster;
+use App\Models\HAIChai\Chatbot;
+use App\Models\HAIChai\ChatPrompt;
+use App\Models\HAIChai\HaiChatSetting;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use Livewire\Component;
+
+class Dojo extends Component
+{
+
+    public $training_session_name, $session_id, $message, $persona_id, $chat_bot_id, $thinking;
+
+    public $allSessions = [], $conversations = [], $personas = [];
+
+    protected $rules = [
+        'message' => 'required',
+        'session_id' => 'required',
+        'persona_id' => 'required',
+    ];
+
+    protected $messages = [
+        'message.required' => 'Message is required',
+        'session_id.required' => 'Select or Create new session',
+        'persona_id.required' => 'Select persona for training.'
+    ];
+
+    public function updatedPersonaId($value){
+
+        $this->chat_bot_id = $value;
+    }
+
+    public function render()
+    {
+        $this->allSessions();
+
+        $this->personas = ChatPrompt::where('is_training', 1)->select(['chat_bot_id','persona_name'])->get();
+
+        if ($this->session_id){
+
+            $this->loadAllConversation();
+
+            $this->emit('scrollToBottom');
+        }
+
+        return view('livewire.admin.new-hai-chat.dojo.dojo');
+    }
+
+    public function openNewTrainingSessionModal(){
+
+        $this->emit('openNewTrainingSessionModal');
+
+    }
+
+    public function createNewTrainingSession(){
+
+        $this->validate([
+            'training_session_name' => 'required|max:50',
+        ]);
+
+        $body = ['title' => $this->training_session_name];
+
+        $reply = GuzzleHelpers::sendRequestFromGuzzleForDojo('post','conversations',$body);
+
+        if (isset($reply['id'])){
+
+            $this->reset('training_session_name');
+
+            $this->session_id = $reply['id'];
+
+            session()->flash('training_success', 'Session created');
+
+        }elseif ($reply['detail']){
+
+            if ($reply['detail'] === "303"){
+
+                session()->flash('training_error', "Session with same name already exists.");
+
+            }else{
+
+                session()->flash('training_error', $reply['detail']);
+            }
+
+
+        }else{
+
+            session()->flash('training_error', "Something went wrong.");
+        }
+
+    }
+
+    public function allSessions(){
+
+        $reply = GuzzleHelpers::sendRequestFromGuzzleForDojo('get','conversations');
+
+        $this->allSessions = $reply;
+
+    }
+
+    public function deleteSession(){
+
+        GuzzleHelpers::sendRequestFromGuzzleForDojo('delete',"conversations/$this->session_id");
+
+        $this->reset('session_id','conversations');
+    }
+
+    public function selectSession($id){
+
+        $this->session_id = $id;
+    }
+
+    public function sendMessage(){
+
+        try {
+
+            $this->validate();
+
+            $settings = ChatPrompt::where('chat_bot_id', $this->chat_bot_id)->first();
+
+            $embedding_ids = BrainCluster::connectedNewClusterEmbeddingIds($this->chat_bot_id);
+
+            $body = ['content' => $this->message, 'base_data' => ($settings['prompt'] ?? null), 'restriction_data' => ($settings['restriction'] ?? null), "document_ids" => $embedding_ids];
+
+            $reply = GuzzleHelpers::sendRequestFromGuzzleForDojo('post', "conversations/$this->session_id/messages", $body);
+
+            if (isset($reply['content'])){
+
+                $this->reset('message');
+
+                $this->thinking = $reply['thinking'] ?? null;
+
+            }elseif (isset($reply['detail'])){
+
+                session()->flash('error', $reply['detail']);
+            }
+
+        }catch (ValidationException $validationException){
+
+            session()->flash('errors', $validationException->validator->errors()->getMessages());
+
+        }catch (\Exception $exception){
+
+            session()->flash('error', $exception->getMessage());
+        }
+
+    }
+
+    public function loadAllConversation(){
+
+        $reply = GuzzleHelpers::sendRequestFromGuzzleForDojo('get', "conversations/$this->session_id");
+
+        if (isset($reply['messages'])){
+
+            $this->conversations = $reply['messages'];
+        }
+
+    }
+
+    public function endTrainingSession()
+    {
+
+        $body = ['status' => 'ended'];
+
+        GuzzleHelpers::sendRequestFromGuzzleForDojo('put', "conversations/$this->session_id/status", $body);
+
+        $this->reset('session_id','conversations');
+    }
+
+    public function exportSessionConversation(){
+
+        $body = ['status' => 'ended'];
+
+        $reply = GuzzleHelpers::sendRequestFromGuzzleForDojoExport('get', "conversations/$this->session_id/export/jsonl", $body);
+
+        Storage::disk('local')->put('/training-session-files/conversation.jsonl',$reply);
+
+        return redirect()->route('admin_export_conversations');
+
+    }
+
+    public function trainMoreSession()
+    {
+
+        $body = ['status' => 'active'];
+
+        GuzzleHelpers::sendRequestFromGuzzleForDojo('put', "conversations/$this->session_id/status", $body);
+    }
+
+
+}

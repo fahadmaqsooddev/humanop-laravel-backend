@@ -22,11 +22,11 @@
 
             .card-bg-white-orange-border{
                 background-color: #FFFFFF !important;
-                border: 2px solid #d26622 !important;
+                border: 2px solid #1b3a62 !important;
             }
 
             .text-orange{
-                color: #f2661c !important;
+                color: #1b3a62 !important;
             }
 
             .input-bg{

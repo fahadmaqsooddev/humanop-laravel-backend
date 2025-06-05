@@ -128,7 +128,7 @@
             width: 0%;
             height: 100%;
             position: relative;
-            background: rgb(242, 102, 28);
+            background: #1b3a62;
         }
 
         .progress-bar::before {
@@ -139,7 +139,7 @@
             width: 13px;
             position: absolute;
             border-radius: 50%;
-            background: rgb(242, 102, 28);
+            background: #1b3a62;
             transform: translateY(-50%);
         }
 
@@ -202,7 +202,7 @@
             height: 4px;
             margin-left: 3px;
             max-width: 75px;
-            accent-color: rgb(242, 102, 28);
+            accent-color: #1b3a62;
         }
 
         .options .video-timer {
@@ -311,7 +311,7 @@
                                 <div>
                                     <a href="{{url('client/generate-pdf/'. $id)}}" target="_blank"
                                        class="btn btn-sm float-end mt-4 mb-4 text-white mx-4"
-                                       style="background-color: #f2661c">PDF</a>
+                                       style="background-color: #1b3a62">PDF</a>
                                 </div>
                                 <div class="card-body p-3 ">
                                     <div style="border: 0px solid #ccc;"><img src="{{asset('assets/img/ultlogo.png')}}"
@@ -366,13 +366,13 @@
 {{--                                                        href="#intro_video" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
 
                                                 <button onclick="showVideoAccordingToSlide('{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}')"
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 
@@ -404,14 +404,14 @@
 {{--                                                        href="#intro_cycle_video" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
                                                 <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Intro to The Cycle of Life.mp4')}}')"
                                                         {{--                                                        href="#intro_cycle_video" role="button"--}}
                                                         {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 {{--                                                <div class="collapse" id="intro_cycle_video">--}}
@@ -426,7 +426,7 @@
 {{--                                                </div>--}}
                                             </div>
                                             <div class="carousel-item">
-                                                <h2 style="color: #f2661c " class="text-start ms-md-5 ">The ULT Performance
+                                                <h2 style="color: #1b3a62 " class="text-start ms-md-5 ">The ULT Performance
                                                     Report addresses the
                                                     following:</h2>
                                                 <ul class="slider-padding "
@@ -448,14 +448,14 @@
 {{--                                                        href="#cycle_of_life_video" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
                                                 <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}')"
                                                         {{--                                                        href="#cycle_of_life_video" role="button"--}}
                                                         {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 
@@ -471,7 +471,7 @@
 {{--                                                </div>--}}
                                             </div>
                                             <div class="carousel-item">
-                                                <h2 class="slider-padding" style="color: #f2661c;">YOUR TRAITS</h2>
+                                                <h2 class="slider-padding" style="color: #1b3a62;">YOUR TRAITS</h2>
                                                 <p class="slider-padding">Your natural physical "TRAITS" determine
                                                     how nature shows up in you. These traits assist in providing unique
                                                     insight into
@@ -480,14 +480,14 @@
 {{--                                                        href="#trait_video" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
                                                 <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Intro to Traits.mp4')}}')"
                                                         {{--                                                        href="#trait_video" role="button"--}}
                                                         {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 {{--                                                <div class="collapse" id="trait_video">--}}
@@ -503,13 +503,13 @@
                                             @foreach($reports['style_code_details'] as $report)
                                                 <div class="carousel-item">
                                                     <h2 class="slider-padding"
-                                                        style="color: #f2661c;">{{$report['public_name']}}</h2>
+                                                        style="color: #1b3a62;">{{$report['public_name']}}</h2>
                                                     <p class="slider-padding">{{$report['text']}}</p>
                                                     <button onclick="showVideoAccordingToSlide('{{asset('assets/video/'. $report['video'])}}')"
                                                             {{--                                                        href="#trait_video" role="button"--}}
                                                             {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                             class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                            style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                            style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                         Video
                                                     </button>
 {{--                                                    <button onclick="pauseVideo('myVideo{{$report['id']}}')"--}}
@@ -517,7 +517,7 @@
 {{--                                                            role="button"--}}
 {{--                                                            aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                            class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                            style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                            style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                        Video--}}
 {{--                                                    </button>--}}
 {{--                                                    <div class="collapse" id="{{$report['p_name']}}">--}}
@@ -534,7 +534,7 @@
                                                 </div>
                                             @endforeach
                                             <div class="carousel-item">
-                                                <h2 class="slider-padding" style="color: #f2661c;">YOUR MOTIVATION</h2>
+                                                <h2 class="slider-padding" style="color: #1b3a62;">YOUR MOTIVATION</h2>
                                                 <p class="slider-padding"> Your "MOTIVATION" addresses what
                                                     “DRIVES” you, what must be fed and honored so that you
                                                     can successfully reach your destination. There are 12 “DRIVERS” in
@@ -564,14 +564,14 @@
                                                         {{--                                                        href="#motivation_video" role="button"--}}
                                                         {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 {{--                                                <button onclick="pauseVideo('myVideo111')" data-toggle="collapse"--}}
 {{--                                                        href="#motivation_video" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
 {{--                                                <div class="collapse" id="motivation_video">--}}
@@ -588,7 +588,7 @@
                                             @foreach($reports['feature_code_details'] as $report)
                                                 <div class="carousel-item">
                                                     <h2 class="slider-padding"
-                                                        style="color: #f2661c;">{{$report['public_name']}}</h2>
+                                                        style="color: #1b3a62;">{{$report['public_name']}}</h2>
                                                     <p class="slider-padding">{{$report['text']}}</p>
                                                     <button onclick="showVideoAccordingToSlide('{{asset('assets/video/'. $report['video'])}}')"
                                                             {{--                                                    <button onclick="pauseVideo('myVideo{{$report['id']}}')"--}}
@@ -596,7 +596,7 @@
                                                             {{--                                                            role="button"--}}
                                                             {{--                                                            aria-expanded="false" aria-controls="collapseExample"--}}
                                                             class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                            style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                            style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                         Video
                                                     </button>
 {{--                                                    <button onclick="pauseVideo('myVideo{{$report['id']}}')"--}}
@@ -604,7 +604,7 @@
 {{--                                                            role="button"--}}
 {{--                                                            aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                            class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                            style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                            style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                        Video--}}
 {{--                                                    </button>--}}
 {{--                                                    <div class="collapse" id="{{$report['p_name']}}">--}}
@@ -621,7 +621,7 @@
                                                 </div>
                                             @endforeach
                                             <div class="carousel-item">
-                                                <h2 class="slider-padding" style="color: #f2661c;">YOUR BOUNDARIES</h2>
+                                                <h2 class="slider-padding" style="color: #1b3a62;">YOUR BOUNDARIES</h2>
                                                 <p class="slider-padding"> “ALCHEMY” addresses your refinement
                                                     preferences; whether you are meticulous, practical,
                                                     messy, and what you can tolerate in others. The Knowledge of Y.O.U.
@@ -648,14 +648,14 @@
                                                         {{--                                                        href="#alchemy_video" role="button"--}}
                                                         {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 {{--                                                <button onclick="pauseVideo('myVideo222')" data-toggle="collapse"--}}
 {{--                                                        href="#alchemy_video" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
 {{--                                                <div class="collapse" id="alchemy_video">--}}
@@ -669,7 +669,7 @@
 {{--                                                </div>--}}
                                             </div>
                                             <div class="carousel-item">
-                                                <h2 class="slider-padding" style="color: #f2661c;">YOU HAVE A
+                                                <h2 class="slider-padding" style="color: #1b3a62;">YOU HAVE A
                                                     "{{$reports['alchemy_code_details']['public_name']}}"</h2>
                                                 @if($reports['alchemy_code_details']['image'] !== null && $reports['alchemy_code_details']['image'] !== 'null')
                                                     <div class="my-3" style="border: 0px solid #ccc;">
@@ -688,7 +688,7 @@
                                                         {{--                                                        role="button"--}}
                                                         {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                         Video
                                                     </button>
 {{--                                                    <button--}}
@@ -697,7 +697,7 @@
 {{--                                                        href="#{{$reports['alchemy_code_details']['p_name']}}" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                        Video--}}
 {{--                                                    </button>--}}
 {{--                                                    <div class="collapse"--}}
@@ -716,7 +716,7 @@
                                                 @endif
                                             </div>
                                             <div class="carousel-item">
-                                                <h2 class="slider-padding" style="color: #f2661c;">YOUR COMMUNICATION
+                                                <h2 class="slider-padding" style="color: #1b3a62;">YOUR COMMUNICATION
                                                     STYLE</h2>
                                                 <p class="slider-padding">“ENERGY CENTERS” define your
                                                     "COMMUNICATION STYLE" and they determine how you uniquely
@@ -745,14 +745,14 @@
                                                         {{--                                                        href="#communication_video" role="button"--}}
                                                         {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 {{--                                                <button onclick="pauseVideo('myVideo333')" data-toggle="collapse"--}}
 {{--                                                        href="#communication_video" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
 {{--                                                <div class="collapse" id="communication_video">--}}
@@ -770,19 +770,19 @@
                                                 <div class="carousel-item">
                                                     @if($key == 0)
                                                         <h2 class="slider-padding"
-                                                            style="color: #f2661c;">YOU are
+                                                            style="color: #1b3a62;">YOU are
                                                             primarily {{$report['public_name']}} centered</h2>
                                                     @elseif($key == 1)
                                                         <h2 class="slider-padding"
-                                                            style="color: #f2661c;">YOU are
+                                                            style="color: #1b3a62;">YOU are
                                                             secondly {{$report['public_name']}} centered</h2>
                                                     @elseif($key == 2)
                                                         <h2 class="slider-padding"
-                                                            style="color: #f2661c;">YOU are
+                                                            style="color: #1b3a62;">YOU are
                                                             thirdly {{$report['public_name']}} centered</h2>
                                                     @else
                                                         <h2 class="slider-padding"
-                                                            style="color: #f2661c;">YOU are
+                                                            style="color: #1b3a62;">YOU are
                                                             lastly {{$report['public_name']}} centered</h2>
                                                     @endif
                                                     <p class="slider-padding">{{$report['text']}}</p>
@@ -790,7 +790,7 @@
                                                                 {{--                                                        href="#communication_video" role="button"--}}
                                                                 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                                 class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                                style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                                style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                             Video
                                                         </button>
 {{--                                                    <button onclick="pauseVideo('myVideo{{$report['id']}}')"--}}
@@ -798,7 +798,7 @@
 {{--                                                            role="button"--}}
 {{--                                                            aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                            class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                            style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                            style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                        Video--}}
 {{--                                                    </button>--}}
 {{--                                                    <div class="collapse" id="{{$report['p_name']}}">--}}
@@ -815,21 +815,21 @@
                                                 </div>
                                             @endforeach
                                             <div class="carousel-item">
-                                                <h2 class="slider-padding" style="color: #f2661c;">YOUR PERCEPTION OF
+                                                <h2 class="slider-padding" style="color: #1b3a62;">YOUR PERCEPTION OF
                                                     LIFE</h2>
                                                 <p class="slider-padding">{{$reports['perception_life']['text']}}</p>
                                                 <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Perception of Life Intro.mp4')}}')"
                                                         {{--                                                        href="#perception_video" role="button"--}}
                                                         {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 {{--                                                <button onclick="pauseVideo('myVideo444')" data-toggle="collapse"--}}
 {{--                                                        href="#perception_video" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
 {{--                                                <div class="collapse" id="perception_video">--}}
@@ -845,7 +845,7 @@
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding"
-                                                    style="color: #f2661c;">{{$reports['polarity_code_detail']['public_name']}}</h2>
+                                                    style="color: #1b3a62;">{{$reports['polarity_code_detail']['public_name']}}</h2>
                                                 <p class="slider-padding">{{$reports['polarity_code_detail']['text']}}</p>
                                                 <button
                                                     {{--                                                    onclick="pauseVideo('myVideo{{$reports['polarity_code_detail']['id']}}')"--}}
@@ -854,7 +854,7 @@
                                                     {{--                                                    href="#{{$reports['polarity_code_detail']['p_name']}}" role="button"--}}
                                                     {{--                                                    aria-expanded="false" aria-controls="collapseExample"--}}
                                                     class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                    style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 {{--                                                <button--}}
@@ -863,7 +863,7 @@
 {{--                                                    href="#{{$reports['polarity_code_detail']['p_name']}}" role="button"--}}
 {{--                                                    aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                    class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                    style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                    style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
 {{--                                                <div class="collapse"--}}
@@ -880,7 +880,7 @@
 {{--                                                </div>--}}
                                             </div>
                                             <div class="carousel-item">
-                                                <h2 class="slider-padding" style="color: #f2661c;">YOUR ENERGY POOL</h2>
+                                                <h2 class="slider-padding" style="color: #1b3a62;">YOUR ENERGY POOL</h2>
                                                 <p class="slider-padding">Your “ENERGY POOL” represents how much
                                                     physical energy you have to expend on a daily
                                                     basis. Much like staying hydrated, you must guard its appropriation
@@ -898,14 +898,14 @@
                                                         {{--                                                        href="#energy_video" role="button"--}}
                                                         {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 {{--                                                <button onclick="pauseVideo('myVideo555')" data-toggle="collapse"--}}
 {{--                                                        href="#energy_video" role="button"--}}
 {{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                        style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
 {{--                                                <div class="collapse" id="energy_video">--}}
@@ -920,7 +920,7 @@
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding"
-                                                    style="color: #f2661c;">{{$reports['energy_code_detail']['public_name']}}</h2>
+                                                    style="color: #1b3a62;">{{$reports['energy_code_detail']['public_name']}}</h2>
                                                 <p class="slider-padding">{{$reports['energy_code_detail']['text']}}</p>
                                                 <button
                                                     onclick="showVideoAccordingToSlide('{{asset('assets/video/'. $reports['energy_code_detail']['video'])}}')"
@@ -929,7 +929,7 @@
                                                     {{--                                                    href="#{{$reports['energy_code_detail']['p_name']}}" role="button"--}}
                                                     {{--                                                    aria-expanded="false" aria-controls="collapseExample"--}}
                                                     class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                    style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    style="background-color: #1b3a62; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
 {{--                                                <button--}}
@@ -938,7 +938,7 @@
 {{--                                                    href="#{{$reports['energy_code_detail']['p_name']}}" role="button"--}}
 {{--                                                    aria-expanded="false" aria-controls="collapseExample"--}}
 {{--                                                    class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
-{{--                                                    style="background-color: #f2661c; padding: 12px 63px;">Watch--}}
+{{--                                                    style="background-color: #1b3a62; padding: 12px 63px;">Watch--}}
 {{--                                                    Video--}}
 {{--                                                </button>--}}
 {{--                                                <div class="collapse" id="{{$reports['energy_code_detail']['p_name']}}">--}}
@@ -1020,31 +1020,31 @@
                                                     <div class="video-timeline">
                                                         <div class="progress-area">
                                                             <span id="progree-area-span">00:00</span>
-                                                            <div class="progress-bar" style="color: #f2661c;"></div>
+                                                            <div class="progress-bar" style="color: #1b3a62;"></div>
                                                         </div>
                                                     </div>
                                                     <ul class="video-controls">
                                                         <li class="options left">
                                                             <button class="volume"><i class="fa-solid fa-volume-high"
-                                                                                      style="color: rgb(242, 102, 28)"></i></button>
+                                                                                      style="color: #1b3a62"></i></button>
                                                             <input type="range" min="0" max="1" step="any">
                                                             <div class="video-timer">
-                                                                <span class="current-time" style="color: #f2661c;">00:00</span>
-                                                                <span class="separator" style="color: #f2661c;"> / </span>
-                                                                <span class="video-duration" style="color: #f2661c;">00:00</span>
+                                                                <span class="current-time" style="color: #1b3a62;">00:00</span>
+                                                                <span class="separator" style="color: #1b3a62;"> / </span>
+                                                                <span class="video-duration" style="color: #1b3a62;">00:00</span>
                                                             </div>
                                                         </li>
                                                         <li class="options center">
                                                             <button class="skip-backward"><i class="fas fa-backward"
-                                                                                             style="color: #f2661c;"></i></button>
-                                                            <button class="play-pause"><i class="fas fa-play" style="color: #f2661c;"></i>
+                                                                                             style="color: #1b3a62;"></i></button>
+                                                            <button class="play-pause"><i class="fas fa-play" style="color: #1b3a62;"></i>
                                                             </button>
                                                             <button class="skip-forward"><i class="fas fa-forward"
-                                                                                            style="color: #f2661c;"></i></button>
+                                                                                            style="color: #1b3a62;"></i></button>
                                                         </li>
                                                         <li class="options right">
                                                             <button class="fullscreen"><i class="fa-solid fa-expand"
-                                                                                          style="color: #f2661c;"></i></button>
+                                                                                          style="color: #1b3a62;"></i></button>
                                                         </li>
                                                     </ul>
                                                 </div>

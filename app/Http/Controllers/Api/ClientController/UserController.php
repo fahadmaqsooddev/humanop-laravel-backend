@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\BlueHelper\BlueHelpers;
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
@@ -22,6 +24,7 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
+use App\Models\Client\Connection\Connection;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
 use App\Models\IntentionPlan\IntentionPlan;
@@ -88,8 +91,8 @@ class UserController extends Controller
             User::updateUser(['app_intro_check' => 1], Helpers::getUser()->id);
 
             return Helpers::successResponse('Intro Completed Successfully');
-        } catch (\Exception $exception) {
 
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -104,13 +107,18 @@ class UserController extends Controller
 
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
-
             if ($request) {
 
                 $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone']);
+
                 $updated_user = User::updateUserProfile($dataArray);
+
+                HaiChatHelpers::syncUserRecordWithHAi();
+
                 return Helpers::successResponse('User updated successfully', $updated_user);
+
             } else {
+
                 return Helpers::forbiddenResponse('Please Filled Data');
             }
         } catch (\Exception $exception) {
@@ -427,6 +435,8 @@ class UserController extends Controller
 
             IntentionPlan::updateIntentionPlan($user['id'], $request->ninety_day_intention);
 
+            HaiChatHelpers::syncUserRecordWithHAi();
+
             return Helpers::successResponse('updated successfully.', $request->ninety_day_intention);
         } catch (\Exception $exception) {
 
@@ -612,6 +622,8 @@ class UserController extends Controller
             $user = Helpers::getUser();
 
             User::changeProfileAccess($request['change_profile_access']);
+
+            HaiChatHelpers::syncUserRecordWithHAi();
 
             DB::commit();
 

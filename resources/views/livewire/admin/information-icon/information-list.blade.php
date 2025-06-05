@@ -5,10 +5,10 @@
 
         <style>
             .ck-editor__editable_inline {
-                background-color: #0f1534; /* Example: Change this to your desired background color */
+                background-color: #eaf3ff; /* Example: Change this to your desired background color */
             }
             .ck-editor__editable{
-                background-color: #0f1534 !important;
+                background-color: #eaf3ff !important;
             }
             .ck-editor{
                 border-radius: 0 !important;
@@ -65,7 +65,7 @@
             }
 
             .card{
-                background-color: #1C365E !important;
+                background-color: #eaf3ff !important;
             }
 
             .ck.ck-balloon-panel {
@@ -100,7 +100,7 @@
                             {!! substr($info['information'], 0, 40) !!}
                             &nbsp;&nbsp;<a data-bs-toggle="modal"
                                            data-bs-target="#viewQueryModal{{$info['id']}}"
-                                           style="color: #f2661c; cursor: pointer;"
+                                           style="color: #1b3a62; cursor: pointer;"
                                            class="mt-2 mb-0">
                                 view more...
                             </a>
@@ -108,8 +108,8 @@
                             {!! $info['information'] ?? null !!}
                         @endif </td>
                     <td>
-                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#informationIconModel"
+                        <button class="btn btn-sm text-white" data-bs-toggle="modal"
+                                data-bs-target="#informationIconModel" style="background-color: #1b3a62"
                                 wire:click="updateEditModal({{$info['id']}},`{{$info['name']}}`,`{{$info['information']}}`)">
                             update
                         </button>
@@ -135,10 +135,10 @@
                                                     </button>
 
                                                     <label class="form-label fs-6 "
-                                                           style="font-size: 24px !important;font-weight: 800 !important;color: #f2661c;"><strong>{{$info['name'] }}
+                                                           style="font-size: 24px !important;font-weight: 800 !important;color: #1b3a62;"><strong>{{$info['name'] }}
                                                             :</strong></label>
                                                     <span class="mt-3" id="html-formated-text-span"
-                                                          style="color: white;font-size: 20px;font-weight: 800">{!! $info['information'] ?? null !!}</span>
+                                                          style="color: #1b3a62;font-size: 20px;font-weight: 800">{!! $info['information'] ?? null !!}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -162,7 +162,7 @@
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body pt-0">
-                        <label class="form-label fs-4 text-white">Create Information Icon</label>
+                        <label class="form-label fs-4" style="color: #1b3a62">Create Information Icon</label>
 
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                 aria-label="Close" id="close-info-modal-button">
@@ -172,10 +172,10 @@
                             <div class="card-body pt-0">
                                 <div class="row mt-2">
                                     <div class="col-12">
-                                        <label class="form-label text-white">Name</label>
+                                        <label class="form-label" style="color: #1b3a62">Name</label>
                                         <div class="form-group">
-                                            <input style="background-color: #0f1534;color: lightgrey !important"
-                                                   class="form-control text-white"
+                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                                   class="form-control"
                                                    type="text" name="limit"
                                                    wire:model="name" placeholder="icon name" >
                                             @error('name')
@@ -186,9 +186,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <label class="form-label text-white">Information</label>
-                                        <div class="form-group" wire:ignore>
-                                            <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                        <label class="form-label" style="color: #1b3a62">Information</label>
+                                        <div class="form-group" style="color: #1b3a62" wire:ignore>
+                                            <textarea style="background-color: #eaf3ff;" class="form-control"
                                                       rows="5" cols="5" name="information" id="editor"
                                                       wire:model="information"></textarea>
                                             @error('information')
@@ -198,7 +198,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                        style="background-color: #f2661c ">Update Information
+                                        style="background-color: #1b3a62 ">Update Information
                                 </button>
                             </div>
                         </form>

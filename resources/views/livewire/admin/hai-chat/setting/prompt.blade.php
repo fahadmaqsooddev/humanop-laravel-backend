@@ -2,7 +2,7 @@
 
     <style>
         .new-orange-button{
-            background-color: #F95520 !important;
+            background-color: #1b3a62 !important;
             padding: 10px 20px 10px 20px;
             border-radius: 8px;
             color: white;
@@ -42,11 +42,11 @@
             </span>
             <div class="w-25 d-flex justify-content-between custom-text-dark">
                 <div>
-                    <input type="radio" wire:model.defer="is_training" value="1" name="radio" style="accent-color:#F95520; cursor: pointer;">&nbsp;
+                    <input type="radio" wire:model.defer="is_training" value="1" name="radio" style="accent-color:#1b3a62; cursor: pointer;">&nbsp;
                     <span>Yes</span>
                 </div>
                 <div>
-                    <input type="radio" wire:model.defer="is_training" value="0" name="radio" style="accent-color:#F95520; cursor: pointer;">&nbsp;
+                    <input type="radio" wire:model.defer="is_training" value="0" name="radio" style="accent-color:#1b3a62; cursor: pointer;">&nbsp;
                     <span>No</span>
                 </div>
             </div>
@@ -113,7 +113,7 @@
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-2">Keyword Restrictions</h5>
             @foreach($keywords as $keyword)
-                <span class="badge" style="background-color: #F3DEBA; color: black; border: 1px solid #f2661c;">
+                <span class="badge" style="background-color: #F3DEBA; color: black; border: 1px solid #1b3a62;">
                     {{$keyword->word}}
                     <span class="p-1"></span>
                     <span wire:click="removeKeyword({{$keyword->id}})" class="custom-text-dark cursor-pointer">x</span>
@@ -136,15 +136,7 @@
 
             <input class="form-control input-bg" wire:model="keyword_restriction_message"
                    rows="10" placeholder="Enter chat keyword restrictions message">
-{{--            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="updateKeywordRestrictionMessage"--}}
-{{--                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">--}}
-{{--                update--}}
-{{--                <span wire:loading wire:target="update" class="swal2-loader" style="font-size: 8px;">--}}
-{{--                </span>--}}
-{{--            </button>--}}
         </div>
-{{--        <div class="card-body d-sm pt-0">--}}
-{{--        </div>--}}
 
     </div>
 </div>

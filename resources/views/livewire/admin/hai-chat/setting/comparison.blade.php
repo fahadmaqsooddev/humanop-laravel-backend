@@ -1,7 +1,7 @@
 @push('css')
     <style>
         .input-styling{
-            background: #F4E3C7 !important;
+            background: #eaf3ff !important;
             box-shadow: 0 8px 20px 0 #0000001A !important;
             border-radius: 20px !important;
             border: none !important;
@@ -14,7 +14,7 @@
         .chatDot {
             width: 10px;
             height: 10px;
-            background-color: #f2661c;
+            background-color: #1b3a62;
             display: inline-block;
             margin: 1px;
             border-radius: 50%;
@@ -85,14 +85,14 @@
                     @if (empty($modelResponse))
                         @if ($val < $maxVal)
                             {{--                            <button wire:click="addMore" class="btn btn-primary mt-3"--}}
-                            {{--                                    style="background-color:#f2661c; color: white; border-radius: 8px; padding: 10px 20px;">--}}
+                            {{--                                    style="background-color:#1b3a62; color: white; border-radius: 8px; padding: 10px 20px;">--}}
                             {{--                                Add--}}
                             {{--                            </button>--}}
                         @endif
                     @else
 
                         <div wire:click="refreshComponent"
-                             style="background-color:#f2661c; color: white; border-radius: 8px;cursor:pointer;width:40px;margin-bottom:10px;">
+                             style="background-color:#1b3a62; color: white; border-radius: 8px;cursor:pointer;width:40px;margin-bottom:10px;">
                             <i class="fa-solid fa-arrows-rotate" style="color: white;padding:10px;"></i>
                         </div>
                     @endif
@@ -114,11 +114,11 @@
                                     </select>
                                     <h5 class="text-bold custom-text-dark">
                                         LLm Model : <span
-                                                style="margin-left: 27px; color: #f2661c;">{{$modelResponse[0]['model']}}</span>
+                                                style="margin-left: 27px; color: #1b3a62;">{{$modelResponse[0]['model']}}</span>
                                     </h5>
                                     <h5 class="text-bold custom-text-dark">
                                         Question : <span
-                                                style="margin-left: 27px; color: #f2661c;">{{$modelResponse[0]['question']}}</span>
+                                                style="margin-left: 27px; color: #1b3a62;">{{$modelResponse[0]['question']}}</span>
                                     </h5>
                                     <div class="card-body custom-text-dark" style="height: 330px; overflow-y: auto;">
                                         {!! html_entity_decode(html_entity_decode($modelResponse[0]['response'])) !!}
@@ -137,11 +137,11 @@
                                     </select>
                                     <h5 class="text-bold custom-text-dark">
                                         LLm Model : <span
-                                                style="margin-left: 27px; color: #f2661c;">{{$modelResponse[1]['model']}}</span>
+                                                style="margin-left: 27px; color: #1b3a62;">{{$modelResponse[1]['model']}}</span>
                                     </h5>
                                     <h5 class="text-bold custom-text-dark">
                                         Question : <span
-                                                style="margin-left: 27px; color: #f2661c;">{{$modelResponse[1]['question']}}</span>
+                                                style="margin-left: 27px; color: #1b3a62;">{{$modelResponse[1]['question']}}</span>
                                     </h5>
                                     <div class="card-body custom-text-dark" style="height: 330px; overflow-y: auto;">
                                         {!! html_entity_decode(html_entity_decode($modelResponse[1]['response'])) !!}

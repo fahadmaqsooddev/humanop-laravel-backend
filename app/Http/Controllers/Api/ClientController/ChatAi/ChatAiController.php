@@ -11,7 +11,10 @@ use App\Http\Requests\Api\Client\ChatAi\AskQuestionRequest;
 use App\Http\Requests\Api\Client\ChatAi\LikeDisLikeAiReplyRequest;
 use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
 use App\Jobs\SummarizeChatHistory;
+use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Assessment;
+use App\Models\Client\Connection\Connection;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Point\Point;
 use App\Models\Client\Point\PointLog;
 use App\Models\HAIChai\BrainCluster;
@@ -24,6 +27,7 @@ use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
 use App\Models\HAIChai\LlmModel;
+use App\Models\HAIChai\PublishedChatBot;
 use App\Models\HAIChai\QueryAnswer;
 use App\Models\User;
 use Carbon\Carbon;
@@ -64,54 +68,33 @@ class ChatAiController extends Controller
 
             if ($user_credits <= 20){
 
-                return Helpers::upgradePackageResponse("Purchase credits.");
+                return Helpers::upgradePackageResponse("Upgrade your account.");
             }
 
-            $chat_bot = Chatbot::where('is_published', 1)->first();
+            $chat_bot = PublishedChatBot::first();
 
-            $setting = HaiChatSetting::getHaiChatSetting($chat_bot['id']);
+            if (!$chat_bot){
 
-            $prompts = ChatPrompt::where('name',$chat_bot->name)->first();
+                return Helpers::validationResponse('There is not any connected brain.');
+            }
 
-            $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
-
-            $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($chat_bot['id']);
-
-            $is_restricted_word = ChatbotKeyword::checkChatBotKeywordsForApi($chat_bot->id ?? null, $request->input('question'));
+            $is_restricted_word = ChatbotKeyword::checkPublishedChatBotKeywords($chat_bot['restricted_keywords'] ?? [], $request->input('question'));
 
             if (!$is_restricted_word){
 
-//                $assessments = AssessmentHelper::getAssessments();
-//
-//                $assessmentDetails = Assessment::getAssessment();
+                if ($chat_bot && $chat_bot['model_type'] === 5){
 
-//                $body = ['question' => $request->input('question'),
-//                    'user_id' => Helpers::getUser()->id,
-//                    'assessment_ids' => $assessments,
-//                    'assessment_details' => $assessmentDetails,
-//                    'is_repeat' => $request->input('is_repeat_answer'),
-//                    'publish_model' => ($chat_bot->publish_path ?? null)];
-//
-//                $app_env = env('APP_ENV');
-//                $url = $app_env === 'staging' ? 'http://54.227.7.149:8000/publish_llm-data' : 'http://54.227.7.149:8000/publish_llm-data';
+                    $user_grid = Assessment::getAssessmentFromUserId(Helpers::getUser()['id'] ?? null);
 
-//                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+                    $user = User::userDataForHAi(Helpers::getUser()->id);
 
-                $user_grid = Assessment::getAssessmentFromUserId(Helpers::getUser()['id'] ?? null);
+                    $user_name = $user['first_name'];
 
-                $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
-
-                $user = User::userDataForHAi(Helpers::getUser()->id);
-
-                $user_name = $user['first_name'];
-
-                $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
+                    $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
 
 //                $interval_life = User::userIntervalOfLife($user['date_of_birth']);
 
-                $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => $subFolder, 'user_name' => $user_name, 'user_id' => (int)Helpers::getUser()->id, 'user_intentions' => $user_intentions];
-
-                if ($setting && $setting['model_type'] === 5){
+                    $body = ["query" => $request->input('question'), 'temperature' => $chat_bot['temperature'], 'max_tokens' => $chat_bot['max_token'], 'file_name' => $chat_bot['embedding_ids'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $chat_bot['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => 'dev', 'user_name' => $user_name, 'user_id' => (int)Helpers::getUser()->id, 'user_intentions' => $user_intentions];
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'temp-llm-model', $body);
 
@@ -119,7 +102,7 @@ class ChatAiController extends Controller
 
                     $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['combined_output']);
 
-                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt']);
+                    $final_persona = OpenRouterHelper::createFinalPersona($chat_bot['prompt']);
 
                     $authorization = \request()->header('Authorization');
 
@@ -151,36 +134,43 @@ class ChatAiController extends Controller
 
                 }else{
 
-                    $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+                    $user = Helpers::getUser();
 
-                    if (isset($aiReply['prompt'])){
+                    $connections = Connection::userConnectionIdsForHAi();
 
-                        $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
+                    $body = ['user_query' => $request->input('question'),"user_id" => $user['id'], "document_ids" => $chat_bot['embedding_ids'], "temperature" => $chat_bot['temperature'],
+                        "max_tokens" => $chat_bot['max_tokens'], "relevent_chunks" => $chat_bot['chunks'], "base_data" => $chat_bot['prompt'], "restriction_data" => $chat_bot['restriction'],
+                        "user_tokens" => $user_credits, "flag" => $request->input('is_repeat_answer'), "connection" => $connections];
 
-                        $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+                    Log::info(['body' => $body]);
 
-                        [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
+                    $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'NewHaiApi/network', $body);
 
-                        $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'], $final_persona,$userMessage, $assistantMessage);
+                    if(isset($response['detail']) && $response['detail'] === '303'){ // 303 error in case of user ask about their connections
 
-                        $reply = null;
+                        if ($user['hai_status'] === 1){//When user does not allow him self to access HAi
 
-                        foreach ($openRouterResponse['choices'] as $choice){
+                            return Helpers::validationResponse("Allow Hai for user");
 
-                            $filteredReply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content'] ?? null);
+                        }else{//When user another user not allow access of data to HAi
 
-                            HaiChat::createChat($request->input("question"), $filteredReply , null, $request->input("is_repeat_answer"));
-
-//                            PointLog::updateHaiCreditLogs($per_credit_token,(int)$user_credits, (int)100);
-
-                            $reply = [
-                                $filteredReply ?? "",
-                                0
-                            ];
-
+                            return Helpers::validationResponse("Ask Hai request from User");
                         }
 
-                        SummarizeChatHistory::dispatch(Helpers::getUser()->id);
+                    }else if (isset($response['response'])){
+
+                        HaiChat::createChat($request->input("question"), $response['response'], null, $request->input("is_repeat_answer"));
+
+                        PointLog::updateHaiCreditLogs($per_credit_token,(int)$user_credits, ($response['tokens_used'] ?? 0));
+
+                        $reply = [
+                            $response['response'],
+                            0
+                        ];
+
+                    }else{
+
+                        return Helpers::validationResponse('Something went wrong.');
                     }
 
                 }
