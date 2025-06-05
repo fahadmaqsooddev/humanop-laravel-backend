@@ -1221,8 +1221,6 @@ class User extends Authenticatable implements JWTSubject
     public static function deleteClientProfile($id)
     {
 
-        self::whereId($id)->first();
-
         self::whereId($id)->delete();
 
     }
