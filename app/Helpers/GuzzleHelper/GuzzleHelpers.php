@@ -194,7 +194,7 @@ class GuzzleHelpers
 
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-        $route = config('chat.dev_new_api_urls') . $route_name;
+        $route = config('chat.new_staging_api_urls') . $route_name;
 
         $response = $client->request($method, $route, $queryArray);
 

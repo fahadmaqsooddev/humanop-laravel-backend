@@ -9,5 +9,6 @@ return [
     'dev_new_api_urls' => 'http://18.206.155.155:8000/',
     'staging_api_urls' => 'http://44.201.128.253:8000/',
     'live_api_urls' => 'http://18.207.0.192:8000/',
+    'new_staging_api_urls' => 'http://13.218.248.45:8000/',
     'hai_one_credit_token_count' => 1000,
 ];
