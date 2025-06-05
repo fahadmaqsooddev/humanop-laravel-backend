@@ -728,6 +728,8 @@ class User extends Authenticatable implements JWTSubject
 
         $data['hai_chat'] = 2;
 
+        $data['profile_status'] = 1;
+
         $data['email_verify_token'] = Str::random(16);
 
         if (!empty($referralCode)) {
