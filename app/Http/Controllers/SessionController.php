@@ -20,12 +20,19 @@ class SessionController extends Controller
 {
     public function create()
     {
+
         if (Auth::check()) {
-            if (Auth::user()['is_admin'] == '1') {
-                return redirect()->route('admin_dashboard');
+
+            if (Auth::user()['is_admin'] == '1' || Auth::user()['is_admin'] == '3') {
+
+                return redirect()->route('admin_welcome_dashboard');
+
             }
+
         } else {
+
             return view('session/login');
+
         }
 
     }
