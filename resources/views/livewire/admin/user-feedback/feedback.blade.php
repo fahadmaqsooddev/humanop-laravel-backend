@@ -61,7 +61,7 @@
                         </span>
                 @endforeach
 
-                <td class="text-md font-weight-normal " style="padding-top: 1rem !important;">
+                <td class="text-md font-weight-normal text-center" style="padding-top: 1rem !important;">
                     @if(!empty($feedback['image_id']))
                         <a href="{{ $feedback['photo_url']['url'] }}" target="_blank"
                            class="btn-sm"
@@ -69,7 +69,7 @@
                             View
                         </a>
                     @else
-                        N/A
+                        -
                     @endif
 
                 </td>

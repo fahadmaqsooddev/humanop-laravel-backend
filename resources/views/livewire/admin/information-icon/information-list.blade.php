@@ -138,7 +138,7 @@
                                                            style="font-size: 24px !important;font-weight: 800 !important;color: #1b3a62;"><strong>{{$info['name'] }}
                                                             :</strong></label>
                                                     <span class="mt-3" id="html-formated-text-span"
-                                                          style="color: white;font-size: 20px;font-weight: 800">{!! $info['information'] ?? null !!}</span>
+                                                          style="color: #1b3a62;font-size: 20px;font-weight: 800">{!! $info['information'] ?? null !!}</span>
                                                 </div>
                                             </div>
                                         </div>
