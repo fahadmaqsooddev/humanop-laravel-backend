@@ -155,11 +155,6 @@
                                class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.brains">
                         <label class="form-check-label text-color-dark">Brains</label>
-                        <br>
-                        <input type="checkbox"
-                               class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.knowledge">
-                        <label class="form-check-label text-color-dark">Knowledge</label>
 
                     </div>
                     <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
@@ -170,8 +165,8 @@
                         <br>
                         <input type="checkbox"
                                class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.comparison">
-                        <label class="form-check-label text-color-dark">Comparison</label>
+                               wire:model.defer="permission.knowledge">
+                        <label class="form-check-label text-color-dark">Knowledge</label>
                     </div>
                 </div>
                 <h5 class="text-bold mt-4 mb-2">
