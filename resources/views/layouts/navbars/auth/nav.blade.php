@@ -1,91 +1,70 @@
 @if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || \App\Helpers\Helpers::getWebUser()['is_admin'] === 3)
-    <nav class="navbar navbar-main navbar-expand-lg left px-1 shadow-none border-radius-xl z-index-sticky"
-         style="background-color: white; border-radius: 0px !important; padding: 0px !important;"
-         id="navbarBlur" data-scroll="true">
-        <div class="navbar-background-color d-flex"
-             style="justify-content: center; align-items: center; margin: auto; width: 100%;">
-            <div class="d-flex "
-                 style="width: 100%; border-radius: 0px !important;" data-step="4">
-                <div class="container-fluid py-1 px-3 d-flex"
-                     style="justify-content: center; padding: 10px !important;">
-                    <div class="d-none d-lg-flex flex-2 abc ps-5 mx-auto">
-                        <div class="col-auto" style="margin: auto">
-                            <div class="avatar avatar-xl avatar-icon  ">
-                                <img
-                                    src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
-                                    height="80" alt="profile_image"
-                                    class="w-100 border-radius-lg shadow-sm  user_profile_image">
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="h-100">
-                                <a href="javascript:void(0)">
-                                    <h3 class="mb-1 custom-text-dark {{!empty($traitDescription['public_name']) ? '' : 'my-3'}}">
-                                        {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
-                                    </h3>
+
+    <style>
+        .nav-link:hover {
+            border: none;
+        }
+
+        .nav-link:focus{
+            border: none;
+        }
+    </style>
+
+    <nav class="navbar bg-white" style="height: 40px;">
+
+        <div style="padding-right: 30px;" class="w-100">
+            <div class="d-flex justify-content-end">
+
+                <ul class="nav nav-tabs gap-3">
+                    <li class="nav-item dropdown" style="position: relative; top: -6px; left: 25px;">
+                        <button class="nav-link dropdown-toggle p-2" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            <i class="fa-solid fa-gear custom-text-dark"></i>
+                        </button>
+                        <ul class="dropdown-menu p-2">
+                            <li class="mt-2">
+                                {{\Illuminate\Support\Facades\Auth::user()['first_name'] . ' ' . \Illuminate\Support\Facades\Auth::user()['last_name']}}
+                            </li>
+                            <li class="mt-2">
+                                {{\Illuminate\Support\Facades\Auth::user()['email']}}
+                            </li>
+                            <li style="border: 1px solid gray;" class="mt-2"></li>
+                            <li class="mt-2">
+                                <a href="{{route('logout')}}" class="custom-text-dark">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    Logout
                                 </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-user"></i>
+                    </li>
+                    <li>
+                        <a href="{{route('logout')}}" class="custom-text-dark">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+
             </div>
+
         </div>
+
     </nav>
+
+    {{--    <div class="container-fluid">--}}
+
+    {{--        <nav class="navbar w-100 "--}}
+    {{--             style="background-color: white; border-radius: 0 !important; height: 40px; width: 160%;"--}}
+    {{--             id="navbarBlur" data-scroll="true">--}}
+
+    {{--        </nav>--}}
+
+    {{--    </div>--}}
+
 @endif
-<div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog"
-     aria-labelledby="qrCodeModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-body" style=" border-radius: 9px; border: 2px solid #1B3A62">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                    aria-label="Close" id="close-qrcode-modal-button">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <div class="d-flex justify-content-center">
-                                <div>
-                                    <h3 class="text-center" style="color: #1B3A62">Save and share your custom
-                                        HumanOP</h3>
-                                    <h3 class="text-center" style="color: #1B3A62">QR code to get Free Pro Access</h3>
-                                </div>
-                            </div>
-                            <div>
-                                @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
-                                    <div class="text-center" id="qrCodeContainer">
-                                        {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate( \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) ) }}
-                                    </div>
-                                @else
-                                    <div class="text-center" id="qrCodeContainer">
-                                        {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate(url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)) }}
-                                    </div>
-                                @endif
-                                <div class="d-flex justify-content-center">
-                                    <button class="btn" id="downloadButton"
-                                            style="margin-top: 20px; background-color: #1B3A62; color: white">Save QR
-                                        Code
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <input type="text" class="form-control w-80"
-                                       style="background-color: white;border-radius: 5px 0px 0px 5px;border-right: none"
-                                       value="{{url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)}}"
-                                       readonly="">
-                                <button class="btn mb-0 text-white w-20" id="copy_link"
-                                        onclick="copyToClipboard('{{ url('/register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}')"
-                                        style="background-color: #1B3A62;border-radius: 0px 5px 5px 0px">Copy Link
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <script>
 
     const button = document.getElementById('nav-toggle');
@@ -112,11 +91,6 @@
             }
         }
     });
-
-    function goToProfileOverviewPage(src, content_name) {
-
-        window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
-    }
 
     $(document).ready(function () {
         $('.sidenav').hover(
@@ -160,25 +134,6 @@
             resizeTimeout = setTimeout(checkWidth, 100); // Adjust the timeout as needed
         });
     });
-
-    async function copyToClipboard(text) {
-
-        try {
-            // Use the Clipboard API to copy the text
-            await navigator.clipboard.writeText(text);
-
-            $('#copy_link').text('Copied!')
-            // Hide the tooltip after 2 seconds
-            setTimeout(() => {
-                setTimeout(() => {
-                    $('#copy_link').text('Copy Link')
-                }, 300);  // Match the fade-out duration
-            }, 2000);
-
-        } catch (err) {
-            console.error('Failed to copy text: ', err);
-        }
-    }
 
     document.getElementById('downloadButton').addEventListener('click', function () {
         const svg = document.querySelector('#qrCodeContainer svg');
