@@ -181,11 +181,6 @@
                         <br>
                         <input type="checkbox"
                                class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.support">
-                        <label class="form-check-label text-color-dark">Support</label>
-                        <br>
-                        <input type="checkbox"
-                               class="form-check-input" style="border: 2px solid #1b3a62"
                                wire:model.defer="permission.role_template_manage">
                         <label class="form-check-label text-color-dark">Role Template Manage</label>
                         <br>

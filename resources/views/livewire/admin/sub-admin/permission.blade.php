@@ -64,7 +64,7 @@
             <div class="row">
                 <h5 class="text-bold">Please assign permissions to Sub Admin for B2B Admin Dashboard:</h5>
                 <div class="col-sm-4 col-6 w-50">
-                    @foreach(['organizations', 'support','role_template_manage', 'invites'] as $permissionName)
+                    @foreach(['organizations','role_template_manage', 'invites'] as $permissionName)
                         <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}">
                         <label class="form-check-label" style="color: #1B3A62">@if($permissionName === 'hai_admin')
                                 HAi Admin
