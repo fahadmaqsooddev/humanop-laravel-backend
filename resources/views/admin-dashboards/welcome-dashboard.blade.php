@@ -66,7 +66,7 @@
                 @canany(['organizations', 'support', 'role_template_manage', 'invites', 'pricing_plan', 'b2b_support_admin', 'coupons'])
                     <div class="row" style="justify-content: center">
                         <div class="col-lg-5 col-sm-5 mt-3">
-                            <a href="https://maestro-dev.humanoptech.com/session?email={{ urlencode(Illuminate\Support\Facades\Session::get('login_user_email')) }}&password={{ urlencode(Illuminate\Support\Facades\Session::get('login_user_password')) }}"
+                            <a href="{{ config('client_url.b2b_admin_dashboard_url') }}/session?email={{ urlencode(session('login_user_email')) }}&password={{ urlencode(session('login_user_password')) }}"
                                target="_blank">
                                 <div class="card mb-4" style="border: 2px solid #1b3a62">
                                     <div class="card-body p-3">
@@ -87,7 +87,7 @@
                 @canany(['persona', 'brains', 'knowledge', 'advance', 'comparison'])
                     <div class="row" style="justify-content: center">
                         <div class="col-lg-5 col-sm-5 mt-3">
-                            <a href="https://dev-hai.humanoptech.com/session?email={{ urlencode(Illuminate\Support\Facades\Session::get('login_user_email')) }}&password={{ urlencode(Illuminate\Support\Facades\Session::get('login_user_password')) }}"
+                            <a href="{{ config('client_url.hai_admin_dashboard_url') }}/session?email={{ urlencode(session('login_user_email')) }}&password={{ urlencode(session('login_user_password')) }}"
                                target="_blank">
                                 <div class="card mb-4" style="border: 2px solid #1b3a62">
                                     <div class="card-body p-3">
