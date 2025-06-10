@@ -95,9 +95,9 @@ class HaiChatHelpers
         return $finalResults;
     }
 
-    public static function syncUserRecordWithHAi($user){
+    public static function syncUserRecordWithHAi(){
 
-        $user = ($user ?? Helpers::getUser());
+        $user = Helpers::getUser();
 
         $getAssessment = Assessment::getLatestAssessment($user['id']);
 
