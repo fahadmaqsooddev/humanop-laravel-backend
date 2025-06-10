@@ -105,7 +105,7 @@ class HaiChatHelpers
 
         $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $user['date_of_birth']) : null;
 
-        $userTrait = Assessment::UserTraits($user['id']);
+        $userTrait = $getAssessment ? Assessment::UserTraits($user['id']) : [];
 
         $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
 
