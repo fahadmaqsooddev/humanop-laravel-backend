@@ -60,14 +60,14 @@ class PointLog extends Model
 
     }
 
-    public static function createPointLog($points, $is_added = 0){
+    public static function createPointLog($points, $is_added = 0, $user = null){
 
         self::create([
-            'user_id' => Helpers::getUser()->id,
+            'user_id' => $user->id,
             'type' => self::HAI_Credit,
             'is_added' => $is_added,
             'point' => $points,
-            'plan' => Helpers::getUser()->plan_name,
+            'plan' => $user->plan_name ?? 'Freemium',
         ]);
     }
 }

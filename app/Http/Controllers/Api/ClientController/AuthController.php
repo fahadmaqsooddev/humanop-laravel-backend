@@ -136,7 +136,7 @@ class AuthController extends Controller
 
                     }
 
-                    Point::addPoints(Admin::FREEMIUM_CREDITS);
+                    Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
