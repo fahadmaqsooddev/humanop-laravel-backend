@@ -689,9 +689,9 @@ class Assessment extends Model
 
         $getStyle = [];
 
-        $assessmentArray = $getAssessment->toArray();
+        $assessmentArray = $getAssessment?->toArray();
 
-        foreach ($assessmentArray as $key => $result) {
+        foreach ($assessmentArray ?? [] as $key => $result) {
 
             if (in_array($key, $style)) {
 

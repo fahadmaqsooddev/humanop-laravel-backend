@@ -63,9 +63,11 @@ class Point extends Model
 
     }
 
-    public static function addPoints($points){
+    public static function addPoints($points, $user = null){
 
-        $record = self::where('user_id', Helpers::getUser()->id)->first();
+        $user = ($user ?? Helpers::getUser());
+
+        $record = self::where('user_id', $user->id)->first();
 
         if ($record){
 
@@ -74,12 +76,12 @@ class Point extends Model
         }else{
 
             self::create([
-                'user_id' => Helpers::getUser()->id,
+                'user_id' => $user->id,
                 'point' => $points,
             ]);
         }
 
-        PointLog::createPointLog($points, 1);
+        PointLog::createPointLog($points, 1, $user);
 
     }
 }
