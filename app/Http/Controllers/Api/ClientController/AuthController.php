@@ -139,7 +139,7 @@ class AuthController extends Controller
 
                     Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
 
-//                    HaiChatHelpers::syncUserRecordWithHAi($user);
+                    HaiChatHelpers::syncUserRecordWithHAi($user);
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
