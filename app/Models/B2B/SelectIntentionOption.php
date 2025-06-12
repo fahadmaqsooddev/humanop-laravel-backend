@@ -17,9 +17,30 @@ class SelectIntentionOption extends Model
         parent::__construct($attributes);
     }
 
+    // relations
+    public function intentionOptions()
+    {
+        return $this->belongsTo(B2BIntentionOption::class,'intention_option_id', 'id');
+    }
 
+    // query
+    public static function selectB2BIntentionOption($user_id){
 
+        $intentions = self::where('business_id', $user_id)->with('intentionOptions', function ($q){
 
+            return $q->select(['id','intention_option']);
 
+        })->get();
 
+        $intentionOption = [];
+
+        foreach ($intentions as $intention) {
+
+            $intentionOption[] = $intention['intentionOptions']['intention_option'];
+
+        }
+
+        return $intentionOption;
+
+    }
 }
