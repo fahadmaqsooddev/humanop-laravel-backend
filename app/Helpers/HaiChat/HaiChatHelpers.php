@@ -7,6 +7,7 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Assessment;
+use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\IntentionPlan\IntentionPlan;
 use Smalot\PdfParser\Parser;
@@ -95,9 +96,9 @@ class HaiChatHelpers
         return $finalResults;
     }
 
-    public static function syncUserRecordWithHAi(){
+    public static function syncUserRecordWithHAi($user = null){
 
-        $user = Helpers::getUser();
+        $user = ($user ?? Helpers::getUser());
 
         $getAssessment = Assessment::getLatestAssessment($user['id']);
 
@@ -110,6 +111,8 @@ class HaiChatHelpers
         $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
 
         $intention = IntentionPlan::getUserIntentionPlan($user['id']);
+
+        $b2b_intentions = SelectIntentionOption::selectB2BIntentionOption($user['id']);
 
         $data = [
             'user_detail' => [
@@ -134,6 +137,7 @@ class HaiChatHelpers
             'perception' => ($coreState['perception'] ?? null),
             'optimization_plan' => $optimizationPlan,
             'daily_tip' => ($userDailyTip['dailyTip'] ?? null),
+            'b2b_intentions' => $b2b_intentions,
 
         ];
 
