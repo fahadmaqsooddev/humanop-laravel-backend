@@ -420,7 +420,8 @@
                                 <div class="input-group">
                                     <input id="firstName" wire:model="title" name="title"
                                            class="form-control table-header-text"
-                                           style="background-color: #eaf3ff !important; color: #1b3a62" type="text">
+                                           style="background-color: #eaf3ff !important; color: #1b3a62;border: 2px solid #1b3a62;
+    border-radius: 10px;" type="text">
                                     <input id="code" wire:model="code" name="code"
                                            class="form-control table-header-text" type="hidden">
                                 </div>
