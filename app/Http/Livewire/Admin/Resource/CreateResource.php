@@ -4,15 +4,11 @@ namespace App\Http\Livewire\Admin\Resource;
 
 use App\Enums\Admin\Admin;
 use App\Events\Resource\NewResource;
-use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
-use App\Models\Notification\PushNotification;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Upload\Upload;
@@ -87,9 +83,9 @@ class CreateResource extends Component
 
                 foreach ($this->permission as $permission) {
 
-                    $users = User::getAllClientUser();
-
-                    $isAllPermission = ($permission == 4);
+//                    $users = User::getAllClientUser();
+//
+//                    $isAllPermission = ($permission == 4);
 
                     $message = 'Your New Training & Resource';
 
@@ -121,14 +117,11 @@ class CreateResource extends Component
 
             session()->flash('success', 'Library resource created successfully.');
 
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
 
-            $file = $exception->getFile();
-            $line = $exception->getLine();
-            $message = $exception->getMessage();
+            session()->flash('error', $exception->getMessage());
 
-            session()->flash('error', "Error: $message in $file on line $line");
         }
 
     }
@@ -190,7 +183,6 @@ class CreateResource extends Component
     {
         $this->booleanValue = false;
 
-
         $this->reset(['heading', 'resource_file', 'permission', 'resource_file', 'link', 'description', 'content']);
     }
 
@@ -204,11 +196,7 @@ class CreateResource extends Component
 
         $this->emit('toggleEditResourceModal');
 
-//        dd($resource_id);
-
         $this->editResourceData = LibraryResource::singleLibraryResource($resource_id);
-
-
 
         $this->resourceId = $resource_id;
 
@@ -274,7 +262,6 @@ class CreateResource extends Component
     public function updateResource()
     {
 
-        // dd($this->resource_file);
         DB::beginTransaction();
 
         $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
