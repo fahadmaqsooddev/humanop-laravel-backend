@@ -404,10 +404,10 @@
                                                                    href="{{ url('#') }}">
                                                                     <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/resource-training.png') }}"></span>
+                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/resource-training.png') }}"></span>
+                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
                                                                     <span class="sidenav-normal"> Video Results Management </span>
                                                                 </a>
                                                             </li>
@@ -526,10 +526,10 @@
                                                        href="{{ route('admin_client_queries') }}">
                                                         <span class="sidenav-mini-icon"><img
                                                                 style="width: 18px; margin-right: 10px"
-                                                                src="{{ Request::is('admin/client-queries') ? asset('assets/new-blue-icons/client-queries.png') : asset('assets/new-white-icons/client-invites.png') }}"></span>
+                                                                src="{{ Request::is('admin/client-queries') ? asset('assets/new-blue-icons/client-queries.png') : asset('assets/new-white-icons/client-queries.png') }}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
-                                                                src="{{ Request::is('admin/client-queries') ? asset('assets/new-blue-icons/client-queries.png') : asset('assets/new-white-icons/client-invites.png') }}"></span>
+                                                                src="{{ Request::is('admin/client-queries') ? asset('assets/new-blue-icons/client-queries.png') : asset('assets/new-white-icons/client-queries.png') }}"></span>
                                                         <span class="sidenav-normal"> Client Queries </span>
                                                     </a>
                                                 </li>
