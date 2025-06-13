@@ -171,9 +171,9 @@
 
                             <div class="mt-2">
 
-                                <p class="text-white text-sm">
-                                    {{$resource['description'] ?? null}}
-                                </p>
+                                <span class="text-sm" style="color: black">
+                                    {!! $resource['description'] ?? null !!}
+                                </span>
 
                             </div>
                             @if($resource['upload_id'] != null)

@@ -1,12 +1,11 @@
 @push('css')
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
         .ck-editor__editable_inline {
-            background-color: #eaf3ff ; /* Example: Change this to your desired background color */
+            background-color: #eaf3ff; /* Example: Change this to your desired background color */
         }
 
         .ck-editor__editable {
-            background-color: #eaf3ff  !important;
+            background-color: #eaf3ff !important;
         }
 
         .ck-editor {
@@ -63,106 +62,45 @@
                        placeholder="Alec">
             </div>
         </div>
-        {{-- <div class="row"> --}}
         <div class="col-12 mt-4">
             <label class="form-label">Text</label>
             <div class="input-group w-100" wire:ignore>
-                {{-- <textarea id="summernote" rows="10" cols="10" style="background-color: #eaf3ff ; color: #1B3A62 " name="text"
-                          class="form-control text-white summernote" wire:model.defer="select_code.text">{{ $select_code['text'] }}</textarea> --}}
-
-                <textarea class="form-control table-header-text" id="editor" rows="10" cols="10"
-                          name="text"
-                          wire:model.defer="select_code.text">{{ $select_code['text'] }}</textarea>
+                <textarea class="form-control table-header-text editor" id="summernote" rows="10"
+                          name="text">{{ $select_code['text'] }}</textarea>
             </div>
         </div>
-        {{-- </div> --}}
+
     </div>
     <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #1B3A62 ">Update code</button>
 </form>
+@push('javascript')
+    <!-- jQuery & Summernote -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script type="importmap">
-    {
-        "imports": {
-            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
-            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
-        }
-    }
+    <script>
+        document.addEventListener('livewire:load', function () {
 
-
-</script>
-<script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../../assets/js/plugins/sweetalert.min.js"></script>
-<script type="text/javascript">
-    document.addEventListener('livewire:load', function () {
-        const summernoteElement = $('#editor');
-
-        summernoteElement.summernote({
-            height: 300,
-            callbacks: {
-                onChange: function (contents, $editable) {
-                    @this.
-                    set('select_code.text', contents);
-                }
-            }
-        });
-
-        Livewire.on('contentUpdated', function (content) {
-            summernoteElement.summernote('code', content);
-        });
-    });
-
-</script>
-
-
-<script type="module">
-    import {
-        ClassicEditor,
-        Essentials,
-        Paragraph,
-        Bold,
-        Italic,
-        Font,
-        List,
-        Link,
-        AutoLink
-    } from 'ckeditor5';
-
-    // Function to initialize CKEditor for a specific textarea by ID
-    let editorInstance;
-    const editorElement = document.getElementById('editor');
-    if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
-        ClassicEditor
-            .create(editorElement, {
-                plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
-                toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                    'bulletedList', 'numberedList', 'link'  // Add list options to toolbar
-                ]
-            })
-            .then(editor => {
-                editor.model.document.on('change:data', () => {
-                    @this.
-                    set('select_code.text', editor.getData());
-                })
-                Livewire.on('contentUpdated', content => {
-                    editor.setData(content); // Set new content into CKEditor
+            function initSummernote() {
+                $('#summernote').summernote({
+                    height: 200,
+                    callbacks: {
+                        onChange: function (contents, $editable) {
+                        @this.set('select_code.text', contents);
+                        }
+                    }
                 });
-                editorInstance = editor;
-            })
-            .catch(error => {
-                console.error(error);
+            }
+
+            initSummernote();
+
+            Livewire.hook('message.processed', () => {
+                initSummernote();
             });
 
-    }
-    $('.createForm').on('click', function () {
-        if (editorInstance) {
-            editorInstance.setData('');
-        }
-    });
+        });
+    </script>
+@endpush
 
 
-</script>
