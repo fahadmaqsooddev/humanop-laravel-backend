@@ -93,22 +93,22 @@ class CreateResource extends Component
 
                     $message = 'Your New Training & Resource';
 
-                    foreach ($users as $user) {
-
-                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
-
-                        $userPermission = $planMapping[$user['plan_name']] ?? 4;
-
-                        if ($isAllPermission || $userPermission == $permission) {
-
-                            Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
-                        }
-                    }
+//                    foreach ($users as $user) {
+//
+//                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
+//
+//                        $userPermission = $planMapping[$user['plan_name']] ?? 4;
+//
+//                        if ($isAllPermission || $userPermission == $permission) {
+//
+//                            Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
+//                        }
+//                    }
 
                     event(new NewResource($permission, 'new training & resource', $message));
 
                     Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
-                    
+
                 }
 
             }
