@@ -749,7 +749,7 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
-    public static function updateUserProfile($request = null)
+    public static function updatePersonalInformation($request = null)
     {
 
         $user_id = Helpers::getUser()->id;
@@ -771,6 +771,18 @@ class User extends Authenticatable implements JWTSubject
 
 
         return self::user($user_id);
+
+    }
+
+    public static function updateProfile($request = null)
+    {
+
+        $user_id = Helpers::getUser()->id;
+
+        self::whereId($user_id)->update($request);
+
+        return self::user($user_id);
+
     }
 
     public static function updateUserPassword($password = null)

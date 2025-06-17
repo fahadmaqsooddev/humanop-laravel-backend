@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\BlueHelper\BlueHelpers;
-use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -13,6 +12,7 @@ use App\Http\Requests\Api\Client\TwoWayAuthRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
+use App\Http\Requests\Api\Client\UpdatePersonalInformationRequets;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
@@ -24,7 +24,6 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
-use App\Models\Client\Connection\Connection;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
 use App\Models\IntentionPlan\IntentionPlan;
@@ -38,6 +37,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use Svg\Tag\UseTag;
 
 class UserController extends Controller
 {
@@ -87,7 +87,6 @@ class UserController extends Controller
     {
         try {
 
-
             User::updateUser(['app_intro_check' => 1], Helpers::getUser()->id);
 
             return Helpers::successResponse('Intro Completed Successfully');
@@ -98,10 +97,8 @@ class UserController extends Controller
         }
     }
 
-    public function updateUserProfile(UpdateUserProfileRequest $request)
-
+    public function updatePersonalInformation(UpdatePersonalInformationRequets $request)
     {
-
 
         try {
 
@@ -111,11 +108,11 @@ class UserController extends Controller
 
                 $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone']);
 
-                $updated_user = User::updateUserProfile($dataArray);
+                $updated_user = User::updatePersonalInformation($dataArray);
 
                 HaiChatHelpers::syncUserRecordWithHAi();
 
-                return Helpers::successResponse('User updated successfully', $updated_user);
+                return Helpers::successResponse('Personal Information updated successfully', $updated_user);
 
             } else {
 
@@ -127,26 +124,86 @@ class UserController extends Controller
         }
     }
 
-    public function updateUserImage(UpdateUserImageRequest $request)
+    public function updateProfile(UpdateUserProfileRequest $request)
     {
         DB::beginTransaction();
-        try {
-            if ($request->profile_image) {
-                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
-                $user = Helpers::getUser();
-                $updated_user = $user->update(['image_id' => $upload_id]);
-                tap($user);
 
-                DB::commit();
-                return Helpers::successResponse('User updated successfully', $user);
-            } else {
-                return Helpers::forbiddenResponse('Please Select Image');
+        try {
+
+            $authUser = Helpers::getUser();
+
+            $dataArray = $request->only($authUser->getFillable());
+
+            $parts = preg_split('/\s+/', $request->input('full_name'), 2);
+
+            $dataArray['first_name'] = $parts[0] ?? '';
+
+            $dataArray['last_name'] = $parts[1] ?? '';
+
+            $authUser->update($dataArray);
+
+            $shareAssessment = $request->only(['interval_of_life', 'traits', 'motivational_driver', 'alchemic_boundaries', 'communication_style', 'perception_of_life', 'energy_pool']);
+
+            if (Helpers::getUser()['plan_name'] !== 'Freemium') {
+
+                User\UserShareAssessment::createOrUpdateShareAssessment($shareAssessment);
+
             }
+
+            if ($request->has('tag_line')) {
+
+                User\UserTagline::updateTags($request['tag_line']);
+
+            }
+
+            DB::commit();
+
+            return Helpers::successResponse('Personal Information updated successfully');
+
         } catch (\Exception $exception) {
 
             DB::rollBack();
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
+    }
+
+    public function updateUserImage(UpdateUserImageRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ($request->profile_image) {
+
+                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
+
+                $user = Helpers::getUser();
+
+                $updated_user = $user->update(['image_id' => $upload_id]);
+
+                tap($user);
+
+                DB::commit();
+
+                return Helpers::successResponse('User updated successfully', $user);
+
+            } else {
+
+                return Helpers::forbiddenResponse('Please Select Image');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
     }
 
 
@@ -443,7 +500,6 @@ class UserController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
-
 
 
     public function profileOverviewResult(Request $request)

@@ -186,7 +186,7 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','b2b_step','team_department','prompt_notification','version_update','sms_verify_code','phone_verified_at','complete_assessment_walkthrough','complete_tutorial','chat_summary','profile_status','hai_status','credits_log'],
+            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','b2b_step','team_department','prompt_notification','version_update','sms_verify_code','phone_verified_at','complete_assessment_walkthrough','complete_tutorial','chat_summary','profile_status','hai_status','credits_log','life_alchemist','excited_connect','note','profile_privacy','hai_privacy'],
             'hidden' => ['created_at','updated_at','remember_token','two_factor_recovery_codes','two_factor_secret']
         ],
         'Page' => [
@@ -597,6 +597,16 @@ return [
         'PublishedChatBot' => [
             'table' => 'published_chat_bot',
             'fillable' => ['name','description','max_tokens','temperature','chunks','model_type','persona_name','prompt','restriction','embedding_ids','restricted_keywords','chat_bot_id','is_connected'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'UserShareAssessment' => [
+            'table' => 'user_share_assessment',
+            'fillable' => ['user_id','interval_of_life','traits','motivational_driver','alchemic_boundaries','communication_style','perception_of_life','energy_pool'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'UserTagline' => [
+            'table' => 'user_taglines',
+            'fillable' => ['user_id','tagline'],
             'hidden' => ['updated_at','created_at'],
         ]
     ]
