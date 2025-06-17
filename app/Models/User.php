@@ -15,6 +15,8 @@ use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
 use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
+use App\Models\User\UserShareAssessment;
+use App\Models\User\UserTagline;
 use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,7 +40,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait'];
+    protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline'];
 
     public function __construct(array $attributes = array())
     {
@@ -90,7 +92,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connetc', 'note']);
     }
 
     // appends
@@ -143,6 +145,21 @@ class User extends Authenticatable implements JWTSubject
 
         return 0;
 
+    }
+
+    public function getShareAssessmentAttribute()
+    {
+        $userId = Helpers::getUser()['id'];
+
+        return UserShareAssessment::getSingleRecord($userId);
+
+    }
+
+    public function getUserTaglineAttribute()
+    {
+        $userId = Helpers::getUser()['id'];
+
+        return UserTagline::getTags($userId)->pluck('tagline')->toArray();
     }
 
 
