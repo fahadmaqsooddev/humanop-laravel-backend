@@ -175,4 +175,38 @@ class LibraryResource extends Model
             ->get();
     }
 
+    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null)
+    {
+        $resources = self::query();
+
+        // Filter by relevance in libraryResources
+        if (!empty($searchRelevance)) {
+            $resources->where('relevance', $searchRelevance);
+        }
+
+        // Filter by name in resourceCategory
+        if (!empty($searchType)) {
+            $resources->whereHas('resourceCategory', function ($q) use ($searchType) {
+                $q->where('name', 'LIKE', '%' . $searchType . '%');
+            });
+        }
+
+        // Filter by permission level in libraryPermissions
+        if (!empty($searchAccess)) {
+            $resources->whereHas('libraryPermissions', function ($q) use ($searchAccess) {
+                if ($searchAccess === 'free') {
+                    $q->where('permission', 1);
+                } elseif ($searchAccess === 'hp_look') {
+                    $q->where('permission', 4);
+                } else {
+                    $q->whereIn('permission', [2, 3]);
+                }
+            });
+        }
+
+        $resources->with('resourceCategory', 'libraryPermissions')->orderBy('created_at', 'desc');
+
+        return $resources->get();
+    }
+
 }

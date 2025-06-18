@@ -20,9 +20,24 @@ class LibraryResourceController extends Controller
     {
         try {
 
-            $data = ResourceCategory::resourceCategoriesForClient($request['type'], $request['access'], $request['relevance']);
+            $data = LibraryResource::resourceCategoriesForClient($request['type'], $request['access'], $request['relevance']);
 
             return Helpers::successResponse('Library resources', $data);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function resourceCategories()
+    {
+        try {
+
+            $resourceCategories = ResourceCategory::resourceCategories();
+
+            return Helpers::successResponse('Library resources categories', $resourceCategories);
 
         }catch (\Exception $exception){
 
