@@ -755,7 +755,7 @@ class AuthController extends Controller
                         'registration_step' => $user['step']
                     ];
 
-                    return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
+                    return Helpers::validationResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
                 }
 
                 if ($user['step'] != 3) {
@@ -764,7 +764,7 @@ class AuthController extends Controller
                         'registration_step' => $user['step']
                     ];
 
-                    return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
+                    return Helpers::validationResponse('Please complete all required steps in the signup process to log in.', $userData);
                 }
 
                 if (!empty($request['company_name'])) {
