@@ -31,19 +31,19 @@ class LibraryResource extends Model
         return $this->hasMany(PermissionResource::class, 'resource_id', 'id');
     }
 
-    public function resourceCategory(){
-        return $this->belongsTo(ResourceCategory::class,'resource_category_id','id');
+    public function resourceCategory()
+    {
+        return $this->belongsTo(ResourceCategory::class, 'resource_category_id', 'id');
     }
 
 
     // append
     public function getPhotoUrlAttribute()
     {
-        if (empty($this->source_id) && empty($this->embed_link))
-        {
+        if (empty($this->source_id) && empty($this->embed_link)) {
             return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
 
-        }else{
+        } else {
 
             return null;
         }
@@ -72,14 +72,10 @@ class LibraryResource extends Model
 
             }
 
-        }
-        elseif (!empty($this->embed_link))
-        {
-            return Helpers::getVideo($this->upload_id, 1, null,$this->embed_link);
+        } elseif (!empty($this->embed_link)) {
+            return Helpers::getVideo($this->upload_id, 1, null, $this->embed_link);
 
-        }
-
-        else {
+        } else {
 
             return Helpers::getVideo($this->upload_id, 1, null);
 
@@ -100,7 +96,7 @@ class LibraryResource extends Model
         return self::get();
     }
 
-    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null,$link=null)
+    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -109,13 +105,14 @@ class LibraryResource extends Model
             'resource_category_id' => $category_id,
             'description' => $description,
             'content' => $content,
-            'embed_link'=>$link
+            'embed_link' => $link,
+            'relevance' => $relevance
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null,$link=null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null)
     {
 
         self::whereId($id)->update([
@@ -127,7 +124,7 @@ class LibraryResource extends Model
             'content' => $content,
             'source_id' => null,
             'source_url' => null,
-            'embed_link'=>$link
+            'embed_link' => $link
         ]);
 
         return self::singleLibraryResource($id);
@@ -172,13 +169,10 @@ class LibraryResource extends Model
 
     public static function latestLibraryResourcses()
     {
-        return self::with('resourceCategory') 
-                   ->latest()          
-                   ->take(3)           
-                   ->get();            
+        return self::with('resourceCategory')
+            ->latest()
+            ->take(3)
+            ->get();
     }
-    
-
-
 
 }

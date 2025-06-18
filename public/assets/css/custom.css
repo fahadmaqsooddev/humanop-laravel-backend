@@ -507,7 +507,7 @@ aside:hover {
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: #ff6347 !important; /* Custom border color (e.g., tomato) */
+    border-color: #1C365E !important; /* Custom border color (e.g., tomato) */
     box-shadow: none !important; /* Ensure the default box-shadow is removed, if not desired */
 }
 .podcast-card{

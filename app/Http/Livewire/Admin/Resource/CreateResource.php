@@ -21,12 +21,13 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
     protected $rules = [
         'heading' => 'required|unique:library_resources,heading',
+        'relevance' => 'required|string',
         'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
@@ -38,6 +39,7 @@ class CreateResource extends Component
 
     protected $messages = [
         'heading.required' => 'Heading is required.',
+        'relevance.required' => 'Relevance is required.',
         'heading.unique' => 'The heading must be unique in the library resources.',
         'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
         'resource_file.max' => 'The resource file size must not exceed 200MB.',
@@ -73,7 +75,7 @@ class CreateResource extends Component
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link);
+            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance);
 
             $this->uploadFileToGumlet($this->resource_file, $resource['id']);
 
