@@ -128,7 +128,6 @@ class CreateResource extends Component
 
     }
 
-
     public function getVideoLink()
     {
         $this->booleanValue = true;
@@ -142,7 +141,6 @@ class CreateResource extends Component
         $this->link = null;
 
     }
-
 
     public function deleteResource($id, $slug)
     {
@@ -203,6 +201,8 @@ class CreateResource extends Component
         $this->resourceId = $resource_id;
 
         $this->heading = $this->editResourceData['heading'] ?? null;
+
+        $this->relevance = $this->editResourceData['relevance'] ?? null;
 
         $this->category_id = $this->editResourceData['resource_category_id'] ?? null;
 
@@ -276,7 +276,7 @@ class CreateResource extends Component
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
 
             tap($updateResource);
 

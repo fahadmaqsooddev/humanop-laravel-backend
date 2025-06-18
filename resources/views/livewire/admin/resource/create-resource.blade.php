@@ -355,6 +355,14 @@
                                                wire:model.defer="heading" placeholder="heading" type="text">
                                     </div>
                                     <div class="form-group mt-4">
+                                        <label class="form-label fs-4" style="color: #1b3a62">All Relevance</label>
+                                        <select style="background-color: #eaf3ff; cursor: pointer" wire:model.defer="relevance" class="form-control">
+                                            <option value="all_relevance">ALl Relevance</option>
+                                            <option value="recommended">Highly Recommended</option>
+                                            <option value="new">New</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Description</label>
                                         <textarea style="background-color: #eaf3ff;" class="form-control"
                                                   wire:model.defer="description" placeholder="Enter description"
@@ -417,17 +425,17 @@
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
                                         <ul>
-                                            @foreach($editResourceData['library_permissions'] ?? [] as $permission)
-                                                @if($permission['permission'] === 1)
-                                                    <li>Freemium</li>
-                                                @elseif($permission['permission'] === 2)
-                                                    <li>Core</li>
-                                                @elseif($permission['permission'] === 3)
-                                                    <li>Premium</li>
-                                                @elseif($permission['permission'] === 4)
-                                                    <li>Freemium, Core, Premium</li>
+                                            @if(!empty($editResourceData) && !empty($editResourceData['library_permissions']))
+                                                @if($editResourceData['library_permissions']['permission'] === 1)
+                                                    <li>Free</li>
+                                                @elseif($editResourceData['library_permissions']['permission'] === 2)
+                                                    <li>Focus Tier</li>
+                                                @elseif($editResourceData['library_permissions']['permission'] === 3)
+                                                    <li>Elevate Tier</li>
+                                                @elseif($editResourceData['library_permissions']['permission'] === 4)
+                                                    <li>HP Unlock</li>
                                                 @endif
-                                            @endforeach
+                                            @endif
                                         </ul>
                                     </div>
                                     <div class="row">

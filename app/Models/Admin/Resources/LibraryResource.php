@@ -28,7 +28,7 @@ class LibraryResource extends Model
     public function libraryPermissions()
     {
 
-        return $this->hasMany(PermissionResource::class, 'resource_id', 'id');
+        return $this->hasOne(PermissionResource::class, 'resource_id', 'id');
     }
 
     public function resourceCategory()
@@ -112,7 +112,7 @@ class LibraryResource extends Model
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null)
     {
 
         self::whereId($id)->update([
@@ -124,7 +124,8 @@ class LibraryResource extends Model
             'content' => $content,
             'source_id' => null,
             'source_url' => null,
-            'embed_link' => $link
+            'embed_link' => $link,
+            'relevance' => $relevance
         ]);
 
         return self::singleLibraryResource($id);
