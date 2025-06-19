@@ -20,8 +20,10 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/login';
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
+    protected $B2BApiClientController = 'App\Http\Controllers\B2BControllers\B2BApi';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
+    protected $ChatAiNamespace = 'App\Http\Controllers\Api\ClientController\ChatAi';
 
     /**
      * The controller namespace for the application.
@@ -30,6 +32,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string|null
      */
+    // protected $namespace = 'App\\Http\\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -66,6 +69,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/auth/auth_api.php'));
 
+
+
+
+
+
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/payment/payment_api.php'));
@@ -101,6 +109,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->HumanNetworkNamespace)
                 ->group(base_path('routes/client_apis/human_network/human_network_api.php'));
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->ChatAiNamespace)
+                ->group(base_path('routes/client_apis/chat_ai/chat_ai_api.php'));
 
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)

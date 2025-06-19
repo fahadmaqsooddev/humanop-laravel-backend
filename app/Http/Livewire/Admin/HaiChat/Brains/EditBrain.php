@@ -1,0 +1,279 @@
+<?php
+
+namespace App\Http\Livewire\Admin\HaiChat\Brains;
+
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Models\HAIChai\BrainCluster;
+use App\Models\HAIChai\Chatbot;
+use App\Models\HAIChai\EmbeddingGroup;
+use App\Models\HAIChai\GroupEmbedding;
+use App\Models\HAIChai\HaiChatSetting;
+use App\Models\HAIChai\LlmModel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Livewire\Component;
+use function Symfony\Component\String\s;
+
+class EditBrain extends Component
+{
+
+    public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks, $brain_name, $is_published = 0;
+
+    public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [],
+        $selectedClusters = [], $selectClustersForRemoval = [];
+
+    public function rules(){
+
+        return [
+            'brain_name' => 'required|max:50|unique:chatbot,brain_name,'. $this->chat_bot_id .',id,deleted_at,NULL',
+            'description' => 'required|max:1000',
+            'temperature' => 'required',
+            'max_tokens' => 'required',
+            'llm_model_id' => 'required',
+            'chunks' => 'required'
+        ];
+    }
+
+    protected $messages = [
+        'name.required' => 'Brain name is required',
+        'name.unique' => 'Brain with this name already exists.',
+        'description.required' => 'Brain description is required',
+        'temperature.required' => 'Temperature are required',
+        'max_token.required' => 'Max tokens are required',
+        'llm_model_id.required' => 'Select a LLM Model',
+        'chunks.required' => 'Chunks are required',
+        'activeGroupIds.required' => 'Attach at-least one cluster',
+
+    ];
+
+    protected function getMessages()
+    {
+        return [
+            'brain_name.required' => 'Brain name is required.',
+            'brain_name.unique' => 'Brain name already exists. Try another one.',
+        ];
+    }
+
+    public function addToCluster($cluster_id){
+
+//        GroupEmbedding::connectGroupEmbeddings($group_id, $this->name);
+
+        BrainCluster::addClusterWithBrain($cluster_id, $this->chat_bot_id);
+
+    }
+
+    public function removeFromCluster($cluster_id){
+
+//        GroupEmbedding::removeGroupEmbeddings($group_id, $this->name);
+
+        BrainCluster::removeClusterFromBrain($cluster_id, $this->chat_bot_id);
+
+    }
+
+    public function updatedSearchClusters($value){
+
+        $this->searching = true;
+
+        $this->groups = EmbeddingGroup::nonActiveGroups($this->chat_bot_id, $value);
+    }
+
+    public function updatedSearchConnectedClusters($value){
+
+        $this->searching = true;
+
+        $this->connectedGroups = EmbeddingGroup::activeGroups($this->chat_bot_id, $value);
+    }
+
+    public function updatedTemperature($value){
+
+        $this->searching = true;
+
+        $this->temperature = $value;
+    }
+
+    public function updateBrain(){
+
+        DB::beginTransaction();
+
+        try {
+
+            $this->validate();
+
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+//
+//            $body = ['vendor_n' => $this->name, 'loc' => $subFolder];
+//
+//            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'create-chatbot', $body);
+
+//            if ($aiReply){
+
+                Chatbot::updateChatBot($this->chat_bot_id, $this->description, $this->brain_name);
+
+                HaiChatSetting::updateHaiChatSetting($this->temperature, $this->max_tokens, $this->chunks, $this->llm_model_id,$this->chat_bot_id);
+
+                DB::commit();
+
+                session()->flash('success','Brain updated');
+
+                return redirect()->route('admin_hai_chat');
+
+//            }else{
+//
+//                DB::rollBack();
+//
+//                session()->flash('error', "Something went wrong while creating chat-bot on S3.");
+//            }
+
+        }catch (ValidationException $exception){
+
+            DB::rollBack();
+
+            session()->flash('errors', $exception->validator->errors()->getMessages());
+
+        }catch (\Exception $exception){
+
+            DB::rollBack();
+
+            session()->flash('error', $exception->getMessage());
+        }
+
+    }
+
+    public function chatBotDetail(){
+
+        $chatBotDetail = Chatbot::whereId($this->chat_bot_id)->first();
+
+        if($chatBotDetail){
+
+            $this->name = $chatBotDetail['name'];
+            $this->description = $chatBotDetail['description'];
+            $this->brain_name = $chatBotDetail['brain_name'];
+            $this->is_published = $chatBotDetail['is_published'];
+
+            $settings = HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->first();
+
+            if ($settings){
+                $this->temperature = $settings['temperature'];
+                $this->max_tokens = $settings['max_token'];
+                $this->chunks = $settings['chunk'];
+                $this->llm_model_id = $settings['model_type'];
+
+            }
+
+        }
+
+    }
+
+    public function selectCluster($group_id){
+
+        if (!array_search($group_id, $this->selectedClusters)){
+
+            array_push($this->selectedClusters, $group_id);
+        }
+
+    }
+
+    public function addAllClustersToActiveClusters(){
+
+//        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
+
+        BrainCluster::addClustersWithBrain($this->selectedClusters, $this->chat_bot_id);
+
+//        $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
+
+    }
+
+    public function selectClusterForRemove($group_id){
+
+        if (!array_search($group_id, $this->selectClustersForRemoval)){
+
+            array_push($this->selectClustersForRemoval, $group_id);
+        }
+
+    }
+
+    public function removeAllSelectedClusters(){
+
+        BrainCluster::removeClustersFromBrain($this->selectClustersForRemoval, $this->chat_bot_id);
+
+//        GroupEmbedding::removeAllGroupEmbeddings($this->selectClustersForRemoval, $this->name);
+
+//        foreach ($this->selectClustersForRemoval as $group_id){
+//
+//            $search = array_search($group_id, $this->activeGroupIds);
+//
+//            if ($search >= 0){
+//
+//                unset($this->activeGroupIds[$search]);
+//            }
+//
+//        }
+
+        $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
+
+    }
+
+    public function publishChatBot(){
+
+        $active_embedding_ids = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
+
+        $settings = HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->first();
+
+        if ($settings){
+
+            $model_value = LlmModel::singleModelFromValue($settings['model_type']);
+
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $body = [
+                'temperature' => $settings['temperature'],
+                'max_tokens' => $settings['max_token'],
+                'file_name' => $active_embedding_ids['file_name'],
+                'prompt_folder' => $this->name,
+                'total_chunks' => $settings['chunk'],
+                'gpt_model' => $model_value['model_value'] ?? null,
+                'loc' => $subFolder
+            ];
+
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'save-llm-params', $body);
+
+            if (isset($aiReply['s3_path'])){
+
+                Chatbot::where('is_published', 1)->update(['is_published' => 0]);
+
+                Chatbot::where('name', $this->name)->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
+
+                session()->flash('success', 'Chatbot published');
+
+            }else{
+
+                session()->flash('error', 'Something went wrong.');
+            }
+
+        }
+
+    }
+
+    public function render()
+    {
+
+        BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
+
+        $this->llmModels = LlmModel::all();
+
+        if ($this->searching){
+
+            $this->searching = false;
+
+        }else{
+
+            $this->chatBotDetail();
+
+            $this->groups = EmbeddingGroup::nonActiveGroups($this->chat_bot_id);
+
+            $this->connectedGroups = EmbeddingGroup::activeGroups($this->chat_bot_id);
+        }
+
+        return view('livewire.admin.hai-chat.brains.edit-brain');
+    }
+}
