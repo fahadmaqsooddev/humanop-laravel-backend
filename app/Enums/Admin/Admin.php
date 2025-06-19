@@ -157,4 +157,8 @@ final class Admin
     const CORE_CREDITS = 120;
 
     const PREMIUM_CREDITS = 250;
+
+    const SHARE_ASSESSMENT = 1;
+
+    const NOT_SHARE_ASSESSMENT = 2;
 }
