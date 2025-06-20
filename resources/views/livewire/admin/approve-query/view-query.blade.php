@@ -5,21 +5,20 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
+                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                            aria-label="Close" id="close-query-view-modal-{{$queryId}}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <form wire:submit.prevent="">
                         @csrf
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="close-query-view-modal-{{$queryId}}">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-
-                                    <label class="form-label fs-6 text-white">Client Query:</label>
+                                    <label class="form-label fs-6" style="color: #0f1534">Client Query:</label>
                                     <span style="color: #1b3a62;font-size: 20px;font-weight: 800;display: flex;">{{$question['query'] ?? null}}</span>
 
-                                    <label class="form-label fs-6 text-white">Admin Answer:</label>
-                                    <span style="color: white;font-size: 18px;font-weight: 600;display: flex;">{{$answer ?? null}}</span>
+                                    <label class="form-label fs-6" style="color: #0f1534">Admin Answer:</label>
+                                    <span style="color: #0f1534;font-size: 18px;font-weight: 600;display: flex;">{{$answer ?? null}}</span>
 
                                 </div>
                             </div>

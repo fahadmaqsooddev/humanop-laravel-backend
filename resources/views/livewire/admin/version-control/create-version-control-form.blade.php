@@ -93,8 +93,7 @@
                                 <div class="col-md-12 mt-3">
                                     <label class=" mb-1" style="color: #1b3a62">Description</label>
                                     <div wire:ignore>
-                                        <textarea class="form-control editor"
-                                                  data-index="{{ $index }}"
+                                        <textarea class="form-control editor" data-index="{{ $index }}"
                                                   wire:model='versionDetails.{{ $index }}.description'
                                                   data-property="versionDetails.{{ $index }}.description"
                                                   style="background-color: #0f1534; color: #1b3a62;"

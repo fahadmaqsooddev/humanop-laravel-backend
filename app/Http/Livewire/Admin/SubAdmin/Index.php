@@ -11,7 +11,7 @@ class Index extends Component
 {
     public $admins;
     public $statuses = [];
-    protected $listeners=['deleteSubAdmin','refreshComponent' => '$refresh'];
+    protected $listeners = ['deleteSubAdmin', 'refreshComponent' => '$refresh'];
 
     public function mount($admins)
     {
@@ -19,30 +19,32 @@ class Index extends Component
         foreach ($this->admins as $admin) {
             $this->statuses[$admin->id] = $admin->status == 1;
         }
-        
+
     }
+
     public function updateStatus($id)
     {
-          $admin = User::find($id);
+        $admin = User::find($id);
         if ($admin) {
-          if($admin->status == 1){
-              User::updateUser(['status' => 0],$id);
-              session()->flash('success'.$id, 'Sub Admin Status Changed to Inactive.');
+            if ($admin->status == 1) {
+                User::updateUser(['status' => 0], $id);
+                session()->flash('success' . $id, 'Sub Admin Status Changed to Inactive.');
 
-              event(new SubAdminLogout($admin['id']));
-              
-          }else{
-              User::updateUser(['status' => 1],$id);
-              session()->flash('success'.$id, 'Sub Admin Status Changed to Active.');
-          }
+                event(new SubAdminLogout($admin['id']));
+
+            } else {
+                User::updateUser(['status' => 1], $id);
+                session()->flash('success' . $id, 'Sub Admin Status Changed to Active.');
+            }
         } else {
-            session()->flash('error'.$id, 'Sub Admin not found.');
+            session()->flash('error' . $id, 'Sub Admin not found.');
         }
     }
 
-    public function deleteSubAdmin($id){
-    User::deleteSubAdmin($id); 
-    $this->emit('refreshComponent');
+    public function deleteSubAdmin($id)
+    {
+        User::deleteSubAdmin($id);
+        $this->emit('refreshComponent');
     }
 
 

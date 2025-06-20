@@ -608,6 +608,11 @@ return [
             'table' => 'user_taglines',
             'fillable' => ['user_id','tagline'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'NetworkTutorial' => [
+            'table' => 'network_tutorials',
+            'fillable' => ['title','description','icon_id'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];
