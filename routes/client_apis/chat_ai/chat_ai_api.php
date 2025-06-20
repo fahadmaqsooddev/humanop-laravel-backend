@@ -17,6 +17,7 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('ai-chat', 'ChatAiController@aiChat');
     Route::post('ask-question', 'ChatAiController@askQuestion');
+    Route::post('ask-b2c-question', 'ChatAiController@askQuestion');
     Route::post('like-dislike-ai-reply', 'ChatAiController@likeDislikeAiReply');
     Route::post('client-query', 'ChatAiController@clientQuery');
     Route::get('client-query-answer', 'ChatAiController@clientQueryAnswer');
