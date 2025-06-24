@@ -28,6 +28,11 @@ class NetworkTutorial extends Model
 
     }
 
+    public static function getSingleTutorial($id = null)
+    {
+        return self::where('id', $id)->first();
+    }
+
     public static function allTutorials()
     {
         return self::orderBy('created_at', 'desc')->get();
@@ -37,6 +42,15 @@ class NetworkTutorial extends Model
     {
 
         return self::create($data);
+    }
+
+    public static function updateTutorial($id = null, $title = null, $description = null)
+    {
+
+        return self::where('id', $id)->update([
+            'title' => $title,
+            'description' => $description,
+        ]);
     }
 
     public static function deleteTutorial($id = null)

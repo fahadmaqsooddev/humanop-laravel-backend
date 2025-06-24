@@ -14,7 +14,8 @@
             @foreach($tutorials as $key => $tutorial)
                 <tr class="text-color-blue">
                     <td class="text-sm font-weight-normal">{{ $key + 1 }}</td>
-                    <td class="text-sm font-weight-normal"><img src="{{ asset($tutorial['icon_url']['url']) }}" style="height: 50px;"></td>
+                    <td class="text-sm font-weight-normal"><img src="{{ asset($tutorial['icon_url']['url']) }}"
+                                                                style="height: 50px;"></td>
                     <td class="text-sm font-weight-normal">{{ $tutorial['title'] }}</td>
                     <td class="text-sm font-weight-normal">
                         @if(strlen(strip_tags($tutorial['description'])) > 40)
@@ -31,14 +32,16 @@
                     <td class="text-sm font-weight-normal">
                         <a onclick="deleteTutorial({{ $tutorial['id'] }})" class="btn-sm mt-2 mb-0"
                            style="background:#ff0000;color:white;font-weight:bolder;cursor:pointer;">Delete</a>
-{{--                        <a data-bs-toggle="modal" data-bs-target="#editTutorialModal{{ $tutorial['id'] }}"--}}
-{{--                           class="btn-sm mt-2 mb-0"--}}
-{{--                           style="background:#1B3A62;color:white;font-weight:bolder;margin-right:1rem;">Edit</a>--}}
+                        <a wire:click="editTutorialModal({{ $tutorial['id'] }},`{{ $tutorial['title']  }}`,`{{ $tutorial['icon_url']['url'] }}`,`{{ $tutorial['description']  }}`)"
+                           class="btn-sm mt-2 mb-0"
+                           data-bs-target="#editFormTutorialModal" data-bs-toggle="modal"
+                           style="background:#1b3a62;color:white;font-weight:bolder;cursor:pointer;">Edit</a>
                     </td>
                 </tr>
 
                 {{--    view network tutorial model   --}}
-                <div wire:ignore.self class="modal fade" id="viewTutorialModal{{ $tutorial['id'] }}" tabindex="-1" role="dialog"
+                <div wire:ignore.self class="modal fade" id="viewTutorialModal{{ $tutorial['id'] }}" tabindex="-1"
+                     role="dialog"
                      aria-labelledby="viewTutorialModal{{ $tutorial['id'] }}" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
@@ -52,8 +55,10 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-12">
-                                                <label class="form-label fs-6" style="color: #0f1534">Description:</label>
-                                                <span style="color: white;font-size: 18px;font-weight: 600;display: flex;">{!! $tutorial['description'] !!}</span>
+                                                <label class="form-label fs-6"
+                                                       style="color: #0f1534">Description:</label>
+                                                <span
+                                                    style="color: white;font-size: 18px;font-weight: 600;display: flex;">{!! $tutorial['description'] !!}</span>
 
                                             </div>
                                         </div>
@@ -63,66 +68,6 @@
                         </div>
                     </div>
                 </div>
-
-                {{--    edit network tutorial model   --}}
-{{--                <div wire:ignore.self class="modal fade" id="editTutorialModal{{ $tutorial['id'] }}" tabindex="-1"--}}
-{{--                     role="dialog"--}}
-{{--                     aria-labelledby="editTutorialModal{{ $tutorial['id'] }}" aria-hidden="true">--}}
-{{--                    <div class="modal-dialog modal-lg" role="document">--}}
-{{--                        <div class="modal-content">--}}
-{{--                            <div class="modal-body" style=" border-radius: 9px">--}}
-{{--                                <div class="card-body pt-0">--}}
-{{--                                    <label class="form-label fs-4" style="color: #1b3a62">Network Tutorial</label>--}}
-
-{{--                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"--}}
-{{--                                            aria-label="Close">--}}
-{{--                                        <span aria-hidden="true">&times;</span>--}}
-{{--                                    </button>--}}
-{{--                                    @include('layouts.message')--}}
-{{--                                    <form wire:submit.prevent="submitForm">--}}
-{{--                                        <div class="card-body pt-0">--}}
-{{--                                            <div class="row">--}}
-{{--                                                <div class="col-12">--}}
-{{--                                                    <label class="form-label" style="color: #1b3a62">Title</label>--}}
-{{--                                                    <input style="background-color: #eaf3ff;" class="form-control input-form-style" type="text"--}}
-{{--                                                           wire:model="title"--}}
-{{--                                                           placeholder="Enter tutorial title">--}}
-{{--                                                    @error('title') <small class="text-danger">{{ $message }}</small> @enderror--}}
-{{--                                                </div>--}}
-
-{{--                                                <div class="col-12">--}}
-{{--                                                    <label class="form-label" style="color: #1b3a62">Icon</label>--}}
-{{--                                                    <input style="background-color: #eaf3ff;" class="form-control input-form-style" type="file"--}}
-{{--                                                           wire:model="icon"--}}
-{{--                                                           placeholder="Choose tutorial icon">--}}
-{{--                                                    <span wire:loading.flex wire:target="icon"--}}
-{{--                                                          style="color: #1b3a62">Uploading ...</span>--}}
-{{--                                                    @error('icon') <small class="text-danger">{{ $message }}</small> @enderror--}}
-{{--                                                </div>--}}
-
-{{--                                                <div class="col-12">--}}
-{{--                                                    <label class="form-label" style="color: #1b3a62">Description</label>--}}
-{{--                                                    <div wire:ignore>--}}
-{{--                                            <textarea id="summernote" class="form-control input-form-style editor"--}}
-{{--                                                      placeholder="Enter description"--}}
-{{--                                                      rows="3">{{ $description }}</textarea>--}}
-{{--                                                    </div>--}}
-{{--                                                    @error('description') <small--}}
-{{--                                                        class="text-danger">{{ $message }}</small> @enderror--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-
-{{--                                            <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"--}}
-{{--                                                    style="background-color: #1b3a62">Update Network Tutorial--}}
-{{--                                            </button>--}}
-{{--                                        </div>--}}
-{{--                                    </form>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
             @endforeach
             </tbody>
         </table>
@@ -148,7 +93,8 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="form-label" style="color: #1b3a62">Title</label>
-                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style" type="text"
+                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style"
+                                               type="text"
                                                wire:model="title"
                                                placeholder="Enter tutorial title">
                                         @error('title') <small class="text-danger">{{ $message }}</small> @enderror
@@ -156,9 +102,10 @@
 
                                     <div class="col-12">
                                         <label class="form-label" style="color: #1b3a62">Icon</label>
-                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style" type="file"
+                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style"
+                                               type="file"
                                                wire:model="icon"
-                                               placeholder="Choose tutorial icon">
+                                               placeholder="Choose tutorial icon" id="iconInput" x-ref="iconInput">
                                         <span wire:loading.flex wire:target="icon"
                                               style="color: #1b3a62">Uploading ...</span>
                                         @error('icon') <small class="text-danger">{{ $message }}</small> @enderror
@@ -186,6 +133,74 @@
             </div>
         </div>
     </div>
+
+    {{--    edit network tutorial model   --}}
+    <div wire:ignore.self class="modal fade" id="editFormTutorialModal" tabindex="-1"
+         role="dialog"
+         aria-labelledby="editFormTutorialModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style=" border-radius: 9px">
+                    <div class="card-body pt-0">
+                        <label class="form-label fs-4" style="color: #1b3a62">Network Tutorial</label>
+
+                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        @include('layouts.message')
+                        <form wire:submit.prevent="updateForm">
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="form-label" style="color: #1b3a62">Title</label>
+                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style"
+                                               type="text"
+                                               wire:model="title"
+                                               placeholder="Enter tutorial title">
+                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style"
+                                               hidden="hidden" type="text"
+                                               wire:model="tutorialId">
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label" style="color: #1b3a62">Icon</label>
+                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style"
+                                               type="file" wire:model="icon"
+                                               placeholder="Choose tutorial icon" id="iconInput" x-ref="iconInput">
+                                        <span wire:loading.flex wire:target="icon"
+                                              style="color: #1b3a62">Uploading ...</span>
+                                        @error('icon') <small class="text-danger">{{ $message }}</small> @enderror
+                                    </div>
+
+                                    <div class="col-12">
+                                        <img src="{{ $tutorialIcon }}"
+                                             style="height: 100px; margin-top: 5px; margin-bottom: 5px">
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label" style="color: #1b3a62">Description</label>
+                                        <div wire:ignore>
+                                            <textarea id="edit-summernote" class="form-control input-form-style editor"
+                                                      wire:ignore wire:model="description" placeholder="Enter description"
+                                                      rows="3">{{ $description }}</textarea>
+                                        </div>
+                                        @error('description') <small
+                                            class="text-danger">{{ $message }}</small> @enderror
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
+                                        style="background-color: #1b3a62">Edit Network Tutorial
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @push('javascript')
@@ -222,8 +237,9 @@
             $('#summernote').summernote({
                 height: 200,
                 callbacks: {
-                    onChange: function(contents, $editable) {
-                    @this.set('description', contents);
+                    onChange: function (contents, $editable) {
+                    @this.set('description', contents)
+                        ;
                     }
                 }
             });
@@ -234,13 +250,75 @@
                     $('#summernote').summernote({
                         height: 200,
                         callbacks: {
-                            onChange: function(contents, $editable) {
-                            @this.set('description', contents);
+                            onChange: function (contents, $editable) {
+                            @this.set('description', contents)
+                                ;
                             }
                         }
                     });
                 }
             });
+
+            // Reset Summernote content after form submission
+            window.addEventListener('reset-summernote', () => {
+                $('#summernote').summernote('reset'); // resets to empty
+            });
+
+            // Optional: clear summernote on "Create New" button click
+            $('.createForm').on('click', function () {
+                $('#summernote').summernote('reset');
+            });
+
+            window.addEventListener('reset-file-input', () => {
+                document.getElementById('iconInput').value = null;
+            });
+        });
+
+        document.addEventListener('livewire:load', function () {
+            $('#edit-summernote').summernote({
+                height: 200,
+                callbacks: {
+                    onChange: function (contents, $editable) {
+                    @this.set('description', contents)
+                        ;
+                    }
+                }
+            });
+
+            Livewire.hook('message.processed', (message, component) => {
+                // Re-init if needed after Livewire DOM updates
+                if (!$('#edit-summernote').next().hasClass('note-editor')) {
+                    $('#edit-summernote').summernote({
+                        height: 200,
+                        callbacks: {
+                            onChange: function (contents, $editable) {
+                            @this.set('description', contents)
+                                ;
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Reset Summernote content after form submission
+            window.addEventListener('reset-summernote', () => {
+                $('#edit-summernote').summernote('reset'); // resets to empty
+            });
+
+            // Optional: clear summernote on "Create New" button click
+            $('.createForm').on('click', function () {
+                $('#edit-summernote').summernote('reset');
+            });
+
+            window.addEventListener('reset-file-input', () => {
+                document.getElementById('iconInput').value = null;
+            });
+
+            // Set description when editing
+            window.addEventListener('set-edit-description', event => {
+                $('#edit-summernote').summernote('code', event.detail.content);
+            });
+
         });
     </script>
 @endpush

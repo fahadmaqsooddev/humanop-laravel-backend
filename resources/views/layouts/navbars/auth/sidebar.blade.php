@@ -295,7 +295,8 @@
                                                         'admin/edit-version-control/*',
                                                         'admin/edit-code/*',
                                                        'admin/admin_get_client_invite',
-                                                       'admin/pricing-plans') ? 'show' : '' }}"
+                                                       'admin/pricing-plans',
+                                                       'admin/network-tutorials') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
                                                             <li class="nav-item {{ (Request::is('admin/assessment-walkthrough') ? 'active-itt-all' : '') }}">

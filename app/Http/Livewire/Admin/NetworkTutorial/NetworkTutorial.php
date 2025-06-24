@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\NetworkTutorial;
 
 use App\Models\Upload\Upload;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -11,7 +12,7 @@ class NetworkTutorial extends Component
 {
     use WithFileUploads;
 
-    public $title, $icon, $description;
+    public $tutorialId, $tutorialIcon, $title, $icon, $description;
 
     protected $listeners=['deleteTutorial'];
 
@@ -70,8 +71,61 @@ class NetworkTutorial extends Component
 
                 $this->resetForm();
 
+                // Fire browser event to reset Summernote
+                $this->dispatchBrowserEvent('reset-summernote');
+
+                $this->dispatchBrowserEvent('reset-file-input');
+
                 session()->flash('success', ' Network Tutorial Created successfully.');
             }
+
+            DB::commit();
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            session()->flash('error', $exception->getMessage());
+
+        }
+
+    }
+
+    public function editTutorialModal($id, $title, $icon, $description)
+    {
+        $this->tutorialId = $id;
+        $this->title = $title;
+        $this->tutorialIcon = $icon;
+        $this->description = $description;
+
+        $this->dispatchBrowserEvent('set-edit-description', ['content' => $description]);
+
+    }
+
+    public function updateForm(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            \App\Models\NetworkTutorial\NetworkTutorial::updateTutorial($this->tutorialId, $this->title, $this->description);
+
+            if (!empty($this->icon)) {
+
+                $upload_id = Upload::uploadFile($this->icon, 200, 200, 'base64Image', 'png', true);
+
+                $tutorial = \App\Models\NetworkTutorial\NetworkTutorial::getSingleTutorial($this->tutorialId);
+
+                $tutorial->icon_id = $upload_id;
+
+                $tutorial->save();
+            }
+
+            $this->tutorialIcon = $tutorial['icon_url']['url'];
+
+            session()->flash('success', ' Network Tutorial Updated successfully.');
+
+            $this->render();
 
             DB::commit();
 
