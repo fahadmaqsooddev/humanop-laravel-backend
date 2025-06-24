@@ -55,10 +55,9 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-12">
-                                                <label class="form-label fs-6"
-                                                       style="color: #0f1534">Description:</label>
-                                                <span
-                                                    style="color: white;font-size: 18px;font-weight: 600;display: flex;">{!! $tutorial['description'] !!}</span>
+                                                <label class="form-label"
+                                                       style="color: #0f1534; font-size: 22px">Description:</label>
+                                                <span style="font-size: 18px;font-weight: 600;display: flex;    background-color: #1b3a62; padding: 10px; border-radius: 5px; text-align: justify;">{!! $tutorial['description'] !!}</span>
 
                                             </div>
                                         </div>
