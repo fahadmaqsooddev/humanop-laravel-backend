@@ -119,9 +119,10 @@ class NetworkTutorial extends Component
                 $tutorial->icon_id = $upload_id;
 
                 $tutorial->save();
-            }
 
-            $this->tutorialIcon = $tutorial['icon_url']['url'];
+                $this->tutorialIcon = $tutorial['icon_url']['url'];
+
+            }
 
             session()->flash('success', ' Network Tutorial Updated successfully.');
 
