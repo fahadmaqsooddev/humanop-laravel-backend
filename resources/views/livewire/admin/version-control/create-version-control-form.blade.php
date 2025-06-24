@@ -1,17 +1,11 @@
 @push('css')
     <style>
-        .note-toolbar .note-btn {
-            font-size: 16px !important; /* Text size */
-            padding: 8px 12px !important; /* Button padding */
+        .note-editor.note-frame .note-editing-area .note-editable {
+            background-color: #1b3a62 !important;
+            color: white !important;
         }
-
-        .note-editing-area {
-            color: #0f1534;
-        }
-
-        .note-editor .note-toolbar {
-            height: auto;
-            min-height: 50px;
+        .note-editor.note-frame {
+            border: 1px solid #1b3a62;
         }
 
         .note-toolbar {
@@ -46,15 +40,15 @@
                         <div class="row mt-4">
                             <div class="col-12">
                                 <label class="form-label" style="color: #1b3a62">Version</label>
-                                <input style="background-color: #eaf3ff;color:#1b3a62" wire:model="version"
-                                       class="form-control table-header-text" type="text">
+                                <input  wire:model="version"
+                                       class="form-control input-form-style table-header-text" type="text">
                             </div>
                         </div>
                         <div class="row mt-4">
                             <div class="col-12">
                                 <label class="form-label" style="color: #1b3a62">Note</label>
                                 <div wire:ignore>
-                                    <textarea class="form-control " id="editor" wire:model='note'
+                                    <textarea class="form-control input-form-style " id="editor" wire:model='note'
                                               style="background-color: #eaf3ff; color: #1b3a62;" rows="2"></textarea>
                                 </div>
                             </div>
@@ -93,7 +87,7 @@
                                 <div class="col-md-12 mt-3">
                                     <label class=" mb-1" style="color: #1b3a62">Description</label>
                                     <div wire:ignore>
-                                        <textarea class="form-control editor" data-index="{{ $index }}"
+                                        <textarea class="form-control input-form-style editor" data-index="{{ $index }}"
                                                   wire:model='versionDetails.{{ $index }}.description'
                                                   data-property="versionDetails.{{ $index }}.description"
                                                   style="background-color: #0f1534; color: #1b3a62;"
@@ -104,8 +98,7 @@
                                     <label for="version_heading" class="form-label" style="color: #1b3a62">Select
                                         Version
                                         Heading</label>
-                                    <select wire:model='versionDetails.{{ $index }}.version_heading'
-                                            style="background-color: #eaf3ff;" class="form-control">
+                                    <select wire:model='versionDetails.{{ $index }}.version_heading' class="form-control input-form-style">
                                         <option value="">Select Option</option>
                                         <option value="0">Issue Fixed</option>
                                         <option value="1">New Feature</option>

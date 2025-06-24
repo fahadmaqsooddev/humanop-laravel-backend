@@ -419,11 +419,10 @@
                                 <label class="form-label" style="color: #1b3a62">Title</label>
                                 <div class="input-group">
                                     <input id="firstName" wire:model="title" name="title"
-                                           class="form-control table-header-text"
-                                           style="background-color: #eaf3ff !important; color: #1b3a62;border: 2px solid #1b3a62;
-    border-radius: 10px;" type="text">
+                                           class="form-control input-form-style"
+                                           style="border-radius: 10px;" type="text">
                                     <input id="code" wire:model="code" name="code"
-                                           class="form-control table-header-text" type="hidden">
+                                           class="form-control input-form-style" type="hidden">
                                 </div>
                             </div>
                         </div>
@@ -431,7 +430,7 @@
                             <div class="col-12">
                                 <label class="form-label" style="color: #1b3a62">Description</label>
                                 <div class="input-group w-100" wire:ignore><textarea
-                                        class="form-control table-header-text editor" rows="5" cols="5"
+                                        class="form-control input-form-style editor" rows="5" cols="5"
                                         name="description" style="background-color: #eaf3ff"
                                         wire:model="description"></textarea>
                                 </div>

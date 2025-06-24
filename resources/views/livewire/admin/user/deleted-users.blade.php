@@ -20,15 +20,15 @@
         <div class="d-flex">
             <div class="input-group ms-md-4 pe-md-4">
                 <input type="text" name="name" wire:model.debounce="name"
-                       class="form-control table-orange-color search-bar" placeholder="Search Name">
+                       class="form-control input-form-style" placeholder="Search Name">
             </div>
             <div class="input-group ms-md-4 pe-md-4">
                 <input type="email" name="email" wire:model.debounce="email"
-                       class="form-control table-orange-color search-bar" placeholder="Search Email">
+                       class="form-control input-form-style" placeholder="Search Email">
             </div>
 
             <div class="input-group ms-md-4 pe-md-4">
-                <select class="form-control table-orange-color search-bar custom-text-dark" name="age"
+                <select class="form-control input-form-style" name="age"
                         wire:model.debounce="age">
                     <option value="">Select Age</option>
                     {{-- <option value="5-6">5-6</option> --}}

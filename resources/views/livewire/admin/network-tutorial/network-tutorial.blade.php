@@ -31,13 +31,13 @@
                     <td class="text-sm font-weight-normal">
                         <a onclick="deleteTutorial({{ $tutorial['id'] }})" class="btn-sm mt-2 mb-0"
                            style="background:#ff0000;color:white;font-weight:bolder;cursor:pointer;">Delete</a>
-{{--                        <a data-bs-toggle="modal" data-bs-target="#subadmindetail{{ $tutorial['id'] }}"--}}
+{{--                        <a data-bs-toggle="modal" data-bs-target="#editTutorialModal{{ $tutorial['id'] }}"--}}
 {{--                           class="btn-sm mt-2 mb-0"--}}
-{{--                           style="background:#1B3A62;color:white;font-weight:bolder;margin-right:1rem;">View</a>--}}
+{{--                           style="background:#1B3A62;color:white;font-weight:bolder;margin-right:1rem;">Edit</a>--}}
                     </td>
                 </tr>
 
-                {{--    add network tutorial model   --}}
+                {{--    view network tutorial model   --}}
                 <div wire:ignore.self class="modal fade" id="viewTutorialModal{{ $tutorial['id'] }}" tabindex="-1" role="dialog"
                      aria-labelledby="viewTutorialModal{{ $tutorial['id'] }}" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
@@ -64,6 +64,65 @@
                     </div>
                 </div>
 
+                {{--    edit network tutorial model   --}}
+{{--                <div wire:ignore.self class="modal fade" id="editTutorialModal{{ $tutorial['id'] }}" tabindex="-1"--}}
+{{--                     role="dialog"--}}
+{{--                     aria-labelledby="editTutorialModal{{ $tutorial['id'] }}" aria-hidden="true">--}}
+{{--                    <div class="modal-dialog modal-lg" role="document">--}}
+{{--                        <div class="modal-content">--}}
+{{--                            <div class="modal-body" style=" border-radius: 9px">--}}
+{{--                                <div class="card-body pt-0">--}}
+{{--                                    <label class="form-label fs-4" style="color: #1b3a62">Network Tutorial</label>--}}
+
+{{--                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"--}}
+{{--                                            aria-label="Close">--}}
+{{--                                        <span aria-hidden="true">&times;</span>--}}
+{{--                                    </button>--}}
+{{--                                    @include('layouts.message')--}}
+{{--                                    <form wire:submit.prevent="submitForm">--}}
+{{--                                        <div class="card-body pt-0">--}}
+{{--                                            <div class="row">--}}
+{{--                                                <div class="col-12">--}}
+{{--                                                    <label class="form-label" style="color: #1b3a62">Title</label>--}}
+{{--                                                    <input style="background-color: #eaf3ff;" class="form-control input-form-style" type="text"--}}
+{{--                                                           wire:model="title"--}}
+{{--                                                           placeholder="Enter tutorial title">--}}
+{{--                                                    @error('title') <small class="text-danger">{{ $message }}</small> @enderror--}}
+{{--                                                </div>--}}
+
+{{--                                                <div class="col-12">--}}
+{{--                                                    <label class="form-label" style="color: #1b3a62">Icon</label>--}}
+{{--                                                    <input style="background-color: #eaf3ff;" class="form-control input-form-style" type="file"--}}
+{{--                                                           wire:model="icon"--}}
+{{--                                                           placeholder="Choose tutorial icon">--}}
+{{--                                                    <span wire:loading.flex wire:target="icon"--}}
+{{--                                                          style="color: #1b3a62">Uploading ...</span>--}}
+{{--                                                    @error('icon') <small class="text-danger">{{ $message }}</small> @enderror--}}
+{{--                                                </div>--}}
+
+{{--                                                <div class="col-12">--}}
+{{--                                                    <label class="form-label" style="color: #1b3a62">Description</label>--}}
+{{--                                                    <div wire:ignore>--}}
+{{--                                            <textarea id="summernote" class="form-control input-form-style editor"--}}
+{{--                                                      placeholder="Enter description"--}}
+{{--                                                      rows="3">{{ $description }}</textarea>--}}
+{{--                                                    </div>--}}
+{{--                                                    @error('description') <small--}}
+{{--                                                        class="text-danger">{{ $message }}</small> @enderror--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+
+{{--                                            <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"--}}
+{{--                                                    style="background-color: #1b3a62">Update Network Tutorial--}}
+{{--                                            </button>--}}
+{{--                                        </div>--}}
+{{--                                    </form>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
             @endforeach
             </tbody>
         </table>
@@ -89,7 +148,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="form-label" style="color: #1b3a62">Title</label>
-                                        <input style="background-color: #eaf3ff;" class="form-control" type="text"
+                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style" type="text"
                                                wire:model="title"
                                                placeholder="Enter tutorial title">
                                         @error('title') <small class="text-danger">{{ $message }}</small> @enderror
@@ -97,7 +156,7 @@
 
                                     <div class="col-12">
                                         <label class="form-label" style="color: #1b3a62">Icon</label>
-                                        <input style="background-color: #eaf3ff;" class="form-control" type="file"
+                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style" type="file"
                                                wire:model="icon"
                                                placeholder="Choose tutorial icon">
                                         <span wire:loading.flex wire:target="icon"
@@ -108,7 +167,7 @@
                                     <div class="col-12">
                                         <label class="form-label" style="color: #1b3a62">Description</label>
                                         <div wire:ignore>
-                                            <textarea id="summernote" class="form-control editor"
+                                            <textarea id="summernote" class="form-control input-form-style editor"
                                                       placeholder="Enter description"
                                                       rows="3">{{ $description }}</textarea>
                                         </div>

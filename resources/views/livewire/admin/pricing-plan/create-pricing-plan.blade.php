@@ -61,20 +61,18 @@
 
                                         <label class="form-label" style="color: #1b3a62">Plan Name</label>
                                         <div class="input-group">
-                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
-                                                   class="form-control" type="text"
-                                                   wire:model="plan_name"
+                                            <input class="form-control input-form-style" type="text" wire:model="plan_name"
                                                    placeholder="plan name">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-12">
-                                        <select class="form-control bg-transparent" style="color: #1b3a62"
+                                        <select class="form-control input-form-style" style="color: #1b3a62"
                                                 wire:model="plan_type">
-                                            <option value="" style="color: black">Select Plan Type</option>
-                                            <option value="month" style="color: black">Month</option>
-                                            <option value="year" style="color: black">Year</option>
+                                            <option value="" style="color: white">Select Plan Type</option>
+                                            <option value="month" style="color: white">Month</option>
+                                            <option value="year" style="color: white">Year</option>
                                         </select>
                                     </div>
                                 </div>
@@ -82,9 +80,8 @@
                                     <div class="col-12">
                                         <label class="form-label" style="color: #1b3a62">Plan Amount</label>
                                         <div class="input-group">
-                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
-                                                   wire:model="price"
-                                                   class="form-control table-header-text" type="text">
+                                            <input wire:model="price" class="form-control input-form-style table-header-text"
+                                                   type="text">
                                         </div>
                                     </div>
                                 </div>
@@ -117,20 +114,18 @@
 
                                         <label class="form-label" style="color: #1b3a62">Plan Name</label>
                                         <div class="input-group">
-                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
-                                                   class="form-control" type="text"
-                                                   wire:model="plan_name"
+                                            <input class="form-control input-form-style" type="text" wire:model="plan_name"
                                                    placeholder="plan name">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-12">
-                                        <select class="form-control bg-transparent" style="color: #1b3a62"
+                                        <select class="form-control input-form-style" style="color: #1b3a62"
                                                 wire:model="plan_type" disabled>
-                                            <option value="" style="color: black">Select Plan Type</option>
-                                            <option value="month" style="color: black">Month</option>
-                                            <option value="year" style="color: black">Year</option>
+                                            <option value="" style="color: white">Select Plan Type</option>
+                                            <option value="month" style="color: white">Month</option>
+                                            <option value="year" style="color: white">Year</option>
                                         </select>
                                     </div>
                                 </div>
@@ -138,10 +133,8 @@
                                     <div class="col-12">
                                         <label class="form-label" style="color: #1b3a62">Plan Amount</label>
                                         <div class="input-group">
-                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
-                                                   disabled
-                                                   wire:model="price"
-                                                   class="form-control table-header-text" type="text">
+                                            <input disabled wire:model="price" class="form-control input-form-style table-header-text"
+                                                   type="text">
                                         </div>
                                     </div>
                                 </div>

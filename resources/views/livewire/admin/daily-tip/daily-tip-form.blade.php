@@ -105,7 +105,7 @@
             <label class="form-label text-white">Title</label>
             <div class="input-group">
                 <input id="firstName" wire:model="title" name="title"
-                       class="form-control text-white table-header-text" type="text">
+                       class="form-control input-form-style" type="text">
             </div>
         </div>
     </div>
@@ -113,7 +113,7 @@
         <div class="col-8">
             <label class="form-label text-white">Description</label>
             <div class="input-group">
-                    <textarea class="form-control text-white table-header-text" rows="5" cols="5"
+                    <textarea class="form-control input-form-style" rows="5" cols="5"
                               name="description"
                               wire:model="description"></textarea>
             </div>

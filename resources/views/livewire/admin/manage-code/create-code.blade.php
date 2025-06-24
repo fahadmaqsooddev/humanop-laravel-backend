@@ -35,23 +35,20 @@
         <div class="col-12">
             <label class="form-label text-white">Name</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff;" name="name"
-                       class="form-control" type="text" wire:model="name">
+                <input name="name" class="form-control input-form-style" type="text" wire:model="name">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label text-white">Public Name</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff;" name="public_name"
-                       class="form-control" type="text" wire:model="public_name"
-                       placeholder="Alec">
+                <input name="public_name" class="form-control input-form-style" type="text" wire:model="public_name" placeholder="Alec">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label text-white">Code</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff;" name="code"
-                       class="form-control" type="text" wire:model="code"
+                <input name="code"
+                       class="form-control input-form-style" type="text" wire:model="code"
                        placeholder="Alec">
             </div>
         </div>

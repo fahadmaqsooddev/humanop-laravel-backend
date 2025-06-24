@@ -5,10 +5,10 @@
 
         <style>
             .ck-editor__editable_inline {
-                background-color: #eaf3ff; /* Example: Change this to your desired background color */
+                background-color: #1b3a62; /* Example: Change this to your desired background color */
             }
             .ck-editor__editable{
-                background-color: #eaf3ff !important;
+                background-color: #1b3a62 !important;
             }
             .ck-editor{
                 border-radius: 0 !important;
@@ -174,10 +174,7 @@
                                     <div class="col-12">
                                         <label class="form-label" style="color: #1b3a62">Name</label>
                                         <div class="form-group">
-                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
-                                                   class="form-control"
-                                                   type="text" name="limit"
-                                                   wire:model="name" placeholder="icon name" >
+                                            <input class="form-control input-form-style " type="text" name="limit" wire:model="name" placeholder="icon name" >
                                             @error('name')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
@@ -187,10 +184,8 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="form-label" style="color: #1b3a62">Information</label>
-                                        <div class="form-group" style="color: #1b3a62" wire:ignore>
-                                            <textarea style="background-color: #eaf3ff;" class="form-control"
-                                                      rows="5" cols="5" name="information" id="editor"
-                                                      wire:model="information"></textarea>
+                                        <div class="form-group " wire:ignore>
+                                            <textarea rows="5" cols="5" name="information" id="editor" wire:model="information"></textarea>
                                             @error('information')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror

@@ -1,16 +1,11 @@
 @push('css')
     <style>
-        .ck-editor__editable_inline {
-            background-color: #eaf3ff; /* Example: Change this to your desired background color */
+        .note-editor.note-frame .note-editing-area .note-editable {
+            background-color: #1b3a62 !important;
+            color: white !important;
         }
-
-        .ck-editor__editable {
-            background-color: #eaf3ff !important;
-        }
-
-        .ck-editor {
-            border-radius: 0 !important;
-            width: 100% !important;
+        .note-editor.note-frame {
+            border: 1px solid #1b3a62;
         }
 
         .card {
@@ -34,39 +29,39 @@
         <div class="col-12">
             <label class="form-label">Name</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff ; color: #1B3A62 " name="name"
-                       class="form-control" type="text" wire:model.defer="select_code.name">
+                <input name="name"
+                       class="form-control input-form-style" type="text" wire:model.defer="select_code.name">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label">Public Name</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff ; color: #1B3A62 " name="public_name"
-                       class="form-control" type="text" wire:model.defer="select_code.public_name"
+                <input name="public_name"
+                       class="form-control input-form-style" type="text" wire:model.defer="select_code.public_name"
                        placeholder="Alec">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label">Code</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff ; color: #1B3A62 " name="code"
-                       class="form-control" type="text" wire:model.defer="select_code.code"
+                <input name="code"
+                       class="form-control input-form-style" type="text" wire:model.defer="select_code.code"
                        placeholder="Alec">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label">Type</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff ; color: #1B3A62 " name="type"
-                       class="form-control" type="text" wire:model.defer="select_code.type"
+                <input name="type"
+                       class="form-control input-form-style" type="text" wire:model.defer="select_code.type"
                        placeholder="Alec">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label">Text</label>
             <div class="input-group w-100" wire:ignore>
-                <textarea class="form-control table-header-text editor" id="summernote" rows="10"
-                          name="text">{{ $select_code['text'] }}</textarea>
+        <textarea class="form-control table-header-text editor" id="summernote" rows="10"
+                  name="text">{{ $select_code['text'] }}</textarea>
             </div>
         </div>
 
@@ -81,24 +76,29 @@
 
     <script>
         document.addEventListener('livewire:load', function () {
-
-            function initSummernote() {
-                $('#summernote').summernote({
-                    height: 200,
-                    callbacks: {
-                        onChange: function (contents, $editable) {
-                        @this.set('select_code.text', contents);
-                        }
+            // Initialize Summernote
+            $('#summernote').summernote({
+                height: 200,
+                callbacks: {
+                    onChange: function(contents, $editable) {
+                    @this.set('select_code.text', contents);
                     }
-                });
-            }
-
-            initSummernote();
-
-            Livewire.hook('message.processed', () => {
-                initSummernote();
+                }
             });
 
+            // Reinitialize Summernote after Livewire updates
+            Livewire.hook('message.processed', (message, component) => {
+                if (!$('#summernote').next().hasClass('note-editor')) {
+                    $('#summernote').summernote({
+                        height: 200,
+                        callbacks: {
+                            onChange: function(contents, $editable) {
+                            @this.set('select_code.text', contents);
+                            }
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endpush

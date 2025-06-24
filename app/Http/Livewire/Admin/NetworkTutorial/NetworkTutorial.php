@@ -35,11 +35,6 @@ class NetworkTutorial extends Component
         'description.string' => 'The description must be valid text.',
     ];
 
-    public function mount()
-    {
-
-    }
-
     public function getTutorials()
     {
         try {
@@ -95,6 +90,8 @@ class NetworkTutorial extends Component
 
         \App\Models\NetworkTutorial\NetworkTutorial::deleteTutorial($id);
 
+        $this->resetForm();
+
         session()->flash('success', 'Tutorial Deleted Successfully.');
 
 
@@ -102,9 +99,12 @@ class NetworkTutorial extends Component
 
     public function resetForm(){
 
-        $this->reset(['title','icon','description']);
+        $this->title = '';
+        $this->icon = '';
+        $this->description = '';
 
     }
+
     public function render()
     {
         $tutorials = $this->getTutorials();

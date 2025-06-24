@@ -95,20 +95,14 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label class="text-white">Email</label>
-                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
-                                                   class="form-control"
+                                            <input class="form-control input-form-style"
                                                    type="email" wire:model="email" name="email" placeholder="icon name">
                                             @error('email')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
 
                                             <label class="text-white mt-4">Upload csv file</label>
-                                            <input
-                                                style="background-color: #eaf3ff; color: #0f1534 !important;"
-                                                class="form-control"
-                                                type="file"
-                                                wire:model="file"
-                                                name="file"
+                                            <input class="form-control input-form-style" type="file" wire:model="file" name="file"
                                                 accept=".csv,.xlsx,.xls"
                                                 placeholder="Choose a file">
                                             @error('file')

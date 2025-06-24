@@ -25,16 +25,16 @@
                 <div class="col-6">
                     <label class="form-label text-color-dark">First Name</label>
                     <div class="input-group">
-                        <input style="background-color: #eaf3ff;" id="firstName"
+                        <input  id="firstName"
                                wire:model.defer="currentUser.first_name"
-                               class="form-control text-color-dark setting-box-background" type="text">
+                               class="form-control input-form-style " type="text">
                     </div>
                 </div>
                 <div class="col-6">
                     <label class="form-label text-color-dark">Last Name</label>
                     <div class="input-group">
-                        <input style="background-color: #eaf3ff;" id="lastName" wire:model.defer="currentUser.last_name"
-                               class="form-control text-color-dark setting-box-background" type="text" placeholder="{{$currentUser['last_name']}}">
+                        <input  id="lastName" wire:model.defer="currentUser.last_name"
+                               class="form-control input-form-style " type="text" placeholder="{{$currentUser['last_name']}}">
                     </div>
                 </div>
             </div>
@@ -43,15 +43,15 @@
                 <div class="col-6">
                     <label class="form-label mt-4 text-color-dark">Email</label>
                     <div class="input-group">
-                        <input style="background-color: #eaf3ff;" id="email" wire:model.defer="currentUser.email"
-                               class="form-control text-color-dark setting-box-background" type="email" placeholder="{{$currentUser['email']}}">
+                        <input  id="email" wire:model.defer="currentUser.email"
+                               class="form-control input-form-style " type="email" placeholder="{{$currentUser['email']}}">
                     </div>
                 </div>
                 <div class="col-6">
                     <label class="form-label mt-4 text-color-dark">Phone Number</label>
                     <div class="input-group">
-                        <input style="background-color: #eaf3ff;" id="phone" wire:model.defer="currentUser.phone"
-                               class="form-control text-color-dark setting-box-background" type="text" placeholder="Phone #">
+                        <input  id="phone" wire:model.defer="currentUser.phone"
+                               class="form-control input-form-style " type="text" placeholder="Phone #">
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4 text-color-dark">I'm</label>
-                    <select style="background-color: #eaf3ff" class="form-control text-color-dark setting-box-background" wire:model.defer="currentUser.gender" >
+                    <select style="background-color: #eaf3ff" class="form-control input-form-style " wire:model.defer="currentUser.gender" >
                         <option value="0">Male [XY]</option>
                         <option value="1">Female [XX]</option>
                     </select>
@@ -77,7 +77,7 @@
                         $current_year = (int)(\Carbon\Carbon::now()->year - 7);
                         ?>
 
-                        <select class="justify-content-center form-control m-1 setting-box-background text-color-dark" wire:model="month"
+                        <select class="justify-content-center form-control input-form-style m-1 setting-box-background text-color-dark" wire:model="month"
                                 style="border-radius: 12px;">
                             <option value="">Month</option>
                             @foreach($months as $key => $month)
@@ -85,7 +85,7 @@
                             @endforeach
                         </select>
 
-                        <select class="justify-content-center form-control m-1 setting-box-background text-color-dark" wire:model="day"
+                        <select class="justify-content-center form-control input-form-style m-1 setting-box-background text-color-dark" wire:model="day"
                                 style="border-radius: 12px;">
                             <option value="">Day</option>
                             @for($i = 1; $i <= 31; $i++)
@@ -93,7 +93,7 @@
                             @endfor
                         </select>
 
-                        <select class="justify-content-center form-control m-1 setting-box-background text-color-dark" wire:model="year"
+                        <select class="justify-content-center form-control input-form-style m-1 setting-box-background text-color-dark" wire:model="year"
                                 style=" border-radius: 12px;">
                             <option value="">Year</option>
                             @for($i = $current_year; $i >= 1900; $i--)
@@ -110,7 +110,7 @@
 
                 <div class="col-md-12 col-sm-12">
                     <label class="form-label mt-4 text-color-dark">Profile Image</label>
-                    <input type="file" class="form-control text-color-dark setting-box-background profileImage">
+                    <input type="file" class="form-control input-form-style  profileImage">
                 </div>
 
 

@@ -57,31 +57,27 @@
                                         <form role="form" class="text-start"
                                               action="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('login-client-to-practitioner')}}"
                                               method="POST">
-                                            <input type="text" class="form-control" hidden name="slug" value="{{$slug}}"
-                                                   style="background-color: #eaf3ff; color: black; border-radius: 15px;">
+                                            <input type="text" class="form-control input-form-style" hidden name="slug" value="{{$slug}}">
                                             <input type="text" class="form-control" hidden name="slug2"
-                                                   value="{{$slug2}}"
-                                                   style="background-color: #eaf3ff; color: black; border-radius: 15px;">
+                                                   value="{{$slug2}}">
                                             @endif
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="email" style="color: #0f1535; font-size: 15px">Email</label>
-                                                <input type="email" class="form-control" placeholder="Email"
+                                                <input type="email" class="form-control input-form-style" placeholder="Email"
                                                        aria-label="Email" name="email" id="email"
                                                        @if(isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}"
-                                                       @endif
-                                                       style="background-color: #eaf3ff; color: black; border-radius: 15px;">
+                                                       @endif>
                                             </div>
 
                                             <div class="mb-1 position-relative">
                                                 <label for="password"
                                                        style="color: #0f1535; font-size: 15px">Password</label>
-                                                <input type="password" class="form-control" placeholder="Password"
+                                                <input type="password" class="form-control input-form-style" placeholder="Password"
                                                        aria-label="Password" name="password" id="password"
                                                        maxlength="30"
                                                        @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}"
-                                                       @endif
-                                                       style="background-color: #eaf3ff; color: black; border-radius: 15px;">
+                                                       @endif>
 
                                                 <!-- Password toggle icon -->
                                                 <a class="position-absolute" id="togglePassword"

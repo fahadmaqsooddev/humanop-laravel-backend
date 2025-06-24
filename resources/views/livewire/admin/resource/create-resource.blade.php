@@ -2,11 +2,13 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
         .ck-editor__editable_inline {
-            background-color: #eaf3ff; /* Example: Change this to your desired background color */
+            background-color: #1b3a62; /* Example: Change this to your desired background color */
+            color: white;
         }
 
         .ck-editor__editable {
-            background-color: #eaf3ff !important;
+            background-color: #1b3a62 !important;
+            color: white;
         }
 
         .ck-editor {
@@ -218,7 +220,7 @@
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Category</label>
-                                        <select style="background-color: #eaf3ff;" class="form-control"
+                                        <select  class="form-control input-form-style"
                                                 wire:model.defer="category_id" placeholder="Select category">
                                             <option>Select a category</option>
                                             @foreach($dropDownCategories as $category)
@@ -231,13 +233,13 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Heading</label>
-                                        <input style="background-color: #eaf3ff;" class="form-control"
+                                        <input  class="form-control input-form-style"
                                                wire:model.defer="heading" placeholder="heading" type="text"
                                                maxlength="150">
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">All Relevance</label>
-                                        <select style="background-color: #eaf3ff; cursor: pointer" wire:model="relevance" class="form-control">
+                                        <select style="background-color: #eaf3ff; cursor: pointer" wire:model="relevance" class="form-control input-form-style">
                                             <option value="all_relevance">ALl Relevance</option>
                                             <option value="recommended">Highly Recommended</option>
                                             <option value="new">New</option>
@@ -245,18 +247,18 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Description</label>
-                                        <textarea style="background-color: #eaf3ff;" class="form-control"
+                                        <textarea  class="form-control input-form-style"
                                                   wire:model.defer="description" placeholder="Enter description"
                                                   rows="3"></textarea>
                                     </div>
                                     <div class="form-group mt-4" wire:ignore>
                                         <label class="form-label fs-4" style="color: #1b3a62">Content</label>
-                                        <textarea style="background-color: #eaf3ff;" class="form-control" id="editor"
+                                        <textarea  class="form-control input-form-style" id="editor"
                                                   name="content" wire:model="content" rows="10" cols="10"></textarea>
                                     </div>
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
-                                        <input style="background-color: #eaf3ff;" class="form-control text-white "
+                                        <input  class="form-control input-form-style"
                                                wire:model.debounce.500ms="link" placeholder="Link" type="text"
                                                id="embedlink" wire:change="getVideoLink">
                                     </div>
@@ -264,9 +266,9 @@
                                     <div class="form-group">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input style="background-color: #eaf3ff;" wire:model="resource_file"
+                                        <input  wire:model="resource_file"
                                                id="resourse_file" wire:change="getResourceFile"
-                                               class="form-control text-white resource_file" type="file"
+                                               class="form-control input-form-style resource_file" type="file"
                                                accept="image/*,video/*,audio/*">
                                         <span wire:loading.flex wire:target="resource_file">
                                             <div class="d-flex align-items-center mt-2">
@@ -342,7 +344,7 @@
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Category</label>
-                                        <select style="background-color: #eaf3ff;" class="form-control"
+                                        <select  class="form-control input-form-style"
                                                 wire:model.defer="category_id" placeholder="Select category">
                                             @foreach($dropDownCategories as $category)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
@@ -351,12 +353,12 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Heading</label>
-                                        <input style="background-color: #eaf3ff;" class="form-control"
+                                        <input  class="form-control input-form-style"
                                                wire:model.defer="heading" placeholder="heading" type="text">
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">All Relevance</label>
-                                        <select style="background-color: #eaf3ff; cursor: pointer" wire:model.defer="relevance" class="form-control">
+                                        <select style="background-color: #eaf3ff; cursor: pointer" wire:model.defer="relevance" class="form-control input-form-style">
                                             <option value="all_relevance">ALl Relevance</option>
                                             <option value="recommended">Highly Recommended</option>
                                             <option value="new">New</option>
@@ -364,35 +366,35 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Description</label>
-                                        <textarea style="background-color: #eaf3ff;" class="form-control"
+                                        <textarea  class="form-control input-form-style"
                                                   wire:model.defer="description" placeholder="Enter description"
                                                   rows="3"></textarea>
                                     </div>
                                     <div class="form-group mt-4" wire:ignore>
                                         <label class="form-label fs-4" style="color: #1b3a62">Content</label>
-                                        <textarea style="background-color: #eaf3ff;" class="form-control"
+                                        <textarea  class="form-control input-form-style"
                                                   id="resourse_editor" name="update_content" wire:model="update_content"
                                                   rows="10">
                                         </textarea>
                                     </div>
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
-                                        <input style="background-color: #eaf3ff;" class="form-control text-white "
+                                        <input  class="form-control input-form-style"
                                                wire:model.debounce.500ms="link" placeholder="Link" type="text"
                                                id="embedlink" wire:change="getVideoLink">
                                     </div>
                                     <label class="form-label fs-4 text-white ">OR</label>
                                     <div class="form-group mt-4 " hidden>
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource Id</label>
-                                        <input style="background-color: #eaf3ff;" class="form-control"
+                                        <input  class="form-control input-form-style"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input style="background-color: #eaf3ff;" wire:model="resource_file"
+                                        <input  wire:model="resource_file"
                                                id="resource_file" wire:change="getResourceFile"
-                                               class="form-control text-white resource_file1" type="file"
+                                               class="form-control input-form-style resource_file1" type="file"
                                                accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
                                     </div>
                                     <span wire:loading.flex wire:target="resource_file">
@@ -519,7 +521,7 @@
                     <br>
                     <p class="modal-close-btn">@include('layouts.message')</p>
                     <label>Category Name </label>
-                    <input style="background-color: #eaf3ff;" class="form-control" wire:model.defer="category_name"
+                    <input  class="form-control input-form-style" wire:model.defer="category_name"
                            placeholder="Enter category name" type="text" maxlength="191">
                     <div class="p-2">
                         <button wire:click="createCategory" style="background-color: #1B3A62 ; color: white"
@@ -554,7 +556,7 @@
                                     <label class="form-label fs-5 text-white">Move Resources To An Other
                                         Category</label>
                                     <br/>
-                                    <select style="background-color: #eaf3ff;" class="form-control"
+                                    <select  class="form-control input-form-style"
                                             wire:model.defer="category_id" placeholder="Select category">
                                         <option value="">Select Category</option>
                                         @foreach($dropDownCategories as $category)

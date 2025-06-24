@@ -7,7 +7,7 @@
         <div class="card-body pt-0">
             <label class="form-label text-color-dark">Timezone</label>
             <div class="form-group">
-                <select class="form-control setting-box-background text-color-dark" name="timezone" wire:model="timezone">
+                <select class="form-control input-form-style" name="timezone" wire:model="timezone">
                     @foreach($timezones as $timezone)
                         <option value="{{$timezone}}">{{$timezone}}</option>
                     @endforeach

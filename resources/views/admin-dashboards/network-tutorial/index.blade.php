@@ -37,8 +37,8 @@
     }
 
     .note-editor.note-frame .note-editing-area .note-editable {
-        background-color: #eaf3ff !important;
-        color: #1b3a62 !important;
+        background-color: #1b3a62 !important;
+        color: white !important;
     }
     .note-editor.note-frame {
         border: 1px solid #1b3a62;
