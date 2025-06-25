@@ -541,7 +541,13 @@ class AuthController extends Controller
 
                 $token = User::generateToken($checkUserEmail['email']);
 
-                $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
+                if (!empty($request['change_password_from']))
+                {
+                    $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'] . '&change_password_from=' . $request['change_password_from'];
+                }else
+                {
+                    $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
+                }
 
                 $emailData = $this->prepareEmailData($checkUserEmail, $url);
 

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('daily_tip', 'DashboardController@dailyTip');
+    Route::post('favorite-daily-tip', 'DashboardController@favoriteDailyTip');
     Route::get('podcast', 'DashboardController@latestPodcast');
     Route::get('core-stats', 'DashboardController@coreStats');
     Route::post('daily-tip-read', 'DashboardController@dailyTipRead');

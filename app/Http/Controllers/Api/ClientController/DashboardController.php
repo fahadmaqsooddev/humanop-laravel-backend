@@ -122,6 +122,24 @@ class DashboardController extends Controller
 
     }
 
+    public function favoriteDailyTip(Request $request)
+    {
+        try {
+
+            $favoriteTip = UserDailyTip::userFavoriteDailyTip($request['daily_tip_id']);
+
+            $message = 'Your daily tip has been ' . ($favoriteTip['favorite_tip'] == 2 ? 'favorited' : 'not favorited') . '.';
+
+            return Helpers::successResponse($message);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
     public function latestPodcast()
     {
 

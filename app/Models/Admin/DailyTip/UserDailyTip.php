@@ -46,6 +46,22 @@ class UserDailyTip extends Model
         return self::getLatestTip();
     }
 
+    public static function userFavoriteDailyTip($tipId = null)
+    {
+        $userId = Helpers::getUser()['id'] ?? Helpers::getWebUser()['id'];
+
+        $userTip = self::where('user_id', $userId)->where('daily_tip_id', $tipId)->first();
+
+        if (!empty($userTip)) {
+
+            $userTip->update(['favorite_tip' => $userTip->favorite_tip == 1 ? 2 : 1]);
+
+            return $userTip;
+        }
+
+        return false;
+    }
+
     public static function readUserDailyTip()
     {
 
