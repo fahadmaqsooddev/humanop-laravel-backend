@@ -140,6 +140,35 @@ class DashboardController extends Controller
 
     }
 
+    public function getFavoriteDailyTip()
+    {
+        try {
+            $favoriteTips = UserDailyTip::getUserFavoriteDailyTip();
+
+            $tips = [];
+
+            foreach ($favoriteTips as $favoriteTip) {
+
+                foreach ($favoriteTip['dailyTips'] as $dailyTip) {
+
+                    $tips[] = [
+                        'title' => $dailyTip['title'] ?? '',
+                        'description' => $dailyTip['description'] ?? '',
+
+                    ];
+                };
+
+            }
+
+            return Helpers::successResponse('Your favorite daily tips', $tips);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
     public function latestPodcast()
     {
 

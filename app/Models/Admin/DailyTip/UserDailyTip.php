@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\DailyTip;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,11 @@ class UserDailyTip extends Model
     public function dailyTip()
     {
         return $this->hasOne(DailyTip::class, 'id', 'daily_tip_id');
+    }
+
+    public function dailyTips()
+    {
+        return $this->hasMany(DailyTip::class, 'id', 'daily_tip_id');
     }
 
     public static function getLatestTip()
@@ -54,12 +60,20 @@ class UserDailyTip extends Model
 
         if (!empty($userTip)) {
 
-            $userTip->update(['favorite_tip' => $userTip->favorite_tip == 1 ? 2 : 1]);
+            $userTip->update(['favorite_tip' => $userTip->favorite_tip == 1 ? Admin::FAVORITE_DAILY_TIP : Admin::NOT_FAVORITE_DAILY_TIP]);
 
             return $userTip;
         }
 
         return false;
+    }
+
+    public static function getUserFavoriteDailyTip()
+    {
+
+        $userId = Helpers::getUser()['id'] ?? Helpers::getWebUser()['id'];
+
+        return self::where('user_id', $userId)->where('favorite_tip', 2)->with('dailyTips')->orderBy('updated_at', 'DESC')->get();
     }
 
     public static function readUserDailyTip()

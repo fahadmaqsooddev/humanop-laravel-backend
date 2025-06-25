@@ -161,4 +161,8 @@ final class Admin
     const SHARE_ASSESSMENT = 1;
 
     const NOT_SHARE_ASSESSMENT = 2;
+
+    const FAVORITE_DAILY_TIP = 2;
+
+    const NOT_FAVORITE_DAILY_TIP = 1;
 }
