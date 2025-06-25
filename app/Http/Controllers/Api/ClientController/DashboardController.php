@@ -7,7 +7,7 @@ use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
-use App\Models\CLient\HumanOpPoints\HumanOpPoints;
+use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Notification\PushNotification;
 use Carbon\Carbon;
 use App\Models\User;

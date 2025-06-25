@@ -6,7 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Models\Admin\Notification\Notification;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
-use App\Models\CLient\HumanOpPoints\HumanOpPoints;
+use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
 use App\Models\Upload\Upload;

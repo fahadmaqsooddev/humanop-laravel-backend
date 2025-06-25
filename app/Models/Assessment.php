@@ -12,7 +12,7 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Client\Dashboard\ActionPlan;
-use App\Models\CLient\HumanOpPoints\HumanOpPoints;
+use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\GenerateFile\PdfGenerate;
 use Carbon\Carbon;
 use Faker\Extension\Helper;
