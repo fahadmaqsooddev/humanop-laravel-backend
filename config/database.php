@@ -342,12 +342,12 @@ return [
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Point' => [
-            'table' => 'points',
+            'table' => 'hai_points',
             'fillable' => ['user_id','point'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'PointLog' => [
-            'table' => 'point_logs',
+            'table' => 'hai_point_logs',
             'fillable' => ['user_id','point','type','plan','is_added'],
             'hidden' => ['updated_at', 'created_at'],
         ],
