@@ -619,7 +619,7 @@ return [
             'fillable' => ['user_id','login_days','complete_streaks'],
             'hidden' => ['updated_at','created_at'],
         ],
-        'HumanopPoints' => [
+        'HumanOpPoints' => [
             'table' => 'humanop_points',
             'fillable' => ['user_id','points'],
             'hidden' => ['updated_at','created_at'],

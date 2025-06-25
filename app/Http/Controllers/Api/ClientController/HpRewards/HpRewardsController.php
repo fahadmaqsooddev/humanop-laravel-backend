@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\ClientController\HpRewards;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
-use App\Models\CLient\HumanopPoints\LoginStreaks;
+use App\Models\CLient\HumanOpPoints\LoginStreaks;
 use Illuminate\Http\Request;
 
 class HpRewardsController extends Controller

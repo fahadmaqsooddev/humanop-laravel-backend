@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models\CLient\HumanopPoints;
+namespace App\Models\CLient\HumanOpPoints;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HumanopPoints extends Model
+class HumanOpPoints extends Model
 {
     use HasFactory;
 

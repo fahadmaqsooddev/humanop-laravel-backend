@@ -7,7 +7,7 @@ use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
-use App\Models\CLient\HumanopPoints\HumanopPoints;
+use App\Models\CLient\HumanOpPoints\HumanOpPoints;
 use App\Models\Notification\PushNotification;
 use Carbon\Carbon;
 use App\Models\User;
@@ -88,7 +88,7 @@ class DashboardController extends Controller
 
                             $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
-                            HumanopPoints::addPointsAfterCompleteDailyTip($user['id']);
+                            HumanOpPoints::addPointsAfterCompleteDailyTip($user['id']);
 
                             $message = 'Your New Daily Tip';
 
@@ -178,7 +178,7 @@ class DashboardController extends Controller
 
             $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-            $points = HumanopPoints::getUserPoints($user);
+            $points = HumanOpPoints::getUserPoints($user);
 
             $hp['points'] = $points['points'];
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\CLient\HumanopPoints;
+namespace App\Models\CLient\HumanOpPoints;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
