@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\CLient\HumanOpPoints;
+namespace App\Models\Client\HumanOpPoints;
 
 use App\Enums\Admin\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
