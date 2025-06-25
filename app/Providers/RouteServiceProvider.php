@@ -20,7 +20,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/login';
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
-    protected $B2BApiClientController = 'App\Http\Controllers\B2BControllers\B2BApi';
+    protected $HpRewardsClientController = 'App\Http\Controllers\Api\ClientController\HpRewards';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
     protected $ChatAiNamespace = 'App\Http\Controllers\Api\ClientController\ChatAi';
@@ -69,11 +69,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/auth/auth_api.php'));
 
-
-
-
-
-
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/payment/payment_api.php'));
@@ -121,6 +116,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/credits/credits_api.php'));
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->HpRewardsClientController)
+                ->group(base_path('routes/client_apis/hp_rewards/hp_rewards_api.php'));
         });
     }
 

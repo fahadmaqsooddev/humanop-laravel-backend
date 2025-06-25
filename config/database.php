@@ -613,6 +613,16 @@ return [
             'table' => 'network_tutorials',
             'fillable' => ['title','description','icon_id'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'LoginStreaks' => [
+            'table' => 'login_streaks',
+            'fillable' => ['user_id','login_days','complete_streaks'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'HumanopPoints' => [
+            'table' => 'humanop_points',
+            'fillable' => ['user_id','points'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];

@@ -7,6 +7,7 @@ use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\CLient\HumanopPoints\HumanopPoints;
 use App\Models\Notification\PushNotification;
 use Carbon\Carbon;
 use App\Models\User;
@@ -161,6 +162,25 @@ class DashboardController extends Controller
             }
 
             return Helpers::successResponse('Your favorite daily tips', $tips);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function getHp()
+    {
+        try {
+
+            $user = Helpers::getWebUser() ?? Helpers::getUser();
+
+            $points = HumanopPoints::getUserPoints($user);
+
+            $hp['points'] = $points['points'];
+
+            return Helpers::successResponse('Your HumanOp Points', $hp);
 
         } catch (\Exception $exception) {
 

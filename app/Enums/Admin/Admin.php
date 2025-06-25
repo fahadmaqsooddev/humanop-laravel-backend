@@ -165,4 +165,8 @@ final class Admin
     const FAVORITE_DAILY_TIP = 2;
 
     const NOT_FAVORITE_DAILY_TIP = 1;
+
+    const DAILY_LOGIN_POINT_FOR_CLARITY = 5;
+
+    const COMPLETE_ASSESSMENT_POINT_FOR_CLARITY = 250;
 }

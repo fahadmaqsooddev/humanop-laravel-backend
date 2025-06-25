@@ -12,6 +12,7 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\CLient\HumanopPoints\HumanopPoints;
 use App\Models\GenerateFile\PdfGenerate;
 use Carbon\Carbon;
 use Faker\Extension\Helper;
@@ -1443,6 +1444,8 @@ class Assessment extends Model
 
                 event(new SubmitAssessment(Helpers::getUser()['id'], $current_page + 1));
             }
+
+            HumanopPoints::addPointsAfterCompleteAssessment($existingAssessment['user_id']);
 
             AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
 

@@ -635,7 +635,17 @@ class AuthController extends Controller
 
                     $token = $this->auth->attempt($credentials);
 
-                    Helpers::checkAndAddBonusCredits($checkUser);
+                    $minutes = Helpers::explodeTimezoneWithHours($checkUser['timezone']);
+
+                    $currentTime = Carbon::now()->addMinutes($minutes * 60);
+
+                    Helpers::checkAndAddBonusCredits($checkUser, $currentTime);
+
+                    Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
+
+                    $checkUser['last_login'] = $currentTime;
+
+                    $checkUser->save();
 
                 }
 

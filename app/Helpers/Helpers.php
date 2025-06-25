@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Models\Admin\Notification\Notification;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
+use App\Models\CLient\HumanopPoints\HumanopPoints;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
 use App\Models\Upload\Upload;
@@ -337,6 +338,7 @@ class Helpers
             }
         }
     }
+
     public static function getAudio($audio, $is_original_name = 0)
     {
 
@@ -601,28 +603,24 @@ class Helpers
 
     }
 
-    public static function checkAndAddBonusCredits($user = null){
-
-        $minutes = self::explodeTimezoneWithHours($user['timezone']);
-
-        $currentTime = Carbon::now()->addMinutes($minutes * 60);
+    public static function checkAndAddBonusCredits($user = null, $currentTime = null)
+    {
 
         $credits_log = $user['credits_log'] + 1;
 
-        // Check if at least 1 full day has passed since last login
         if ($currentTime->diffInDays($user['last_login']) == 1) {
 
-            $user->update(['credits_log' => $credits_log, "last_login" => $currentTime]);
+            $user->update(['credits_log' => $credits_log]);
 
         } elseif ($currentTime->diffInDays($user['last_login']) > 1) {
 
-            $user->update(['credits_log' => 1, "last_login" => $currentTime]);
+            $user->update(['credits_log' => 1]);
 
-        }else {
+        } else {
 
             if ($user['credits_log'] == 5) {
 
-                $user->update(['credits_log' => 0, "last_login" => $currentTime]);
+                $user->update(['credits_log' => 0]);
 
                 $point = match ($user['plan_name']) {
                     'Freemium' => 1,
@@ -640,6 +638,13 @@ class Helpers
 
             }
         }
+
+    }
+
+    public static function checkAndAddHumanOpPoints($user = null, $currentTime = null)
+    {
+
+        HumanopPoints::createOrUpdateUserPoints($user, $currentTime);
 
     }
 
