@@ -37,6 +37,18 @@ class HumanopPoints extends Model
         return $getPoint;
     }
 
+    public static function addPointsAfterCompleteDailyTip($userId = null)
+    {
+
+        $getPoint = self::where('user_id', $userId)->first();
+
+        $getPoint->points += Admin::COMPLETE_DAILY_TIP_POINT_FOR_CLARITY;
+
+        $getPoint->save();
+
+        return $getPoint;
+    }
+
     public static function createOrUpdateUserPoints($user = null, $currentTime = null)
     {
         $checkPoint = self::getUserPoints($user);

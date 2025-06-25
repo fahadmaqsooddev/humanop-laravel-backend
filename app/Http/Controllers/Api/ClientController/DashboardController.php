@@ -88,6 +88,8 @@ class DashboardController extends Controller
 
                             $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
+                            HumanopPoints::addPointsAfterCompleteDailyTip($user['id']);
+
                             $message = 'Your New Daily Tip';
 
                             event(new NewDailyTip($user['id'], 'new daily tip', $message));

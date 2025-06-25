@@ -87,6 +87,7 @@ final class Admin
     const B2B_SHARE_DATA_NOTIFICATION = 11;
 
     const B2B_NOT_SHARE_DATA_NOTIFICATION = 12;
+
     const REQUEST_ACCESS_DATA_NOTIFICATION = 13;
 
     const OPTIMAL_TRAIT = 14;
@@ -140,6 +141,7 @@ final class Admin
     const B2C_NOTIFICATION=0;
 
     const B2B_PLAN=1;
+
     const B2C_PLAN=0;
 
     const REQUEST_SEND=1;
@@ -169,4 +171,6 @@ final class Admin
     const DAILY_LOGIN_POINT_FOR_CLARITY = 5;
 
     const COMPLETE_ASSESSMENT_POINT_FOR_CLARITY = 250;
+
+    const COMPLETE_DAILY_TIP_POINT_FOR_CLARITY = 10;
 }
