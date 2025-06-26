@@ -61,9 +61,12 @@ class DashboardController extends Controller
                         HaiChatHelpers::syncUserRecordWithHAi();
 
                         $data = [
+                            'daily_tip_id' => $userDailyTip['daily_tip_id'],
                             'title' => $userDailyTip['dailyTip']['title'] ?? '',
                             'description' => $userDailyTip['dailyTip']['description'] ?? '',
                             'is_read' => $isRead,
+                            'favorite_daily_tip' => $userDailyTip['favorite_tip'],
+
                             'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
                         ];
 
@@ -99,9 +102,11 @@ class DashboardController extends Controller
                             Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
                             $data = [
+                                'daily_tip_id' => $newUserDailyTip['daily_tip_id'],
                                 'title' => $newUserDailyTip['dailyTip']['title'],
                                 'description' => $newUserDailyTip['dailyTip']['description'],
                                 'is_read' => $newUserDailyTip['is_read'],
+                                'favorite_daily_tip' => $newUserDailyTip['favorite_tip'],
                                 'created_at' => $newUserDailyTip['is_read'] == 1 ? $newUserDailyTip['updated_at'] : null,
                             ];
 
