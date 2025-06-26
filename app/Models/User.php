@@ -1802,4 +1802,40 @@ class User extends Authenticatable implements JWTSubject
         return $users;
     }
 
+    public static function userDailyTraits($user_id){
+
+        $assessment = Assessment::getLatestAssessment($user_id);
+
+        $topThreeStyles = Assessment::getAllStyles($assessment);
+
+        $topFeatures = Assessment::getFeatures($assessment);
+
+        $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
+
+        $stylesAndDrivers = array_merge($topThreeStyles, $topTwoFeatures);
+
+        $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user_id);
+
+        if (count($stylesAndDrivers) > 2) {
+
+            $optionalTraitMorning = $stylesAndDrivers[0]['public_name'] ?? null;
+
+            $optionalTraitEvening = $stylesAndDrivers[1]['public_name'] ?? null;
+
+            $optionalTraitNight = $stylesAndDrivers[2]['public_name'] ?? null;
+
+            $currentOptionalTrait = $userOptimalTrait['optimal_trait'] ?? null;
+
+            return [
+                'morning_trait' => $optionalTraitMorning,
+                'evening_trait' => $optionalTraitEvening,
+                'night_trait' => $optionalTraitNight,
+                'current_trait' => $currentOptionalTrait,
+            ];
+        }
+
+        return [];
+
+    }
+
 }

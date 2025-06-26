@@ -10,6 +10,8 @@ use App\Models\Assessment;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\IntentionPlan\IntentionPlan;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Smalot\PdfParser\Parser;
 class HaiChatHelpers
 {
@@ -114,6 +116,8 @@ class HaiChatHelpers
 
         $b2b_intentions = SelectIntentionOption::selectB2BIntentionOption($user['id']);
 
+        $userCurrentTraits = User::userDailyTraits($user->id);
+
         $data = [
             'user_detail' => [
                 'name' => ($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''),
@@ -138,12 +142,17 @@ class HaiChatHelpers
             'optimization_plan' => $optimizationPlan,
             'daily_tip' => ($userDailyTip['dailyTip'] ?? null),
             'b2b_intentions' => $b2b_intentions ?? null,
+            'current_trait' => $userCurrentTraits,
 
         ];
 
         $body = ["user_id" => $user['id'], "connected_users_data" => $data];
 
-        GuzzleHelpers::sendRequestFromGuzzleForNewHai('post',"NewHaiApi/users", $body);
+        $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post',"NewHaiApi/users", $body);
+
+        Log::info(['hai chat sync res' => $response]);
+
+
 
     }
 }
