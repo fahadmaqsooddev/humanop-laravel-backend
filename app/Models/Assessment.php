@@ -1661,7 +1661,7 @@ class Assessment extends Model
     public static function getCoreState($assessment = null, $dateOfBirth = null)
     {
 
-        $interval_of_life = User::getUserAge($dateOfBirth);
+        $interval_of_life = User::getUserAge($dateOfBirth, $assessment);
 
         $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 

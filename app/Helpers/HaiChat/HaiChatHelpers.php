@@ -137,7 +137,7 @@ class HaiChatHelpers
             'perception' => ($coreState['perception'] ?? null),
             'optimization_plan' => $optimizationPlan,
             'daily_tip' => ($userDailyTip['dailyTip'] ?? null),
-            'b2b_intentions' => $b2b_intentions,
+            'b2b_intentions' => $b2b_intentions ?? null,
 
         ];
 
