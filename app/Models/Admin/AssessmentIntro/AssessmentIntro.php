@@ -60,7 +60,7 @@ class AssessmentIntro extends Model
         $data = self::where('code', 'SI')->first();
 
         return [
-            'public_name' => $data->name ?? '',
+            'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video' => $data['video_url'] ?? ''
         ];
@@ -77,7 +77,7 @@ class AssessmentIntro extends Model
         $data = self::where('code', 'MRI')->first();
 
         return [
-            'public_name' => $data->name ?? '',
+            'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video' => $data['video_url'] ?? ''
         ];

@@ -533,8 +533,6 @@ class UserController extends Controller
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
-            //            $perception_life = CodeDetail::getPerceptionStaticText();
-
             $perception_life = AssessmentIntro::getPerceptionStaticText();
 
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
@@ -551,8 +549,7 @@ class UserController extends Controller
             $intro_boundaries = AssessmentIntro::introBoundaries();
             $intro_communication = AssessmentIntro::introCommunication();
             $intro_energypool = AssessmentIntro::introEnergypool();
-            $intro_perceptionlife = AssessmentIntro::perceptionLife();
-
+            
             $style_position = AssessmentColorCode::getStylePosition($assessment->id);
             $feature_position = AssessmentColorCode::getFeaturePosition($assessment->id);
             $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
@@ -592,10 +589,13 @@ class UserController extends Controller
             ];
 
             return Helpers::successResponse('Profile overview data', $data);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function summaryReport(Request $request)
