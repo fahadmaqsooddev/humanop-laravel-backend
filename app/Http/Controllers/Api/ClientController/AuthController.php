@@ -1067,7 +1067,7 @@ class AuthController extends Controller
                 'energy_pool' => $coreState['energyPool'],
                 'perception' => $coreState['perception'],
                 'optimization_plan' => $optimizationPlan,
-                'daily_tip' => $userDailyTip['dailyTip'],
+                'daily_tip' => $userDailyTip['dailyTip'] ?? '',
 
             ];
 

@@ -151,15 +151,26 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        return UserShareAssessment::getSingleRecord($user['id']);
+        if (!empty($user))
+        {
+            return UserShareAssessment::getSingleRecord($user['id']);
 
+        }
+
+        return null;
     }
 
     public function getUserTaglineAttribute()
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        return UserTagline::getTags($user['id'])->pluck('tagline')->toArray();
+        if (!empty($user))
+        {
+            return UserTagline::getTags($user['id'])->pluck('tagline')->toArray();
+
+        }
+
+        return null;
     }
 
 
