@@ -36,6 +36,30 @@ class HumanOpPoints extends Model
         return $getPoint;
     }
 
+    public static function addPointsAfterCompleteWatchVideo($userId = null)
+    {
+
+        $getPoint = self::where('user_id', $userId)->first();
+
+        $getPoint->points += Admin::COMPLETE_WATCH_VIDEO_POINT_FOR_CLARITY;
+
+        $getPoint->save();
+
+        return $getPoint;
+    }
+
+    public static function addPointsAfterCompleteAllWatchVideos($userId = null)
+    {
+
+        $getPoint = self::where('user_id', $userId)->first();
+
+        $getPoint->points += Admin::COMPLETE_ALL_WATCH_VIDEOS_POINT_FOR_CLARITY;
+
+        $getPoint->save();
+
+        return $getPoint;
+    }
+
     public static function addPointsAfterCompleteDailyTip($userId = null)
     {
 

@@ -623,6 +623,11 @@ return [
             'table' => 'humanop_points',
             'fillable' => ['user_id','points'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'VideoProgress' => [
+            'table' => 'video_progress',
+            'fillable' => ['assessment_id','video_name','video_progress'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];

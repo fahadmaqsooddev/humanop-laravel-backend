@@ -8,6 +8,7 @@ use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
+use App\Http\Requests\Api\Client\CompleteWatchVideoRequest;
 use App\Http\Requests\Api\Client\TwoWayAuthRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
@@ -30,6 +31,7 @@ use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Upload\Upload;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
+use App\Models\Videos\VideoProgress;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +40,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use Svg\Tag\UseTag;
+use function PHPUnit\Framework\lessThanOrEqual;
 
 class UserController extends Controller
 {
@@ -517,7 +520,7 @@ class UserController extends Controller
 
             $user_age = Carbon::parse($get_user['date_of_birth'])->age;
 
-            $interval_life = User::getUserAge($get_user['date_of_birth']);
+            $interval_life = User::getUserAge($get_user['date_of_birth'], $assessment);
 
             $user_name = $get_user['first_name'] . ' ' . $get_user['last_name'];
 
@@ -533,23 +536,39 @@ class UserController extends Controller
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
-            $perception_life = AssessmentIntro::getPerceptionStaticText();
-
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
 
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
 
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
 
-            $summary_static = AssessmentIntro::summaryIntro();
-            $main_result = AssessmentIntro::mainResult();
-            $cycle_life = AssessmentIntro::cycleLife();
-            $trait_intro = AssessmentIntro::traitIntro();
-            $motivation_intro = AssessmentIntro::motivationIntroduction();
-            $intro_boundaries = AssessmentIntro::introBoundaries();
-            $intro_communication = AssessmentIntro::introCommunication();
-            $intro_energypool = AssessmentIntro::introEnergypool();
-            
+            $summary_static = AssessmentIntro::summaryIntro($assessment['id']);
+            $main_result = AssessmentIntro::mainResult($assessment['id']);
+            $cycle_life = AssessmentIntro::cycleLife($assessment['id']);
+            $trait_intro = AssessmentIntro::traitIntro($assessment['id']);
+            $motivation_intro = AssessmentIntro::motivationIntroduction($assessment['id']);
+            $intro_boundaries = AssessmentIntro::introBoundaries($assessment['id']);
+            $intro_communication = AssessmentIntro::introCommunication($assessment['id']);
+            $intro_energypool = AssessmentIntro::introEnergypool($assessment['id']);
+            $perception_life = AssessmentIntro::getPerceptionStaticText($assessment['id']);
+
+            $resultIntroInfoName = [
+                $cycle_life['name'],
+                $interval_life['name'],
+                $main_result['name'],
+                $trait_intro['name'],
+                $motivation_intro['name'],
+                $intro_boundaries['name'],
+                $intro_communication['name'],
+                $intro_energypool['name'],
+                $perception_life['name'],
+                $boundary['name'],
+                $perception['name'],
+                $energyPool['name'],
+            ];
+
+            VideoProgress::createVideoProgress($assessment['id'], $resultIntroInfoName, $allStyles, $topTwoFeatures, $topCommunication);
+
             $style_position = AssessmentColorCode::getStylePosition($assessment->id);
             $feature_position = AssessmentColorCode::getFeaturePosition($assessment->id);
             $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
@@ -597,6 +616,29 @@ class UserController extends Controller
         }
 
     }
+
+    public function completeWatchVideo(CompleteWatchVideoRequest $request)
+    {
+        try {
+            $watchVideo = VideoProgress::completeWatchVideo($request['assessment_id'], $request['video_name']);
+
+            if (!empty($watchVideo)) {
+
+                return Helpers::successResponse("Congratulations! You completed watching the video: {$watchVideo['video_name']}.");
+
+            } else {
+
+                return Helpers::validationResponse('Watch video failed or already completed.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
 
     public function summaryReport(Request $request)
     {

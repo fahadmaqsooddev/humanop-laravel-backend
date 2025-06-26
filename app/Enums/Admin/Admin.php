@@ -172,5 +172,13 @@ final class Admin
 
     const COMPLETE_ASSESSMENT_POINT_FOR_CLARITY = 250;
 
+    const COMPLETE_WATCH_VIDEO_POINT_FOR_CLARITY = 30;
+
+    const COMPLETE_ALL_WATCH_VIDEOS_POINT_FOR_CLARITY = 50;
+
     const COMPLETE_DAILY_TIP_POINT_FOR_CLARITY = 10;
+
+    const COMPLETE_VIDEO = 'Completed';
+
+    const NOT_COMPLETE_VIDEO = 'Not Completed';
 }
