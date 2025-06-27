@@ -327,7 +327,7 @@ class DashboardController extends Controller
 
             } else {
 
-                return Helpers::notFoundResponse('Assessment not found');
+                return Helpers::validationResponse('Assessment not found');
 
             }
 
