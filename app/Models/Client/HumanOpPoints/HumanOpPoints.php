@@ -3,6 +3,8 @@
 namespace App\Models\Client\HumanOpPoints;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\Helpers;
+use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,17 +26,21 @@ class HumanOpPoints extends Model
         return self::where('user_id', $user['id'])->first();
     }
 
-    public static function addPointsAfterCompleteAssessment($userId = null)
+    public static function addPointsAfterCompleteAssessment($user = null)
     {
 
-        $getPoint = self::where('user_id', $userId)->first();
+        $getPoint = self::where('user_id', $user['id'])->first();
 
         if (is_null($getPoint)) {
 
-            return self::create([
-                'user_id' => $userId,
+            $getPoint =  self::create([
+                'user_id' => $user['id'],
                 'points' => Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY,
             ]);
+
+            Helpers::checkAndTakePerformanceLevel($user);
+
+            return $getPoint;
 
         }
 
@@ -42,42 +48,50 @@ class HumanOpPoints extends Model
 
         $getPoint->save();
 
+        Helpers::checkAndTakePerformanceLevel($user);
+
         return $getPoint;
 
     }
 
-    public static function addPointsAfterCompleteWatchVideo($userId = null)
+    public static function addPointsAfterCompleteWatchVideo($user = null)
     {
 
-        $getPoint = self::where('user_id', $userId)->first();
+        $getPoint = self::where('user_id', $user['id'])->first();
 
         $getPoint->points += Admin::COMPLETE_WATCH_VIDEO_POINT_FOR_CLARITY;
 
         $getPoint->save();
 
+        Helpers::checkAndTakePerformanceLevel($user);
+
         return $getPoint;
     }
 
-    public static function addPointsAfterCompleteAllWatchVideos($userId = null)
+    public static function addPointsAfterCompleteAllWatchVideos($user = null)
     {
 
-        $getPoint = self::where('user_id', $userId)->first();
+        $getPoint = self::where('user_id', $user['id'])->first();
 
         $getPoint->points += Admin::COMPLETE_ALL_WATCH_VIDEOS_POINT_FOR_CLARITY;
 
         $getPoint->save();
 
+        Helpers::checkAndTakePerformanceLevel($user);
+
         return $getPoint;
     }
 
-    public static function addPointsAfterCompleteDailyTip($userId = null)
+    public static function addPointsAfterCompleteDailyTip($user = null)
     {
 
-        $getPoint = self::where('user_id', $userId)->first();
+        $getPoint = self::where('user_id', $user['id'])->first();
 
         $getPoint->points += Admin::COMPLETE_DAILY_TIP_POINT_FOR_CLARITY;
 
         $getPoint->save();
+
+        Helpers::checkAndTakePerformanceLevel($user);
 
         return $getPoint;
     }
@@ -93,6 +107,8 @@ class HumanOpPoints extends Model
                 'user_id' => $user['id'],
                 'points' => Admin::DAILY_LOGIN_POINT_FOR_CLARITY,
             ]);
+
+            Helpers::checkAndTakePerformanceLevel($user);
 
             return LoginStreaks::startLoginStreak($user);
         }
@@ -113,6 +129,8 @@ class HumanOpPoints extends Model
 
                 $checkPoint->points += Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
 
+                Helpers::checkAndTakePerformanceLevel($user);
+
             } else {
 
                 // Update streak and add bonus points
@@ -125,6 +143,8 @@ class HumanOpPoints extends Model
                 $checkPoint->points += $bonus;
 
                 $checkPoint->save();
+
+                Helpers::checkAndTakePerformanceLevel($user);
 
                 return $checkPoint;
             }
@@ -139,6 +159,8 @@ class HumanOpPoints extends Model
             $checkPoint->points += Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
 
             $checkPoint->save();
+
+            Helpers::checkAndTakePerformanceLevel($user);
 
             return $checkPoint;
 

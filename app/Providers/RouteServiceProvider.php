@@ -20,7 +20,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/login';
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
-    protected $HpRewardsClientController = 'App\Http\Controllers\Api\ClientController\HpRewards';
+    protected $GamificationClientController = 'App\Http\Controllers\Api\ClientController\Gamification';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
     protected $ChatAiNamespace = 'App\Http\Controllers\Api\ClientController\ChatAi';
@@ -118,8 +118,8 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/client_apis/credits/credits_api.php'));
 
             Route::prefix('api')->middleware('api')
-                ->namespace($this->HpRewardsClientController)
-                ->group(base_path('routes/client_apis/hp_rewards/hp_rewards_api.php'));
+                ->namespace($this->GamificationClientController)
+                ->group(base_path('routes/client_apis/gamifications/gamifications_api.php'));
         });
     }
 

@@ -19,6 +19,11 @@ class GamificationMedalRewards extends Model
         parent::__construct($attributes);
     }
 
+    public static function currentMedal($userId = null)
+    {
+        return self::where('user_id', $userId)->latest()->first();
+    }
+
     public static function getMedal($userId = null, $medal = null)
     {
         return self::where('user_id', $userId)->where('medals', $medal)->first();

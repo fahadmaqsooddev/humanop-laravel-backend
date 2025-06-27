@@ -19,6 +19,11 @@ class GamificationBadgesAchievement extends Model
         parent::__construct($attributes);
     }
 
+    public static function currentBadge($userId = null)
+    {
+        return self::where('user_id', $userId)->latest()->first();
+    }
+
     public static function getBadge($userId = null, $badge = null)
     {
         return self::where('user_id', $userId)->where('badges', $badge)->first();

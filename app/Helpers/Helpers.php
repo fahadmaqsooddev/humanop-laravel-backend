@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Models\Admin\Notification\Notification;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
+use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
@@ -661,6 +662,23 @@ class Helpers
     {
 
         HumanOpPoints::createOrUpdateUserPoints($user, $currentTime);
+
+    }
+
+    public static function checkAndTakePerformanceLevel($user = null)
+    {
+
+        $points = HumanOpPoints::getUserPoints($user)['points'];
+
+        if ($points > 0 || $points < 500)
+        {
+            GamificationPerformanceLevel::addFirstPerformanceLevel($user['id']);
+
+        }elseif ($points > 499 || $points < 1000){
+
+            GamificationPerformanceLevel::addSecondPerformanceLevel($user['id']);
+
+        }
 
     }
 

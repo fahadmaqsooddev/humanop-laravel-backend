@@ -187,4 +187,8 @@ final class Admin
     const WATCH_VIDEO_BADGES = 'Video Voyager';
 
     const WATCH_VIDEO_MEDAL = 'Welcome Optimizer';
+
+    const FIRST_LEVEL = 'Explorer';
+
+    const SECOND_LEVEL = 'Seeker';
 }

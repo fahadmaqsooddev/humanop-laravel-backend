@@ -1442,7 +1442,7 @@ class Assessment extends Model
 
                 HaiChatHelpers::syncUserRecordWithHAi();
 
-                HumanOpPoints::addPointsAfterCompleteAssessment($user['id']);
+                HumanOpPoints::addPointsAfterCompleteAssessment($user);
 
                 GamificationBadgesAchievement::addBadgeAfterCompleteAssessment($user['id']);
 

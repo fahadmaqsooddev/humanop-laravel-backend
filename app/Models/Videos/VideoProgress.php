@@ -115,9 +115,9 @@ class VideoProgress extends Model
 
             $progress->save();
 
-            $userId = Helpers::getUser()['id'];
+            $user = Helpers::getUser();
 
-            HumanOpPoints::addPointsAfterCompleteWatchVideo($userId);
+            HumanOpPoints::addPointsAfterCompleteWatchVideo($user);
 
             $recordCount = self::getRecords($assessmentId)->count();
 
@@ -125,11 +125,11 @@ class VideoProgress extends Model
 
             if ($recordCount == $watchVideo) {
 
-                HumanOpPoints::addPointsAfterCompleteAllWatchVideos($userId);
+                HumanOpPoints::addPointsAfterCompleteAllWatchVideos($user);
 
-                GamificationBadgesAchievement::addBadgeAfterCompleteWatchVideos($userId);
+                GamificationBadgesAchievement::addBadgeAfterCompleteWatchVideos($user['id']);
 
-                GamificationMedalRewards::addMedalAfterCompleteWatchVideos($userId);
+                GamificationMedalRewards::addMedalAfterCompleteWatchVideos($user['id']);
             }
 
             return $progress;

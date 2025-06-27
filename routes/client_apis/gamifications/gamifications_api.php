@@ -15,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['checkUser']], function () {
 
-    Route::get('login-streaks', 'HpRewardsController@loginStreaks');
+    Route::get('login-streaks', 'GamificationController@loginStreaks');
+    Route::get('current-user-badge', 'GamificationController@currentUserBadge');
+    Route::get('current-user-medal', 'GamificationController@currentUserMedal');
 });
