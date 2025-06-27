@@ -129,9 +129,9 @@ class HaiChatHelpers
                 'plan_name' => $user['plan_name'] ?? ''
             ],
             'interval_of_life' => ($coreState['interval_of_life'] ?? null),
-            'intention_option' => $intention,
+            'intention_option' => $intention ?? null,
             'assessment' => ($coreState['assessment'] ?? null),
-            'all_traits' => $userTrait,
+            'all_traits' => $userTrait ?? null,
             'top_three_traits' => ($coreState['topThreeStyles'] ?? null),
             'top_two_features' => ($coreState['topTwoFeatures'] ?? null),
             'tertiary_features' => ($coreState['tertiaryFeatures'] ?? null),
@@ -139,10 +139,10 @@ class HaiChatHelpers
             'energy_center' => ($coreState['topCommunication'] ?? null),
             'energy_pool' => ($coreState['energyPool'] ?? null),
             'perception' => ($coreState['perception'] ?? null),
-            'optimization_plan' => $optimizationPlan,
+            'optimization_plan' => $optimizationPlan ?? null,
             'daily_tip' => ($userDailyTip['dailyTip'] ?? null),
             'b2b_intentions' => $b2b_intentions ?? null,
-            'current_trait' => $userCurrentTraits,
+            'current_trait' => $userCurrentTraits ?? null,
 
         ];
 
