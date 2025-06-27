@@ -217,11 +217,11 @@ class DashboardController extends Controller
 
 //        try {
 
-            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+        $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
-            $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
+        $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
 
-            return Helpers::successResponse('core stats', $coreState);
+        return Helpers::successResponse('core stats', $coreState);
 
 //        } catch (\Exception $exception) {
 //
@@ -261,25 +261,27 @@ class DashboardController extends Controller
 
         try {
 
-            if ($request->has('assessment_id')) {
+        if ($request->has('assessment_id')) {
 
-                $assessment = Assessment::getSingleAssessment($request->input('assessment_id'));
+            $assessment = Assessment::getSingleAssessment($request->input('assessment_id'));
 
-            } else {
+        } else {
 
-                $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
+            $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
 
-            }
+        }
+
+        if (!empty($assessment)) {
 
             $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment);
 
-            if (empty($actionPlan)) {
-
-                $actionPlan = ActionPlan::storeUserActionPlan($assessment);
-
-            }
+            $actionPlan = ActionPlan::storeUserActionPlan($assessment);
 
             return Helpers::successResponse('Action plan', $actionPlan);
+
+        }
+
+        return Helpers::validationResponse('Assessment not found');
 
         } catch (\Exception $exception) {
 
