@@ -24,7 +24,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('daily-tip-read', 'DashboardController@dailyTipRead');
     Route::get('action-plan', 'DashboardController@actionPlan');
     Route::get('information-icon', 'DashboardController@informationIcon');
-    Route::get('optimal-trait', 'DashboardController@optimalTrait');
+    Route::get('optional-trait', 'DashboardController@optionalTrait');
     Route::get('assessment-walkthrough','DashboardController@getWalkThrough');
     Route::post('complete-assessment-walkthrough','DashboardController@completeWalkThrough');
     Route::post('complete-tutorial','DashboardController@completeTutorial');
