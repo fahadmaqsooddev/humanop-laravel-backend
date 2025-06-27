@@ -9,6 +9,7 @@ use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Notification\PushNotification;
+use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helpers;
@@ -301,7 +302,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function optionalTrait()
+    public function optimalTrait()
     {
         try {
 
@@ -321,7 +322,9 @@ class DashboardController extends Controller
 
                 $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
 
-                $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait);
+                $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait['trait']);
+
+                UserOptimalTrait::createUserOptimalTrait($optionalTraitDetail[0], $user['id'], $optionalTrait['status']);
 
                 return Helpers::successResponse('optional trait', $optionalTraitDetail);
 

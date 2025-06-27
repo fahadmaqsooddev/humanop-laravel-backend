@@ -406,13 +406,19 @@ class Helpers
 
             if ($currentTime->between($morningStart, $morningEnd)) {
 
+                $status = Admin::MORNING_STATUS;
+
                 $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
 
             } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
+                $status = Admin::AFTERNOON_STATUS;
+
                 $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
             } else {
+
+                $status = Admin::NIGHT_STATUS;
 
                 $optionalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
 
@@ -422,20 +428,30 @@ class Helpers
 
             if ($currentTime->between($morningStart, $morningEnd)) {
 
+                $status = Admin::MORNING_STATUS;
+
                 $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
 
             } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
+                $status = Admin::AFTERNOON_STATUS;
+
                 $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
             } else {
+
+                $status = Admin::NIGHT_STATUS;
 
                 $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
             }
         }
 
-        return $optionalTrait;
+        return [
+            'trait' => $optionalTrait,
+            'status' => $status,
+        ];
+
     }
 
     public static function explodeAssessmentTimezoneWithHours($userTimezone = null, $assessmentUpdatedAt = null)
