@@ -215,7 +215,7 @@ class DashboardController extends Controller
     public function coreStats(Request $request)
     {
 
-        try {
+//        try {
 
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
@@ -223,10 +223,10 @@ class DashboardController extends Controller
 
             return Helpers::successResponse('core stats', $coreState);
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
     }
 
     public function dailyTipRead()
