@@ -25,17 +25,6 @@ switch (env('APP_ENV')) {
 
 };
 
-switch (env('B2B_DEV')) {
-    case 'local':
-    case 'development':
-        $pusher_b2b_app_id = 1960430;
-        $pusher_b2b_app_key = 'a80894fc40705b88a39d';
-        $pusher_b2b_app_secret = 'a6148737cfc962b74ad9';
-        $pusher_b2b_app_cluster = 'ap2';
-        break;
-
-};
-
 return [
 
     /*
@@ -81,18 +70,6 @@ return [
 
             ],
         ],
-
-        'pusher_b2b' => [
-            'driver' => 'pusher',
-            'key' => $pusher_b2b_app_key,
-            'secret' => $pusher_b2b_app_secret,
-            'app_id' => $pusher_b2b_app_id,
-            'options' => [
-                'cluster' =>$pusher_b2b_app_cluster ,
-                'useTLS' => true,
-            ],
-        ],
-
 
         'ably' => [
             'driver' => 'ably',
