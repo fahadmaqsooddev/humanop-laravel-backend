@@ -139,8 +139,6 @@ class AuthController extends Controller
 
                     Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
 
-//                    HaiChatHelpers::syncUserRecordWithHAi($user);
-
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
                     Helpers::createClientsOnOneSignal($user['id']);
@@ -329,6 +327,8 @@ class AuthController extends Controller
                     $signupTime = $getUser['created_at']->addMinutes($userTimezone * 60);
 
                     $getUser->update(['last_login' => $signupTime->format('Y-m-d H:i:s')]);
+
+                    HaiChatHelpers::syncUserRecordWithHAi();
 
                     $data = [
                         'user' => $getUser,
