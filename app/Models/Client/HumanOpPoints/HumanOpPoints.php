@@ -29,22 +29,20 @@ class HumanOpPoints extends Model
 
         $getPoint = self::where('user_id', $userId)->first();
 
-        if (empty($getPoint)) {
+        if (is_null($getPoint)) {
 
             return self::create([
                 'user_id' => $userId,
                 'points' => Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY,
             ]);
 
-        } else{
-
-            $getPoint->points += Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY;
-
-            $getPoint->save();
-
-            return $getPoint;
-
         }
+
+        $getPoint->points += Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY;
+
+        $getPoint->save();
+
+        return $getPoint;
 
     }
 
