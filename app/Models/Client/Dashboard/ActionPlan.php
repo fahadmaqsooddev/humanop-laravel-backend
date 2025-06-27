@@ -404,10 +404,10 @@ class ActionPlan extends Model
         return self::where('user_id', $user_id)->select(['id', 'priority', 'plan_text', 'text'])->latest()->first();
     }
 
-    public static function getActionPlanByAssessmentId($assessmentId = null)
+    public static function getActionPlanByAssessmentId($assessment = null)
     {
 
-        return self::where('assessment_id', $assessmentId)->select(['id', 'priority', 'plan_text', 'text'])->latest()->first();
+        return self::where('assessment_id', $assessment['id'])->select(['id', 'priority', 'plan_text', 'text'])->latest()->first();
 
     }
 
