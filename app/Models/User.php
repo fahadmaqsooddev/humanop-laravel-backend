@@ -1806,32 +1806,36 @@ class User extends Authenticatable implements JWTSubject
 
         $assessment = Assessment::getLatestAssessment($user_id);
 
-        $topThreeStyles = Assessment::getAllStyles($assessment);
+        if ($assessment){
 
-        $topFeatures = Assessment::getFeatures($assessment);
+            $topThreeStyles = Assessment::getAllStyles($assessment);
 
-        $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
+            $topFeatures = Assessment::getFeatures($assessment);
 
-        $stylesAndDrivers = array_merge($topThreeStyles, $topTwoFeatures);
+            $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
 
-        $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user_id);
+            $stylesAndDrivers = array_merge($topThreeStyles, $topTwoFeatures);
 
-        if (count($stylesAndDrivers) > 2) {
+            $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user_id);
 
-            $optionalTraitMorning = $stylesAndDrivers[0]['public_name'] ?? null;
+            if (count($stylesAndDrivers) > 2) {
 
-            $optionalTraitEvening = $stylesAndDrivers[1]['public_name'] ?? null;
+                $optionalTraitMorning = $stylesAndDrivers[0]['public_name'] ?? null;
 
-            $optionalTraitNight = $stylesAndDrivers[2]['public_name'] ?? null;
+                $optionalTraitEvening = $stylesAndDrivers[1]['public_name'] ?? null;
 
-            $currentOptionalTrait = $userOptimalTrait['optimal_trait'] ?? null;
+                $optionalTraitNight = $stylesAndDrivers[2]['public_name'] ?? null;
 
-            return [
-                'morning_trait' => $optionalTraitMorning,
-                'evening_trait' => $optionalTraitEvening,
-                'night_trait' => $optionalTraitNight,
-                'current_trait' => $currentOptionalTrait,
-            ];
+                $currentOptionalTrait = $userOptimalTrait['optimal_trait'] ?? null;
+
+                return [
+                    'morning_trait' => $optionalTraitMorning,
+                    'evening_trait' => $optionalTraitEvening,
+                    'night_trait' => $optionalTraitNight,
+                    'current_trait' => $currentOptionalTrait,
+                ];
+            }
+
         }
 
         return [];
