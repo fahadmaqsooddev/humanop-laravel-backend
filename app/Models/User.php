@@ -26,6 +26,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
@@ -1818,7 +1819,13 @@ class User extends Authenticatable implements JWTSubject
 
             $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user_id);
 
+            Log::info(['user optimal trait' => $userOptimalTrait]);
+
+            Log::info(['style and driver count' => count($stylesAndDrivers)]);
+
             if (count($stylesAndDrivers) > 2) {
+
+                Log::info(['inside']);
 
                 $optionalTraitMorning = $stylesAndDrivers[0]['public_name'] ?? null;
 
