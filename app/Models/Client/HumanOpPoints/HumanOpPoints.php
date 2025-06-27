@@ -29,11 +29,23 @@ class HumanOpPoints extends Model
 
         $getPoint = self::where('user_id', $userId)->first();
 
-        $getPoint->points += Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY;
+        if (empty($getPoint)) {
 
-        $getPoint->save();
+            return self::create([
+                'user_id' => $userId,
+                'points' => Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY,
+            ]);
 
-        return $getPoint;
+        } else{
+
+            $getPoint->points += Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY;
+
+            $getPoint->save();
+
+            return $getPoint;
+
+        }
+
     }
 
     public static function addPointsAfterCompleteWatchVideo($userId = null)
