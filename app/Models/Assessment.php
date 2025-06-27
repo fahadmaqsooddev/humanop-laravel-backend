@@ -1441,6 +1441,8 @@ class Assessment extends Model
 
                 HaiChatHelpers::syncUserRecordWithHAi();
 
+                HumanOpPoints::addPointsAfterCompleteAssessment($user['id']);
+
                 if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
                     $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
@@ -1457,8 +1459,6 @@ class Assessment extends Model
 
                 event(new SubmitAssessment(Helpers::getUser()['id'], $current_page + 1));
             }
-
-            HumanOpPoints::addPointsAfterCompleteAssessment($existingAssessment['user_id']);
 
             AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
 
