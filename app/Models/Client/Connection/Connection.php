@@ -142,7 +142,7 @@ class Connection extends Model
 
 
 
-                // event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
+                 event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
                 // Helpers::OneSignalApiUsed($data['user_id'], 'Connection Request Accept', $msg);
 
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
@@ -159,7 +159,7 @@ class Connection extends Model
                 // $msg = 'Your Connection Request Accepted';
                 // $msg =  $friend['first_name'].' '.$friend['last_name'].' Has Accepted Your Request';
                 $msg =   Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.' Has Accepted Your Request';
-                // event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
+                 event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
                 // Helpers::OneSignalApiUsed($data['user_id'], ' Connection Request Accept', $msg);
 
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));

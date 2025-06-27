@@ -9,6 +9,7 @@ use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Notification\PushNotification;
+use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helpers;
@@ -301,7 +302,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function optionalTrait()
+    public function optimalTrait()
     {
         try {
 
@@ -313,18 +314,77 @@ class DashboardController extends Controller
 
                 $timezone = $user['timezone'];
 
+
+                $minutes = Helpers::explodeTimezoneWithHours($timezone);
+
+                $currentTime = Carbon::now()->addMinutes($minutes * 60);
+
+                $morningStart = Carbon::createFromTimeString('05:00 AM');
+
+                $morningEnd = Carbon::createFromTimeString('12:00 PM');
+
+                $afternoonStart = Carbon::createFromTimeString('12:00 PM');
+
+                $eveningStart = Carbon::createFromTimeString('05:00 PM');
+
                 $topThreeStyles = Assessment::getAllStyles($assessment);
 
                 $topFeatures = Assessment::getFeatures($assessment);
 
                 $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
 
-                $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
+                $stylesAndDrivers = array_merge($topThreeStyles, $topTwoFeatures);
 
-                $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait);
+                $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user['id']);
 
-                return Helpers::successResponse('optional trait', $optionalTraitDetail);
 
+                if (count($stylesAndDrivers) <= 2) {
+                    return Helpers::validationResponse('Not enough data to determine optimal trait.');
+                }
+
+                if ($currentTime->between($morningStart, $morningEnd)) {
+
+                    $status = Admin::MORNING_STATUS;
+
+                    $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
+
+                } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
+
+                    $status = Admin::AFTERNOON_STATUS;
+
+                    $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
+
+                } else {
+
+                    $status = Admin::NIGHT_STATUS;
+
+                    $optionalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
+
+                }
+
+                $message = 'Your ' . $optionalTrait . ' Optimal Trait';
+
+                if (empty($userOptimalTrait)) {
+
+                    $optionalTraitDetail = UserOptimalTrait::createUserOptimalTrait($optionalTrait, $user['id'], $status);
+
+                } elseif ($userOptimalTrait['status'] != $status) {
+
+                    $optionalTraitDetail = UserOptimalTrait::updateUserOptimalTrait($optionalTrait, $user['id'], $status);
+
+                } else {
+
+                    $optionalTraitDetail = $userOptimalTrait;
+
+                }
+
+                HaiChatHelpers::syncUserRecordWithHAi($user);
+
+                Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
+
+                Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT, Admin::B2C_NOTIFICATION);
+
+                return Helpers::successResponse('optimal trait', $optionalTraitDetail);
             } else {
 
                 return Helpers::validationResponse('Assessment not found');
