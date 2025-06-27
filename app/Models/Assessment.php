@@ -12,6 +12,7 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\GenerateFile\PdfGenerate;
 use App\Models\Videos\VideoProgress;
@@ -1442,6 +1443,8 @@ class Assessment extends Model
                 HaiChatHelpers::syncUserRecordWithHAi();
 
                 HumanOpPoints::addPointsAfterCompleteAssessment($user['id']);
+
+                GamificationBadgesAchievement::addBadgeAfterCompleteAssessment($user['id']);
 
                 if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 

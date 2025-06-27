@@ -628,6 +628,21 @@ return [
             'table' => 'video_progress',
             'fillable' => ['assessment_id','video_name','video_progress'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'GamificationBadgesAchievement' => [
+            'table' => 'gamification_badges_achievement',
+            'fillable' => ['user_id','badges'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'GamificationMedalRewards' => [
+            'table' => 'gamification_medal_rewards',
+            'fillable' => ['user_id','medals'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'GamificationPerformanceLevel' => [
+            'table' => 'gamification_performance_level',
+            'fillable' => ['user_id','performance','level'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];

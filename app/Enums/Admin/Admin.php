@@ -181,4 +181,10 @@ final class Admin
     const COMPLETE_VIDEO = 'Completed';
 
     const NOT_COMPLETE_VIDEO = 'Not Completed';
+
+    const ASSESSMENT_BADGES = 'Assessment Navigator';
+
+    const WATCH_VIDEO_BADGES = 'Video Voyager';
+
+    const WATCH_VIDEO_MEDAL = 'Welcome Optimizer';
 }

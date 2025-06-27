@@ -42,7 +42,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline'];
+    protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment'];
 
     public function __construct(array $attributes = array())
     {
@@ -101,6 +101,15 @@ class User extends Authenticatable implements JWTSubject
     public function getUserPictureUrlAttribute()
     {
         return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
+    }
+
+    public function getCheckAssessmentAttribute()
+    {
+
+        $assessments = Assessment::getAssessment();
+
+        return $assessments->count();
+
     }
 
     public function getOptionalTraitAttribute()
@@ -501,7 +510,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (7 <= $age && $age <= 11):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'connecting_communicating');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'connecting_communicating');
 
                 $interval = [
                     'interval' => 'Connecting & Communicating',
@@ -516,7 +525,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (12 <= $age && $age <= 15):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'alchemical_revelation');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'alchemical_revelation');
 
                 $interval = [
                     'interval' => 'Alchemical Revelation',
@@ -531,7 +540,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (16 <= $age && $age <= 20):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, motivation);
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'motivation');
 
                 $interval = [
                     'interval' => 'Motivation',
@@ -546,7 +555,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (21 <= $age && $age <= 29):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'roadworthy');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'roadworthy');
 
                 $interval = [
                     'interval' => 'Roadworthy',
@@ -561,7 +570,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (30 <= $age && $age <= 33):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'power');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'power');
 
                 $interval = [
                     'interval' => 'Power',
@@ -576,7 +585,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (34 <= $age && $age <= 42):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'midLife_transformation');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'midLife_transformation');
 
                 $interval = [
                     'interval' => 'MidLife Transformation',
@@ -591,7 +600,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (43 <= $age && $age <= 51):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'awareness');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'awareness');
 
                 $interval = [
                     'interval' => 'Awareness',
@@ -606,7 +615,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (52 <= $age && $age <= 65):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'payit_forward');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'payit_forward');
 
                 $interval = [
                     'interval' => 'Payit Forward',
@@ -621,7 +630,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (66 <= $age && $age <= 69):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'liberated');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'liberated');
 
                 $interval = [
                     'interval' => 'Liberated',
@@ -636,7 +645,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (70 <= $age && $age <= 74):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'being');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'being');
 
                 $interval = [
                     'interval' => 'Being',
@@ -651,7 +660,7 @@ class User extends Authenticatable implements JWTSubject
 
             case (75 <= $age && $age <= 83):
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'life_review');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'life_review');
 
                 $interval = [
                     'interval' => 'Life Review',
@@ -666,7 +675,7 @@ class User extends Authenticatable implements JWTSubject
 
             default:
 
-                $progress = VideoProgress::checkVideoProgress($assessment, 'surrender');
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'surrender');
 
                 $interval = [
                     'interval' => 'Surrender',

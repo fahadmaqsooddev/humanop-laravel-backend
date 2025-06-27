@@ -4,6 +4,8 @@ namespace App\Models\Videos;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
+use App\Models\Client\Gamification\GamificationBadgesAchievement;
+use App\Models\Client\Gamification\GamificationMedalRewards;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -124,6 +126,10 @@ class VideoProgress extends Model
             if ($recordCount == $watchVideo) {
 
                 HumanOpPoints::addPointsAfterCompleteAllWatchVideos($userId);
+
+                GamificationBadgesAchievement::addBadgeAfterCompleteWatchVideos($userId);
+
+                GamificationMedalRewards::addMedalAfterCompleteWatchVideos($userId);
             }
 
             return $progress;
