@@ -653,7 +653,7 @@ class UserController extends Controller
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
-            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
             $alchl_code = $assessment != null ? Assessment::getAlchlCode($assessment['id']) : null;
             $style_position = $assessment != null ? AssessmentColorCode::getStylePosition($assessment['id']) : null;
@@ -667,7 +667,6 @@ class UserController extends Controller
 
                 $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getUser()->id, $Styles);
             }
-
 
             $data = [
                 'user_name' => $user_name,
@@ -686,6 +685,7 @@ class UserController extends Controller
             ];
 
             return Helpers::successResponse('Summary Report', $data);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
