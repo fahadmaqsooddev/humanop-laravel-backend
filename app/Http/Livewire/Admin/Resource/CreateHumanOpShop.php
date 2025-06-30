@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Admin\Resource;
 
 use App\Models\Admin\HumanOpShopCategory\ShopCategory;
 use App\Models\Admin\Resources\ShopCategoryResource;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -73,9 +72,7 @@ class CreateHumanOpShop extends Component
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $resource = ShopCategoryResource::createShopResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link,$this->permission);
-
-            $this->emit('toggleCreateResourceModal');
+            ShopCategoryResource::createShopResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link,$this->permission);
 
             $this->resetForm();
 
@@ -107,29 +104,21 @@ class CreateHumanOpShop extends Component
 
     }
 
-    public function deleteResource($id, $slug)
+    public function deleteResource($id)
     {
         try {
 
-            $this->resourceSlug = $slug;
-
             DB::beginTransaction();
 
-            $getResource = LibraryResource::singleLibraryResource($id);
-
-            $this->deleteFileToGumlet($getResource['source_id']);
-
-            PermissionResource::deleteResourcePermission($id);
-
-            LibraryResource::deleteResource($id);
+            ShopCategoryResource::deleteResource($id);
 
             $this->resetForm();
 
-            $this->emit('toggleShowResourceModal', $slug);
+            $this->emit('toggleShowResourceModal');
 
             DB::commit();
 
-            session()->flash('success', 'Library resource deleted successfully.');
+            session()->flash('success', 'shop resource deleted successfully.');
 
         } catch (\Exception $exception) {
 
@@ -317,58 +306,6 @@ class CreateHumanOpShop extends Component
             return null;
 
         }
-    }
-
-    public function uploadFileToGumlet($resourceFile = null, $resourceId = null)
-    {
-        if (!empty($resourceFile) && in_array($resourceFile->extension(), ['mp4'])) {
-
-            $getResource = LibraryResource::singleLibraryResource($resourceId);
-
-            $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
-                [
-                    'format' => 'MP4',
-                    'input' => $getResource['video_url'] ? $getResource['video_url']['path'] : '',
-                    'collection_id' => "675260ac948718dd9422d8bb",
-                    'title' => $this->heading
-                ]
-            );
-
-            LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id'], 'source_url' => $responseData['output']['playback_url']]);
-        }
-
-    }
-
-    public function deleteFileToGumlet($resourceId = null)
-    {
-
-        if (!empty($resourceId)) {
-            $url = 'https://api.gumlet.com/v1/video/assets/' . $resourceId;
-
-            $this->sendRequestFromGuzzle('DELETE', $url);
-        }
-
-    }
-
-    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
-    {
-
-        $authorization = config('gumlet.gumlet_api_key');
-
-        $queryArray = [
-            'headers' => ['Authorization' => "Bearer {$authorization}"],
-            'json' => $body
-        ];
-
-        $client = new Client(['http_errors' => false, 'timeout' => 180]);
-
-        $route = $route_name;
-
-        $response = $client->request($method, $route, $queryArray);
-
-        $response_body = json_decode($response->getBody()->getContents(), true);
-
-        return $response_body;
     }
 
     public function render()
