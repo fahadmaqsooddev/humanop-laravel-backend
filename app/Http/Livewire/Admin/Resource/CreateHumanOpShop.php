@@ -75,8 +75,6 @@ class CreateHumanOpShop extends Component
 
             $resource = ShopCategoryResource::createShopResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link,$this->permission);
 
-            $this->uploadFileToGumlet($this->resource_file, $resource['id']);
-
             $this->emit('toggleCreateResourceModal');
 
             $this->resetForm();
