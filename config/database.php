@@ -318,7 +318,7 @@ return [
         ],
         'Podcast' => [
             'table' => 'podcast',
-            'fillable' => ['embedded_url','user_id'],
+            'fillable' => ['title','audio_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'HaiChat' => [

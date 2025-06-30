@@ -2,50 +2,141 @@
 
 namespace App\Http\Livewire\Admin\Podcast;
 
+use App\Models\Upload\Upload;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Podcast extends Component
 {
 
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
-    public $podcast_url, $latest_podcast;
+    public $title, $audio_file, $podcastId;
 
-    protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm'];
+    protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm', 'deletePodcast'];
 
     protected $rules = [
-        'podcast_url' => ['required','url', 'regex:/(app.hiro.fm)/']
+        'title' => 'required|string|max:200',
+        'audio_file' => 'required|file|mimes:mp3,wav,aac,ogg,flac|max:204800', // 200MB limit (204800 KB)
     ];
 
     protected $messages = [
-        'podcast_url.required' => 'Podcast url is required',
-        'podcast_url.url' => 'Podcast must be a url',
-        'podcast_url.regex' => 'Podcast url must be a hiro.fm embedded link',
+        'title.required' => 'The title field is required.',
+        'title.string' => 'The title must be a valid string.',
+        'title.max' => 'The title must not exceed 200 characters.',
+
+        'audio_file.required' => 'Please upload an audio file.',
+        'audio_file.file' => 'The uploaded file must be a valid file.',
+        'audio_file.mimes' => 'The audio must be in one of these formats: mp3, wav, aac, ogg, or flac.',
+        'audio_file.max' => 'The audio file must not exceed 200MB.',
     ];
 
-    public function updatePodcast(){
+    public function getPodcasts()
+    {
+        return \App\Models\Admin\Podcast\Podcast::getPodcast();
+    }
 
-        $this->validate();
+    public function submitForm()
+    {
 
-        \App\Models\Admin\Podcast\Podcast::updatePodcastUrl($this->podcast_url);
+        DB::beginTransaction();
 
-        $this->emit('toggleCreatePodcastFormModal');
+        try {
 
-        toastr()->success( "Podcast updated successfully");
+            $this->validate();
+
+            $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
+
+            \App\Models\Admin\Podcast\Podcast::createPodcast($this->title, $upload_id);
+
+            session()->flash('success', 'Audio File uploaded successfully.');
+
+            $this->resetForm();
+
+            $this->emit('closeModal');
+
+            DB::commit();
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            session()->flash('error', $exception->getMessage());
+
+        }
+
+    }
+
+    public function editPodcastModal($id, $title, $audio_url)
+    {
+        $this->podcastId = $id;
+        $this->title = $title;
+        $this->audio_file = $audio_url;
+    }
+
+    public function updatePodcast(Request $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            \App\Models\Admin\Podcast\Podcast::updatePodcast($this->podcastId, $this->title);
+
+            if ($request->hasFile('audio_file')) {
+
+                $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
+
+                $podcast = \App\Models\Admin\Podcast\Podcast::singlePodcast($this->podcastId);
+
+                $podcast['audio_id'] = $upload_id;
+            }
+
+            session()->flash('success', 'Audio File uploaded successfully.');
+
+            $this->render();
+
+            DB::commit();
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            session()->flash('error', $exception->getMessage());
+
+        }
+    }
+
+
+    public function deletePodcast($podcastId)
+    {
+        try {
+
+            \App\Models\Admin\Podcast\Podcast::deletePodcast($podcastId);
+
+            session()->flash('success', 'Audio File delete successfully.');
+
+        } catch (\Exception $exception) {
+
+            session()->flash('error', $exception->getMessage());
+
+        }
     }
 
     public function resetForm()
     {
-        $this->reset('podcast_url'); // Clear the podcast_audio input
-        $this->resetValidation(); // Clear validation errors
+        $this->reset('title', 'audio_file');
+        $this->resetValidation();
     }
 
     public function render()
     {
 
-        $this->latest_podcast = \App\Models\Admin\Podcast\Podcast::adminLatestPodcastUrl();
+        $podcasts = $this->getPodcasts();
 
-        return view('livewire.admin.podcast.podcast');
+        return view('livewire.admin.podcast.podcast', ['podcasts' => $podcasts]);
     }
 }

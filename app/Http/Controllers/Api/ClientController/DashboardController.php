@@ -197,20 +197,33 @@ class DashboardController extends Controller
 
     }
 
-    public function latestPodcast()
+    public function getPodcasts()
     {
-
         try {
 
-            $podcast = Podcast::getPodcast();
+            $podcasts = Podcast::getAllAudioFiles();
 
-            return Helpers::successResponse('Podcast url', $podcast);
+            $audioFiles = [];
+
+            foreach ($podcasts as $podcast) {
+
+                $audioFiles[] = [
+                    'title' => $podcast['title'] ?? null,
+                    'audio_url' => $podcast['audio_url']['path'] ?? null,
+                ];
+
+            }
+
+            return Helpers::successResponse('Podcast list', $audioFiles);
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
+
 
     public function coreStats(Request $request)
     {
