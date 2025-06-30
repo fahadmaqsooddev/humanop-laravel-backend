@@ -32,6 +32,11 @@ class Podcast extends Model
         return self::orderBy('created_at', 'desc')->paginate($perPage);
     }
 
+    public static function getAllAudioFiles()
+    {
+        return self::orderBy('created_at', 'desc')->get();
+    }
+
     public static function createPodcast($title = null, $audioId = null)
     {
 
