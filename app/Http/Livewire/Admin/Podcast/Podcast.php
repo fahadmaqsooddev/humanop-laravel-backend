@@ -16,6 +16,7 @@ class Podcast extends Component
 
     public $title, $audio_file, $podcastId;
 
+    protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm', 'deletePodcast'];
 
     protected $rules = [
         'title' => 'required|string|max:200',
