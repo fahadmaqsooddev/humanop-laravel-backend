@@ -2,28 +2,54 @@
 
 namespace App\Http\Livewire\Admin\Podcast;
 
+use App\Models\Upload\Upload;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Podcast extends Component
 {
 
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
-    public $podcast_url, $latest_podcast;
+    public $title, $audio_file;
 
     protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm'];
 
     protected $rules = [
-        'podcast_url' => ['required','url', 'regex:/(app.hiro.fm)/']
+        'title' => 'required|string|max:200',
+        'audio_file' => 'required|file|mimes:mp3,wav,aac,ogg,flac|max:204800', // 200MB limit (204800 KB)
     ];
 
     protected $messages = [
-        'podcast_url.required' => 'Podcast url is required',
-        'podcast_url.url' => 'Podcast must be a url',
-        'podcast_url.regex' => 'Podcast url must be a hiro.fm embedded link',
+        'title.required' => 'The title field is required.',
+        'title.string' => 'The title must be a valid string.',
+        'title.max' => 'The title must not exceed 200 characters.',
+
+        'audio_file.required' => 'Please upload an audio file.',
+        'audio_file.file' => 'The uploaded file must be a valid file.',
+        'audio_file.mimes' => 'The audio must be in one of these formats: mp3, wav, aac, ogg, or flac.',
+        'audio_file.max' => 'The audio file must not exceed 200MB.',
     ];
 
+    public function getPodcasts()
+    {
+        return \App\Models\Admin\Podcast\Podcast::getPodcast();
+    }
+
+    public function submitForm()
+    {
+        $this->validate();
+
+        $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
+
+        \App\Models\Admin\Podcast\Podcast::createPodcast($this->title, $upload_id);
+
+        session()->flash('success', 'Audio File uploaded successfully.');
+
+        $this->resetForm();
+
+    }
     public function updatePodcast(){
 
         $this->validate();
@@ -37,15 +63,15 @@ class Podcast extends Component
 
     public function resetForm()
     {
-        $this->reset('podcast_url'); // Clear the podcast_audio input
-        $this->resetValidation(); // Clear validation errors
+        $this->reset('title', 'audio_file');
+        $this->resetValidation();
     }
 
     public function render()
     {
 
-        $this->latest_podcast = \App\Models\Admin\Podcast\Podcast::adminLatestPodcastUrl();
+        $podcasts = $this->getPodcasts();
 
-        return view('livewire.admin.podcast.podcast');
+        return view('livewire.admin.podcast.podcast', ['podcasts' => $podcasts]);
     }
 }

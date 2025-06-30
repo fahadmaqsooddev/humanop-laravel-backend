@@ -19,25 +19,26 @@ class Podcast extends Model
         parent::__construct($attributes);
     }
 
-    public static function getPodcast()
+    protected $appends = ['audio_url'];
+
+    public function getAudioUrlAttribute()
     {
-        return self::latest()->first();
+
+        return Helpers::getAudio($this->audio_id, 1);
     }
 
-    public static function createVideo($data = null)
+    public static function getPodcast($perPage = 10)
     {
-        $podcast = self::all()->last();
+        return self::orderBy('created_at', 'desc')->paginate($perPage);
+    }
 
-        if ($podcast)
-        {
-            $podcast->delete();
+    public static function createPodcast($title = null, $audioId = null)
+    {
 
-        }
-
-        if ($data)
-        {
-            return self::create($data);
-        }
+        return self::create([
+            'title' => $title,
+            'audio_id' => $audioId
+        ]);
 
     }
 
@@ -57,10 +58,5 @@ class Podcast extends Model
             ]);
         }
 
-    }
-
-    public static function adminLatestPodcastUrl(){
-
-        return self::where('user_id', Helpers::getWebUser()->id)->latest()->first();
     }
 }
