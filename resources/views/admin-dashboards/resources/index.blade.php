@@ -6,6 +6,9 @@
 </style>
 @section('content')
     @livewire('admin.resource.create-resource')
+    @livewire('admin.resource.create-human-op-shop')
+
+
     <div class="row" style="margin-top: 200px">
         <div class="col-12">
             <div id="globe" class="position-absolute end-0 top-2 mt-sm-3 me-lg-7">
