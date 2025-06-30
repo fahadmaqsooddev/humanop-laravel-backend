@@ -2,13 +2,8 @@
 
 namespace App\Http\Livewire\Admin\Resource;
 
-use App\Enums\Admin\Admin;
-use App\Events\Resource\NewResource;
 use App\Models\Admin\HumanOpShopCategory\ShopCategory;
-use App\Models\Admin\Notification\Notification;
-use App\Models\Admin\ResourceCategory\ResourceCategory;
 use App\Models\Admin\Resources\ShopCategoryResource;
-use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -23,9 +18,7 @@ class CreateHumanOpShop extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $current_category, $resourceSlug, $heading,
-        $description, $update_content, $content, $resource_file, $category_id,
-        $permission, $editResourceData, $category_name, $link;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission, $editResourceData, $category_name, $link;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
@@ -71,11 +64,10 @@ class CreateHumanOpShop extends Component
 
     public function createShopResource()
     {
+
+        DB::beginTransaction();
+
         try {
-
-
-
-            DB::beginTransaction();
 
             $this->validate();
 
@@ -84,38 +76,6 @@ class CreateHumanOpShop extends Component
             $resource = ShopCategoryResource::createShopResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link,$this->permission);
 
             $this->uploadFileToGumlet($this->resource_file, $resource['id']);
-
-//            PermissionResource::createResourcePermission($resource['id'], $this->permission);
-
-//            if (!empty($resource)) {
-//
-//                foreach ($this->permission as $permission) {
-//
-////                    $users = User::getAllClientUser();
-////
-////                    $isAllPermission = ($permission == 4);
-//
-//                    $message = 'Your New Training & Resource';
-//
-////                    foreach ($users as $user) {
-////
-////                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
-////
-////                        $userPermission = $planMapping[$user['plan_name']] ?? 4;
-////
-////                        if ($isAllPermission || $userPermission == $permission) {
-////
-////                            Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
-////                        }
-////                    }
-//
-//                    event(new NewResource($permission, 'new training & resource', $message));
-//
-//                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
-//
-//                }
-//
-//            }
 
             $this->emit('toggleCreateResourceModal');
 
@@ -126,6 +86,7 @@ class CreateHumanOpShop extends Component
             session()->flash('success', 'Library resource created successfully.');
 
         } catch (\Exception $exception) {
+
             DB::rollBack();
 
             session()->flash('error', $exception->getMessage());
@@ -363,6 +324,7 @@ class CreateHumanOpShop extends Component
     public function uploadFileToGumlet($resourceFile = null, $resourceId = null)
     {
         if (!empty($resourceFile) && in_array($resourceFile->extension(), ['mp4'])) {
+
             $getResource = LibraryResource::singleLibraryResource($resourceId);
 
             $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
@@ -417,7 +379,6 @@ class CreateHumanOpShop extends Component
         $categories = ShopCategory::categories();
 
         $dropDownCategories = ShopCategory::dropDownCategories();
-//        dd($dropDownCategories);
 
         $resourceSlug = $this->resourceSlug;
 
