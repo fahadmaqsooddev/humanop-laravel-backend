@@ -15,10 +15,14 @@
                     <td class="text-sm font-weight-normal" style="align-items: center">{{ $key + 1 }}</td>
                     <td class="text-sm font-weight-normal">{{ $podcast['title'] }}</td>
                     <td class="text-sm font-weight-normal">
-                        <audio controls style="width: 100%;">
-                            <source src="{{ $podcast['audio_url']['path'] }}" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
+                        @if (!empty($podcast) && !empty($podcast['audio_url']['path']))
+                            <audio controls style="width: 100%;">
+                                <source src="{{ asset($podcast['audio_url']['path']) }}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        @else
+                            <span class="text-muted">No audio available</span>
+                        @endif
                     </td>
                     <td class="text-sm font-weight-normal" style="display: flex; justify-content: center">
                         <a onclick="deleteTutorial({{ $podcast['id'] }})" class="btn-sm mt-2 mb-0"
