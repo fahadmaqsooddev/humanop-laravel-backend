@@ -21,22 +21,21 @@ class HumanOpShopController extends Controller
             $allShopResources = ShopCategoryResource::getResources();
 
             $formatted = $allShopResources->map(function ($item) {
+
                 return [
                     'id' => $item->id,
+                    'category_name' => $item->shopCategory->name ?? null,
                     'heading' => $item->heading,
-                    'slug' => $item->slug,
-                    'upload_id' => $item->upload_id,
-                    'humanop_shop_category_id' => $item->humanop_shop_category_id,
                     'description' => $item->description,
                     'content' => $item->content,
-                    'source_id' => $item->source_id,
-                    'source_url' => $item->source_url,
-                    'embed_link' => $item->embed_link,
                     'created_at' => $item->created_at,
                     'updated_at' => $item->updated_at,
                     'buy_from' => $item->buy_from == 1 ? 'Price' : 'Point',
-                    'category_name' => $item->shopCategory->name ?? null,
+                    'photo_url' => isset($item->photo_url) ? ($item->photo_url['url'] ?? null) : null,
+                    'video_url' => isset($item->video_url) ? ($item->video_url['path'] ?? null) : null,
+                    'audio_url' => isset($item->audio_url) ? ($item->audio_url['path'] ?? null) : null,
                 ];
+
             });
 
             return Helpers::successResponse('HumanOp Shop Resource', $formatted);
