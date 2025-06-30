@@ -1579,6 +1579,7 @@ class Assessment extends Model
         } else {
 
             return [
+                'name' => '',
                 'public_name' => "",
                 'code_number' => $gold . $silver . $copper,
                 'description' => "",
