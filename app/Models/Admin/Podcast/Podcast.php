@@ -12,9 +12,9 @@ class Podcast extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
@@ -25,6 +25,11 @@ class Podcast extends Model
     {
 
         return Helpers::getAudio($this->audio_id, 1);
+    }
+
+    public static function singlePodcast($id = null)
+    {
+        return self::where('id', $id)->first();
     }
 
     public static function getPodcast($perPage = 10)
@@ -47,21 +52,21 @@ class Podcast extends Model
 
     }
 
-    public static function updatePodcastUrl($url = null){
+    public static function updatePodcast($id = null, $title = null)
+    {
 
-        $podcast = self::where('user_id', Helpers::getWebUser()->id)->first();
+        $podcast = self::where('id', $id)->first();
 
-        if ($podcast){
+        if ($podcast) {
 
-            $podcast->update(['embedded_url' => $url]);
+            $podcast->update(['title' => $title]);
 
-        }else{
-
-            self::create([
-                'user_id' => Helpers::getWebUser()->id,
-                'embedded_url' => $url,
-            ]);
         }
 
+    }
+
+    public static function deletePodcast($podcastId = null)
+    {
+        return self::where('id', $podcastId)->delete();
     }
 }

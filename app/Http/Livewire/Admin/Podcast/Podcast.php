@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Admin\Podcast;
 
 use App\Models\Upload\Upload;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -12,9 +14,8 @@ class Podcast extends Component
 
     use WithFileUploads, WithPagination;
 
-    public $title, $audio_file;
+    public $title, $audio_file, $podcastId;
 
-    protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm'];
 
     protected $rules = [
         'title' => 'required|string|max:200',
@@ -39,26 +40,89 @@ class Podcast extends Component
 
     public function submitForm()
     {
-        $this->validate();
 
-        $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
+        DB::beginTransaction();
 
-        \App\Models\Admin\Podcast\Podcast::createPodcast($this->title, $upload_id);
+        try {
 
-        session()->flash('success', 'Audio File uploaded successfully.');
+            $this->validate();
 
-        $this->resetForm();
+            $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
+
+            \App\Models\Admin\Podcast\Podcast::createPodcast($this->title, $upload_id);
+
+            session()->flash('success', 'Audio File uploaded successfully.');
+
+            $this->resetForm();
+
+            $this->emit('closeModal');
+
+            DB::commit();
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            session()->flash('error', $exception->getMessage());
+
+        }
 
     }
-    public function updatePodcast(){
 
-        $this->validate();
+    public function editPodcastModal($id, $title, $audio_url)
+    {
+        $this->podcastId = $id;
+        $this->title = $title;
+        $this->audio_file = $audio_url;
+    }
 
-        \App\Models\Admin\Podcast\Podcast::updatePodcastUrl($this->podcast_url);
+    public function updatePodcast(Request $request)
+    {
 
-        $this->emit('toggleCreatePodcastFormModal');
+        DB::beginTransaction();
 
-        toastr()->success( "Podcast updated successfully");
+        try {
+
+            \App\Models\Admin\Podcast\Podcast::updatePodcast($this->podcastId, $this->title);
+
+            if ($request->hasFile('audio_file')) {
+
+                $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
+
+                $podcast = \App\Models\Admin\Podcast\Podcast::singlePodcast($this->podcastId);
+
+                $podcast['audio_id'] = $upload_id;
+            }
+
+            session()->flash('success', 'Audio File uploaded successfully.');
+
+            $this->render();
+
+            DB::commit();
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            session()->flash('error', $exception->getMessage());
+
+        }
+    }
+
+
+    public function deletePodcast($podcastId)
+    {
+        try {
+
+            \App\Models\Admin\Podcast\Podcast::deletePodcast($podcastId);
+
+            session()->flash('success', 'Audio File delete successfully.');
+
+        } catch (\Exception $exception) {
+
+            session()->flash('error', $exception->getMessage());
+
+        }
     }
 
     public function resetForm()
