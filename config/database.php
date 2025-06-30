@@ -643,6 +643,16 @@ return [
             'table' => 'gamification_performance_level',
             'fillable' => ['user_id','performance','level'],
             'hidden' => ['updated_at','created_at'],
-        ]
+        ],
+        'ShopCategory' => [
+            'table' => 'humanop_shop_categories',
+            'fillable' => ['name'],
+            'hidden' => ['created_at','updated_at'],
+        ],
+        'ShopCategoryResource' => [
+            'table' => 'humanop_shop_resources',
+            'fillable' => ['heading','slug','upload_id','humanop_shop_category_id','description','content','source_id','source_url','embed_link','buy_from'],
+            'hidden' => ['updated_at'],
+        ],
     ]
 ];

@@ -21,6 +21,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
     protected $GamificationClientController = 'App\Http\Controllers\Api\ClientController\Gamification';
+    protected $HumanOpShopController = 'App\Http\Controllers\Api\ClientController\HumanOPShop';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
     protected $ChatAiNamespace = 'App\Http\Controllers\Api\ClientController\ChatAi';
@@ -88,6 +89,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/library_resources/library_resource_api.php'));
+                
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->HumanOpShopController)
+                ->group(base_path('routes/client_apis/humanop_shop/humanop_shop_api.php'));
 
             Route::prefix('api')->middleware('api')
                 ->namespace($this->HumanNetworkNamespace)
