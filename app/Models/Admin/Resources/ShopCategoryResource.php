@@ -109,20 +109,20 @@ class ShopCategoryResource extends Model
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null, $buy_from = null)
     {
 
         self::whereId($id)->update([
             'heading' => $heading,
             'slug' => Str::slug($heading),
             'upload_id' => $uploadId,
-            'resource_category_id' => $category_id,
+            'humanop_shop_category_id' => $category_id,
             'description' => $description,
             'content' => $content,
             'source_id' => null,
             'source_url' => null,
             'embed_link' => $link,
-            'relevance' => $relevance
+            'buy_from'=>$buy_from
         ]);
 
         return self::singleLibraryResource($id);
@@ -136,13 +136,13 @@ class ShopCategoryResource extends Model
 
     public static function deleteResourceOfCategory($id = null)
     {
-        return self::where('resource_category_id', $id)->delete();
+        return self::where('humanop_shop_category_id', $id)->delete();
     }
 
     public static function singleLibraryResource($resource_id)
     {
 
-        return self::whereId($resource_id)->with('libraryPermissions')->first()->toArray();
+        return self::whereId($resource_id)->first();
     }
 
     public static function resourcesForApi()

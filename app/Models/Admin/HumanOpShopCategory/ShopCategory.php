@@ -40,7 +40,7 @@ class ShopCategory extends Model
 
     public static function deleteSingleCategory($id)
     {
-        LibraryResource::deleteResourceOfCategory($id);
+        ShopCategoryResource::deleteResourceOfCategory($id);
         self::whereId($id)->delete();
     }
 

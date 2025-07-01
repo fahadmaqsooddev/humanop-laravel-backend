@@ -52,4 +52,9 @@ class GamificationPerformanceLevel extends Model
             ]);
         }
     }
+
+    public static function getSinglePerformanceLevel($userId = null)
+    {
+        return self::where('user_id',$userId)->latest()->first();
+    }
 }

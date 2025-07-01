@@ -145,20 +145,20 @@ class CreateHumanOpShop extends Component
         $this->render();
     }
 
-    public function editResource($resource_id)
+    public function editShopResource($resource_id)
     {
 
-        $this->emit('toggleEditResourceModal');
+        $this->emit('toggleEditShopResourceModal');
 
-        $this->editResourceData = LibraryResource::singleLibraryResource($resource_id);
+        $this->editResourceData = ShopCategoryResource::singleLibraryResource($resource_id);
 
         $this->resourceId = $resource_id;
 
         $this->heading = $this->editResourceData['heading'] ?? null;
 
-        $this->relevance = $this->editResourceData['relevance'] ?? null;
+//        $this->relevance = $this->editResourceData['relevance'] ?? null;
 
-        $this->category_id = $this->editResourceData['resource_category_id'] ?? null;
+        $this->category_id = $this->editResourceData['humanop_shop_category_id'] ?? null;
 
         $this->description = $this->editResourceData['description'] ?? null;
 
@@ -215,8 +215,9 @@ class CreateHumanOpShop extends Component
         $this->update_content = $data;
     }
 
-    public function updateResource()
+    public function updateShopResource()
     {
+
 
         DB::beginTransaction();
 
@@ -224,13 +225,13 @@ class CreateHumanOpShop extends Component
 
         if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
-            $getResource = LibraryResource::singleLibraryResource($this->resourceId);
+            $getResource = ShopCategoryResource::singleLibraryResource($this->resourceId);
 
             $this->deleteFileToGumlet($getResource['source_id']);
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
+            $updateResource = ShopCategoryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->permission);
 
             tap($updateResource);
 
@@ -239,15 +240,17 @@ class CreateHumanOpShop extends Component
 
         } else {
 
+
             $upload_id = $this->uploadFile($this->resource_file);
 
-            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
+
+            ShopCategoryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link,$this->permission);
 
         }
 
-        PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 
-        $this->emit('toggleEditResourceModal');
+
+        $this->emit('toggleEditShopResourceModal');
 
         $this->resetForm();
 
