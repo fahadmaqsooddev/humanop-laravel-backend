@@ -161,6 +161,7 @@ class DashboardController extends Controller
                 foreach ($favoriteTip['dailyTips'] as $dailyTip) {
 
                     $tips[] = [
+                        'id' => $dailyTip['id'] ?? '',
                         'title' => $dailyTip['title'] ?? '',
                         'description' => $dailyTip['description'] ?? '',
 

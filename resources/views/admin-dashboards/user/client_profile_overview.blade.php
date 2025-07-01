@@ -1,6 +1,5 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 @section('content')
-
     <style>
         /* Import Google font - Poppins */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -20,13 +19,6 @@
 
         .read-more-content {
             margin-top: 20px;
-        }
-
-        .center-play-pause {
-            /* padding-bottom: 150px; */
-            /* position: absolute; */
-
-            /* padding-left:20px ; */
         }
 
         button.play-pause-center {
@@ -83,7 +75,6 @@
             position: absolute;
             height: calc(100% + 35px);
             pointer-events: none;
-            /* background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); */
         }
 
         .video-timeline {
@@ -138,6 +129,27 @@
             font-size: 27px;
         }
 
+        #intro_to_cycle_to_life p,
+        #intro_to_cycle_to_life h4,
+        #intro_to_trait_text p,
+        #intro_to_trait_text h4,
+        #your_motivation_text p,
+        #your_motivation_text h4,
+        #your_motivation_text p,
+        #your_motivation_text h4,
+        #feature_0_text p,
+        #feature_0_text h4,
+        #your_boundary_text p,
+        #your_boundary_text h4,
+        #your_communication_text p,
+        #your_communication_text h4,
+        #energy_pool_text p,
+        #energy_pool_text h4,
+        #your_perception_text p,
+        #your_perception_text h4{
+            color: #1b3a62;
+        }
+
         .video-timeline:hover .progress-bar::before,
         .video-timeline:hover .progress-area span {
             display: block;
@@ -189,6 +201,10 @@
             font-size: 23px;
         }
 
+        .custom-color font {
+            color: #1b3a62 !important; /* Replace with your desired color */
+        }
+
         .options input {
             height: 4px;
             margin-left: 3px;
@@ -208,16 +224,6 @@
             font-family: "Open sans";
         }
 
-        /
-        .playback-content {
-        /
-            /*    display: flex;*/
-            /*    position: relative;*/
-        /
-        }
-
-        /
-
         .playback-content .speed-options {
             position: absolute;
             list-style: none;
@@ -233,15 +239,6 @@
             transition: opacity 0.13s ease;
         }
 
-        /
-        .playback-content .speed-options.show {
-        /
-            /*    opacity: 1;*/
-            /*    pointer-events: auto;*/
-        /
-        }
-
-        /
         .video-container video {
             width: 120%;
         }
@@ -313,61 +310,51 @@
                 font-size: 12px;
             }
 
-            .playback-content .speed-options {
-                /*    width: 75px;*/
-                /*    left: -30px;*/
-                /*    bottom: 30px;*/
-            }
-
-            .speed-options li {
-                /*    margin: 1px 0;*/
-                /*    padding: 3px 0 3px 10px;*/
-            }
-
             .right .pic-in-pic {
                 display: none;
             }
         }
 
         .left-nav-blue-light-color {
-            background:  #f8d7da!important;
+            background: #f8d7da !important;
         }
 
         .orange-border {
             border: 1px solid #1b3a62;
         }
-        .heading{
+
+        .heading {
             color: orangered;
         }
-        .custom-color{
+
+        .custom-color {
             color: #0f1535;
             font-weight: bold;
         }
 
 
-        .text-tiny{
-    font-size: 0.5rem !important;
-         }
-         .text-small{
-    font-size: 0.75rem !important;
-          }
-         .text-default{
-    font-size: 1rem !important;
-          }
-
-        .text-big{
-    font-size: 1.5rem !important;
+        .text-tiny {
+            font-size: 0.5rem !important;
         }
-        .text-huge{
-    font-size: 2rem !important;
-         }
+
+        .text-small {
+            font-size: 0.75rem !important;
+        }
+
+        .text-default {
+            font-size: 1rem !important;
+        }
+
+        .text-big {
+            font-size: 1.5rem !important;
+        }
+
+        .text-huge {
+            font-size: 2rem !important;
+        }
     </style>
-
     <div class="row">
-
-
         <div class="col-lg-12 position-relative z-index-2">
-
             <div class="container-fluid px-0 px-md-5 ">
                 <section>
                     <div class="row mt-lg-4 mt-2 ">
@@ -376,7 +363,7 @@
                                 {{-- hello --}}
                                 <div class="card-body p-3 " style="background-color: white;">
                                     <p id="main_result_intro"></p>
-                                    <h1 class="" style="color: #1b3a62" >Your HumanOp Profile Overview</h1>
+                                    <h1 class="" style="color: #1b3a62">Your HumanOp Profile Overview</h1>
                                     <p class="custom-color">Date of Results: {{$created_at ?? ''}}</p>
                                     <div class="video-container show-controls" id="container_video">
                                         <div class="wrapper mx-auto w-75 ">
@@ -428,11 +415,9 @@
                                     <div class="row d-flex">
                                         <div id="intro_to_cycle_to_life" class="col-12 mt-3"
                                              style="display: none;background-color:#eaf3ff !important;">
-                                            <div id="intro_to_cycle_to_life_text" class="card p-2"
-                                                 style="height: auto;text-align: justify;background-color:#eaf3ff !important;">
-                                                 <h4 class="" style="color: #1b3a62">{{$cycle_life['public_name']}}</h4>
-
-                                                {!!$cycle_life['description']!!}
+                                            <div id="intro_to_cycle_to_life_text" class="card p-2" style="height: auto;text-align: justify;background-color:#eaf3ff !important;">
+                                                <h4 class="" style="color: #1b3a62">{{$cycle_life['public_name']}}</h4>
+                                                <p style="color: #1b3a62 !important;">{!!$cycle_life['description']!!}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -865,7 +850,7 @@
                                         <div id="intro_to_trait" class="col-12 mt-3" style="display: none;">
                                             <div id="intro_to_trait_text" class="card p-2"
                                                  style="height: auto;text-align: justify;background-color:#eaf3ff !important">
-                                                 <h4 class="" style="color: #1b3a62">{{$trait_intro['public_name']}}</h4>
+                                                <h4 class="" style="color: #1b3a62">{{$trait_intro['public_name']}}</h4>
                                                 {!!$trait_intro['description']!!}
                                             </div>
                                         </div>
@@ -879,9 +864,9 @@
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: white; text-align: justify; font-size:1rem">
                                                        <span
-                                                            style="color: #1b3a62;font-size:1rem;font-weight:bold;">{{$style['public_name'] }} : </span>
-                                                            {{-- {{$style['description']}} --}}
-                                                            {!!$style['description']!!}
+                                                           style="color: #1b3a62;font-size:1rem;font-weight:bold;">{{$style['public_name'] }} : </span>
+                                                        {{-- {{$style['description']}} --}}
+                                                        {!!$style['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -892,7 +877,8 @@
                                              style="display: none;">
                                             <div id="your_motivation_text" class="card p-2"
                                                  style="height: auto;text-align: justify;background-color:#eaf3ff;">
-                                                 <h4 class="" style="color: #1b3a62">{{$motivation_intro['public_name']}}</h4>
+                                                <h4 class=""
+                                                    style="color: #1b3a62">{{$motivation_intro['public_name']}}</h4>
 
                                                 {!!$motivation_intro['description']!!}
                                             </div>
@@ -908,8 +894,8 @@
                                                        style=" text-align: justify; font-size:1rem;">
                                                                     <span
                                                                         style="color: #1b3a62;font-size:1rem;font-weight:bold;">{{$feature['public_name'] }} : </span>
-                                                                        {{-- {{$feature['description']}} --}}
-                                                                        {!!$feature['description']!!}
+                                                        {{-- {{$feature['description']}} --}}
+                                                        {!!$feature['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -920,7 +906,8 @@
                                             <div id="your_boundary_text" class="card p-2"
                                                  style="height: auto;text-align: justify;background-color:#eaf3ff;">
 
-                                                 <h4 class="" style="color: #1b3a62">{{$intro_boundaries['public_name']}}</h4>
+                                                <h4 class=""
+                                                    style="color: #1b3a62">{{$intro_boundaries['public_name']}}</h4>
                                                 {!! $intro_boundaries['description']!!}
                                             </div>
                                         </div>
@@ -945,7 +932,8 @@
                                              style="display: none;">
                                             <div id="your_communication_text" class="card p-2"
                                                  style="height: auto;text-align: justify;background-color:#eaf3ff;">
-                                                 <h4 class="" style="color: #1b3a62">{{$intro_communication['public_name']}}</h4>
+                                                <h4 class=""
+                                                    style="color: #1b3a62">{{$intro_communication['public_name']}}</h4>
                                                 {!!$intro_communication['description']!!}
                                             </div>
                                         </div>
@@ -970,7 +958,8 @@
                                         <div id="energy_pool" class="col-12 mt-3" style="display: none;">
                                             <div id="energy_pool_text" class="card p-2"
                                                  style="height: auto;text-align: justify;background-color:#eaf3ff;">
-                                                 <h4 class="" style="color: #1b3a62">{{$intro_energypool['public_name']}}</h4>
+                                                <h4 class=""
+                                                    style="color: #1b3a62">{{$intro_energypool['public_name']}}</h4>
                                                 {!!$intro_energypool['description']!!}
                                             </div>
                                         </div>
@@ -997,7 +986,8 @@
                                                  style="display: none;">
                                                 <div id="your_perception_text" class="card p-2"
                                                      style="height: auto;text-align: justify;background-color:#eaf3ff;">
-                                                     <h4 class="" style="color: #1b3a62">{{$perception_life['public_name']}}</h4>
+                                                    <h4 class=""
+                                                        style="color: #1b3a62">{{$perception_life['public_name']}}</h4>
                                                     {!!$perception_life['description']!!}
                                                 </div>
                                             </div>
@@ -1033,8 +1023,8 @@
                                             </li>
                                         @endif
                                         <li class=""><a href="#summaryReport" style=""
-                                               class="flex-sm-fill  text-lg-center nav-link  text-bold {{request()->has('video_url') ? '' : "active"}}"
-                                               data-toggle="tab">Summary Report</a>
+                                                        class="flex-sm-fill  text-lg-center nav-link  text-bold {{request()->has('video_url') ? '' : "active"}}"
+                                                        data-toggle="tab">Summary Report</a>
                                         </li>
                                         <li><a href="#coreStats"
                                                class="flex-sm-fill text-lg-center nav-link text-bold {{request()->has('video_url') ? 'active' : ""}}"
@@ -1048,41 +1038,10 @@
                                         <div class="tab-pane {{request()->has('video_url') ? '' : "active"}}"
                                              id="summaryReport">
                                             <div class="slider-padding p-3 mt-5 ">
-                                                {{-- <p class="custom-color">The HumanOp Summary Report serves to identify those aspects about you
-                                                    that define and direct your best performance qualities. Since your
-                                                    physical being is respectively the assigned vehicle transporting you
-                                                    through life, it's often helpful to know what kind of vehicle you
-                                                    are. The Greeks have been insisting we "Know Thyself" for centuries.
-                                                    This simple request answered can facilitate success in all aspects
-                                                    of life, including one's performance in conducting business, and
-                                                    creating healthy relationships at work and in life.</p>
-                                                <p class="custom-color">The HumanOp Assessment is a patented instrument grounded in physical
-                                                    laws and objective scientific understanding. It collects and
-                                                    quantifies information in a user-friendly format, providing easily
-                                                    comprehensible results.</p>
-                                                <p class="custom-color">Your personal HumanOp Summary Report provides you with your own
-                                                    operating manual. These operating guidelines support you in making
-                                                    conscious choices that keep you energized and optimized. When you
-                                                    use your natural talents versus learned talents you gain energy.
-                                                    Maximizing your fuel efficiency allows you to access your true self
-                                                    and enjoy life in the process.</p>
-                                                <h4 class="primaryColor">The HumanOp Summary Report proves valuable in
-                                                    various contexts:</h4>
-                                                <ul class="custom-color">
-                                                    <li>Employer and agency recruitment</li>
-                                                    <li>Relationship management</li>
-                                                    <li>Psychotherapy</li>
-                                                    <li>Career guidance</li>
-                                                    <li>Premarital counseling</li>
-                                                    <li>Roommate selection</li>
-                                                    <li>Self-understanding and interpersonal relationships</li>
-                                                </ul> --}}
                                                 <div class="custom-color">
                                                     {!!$summary_static['description']!!}
 
                                                 </div>
-
-
                                                 @if($assessment)
                                                     <a href="{{url('admin/download-user-report/'. $assessment->id)}}"
                                                        target="_blank"
@@ -1103,133 +1062,24 @@
                                                     </h4>
                                                 </div>
                                                 <h4 class="primaryColor">Main Results Introduction:</h4>
-                                                {{-- <p class="mt-4 custom-color">You're about to experience your Human Op ULT assessment
-                                                    results. Most people find this experience to be extremely
-                                                    insightful, validating and even empowering to learn about themselves
-                                                    from this objective natural perspective. I want to spend just a few
-                                                    minutes with you and share a little bit about what makes our
-                                                    technology so unique. It's the objectivity of the HumanOp ULT
-                                                    assessment that sets us apart from the thousands of other human
-                                                    assessments. Now you may have experienced other human assessments
-                                                    over the years, and we're certainly not here to dismiss any one of
-                                                    them. Our assessment is just different from those others. The others
-                                                    fall under the umbrella of psychometric assessments. They're asking
-                                                    your opinion about yourself, and, of course, what you believe to be
-                                                    true about yourself is important. It certainly matters. And as we
-                                                    know, if we solely rely on our subjective opinions about ourselves,
-                                                    we can also recognize that sometimes our opinions of ourselves can
-                                                    be skewed. Our assessment technology elicits the objectivity that
-                                                    exists in human nature because we address the physics that exists in
-                                                    all of nature. After all, physical law governs this physical world
-                                                    in which we live. It is a constant. It's never changing. It governs
-                                                    all living things, plants, trees, animals…and human beings. So those
-                                                    questions that we ask you about what you look like, objectively, the
-                                                    answers actually mean something in terms of how you naturally
-                                                    operate on the road of life and our technology quantifies this
-                                                    understanding.
-                                                    <br>
-                                                    <div class="read-more-content hidden">
-
-                                                            <p class="custom-color" style="text-align: justify">Let's take a look at a very elementary
-                                                                illustration of what this looks like in
-                                                                nature. As humans, we can look at most things in nature, and most of the time we
-                                                                know the potential of what we're looking at. Just by looking at it. Take these two
-                                                                dogs, for example. If you knew nothing about these two animals, and there's no
-                                                                judgment about either dog, you can notice certain things about each one. You can
-                                                                notice that the one on the left is likely going to take a more direct approach to
-                                                                life. Now it doesn't mean he's going to be mean, just more direct. You can see this
-                                                                because you can see his powerhouse build. When you look at the dog on the right, you
-                                                                notice it's probably going to take a more distracted approach to life. More happy
-                                                                jolly go lucky. And again, you're not judging it, you're just seeing its potential
-                                                                just by observing the nature of its physicality. </p>
-                                                            <p class="custom-color" style="text-align: justify">Let's take the same concept into
-                                                                nature a little bit deeper and look at the cactus in
-                                                                the willow. And, of course, they don't both grow in the same environment. But if
-                                                                they did and we wanted to picnic, the willow would obviously be the better choice
-                                                                for our picnic needs. When we look at that cactus, we know certain things about it
-                                                                just by looking at it. We know that it thrives in a hot dry climate, that it doesn't
-                                                                need a lot of water, and that we probably don't want to hug it. The willow on the
-                                                                other hand thrives in a cooler wet climate…needs more water, and I could go on and
-                                                                on, but you're getting the point here. As humans we can look at plants and trees and
-                                                                animals, and most of the time we know what we are looking at. In other words, we
-                                                                know the potential that stands before us just by looking at it. Human nature is no
-                                                                different. Our physicality reveals our true nature. Some people by nature are more
-                                                                direct, kind like that pitbull, and it actually shows up in their physical traits.
-                                                                They do actually have more of a powerhouse build kind of like the pit bull looks.
-                                                                Some people are more like that willow tree. They provide shade and in the human
-                                                                equation that shade equates to they're actually more naturally nurturing. And again,
-                                                                we can see it in their physicality. </p>
-                                                            <p class="custom-color" style="text-align: justify">So humans can see natural potential
-                                                                when they look into nature, but when they look at
-                                                                themselves, or another person, they often don't know what they are looking at. They
-                                                                don't see the unique potential of what stands before them. They may know “who”
-                                                                stands before them, but they don't know the objective nature of the individual. The
-                                                                “what”, if you will. So unfortunately, they often end up subscribing to ways of
-                                                                being for themselves that are not natural for them, based on societal recommendation
-                                                                and cultural norms…upbringing. All of those things are not wrong, but sometimes all
-                                                                of those factors in our life are just not in alignment with our true nature, and
-                                                                they add to those opinions that we have about ourselves that aren't quite accurate.
-                                                                Humans also impose their own expectations on others. Simply because something works
-                                                                really great for them, and they just assume it will work really great for another.
-                                                                The reality is, every person is as unique as our thumb print. And as we know, there
-                                                                are no two thumb prints exactly alike. And our physical bodies are essentially the
-                                                                vehicles that are transporting us through this life. By nature, we are not designed
-                                                                to be doing the same things in the same way. Let's take a look at the Hummer and the
-                                                                Lamborghini, side by side. We know one of them is designed to off-road, and one of
-                                                                them isn't. It's really a great example of when we operate against our true nature
-                                                                or the nature of our design. We essentially burn out. You know, it's a really
-                                                                important reminder, as humans we can learn how to do most anything. But when we
-                                                                apply things to our life and they're not in alignment with how we naturally show up,
-                                                                it will take energy from us. Your assessment results will help you understand what
-                                                                you naturally need on a daily basis in order to reach your highest performance
-                                                                potential to ensure that you get the most out of life. Now, the methodology behind
-                                                                our technology is called The Knowledge of Y.O.U. There are six key components. When
-                                                                you receive your assessment results, we will walk you through each component one by
-                                                                one. We’ll give you an overview of the component, and then we'll share with you how
-                                                                you show up through that component. So here are the six components: Traits,
-                                                                Motivations, Boundaries, Communication style, and then there's a dual component at
-                                                                the bottom Energy and Perception. </p>
-                                                                <p class="custom-color" style="text-align: justify">Now there's one last very important
-                                                                    aspect that you will experience in your results
-                                                                    session. And it relates to time. Everything that we can see with the naked eye in
-                                                                    this physical world points to a clue about human nature. Notice that this graphic,
-                                                                    we call it the Cycle of Life resembles a clock, The clock in this case is a mirror
-                                                                    example representing our shelf life..the time we spend in this lifetime, and the 12
-                                                                    phases that require special attention. Each number that you see here represents an
-                                                                    age, and in between each age is an interval that has a certain nature to it. In your
-                                                                    results review session, we will help you to understand how to best support yourself
-                                                                    as you travel through the current age agent interval that you're experiencing right
-                                                                    now and even help prepare you for the next interval of life that you'll eventually
-                                                                    be entering into. The Cycle of Life is a very, very important reminder that we were
-                                                                    all at the effect of time, and knowing yourself through our technology will help you
-                                                                    to make the most of that time. We very much look forward to sharing your assessment
-                                                                    results with you</p>
-                                                    </div>
-                                                    <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                       data-bs-target="#resultIntroductionModal"
-                                                       onclick="toggleReadmore(this)"
-                                                       style="color: #1b3a62;">read
-                                                        more...
-                                                    </a>
-                                                </p> --}}
                                                 <div class="mt-4 custom-color">
-                                                    {{-- {!!$main_result['description']!!} --}}
 
                                                     <div id="description-container">
                                                         <div id="description-preview">
-                                                            <p >
+                                                            <p>
                                                                 {!! Str::words($main_result['description'], 200) !!}
                                                             </p>
 
                                                         </div>
 
-                                                        <div  id="description-full" style="display: none !important;">
-                                                            <p >
+                                                        <div id="description-full" style="display: none !important;">
+                                                            <p>
                                                                 {!! $main_result['description'] !!}
                                                             </p>
                                                         </div>
 
-                                                        <p id="toggle-button" style="cursor: pointer;color:#1b3a62" onclick="toggleDescription()">read More...</p>
+                                                        <p id="toggle-button" style="cursor: pointer;color:#1b3a62"
+                                                           onclick="toggleDescription()">read More...</p>
                                                     </div>
 
                                                 </div>
@@ -1247,7 +1097,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                              
+                                                </div>
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="intro_to_cycle_to_life_heading" class="card"
@@ -1273,7 +1124,8 @@
                                                                         <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Motivation 16-20.mp4') }}', 1, 'motivation_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
-                                                                            Cycle of Life - Connecting & Communicating (7-11)
+                                                                            Cycle of Life - Connecting & Communicating
+                                                                            (7-11)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1328,7 +1180,8 @@
                                                                         <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Motivation 16-20.mp4') }}', 1, 'motivation_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
-                                                                            Cycle of Life - Alchemical Revelation (12-15)
+                                                                            Cycle of Life - Alchemical Revelation
+                                                                            (12-15)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1433,7 +1286,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="roadworthy_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                    <div class="card-body p-3 "
+                                                                         style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')}}', 1, 'roadworthy_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
@@ -1448,7 +1302,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="power_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                    <div class="card-body p-3 "
+                                                                         style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')}}', 1, 'power_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
@@ -1463,7 +1318,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="mid_life_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                    <div class="card-body p-3 "
+                                                                         style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')}}', 1, 'mid_life_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
@@ -1479,7 +1335,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="awareness_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                    <div class="card-body p-3 "
+                                                                         style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}', 1, 'awareness_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
@@ -1494,7 +1351,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="forward_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                    <div class="card-body p-3 "
+                                                                         style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}', 1, 'forward_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
@@ -1509,7 +1367,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="liberated_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                    <div class="card-body p-3 "
+                                                                         style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}', 1, 'liberated_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
@@ -1524,7 +1383,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="being_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                    <div class="card-body p-3 "
+                                                                         style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}', 1, 'being_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
@@ -1539,7 +1399,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="review_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                    <div class="card-body p-3 "
+                                                                         style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}', 1, 'review_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
@@ -1554,7 +1415,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="review_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                    <div class="card-body p-3 "
+                                                                         style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}', 1, 'review_life_cycle')"
                                                                             style="cursor: pointer"
                                                                             class="fs-10px">
@@ -1570,7 +1432,8 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="intro_to_trait_heading" class="card"
                                                              style="height: auto;">
-                                                            <div class="card-body p-3" style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                            <div class="card-body p-3"
+                                                                 style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Traits.mp4')}}', 1, 'intro_to_trait')"
                                                                     style="cursor: pointer"
                                                                     class="fs-10px">
@@ -1586,13 +1449,14 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
                                                             <div id="style_{{$index.'_heading'}}" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                <div class="card-body p-3 "
+                                                                     style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                     <h5 onclick="showFeatureVideo('{{$style['video_url']}}', 1, '{{'style_'.$index}}')"
                                                                         style="cursor: pointer"
                                                                         class="fs-10px">
 
-                                                                       {{-- {{$style[1] . ' [' . "$style[0]" . ']'}} --}}
-                                                                       {{ $style['public_name'] . ' [' . $style['code_number'] . ']' }}
+                                                                        {{-- {{$style[1] . ' [' . "$style[0]" . ']'}} --}}
+                                                                        {{ $style['public_name'] . ' [' . $style['code_number'] . ']' }}
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -1603,7 +1467,8 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="your_motivation_heading" class="card"
                                                              style="height: auto;">
-                                                            <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                            <div class="card-body p-3 "
+                                                                 style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}', 1, 'your_motivation')"
                                                                     style="cursor: pointer"
                                                                     class="fs-10px">
@@ -1618,7 +1483,8 @@
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
                                                             <div id="feature_{{$index}}_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                <div class="card-body p-3 "
+                                                                     style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                     <h5 onclick="showFeatureVideo('{{$feature['video_url']}}', 1, 'feature_{{$index}}')"
                                                                         style="cursor: pointer"
                                                                         class="fs-10px">
@@ -1643,7 +1509,8 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="your_boundary_heading" class="card"
                                                              style="height: auto">
-                                                            <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                            <div class="card-body p-3 "
+                                                                 style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                 <h5 data-toggle="collapse"
                                                                     data-target="#your_boundaries" aria-expanded="true"
                                                                     aria-controls="your_boundaries"
@@ -1662,7 +1529,8 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="boundary_dynamic_div_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                <div class="card-body p-3 "
+                                                                     style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                     <h5 onclick="showFeatureVideo('{{$boundary['video_url']}}', 1, 'boundary_dynamic_div')"
                                                                         style="cursor: pointer"
                                                                         class="fs-10px">
@@ -1678,7 +1546,8 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="your_communication_heading" class="card"
                                                              style="height: auto">
-                                                            <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                            <div class="card-body p-3 "
+                                                                 style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Communication Style.mp4')}}', 1, 'your_communication')"
                                                                     style="cursor: pointer"
                                                                     class="fs-10px">
@@ -1695,7 +1564,8 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
                                                             <div id="communication_{{$index}}_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                <div class="card-body p-3 "
+                                                                     style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                     <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="fs-10px">
@@ -1713,7 +1583,8 @@
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="energy_pool_heading" class="card" style="height: auto">
-                                                            <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                            <div class="card-body p-3 "
+                                                                 style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Energy Pool.mp4')}}', 1, 'energy_pool')"
                                                                     style="cursor: pointer;"
                                                                     class="fs-10px">
@@ -1728,7 +1599,8 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="energy_pool_dynamic_dev_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                <div class="card-body p-3 "
+                                                                     style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                     <h5 onclick="showFeatureVideo('{{$energyPool['video_url']}}', 1, 'energy_pool_dynamic_dev')"
                                                                         style="cursor: pointer"
                                                                         class="fs-10px">
@@ -1747,7 +1619,8 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="your_perception_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                <div class="card-body p-3 "
+                                                                     style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                     <h5 onclick="showFeatureVideo('{{$perception_life['video_url']}}', 1, 'your_perception')"
                                                                         style="cursor: pointer"
                                                                         class="fs-10px">
@@ -1764,7 +1637,8 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="perception_dynamic_dev_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
+                                                                <div class="card-body p-3 "
+                                                                     style="color: #1b3a62; border: 2px solid #1b3a62 !important; border-radius: 15px;">
                                                                     <h5 onclick="showFeatureVideo('{{$perception['video_url']}}', 1, 'perception_dynamic_dev')"
                                                                         style="cursor: pointer"
                                                                         class="fs-10px">
@@ -1821,16 +1695,16 @@
 
     <script>
 
-        function toggleReadmore(button){
-            const content=document.querySelector('.read-more-content');
+        function toggleReadmore(button) {
+            const content = document.querySelector('.read-more-content');
             content.classList.toggle('hidden');
-            const ele=document.getElementById('coreStats');
-            if(content.classList.contains('hidden')){
+            const ele = document.getElementById('coreStats');
+            if (content.classList.contains('hidden')) {
                 button.textContent = 'Read more...';
-                ele.scrollIntoView({ behavior: 'smooth', block: 'start'})
-            }else{
-                button.textContent='Less more...';
-                ele.scrollIntoView({ behavior: 'smooth', block: 'start'})
+                ele.scrollIntoView({behavior: 'smooth', block: 'start'})
+            } else {
+                button.textContent = 'Less more...';
+                ele.scrollIntoView({behavior: 'smooth', block: 'start'})
             }
 
 
@@ -2074,18 +1948,17 @@
                 preview.style.display = 'none';
                 full.style.display = 'block';
                 button.textContent = 'less More...';
-                full.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                full.scrollIntoView({behavior: 'smooth', block: 'start'});
             } else {
 
                 preview.style.display = 'block';
                 full.style.display = 'none';
                 button.textContent = 'read More...';
-                preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                preview.scrollIntoView({behavior: 'smooth', block: 'start'});
 
             }
         }
     </script>
-
 
 @endpush
 
