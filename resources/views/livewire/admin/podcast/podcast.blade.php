@@ -233,7 +233,13 @@
         document.addEventListener('DOMContentLoaded', attachAudioSeekButtons);
         document.addEventListener('livewire:update', attachAudioSeekButtons);
     </script>
-
+    <script>
+        document.addEventListener('livewire:load', function () {
+            Livewire.on('refreshPage', () => {
+                window.location.reload();
+            });
+        });
+    </script>
 
 @endpush
 

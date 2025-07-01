@@ -58,6 +58,8 @@ class Podcast extends Component
 
             $this->emit('closeModal');
 
+            $this->emit('refreshPage');
+
             DB::commit();
 
         } catch (\Exception $exception) {
@@ -97,7 +99,7 @@ class Podcast extends Component
 
             session()->flash('success', 'Audio File uploaded successfully.');
 
-            $this->render();
+            $this->emit('refreshPage');
 
             DB::commit();
 
@@ -119,6 +121,8 @@ class Podcast extends Component
 
             session()->flash('success', 'Audio File delete successfully.');
 
+            $this->render();
+
         } catch (\Exception $exception) {
 
             session()->flash('error', $exception->getMessage());
@@ -135,8 +139,6 @@ class Podcast extends Component
     public function render()
     {
 
-        $podcasts = $this->getPodcasts();
-
-        return view('livewire.admin.podcast.podcast', ['podcasts' => $podcasts]);
+        return view('livewire.admin.podcast.podcast', ['podcasts' => $this->getPodcasts()]);
     }
 }
