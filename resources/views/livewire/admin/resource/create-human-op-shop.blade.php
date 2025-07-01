@@ -187,10 +187,10 @@
                                 <span wire:loading wire:target="deleteResource" class="swal2-loader"
                                       style="font-size: 8px;"></span>
                             </button>
-                            <button wire:click="editResource({{ $resource['id'] }})"
+                            <button wire:click="editShopResource({{ $resource['id'] }})"
                                     style="background-color: #1B3A62 ; color: white"
                                     class="btn btn-sm float-end mt-2 mb-4 mx-3">Edit Resource
-                                <span wire:loading wire:target="editResource" class="swal2-loader"
+                                <span wire:loading wire:target="editShopResource" class="swal2-loader"
                                       style="font-size: 8px;"></span>
                             </button>
                         </div>
@@ -246,7 +246,7 @@
                                     </div>
                                     <div class="form-group mt-4" wire:ignore>
                                         <label class="form-label fs-4" style="color: #1b3a62">Content</label>
-                                        <textarea  class="form-control input-form-style" id="editor"
+                                        <textarea  class="form-control input-form-style" id="shop_editor"
                                                    name="content" wire:model="content" rows="10" cols="10"></textarea>
                                     </div>
                                     <div class="form-group">
@@ -297,6 +297,142 @@
         </div>
     </div>
 
+
+    {{-- Edit Library Resources Models--}}
+    <div wire:ignore.self class="modal fade" id="editShopResource" tabindex="-1" role="dialog" data-bs-focus="false"
+         aria-labelledby="editShopResource" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style=" border-radius: 9px">
+                    <form wire:submit.prevent="updateShopResource">
+                        @csrf
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="form-label fs-4" style="color: #1b3a62">Edit Shop Resource</label>
+                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @include('layouts.message')
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Category</label>
+                                        <select  class="form-control input-form-style"
+                                                 wire:model.defer="category_id" placeholder="Select category">
+                                            @foreach($dropDownCategories as $category)
+                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Heading</label>
+                                        <input  class="form-control input-form-style"
+                                                wire:model.defer="heading" placeholder="heading" type="text">
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Description</label>
+                                        <textarea  class="form-control input-form-style"
+                                                   wire:model.defer="description" placeholder="Enter description"
+                                                   rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group mt-4" wire:ignore>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Content</label>
+                                        <textarea  class="form-control input-form-style"
+                                                   id="shop_resourse_editor" name="update_content" wire:model="update_content"
+                                                   rows="10">
+                                        </textarea>
+                                    </div>
+                                    <div class="form-group mt-4 ">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
+                                        <input  class="form-control input-form-style"
+                                                wire:model.debounce.500ms="link" placeholder="Link" type="text"
+                                                id="embedlink" wire:change="getVideoLink">
+                                    </div>
+                                    <label class="form-label fs-4 text-white ">OR</label>
+                                    <div class="form-group mt-4 " hidden>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource Id</label>
+                                        <input  class="form-control input-form-style"
+                                                wire:model.defer="resourceId" type="text">
+                                    </div>
+                                    <div class="form-group mt-4 ">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
+                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
+                                        <input  wire:model="resource_file"
+                                                id="resource_file" wire:change="getResourceFile"
+                                                class="form-control input-form-style resource_file1" type="file"
+                                                accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
+                                    </div>
+                                    <span wire:loading.flex wire:target="resource_file">
+                                            <div class="d-flex align-items-center mt-2">
+                                                <div class="spinner-border" role="status"
+                                                     style="color: #1b3a62 !important;"></div>
+                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                              </div>
+                                        </span>
+                                    @if(!empty($editResourceData['photo_url']))
+                                        <div class="form-group mt-4">
+                                            <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
+                                                 width="200">
+                                        </div>
+                                    @elseif(!empty($editResourceData['video_url']))
+                                        <div class="form-group mt-4">
+                                            <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
+                                                   style="height: 200px;"></video>
+                                        </div>
+                                    @elseif(!empty($editResourceData['audio_url']))
+                                        <div class="form-group mt-4">
+                                            <audio controls style="width: 100%;">
+                                                <source src="{{ $editResourceData['audio_url']['path'] }}"
+                                                        type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </div>
+                                    @else
+                                    @endif
+                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
+                                    <div class="row">
+                                        <ul>
+                                            @if(!empty($editResourceData))
+                                                @if($editResourceData['buy_from'] == 1)
+                                                    <li>Price</li>
+                                                @elseif($editResourceData['buy_from'] == 2)
+                                                    <li>Point</li>
+
+                                                @endif
+                                            @endif
+                                        </ul>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input type="checkbox"  wire:click="$set('permission', 2)"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="">
+                                                <label class="form-check-label" for="freemium">Point</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input type="checkbox"  wire:click="$set('permission', 1)"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="">
+                                                <label class="form-check-label" for="premium">Price</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
+                                <span wire:loading wire:target="updateResource" class="swal2-loader"
+                                      style="font-size: 8px;"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     @if($booleanValue)
         <script>
             const resourceFileInput = document.querySelector('.resource_file1');
@@ -365,12 +501,12 @@
                                     @include('layouts.message')
                                     <br/>
                                     <br/>
-                                    <label class="form-label fs-5 text-white">Move Resources To An Other
+                                    <label class="form-label fs-5 " style="color: #1b3a62">Move Resources To An Other
                                         Category</label>
                                     <br/>
                                     <select  class="form-control input-form-style"
                                              wire:model.defer="category_id" placeholder="Select category">
-                                        <option value="">Select Category</option>
+                                        <option value="">Select Category
                                         @foreach($dropDownCategories as $category)
                                             @if($current_category != $category->id)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
@@ -412,8 +548,8 @@
         } from 'ckeditor5';
         // Function to initialize CKEditor for a specific textarea by ID
         let editorInstance, updateEditorInstance;
-        const editorElement = document.getElementById('editor');
-        const updateEditorElement = document.getElementById('resourse_editor');
+        const editorElement = document.getElementById('shop_editor');
+        const updateEditorElement = document.getElementById('shop_resourse_editor');
         if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
             ClassicEditor
                 .create(editorElement, {
@@ -492,10 +628,10 @@
         })
 
 
-        window.livewire.on('toggleEditResourceModal', () => {
+        window.livewire.on('toggleEditShopResourceModal', () => {
             $('.modal-backdrop').hide();
             setTimeout(function () {
-                $('#editResource').modal('toggle')
+                $('#editShopResource').modal('toggle')
             })
         })
 
@@ -570,7 +706,7 @@
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to delete category and it's library resources permanently!</span>",
+                html: "<span style='color: white;'>Want to delete category and it's HumanOP Shop resources permanently!</span>",
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
             }).then((result) => {

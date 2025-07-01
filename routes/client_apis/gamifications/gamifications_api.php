@@ -21,5 +21,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('current-user-medal', 'GamificationController@currentUserMedal');
     Route::post('complete-watch-video', 'GamificationController@completeWatchVideo');
     Route::get('get-badges-and-medals', 'GamificationController@getBadgesAndMedals');
+    Route::get('get-performance-level', 'GamificationController@getPerformanceLevel');
+
 
 });
+

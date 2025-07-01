@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\CompleteWatchVideoRequest;
 use App\Models\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\Client\Gamification\GamificationMedalRewards;
+use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\HumanOpPoints\LoginStreaks;
 use App\Models\Videos\VideoProgress;
@@ -139,6 +140,26 @@ class GamificationController extends Controller
             ];
 
             return Helpers::successResponse("Your Medals and Badges", $data);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+
+
+    public static function getPerformanceLevel()
+    {
+        try {
+
+            $user = Helpers::getUser() ?? Helpers::getWebUser();
+
+            $data=GamificationPerformanceLevel::getSinglePerformanceLevel($user['id']);
+
+            return Helpers::successResponse("Your Performance Level", $data);
 
         } catch (\Exception $exception) {
 

@@ -7,8 +7,10 @@ use App\Helpers\Helpers;
 use App\Models\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\Client\Gamification\GamificationMedalRewards;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 
 class VideoProgress extends Model
 {
@@ -105,6 +107,12 @@ class VideoProgress extends Model
 
     }
 
+    public static function getLatestWatchVideo($assessmentId = null)
+    {
+
+        return self::where('assessment_id',$assessmentId)->latest()->first();
+    }
+
     public static function completeWatchVideo($assessmentId = null, $videoName = null)
     {
         $progress = self::where('assessment_id', $assessmentId)->where('video_name', $videoName)->first();
@@ -125,11 +133,16 @@ class VideoProgress extends Model
 
             if ($recordCount == $watchVideo) {
 
-                HumanOpPoints::addPointsAfterCompleteAllWatchVideos($user);
+                $data=self::getLatestWatchVideo($assessmentId);
 
-                GamificationBadgesAchievement::addBadgeAfterCompleteWatchVideos($user['id']);
+                if ($data && Carbon::parse($data['created_at'])->diffInDays(Carbon::now()) <= 3) {
 
-                GamificationMedalRewards::addMedalAfterCompleteWatchVideos($user['id']);
+                    HumanOpPoints::addPointsAfterCompleteAllWatchVideos($user);
+
+                    GamificationBadgesAchievement::addBadgeAfterCompleteWatchVideos($user['id']);
+
+                    GamificationMedalRewards::addMedalAfterCompleteWatchVideos($user['id']);
+                }
             }
 
             return $progress;
