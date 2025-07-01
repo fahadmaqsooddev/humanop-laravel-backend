@@ -46,11 +46,11 @@
                     <div class="col-lg-6">
                         <button class=" btn-sm mt-2 mb-0" type="button" data-toggle="modal"
                                 data-target="#createShopCategory"
-                                style="background:#1b3a62;color:white;font-weight:bolder;border:none;">Add Category
+                                style="background:#1b3a62;color:white;font-weight:bolder;border:none;">Add Shop Category
                         </button>
                         <button data-bs-toggle="modal" data-bs-target="#createShopResource" wire:click="emptyCreateForm"
                                 id="create_resourse_btn" class=" btn-sm float-end mt-2 mb-0"
-                                style="background:#1b3a62;color:white;font-weight:bolder;border:none;">Create Resource
+                                style="background:#1b3a62;color:white;font-weight:bolder;border:none;">Create Shop Resource
                         </button>
                     </div>
                 </div>
@@ -181,7 +181,7 @@
                             </div>
                         </div>
                         <div>
-                            <button wire:click="deleteResource({{ $resource['id'] }}, '{{ $resource['slug'] }}')"
+                            <button wire:click="deleteResource({{ $resource['id'] }})"
                                     style="background-color: red; color: white"
                                     class="btn btn-sm float-end mt-2 mb-4 mx-3">Delete Resource
                                 <span wire:loading wire:target="deleteResource" class="swal2-loader"
