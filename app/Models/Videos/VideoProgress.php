@@ -18,9 +18,9 @@ class VideoProgress extends Model
 
     public function __construct(array $attributes = array())
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
 
@@ -110,7 +110,7 @@ class VideoProgress extends Model
     public static function getLatestWatchVideo($assessmentId = null)
     {
 
-        return self::where('assessment_id',$assessmentId)->latest()->first();
+        return self::where('assessment_id', $assessmentId)->latest()->first();
     }
 
     public static function completeWatchVideo($assessmentId = null, $videoName = null)
@@ -133,9 +133,9 @@ class VideoProgress extends Model
 
             if ($recordCount == $watchVideo) {
 
-                $data=self::getLatestWatchVideo($assessmentId);
+                $getLatestWatchVideo = self::getLatestWatchVideo($assessmentId);
 
-                if ($data && Carbon::parse($data['created_at'])->diffInDays(Carbon::now()) <= 3) {
+                if ($getLatestWatchVideo && Carbon::parse($getLatestWatchVideo['created_at'])->diffInDays(Carbon::now()) <= 3) {
 
                     HumanOpPoints::addPointsAfterCompleteAllWatchVideos($user);
 
