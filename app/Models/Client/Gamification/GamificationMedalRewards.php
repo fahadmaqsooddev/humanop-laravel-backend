@@ -24,6 +24,11 @@ class GamificationMedalRewards extends Model
         return self::where('user_id', $userId)->latest()->first();
     }
 
+    public static function allMedalRewards($userId = null)
+    {
+        return self::where('user_id', $userId)->get();
+    }
+
     public static function getMedal($userId = null, $medal = null)
     {
         return self::where('user_id', $userId)->where('medals', $medal)->first();

@@ -161,6 +161,7 @@ class DashboardController extends Controller
                 foreach ($favoriteTip['dailyTips'] as $dailyTip) {
 
                     $tips[] = [
+                        'id' => $dailyTip['id'] ?? '',
                         'title' => $dailyTip['title'] ?? '',
                         'description' => $dailyTip['description'] ?? '',
 
@@ -170,25 +171,6 @@ class DashboardController extends Controller
             }
 
             return Helpers::successResponse('Your favorite daily tips', $tips);
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
-    }
-
-    public function getHp()
-    {
-        try {
-
-            $user = Helpers::getWebUser() ?? Helpers::getUser();
-
-            $points = HumanOpPoints::getUserPoints($user);
-
-            $hp['points'] = $points['points'];
-
-            return Helpers::successResponse('Your HumanOp Points', $hp);
 
         } catch (\Exception $exception) {
 
