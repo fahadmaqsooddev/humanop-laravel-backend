@@ -227,7 +227,7 @@ class Connection extends Model
 
             });
         })
-            ->with('friend:id,first_name,last_name')
+            ->with('friend:id,first_name,last_name,image_id')
             ->where('user_id', $user_id)
             ->where('status', 1);
 
