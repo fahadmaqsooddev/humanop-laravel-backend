@@ -28,7 +28,6 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('user-feedback', 'UserController@userFeedback');
     Route::post('/google/login/signup', 'UserController@googleLoginSignup');
     Route::get('profile-overview-result', 'UserController@profileOverviewResult');
-    Route::post('complete-watch-video', 'UserController@completeWatchVideo');
     Route::get('summary-report', 'UserController@summaryReport');
     Route::get('version', 'UserController@getLatestVersion');
     Route::get('referral-credits', 'UserController@referralCredits');

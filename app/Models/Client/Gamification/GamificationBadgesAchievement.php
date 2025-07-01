@@ -24,6 +24,11 @@ class GamificationBadgesAchievement extends Model
         return self::where('user_id', $userId)->latest()->first();
     }
 
+    public static function getBadgeAchievements($userId = null)
+    {
+        return self::where('user_id', $userId)->get();
+    }
+
     public static function getBadge($userId = null, $badge = null)
     {
         return self::where('user_id', $userId)->where('badges', $badge)->first();

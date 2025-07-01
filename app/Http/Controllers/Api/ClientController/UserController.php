@@ -617,29 +617,6 @@ class UserController extends Controller
 
     }
 
-    public function completeWatchVideo(CompleteWatchVideoRequest $request)
-    {
-        try {
-            $watchVideo = VideoProgress::completeWatchVideo($request['assessment_id'], $request['video_name']);
-
-            if (!empty($watchVideo)) {
-
-                return Helpers::successResponse("Congratulations! You completed watching the video: {$watchVideo['video_name']}.");
-
-            } else {
-
-                return Helpers::validationResponse('Watch video failed or already completed.');
-
-            }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
-    }
-
-
     public function summaryReport(Request $request)
     {
 

@@ -137,8 +137,6 @@
         #your_motivation_text h4,
         #your_motivation_text p,
         #your_motivation_text h4,
-        #feature_0_text p,
-        #feature_0_text h4,
         #your_boundary_text p,
         #your_boundary_text h4,
         #your_communication_text p,
@@ -150,6 +148,17 @@
             color: #1b3a62;
         }
 
+        #feature_0_text,
+        #feature_0_text *,
+        #feature_1_text,
+        #feature_1_text * {
+            color: #1b3a62 !important;
+        }{
+            color: #1b3a62 !important;
+        } {
+            color: #1b3a62;
+
+        }
         .video-timeline:hover .progress-bar::before,
         .video-timeline:hover .progress-area span {
             display: block;

@@ -179,25 +179,6 @@ class DashboardController extends Controller
 
     }
 
-    public function getHp()
-    {
-        try {
-
-            $user = Helpers::getWebUser() ?? Helpers::getUser();
-
-            $points = HumanOpPoints::getUserPoints($user);
-
-            $hp['points'] = $points['points'];
-
-            return Helpers::successResponse('Your HumanOp Points', $hp);
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
-    }
-
     public function getPodcasts()
     {
         try {
