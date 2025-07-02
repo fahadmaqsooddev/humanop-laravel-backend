@@ -323,6 +323,7 @@ class Helpers
 
             $upload = Upload::find($video);
 
+
             if ($upload->extension != 'mp4') {
 
                 return [];
@@ -347,6 +348,7 @@ class Helpers
 
             $upload = Upload::find($audio);
 
+
             if ($upload->extension != 'mp3') {
 
                 return [];
@@ -361,6 +363,42 @@ class Helpers
                 return array('path' => $path, 'original_name' => $original_name);
 
             }
+        }
+    }
+
+    public static function getDocument($documentId, $is_original_name = 0, $sourceUrl = null)
+    {
+
+        if (!empty($sourceUrl)) {
+
+            return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
+
+        }
+
+        if (!empty($embedLink)) {
+
+            return array('path' => $embedLink, 'original_name' => $embedLink);
+
+        }
+
+        if (!empty($documentId)) {
+
+            $upload = Upload::find($documentId);
+
+            if ($upload->extension != 'pdf') {
+                return [];
+            }
+
+            $path = url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name;
+
+            if ($is_original_name) {
+
+                $original_name = $upload['original_name'];
+
+                return array('path' => $path, 'original_name' => $original_name);
+
+            }
+
         }
     }
 

@@ -65,6 +65,8 @@ class Upload extends Model
         }elseif ($type === 'audio'){
 
             $folder = storage_path('audios');
+        }elseif ($type === 'document'){
+            $folder = storage_path('documents');
         }
         else{
 
@@ -95,6 +97,8 @@ class Upload extends Model
         }else if ($type === 'gif'){
 
             $filename = Str::random(10) . '.gif';
+        }else if ($type === 'document'){
+            $filename = Str::random(10) . '.pdf';
         }
 
         if (!File::isDirectory($folder)){
@@ -122,7 +126,10 @@ class Upload extends Model
 
             $upload_success = $file->storeAs("",$date_append . $filename ,['disk' => 'audios']);
 
-        }else{
+        }else if($type === 'document'){
+            $upload_success = $file->storeAs("",$date_append . $filename ,['disk' => 'documents']);
+        }
+        else{
 
             $upload_success = $file->move($folder, $date_append . $filename);
         }
@@ -131,7 +138,7 @@ class Upload extends Model
 
         $thumbnail_path = base_path() . config('urls.thumbnail') . $date_append . $filename;
 
-        if ($type != 'svg' && $type != 'gif' && $type != 'video' && $type != 'audio'){ // if original is present but thumbnail not present
+        if ($type != 'svg' && $type != 'gif' && $type != 'video' && $type != 'audio' && $type!= 'document'){ // if original is present but thumbnail not present
 
             if (!$resize){
 

@@ -651,8 +651,13 @@ return [
         ],
         'ShopCategoryResource' => [
             'table' => 'humanop_shop_resources',
-            'fillable' => ['heading','slug','upload_id','humanop_shop_category_id','description','content','source_id','source_url','embed_link','buy_from'],
-            'hidden' => ['updated_at'],
+            'fillable' => ['heading','slug','humanop_shop_category_id','buy_from','video_id','audio_id','document_id','point_price'],
+            'hidden' => ['created_at','updated_at'],
         ],
+        'HumanOpShopTraits'=>[
+            'table' => 'humanop_shop_traits',
+            'fillable' => ['humanop_shop_resource_id','trait_name'],
+            'hidden' => ['created_at','updated_at'],
+        ]
     ]
 ];

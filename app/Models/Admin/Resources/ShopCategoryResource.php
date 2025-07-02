@@ -3,6 +3,7 @@
 namespace App\Models\Admin\Resources;
 
 use App\Helpers\Helpers;
+use App\Models\Admin\HumanOpShopCategory\HumanOpShopTraits;
 use App\Models\Admin\HumanOpShopCategory\ShopCategory;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
 use GuzzleHttp\Client;
@@ -23,7 +24,7 @@ class ShopCategoryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['photo_url', 'video_url', 'audio_url'];
+    protected $appends = ['document_url', 'video_url', 'audio_url'];
 
     // relation
 
@@ -34,56 +35,36 @@ class ShopCategoryResource extends Model
     }
 
 
-    // append
-    public function getPhotoUrlAttribute()
+//    realation
+
+    public function resourceTraits()
     {
-        if (empty($this->source_id) && empty($this->embed_link)) {
-            return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
+        return $this->hasMany(HumanOpShopTraits::class, 'humanop_shop_resource_id');
+    }
 
-        } else {
 
-            return null;
-        }
+    // append
+    public function getDocumentUrlAttribute()
+    {
+
+            return Helpers::getDocument($this->document_id, 1,null);
+
 
     }
 
     public function getVideoUrlAttribute()
     {
 
-        if (!empty($this->source_id)) {
+            return Helpers::getVideo($this->video_id, 1, null);
 
-            $client = new Client();
 
-            $response = $client->request('GET', 'https://api.gumlet.com/v1/video/assets/' . $this->source_id, [
-                'headers' => [
-                    'Authorization' => 'Bearer gumlet_f330acf5449eaf2e84a63a2931a80023',
-                    'accept' => 'application/json',
-                ],
-            ]);
-
-            $response_body = json_decode($response->getBody()->getContents(), true);
-
-            if (!empty($response_body) && in_array($response_body['status'], ['ready', 'queued'])) {
-
-                return Helpers::getVideo($this->upload_id, 1, $response_body['output']['playback_url']);
-
-            }
-
-        } elseif (!empty($this->embed_link)) {
-            return Helpers::getVideo($this->upload_id, 1, null, $this->embed_link);
-
-        } else {
-
-            return Helpers::getVideo($this->upload_id, 1, null);
-
-        }
 
     }
 
     public function getAudioUrlAttribute()
     {
 
-        return Helpers::getAudio($this->upload_id, 1);
+        return Helpers::getAudio($this->audio_id, 1);
     }
 
 
@@ -93,36 +74,35 @@ class ShopCategoryResource extends Model
         return self::with('shopCategory')->get();
     }
 
-    public static function createShopResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null, $link = null, $buy_from = null)
+    public static function createShopResource($heading = null, $category_id = null, $buy_from = null, $video_id = null, $audio_id = null, $document_id = null, $point_price = null)
     {
         $resource = self::create([
             'heading' => $heading,
             'slug' => Str::slug($heading),
-            'upload_id' => $uploadId,
             'humanop_shop_category_id' => $category_id,
-            'description' => $description,
-            'content' => $content,
-            'embed_link' => $link,
-            'buy_from'=>$buy_from
+            'buy_from' => $buy_from,
+            'video_id' => $video_id,
+            'audio_id' => $audio_id,
+            'document_id' => $document_id,
+            'point_price' => $point_price,
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null, $buy_from = null)
+    public static function updateResource($heading = null,$id=null, $category_id = null, $buy_from = null, $video_id = null, $audio_id = null, $document_id = null, $point_price = null)
     {
 
         self::whereId($id)->update([
             'heading' => $heading,
             'slug' => Str::slug($heading),
-            'upload_id' => $uploadId,
+
             'humanop_shop_category_id' => $category_id,
-            'description' => $description,
-            'content' => $content,
-            'source_id' => null,
-            'source_url' => null,
-            'embed_link' => $link,
-            'buy_from'=>$buy_from
+            'buy_from' => $buy_from,
+            'video_id' => $video_id,
+            'audio_id' => $audio_id,
+            'document_id' => $document_id,
+            'point_price' => $point_price,
         ]);
 
         return self::singleLibraryResource($id);
@@ -142,7 +122,7 @@ class ShopCategoryResource extends Model
     public static function singleLibraryResource($resource_id)
     {
 
-        return self::whereId($resource_id)->first();
+        return self::whereId($resource_id)->with('resourceTraits')->first();
     }
 
     public static function resourcesForApi()

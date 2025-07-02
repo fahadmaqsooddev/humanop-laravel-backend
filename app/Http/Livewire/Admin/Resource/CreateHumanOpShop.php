@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Resource;
 
+use App\Models\Admin\HumanOpShopCategory\HumanOpShopTraits;
 use App\Models\Admin\HumanOpShopCategory\ShopCategory;
 use App\Models\Admin\Resources\ShopCategoryResource;
 use Illuminate\Support\Facades\DB;
@@ -15,18 +16,18 @@ class CreateHumanOpShop extends Component
     use WithFileUploads;
 
     public $booleanValue = false;
-
-    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission, $editResourceData, $category_name, $link;
-
+    public $priceValue = null;
+    public $resourceId, $current_category, $resourceSlug, $heading, $update_content, $resource_file, $category_id, $permission, $editResourceData, $category_name;
+    public $selectedTraits = [];
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
     protected $rules = [
         'heading' => 'required|unique:humanop_shop_resources,heading|regex:/^[A-Za-z]/',
-        'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
+        'resource_file' => 'nullable|file|mimes:mp4,mov,avi,mkv,mp3,wav,pdf,doc,docx|max:204800', // Max file size 200MB
         'permission' => 'required',
         'category_id' => 'required|exists:humanop_shop_categories,id',
-        'description' => 'required|string|max:1000',
-        'content' => 'nullable|string',
+
+        'priceValue' => 'required',
 
 
     ];
@@ -35,14 +36,20 @@ class CreateHumanOpShop extends Component
         'heading.required' => 'Heading is required.',
         'heading.regex' => 'The heading must start with a letter.',
         'heading.unique' => 'The heading must be unique in the library resources.',
-        'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
+        'resource_file.mimes' => 'The resource file must be a valid type: MP4, MOV, AVI, MKV (video), MP3, WAV (audio), or PDF (document).',
         'resource_file.max' => 'The resource file size must not exceed 200MB.',
         'permission.required' => 'At least one permission is required.',
         'category_id.required' => 'Category is required.',
         'category_id.exists' => 'The selected category does not exist.',
-        'description.max' => 'Description may not exceed 1000 characters.',
+
+        'priceValue.required' => 'Price or Point is required.',
 
     ];
+
+    public function togglePermission($value)
+    {
+        $this->permission = ($this->permission === $value) ? null : $value;
+    }
 
 
     public function createShopResource()
@@ -52,11 +59,52 @@ class CreateHumanOpShop extends Component
 
         try {
 
+
             $this->validate();
 
+            $extension = $this->resource_file->extension();
             $upload_id = $this->uploadFile($this->resource_file);
+            $resource = null;
+            if (in_array($extension, ['mp3', 'wav', 'mpeg'])) {
+                $resource = ShopCategoryResource::createShopResource(
+                    $this->heading,
+                    $this->category_id,
+                    $this->permission,
+                    null,
+                    $upload_id,
+                    null,
+                    $this->priceValue
+                );
 
-            ShopCategoryResource::createShopResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link,$this->permission);
+            } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
+                $resource = ShopCategoryResource::createShopResource(
+                    $this->heading,
+                    $this->category_id,
+                    $this->permission,
+                    $upload_id,
+                    null,
+                    null,
+                    $this->priceValue
+                );
+
+
+            } else {
+
+                $resource = ShopCategoryResource::createShopResource(
+                    $this->heading,
+                    $this->category_id,
+                    $this->permission,
+                    null,
+                    null,
+                    $upload_id,
+                    $this->priceValue
+                );
+            }
+
+            foreach ($this->selectedTraits as $traitCode) {
+                HumanOpShopTraits::storeTraits($resource->id, $traitCode);
+            }
+
 
             $this->resetForm();
 
@@ -77,7 +125,7 @@ class CreateHumanOpShop extends Component
     public function getResourceFile()
     {
         $this->booleanValue = false;
-        $this->link = null;
+
 
     }
 
@@ -109,7 +157,7 @@ class CreateHumanOpShop extends Component
     {
         $this->booleanValue = false;
 
-        $this->reset(['heading', 'resource_file', 'permission', 'resource_file', 'link', 'description', 'content']);
+        $this->reset(['heading', 'resource_file', 'permission', 'resource_file',]);
     }
 
     public function handleRefreshQuery()
@@ -125,18 +173,19 @@ class CreateHumanOpShop extends Component
 
         $this->editResourceData = ShopCategoryResource::singleLibraryResource($resource_id);
 
-
         $this->resourceId = $resource_id;
 
         $this->heading = $this->editResourceData['heading'] ?? null;
 
         $this->category_id = $this->editResourceData['humanop_shop_category_id'] ?? null;
 
-        $this->description = $this->editResourceData['description'] ?? null;
-
         $this->update_content = $this->editResourceData['content'] ?? null;
 
-        $this->permission=$this->editResourceData['buy_from'] ?? null;
+        $this->permission = $this->editResourceData['buy_from'] ?? null;
+
+        $this->priceValue = $this->editResourceData['point_price'] ?? null;
+
+        $this->selectedTraits = $this->editResourceData['resourceTraits']->pluck('trait_name')->toArray();
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
@@ -178,8 +227,7 @@ class CreateHumanOpShop extends Component
     {
         $this->category_id = '';
         $this->heading = '';
-        $this->description = '';
-        $this->content = '';
+
         $this->resource_file = '';
         $this->permission = '';
     }
@@ -189,30 +237,33 @@ class CreateHumanOpShop extends Component
     {
 
 
-
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:mp4,mov,avi,mkv,mp3,wav,pdf,doc,docx|max:204800']);
 
-        if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
-
-
+        if (!empty($this->resource_file)) {
+            $extension = $this->resource_file->extension();
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $updateResource = ShopCategoryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->permission);
-
-            tap($updateResource);
-
+            if (in_array($extension, ['mp3', 'wav', 'mpeg'])) {
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->permission, null, $upload_id, null, $this->priceValue);
+            } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->permission, $upload_id, null, null, $this->priceValue);
+            } elseif (in_array($extension, ['pdf', 'doc'])) {
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->permission, null, null, $upload_id, $this->priceValue);
+            }
         } else {
-
-
-            $upload_id = $this->uploadFile($this->resource_file);
-
-
-            ShopCategoryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link,$this->permission);
-
+            $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->permission, null, null, null, $this->priceValue);
         }
 
+        HumanOpShopTraits::where('humanop_shop_resource_id', $updateResource->id)->delete();
+
+        foreach ($this->selectedTraits as $traitCode) {
+            HumanOpShopTraits::create([
+                'humanop_shop_resource_id' => $updateResource->id,
+                'trait_name' => $traitCode,
+            ]);
+        }
 
 
         $this->emit('toggleEditShopResourceModal');
@@ -261,6 +312,10 @@ class CreateHumanOpShop extends Component
             } elseif (in_array($resourceFile->extension(), ['mp3', 'wav', 'mpeg'])) {
 
                 return Upload::uploadFile($resourceFile, '', '', 'audio');
+            } elseif (in_array($resourceFile->extension(), ['pdf', 'doc', 'docx'])) {
+
+                return Upload::uploadFile($resourceFile, '', '', 'document'); // Add this block for documents
+
             } else {
 
                 return Upload::uploadFile($resourceFile, '', '', 'video');
