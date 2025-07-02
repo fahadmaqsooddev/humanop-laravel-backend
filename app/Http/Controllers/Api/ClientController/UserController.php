@@ -577,6 +577,10 @@ class UserController extends Controller
             $ep = $positive + $negative;
             $pv = $positive - $negative;
 
+            $recordCount = VideoProgress::getRecords($assessment['id'])->count();
+
+            $watchVideo = VideoProgress::checkAllWatchVideos($assessment['id'])->count();
+
             $data = [
                 'user_name' => $user_name,
                 'user_age' => $user_age,
@@ -604,7 +608,8 @@ class UserController extends Controller
                 'pv' => $pv,
                 'ep' => $ep,
                 'footer' => config('pdffooter'),
-                'completed_date' => Carbon::parse($assessment['updated_at'])->format('F j, Y')
+                'completed_date' => Carbon::parse($assessment['updated_at'])->format('F j, Y'),
+                'summary_report' => $recordCount == $watchVideo ? 'unlocked' : 'locked',
             ];
 
             return Helpers::successResponse('Profile overview data', $data);

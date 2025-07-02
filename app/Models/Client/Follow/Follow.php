@@ -242,7 +242,7 @@ class Follow extends Model
 
         $following = $following->has('follower')->where('user_id', Helpers::getUser()->id)
 
-            ->with('follower:id,first_name,last_name');
+            ->with('follower:id,first_name,last_name,image_id');
 
         return Helpers::pagination($following, $request->input('pagination'), $request->input('per_page'));
     }
