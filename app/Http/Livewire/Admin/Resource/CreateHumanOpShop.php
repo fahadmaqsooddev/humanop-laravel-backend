@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Upload\Upload;
-use App\Models\Admin\Resources\LibraryResource;
-use App\Models\Admin\Resources\PermissionResource;
+
 
 class CreateHumanOpShop extends Component
 {
@@ -22,44 +21,29 @@ class CreateHumanOpShop extends Component
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
     protected $rules = [
-        'heading' => 'required|unique:library_resources,heading',
-
+        'heading' => 'required|unique:humanop_shop_resources,heading|regex:/^[A-Za-z]/',
         'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
         'permission' => 'required',
         'category_id' => 'required|exists:humanop_shop_categories,id',
         'description' => 'required|string|max:1000',
         'content' => 'nullable|string',
-        'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/main\.mp4$/']
+
 
     ];
 
     protected $messages = [
         'heading.required' => 'Heading is required.',
-
+        'heading.regex' => 'The heading must start with a letter.',
         'heading.unique' => 'The heading must be unique in the library resources.',
         'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
         'resource_file.max' => 'The resource file size must not exceed 200MB.',
         'permission.required' => 'At least one permission is required.',
-
-
         'category_id.required' => 'Category is required.',
         'category_id.exists' => 'The selected category does not exist.',
         'description.max' => 'Description may not exceed 1000 characters.',
-        'link.max' => 'Video URL may not exceed 90 characters.',
-        'link.regex' => 'The video URL must match the required format (e.g., https://video.gumlet.io/xyz/abc/main.mp4).',
+
     ];
 
-    public function fileChanged($value)
-    {
-        $this->booleanValue = $value;
-    }
-
-    public function handleFileChange()
-    {
-
-        $this->booleanValue = true;
-
-    }
 
     public function createShopResource()
     {
@@ -78,7 +62,7 @@ class CreateHumanOpShop extends Component
 
             DB::commit();
 
-            session()->flash('success', 'Library resource created successfully.');
+            session()->flash('success', 'HumanOp Shop resource created successfully.');
 
         } catch (\Exception $exception) {
 
@@ -87,13 +71,6 @@ class CreateHumanOpShop extends Component
             session()->flash('error', $exception->getMessage());
 
         }
-
-    }
-
-    public function getVideoLink()
-    {
-        $this->booleanValue = true;
-        $this->resource_file = null;
 
     }
 
@@ -128,11 +105,6 @@ class CreateHumanOpShop extends Component
         }
     }
 
-    public function allResources()
-    {
-        return LibraryResource::getResources();
-    }
-
     public function resetForm()
     {
         $this->booleanValue = false;
@@ -148,21 +120,23 @@ class CreateHumanOpShop extends Component
     public function editShopResource($resource_id)
     {
 
+
         $this->emit('toggleEditShopResourceModal');
 
         $this->editResourceData = ShopCategoryResource::singleLibraryResource($resource_id);
 
+
         $this->resourceId = $resource_id;
 
         $this->heading = $this->editResourceData['heading'] ?? null;
-
-//        $this->relevance = $this->editResourceData['relevance'] ?? null;
 
         $this->category_id = $this->editResourceData['humanop_shop_category_id'] ?? null;
 
         $this->description = $this->editResourceData['description'] ?? null;
 
         $this->update_content = $this->editResourceData['content'] ?? null;
+
+        $this->permission=$this->editResourceData['buy_from'] ?? null;
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
@@ -190,7 +164,8 @@ class CreateHumanOpShop extends Component
 
             ShopCategoryResource::updateCategory($this->current_category, $this->category_id);
         }
-        session()->flash('success', 'Resource Moved successfully.');
+        session()->flash('success', 'HumanOP Shop Resource Moved successfully.');
+
         $this->current_category = '';
     }
 
@@ -206,17 +181,13 @@ class CreateHumanOpShop extends Component
         $this->description = '';
         $this->content = '';
         $this->resource_file = '';
-        $this->permission = [];
+        $this->permission = '';
     }
 
-    public function updateContent($editorId, $data)
-    {
-
-        $this->update_content = $data;
-    }
 
     public function updateShopResource()
     {
+
 
 
         DB::beginTransaction();
@@ -225,18 +196,12 @@ class CreateHumanOpShop extends Component
 
         if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
-            $getResource = ShopCategoryResource::singleLibraryResource($this->resourceId);
-
-            $this->deleteFileToGumlet($getResource['source_id']);
 
             $upload_id = $this->uploadFile($this->resource_file);
 
             $updateResource = ShopCategoryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->permission);
 
             tap($updateResource);
-
-
-            $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
 
         } else {
 
@@ -256,17 +221,15 @@ class CreateHumanOpShop extends Component
 
         DB::commit();
 
-        session()->flash('success', 'Library resource updated successfully.');
+        session()->flash('success', 'HumanOp Shop resource updated successfully.');
 
     }
 
     public function createShopCategory()
     {
-//        dd($this->category_name);
-//        dd(1);
 
         $rule = [
-            'category_name' => 'required|unique:resource_categories,name|max:100',
+            'category_name' => 'required|unique:humanop_shop_categories,name|max:100',
         ];
 
         $message = [

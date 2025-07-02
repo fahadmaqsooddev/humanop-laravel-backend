@@ -343,13 +343,8 @@
                                                    rows="10">
                                         </textarea>
                                     </div>
-                                    <div class="form-group mt-4 ">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
-                                        <input  class="form-control input-form-style"
-                                                wire:model.debounce.500ms="link" placeholder="Link" type="text"
-                                                id="embedlink" wire:change="getVideoLink">
-                                    </div>
-                                    <label class="form-label fs-4 text-white ">OR</label>
+
+
                                     <div class="form-group mt-4 " hidden>
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource Id</label>
                                         <input  class="form-control input-form-style"
