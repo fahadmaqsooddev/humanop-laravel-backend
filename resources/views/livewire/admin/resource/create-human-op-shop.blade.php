@@ -141,7 +141,7 @@
                 <a class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content" style=" border-radius: 9px">
                         <div class="modal-body">
-                            <label class="form-label fs-4" style="color: #1b3a62">Library Resource</label>
+                            <label class="form-label fs-4" style="color: #1b3a62">HumanOp Shop Resource</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -232,23 +232,13 @@
                                         @enderror
                                     </div>
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Heading</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Title</label>
                                         <input  class="form-control input-form-style"
-                                                wire:model.defer="heading" placeholder="heading" type="text"
+                                                wire:model.defer="heading" placeholder="title" type="text"
                                                 maxlength="150">
                                     </div>
 
-                                    <div class="form-group mt-4">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Description</label>
-                                        <textarea  class="form-control input-form-style"
-                                                   wire:model.defer="description" placeholder="Enter description"
-                                                   rows="3"></textarea>
-                                    </div>
-                                    <div class="form-group mt-4" wire:ignore>
-                                        <label class="form-label fs-4" style="color: #1b3a62">Content</label>
-                                        <textarea  class="form-control input-form-style" id="shop_editor"
-                                                   name="content" wire:model="content" rows="10" cols="10"></textarea>
-                                    </div>
+
                                     <div class="form-group">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
@@ -268,21 +258,49 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-check">
-                                                <input type="checkbox"  wire:click="$set('permission', 2)"
+                                                <input type="checkbox"  wire:click="togglePermission(2)"
+                                                       @if($permission == 2) checked @endif
                                                        class="form-check-input option-checkbox"
+
                                                        style="border: 2px solid #1b3a62" id="">
                                                 <label class="form-check-label" for="freemium">Point</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
-                                                <input type="checkbox"  wire:click="$set('permission', 1)"
+                                                <input type="checkbox"  wire:click="togglePermission(1)"
+                                                       @if($permission == 1) checked @endif
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="">
                                                 <label class="form-check-label" for="premium">Price</label>
                                             </div>
                                         </div>
 
+                                        @if($permission == 1 || $permission == 2)
+                                            <input type="number" class="form-control mt-2 "
+                                                   placeholder="Enter {{ $permission == 1 ? 'Price' : 'Point' }}"
+                                                   wire:model.defer="priceValue">
+                                        @endif
+                                    </div>
+
+                                    @php
+                                        $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">Select Traits</label>
+
+                                    <div class="row">
+                                        @foreach($traits as $trait)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox"
+                                                           wire:model="selectedTraits"
+                                                           value="{{ $trait }}"
+                                                           class="form-check-input"
+                                                           id="day_{{ $trait }}">
+                                                    <label class="form-check-label" for="day_{{ $trait }}">{{ $trait }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -325,24 +343,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Heading</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Title</label>
                                         <input  class="form-control input-form-style"
-                                                wire:model.defer="heading" placeholder="heading" type="text">
+                                                wire:model.defer="heading" placeholder="title" type="text">
                                     </div>
 
-                                    <div class="form-group mt-4">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Description</label>
-                                        <textarea  class="form-control input-form-style"
-                                                   wire:model.defer="description" placeholder="Enter description"
-                                                   rows="3"></textarea>
-                                    </div>
-                                    <div class="form-group mt-4" wire:ignore>
-                                        <label class="form-label fs-4" style="color: #1b3a62">Content</label>
-                                        <textarea  class="form-control input-form-style"
-                                                   id="shop_resourse_editor" name="update_content" wire:model="update_content"
-                                                   rows="10">
-                                        </textarea>
-                                    </div>
 
 
                                     <div class="form-group mt-4 " hidden>
@@ -351,7 +356,7 @@
                                                 wire:model.defer="resourceId" type="text">
                                     </div>
                                     <div class="form-group mt-4 ">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Pdf, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input  wire:model="resource_file"
                                                 id="resource_file" wire:change="getResourceFile"
@@ -365,17 +370,22 @@
                                                 <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
                                               </div>
                                         </span>
-                                    @if(!empty($editResourceData['photo_url']))
+                                    @if(!empty($editResourceData['document_id']))
+{{--                                        {{dd($editResourceData['document_url']['path'])}}--}}
                                         <div class="form-group mt-4">
-                                            <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
-                                                 width="200">
+                                            <iframe src="{{ $editResourceData['document_url']['path']??null }}" width="100%" height="500px">
+                                                This browser does not support PDFs. Please download the PDF to view it:
+                                                <a href="{{ $editResourceData['document_url']['path'] ?? null }}">Download PDF</a>
+                                            </iframe>
                                         </div>
-                                    @elseif(!empty($editResourceData['video_url']))
+                                    @elseif(!empty($editResourceData['video_id']))
+{{--                                        {{dd($editResourceData['video_url']['path'])}}--}}
                                         <div class="form-group mt-4">
                                             <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
                                                    style="height: 200px;"></video>
                                         </div>
-                                    @elseif(!empty($editResourceData['audio_url']))
+                                    @elseif(!empty($editResourceData['audio_id']))
+{{--                                        {{dd($editResourceData['audio_url']['path'])}}--}}
                                         <div class="form-group mt-4">
                                             <audio controls style="width: 100%;">
                                                 <source src="{{ $editResourceData['audio_url']['path'] }}"
@@ -398,23 +408,53 @@
                                             @endif
                                         </ul>
                                     </div>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-check">
-                                                <input type="checkbox"  wire:click="$set('permission', 2)"
+                                                <input type="checkbox"  wire:click="togglePermission(2)"
+                                                       @if($permission == 2) checked @endif
                                                        class="form-check-input option-checkbox"
+
                                                        style="border: 2px solid #1b3a62" id="">
                                                 <label class="form-check-label" for="freemium">Point</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
-                                                <input type="checkbox"  wire:click="$set('permission', 1)"
+                                                <input type="checkbox"  wire:click="togglePermission(1)"
+                                                       @if($permission == 1) checked @endif
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="">
                                                 <label class="form-check-label" for="premium">Price</label>
                                             </div>
                                         </div>
+
+                                        @if($permission == 1 || $permission == 2)
+                                            <input type="number" class="form-control mt-2 "
+                                                   placeholder="Enter {{ $permission == 1 ? 'Price' : 'Point' }}"
+                                                   wire:model.defer="priceValue">
+                                        @endif
+                                    </div>
+
+                                    @php
+                                        $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">Select Traits</label>
+
+                                    <div class="row">
+                                        @foreach($traits as $trait)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox"
+                                                           wire:model="selectedTraits"
+                                                           value="{{ $trait }}"
+                                                           class="form-check-input"
+                                                           id="day_{{ $trait }}">
+                                                    <label class="form-check-label" for="day_{{ $trait }}">{{ $trait }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

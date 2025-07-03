@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminControllers\FaqController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ChangePasswordController;
@@ -143,6 +144,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
         Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
         Route::get('/network-tutorials',[NetworkTutorialController::class,'networkTutorials'])->name('admin_network_tutorials');
+        Route::get('/faq',[FaqController::class,'FaqQuestions'])->name('admin_faq');
 
     });
 

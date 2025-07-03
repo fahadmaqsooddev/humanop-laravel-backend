@@ -658,6 +658,11 @@ return [
             'table' => 'humanop_shop_traits',
             'fillable' => ['humanop_shop_resource_id','trait_name'],
             'hidden' => ['created_at','updated_at'],
+        ],
+        'FaqModel'=>[
+            'table'=>'faq_questions',
+            'fillable'=>['question','answer'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];

@@ -296,6 +296,7 @@
                                                         'admin/edit-code/*',
                                                        'admin/admin_get_client_invite',
                                                        'admin/pricing-plans',
+                                                       'admin/faq',
                                                        'admin/network-tutorials') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
@@ -493,6 +494,22 @@
                                                                             src="{{ Request::is('admin/pricing-plans') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
                                                                     <span
                                                                         class="sidenav-normal"> Pricing Plan </span>
+                                                                </a>
+                                                            </li>
+
+
+
+                                                            <li class="nav-item {{ (Request::is('admin/faq') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/faq') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_faq') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/faq') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/faq') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Faq  </span>
                                                                 </a>
                                                             </li>
                                                         </ul>
