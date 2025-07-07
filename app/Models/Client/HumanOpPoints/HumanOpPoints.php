@@ -152,7 +152,7 @@ class HumanOpPoints extends Model
         } elseif ($currentTime->diffInDays($user['last_login']) > 1) {
 
             // Missed a day or other reset case
-            $streak['login_days'] = 1;
+            $streak->login_days = 1;
 
             $streak->save();
 
