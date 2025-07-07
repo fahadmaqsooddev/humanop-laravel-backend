@@ -4,7 +4,6 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\NetworkTutorial\NetworkTutorial;
-use Illuminate\Http\Request;
 
 class NetworkTutorialController extends Controller
 {

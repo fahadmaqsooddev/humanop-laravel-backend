@@ -37,26 +37,6 @@ class SessionController extends Controller
 
     }
 
-    public function practitionerLogin($slug, $slug2)
-    {
-        try {
-
-            $user = User::where('first_name', $slug)->where('last_name', $slug2)->where('is_admin', 4)->exists();
-
-            if ($user) {
-                return view('session/login', compact('slug', 'slug2'));
-            } else {
-                return view('errors/404');
-
-//                return redirect()->to(PractitionerHelpers::makePractitionerUrl('login'))->withErrors(['msgError' => 'This Practitioner does not exist']);
-            }
-
-        } catch (\Exception $exception) {
-
-            return back()->withErrors(['msgError' => $exception->getMessage()]);
-        }
-    }
-
     public function store(Request $request)
     {
 
@@ -135,60 +115,6 @@ class SessionController extends Controller
         }
     }
 
-    public function loginClientToPractitioner(Request $request)
-    {
-        try {
-
-
-            $attributes = request()->validate([
-                'email' => 'required|email',
-                'password' => 'required',
-            ]);
-
-            $practitioner = User::where('first_name', $request['slug'])->where('last_name', $request['slug2'])->where('is_admin', 4)->first();
-
-            if ($practitioner) {
-
-                $checkUser = User::where('email', $request['email'])->where('practitioner_id', $practitioner['id'])->exists();
-
-                if ($checkUser) {
-                    if (Auth::attempt($attributes)) {
-                        if (isset($request['remember']) && !empty($request['remember'])) {
-                            setcookie("email", $attributes['email'], 30 * time() + 3600);
-                            setcookie("password", $attributes['password'], 30 * time() + 3600);
-                        } else {
-                            setcookie("email", "");
-                            setcookie("password", "");
-                        }
-
-                        $user = Helpers::getWebUser();
-
-                        Session::forget('google_user'); // forget the session of the google data
-
-                        Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-                        User::updateUserIsFeedback();
-
-                        return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
-                    }
-
-                }
-
-                return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
-            } else {
-                return view('errors/404');
-            }
-
-        } catch (ValidationException $validationException) {
-
-            return back()->with(['errors' => $validationException->validator->errors()]);
-
-        } catch (\Exception $exception) {
-
-            return back()->withErrors(['msgError' => $exception->getMessage()]);
-        }
-    }
-
     public function destroy()
     {
 
@@ -206,92 +132,10 @@ class SessionController extends Controller
         return redirect('/')->with(['success' => 'You\'ve been logged out.']);
     }
 
-    public static function destroyPractitioner()
-    {
-
-        HaiChat::deleteAdminChat(Cache::get('admin_' . \auth()->id()));
-
-        Auth::logout();
-
-        Session::flush();
-
-        Cache::forget('admin');
-
-        return redirect()->to(PractitionerHelpers::makePractitionerUrl('login'))->with(['success' => 'You\'ve been logged out.']);
-    }
-
-    public function loginBackToAdmin()
-    {
-
-        $admin = Cache::get('admin_' . \auth()->id());
-
-        HaiChat::deleteAdminChat($admin);
-
-        Auth::logout();
-
-        if (($admin['is_admin'] ?? false) && ($admin['admin_id'] ?? null)) {
-
-            $admin_user = User::where('id', $admin['admin_id'])->first();
-
-            Auth::login($admin_user);
-
-            return redirect()->to('/admin/users');
-
-        } else {
-
-            return redirect()->to('/login');
-        }
-
-    }
-
-    public function triggerEvent()
-    {
-
-        Stripe::setApiKey(config('cashier.secret'));
-
-//        $product = Product::create([
-//            'name' => 'Gold Membership',
-//            'description' => 'Access to premium features',
-//        ]);
-//
-//        // Step 2 (Optional): Create a price for that product
-//        $price = Price::create([
-//            'unit_amount' => 1000, // in cents => $10.00
-//            'currency' => 'usd',
-//            'recurring' => ['interval' => 'month'], // or remove for one-time price
-//            'product' => $product->id,
-//        ]);
-//
-//        return response()->json([
-//            'product' => $product,
-//            'price' => $price
-//        ]);
-
-        $products = Product::all([
-            'limit' => 20
-        ]);
-
-        // Optionally include prices for each product
-        foreach ($products->data as $product) {
-            $prices = \Stripe\Price::all(['product' => $product->id]);
-            $product->prices = $prices->data;
-        }
-
-        return response()->json($products);
-
-    }
-
     public function checkout()
     {
         return view('stripeCheckout');
 
-
-    }
-
-    public function getData(Request $request)
-    {
-
-        dd($request->all());
 
     }
 

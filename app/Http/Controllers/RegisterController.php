@@ -2,25 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\OpenRouterHelper;
 use App\Helpers\Practitioner\PractitionerHelpers;
-use App\Models\Admin\DailyTip\DailyTip;
-use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionOption;
 use App\Models\User;
 use App\Helpers\Helpers;
-use App\Models\UserInvite\UserInvite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Client\Register\RegisterFormRequest;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
-use Stripe\BaseStripeClient;
 use App\Models\IntentionPlan\IntentionPlan;
 
 class RegisterController extends Controller

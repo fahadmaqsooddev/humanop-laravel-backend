@@ -24,7 +24,6 @@ use Stripe\Charge;
 use Stripe\Exception\CardException;
 use Stripe\Stripe;
 use Stripe\StripeClient;
-use Stripe\Token;
 
 class PaymentController extends Controller
 {

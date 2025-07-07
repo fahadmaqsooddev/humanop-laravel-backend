@@ -8,7 +8,6 @@ use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
-use App\Http\Requests\Api\Client\CompleteWatchVideoRequest;
 use App\Http\Requests\Api\Client\TwoWayAuthRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
@@ -39,7 +38,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
-use Svg\Tag\UseTag;
+
 use function PHPUnit\Framework\lessThanOrEqual;
 
 class UserController extends Controller

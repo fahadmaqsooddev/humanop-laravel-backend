@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Admin\ManageCode;
 
 use Livewire\Component;
 use App\Models\Admin\Code\CodeDetail;
-use App\Http\Requests\Admin\ManageCode\CreateCodeRequest;
 
 class CreateCode extends Component
 {

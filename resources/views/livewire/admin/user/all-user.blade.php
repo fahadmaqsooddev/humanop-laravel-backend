@@ -88,7 +88,6 @@
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                     <th>Membership</th>
                     <th>Practitioner</th>
-                    {{-- <th>Login Client</th> --}}
                     <th>Bulk Delete</th>
                     <th>Delete Client</th>
                 @endif
@@ -145,7 +144,8 @@
                     @endif
                     @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                         <td class="text-sm font-weight-normal">
-                            <select class="form-control input-form-style" style="background-color: #0F1535;border-radius: 12px;">
+                            <select class="form-control input-form-style"
+                                    style="background-color: #0F1535;border-radius: 12px;">
                                 <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>
                                     Freemium
                                 </option>

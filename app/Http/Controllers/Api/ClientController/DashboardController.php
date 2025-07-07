@@ -17,7 +17,6 @@ use App\Enums\Admin\Admin;
 use App\Models\Assessment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\Points\PointHelper;
 use App\Models\AssessmentColorCode;
 use App\Events\DailyTip\NewDailyTip;
 use App\Http\Controllers\Controller;
@@ -256,27 +255,27 @@ class DashboardController extends Controller
 
         try {
 
-        if ($request->has('assessment_id')) {
+            if ($request->has('assessment_id')) {
 
-            $assessment = Assessment::getSingleAssessment($request->input('assessment_id'));
+                $assessment = Assessment::getSingleAssessment($request->input('assessment_id'));
 
-        } else {
+            } else {
 
-            $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
+                $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
 
-        }
+            }
 
-        if (!empty($assessment)) {
+            if (!empty($assessment)) {
 
-            $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment);
+                $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment);
 
-            $actionPlan = ActionPlan::storeUserActionPlan($assessment);
+                $actionPlan = ActionPlan::storeUserActionPlan($assessment);
 
-            return Helpers::successResponse('Action plan', $actionPlan);
+                return Helpers::successResponse('Action plan', $actionPlan);
 
-        }
+            }
 
-        return Helpers::validationResponse('Assessment not found');
+            return Helpers::validationResponse('Assessment not found');
 
         } catch (\Exception $exception) {
 

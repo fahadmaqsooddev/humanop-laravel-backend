@@ -4,7 +4,6 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\IntentionPlan\IntentionOption;
-use Illuminate\Http\Request;
 
 class IntentionPlanController extends Controller
 {

@@ -2,24 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Helpers;
 use App\Http\Requests\Client\Register\ResetPasswordRequest;
-use App\Models\Admin\DailyTip\DailyTip;
-use App\Models\Client\Dashboard\ActionPlan;
-use App\Models\Email\Email;
-use App\Models\Email\EmailTemplate;
 use App\Models\User;
-use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Str;
-use PHPOpenSourceSaver\JWTAuth\JWTAuth;
 
 class ChangePasswordController extends Controller
 {

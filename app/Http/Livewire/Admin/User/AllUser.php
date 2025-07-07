@@ -20,19 +20,12 @@ class AllUser extends Component
 {
     use WithPagination;
 
-    public $name = '';
-    public $email = '';
-    public $age = '';
+    public $name = '', $email = '', $age = '', $selectedItems = [], $is_chatBot_published;
 
     protected $users=[];
-    public $selectedItems = [];
-    public $is_chatBot_published;
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner'
-        , 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete'];
-
-
+    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -156,13 +149,7 @@ class AllUser extends Component
 
         $this->is_chatBot_published = Chatbot::where('is_connected', 1)->exists();
 
-        return view('livewire.admin.user.all-user', [
-
-
-            'users' => $this->users
-
-
-        ]);
+        return view('livewire.admin.user.all-user', ['users' => $this->users]);
     }
 
 }

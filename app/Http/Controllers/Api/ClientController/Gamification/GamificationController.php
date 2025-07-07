@@ -11,7 +11,6 @@ use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\HumanOpPoints\LoginStreaks;
 use App\Models\Videos\VideoProgress;
-use Illuminate\Http\Request;
 
 class GamificationController extends Controller
 {

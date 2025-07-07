@@ -45,10 +45,7 @@ Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->n
 Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 Route::get('/logout', [SessionController::class, 'destroy'])->name('logout');
 Route::get('/', [SessionController::class, 'create'])->name('login');
-Route::get('/stripe', [SessionController::class, 'triggerEvent']);
 Route::get('/stripe-checkout', [SessionController::class, 'checkout']);
-Route::post('/data-stripe', [SessionController::class, 'getData'])->name('data-stripe');
-Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
 Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt']);
 Route::get('/', [SessionController::class, 'create']);
 
@@ -64,9 +61,6 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
     Route::get('/welcome-dashboard', [AdminController::class, 'welcomeDashboard'])->name('admin_welcome_dashboard');
-    Route::get('/practitioner-profile-overview/{id?}', [AdminController::class, 'profileOverview'])->name('practitioner_profile_overview');
-    Route::get('/practitioner-grid/{id}', [AdminController::class, 'grid'])->name('practitioner_grid');
-    Route::get('/download-practitioner-report/{id}', [AdminController::class, 'downloadUserReport'])->name('download_practitioner_report');
 
     // ====================================== User Management ================================ //
 

@@ -485,11 +485,6 @@ return [
             'fillable' => ['model_name','model_value'],
             'hidden' => ['updated_at','deleted_at'],
         ],
-        'AnalyticsModel' => [
-            'table' => 'analytics',
-            'fillable' => ['llm_model_id','prompt_token','completion_token','total_token','query'],
-            'hidden' => ['updated_at','deleted_at'],
-        ],
         'BusinessStrategies' => [
             'table' => 'business_strategies',
             'fillable' => ['name'],
@@ -558,11 +553,6 @@ return [
             'table' => 'training_files',
             'fillable' => ['name','file_name'],
             'hidden' => ['created_at','updated_at'],
-        ],
-        'BrainCluster' => [
-            'table' => 'brain_clusters',
-            'fillable' => ['chat_bot_id','cluster_id'],
-            'hidden' => ['updated_at','created_at'],
         ],
         'PushNotification' => [
             'table' => 'push_notification',

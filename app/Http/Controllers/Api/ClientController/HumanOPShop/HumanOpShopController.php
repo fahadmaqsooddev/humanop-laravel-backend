@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\ClientController\HumanOPShop;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Resources\ShopCategoryResource;
-use Illuminate\Http\Request;
 
 class HumanOpShopController extends Controller
 {
