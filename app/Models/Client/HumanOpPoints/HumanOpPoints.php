@@ -101,7 +101,7 @@ class HumanOpPoints extends Model
         $checkPoint = self::getUserPoints($user);
 
         if ($checkPoint === null) {
-            // First-time point assignment
+
             self::create([
                 'user_id' => $user['id'],
                 'points' => Admin::DAILY_LOGIN_POINT_FOR_CLARITY,
@@ -110,68 +110,95 @@ class HumanOpPoints extends Model
             Helpers::checkAndTakePerformanceLevel($user);
 
             return LoginStreaks::startLoginStreak($user);
+
         }
 
         $streak = LoginStreaks::getStreak($user);
 
         if (!$streak) {
-            // If streak doesn't exist, start it fresh
+
             return LoginStreaks::startLoginStreak($user);
+
         }
 
-        // Make sure streak is treated as an object (Eloquent model)
         if (is_array($streak)) {
+
             $streak = (object) $streak;
+
         }
 
         $diffDays = $currentTime->diffInDays($user['last_login']);
 
         if ($diffDays === 1) {
-            // Continued streak
+
             if ($streak->login_days > 6) {
-                // Reset streak after 7 days
+
                 $streak->login_days = 1;
+
                 $streak->complete_streaks += 1;
+
                 $streak->save();
 
                 $checkPoint->points += Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
+
                 $checkPoint->save();
 
                 Helpers::checkAndTakePerformanceLevel($user);
+
             } else {
-                // Continue streak and add bonus
+
                 LoginStreaks::updateLoginStreak($user);
 
-                $streak = LoginStreaks::getStreak($user); // Refresh streak data
+                $streak = LoginStreaks::getStreak($user);
 
                 if (is_array($streak)) {
+
                     $streak = (object) $streak;
+
                 }
 
                 $bonus = Admin::DAILY_LOGIN_POINT_FOR_CLARITY + ($streak->login_days - 1);
 
                 $checkPoint->points += $bonus;
+
                 $checkPoint->save();
 
                 Helpers::checkAndTakePerformanceLevel($user);
 
                 return $checkPoint;
+
             }
+
         } elseif ($diffDays > 1) {
-            // Missed a day: reset streak
+
             $streak->login_days = 1;
+
             $streak->save();
 
             $checkPoint->points += Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
+
             $checkPoint->save();
 
             Helpers::checkAndTakePerformanceLevel($user);
 
             return $checkPoint;
+
         } else {
-            // Same day login or invalid time diff
+
             return null;
+
         }
+
     }
 
+    public static function deductPoint($user = null, $points = null)
+    {
+        $point =  self::where('user_id', $user['id'])->first();
+
+        $point->points -= $points;
+
+        $point->save();
+
+        return $point;
+    }
 }

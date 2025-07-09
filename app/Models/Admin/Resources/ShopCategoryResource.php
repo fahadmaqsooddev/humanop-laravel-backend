@@ -6,6 +6,8 @@ use App\Helpers\Helpers;
 use App\Models\Admin\HumanOpShopCategory\HumanOpShopTraits;
 use App\Models\Admin\HumanOpShopCategory\ShopCategory;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
+use App\Models\Assessment;
+use App\Models\Libraries\HumanOpLibraries;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,16 +29,13 @@ class ShopCategoryResource extends Model
     protected $appends = ['document_url', 'video_url', 'audio_url'];
 
     // relation
-
-
     public function shopCategory()
     {
         return $this->belongsTo(ShopCategory::class, 'humanop_shop_category_id', 'id');
     }
 
 
-//    realation
-
+//    relation
     public function resourceTraits()
     {
         return $this->hasMany(HumanOpShopTraits::class, 'humanop_shop_resource_id');
@@ -46,24 +45,16 @@ class ShopCategoryResource extends Model
     // append
     public function getDocumentUrlAttribute()
     {
-
-            return Helpers::getDocument($this->document_id, 1,null);
-
-
+        return Helpers::getDocument($this->document_id, 1, null);
     }
 
     public function getVideoUrlAttribute()
     {
-
-            return Helpers::getVideo($this->video_id, 1, null);
-
-
-
+        return Helpers::getVideo($this->video_id, 1, null);
     }
 
     public function getAudioUrlAttribute()
     {
-
         return Helpers::getAudio($this->audio_id, 1);
     }
 
@@ -71,7 +62,7 @@ class ShopCategoryResource extends Model
     // query
     public static function getResources()
     {
-        return self::with('shopCategory')->get();
+        return self::with('shopCategory', 'resourceTraits')->get();
     }
 
     public static function createShopResource($heading = null, $category_id = null, $buy_from = null, $video_id = null, $audio_id = null, $document_id = null, $point_price = null)
@@ -90,7 +81,7 @@ class ShopCategoryResource extends Model
         return $resource;
     }
 
-    public static function updateResource($heading = null,$id=null, $category_id = null, $buy_from = null, $video_id = null, $audio_id = null, $document_id = null, $point_price = null)
+    public static function updateResource($heading = null, $id = null, $category_id = null, $buy_from = null, $video_id = null, $audio_id = null, $document_id = null, $point_price = null)
     {
 
         self::whereId($id)->update([
@@ -157,19 +148,16 @@ class ShopCategoryResource extends Model
     {
         $resources = self::query();
 
-        // Filter by relevance in libraryResources
         if (!empty($searchRelevance)) {
             $resources->where('relevance', $searchRelevance);
         }
 
-        // Filter by name in resourceCategory
         if (!empty($searchType)) {
             $resources->whereHas('resourceCategory', function ($q) use ($searchType) {
                 $q->where('name', 'LIKE', '%' . $searchType . '%');
             });
         }
 
-        // Filter by permission level in libraryPermissions
         if (!empty($searchAccess)) {
             $resources->whereHas('libraryPermissions', function ($q) use ($searchAccess) {
                 if ($searchAccess === 'free') {
@@ -185,6 +173,49 @@ class ShopCategoryResource extends Model
         $resources->with('resourceCategory', 'libraryPermissions')->orderBy('created_at', 'desc');
 
         return $resources->get();
+    }
+
+    public static function suggestedItems($userId = null)
+    {
+
+        $purchasedItemIds = HumanOpLibraries::getAllItems($userId)->pluck('item_id');
+
+        $getAssessment = Assessment::getLatestAssessment($userId);
+
+        $highlightedStyles = Assessment::highLightStyle($getAssessment);
+
+        $matchingItems = self::whereNotIn('id', $purchasedItemIds)
+
+            ->whereHas('resourceTraits', function ($query) use ($highlightedStyles) {
+
+                $query->whereIn('trait_name', $highlightedStyles);
+
+            })
+
+            ->with(['resourceTraits' => function ($query) use ($highlightedStyles) {
+
+                $query->whereIn('trait_name', $highlightedStyles);
+
+            }])
+
+            ->get();
+
+        if ($matchingItems->count() >= 3) {
+
+            return $matchingItems->take(3);
+
+        }
+
+        $needed = 3 - $matchingItems->count();
+
+        $additionalItems = self::whereNotIn('id', $matchingItems->pluck('id')->merge($purchasedItemIds))
+            ->inRandomOrder()
+            ->with('resourceTraits')
+            ->take($needed)
+            ->get();
+
+        return $matchingItems->merge($additionalItems);
+
     }
 
 }

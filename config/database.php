@@ -653,6 +653,11 @@ return [
             'table'=>'faq_questions',
             'fillable'=>['question','answer'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'HumanOpLibraries'=>[
+            'table'=>'humanop_libraries',
+            'fillable'=>['user_id','item_id'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];

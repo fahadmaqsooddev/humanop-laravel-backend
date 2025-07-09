@@ -650,6 +650,30 @@ class Assessment extends Model
         return $topKeysStyle;
     }
 
+    public static function highLightStyle($assessment = null)
+    {
+        $allStyles = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
+
+        $highLightStyles = [];
+
+        if ($assessment) {
+
+            foreach ($allStyles as $style) {
+
+                if (isset($assessment[$style]) && $assessment[$style] > 4) {
+
+                    $highLightStyles[] = $style;
+
+                }
+
+            }
+
+        }
+
+        return $highLightStyles;
+
+    }
+
     public static function getAllStyles($assessment = null)
     {
         $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
