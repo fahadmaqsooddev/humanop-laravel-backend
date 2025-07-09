@@ -196,4 +196,41 @@ class UploadsController extends Controller
 
         return $base64Image;
     }
+
+    public function get_document($hash,$name){
+
+        $upload = Upload::where('hash',$hash)->first();
+
+        // validate upload hash & filename
+        if (!isset($upload->id) || $upload->name != $name){
+            return response()->json([
+                'status' => "Failure",
+                'message' => "Unauthorized Access 1"
+            ]);
+        }
+
+        $file_name = $upload->pre_fill . $upload->name;
+        $path = storage_path() . '/documents/' . $file_name;
+
+        if (!File::exists($path)){
+            // abort 404;
+            $path = base_path() . '/public/assets/image/image_placeholder.png';
+            $file = File::get($path);
+            $type = File::mimeType($path);
+            $response = Response::make($file,200);
+            return $response->header("Content-Type", $type);
+        }
+
+        $hash = sha1($path);
+        $base64Image = Cache::get("image-$hash");
+        if (empty($base64Image)){
+            $file = File::get($path);
+            $type = File::mimeType($path);
+            $response = Response::make($file,200);
+            $image = $response->header("Content-Type", $type);
+            $base64Image = $image;
+        }
+
+        return $base64Image;
+    }
 }

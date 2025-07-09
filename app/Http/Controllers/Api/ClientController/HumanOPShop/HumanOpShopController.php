@@ -37,6 +37,7 @@ class HumanOpShopController extends Controller
                     'prices' => $item->buy_from == 1 ? $item['point_price'] : null,
                     'video_url' => isset($item->video_url) ? ($item->video_url['path'] ?? null) : null,
                     'audio_url' => isset($item->audio_url) ? ($item->audio_url['path'] ?? null) : null,
+                    'document_url' => isset($item->document_url) ? ($item->document_url['path'] ?? null) : null,
                 ];
 
             });
@@ -70,6 +71,7 @@ class HumanOpShopController extends Controller
                     'prices' => $item->buy_from == 1 ? $item['point_price'] : null,
                     'video_url' => isset($item->video_url) ? ($item->video_url['path'] ?? null) : null,
                     'audio_url' => isset($item->audio_url) ? ($item->audio_url['path'] ?? null) : null,
+                    'document_url' => isset($item->document_url) ? ($item->document_url['path'] ?? null) : null,
                 ];
 
             });

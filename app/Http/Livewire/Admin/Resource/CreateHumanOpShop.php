@@ -59,7 +59,6 @@ class CreateHumanOpShop extends Component
 
         try {
 
-
             $this->validate();
 
             $extension = $this->resource_file->extension();
@@ -87,7 +86,6 @@ class CreateHumanOpShop extends Component
                     $this->priceValue
                 );
 
-
             } else {
 
                 $resource = ShopCategoryResource::createShopResource(
@@ -104,7 +102,6 @@ class CreateHumanOpShop extends Component
             foreach ($this->selectedTraits as $traitCode) {
                 HumanOpShopTraits::storeTraits($resource->id, $traitCode);
             }
-
 
             $this->resetForm();
 
