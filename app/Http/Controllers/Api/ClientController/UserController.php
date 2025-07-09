@@ -112,7 +112,7 @@ class UserController extends Controller
 
                 $updated_user = User::updatePersonalInformation($dataArray);
 
-                HaiChatHelpers::syncUserRecordWithHAi();
+                HaiChatHelpers::syncUserRecordWithHAi($updated_user);
 
                 return Helpers::successResponse('Personal Information updated successfully', $updated_user);
 

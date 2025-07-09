@@ -151,8 +151,5 @@ class HaiChatHelpers
         $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post',"NewHaiApi/users", $body);
 
         Log::info(['hai chat sync res' => $response]);
-
-
-
     }
 }

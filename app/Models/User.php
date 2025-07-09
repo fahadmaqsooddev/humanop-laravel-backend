@@ -1824,7 +1824,7 @@ class User extends Authenticatable implements JWTSubject
 
                 return [
                     'morning_trait' => $optionalTraitMorning,
-                    'evening_trait' => $optionalTraitEvening,
+                    'afternoon_trait' => $optionalTraitEvening,
                     'night_trait' => $optionalTraitNight,
                     'current_trait' => $currentOptionalTrait,
                 ];
