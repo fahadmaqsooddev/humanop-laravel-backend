@@ -126,9 +126,9 @@ class HumanOpShopController extends Controller
 
             } else {
 
-                $userPoints = HumanOpPoints::getUserPoints($user['id']);
+                $userPoints = HumanOpPoints::getUserPoints($user);
 
-                if ($userPoints >= $request['points']) {
+                if (($userPoints) && ($userPoints['points'] >= $request['points'])) {
 
                     HumanOpPoints::deductPoint($user['id'], $request['points']);
 
