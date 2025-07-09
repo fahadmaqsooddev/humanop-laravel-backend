@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\AssessmentIntro;
 
+use App\Helpers\Helpers;
 use App\Models\Videos\VideoProgress;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -87,7 +88,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video_url'] ?? '',
+            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video : '',
             'video_progress' => $progress,
         ];
 
@@ -104,7 +105,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video_url'] ?? '',
+            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video : '',
             'video_progress' => $progress,
         ];
     }
@@ -120,7 +121,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video_url'] ?? '',
+            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video : '',
             'video_progress' => $progress,
         ];
     }
