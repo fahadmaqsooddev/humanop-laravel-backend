@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class optimalTraitPushNotification extends Command
 {
