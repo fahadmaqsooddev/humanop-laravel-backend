@@ -643,7 +643,10 @@ class AuthController extends Controller
 
                     Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
 
-                    $checkUser['last_login'] = $currentTime;
+                    if ($checkUser['last_login'] == null)
+                    {
+                        $checkUser['last_login'] = $currentTime;
+                    }
 
                     $checkUser->save();
 

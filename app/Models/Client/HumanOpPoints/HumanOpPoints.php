@@ -107,8 +107,6 @@ class HumanOpPoints extends Model
                 'points' => Admin::DAILY_LOGIN_POINT_FOR_CLARITY,
             ]);
 
-            Helpers::checkAndTakePerformanceLevel($user);
-
             return LoginStreaks::startLoginStreak($user);
 
         }
@@ -143,6 +141,10 @@ class HumanOpPoints extends Model
 
                 $checkPoint->save();
 
+                $user->last_login = $currentTime;
+
+                $user->save();
+
                 Helpers::checkAndTakePerformanceLevel($user);
 
             } else {
@@ -163,6 +165,10 @@ class HumanOpPoints extends Model
 
                 $checkPoint->save();
 
+                $user->last_login = $currentTime;
+
+                $user->save();
+
                 Helpers::checkAndTakePerformanceLevel($user);
 
                 return $checkPoint;
@@ -178,6 +184,10 @@ class HumanOpPoints extends Model
             $checkPoint->points += Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
 
             $checkPoint->save();
+
+            $user->last_login = $currentTime;
+
+            $user->save();
 
             Helpers::checkAndTakePerformanceLevel($user);
 
