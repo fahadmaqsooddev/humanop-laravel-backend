@@ -91,8 +91,6 @@ class DashboardController extends Controller
 
                             $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
-                            HumanOpPoints::addPointsAfterCompleteDailyTip($user);
-
                             $message = 'Your New Daily Tip';
 
                             event(new NewDailyTip($user['id'], 'new daily tip', $message));
@@ -209,7 +207,7 @@ class DashboardController extends Controller
     public function coreStats(Request $request)
     {
 
-//        try {
+        try {
 
         $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
@@ -217,10 +215,10 @@ class DashboardController extends Controller
 
         return Helpers::successResponse('core stats', $coreState);
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
     public function dailyTipRead()

@@ -3,7 +3,10 @@
 namespace App\Models\Admin\DailyTip;
 
 use App\Enums\Admin\Admin;
+use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
+use App\Models\Admin\Notification\Notification;
+use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -79,12 +82,26 @@ class UserDailyTip extends Model
     public static function readUserDailyTip()
     {
 
+        $user = Helpers::getUser();
+
         $daily_tip = self::where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->latest()->first();
 
         $daily_tip_read = $daily_tip->is_read ?? 1;
 
-        if ($daily_tip) {
+        if ($daily_tip['is_read'] == 0) {
+
             $daily_tip->update(['is_read' => 1]);
+
+            HumanOpPoints::addPointsAfterCompleteDailyTip($user);
+
+//            $message = 'Your New Daily Tip';
+//
+//            event(new NewDailyTip($user['id'], 'new daily tip', $message));
+//
+//            Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+//
+//            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
         }
 
         return $daily_tip_read;
