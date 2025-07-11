@@ -88,7 +88,6 @@ class B2BBusinessCandidates extends Model
     }
 
 
-
     public static function getInfo($userId)
     {
         return self::where('business_id', Helpers::getUser()['id'])
@@ -97,26 +96,10 @@ class B2BBusinessCandidates extends Model
             ->first();
     }
 
-
-    public static function notShareDataWithBusiness($businessId = null, $candidateId = null)
-    {
-
-        $candidate = Helpers::getUser();
-
-        $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
-
-
-        event(new NotSharedDataWithBusiness($businessId, "[ $candidateName ] elected to  not share their data with your company"));
-
-        Notification::createNotification('Consent Not Granted', " [ $candidateName ] elected to  not share their data with your company", '', $businessId, 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
-
-    }
-
     public static function allCompaniesInfo()
     {
         return self::all();
     }
-
 
 
     public static function checkShareDataDetail($company = null, $candidateId = null)
@@ -144,24 +127,20 @@ class B2BBusinessCandidates extends Model
     public static function AllCompaniesCheckShareDataDetail($companies = [], $candidateId = null)
     {
 
-        return self::where('candidate_id', $candidateId ?? Helpers::getUser()['id'])->whereHas('businessUsers', function ($query) use ($companies) {
-            $query->whereIn('company_name', $companies);
-        })
+        return self::where('candidate_id', $candidateId ?? Helpers::getUser()['id'])
+            ->whereHas('businessUsers', function ($query) use ($companies) {
+
+                $query->whereIn('company_name', $companies);
+
+            })
             ->get();
+
     }
-
-
-
-
 
     public static function checkFutureConsiderationShareData($candidateId = null)
     {
         return self::with('businessUsers')->where('candidate_id', $candidateId)->where('future_consideration', 1)->where('role', Admin::IS_TEAM_MEMBER)->where('future_consideration_share_date', 0)->first();
     }
-
-
-
-
 
 
     public static function getMembersCount($businessId = null)
@@ -183,12 +162,38 @@ class B2BBusinessCandidates extends Model
             $query->where('step', 3);
 
         })
-
             ->count();
 
     }
 
-        public static function shareDataWithBusiness($businessId = null, $candidateId = null)
+    public static function notShareDataWithBusiness($businessId = null, $candidateId = null)
+    {
+
+        $candidate = Helpers::getUser();
+
+        $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
+
+        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
+
+        if ($checkBusinessCandidate) {
+            ;
+
+            $checkBusinessCandidate->update(['share_data' => Admin::NOT_SHARED_DATA]);
+
+            if ($checkBusinessCandidate['share_data'] == 1) {
+
+                event(new NotSharedDataWithBusiness($businessId, "[ $candidateName ] elected to  not share their data with your company"));
+
+                Notification::createNotification('Consent Not Granted', " [ $candidateName ] elected to  not share their data with your company", '', $businessId, 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+            }
+
+            return $checkBusinessCandidate;
+        }
+
+    }
+
+    public static function shareDataWithBusiness($businessId = null, $candidateId = null)
     {
         $candidate = Helpers::getUser();
 
@@ -198,9 +203,7 @@ class B2BBusinessCandidates extends Model
 
         if ($checkBusinessCandidate) {
 
-            $newShareStatus = $checkBusinessCandidate->share_data == 0 ? 1 : 0;
-
-            $checkBusinessCandidate->update(['share_data' => $newShareStatus]);
+            $checkBusinessCandidate->update(['share_data' => Admin::SHARED_DATA]);
 
             if ($checkBusinessCandidate['share_data'] == 1) {
 

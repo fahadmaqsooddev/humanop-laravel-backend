@@ -136,6 +136,8 @@ final class Admin
 
     const NOT_SHARED_DATA = 0;
 
+    const DECLINED_DATA = 3;
+
     const B2B_NOTIFICATION=1;
 
     const B2C_NOTIFICATION=0;

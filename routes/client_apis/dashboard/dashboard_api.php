@@ -27,8 +27,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('assessment-walkthrough','DashboardController@getWalkThrough');
     Route::post('complete-assessment-walkthrough','DashboardController@completeWalkThrough');
     Route::post('complete-tutorial','DashboardController@completeTutorial');
-    Route::post('shared-data','DashboardController@sharedData');
     Route::get('check-shared-data','DashboardController@CheckShareData');
+    Route::post('shared-data','DashboardController@sharedData');
     Route::post('not-shared-data','DashboardController@notSharedData');
     Route::get('all-push-notification','DashboardController@getPushNotification');
     Route::post('push-notification-allow-or-not-allow','DashboardController@pushNotification');
