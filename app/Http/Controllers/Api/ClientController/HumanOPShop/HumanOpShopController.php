@@ -95,7 +95,7 @@ class HumanOpShopController extends Controller
 
             $buyFrom = $request['buy_from']; // 1 = money, 2 = points
 
-            $itemAlreadyOwned = HumanOpLibraries::getItem($itemId);
+            $itemAlreadyOwned = HumanOpLibraries::getItem($itemId, $user['id']);
 
             if (!empty($itemAlreadyOwned)) {
 

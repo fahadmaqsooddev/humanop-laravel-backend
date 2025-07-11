@@ -17,9 +17,9 @@ class HumanOpLibraries extends Model
         parent::__construct($attributes);
     }
 
-    public static function getItem($item_id = null)
+    public static function getItem($item_id = null, $user_id = null)
     {
-        return self::where('item_id', $item_id)->first();
+        return self::where('item_id', $item_id)->where('user_id', $user_id)->first();
     }
 
     public static function getAllItems($userId = null)
