@@ -108,7 +108,7 @@ class HumanOpShopController extends Controller
                 Stripe::setApiKey(config('cashier.secret'));
 
                 $charge = Charge::create([
-                    "amount" => $request['amount'] * 100,
+                    "amount" => $request['price'] * 100,
                     "currency" => "usd",
                     "source" => 'tok_visa',
                     "description" => "Purchase Suggested Item",
