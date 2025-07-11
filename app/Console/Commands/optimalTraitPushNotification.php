@@ -41,7 +41,7 @@ class optimalTraitPushNotification extends Command
 
         foreach ($users as $user) {
 
-            Log::info(['command exe']);
+            Log::info(['command exe' => $user]);
 
             $notification = PushNotification::getSingleNotification($user['id']);
 
@@ -103,11 +103,15 @@ class optimalTraitPushNotification extends Command
 
                         }
 
+                        Log::info(['status' => $status]);
+
                         $message = 'Your ' . $optionalTrait . ' Optimal Trait';
 
                         Log::info(['message' => $message]);
 
                         if (empty($userOptimalTrait)) {
+
+                            Log::info(['empty optimal trait']);
 
                             UserOptimalTrait::createUserOptimalTrait($optionalTrait, $user['id'], $status);
 
@@ -119,6 +123,8 @@ class optimalTraitPushNotification extends Command
 
                         } elseif ($userOptimalTrait['status'] != $status) {
 
+                            Log::info(['optimal trait']);
+
                             UserOptimalTrait::updateUserOptimalTrait($optionalTrait, $user['id'], $status);
 
                             HaiChatHelpers::syncUserRecordWithHAi($user);
@@ -128,6 +134,8 @@ class optimalTraitPushNotification extends Command
                             Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
 
                         }
+
+                        Log::info(['done']);
 
                     }
                 }

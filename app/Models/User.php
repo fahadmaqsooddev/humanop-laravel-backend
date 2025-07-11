@@ -1421,7 +1421,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function getAllClientUser()
     {
-        return self::where('is_admin', 2)->get();
+        return self::whereId(2438)->where('is_admin', 2)->get();
     }
 
 
