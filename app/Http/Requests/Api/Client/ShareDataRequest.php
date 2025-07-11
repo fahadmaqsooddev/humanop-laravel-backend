@@ -25,7 +25,7 @@ class ShareDataRequest extends FormRequest
     {
         return [
             'candidate_id' => 'required',
-            'company_name' => 'required|array',
+            'company_name' => 'required',
         ];
     }
 

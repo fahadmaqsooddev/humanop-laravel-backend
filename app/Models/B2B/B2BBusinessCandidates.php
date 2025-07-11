@@ -133,6 +133,7 @@ class B2BBusinessCandidates extends Model
                 $query->whereIn('company_name', $companies);
 
             })
+
             ->get();
 
     }
@@ -180,7 +181,7 @@ class B2BBusinessCandidates extends Model
 
             $checkBusinessCandidate->update(['share_data' => Admin::NOT_SHARED_DATA]);
 
-            if ($checkBusinessCandidate['share_data'] == 1) {
+            if ($checkBusinessCandidate['share_data'] == 0) {
 
                 event(new NotSharedDataWithBusiness($businessId, "[ $candidateName ] elected to  not share their data with your company"));
 
@@ -217,5 +218,57 @@ class B2BBusinessCandidates extends Model
 
         return null;
     }
+
+    public static function futureConsiderationShareDataWithBusiness($businessId = null, $candidateId = null)
+    {
+        $candidate = Helpers::getUser();
+
+        $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
+
+        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
+
+        if ($checkBusinessCandidate) {
+
+            $checkBusinessCandidate->update(['future_consideration_share_date' => Admin::FUTURE_CONSIDERATION_SHARE_DATA]);
+
+            if ($checkBusinessCandidate['future_consideration_share_data'] == 1) {
+
+                event(new SharedDataWithBusiness($businessId, "[ $candidateName ] elected to share their data with your company"));
+
+                Notification::createNotification('Data Share Granted', "[ $candidateName ] elected to share their data with your company", '', $businessId, 0, Admin::B2B_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+            }
+
+            return $checkBusinessCandidate;
+        }
+
+        return null;
+    }
+
+    public static function futureConsiderationNotShareDataWithBusiness($businessId = null, $candidateId = null)
+    {
+        $candidate = Helpers::getUser();
+
+        $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
+
+        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
+
+        if ($checkBusinessCandidate) {
+
+            $checkBusinessCandidate->update(['future_consideration_share_date' => Admin::FUTURE_CONSIDERATION_NOT_SHARE_DATA]);
+
+            if ($checkBusinessCandidate['future_consideration_share_data'] == 0) {
+
+                event(new NotSharedDataWithBusiness($businessId, "[ $candidateName ] elected to  not share their data with your company"));
+
+                Notification::createNotification('Consent Not Granted', " [ $candidateName ] elected to  not share their data with your company", '', $businessId, 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+            }
+
+            return $checkBusinessCandidate;
+        }
+
+        return null;
+    }
+
 
 }

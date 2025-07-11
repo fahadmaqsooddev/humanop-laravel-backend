@@ -877,4 +877,64 @@ class DashboardController extends Controller
         }
     }
 
+    public function futureConsiderationShareData(ShareDataRequest $request)
+    {
+        try {
+
+            $data = B2BBusinessCandidates::AllCompaniesCheckShareDataDetail($request['company_name'], $request['candidate_id']);
+
+            if (!empty($data)) {
+
+                foreach ($data as $shared) {
+
+                    B2BBusinessCandidates::futureConsiderationShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
+
+                }
+
+                return Helpers::successResponse('Data Shared Successfully');
+
+            } else {
+
+                return Helpers::validationResponse('Data not found.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function futureConsiderationNotShareData(ShareDataRequest $request)
+    {
+        try {
+
+            $data = B2BBusinessCandidates::AllCompaniesCheckShareDataDetail($request['company_name'], $request['candidate_id']);
+
+            if (!empty($data)) {
+
+                foreach ($data as $shared) {
+
+                    B2BBusinessCandidates::futureConsiderationNotShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
+
+                }
+
+                return Helpers::successResponse('Data Not Shared');
+
+            } else {
+
+                return Helpers::validationResponse('Data not found.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
 }
