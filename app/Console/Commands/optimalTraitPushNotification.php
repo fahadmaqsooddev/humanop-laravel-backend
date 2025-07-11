@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class optimalTraitPushNotification extends Command
 {
@@ -40,11 +41,17 @@ class optimalTraitPushNotification extends Command
 
         foreach ($users as $user) {
 
+            Log::info(['command exe']);
+
             $notification = PushNotification::getSingleNotification($user['id']);
+
+            Log::info(['command exe']);
 
             if ($notification['optimal_trait'] == 1) {
 
                 $assessment = Assessment::getLatestAssessment($user['id']);
+
+                Log::info(['assessment' => $assessment]);
 
                 if (!empty($assessment)) {
 
@@ -53,6 +60,8 @@ class optimalTraitPushNotification extends Command
                     $minutes = Helpers::explodeTimezoneWithHours($timezone);
 
                     $currentTime = Carbon::now()->addMinutes($minutes * 60);
+
+                    Log::info(['noww' => $currentTime]);
 
                     $morningStart = Carbon::createFromTimeString('05:00 AM');
 
@@ -95,6 +104,8 @@ class optimalTraitPushNotification extends Command
                         }
 
                         $message = 'Your ' . $optionalTrait . ' Optimal Trait';
+
+                        Log::info(['message' => $message]);
 
                         if (empty($userOptimalTrait)) {
 
