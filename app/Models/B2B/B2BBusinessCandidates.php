@@ -271,4 +271,17 @@ class B2BBusinessCandidates extends Model
     }
 
 
+    public static function getPendingSharedDataLoginUserCompanies($candidateId=null)
+    {
+
+        return self::where('candidate_id', $candidateId ?? Helpers::getUser()['id'])
+            ->where('share_data', Admin::DECLINED_DATA)
+            ->where('is_permanently_deleted', 0)
+            ->with(['businessUsers' => function ($query) {
+                $query->select('id', 'company_name');
+            }])
+            ->get();
+    }
+
+
 }
