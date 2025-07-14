@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Client\HumanNetwork\FollowUnFollowRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
+use App\Models\NetworkTutorial\NetworkTutorial;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -101,6 +102,21 @@ class HumanNetworkController extends Controller
             $connection_requests = Connection::paginatedConnectionRequests($request);
 
             return Helpers::successResponse('Connection requests', $connection_requests, $request->input('pagination'));
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function networkTutorials(){
+
+        try {
+
+            $tutorials = NetworkTutorial::allTutorials();
+
+            return Helpers::successResponse('Network Tutorials', $tutorials);
 
         }catch (\Exception $exception){
 

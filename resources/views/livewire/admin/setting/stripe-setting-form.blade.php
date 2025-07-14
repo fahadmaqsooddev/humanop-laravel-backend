@@ -10,7 +10,7 @@
                     <div class="col-6">
                         <label class="form-label text-color-dark">Account Name</label>
                         <div class="form-group">
-                            <input wire:model.defer="account.account_name" class="form-control text-color-dark setting-box-background"
+                            <input wire:model.defer="account.account_name" class="form-control input-form-style"
                                    type="text"
                                    placeholder="account name">
                         </div>
@@ -18,7 +18,7 @@
                     <div class="col-6">
                         <label class="form-label text-color-dark">Account Email</label>
                         <div class="form-group">
-                            <input class="form-control text-color-dark setting-box-background"
+                            <input class="form-control input-form-style"
                                    type="email" wire:model.defer="account.account_email"
 
                                    placeholder="account email">
@@ -29,7 +29,7 @@
                     <div class="col-6">
                         <label class="form-label text-color-dark">API KEY</label>
                         <div class="form-group">
-                            <input class="form-control text-color-dark setting-box-background" wire:model.defer="account.api_key"
+                            <input class="form-control input-form-style" wire:model.defer="account.api_key"
                                    type="text"
                                    placeholder="api key">
                         </div>
@@ -37,7 +37,7 @@
                     <div class="col-6">
                         <label class="form-label text-color-dark">PUBLIC KEY</label>
                         <div class="form-group">
-                            <input class="form-control text-color-dark setting-box-background" wire:model.defer="account.public_key"
+                            <input class="form-control input-form-style" wire:model.defer="account.public_key"
                                    type="text"
                                    placeholder="public key">
                         </div>
@@ -45,7 +45,7 @@
                     <div class="col-12">
                         <label class="form-label text-color-dark">Amount</label>
                         <div class="form-group">
-                            <input class="form-control text-color-dark setting-box-background" wire:model.defer="account.amount"
+                            <input class="form-control input-form-style" wire:model.defer="account.amount"
                                    type="text"
                                    placeholder="amount">
                         </div>

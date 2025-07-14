@@ -24,32 +24,51 @@ class UpdateUserProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'date_of_birth' => 'required|date',
-//            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
-            'gender' => 'required|in:male,female',
-            'phone' => 'nullable|max:25',
-            'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:3072'
+            'full_name' => 'required',
+            'life_alchemist' => 'required|string|max:255',
+            'excited_connect' => 'required|string|max:255',
+            'note' => 'required|string|max:255',
+            'tag_line' => 'required',
+            'profile_status' => 'required',
+            'hai_status' => 'required',
+            'profile_privacy' => 'required',
+            'hai_privacy' => 'required',
+            'interval_of_life' => 'required',
+            'traits' => 'required',
+            'motivational_driver' => 'required',
+            'alchemic_boundaries' => 'required',
+            'communication_style' => 'required',
+            'perception_of_life' => 'required',
+            'energy_pool' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'first_name.required' => 'First name is required',
-            'last_name.required' => 'Last name is required',
-//            'age_range.required' => 'Age is required',
-//            'age_range.regex' => 'Invalid age format. Age range must be - separated',
-            'date_of_birth.required' => 'Date of birth is required',
-            'gender.required' => 'Gender is required',
-            'gender.in' => 'Invalid gender. Gender must be male or female',
-//            'phone.required' => 'Phone is required',
-            'profile_image.image' => 'Profile Image must be an image',
-            'profile_image.mimes' => 'Profile Image mimes must be (jpg,png,jpeg,gif,svg)',
-            'profile_image.max' => "Profile Image maximum size is 3Mb's",
-            'phone.max' => 'The phone number should not exceed 25 characters.',
-
+            'full_name.required' => 'Full name is required.',
+            'life_alchemist.required' => 'Please provide your role as a life alchemist.',
+            'life_alchemist.string' => 'Life alchemist must be a valid string.',
+            'life_alchemist.max' => 'Life alchemist cannot exceed 255 characters.',
+            'excited_connect.required' => 'Tell us what excites you to connect.',
+            'excited_connect.string' => 'Excited to connect must be a string.',
+            'excited_connect.max' => 'Excited to connect cannot exceed 255 characters.',
+            'note.required' => 'Please write a note.',
+            'note.string' => 'Note must be a valid string.',
+            'note.max' => 'Note cannot exceed 255 characters.',
+            'tag_line.required' => 'A tag line is required.',
+            'profile_status.required' => 'Profile status is required.',
+            'hai_status.required' => 'HAI status is required.',
+            'profile_privacy.required' => 'Profile privacy setting is required.',
+            'hai_privacy.required' => 'HAI privacy setting is required.',
+            'interval_of_life.required' => 'Interval of life is required.',
+            'traits.required' => 'Please specify your traits.',
+            'motivational_driver.required' => 'Please specify your motivational driver.',
+            'alchemic_boundaries.required' => 'Alchemic boundaries are required.',
+            'communication_style.required' => 'Communication style is required.',
+            'perception_of_life.required' => 'Perception of life is required.',
+            'energy_pool.required' => 'Energy pool is required.',
         ];
     }
+
 }

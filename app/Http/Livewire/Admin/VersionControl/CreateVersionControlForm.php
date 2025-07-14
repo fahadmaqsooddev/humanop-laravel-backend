@@ -12,55 +12,36 @@ use App\Models\User;
 
 class CreateVersionControlForm extends Component
 {
-    public $version, $note;
-
-    // for edit data
-    public $versionId = null;
-    public $description_id = null;
-    public $data = null;
+    public $version, $note,$versionId = null, $description_id = null, $data = null;
 
     public $versionDetails = [
         ['type' => [], 'description' => '', 'version_heading' => '']
     ];
 
 
-    protected $listeners = ['updateVersionValues', 'emptyVersionControlValues', 'updateContent','updateNote', 'updateDescription'
-,'updateEditorContent'];
-    
-    
-    
+    protected $listeners = ['updateVersionValues', 'emptyVersionControlValues', 'updateContent', 'updateNote', 'updateDescription', 'updateEditorContent'];
+
 
     protected $messages = [
         'version.required' => 'The version name is required.',
         'version.unique' => 'The version name has already been taken.',
         'versionDetails.*.type.required' => 'The Platform Type is required.',
-        
+
         'versionDetails.*.description.required' => 'The description is required.',
         'versionDetails.*.version_heading.required' => 'The version Heading is required.',
-        
-    
-        // 'note.required' => 'The note is required.',
+
     ];
 
-//     public function updateEditorContent($payload)
-// {
-//     dd($payload); // 🔍 This will show what JS is sending
-// }
-
-
- 
-
     public function updateNote($value)
-{
-    $this->note = $value;
-}
+    {
+        $this->note = $value;
+    }
 
-public function updateDescription($index, $value)
-{
-    $this->versionDetails[$index]['description'] = $value;
-    // dd($this->versionDetails['description']);
+    public function updateDescription($index, $value)
+    {
+        $this->versionDetails[$index]['description'] = $value;
 
-}
+    }
 
     public function addVersionField()
     {
@@ -73,19 +54,15 @@ public function updateDescription($index, $value)
         $this->versionDetails = array_values($this->versionDetails); // reindex
     }
 
-
-
-
-
     public function mount($versionId = null)
     {
 
         $this->versionId = $versionId;
 
         if ($this->versionId) {
-            $version = Version::getSingleVersion($versionId); 
-            $this->version = $version->version; 
-            $this->note = $version->note; 
+            $version = Version::getSingleVersion($versionId);
+            $this->version = $version->version;
+            $this->note = $version->note;
 
             if (!empty($version['versionDescriptions']) && count($version['versionDescriptions']) > 0) {
                 $this->versionDetails = [];
@@ -112,15 +89,10 @@ public function updateDescription($index, $value)
     }
 
 
-
-
-
-
     public function updateContent($editorId, $data)
     {
         $this->note = $data;
     }
-
 
 
     public function emptyVersionControlValues()
@@ -138,18 +110,17 @@ public function updateDescription($index, $value)
     {
 
 
-
         $this->validate([
-            'version' => 'required|unique:version_control,version,' . $this->versionId, 
+            'version' => 'required|unique:version_control,version,' . $this->versionId,
             // 'note' => 'required',
             'versionDetails.*.type' => 'required|array|min:1',
             'versionDetails.*.description' => 'required|string',
             'versionDetails.*.version_heading' => 'required',
         ]);
-     
+
         if ($this->versionId) {
-        
-            Version::editVersion($this->versionId, $this->version,$this->note);
+
+            Version::editVersion($this->versionId, $this->version, $this->note);
 
             foreach ($this->versionDetails as $detail) {
                 if (!empty($detail['id'])) {
@@ -181,11 +152,11 @@ public function updateDescription($index, $value)
 
 
         } else {
-           
+
             $version = Version::createVersion($this->version, $this->note);
 
             foreach ($this->versionDetails as $detail) {
-                
+
                 VersionControlDescription::createDescription($version->id, $detail['description'], $detail['type'], $detail['version_heading']);
             }
 
@@ -201,7 +172,6 @@ public function updateDescription($index, $value)
 
         }
     }
-
 
 
     public function render()

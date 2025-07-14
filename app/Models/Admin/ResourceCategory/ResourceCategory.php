@@ -13,18 +13,19 @@ class ResourceCategory extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
 
 
     // relations
-    public function libraryResources(){
+    public function libraryResources()
+    {
 
-        return $this->hasMany(LibraryResource::class,'resource_category_id','id')->whereNotNull('resource_category_id');
+        return $this->hasMany(LibraryResource::class, 'resource_category_id', 'id')->whereNotNull('resource_category_id');
     }
 
 
@@ -32,50 +33,32 @@ class ResourceCategory extends Model
 
     public static function createCategory($name)
     {
-            self::create(['name' => $name]);
+        self::create(['name' => $name]);
 
     }
 
-    public static function deleteSingleCategory($id){
+    public static function deleteSingleCategory($id)
+    {
         LibraryResource::deleteResourceOfCategory($id);
         self::whereId($id)->delete();
-     }
+    }
 
 
-
-    public static function categories(){
+    public static function categories()
+    {
 
         return self::with('libraryResources')->get();
     }
 
-    public static function dropDownCategories(){
+    public static function resourceCategories()
+    {
 
-        return self::all();
+        return self::get('name');
     }
 
-    public static function resourceCategoriesForClient($plan_name){
+    public static function dropDownCategories()
+    {
 
-        return self::withWhereHas('libraryResources', function ($q) use ($plan_name){
-
-            $q->whereHas('libraryPermissions', function ($q) use ($plan_name){
-
-                if ($plan_name === 'Freemium'){
-
-                    $q->whereIn('permission', [1,4]);
-
-                }elseif ($plan_name === 'Core'){
-
-                    $q->whereIn('permission', [2,4]);
-
-                }elseif ($plan_name === 'Premium'){
-
-                    $q->whereIn('permission', [3,4]);
-
-                }
-
-            });
-
-        })->get();
-
+        return self::all();
     }
 }

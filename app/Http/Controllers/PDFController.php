@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 

@@ -62,6 +62,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('audios'),
         ],
+        'documents' => [
+            'driver' => 'local',
+            'root' => storage_path('documents'),
+        ],
 
     ],
 

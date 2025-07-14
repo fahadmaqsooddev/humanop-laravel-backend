@@ -2,9 +2,6 @@
 
 namespace App\Http\Livewire\Admin\ClientQuery;
 
-use App\Models\HAIChai\QueryAnswer;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use App\Models\HAIChai\ClientQuery as Query;
 use Livewire\WithPagination;

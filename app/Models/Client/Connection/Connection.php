@@ -48,13 +48,13 @@ class Connection extends Model
 
         return MessageThread::where(function ($q) {
 
-                $q->where('sender_id', $this->friend_id)->where('receiver_id', (Helpers::getUser()->id ?? Helpers::getWebUser()->id));
+            $q->where('sender_id', $this->friend_id)->where('receiver_id', (Helpers::getUser()->id ?? Helpers::getWebUser()->id));
 
-            })->orWhere(function ($q) {
+        })->orWhere(function ($q) {
 
-                $q->where('sender_id', (Helpers::getUser()->id ?? Helpers::getWebUser()->id))->where('receiver_id', $this->friend_id);
+            $q->where('sender_id', (Helpers::getUser()->id ?? Helpers::getWebUser()->id))->where('receiver_id', $this->friend_id);
 
-            })->first()->id ?? null;
+        })->first()->id ?? null;
     }
 
 
@@ -72,26 +72,19 @@ class Connection extends Model
 
                 self::create($data);
 
-                // $msg = 'Connection Request send it';
-
-
-
-    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.
-    ' has Send You a Connection Request';
-
+                $msg = Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name . ' has Send You a Connection Request';
 
                 event(new ConnectionRequest($data['friend_id'], 'Connection Request', $msg));
 
-
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request', $msg);
-                Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_REQUEST_NOTIFICATION,Admin::B2C_NOTIFICATION);
+
+                Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
                 toastr()->success("connection request was sent");
 
             }
 
-        }
-        else if ($data['type'] === 'un-connect') {
+        } else if ($data['type'] === 'un-connect') {
 
             self::where(function ($q) use ($data) {
 
@@ -103,26 +96,20 @@ class Connection extends Model
 
             })->delete();
 
-            // $msg = 'Dis-Connect Request send it';
-
-
-    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.
-    ' has disconnected your request';
-
-
-
+            $msg = Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name . ' has disconnected your request';
 
             event(new UnconnectRequest($data['friend_id'], 'Dis-Connection Request', $msg));
 
             Helpers::OneSignalApiUsed($data['friend_id'], 'Dis-Connection Request', $msg);
-            Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_CANCEL_NOTIFICATION,Admin::B2C_NOTIFICATION);
+
+            Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_CANCEL_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
         } else if ($data['type'] === 'accept') {
 
             $received_request = self::where('user_id', $data['friend_id'])->where('friend_id', $data['user_id'])->first();
 
             $send_request = self::where('user_id', $data['user_id'])->where('friend_id', $data['friend_id'])->first();
-//dd($send_request);
+
             $user = Helpers::getUser();
 
             if ($received_request && !$send_request) {
@@ -135,20 +122,13 @@ class Connection extends Model
 
                 $received_request->update(['status' => 1]);
 
-                // $friend = User::getSingleUser($data['friend_id']);
-                // $msg = ' Your Connection Request Accepted';
-                // $msg =  $friend['first_name'].' '.$friend['last_name'].' Has Accepted Your Request';
-                $msg =   Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.' Has Accepted Your Request';
-
-
-
-                // event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
-                // Helpers::OneSignalApiUsed($data['user_id'], 'Connection Request Accept', $msg);
+                $msg = Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name . ' Has Accepted Your Request';
 
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
+
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
 
-                Notification::createNotification('connection accept', $msg, $user['device_token'],  $friend['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION,Admin::B2C_NOTIFICATION);
+                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
             } elseif ($received_request && $send_request) {
 
@@ -156,59 +136,19 @@ class Connection extends Model
 
                 $send_request->update(['status' => 1]);
 
-                // $msg = 'Your Connection Request Accepted';
-                // $msg =  $friend['first_name'].' '.$friend['last_name'].' Has Accepted Your Request';
-                $msg =   Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.' Has Accepted Your Request';
-                // event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
-                // Helpers::OneSignalApiUsed($data['user_id'], ' Connection Request Accept', $msg);
+                $msg = Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name . ' Has Accepted Your Request';
 
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
+
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
-                Notification::createNotification('connection accept', $msg, $user['device_token'],  $friend['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION,Admin::B2C_NOTIFICATION);
+
+                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
             }
 
         }
 
     }
-
-    // public static function connectionRequests($name = null)
-    // {
-
-    //     $connection_requests = self::query();
-
-    //     if (!empty($name)) {
-
-    //         $connection_requests = $connection_requests->whereHas('user', function ($q) use ($name) {
-
-    //             $q->where('first_name', 'LIKE', "%$name%")
-    //                 ->orWhere('last_name', 'LIKE', "%$name%")
-    //                 ->orWhereRaw("concat(first_name, ' ', last_name) like '%$name%' ");
-
-    //         });
-
-    //     }
-
-    //     $connection_requests = $connection_requests->has('user')
-    //         ->with('user:id,first_name,last_name,image_id')
-    //         ->where('friend_id', Helpers::getWebUser()->id)
-    //         ->where('status', 0)
-    //         ->latest()
-    //         ->get();
-
-    //     return $connection_requests;
-    // }
-
-    // public static function userConnections()
-    // {
-
-    //     $user_id = Helpers::getWebUser()->id;
-
-    //     return self::has('friend')->with('friend:id,first_name,last_name')->where('user_id', $user_id)
-    //         ->where('status', 1)
-    //         ->get();
-
-    // }
 
     public static function userPaginatedConnections($request = null)
     {
@@ -227,7 +167,7 @@ class Connection extends Model
 
             });
         })
-            ->with('friend:id,first_name,last_name')
+            ->with('friend:id,first_name,last_name,image_id')
             ->where('user_id', $user_id)
             ->where('status', 1);
 
@@ -271,9 +211,10 @@ class Connection extends Model
         return Helpers::pagination($connection_requests, $request->input('pagination'), $request->input('per_page'));
     }
 
-    public static function userConnectionIdsForHAi(){
+    public static function userConnectionIdsForHAi()
+    {
 
-        $user_connection_ids = self::whereHas('friend', function ($q){
+        $user_connection_ids = self::whereHas('friend', function ($q) {
 
             $q->where('hai_status', 0);
 

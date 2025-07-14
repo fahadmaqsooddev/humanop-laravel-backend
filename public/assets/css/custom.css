@@ -19,6 +19,15 @@
     padding-bottom: 40px;
 }
 
+.input-form-style{
+    background-color: #1b3a62 !important;
+    color: white !important;
+}
+
+input::placeholder {
+    color: white !important; /* Light gray or any color you want */
+}
+
 .chunk-card
 {
     border: 1px solid #1b3a62;
@@ -507,7 +516,7 @@ aside:hover {
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: #ff6347 !important; /* Custom border color (e.g., tomato) */
+    border-color: #1C365E !important; /* Custom border color (e.g., tomato) */
     box-shadow: none !important; /* Ensure the default box-shadow is removed, if not desired */
 }
 .podcast-card{

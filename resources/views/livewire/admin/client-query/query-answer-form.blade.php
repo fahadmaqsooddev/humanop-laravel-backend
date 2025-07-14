@@ -26,10 +26,7 @@
                                     @endif
                                     <br>
                                     <label class="form-label fs-6 mt-4" style="color: #1b3a62">Answer:</label>
-                                    <textarea rows="4" class="form-control text-white mt-2"
-                                              style="background-color: #eaf3ff"
-                                              wire:model.defer="answer" id="message-text"
-                                              placeholder="Type your answer here...">
+                                    <textarea rows="4" class="form-control input-form-style mt-2" wire:model.defer="answer" id="message-text" placeholder="Type your answer here...">
                                     </textarea>
                                 </div>
                                 <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">

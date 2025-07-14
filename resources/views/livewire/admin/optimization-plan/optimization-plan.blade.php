@@ -2,11 +2,13 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
         .ck-editor__editable_inline {
-            background-color: #eaf3ff; /* Example: Change this to your desired background color */
+            background-color: #1b3a62; /* Example: Change this to your desired background color */
+            color: white;
         }
 
         .ck-editor__editable {
-            background-color: #eaf3ff !important;
+            background-color: #1b3a62 !important;
+            color: white;
         }
 
         .ck-editor {
@@ -79,8 +81,8 @@
 
                                     <label class="form-label" style="color: #1b3a62">Priority</label>
                                     <div class="input-group">
-                                        <input style="background-color: #eaf3ff;color: #1b3a62 !important"
-                                               class="form-control"
+                                        <input
+                                               class="form-control input-form-style"
                                                type="text" disabled
                                                wire:model="priority" placeholder="icon name">
                                     </div>
@@ -90,9 +92,9 @@
                                 <div class="col-12">
                                     <label class="form-label" style="color: #1b3a62">Condition</label>
                                     <div class="input-group">
-                                        <input style="background-color: #eaf3ff;color: #1b3a62 !important"
+                                        <input
                                                wire:model="condition" disabled
-                                               class="form-control table-header-text" type="text">
+                                               class="form-control input-form-style table-header-text" type="text">
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +102,7 @@
                                 <div class="col-12">
                                     <label class="form-label" style="color: #1b3a62">Description</label>
                                     <div class="input-group w-100" wire:ignore style="color: #1b3a62">
-                                        <textarea class="form-control table-header-text" id="editor" rows="10" cols="10"
+                                        <textarea class="form-control input-form-style" id="editor" rows="10" cols="10"
                                        name="content"
                                        wire:model="content"></textarea>
                                     </div>

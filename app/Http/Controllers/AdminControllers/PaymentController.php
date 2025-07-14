@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Helpers\Helpers;
 use App\Models\Payment;
 
@@ -25,5 +24,5 @@ class PaymentController extends Controller
 
         }
     }
-    
+
 }

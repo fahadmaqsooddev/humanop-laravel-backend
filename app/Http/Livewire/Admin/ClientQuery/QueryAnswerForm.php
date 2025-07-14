@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\QueryAnswer;
-use App\Helpers\Helpers;
-use App\Models\User;
 use App\Models\Assessment;
-use App\Models\Admin\Code\CodeDetail;
 
 class QueryAnswerForm extends Component
 {

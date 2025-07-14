@@ -4,7 +4,6 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Code\CodeDetail;
-use Illuminate\Http\Request;
 
 class CodeController extends Controller
 {

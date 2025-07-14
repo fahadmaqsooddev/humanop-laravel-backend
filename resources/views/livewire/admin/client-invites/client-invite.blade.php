@@ -1,12 +1,12 @@
 @push('css')
-<style>
-    .no-select {
-        user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
+    <style>
+        .no-select {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
 
-    }
+        }
     </style>
 @endpush
 
@@ -21,14 +21,14 @@
     </div>
 
     @if(count($selectedItems) > 0)
-    <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
-        <button type="button" onclick="deleteBulkLink()"  class="btn btn-danger">All Delete Links</button>
-    </div>
-@endif
+        <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
+            <button type="button" onclick="deleteBulkLink()" class="btn btn-danger">All Delete Links</button>
+        </div>
+    @endif
 
     <div class="table-responsive w-100 pt-4 table-orange-color">
         @if(count($invites) > 0)
-        @include('layouts.message')
+            @include('layouts.message')
             <table class="table table-flush">
                 <thead class="thead-light">
                 <tr class="table-text-color">
@@ -46,9 +46,8 @@
                         <td class="text-md font-weight-normal no-select">{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }} </td>
                         <td class="text-center">
                             <input type="checkbox" wire:model="selectedItems" value="{{ $invite->id }}"
-                                style="width: 20px; height: 20px; cursor: pointer; accent-color: #1b3a62; border-radius: 50%;">
+                                   style="width: 20px; height: 20px; cursor: pointer; accent-color: #1b3a62; border-radius: 50%;">
                         </td>
-
 
 
                         <td>
@@ -57,7 +56,9 @@
 
                                     style="background-color: #1b3a62;border-radius: 0px 5px 5px 0px">Copy Link
                             </button>
-                            <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})" style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link</button>
+                            <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})"
+                                    style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -95,22 +96,17 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label class="text-white">Email</label>
-                                            <input style="background-color: #eaf3ff;color: #1b3a62 !important"
-                                                   class="form-control"
+                                            <input class="form-control input-form-style"
                                                    type="email" wire:model="email" name="email" placeholder="icon name">
                                             @error('email')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
 
                                             <label class="text-white mt-4">Upload csv file</label>
-                                            <input
-                                                style="background-color: #eaf3ff; color: #0f1534 !important;"
-                                                class="form-control"
-                                                type="file"
-                                                wire:model="file"
-                                                name="file"
-                                                accept=".csv,.xlsx,.xls"
-                                                placeholder="Choose a file">
+                                            <input class="form-control input-form-style" type="file" wire:model="file"
+                                                   name="file"
+                                                   accept=".csv,.xlsx,.xls"
+                                                   placeholder="Choose a file">
                                             @error('file')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
@@ -148,13 +144,13 @@
 
     <script>
 
-        async function copyToClipboard(text, id,ide) {
+        async function copyToClipboard(text, id, ide) {
             try {
                 // Use the Clipboard API to copy the text
                 await navigator.clipboard.writeText(text);
                 $('#copy_link_' + id).text('Copied!')
                 // Hide the tooltip after 2 seconds
-                Livewire.emit('copyClipboard',ide);
+                Livewire.emit('copyClipboard', ide);
 
                 setTimeout(() => {
                     setTimeout(() => {
@@ -189,6 +185,7 @@
                 }
             })
         }
+
         function deleteBulkLink() {
 
             const swalWithBootstrapButtons = Swal.mixin({
@@ -213,50 +210,50 @@
 
     </script>
 
-   <script>
+    <script>
 
-       async function copyToClipboard(text,id,ide) {
-           try {
-               // Use the Clipboard API to copy the text
-               await navigator.clipboard.writeText(text);
-               $('#copy_link_'+id).text('Copied!')
-               // Hide the tooltip after 2 seconds
-               Livewire.emit('copyClipboard',ide);
+        async function copyToClipboard(text, id, ide) {
+            try {
+                // Use the Clipboard API to copy the text
+                await navigator.clipboard.writeText(text);
+                $('#copy_link_' + id).text('Copied!')
+                // Hide the tooltip after 2 seconds
+                Livewire.emit('copyClipboard', ide);
 
-               setTimeout(() => {
-                   setTimeout(() => {
-                       $('#copy_link_'+id).text('Copy Link')
-                   }, 300);  // Match the fade-out duration
-               }, 2000);
-           } catch (err) {
-               console.error('Failed to copy text: ', err);
-           }
-       }
+                setTimeout(() => {
+                    setTimeout(() => {
+                        $('#copy_link_' + id).text('Copy Link')
+                    }, 300);  // Match the fade-out duration
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+        }
 
 
-    //    deleteClientLink
-    function deleteClientLink(id) {
+        //    deleteClientLink
+        function deleteClientLink(id) {
 
-const swalWithBootstrapButtonsget = Swal.mixin({
-    customClass: {
-        confirmButton: 'btn bg-gradient-danger m-2',
-        cancelButton: 'btn bg-gradient-secondary m-2',
-    },
-    buttonsStyling: false,
-    background: '#3442b4',
-})
-swalWithBootstrapButtonsget.fire({
-    title: '<span style="color: white;">Are you sure?</span>',
-    html: "<span style='color: white;'>Want to delete this Link</span>",
-    showCancelButton: true,
-    confirmButtonText: 'Delete',
-}).then((result) => {
-    if (result.isConfirmed) {
-        window.livewire.emit('deleteClientLink', id)
-    }
-})
-}
+            const swalWithBootstrapButtonsget = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            })
+            swalWithBootstrapButtonsget.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to delete this Link</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('deleteClientLink', id)
+                }
+            })
+        }
 
-   </script>
+    </script>
 
 @endpush

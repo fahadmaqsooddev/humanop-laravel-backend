@@ -10,6 +10,8 @@ use App\Models\Assessment;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\IntentionPlan\IntentionPlan;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Smalot\PdfParser\Parser;
 class HaiChatHelpers
 {
@@ -114,6 +116,8 @@ class HaiChatHelpers
 
         $b2b_intentions = SelectIntentionOption::selectB2BIntentionOption($user['id']);
 
+        $userCurrentTraits = User::userDailyTraits($user->id);
+
         $data = [
             'user_detail' => [
                 'name' => ($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''),
@@ -125,9 +129,9 @@ class HaiChatHelpers
                 'plan_name' => $user['plan_name'] ?? ''
             ],
             'interval_of_life' => ($coreState['interval_of_life'] ?? null),
-            'intention_option' => $intention,
+            'intention_option' => $intention ?? null,
             'assessment' => ($coreState['assessment'] ?? null),
-            'all_traits' => $userTrait,
+            'all_traits' => $userTrait ?? null,
             'top_three_traits' => ($coreState['topThreeStyles'] ?? null),
             'top_two_features' => ($coreState['topTwoFeatures'] ?? null),
             'tertiary_features' => ($coreState['tertiaryFeatures'] ?? null),
@@ -135,15 +139,17 @@ class HaiChatHelpers
             'energy_center' => ($coreState['topCommunication'] ?? null),
             'energy_pool' => ($coreState['energyPool'] ?? null),
             'perception' => ($coreState['perception'] ?? null),
-            'optimization_plan' => $optimizationPlan,
+            'optimization_plan' => $optimizationPlan ?? null,
             'daily_tip' => ($userDailyTip['dailyTip'] ?? null),
-            'b2b_intentions' => $b2b_intentions,
+            'b2b_intentions' => $b2b_intentions ?? null,
+            'current_trait' => $userCurrentTraits ?? null,
 
         ];
 
         $body = ["user_id" => $user['id'], "connected_users_data" => $data];
 
-        GuzzleHelpers::sendRequestFromGuzzleForNewHai('post',"NewHaiApi/users", $body);
+        $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post',"NewHaiApi/users", $body);
 
+        Log::info(['hai chat sync res' => $response]);
     }
 }

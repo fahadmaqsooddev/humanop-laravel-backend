@@ -15,7 +15,10 @@ use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
 use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
+use App\Models\User\UserShareAssessment;
+use App\Models\User\UserTagline;
 use App\Models\UserInvite\UserInvite;
+use App\Models\Videos\VideoProgress;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,6 +26,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
@@ -38,7 +42,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment'];
 
     public function __construct(array $attributes = array())
     {
@@ -90,13 +94,22 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note']);
     }
 
     // appends
     public function getUserPictureUrlAttribute()
     {
         return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
+    }
+
+    public function getCheckAssessmentAttribute()
+    {
+
+        $assessments = Assessment::getAssessment();
+
+        return $assessments->count();
+
     }
 
     public function getOptionalTraitAttribute()
@@ -115,7 +128,7 @@ class User extends Authenticatable implements JWTSubject
 
             $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
 
-            $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait);
+            $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait['trait']);
 
             return $optionalTraitDetail;
         }
@@ -123,26 +136,30 @@ class User extends Authenticatable implements JWTSubject
         return '';
     }
 
-    public function getPointAttribute()
+    public function getShareAssessmentAttribute()
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        $userId = $user ? $user['id'] : null;
-
-        if ($userId !== null) {
-
-            $point = Point::userExists($userId);
-
-            if ($point) {
-
-                return $point['point'];
-
-            }
+        if (!empty($user))
+        {
+            return UserShareAssessment::getSingleRecord($user['id']);
 
         }
 
-        return 0;
+        return null;
+    }
 
+    public function getUserTaglineAttribute()
+    {
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
+
+        if (!empty($user))
+        {
+            return UserTagline::getTags($user['id'])->pluck('tagline')->toArray();
+
+        }
+
+        return null;
     }
 
 
@@ -462,7 +479,7 @@ class User extends Authenticatable implements JWTSubject
         ]);
     }
 
-    public static function getUserAge($date_of_birth = null)
+    public static function getUserAge($date_of_birth = null, $assessment = null)
     {
 
         $age = Carbon::parse($date_of_birth)->age;
@@ -471,132 +488,180 @@ class User extends Authenticatable implements JWTSubject
 
             case (7 <= $age && $age <= 11):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'connecting_communicating');
+
                 $interval = [
                     'interval' => 'Connecting & Communicating',
+                    'name' => 'connecting_communicating',
                     'public_name' => 'Cycle of Life - Connecting & Communicating (7-11)',
                     'video' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
-                    'description' => config('intervalLifeCycle.connecting_Communicating_(7-11)')
+                    'description' => config('intervalLifeCycle.connecting_Communicating_(7-11)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (12 <= $age && $age <= 15):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'alchemical_revelation');
+
                 $interval = [
                     'interval' => 'Alchemical Revelation',
+                    'name' => 'alchemical_revelation',
                     'public_name' => 'Cycle of Life - Alchemical Revelation (12-15)',
                     'video' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
-                    'description' => config('intervalLifeCycle.alchemical_revelation_(12-15)')
+                    'description' => config('intervalLifeCycle.alchemical_revelation_(12-15)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (16 <= $age && $age <= 20):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'motivation');
+
                 $interval = [
                     'interval' => 'Motivation',
+                    'name' => 'motivation',
                     'public_name' => 'Cycle of Life - Motivation (16-20)',
                     'video' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
-                    'description' => config('intervalLifeCycle.motivation_(16-20)')
+                    'description' => config('intervalLifeCycle.motivation_(16-20)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (21 <= $age && $age <= 29):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'roadworthy');
+
                 $interval = [
-                    'interval' => 'Roadworthy ',
+                    'interval' => 'Roadworthy',
+                    'name' => 'roadworthy',
                     'public_name' => 'Cycle of Life - Roadworthy (21-29)',
                     'video' => asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4'),
-                    'description' => config('intervalLifeCycle.roadworthy_(21-29)')
+                    'description' => config('intervalLifeCycle.roadworthy_(21-29)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (30 <= $age && $age <= 33):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'power');
+
                 $interval = [
                     'interval' => 'Power',
+                    'name' => 'power',
                     'public_name' => 'Cycle of Life - The Power Interval (30-33)',
                     'video' => asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4'),
-                    'description' => config('intervalLifeCycle.the_power_interval_(30-33)')
+                    'description' => config('intervalLifeCycle.the_power_interval_(30-33)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (34 <= $age && $age <= 42):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'midLife_transformation');
+
                 $interval = [
                     'interval' => 'MidLife Transformation',
+                    'name' => 'midLife_transformation',
                     'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)',
                     'video' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4'),
-                    'description' => config('intervalLifeCycle.mid_life_transformation_(34-42)')
+                    'description' => config('intervalLifeCycle.mid_life_transformation_(34-42)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (43 <= $age && $age <= 51):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'awareness');
+
                 $interval = [
                     'interval' => 'Awareness',
+                    'name' => 'awareness',
                     'public_name' => 'Cycle of Life - Awareness (43-51)',
                     'video' => asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4'),
-                    'description' => config('intervalLifeCycle.awareness_(43-51)')
+                    'description' => config('intervalLifeCycle.awareness_(43-51)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (52 <= $age && $age <= 65):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'payit_forward');
+
                 $interval = [
                     'interval' => 'Payit Forward',
+                    'name' => 'payit_forward',
                     'public_name' => 'Cycle of Life - Pay It Forward (52-65)',
                     'video' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4'),
-                    'description' => config('intervalLifeCycle.pay_it_forward_(52-65)')
+                    'description' => config('intervalLifeCycle.pay_it_forward_(52-65)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (66 <= $age && $age <= 69):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'liberated');
+
                 $interval = [
                     'interval' => 'Liberated',
+                    'name' => 'liberated',
                     'public_name' => 'Cycle of Life - Liberated (66-69)',
                     'video' => asset('assets/video/Cycle of Life - Liberated 66-70.mp4'),
-                    'description' => config('intervalLifeCycle.liberated_(66-69)')
+                    'description' => config('intervalLifeCycle.liberated_(66-69)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (70 <= $age && $age <= 74):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'being');
+
                 $interval = [
                     'interval' => 'Being',
+                    'name' => 'being',
                     'public_name' => 'Cycle of Life - Being (70-74)',
                     'video' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
-                    'description' => config('intervalLifeCycle.being_(70-74)')
+                    'description' => config('intervalLifeCycle.being_(70-74)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             case (75 <= $age && $age <= 83):
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'life_review');
+
                 $interval = [
                     'interval' => 'Life Review',
+                    'name' => 'life_review',
                     'public_name' => 'Cycle of Life - Life Review (75-83)',
                     'video' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
-                    'description' => config('intervalLifeCycle.life_review_(75-83)')
+                    'description' => config('intervalLifeCycle.life_review_(75-83)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
 
             default:
 
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'surrender');
+
                 $interval = [
                     'interval' => 'Surrender',
+                    'name' => 'surrender',
                     'public_name' => 'Cycle of Life - Surrender (84+)',
                     'video' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4'),
-                    'description' => config('intervalLifeCycle.surrender_(84+)')
+                    'description' => config('intervalLifeCycle.surrender_(84+)'),
+                    'video_progress' => $progress,
                 ];
 
                 break;
@@ -749,7 +814,7 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
-    public static function updateUserProfile($request = null)
+    public static function updatePersonalInformation($request = null)
     {
 
         $user_id = Helpers::getUser()->id;
@@ -771,6 +836,18 @@ class User extends Authenticatable implements JWTSubject
 
 
         return self::user($user_id);
+
+    }
+
+    public static function updateProfile($request = null)
+    {
+
+        $user_id = Helpers::getUser()->id;
+
+        self::whereId($user_id)->update($request);
+
+        return self::user($user_id);
+
     }
 
     public static function updateUserPassword($password = null)
@@ -1711,6 +1788,52 @@ class User extends Authenticatable implements JWTSubject
 
 
         return $users;
+    }
+
+    public static function userDailyTraits($user_id){
+
+        $assessment = Assessment::getLatestAssessment($user_id);
+
+        if ($assessment){
+
+            $topThreeStyles = Assessment::getAllStyles($assessment);
+
+            $topFeatures = Assessment::getFeatures($assessment);
+
+            $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
+
+            $stylesAndDrivers = array_merge($topThreeStyles, $topTwoFeatures);
+
+            $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user_id);
+
+            Log::info(['user optimal trait' => $userOptimalTrait]);
+
+            Log::info(['style and driver count' => count($stylesAndDrivers)]);
+
+            if (count($stylesAndDrivers) > 2) {
+
+                Log::info(['inside']);
+
+                $optionalTraitMorning = $stylesAndDrivers[0]['public_name'] ?? null;
+
+                $optionalTraitEvening = $stylesAndDrivers[1]['public_name'] ?? null;
+
+                $optionalTraitNight = $stylesAndDrivers[2]['public_name'] ?? null;
+
+                $currentOptionalTrait = $userOptimalTrait['optimal_trait'] ?? null;
+
+                return [
+                    'morning_trait' => $optionalTraitMorning,
+                    'afternoon_trait' => $optionalTraitEvening,
+                    'night_trait' => $optionalTraitNight,
+                    'current_trait' => $currentOptionalTrait,
+                ];
+            }
+
+        }
+
+        return [];
+
     }
 
 }

@@ -29,15 +29,15 @@
         <div class="d-flex mt-4">
             <div class="input-group ms-md-4 pe-md-4">
                 <input type="text" name="name" wire:model.debounce="name"
-                       class="form-control table-orange-color search-bar" placeholder="Search Name">
+                       class="form-control input-form-style " placeholder="Search Name">
             </div>
             <div class="input-group ms-md-4 pe-md-4">
                 <input type="email" name="email" wire:model.debounce="email"
-                       class="form-control table-orange-color search-bar" placeholder="Search Email">
+                       class="form-control input-form-style " placeholder="Search Email">
             </div>
 
             <div class="input-group ms-md-4 pe-md-4">
-                <select class="form-control table-orange-color search-bar custom-text-dark" name="age"
+                <select class="form-control input-form-style" name="age"
                         wire:model.debounce="age">
                     <option value="">Select Age</option>
                     {{-- <option value="5-6">5-6</option> --}}
@@ -88,7 +88,6 @@
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                     <th>Membership</th>
                     <th>Practitioner</th>
-                    {{-- <th>Login Client</th> --}}
                     <th>Bulk Delete</th>
                     <th>Delete Client</th>
                 @endif
@@ -145,12 +144,10 @@
                     @endif
                     @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                         <td class="text-sm font-weight-normal">
-                            <select class="form-control table-orange-color table-text-color search-bar"
-                                    {{--                                    onchange="changeUserMemberShip(this, {{$user['id']}})"--}}
+                            <select class="form-control input-form-style"
                                     style="background-color: #0F1535;border-radius: 12px;">
                                 <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>
                                     Freemium
-                                </option>
                                 </option>
                             </select>
                         </td>
@@ -163,7 +160,6 @@
                                         $practitionerStatus = false;
                                 @endphp
                                 <input class="form-check-input" disabled
-                                       {{--                                       onchange="changeUserToPractitioner({{$user['id']}}, '{{$user['first_name']}}', this , event)"--}}
                                        name="practitioner"
                                        type="checkbox"
                                     @checked($practitionerStatus)>
@@ -183,7 +179,6 @@
             @endforeach
             </tbody>
         </table>
-        {{-- {{ $users->links('pagination.table-pagination') }}   --}}
         {{ $users->links() }}
 
     </div>

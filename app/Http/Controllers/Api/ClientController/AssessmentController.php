@@ -101,7 +101,8 @@ class AssessmentController extends Controller
                         'name' => $user['card_name'],
                     ]
                 ]);
-            } elseif (!empty($latest_assessment)) {
+            }
+            elseif (!empty($latest_assessment)) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 

@@ -7,7 +7,9 @@ use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Notification\PushNotification;
+use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helpers;
@@ -15,7 +17,6 @@ use App\Enums\Admin\Admin;
 use App\Models\Assessment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\Points\PointHelper;
 use App\Models\AssessmentColorCode;
 use App\Events\DailyTip\NewDailyTip;
 use App\Http\Controllers\Controller;
@@ -60,9 +61,12 @@ class DashboardController extends Controller
                         HaiChatHelpers::syncUserRecordWithHAi();
 
                         $data = [
+                            'daily_tip_id' => $userDailyTip['daily_tip_id'],
                             'title' => $userDailyTip['dailyTip']['title'] ?? '',
                             'description' => $userDailyTip['dailyTip']['description'] ?? '',
                             'is_read' => $isRead,
+                            'favorite_daily_tip' => $userDailyTip['favorite_tip'],
+
                             'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
                         ];
 
@@ -96,9 +100,11 @@ class DashboardController extends Controller
                             Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
                             $data = [
+                                'daily_tip_id' => $newUserDailyTip['daily_tip_id'],
                                 'title' => $newUserDailyTip['dailyTip']['title'],
                                 'description' => $newUserDailyTip['dailyTip']['description'],
                                 'is_read' => $newUserDailyTip['is_read'],
+                                'favorite_daily_tip' => $newUserDailyTip['favorite_tip'],
                                 'created_at' => $newUserDailyTip['is_read'] == 1 ? $newUserDailyTip['updated_at'] : null,
                             ];
 
@@ -122,31 +128,92 @@ class DashboardController extends Controller
 
     }
 
-    public function latestPodcast()
+    public function favoriteDailyTip(Request $request)
     {
-
         try {
 
-            $podcast = Podcast::getPodcast();
+            $favoriteTip = UserDailyTip::userFavoriteDailyTip($request['daily_tip_id']);
 
-            return Helpers::successResponse('Podcast url', $podcast);
+            $message = 'Your daily tip has been ' . ($favoriteTip['favorite_tip'] == 2 ? 'favorited' : 'not favorited') . '.';
+
+            return Helpers::successResponse($message);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function getFavoriteDailyTip()
+    {
+        try {
+            $favoriteTips = UserDailyTip::getUserFavoriteDailyTip();
+
+            $tips = [];
+
+            foreach ($favoriteTips as $favoriteTip) {
+
+                foreach ($favoriteTip['dailyTips'] as $dailyTip) {
+
+                    $tips[] = [
+                        'id' => $dailyTip['id'] ?? '',
+                        'title' => $dailyTip['title'] ?? '',
+                        'description' => $dailyTip['description'] ?? '',
+
+                    ];
+                };
+
+            }
+
+            return Helpers::successResponse('Your favorite daily tips', $tips);
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
+
+    public function getPodcasts()
+    {
+        try {
+
+            $podcasts = Podcast::getAllAudioFiles();
+
+            $audioFiles = [];
+
+            foreach ($podcasts as $podcast) {
+
+                $audioFiles[] = [
+                    'title' => $podcast['title'] ?? null,
+                    'audio_url' => $podcast['audio_url']['path'] ?? null,
+                ];
+
+            }
+
+            return Helpers::successResponse('Podcast list', $audioFiles);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
 
     public function coreStats(Request $request)
     {
 
         try {
 
-            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+        $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
-            $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
+        $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
 
-            return Helpers::successResponse('core stats', $coreState);
+        return Helpers::successResponse('core stats', $coreState);
 
         } catch (\Exception $exception) {
 
@@ -196,15 +263,17 @@ class DashboardController extends Controller
 
             }
 
-            $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment['id']);
+            if (!empty($assessment)) {
 
-            if (empty($actionPlan)) {
+                $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment);
 
                 $actionPlan = ActionPlan::storeUserActionPlan($assessment);
 
+                return Helpers::successResponse('Action plan', $actionPlan);
+
             }
 
-            return Helpers::successResponse('Action plan', $actionPlan);
+            return Helpers::validationResponse('Assessment not found');
 
         } catch (\Exception $exception) {
 
@@ -227,7 +296,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function optionalTrait()
+    public function optimalTrait()
     {
         try {
 
@@ -247,13 +316,15 @@ class DashboardController extends Controller
 
                 $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
 
-                $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait);
+                $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait['trait']);
+
+                UserOptimalTrait::createUserOptimalTrait($optionalTraitDetail[0], $user['id'], $optionalTrait['status']);
 
                 return Helpers::successResponse('optional trait', $optionalTraitDetail);
 
             } else {
 
-                return Helpers::notFoundResponse('Assessment not found');
+                return Helpers::validationResponse('Assessment not found');
 
             }
 
@@ -471,36 +542,6 @@ class DashboardController extends Controller
 
     }
 
-    public function sharedData(ShareDataRequest $request)
-    {
-        try {
-
-            $data = B2BBusinessCandidates::AllCompaniesCheckShareDataDetail($request['company_name'], $request['candidate_id']);
-
-            if (!empty($data)) {
-
-                foreach ($data as $shared) {
-
-                    B2BBusinessCandidates::ShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
-
-                }
-
-                return Helpers::successResponse('Data Shared Successfully');
-
-            } else {
-
-                return Helpers::validationResponse('Data not found.');
-
-            }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
-
-    }
-
     public function CheckShareData(Request $request)
     {
 
@@ -512,10 +553,10 @@ class DashboardController extends Controller
 
                 if (!empty($checkData)) {
 
-                    if ($checkData['share_data'] == Admin::NOT_SHARED_DATA) {
+                    if ($checkData['share_data'] == Admin::DECLINED_DATA) {
 
                         $data = [
-                            'Shared_data' => Admin::NOT_SHARED_DATA,
+                            'Shared_data' => Admin::DECLINED_DATA,
                             'company_name' => $request['company_name'],
                             'status' => $checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
                         ];
@@ -562,26 +603,57 @@ class DashboardController extends Controller
 
     }
 
+    public function sharedData(ShareDataRequest $request)
+    {
+        try {
+
+            $data = B2BBusinessCandidates::AllCompaniesCheckShareDataDetail($request['company_name'], $request['candidate_id']);
+
+            if (!empty($data)) {
+
+                foreach ($data as $shared) {
+
+                    B2BBusinessCandidates::ShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
+
+                }
+
+                return Helpers::successResponse('Data Shared Successfully');
+
+            } else {
+
+                return Helpers::validationResponse('Data not found.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
     public function notSharedData(ShareDataRequest $request)
     {
         try {
 
-            $userId = Helpers::getUser()['id'];
+            $data = B2BBusinessCandidates::AllCompaniesCheckShareDataDetail($request['company_name'], $request['candidate_id']);
 
-            if ($request['company_name']) {
+            if (!empty($data)) {
 
-                foreach ($request['company_name'] as $companyName) {
+                foreach ($data as $shared) {
 
-                    $company = User::getSingleUserFromCompanyName($companyName);
+                    B2BBusinessCandidates::notShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
 
-                    if (B2BBusinessCandidates::checkBusinessCandidate($company['id'], $userId)) {
-
-                        B2BBusinessCandidates::notShareDataWithBusiness($company['id'], $userId);
-                    }
                 }
-            }
 
-            return Helpers::successResponse('Data Not Shared');
+                return Helpers::successResponse('Data Not Shared');
+
+            } else {
+
+                return Helpers::validationResponse('Data not found.');
+
+            }
 
         } catch (\Exception $exception) {
 
@@ -803,6 +875,66 @@ class DashboardController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+    }
+
+    public function futureConsiderationShareData(ShareDataRequest $request)
+    {
+        try {
+
+            $data = B2BBusinessCandidates::AllCompaniesCheckShareDataDetail($request['company_name'], $request['candidate_id']);
+
+            if (!empty($data)) {
+
+                foreach ($data as $shared) {
+
+                    B2BBusinessCandidates::futureConsiderationShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
+
+                }
+
+                return Helpers::successResponse('Data Shared Successfully');
+
+            } else {
+
+                return Helpers::validationResponse('Data not found.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function futureConsiderationNotShareData(ShareDataRequest $request)
+    {
+        try {
+
+            $data = B2BBusinessCandidates::AllCompaniesCheckShareDataDetail($request['company_name'], $request['candidate_id']);
+
+            if (!empty($data)) {
+
+                foreach ($data as $shared) {
+
+                    B2BBusinessCandidates::futureConsiderationNotShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
+
+                }
+
+                return Helpers::successResponse('Data Not Shared');
+
+            } else {
+
+                return Helpers::validationResponse('Data not found.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
     }
 
 }

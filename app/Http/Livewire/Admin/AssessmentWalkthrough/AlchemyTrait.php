@@ -8,11 +8,7 @@ use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 
 class AlchemyTrait extends Component
 {
-    public $code = [];
-    public $overview;
-    public $optimal;
-    public $optimization;
-
+    public $code = [], $overview, $optimal, $optimization;
 
     protected $rules = [
         'code' => 'required',

@@ -6,6 +6,8 @@ use App\Enums\Admin\Admin;
 use App\Models\Admin\Notification\Notification;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
+use App\Models\Client\Gamification\GamificationPerformanceLevel;
+use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
 use App\Models\Upload\Upload;
@@ -323,6 +325,7 @@ class Helpers
 
             $upload = Upload::find($video);
 
+
             if ($upload->extension != 'mp4') {
 
                 return [];
@@ -347,6 +350,7 @@ class Helpers
 
             $upload = Upload::find($audio);
 
+
             if ($upload->extension != 'mp3') {
 
                 return [];
@@ -361,6 +365,42 @@ class Helpers
                 return array('path' => $path, 'original_name' => $original_name);
 
             }
+        }
+    }
+
+    public static function getDocument($documentId, $is_original_name = 0, $sourceUrl = null)
+    {
+
+        if (!empty($sourceUrl)) {
+
+            return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
+
+        }
+
+        if (!empty($embedLink)) {
+
+            return array('path' => $embedLink, 'original_name' => $embedLink);
+
+        }
+
+        if (!empty($documentId)) {
+
+            $upload = Upload::find($documentId);
+
+            if ($upload->extension != 'pdf') {
+                return [];
+            }
+
+            $path = url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name;
+
+            if ($is_original_name) {
+
+                $original_name = $upload['original_name'];
+
+                return array('path' => $path, 'original_name' => $original_name);
+
+            }
+
         }
     }
 
@@ -407,13 +447,19 @@ class Helpers
 
             if ($currentTime->between($morningStart, $morningEnd)) {
 
+                $status = Admin::MORNING_STATUS;
+
                 $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
 
             } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
+                $status = Admin::AFTERNOON_STATUS;
+
                 $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
             } else {
+
+                $status = Admin::NIGHT_STATUS;
 
                 $optionalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
 
@@ -423,20 +469,30 @@ class Helpers
 
             if ($currentTime->between($morningStart, $morningEnd)) {
 
+                $status = Admin::MORNING_STATUS;
+
                 $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
 
             } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
+                $status = Admin::AFTERNOON_STATUS;
+
                 $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
             } else {
+
+                $status = Admin::NIGHT_STATUS;
 
                 $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
             }
         }
 
-        return $optionalTrait;
+        return [
+            'trait' => $optionalTrait,
+            'status' => $status,
+        ];
+
     }
 
     public static function explodeAssessmentTimezoneWithHours($userTimezone = null, $assessmentUpdatedAt = null)
@@ -604,28 +660,24 @@ class Helpers
 
     }
 
-    public static function checkAndAddBonusCredits($user = null){
-
-        $minutes = self::explodeTimezoneWithHours($user['timezone']);
-
-        $currentTime = Carbon::now()->addMinutes($minutes * 60);
+    public static function checkAndAddBonusCredits($user = null, $currentTime = null)
+    {
 
         $credits_log = $user['credits_log'] + 1;
 
-        // Check if at least 1 full day has passed since last login
         if ($currentTime->diffInDays($user['last_login']) == 1) {
 
-            $user->update(['credits_log' => $credits_log, "last_login" => $currentTime]);
+            $user->update(['credits_log' => $credits_log]);
 
         } elseif ($currentTime->diffInDays($user['last_login']) > 1) {
 
-            $user->update(['credits_log' => 1, "last_login" => $currentTime]);
+            $user->update(['credits_log' => 1]);
 
-        }else {
+        } else {
 
             if ($user['credits_log'] == 5) {
 
-                $user->update(['credits_log' => 0, "last_login" => $currentTime]);
+                $user->update(['credits_log' => 0]);
 
                 $point = match ($user['plan_name']) {
                     'Freemium' => 1,
@@ -642,6 +694,30 @@ class Helpers
                 Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION);
 
             }
+        }
+
+    }
+
+    public static function checkAndAddHumanOpPoints($user = null, $currentTime = null)
+    {
+
+        HumanOpPoints::createOrUpdateUserPoints($user, $currentTime);
+
+    }
+
+    public static function checkAndTakePerformanceLevel($user = null)
+    {
+
+        $points = HumanOpPoints::getUserPoints($user)['points'];
+
+        if ($points > 0 || $points < 500)
+        {
+            GamificationPerformanceLevel::addFirstPerformanceLevel($user['id']);
+
+        }elseif ($points > 499 || $points < 1000){
+
+            GamificationPerformanceLevel::addSecondPerformanceLevel($user['id']);
+
         }
 
     }

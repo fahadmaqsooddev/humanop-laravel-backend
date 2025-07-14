@@ -15,8 +15,8 @@
                             <div class="col-12">
                                 <label class="form-label text-white">Question</label>
                                 <div class="input-group">
-                                    <input style="background-color: #eaf3ff;" name="question"
-                                           class="form-control" type="text" value="{{$question['question']}}"
+                                    <input name="question"
+                                           class="form-control input-form-style" type="text" value="{{$question['question']}}"
                                            placeholder="Alec">
                                 </div>
                             </div>

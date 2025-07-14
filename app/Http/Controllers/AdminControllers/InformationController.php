@@ -4,7 +4,6 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Information\InformationIcon;
-use Illuminate\Http\Request;
 
 class InformationController extends Controller
 {

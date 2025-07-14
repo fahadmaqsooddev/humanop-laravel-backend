@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Code;
 
+use App\Models\Videos\VideoProgress;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -169,7 +170,7 @@ class CodeDetail extends Model
 
             if ($result && isset($result->public_name)) {
 
-                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video_url, $result->code];
+                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video_url, $result->code, $result->name];
 
             }
 
@@ -273,24 +274,32 @@ class CodeDetail extends Model
 
                     $str_len = strlen($record->public_name) - 2;
 
+                    $progress = VideoProgress::checkVideoProgress($assessment['id'], $record->name);
+
                     $data = [
+                        'name' => $record->name,
                         'public_name' => substr($record->public_name, 0, $str_len),
                         'description' => $record->text,
                         'video_url' => $record['video_url'],
                         'code_name' => $codeKey,
                         'code_number' => $assessment[$codeKey] ?? null,
+                        'video_progress' => $progress,
                     ];
 
                     array_push($result, $data);
 
                 } else {
 
+                    $progress = VideoProgress::checkVideoProgress($assessment['id'], $record->name);
+
                     $data = [
+                        'name' => $record->name,
                         'public_name' => $record->public_name,
                         'description' => $record->text,
                         'video_url' => $record->video_url,
                         'code_name' => $codeKey,
                         'code_number' => $assessment[$codeKey] ?? null,
+                        'video_progress' => $progress,
                     ];
 
                     array_push($result, $data);

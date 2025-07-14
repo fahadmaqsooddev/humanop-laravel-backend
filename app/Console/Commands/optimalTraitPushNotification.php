@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Assessment;
@@ -11,6 +12,7 @@ use App\Models\User;
 use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class optimalTraitPushNotification extends Command
 {
@@ -99,6 +101,8 @@ class optimalTraitPushNotification extends Command
 
                             UserOptimalTrait::createUserOptimalTrait($optionalTrait, $user['id'], $status);
 
+                            HaiChatHelpers::syncUserRecordWithHAi($user);
+
                             Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 
                             Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
@@ -106,6 +110,8 @@ class optimalTraitPushNotification extends Command
                         } elseif ($userOptimalTrait['status'] != $status) {
 
                             UserOptimalTrait::updateUserOptimalTrait($optionalTrait, $user['id'], $status);
+
+                            HaiChatHelpers::syncUserRecordWithHAi($user);
 
                             Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 

@@ -87,6 +87,7 @@ final class Admin
     const B2B_SHARE_DATA_NOTIFICATION = 11;
 
     const B2B_NOT_SHARE_DATA_NOTIFICATION = 12;
+
     const REQUEST_ACCESS_DATA_NOTIFICATION = 13;
 
     const OPTIMAL_TRAIT = 14;
@@ -135,11 +136,18 @@ final class Admin
 
     const NOT_SHARED_DATA = 0;
 
+    const DECLINED_DATA = 3;
+
+    const FUTURE_CONSIDERATION_SHARE_DATA = 1;
+
+    const FUTURE_CONSIDERATION_NOT_SHARE_DATA = 0;
+
     const B2B_NOTIFICATION=1;
 
     const B2C_NOTIFICATION=0;
 
     const B2B_PLAN=1;
+
     const B2C_PLAN=0;
 
     const REQUEST_SEND=1;
@@ -157,4 +165,36 @@ final class Admin
     const CORE_CREDITS = 120;
 
     const PREMIUM_CREDITS = 250;
+
+    const SHARE_ASSESSMENT = 1;
+
+    const NOT_SHARE_ASSESSMENT = 2;
+
+    const FAVORITE_DAILY_TIP = 2;
+
+    const NOT_FAVORITE_DAILY_TIP = 1;
+
+    const DAILY_LOGIN_POINT_FOR_CLARITY = 5;
+
+    const COMPLETE_ASSESSMENT_POINT_FOR_CLARITY = 250;
+
+    const COMPLETE_WATCH_VIDEO_POINT_FOR_CLARITY = 30;
+
+    const COMPLETE_ALL_WATCH_VIDEOS_POINT_FOR_CLARITY = 50;
+
+    const COMPLETE_DAILY_TIP_POINT_FOR_CLARITY = 10;
+
+    const COMPLETE_VIDEO = 'Completed';
+
+    const NOT_COMPLETE_VIDEO = 'Not Completed';
+
+    const ASSESSMENT_BADGES = 'Assessment Navigator';
+
+    const WATCH_VIDEO_BADGES = 'Video Voyager';
+
+    const WATCH_VIDEO_MEDAL = 'Welcome Optimizer';
+
+    const FIRST_LEVEL = 'Explorer';
+
+    const SECOND_LEVEL = 'Seeker';
 }

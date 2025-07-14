@@ -4,15 +4,11 @@ namespace App\Http\Livewire\Admin\Resource;
 
 use App\Enums\Admin\Admin;
 use App\Events\Resource\NewResource;
-use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
-use App\Models\Notification\PushNotification;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Upload\Upload;
@@ -25,12 +21,13 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
     protected $rules = [
         'heading' => 'required|unique:library_resources,heading',
+        'relevance' => 'required|string',
         'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
@@ -42,6 +39,7 @@ class CreateResource extends Component
 
     protected $messages = [
         'heading.required' => 'Heading is required.',
+        'relevance.required' => 'Relevance is required.',
         'heading.unique' => 'The heading must be unique in the library resources.',
         'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
         'resource_file.max' => 'The resource file size must not exceed 200MB.',
@@ -77,7 +75,7 @@ class CreateResource extends Component
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link);
+            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance);
 
             $this->uploadFileToGumlet($this->resource_file, $resource['id']);
 
@@ -87,28 +85,28 @@ class CreateResource extends Component
 
                 foreach ($this->permission as $permission) {
 
-                    $users = User::getAllClientUser();
-
-                    $isAllPermission = ($permission == 4);
+//                    $users = User::getAllClientUser();
+//
+//                    $isAllPermission = ($permission == 4);
 
                     $message = 'Your New Training & Resource';
 
-                    foreach ($users as $user) {
-
-                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
-
-                        $userPermission = $planMapping[$user['plan_name']] ?? 4;
-
-                        if ($isAllPermission || $userPermission == $permission) {
-
-                            Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
-                        }
-                    }
+//                    foreach ($users as $user) {
+//
+//                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
+//
+//                        $userPermission = $planMapping[$user['plan_name']] ?? 4;
+//
+//                        if ($isAllPermission || $userPermission == $permission) {
+//
+//                            Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
+//                        }
+//                    }
 
                     event(new NewResource($permission, 'new training & resource', $message));
 
                     Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
-                    
+
                 }
 
             }
@@ -121,18 +119,14 @@ class CreateResource extends Component
 
             session()->flash('success', 'Library resource created successfully.');
 
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
 
-            $file = $exception->getFile();
-            $line = $exception->getLine();
-            $message = $exception->getMessage();
+            session()->flash('error', $exception->getMessage());
 
-            session()->flash('error', "Error: $message in $file on line $line");
         }
 
     }
-
 
     public function getVideoLink()
     {
@@ -147,7 +141,6 @@ class CreateResource extends Component
         $this->link = null;
 
     }
-
 
     public function deleteResource($id, $slug)
     {
@@ -190,7 +183,6 @@ class CreateResource extends Component
     {
         $this->booleanValue = false;
 
-
         $this->reset(['heading', 'resource_file', 'permission', 'resource_file', 'link', 'description', 'content']);
     }
 
@@ -204,15 +196,13 @@ class CreateResource extends Component
 
         $this->emit('toggleEditResourceModal');
 
-//        dd($resource_id);
-
         $this->editResourceData = LibraryResource::singleLibraryResource($resource_id);
-
-
 
         $this->resourceId = $resource_id;
 
         $this->heading = $this->editResourceData['heading'] ?? null;
+
+        $this->relevance = $this->editResourceData['relevance'] ?? null;
 
         $this->category_id = $this->editResourceData['resource_category_id'] ?? null;
 
@@ -274,7 +264,6 @@ class CreateResource extends Component
     public function updateResource()
     {
 
-        // dd($this->resource_file);
         DB::beginTransaction();
 
         $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
@@ -287,7 +276,7 @@ class CreateResource extends Component
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
 
             tap($updateResource);
 

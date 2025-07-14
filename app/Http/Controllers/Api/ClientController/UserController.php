@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\BlueHelper\BlueHelpers;
-use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -13,6 +12,7 @@ use App\Http\Requests\Api\Client\TwoWayAuthRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
+use App\Http\Requests\Api\Client\UpdatePersonalInformationRequets;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
@@ -24,13 +24,13 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
-use App\Models\Client\Connection\Connection;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Upload\Upload;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
+use App\Models\Videos\VideoProgress;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +38,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+
+use function PHPUnit\Framework\lessThanOrEqual;
 
 class UserController extends Controller
 {
@@ -87,7 +89,6 @@ class UserController extends Controller
     {
         try {
 
-
             User::updateUser(['app_intro_check' => 1], Helpers::getUser()->id);
 
             return Helpers::successResponse('Intro Completed Successfully');
@@ -98,10 +99,8 @@ class UserController extends Controller
         }
     }
 
-    public function updateUserProfile(UpdateUserProfileRequest $request)
-
+    public function updatePersonalInformation(UpdatePersonalInformationRequets $request)
     {
-
 
         try {
 
@@ -111,11 +110,11 @@ class UserController extends Controller
 
                 $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone']);
 
-                $updated_user = User::updateUserProfile($dataArray);
+                $updated_user = User::updatePersonalInformation($dataArray);
 
-                HaiChatHelpers::syncUserRecordWithHAi();
+                HaiChatHelpers::syncUserRecordWithHAi($updated_user);
 
-                return Helpers::successResponse('User updated successfully', $updated_user);
+                return Helpers::successResponse('Personal Information updated successfully', $updated_user);
 
             } else {
 
@@ -127,26 +126,86 @@ class UserController extends Controller
         }
     }
 
-    public function updateUserImage(UpdateUserImageRequest $request)
+    public function updateProfile(UpdateUserProfileRequest $request)
     {
         DB::beginTransaction();
-        try {
-            if ($request->profile_image) {
-                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
-                $user = Helpers::getUser();
-                $updated_user = $user->update(['image_id' => $upload_id]);
-                tap($user);
 
-                DB::commit();
-                return Helpers::successResponse('User updated successfully', $user);
-            } else {
-                return Helpers::forbiddenResponse('Please Select Image');
+        try {
+
+            $authUser = Helpers::getUser();
+
+            $dataArray = $request->only($authUser->getFillable());
+
+            $parts = preg_split('/\s+/', $request->input('full_name'), 2);
+
+            $dataArray['first_name'] = $parts[0] ?? '';
+
+            $dataArray['last_name'] = $parts[1] ?? '';
+
+            $authUser->update($dataArray);
+
+            $shareAssessment = $request->only(['interval_of_life', 'traits', 'motivational_driver', 'alchemic_boundaries', 'communication_style', 'perception_of_life', 'energy_pool']);
+
+            if (Helpers::getUser()['plan_name'] !== 'Freemium') {
+
+                User\UserShareAssessment::createOrUpdateShareAssessment($shareAssessment);
+
             }
+
+            if ($request->has('tag_line')) {
+
+                User\UserTagline::updateTags($request['tag_line']);
+
+            }
+
+            DB::commit();
+
+            return Helpers::successResponse('Personal Information updated successfully');
+
         } catch (\Exception $exception) {
 
             DB::rollBack();
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
+    }
+
+    public function updateUserImage(UpdateUserImageRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ($request->profile_image) {
+
+                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
+
+                $user = Helpers::getUser();
+
+                $updated_user = $user->update(['image_id' => $upload_id]);
+
+                tap($user);
+
+                DB::commit();
+
+                return Helpers::successResponse('User updated successfully', $user);
+
+            } else {
+
+                return Helpers::forbiddenResponse('Please Select Image');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
     }
 
 
@@ -445,7 +504,6 @@ class UserController extends Controller
     }
 
 
-
     public function profileOverviewResult(Request $request)
     {
 
@@ -461,7 +519,7 @@ class UserController extends Controller
 
             $user_age = Carbon::parse($get_user['date_of_birth'])->age;
 
-            $interval_life = User::getUserAge($get_user['date_of_birth']);
+            $interval_life = User::getUserAge($get_user['date_of_birth'], $assessment);
 
             $user_name = $get_user['first_name'] . ' ' . $get_user['last_name'];
 
@@ -477,25 +535,38 @@ class UserController extends Controller
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
-            //            $perception_life = CodeDetail::getPerceptionStaticText();
-
-            $perception_life = AssessmentIntro::getPerceptionStaticText();
-
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
 
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
 
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
 
-            $summary_static = AssessmentIntro::summaryIntro();
-            $main_result = AssessmentIntro::mainResult();
-            $cycle_life = AssessmentIntro::cycleLife();
-            $trait_intro = AssessmentIntro::traitIntro();
-            $motivation_intro = AssessmentIntro::motivationIntroduction();
-            $intro_boundaries = AssessmentIntro::introBoundaries();
-            $intro_communication = AssessmentIntro::introCommunication();
-            $intro_energypool = AssessmentIntro::introEnergypool();
-            $intro_perceptionlife = AssessmentIntro::perceptionLife();
+            $summary_static = AssessmentIntro::summaryIntro($assessment['id']);
+            $main_result = AssessmentIntro::mainResult($assessment['id']);
+            $cycle_life = AssessmentIntro::cycleLife($assessment['id']);
+            $trait_intro = AssessmentIntro::traitIntro($assessment['id']);
+            $motivation_intro = AssessmentIntro::motivationIntroduction($assessment['id']);
+            $intro_boundaries = AssessmentIntro::introBoundaries($assessment['id']);
+            $intro_communication = AssessmentIntro::introCommunication($assessment['id']);
+            $intro_energypool = AssessmentIntro::introEnergypool($assessment['id']);
+            $perception_life = AssessmentIntro::getPerceptionStaticText($assessment['id']);
+
+            $resultIntroInfoName = [
+                $cycle_life['name'],
+                $interval_life['name'],
+                $main_result['name'],
+                $trait_intro['name'],
+                $motivation_intro['name'],
+                $intro_boundaries['name'],
+                $intro_communication['name'],
+                $intro_energypool['name'],
+                $perception_life['name'],
+                $boundary['name'],
+                $perception['name'],
+                $energyPool['name'],
+            ];
+
+            VideoProgress::createVideoProgress($assessment['id'], $resultIntroInfoName, $allStyles, $topTwoFeatures, $topCommunication);
 
             $style_position = AssessmentColorCode::getStylePosition($assessment->id);
             $feature_position = AssessmentColorCode::getFeaturePosition($assessment->id);
@@ -505,6 +576,10 @@ class UserController extends Controller
             $ep = $positive + $negative;
             $pv = $positive - $negative;
 
+            $recordCount = VideoProgress::getRecords($assessment['id'])->count();
+
+            $watchVideo = VideoProgress::checkAllWatchVideos($assessment['id'])->count();
+
             $data = [
                 'user_name' => $user_name,
                 'user_age' => $user_age,
@@ -512,8 +587,8 @@ class UserController extends Controller
                 'summary_intro' => $summary_static,
                 'main_result_into' => $main_result,
                 'intro_cycle_life' => $cycle_life,
-                'traits_intro' => $trait_intro,
                 'interval_life_cycle' => $interval_life,
+                'traits_intro' => $trait_intro,
                 'all_styles' => $allStyles,
                 'motivation_introduction' => $motivation_intro,
                 'top_features' => $topTwoFeatures,
@@ -532,14 +607,18 @@ class UserController extends Controller
                 'pv' => $pv,
                 'ep' => $ep,
                 'footer' => config('pdffooter'),
-                'completed_date' => Carbon::parse($assessment['updated_at'])->format('F j, Y')
+                'completed_date' => Carbon::parse($assessment['updated_at'])->format('F j, Y'),
+                'summary_report' => $recordCount == $watchVideo ? 'unlocked' : 'locked',
             ];
 
             return Helpers::successResponse('Profile overview data', $data);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function summaryReport(Request $request)
@@ -555,7 +634,7 @@ class UserController extends Controller
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
-            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
             $alchl_code = $assessment != null ? Assessment::getAlchlCode($assessment['id']) : null;
             $style_position = $assessment != null ? AssessmentColorCode::getStylePosition($assessment['id']) : null;
@@ -569,7 +648,6 @@ class UserController extends Controller
 
                 $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getUser()->id, $Styles);
             }
-
 
             $data = [
                 'user_name' => $user_name,
@@ -588,6 +666,7 @@ class UserController extends Controller
             ];
 
             return Helpers::successResponse('Summary Report', $data);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());

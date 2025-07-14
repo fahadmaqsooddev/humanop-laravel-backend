@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Podcast\Podcast;
 
 class PodcastController extends Controller
 {

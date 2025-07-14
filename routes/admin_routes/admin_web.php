@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminControllers\FaqController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ChangePasswordController;
@@ -18,13 +19,9 @@ use App\Http\Controllers\AdminControllers\PodcastController;
 use App\Http\Controllers\AdminControllers\InformationController;
 use App\Http\Controllers\AdminControllers\VersionController;
 use App\Http\Controllers\HAIChat\ClientQueryController;
+use App\Http\Controllers\AdminControllers\NetworkTutorialController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Practitioner\PractitionerController;
-use App\Http\Controllers\B2BControllers\RoleTemplateController;
-use App\Http\Controllers\B2BControllers\B2BInviteController;
-use App\Http\Controllers\B2BControllers\B2BOrganizationController;
-use App\Http\Controllers\B2BControllers\B2BPricingPlanController;
 use \App\Http\Controllers\AdminControllers\PricingPlanController;
 use App\Http\Controllers\AdminControllers\AssessmentIntroController;
 use App\Http\Controllers\AdminControllers\SummaryReportController;
@@ -48,10 +45,7 @@ Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->n
 Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 Route::get('/logout', [SessionController::class, 'destroy'])->name('logout');
 Route::get('/', [SessionController::class, 'create'])->name('login');
-Route::get('/stripe', [SessionController::class, 'triggerEvent']);
 Route::get('/stripe-checkout', [SessionController::class, 'checkout']);
-Route::post('/data-stripe', [SessionController::class, 'getData'])->name('data-stripe');
-Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
 Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt']);
 Route::get('/', [SessionController::class, 'create']);
 
@@ -67,9 +61,6 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
     Route::get('/welcome-dashboard', [AdminController::class, 'welcomeDashboard'])->name('admin_welcome_dashboard');
-    Route::get('/practitioner-profile-overview/{id?}', [AdminController::class, 'profileOverview'])->name('practitioner_profile_overview');
-    Route::get('/practitioner-grid/{id}', [AdminController::class, 'grid'])->name('practitioner_grid');
-    Route::get('/download-practitioner-report/{id}', [AdminController::class, 'downloadUserReport'])->name('download_practitioner_report');
 
     // ====================================== User Management ================================ //
 
@@ -114,28 +105,6 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     });
 
-    // ====================================== HAi Admin ================================ //
-
-//    Route::group(['middleware' => ['permission:hai_admin']], function () {
-//
-//        Route::get('/hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');
-//        Route::get('/hai-chat-detail/{name}', [AdminController::class, 'haiChatDetail'])->name('admin_hai_chat_detail');
-//        Route::get('/clusters', [AdminController::class, 'embeddingGroups'])->name('admin_embedding_groups');
-//        Route::get('/embeddings/{id}', [AdminController::class, 'embeddings'])->name('admin_embedding');
-//        Route::get('/embedding-detail/{name}', [AdminController::class, 'embeddingDetail'])->name('admin_embedding_detail');
-//        Route::get('/fine-tune', [AdminController::class,'fineTune'])->name('fine_tune');
-//        Route::get('/hai-chat-persona/{name?}', [AdminController::class,'haiChatPersona'])->name('admin_hai_chat_persona');
-//        Route::get('/hai-chat-comparison', [AdminController::class,'haiChatComparison'])->name('admin_hai_chat_comparison');
-//        Route::get('/create-brain', [AdminController::class,'createBrain'])->name('admin_create_brain');
-//        Route::get('/edit-brain/{id}', [AdminController::class,'editBrain'])->name('admin_edit_brain');
-//        Route::get('/create-cluster', [AdminController::class,'createCluster'])->name('admin_create_cluster');
-//        Route::get('/edit-cluster/{id}', [AdminController::class,'editCluster'])->name('admin_edit_cluster');
-//        Route::get('/download-zip', [AdminController::class,'downloadZipFile'])->name('download-zip');
-//        Route::get('/hai-dojo', [AdminController::class,'haiDojo'])->name('admin_hai_dojo');
-//        Route::get('/download-conversation', [AdminController::class,'downloadConversation'])->name('admin_export_conversations');
-//
-//    });
-
     // ====================================== CMS Admin ================================ //
 
     Route::group(['middleware' => ['permission:cms_admin']], function () {
@@ -168,6 +137,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
         Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
+        Route::get('/network-tutorials',[NetworkTutorialController::class,'networkTutorials'])->name('admin_network_tutorials');
+        Route::get('/faq',[FaqController::class,'FaqQuestions'])->name('admin_faq');
 
     });
 

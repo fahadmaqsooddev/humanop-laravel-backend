@@ -11,7 +11,7 @@ if (env('APP_ENV') == 'local') {
     ];
 } elseif (env('APP_ENV') == 'development') {
     return [
-        'client_dashboard_url' => 'https://dev.humanop.com',
+        'client_dashboard_url' => 'https://human-op-newdesign.vercel.app',
         'admin_dashboard_url' => 'https://dev.humanop.com',
         'hai_admin_dashboard_url' => 'https://dev-hai.humanoptech.com',
         'b2b_dashboard_url' => 'https://maestro-dev.humanop.com',

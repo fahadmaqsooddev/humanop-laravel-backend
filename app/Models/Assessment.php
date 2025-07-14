@@ -12,7 +12,10 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Client\Gamification\GamificationBadgesAchievement;
+use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\GenerateFile\PdfGenerate;
+use App\Models\Videos\VideoProgress;
 use Carbon\Carbon;
 use Faker\Extension\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -561,10 +564,14 @@ class Assessment extends Model
 
         $record = CodeDetail::whereId($energy_code['energy_code'])->first();
 
+        $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
+
         $data = [
+            'name' => $record['name'],
             'public_name' => $publicName,
             'description' => $record['text'],
             'video_url' => $record['video_url'] ?? null,
+            'video_progress' => $progress,
         ];
 
         return $data;
@@ -643,6 +650,30 @@ class Assessment extends Model
         return $topKeysStyle;
     }
 
+    public static function highLightStyle($assessment = null)
+    {
+        $allStyles = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
+
+        $highLightStyles = [];
+
+        if ($assessment) {
+
+            foreach ($allStyles as $style) {
+
+                if (isset($assessment[$style]) && $assessment[$style] > 4) {
+
+                    $highLightStyles[] = $style;
+
+                }
+
+            }
+
+        }
+
+        return $highLightStyles;
+
+    }
+
     public static function getAllStyles($assessment = null)
     {
         $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
@@ -669,12 +700,16 @@ class Assessment extends Model
 
         foreach ($allStyles as $style) {
 
+            $progress = VideoProgress::checkVideoProgress($assessment['id'], $style['codeDetails'][0]['name']);
+
             $data[] = [
                 'code_number' => $style['code_number'],
                 'code_name' => $style['codeDetails'][0]['code'],
                 'public_name' => $style['codeDetails'][0]['public_name'],
+                'name' => $style['codeDetails'][0]['name'],
                 'description' => $style['codeDetails'][0]['text'],
-                'video_url' => $style['codeDetails'][0]['video_url']
+                'video_url' => $style['codeDetails'][0]['video_url'],
+                'video_progress' => $progress,
             ];
         }
 
@@ -1045,7 +1080,9 @@ class Assessment extends Model
 
         $topfeaturesdata = CodeDetail::getPublicNames($topFeatures);
 
-        $newtopfeaturesdata = array_map(function ($item) {
+        $newtopfeaturesdata = array_map(function ($item) use ($assessment) {
+
+            $progress = VideoProgress::checkVideoProgress($assessment['id'], $item[5]);
 
             return [
                 'code_number' => $item[0],
@@ -1053,6 +1090,8 @@ class Assessment extends Model
                 'description' => $item[2],
                 'video_url' => $item[3],
                 'code_name' => $item[4],
+                'name' => $item[5],
+                'video_progress' => $progress,
             ];
         }, $topfeaturesdata);
 
@@ -1427,6 +1466,10 @@ class Assessment extends Model
 
                 HaiChatHelpers::syncUserRecordWithHAi();
 
+                HumanOpPoints::addPointsAfterCompleteAssessment($user);
+
+                GamificationBadgesAchievement::addBadgeAfterCompleteAssessment($user['id']);
+
                 if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
                     $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
@@ -1546,16 +1589,21 @@ class Assessment extends Model
 
             $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail['code']);
 
+            $progress = VideoProgress::checkVideoProgress($assessment['id'], $publicName['name']);
+
             return [
+                'name' => $publicName['name'],
                 'public_name' => $publicName['public_name'],
                 'code_number' => $gold . $silver . $copper,
                 'description' => $publicName['text'],
                 'video_url' => $publicName['video_url'],
                 'img_url' => $alchemyCodeDetail['image_url'],
+                'video_progress' => $progress,
             ];
         } else {
 
             return [
+                'name' => '',
                 'public_name' => "",
                 'code_number' => $gold . $silver . $copper,
                 'description' => "",
@@ -1585,17 +1633,21 @@ class Assessment extends Model
             $polarity_code = 42;
         }
 
-        $record = CodeDetail::whereId($polarity_code)->select(['id', 'public_name', 'text', 'video'])->first();
+        $record = CodeDetail::whereId($polarity_code)->select(['id', 'public_name', 'text', 'video','name'])->first();
 
         $record['pv'] = $pv > 0 ? '+' . $pv : $pv;
 
+        $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
+
         return $data = [
             'code_number' => $record['id'],
+            'name' => $record['name'],
             'public_name' => $record['public_name'],
             'description' => $record['text'],
             'video' => $record['video'],
             'video_url' => $record['video_url'],
             'pv' => $record['pv'],
+            'video_progress' => $progress,
         ];
     }
 
@@ -1637,7 +1689,7 @@ class Assessment extends Model
     public static function getCoreState($assessment = null, $dateOfBirth = null)
     {
 
-        $interval_of_life = User::getUserAge($dateOfBirth);
+        $interval_of_life = User::getUserAge($dateOfBirth, $assessment);
 
         $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 

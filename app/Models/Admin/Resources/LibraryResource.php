@@ -28,22 +28,22 @@ class LibraryResource extends Model
     public function libraryPermissions()
     {
 
-        return $this->hasMany(PermissionResource::class, 'resource_id', 'id');
+        return $this->hasOne(PermissionResource::class, 'resource_id', 'id');
     }
 
-    public function resourceCategory(){
-        return $this->belongsTo(ResourceCategory::class,'resource_category_id','id');
+    public function resourceCategory()
+    {
+        return $this->belongsTo(ResourceCategory::class, 'resource_category_id', 'id');
     }
 
 
     // append
     public function getPhotoUrlAttribute()
     {
-        if (empty($this->source_id) && empty($this->embed_link))
-        {
+        if (empty($this->source_id) && empty($this->embed_link)) {
             return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
 
-        }else{
+        } else {
 
             return null;
         }
@@ -72,14 +72,10 @@ class LibraryResource extends Model
 
             }
 
-        }
-        elseif (!empty($this->embed_link))
-        {
-            return Helpers::getVideo($this->upload_id, 1, null,$this->embed_link);
+        } elseif (!empty($this->embed_link)) {
+            return Helpers::getVideo($this->upload_id, 1, null, $this->embed_link);
 
-        }
-
-        else {
+        } else {
 
             return Helpers::getVideo($this->upload_id, 1, null);
 
@@ -100,7 +96,7 @@ class LibraryResource extends Model
         return self::get();
     }
 
-    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null,$link=null)
+    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -109,13 +105,14 @@ class LibraryResource extends Model
             'resource_category_id' => $category_id,
             'description' => $description,
             'content' => $content,
-            'embed_link'=>$link
+            'embed_link' => $link,
+            'relevance' => $relevance
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null,$link=null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null)
     {
 
         self::whereId($id)->update([
@@ -127,7 +124,8 @@ class LibraryResource extends Model
             'content' => $content,
             'source_id' => null,
             'source_url' => null,
-            'embed_link'=>$link
+            'embed_link' => $link,
+            'relevance' => $relevance
         ]);
 
         return self::singleLibraryResource($id);
@@ -172,13 +170,44 @@ class LibraryResource extends Model
 
     public static function latestLibraryResourcses()
     {
-        return self::with('resourceCategory') 
-                   ->latest()          
-                   ->take(3)           
-                   ->get();            
+        return self::with('resourceCategory')
+            ->latest()
+            ->take(3)
+            ->get();
     }
-    
 
+    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null)
+    {
+        $resources = self::query();
 
+        // Filter by relevance in libraryResources
+        if (!empty($searchRelevance)) {
+            $resources->where('relevance', $searchRelevance);
+        }
+
+        // Filter by name in resourceCategory
+        if (!empty($searchType)) {
+            $resources->whereHas('resourceCategory', function ($q) use ($searchType) {
+                $q->where('name', 'LIKE', '%' . $searchType . '%');
+            });
+        }
+
+        // Filter by permission level in libraryPermissions
+        if (!empty($searchAccess)) {
+            $resources->whereHas('libraryPermissions', function ($q) use ($searchAccess) {
+                if ($searchAccess === 'free') {
+                    $q->where('permission', 1);
+                } elseif ($searchAccess === 'hp_look') {
+                    $q->where('permission', 4);
+                } else {
+                    $q->whereIn('permission', [2, 3]);
+                }
+            });
+        }
+
+        $resources->with('resourceCategory', 'libraryPermissions')->orderBy('created_at', 'desc');
+
+        return $resources->get();
+    }
 
 }

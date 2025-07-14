@@ -139,8 +139,6 @@ class AuthController extends Controller
 
                     Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
 
-                    HaiChatHelpers::syncUserRecordWithHAi($user);
-
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
                     Helpers::createClientsOnOneSignal($user['id']);
@@ -329,6 +327,8 @@ class AuthController extends Controller
                     $signupTime = $getUser['created_at']->addMinutes($userTimezone * 60);
 
                     $getUser->update(['last_login' => $signupTime->format('Y-m-d H:i:s')]);
+
+                    HaiChatHelpers::syncUserRecordWithHAi();
 
                     $data = [
                         'user' => $getUser,
@@ -541,7 +541,13 @@ class AuthController extends Controller
 
                 $token = User::generateToken($checkUserEmail['email']);
 
-                $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
+                if (!empty($request['change_password_from']))
+                {
+                    $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'] . '&change_password_from=' . $request['change_password_from'];
+                }else
+                {
+                    $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
+                }
 
                 $emailData = $this->prepareEmailData($checkUserEmail, $url);
 
@@ -629,7 +635,20 @@ class AuthController extends Controller
 
                     $token = $this->auth->attempt($credentials);
 
-                    Helpers::checkAndAddBonusCredits($checkUser);
+                    $minutes = Helpers::explodeTimezoneWithHours($checkUser['timezone']);
+
+                    $currentTime = Carbon::now()->addMinutes($minutes * 60);
+
+                    Helpers::checkAndAddBonusCredits($checkUser, $currentTime);
+
+                    Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
+
+                    if ($checkUser['last_login'] == null)
+                    {
+                        $checkUser['last_login'] = $currentTime;
+                    }
+
+                    $checkUser->save();
 
                 }
 
@@ -649,7 +668,7 @@ class AuthController extends Controller
 
                                 if ($result === true) {
 
-                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
 
                                 } else {
 
@@ -659,7 +678,7 @@ class AuthController extends Controller
 
                             } else {
 
-                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
 
                             }
 
@@ -755,7 +774,7 @@ class AuthController extends Controller
                         'registration_step' => $user['step']
                     ];
 
-                    return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
+                    return Helpers::validationResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
                 }
 
                 if ($user['step'] != 3) {
@@ -764,7 +783,7 @@ class AuthController extends Controller
                         'registration_step' => $user['step']
                     ];
 
-                    return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
+                    return Helpers::validationResponse('Please complete all required steps in the signup process to log in.', $userData);
                 }
 
                 if (!empty($request['company_name'])) {
@@ -1051,7 +1070,7 @@ class AuthController extends Controller
                 'energy_pool' => $coreState['energyPool'],
                 'perception' => $coreState['perception'],
                 'optimization_plan' => $optimizationPlan,
-                'daily_tip' => $userDailyTip['dailyTip'],
+                'daily_tip' => $userDailyTip['dailyTip'] ?? '',
 
             ];
 

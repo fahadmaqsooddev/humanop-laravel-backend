@@ -47,13 +47,12 @@
                     <div class="row" style="justify-content: center">
                         <div class="col-lg-5 col-sm-5 mt-6">
                             <a href="{{ route('admin_dashboard') }}" target="_blank">
-                                <div class="card mb-4" style="border: 2px solid #1b3a62">
+                                <div class="card mb-4 input-form-style">
                                     <div class="card-body p-3">
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="numbers">
-                                                    <p class="text-md mb-0 text-capitalize font-weight-bold"
-                                                       style="color: #1B3A62">B2C Admin Dashboard</p>
+                                                    <p class="text-md mb-0 text-capitalize font-weight-bold">B2C Admin Dashboard</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -68,13 +67,12 @@
                         <div class="col-lg-5 col-sm-5 mt-3">
                             <a href="{{ config('client_url.b2b_admin_dashboard_url') }}/session?email={{ urlencode(session('login_user_email')) }}&password={{ urlencode(session('login_user_password')) }}"
                                target="_blank">
-                                <div class="card mb-4" style="border: 2px solid #1b3a62">
+                                <div class="card mb-4 input-form-style">
                                     <div class="card-body p-3">
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="numbers">
-                                                    <p class="text-md mb-0 text-capitalize font-weight-bold"
-                                                       style="color: #1B3A62">B2B Admin Dashboard</p>
+                                                    <p class="text-md mb-0 text-capitalize font-weight-bold">B2B Admin Dashboard</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,13 +87,12 @@
                         <div class="col-lg-5 col-sm-5 mt-3">
                             <a href="{{ config('client_url.hai_admin_dashboard_url') }}/session?email={{ urlencode(session('login_user_email')) }}&password={{ urlencode(session('login_user_password')) }}"
                                target="_blank">
-                                <div class="card mb-4" style="border: 2px solid #1b3a62">
+                                <div class="card mb-4 input-form-style">
                                     <div class="card-body p-3">
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="numbers">
-                                                    <p class="text-md mb-0 text-capitalize font-weight-bold"
-                                                       style="color: #1B3A62">HAi Admin Dashboard</p>
+                                                    <p class="text-md mb-0 text-capitalize font-weight-bold">HAi Admin Dashboard</p>
                                                 </div>
                                             </div>
                                         </div>

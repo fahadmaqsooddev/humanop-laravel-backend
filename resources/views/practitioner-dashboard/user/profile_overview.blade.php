@@ -1327,14 +1327,14 @@
                                         <div class="tab-pane {{request()->has('video_url') ? '' : "active"}}"
                                              id="summaryReport">
                                             <div class="slider-padding p-3 mt-5">
-                                                <p>The HumanOp Summary Report serves to identify those aspects about you
-                                                    that define and direct your best performance qualities. Since your
-                                                    physical being is respectively the assigned vehicle transporting you
-                                                    through life, it's often helpful to know what kind of vehicle you
-                                                    are. The Greeks have been insisting we "Know Thyself" for centuries.
-                                                    This simple request answered can facilitate success in all aspects
-                                                    of life, including one's performance in conducting business, and
-                                                    creating healthy relationships at work and in life.</p>
+{{--                                                <p>The HumanOp Summary Report serves to identify those aspects about you--}}
+{{--                                                    that define and direct your best performance qualities. Since your--}}
+{{--                                                    physical being is respectively the assigned vehicle transporting you--}}
+{{--                                                    through life, it's often helpful to know what kind of vehicle you--}}
+{{--                                                    are. The Greeks have been insisting we "Know Thyself" for centuries.--}}
+{{--                                                    This simple request answered can facilitate success in all aspects--}}
+{{--                                                    of life, including one's performance in conducting business, and--}}
+{{--                                                    creating healthy relationships at work and in life.</p>--}}
                                                 <p>The HumanOp Assessment is a patented instrument grounded in physical
                                                     laws and objective scientific understanding. It collects and
                                                     quantifies information in a user-friendly format, providing easily

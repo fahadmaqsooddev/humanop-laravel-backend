@@ -2,11 +2,11 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
         .ck-editor__editable_inline {
-            background-color: #eaf3ff; /* Example: Change this to your desired background color */
+            background-color: #1b3a62; /* Example: Change this to your desired background color */
         }
 
         .ck-editor__editable {
-            background-color: #eaf3ff !important;
+            background-color: #1b3a62 !important;
         }
 
         .ck-editor {
@@ -35,31 +35,31 @@
         <div class="col-12">
             <label class="form-label" style="color: #1b3a62">Name</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff;" name="name"
-                       class="form-control" type="text" wire:model.defer="select_code.name">
+                <input  name="name"
+                       class="form-control input-form-style" type="text" wire:model.defer="select_code.name">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label" style="color: #1b3a62">Public Name</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff;" name="public_name"
-                       class="form-control" type="text" wire:model.defer="select_code.public_name"
+                <input  name="public_name"
+                       class="form-control input-form-style" type="text" wire:model.defer="select_code.public_name"
                        placeholder="Alec">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label" style="color: #1b3a62">Code</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff;" name="code"
-                       class="form-control" type="text" wire:model.defer="select_code.code"
+                <input  name="code"
+                       class="form-control input-form-style" type="text" wire:model.defer="select_code.code"
                        placeholder="Alec">
             </div>
         </div>
         <div class="col-12 mt-4">
             <label class="form-label" style="color: #1b3a62">Type</label>
             <div class="input-group">
-                <input style="background-color: #eaf3ff;" name="type"
-                       class="form-control" type="text" wire:model.defer="select_code.type"
+                <input  name="type"
+                       class="form-control input-form-style" type="text" wire:model.defer="select_code.type"
                        placeholder="Alec">
             </div>
         </div>
@@ -67,7 +67,7 @@
         <div class="col-12 mt-4">
             <label class="form-label" style="color: #1b3a62">Text</label>
             <div class="input-group w-100" wire:ignore>
-                <textarea class="form-control table-header-text" id="editor" rows="10" cols="10" name="text"
+                <textarea class="form-control input-form-style" id="editor" rows="10" cols="10" name="text"
                           wire:model.defer="select_code.text">{{ $select_code['text'] }}</textarea>
             </div>
         </div>

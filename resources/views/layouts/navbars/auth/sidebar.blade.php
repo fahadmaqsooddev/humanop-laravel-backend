@@ -295,7 +295,9 @@
                                                         'admin/edit-version-control/*',
                                                         'admin/edit-code/*',
                                                        'admin/admin_get_client_invite',
-                                                       'admin/pricing-plans') ? 'show' : '' }}"
+                                                       'admin/pricing-plans',
+                                                       'admin/faq',
+                                                       'admin/network-tutorials') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
                                                             <li class="nav-item {{ (Request::is('admin/assessment-walkthrough') ? 'active-itt-all' : '') }}">
@@ -310,15 +312,15 @@
                                                                     <span class="sidenav-normal"> Post Assessment WalkThrough </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/assessment-introduction') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/assessment-introduction') ? 'active-itt-all' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/assessment-introduction', 'admin/edit-assessment-intro/*') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/assessment-introduction', 'admin/edit-assessment-intro/*') ? 'active-itt-all' : '') }}"
                                                                    href="{{route('admin_manage_assessment_intro')}}">
                                                                     <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/assessment-introduction') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
+                                                                            src="{{ Request::is('admin/assessment-introduction','admin/edit-assessment-intro/*') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/assessment-introduction') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
+                                                                            src="{{ Request::is('admin/assessment-introduction','admin/edit-assessment-intro/*') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
                                                                     <span class="sidenav-normal"> Assessment Introduction Page </span>
                                                                 </a>
                                                             </li>
@@ -333,6 +335,19 @@
                                                                             src="{{ Request::is('admin/summary-report','admin/edit-summary-report/*') ? asset('assets/new-blue-icons/summary-report-content.png') : asset('assets/new-white-icons/summary-report-content.png') }}"></span>
                                                                     <span
                                                                         class="sidenav-normal"> Summary Report Content </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/network-tutorials') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/network-tutorials') ? 'active-itt-all' : '') }}"
+                                                                   href="{{route('admin_network_tutorials')}}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/network-tutorials') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/network-tutorials') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Network Tutorial </span>
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}">
@@ -404,10 +419,10 @@
                                                                    href="{{ url('#') }}">
                                                                     <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/resource-training.png') : asset('assets/new-white-icons/resource-training.png') }}"></span>
+                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/resource-training.png') : asset('assets/new-white-icons/resource-training.png') }}"></span>
+                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
                                                                     <span class="sidenav-normal"> Video Results Management </span>
                                                                 </a>
                                                             </li>
@@ -481,6 +496,22 @@
                                                                         class="sidenav-normal"> Pricing Plan </span>
                                                                 </a>
                                                             </li>
+
+
+
+                                                            <li class="nav-item {{ (Request::is('admin/faq') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/faq') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_faq') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/faq') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/faq') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Faq  </span>
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </li>
@@ -526,10 +557,10 @@
                                                        href="{{ route('admin_client_queries') }}">
                                                         <span class="sidenav-mini-icon"><img
                                                                 style="width: 18px; margin-right: 10px"
-                                                                src="{{ Request::is('admin/client-queries') ? asset('assets/new-blue-icons/client-invites.png') : asset('assets/new-white-icons/client-invites.png') }}"></span>
+                                                                src="{{ Request::is('admin/client-queries') ? asset('assets/new-blue-icons/client-queries.png') : asset('assets/new-white-icons/client-queries.png') }}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
-                                                                src="{{ Request::is('admin/client-queries') ? asset('assets/new-blue-icons/client-invites.png') : asset('assets/new-white-icons/client-invites.png') }}"></span>
+                                                                src="{{ Request::is('admin/client-queries') ? asset('assets/new-blue-icons/client-queries.png') : asset('assets/new-white-icons/client-queries.png') }}"></span>
                                                         <span class="sidenav-normal"> Client Queries </span>
                                                     </a>
                                                 </li>
