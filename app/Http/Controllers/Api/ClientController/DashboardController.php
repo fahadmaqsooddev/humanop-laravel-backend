@@ -547,70 +547,53 @@ class DashboardController extends Controller
 
         try {
 
-            $pedingShareData=B2BBusinessCandidates::getPendingSharedDataLoginUserCompanies(Helpers::getUser()['id']);
+            if (!empty($request['company_name'])) {
 
-            $finalData = [];
+                $checkData = B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
 
-            foreach ($pedingShareData as $pendingData) {
-                $finalData[] = [
-                    'Shared_data' => $pendingData->share_data,
-                    'company_name' => $pendingData->businessUsers->company_name ?? null,
-                    'status' => $pendingData->role == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
-                ];
+                if (!empty($checkData)) {
+
+                    if ($checkData['share_data'] == Admin::DECLINED_DATA) {
+
+                        $data = [
+                            'Shared_data' => Admin::DECLINED_DATA,
+                            'company_name' => $request['company_name'],
+                            'status' => $checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
+                        ];
+
+                        return Helpers::successResponse('Check Shared Data', $data);
+                    }
+
+                    $data = [
+                        'Shared_data' => Admin::SHARED_DATA,
+                        'company_name' => $request['company_name']
+                    ];
+
+                    return Helpers::successResponse('Check Shared Data', $data);
+
+                } else {
+
+                    return Helpers::validationResponse('Data not found.');
+
+                }
+
+            } else {
+                $pedingShareData=B2BBusinessCandidates::getPendingSharedDataLoginUserCompanies(Helpers::getUser()['id']);
+
+                $finalData = [];
+
+                foreach ($pedingShareData as $pendingData) {
+                    $finalData[] = [
+                        'Shared_data' => $pendingData->share_data,
+                        'company_name' => $pendingData->businessUsers->company_name ?? null,
+                        'status' => $pendingData->role == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
+                    ];
+                }
+
+                return Helpers::successResponse('Check Shared Data', $finalData);
+
+
             }
-
-            return Helpers::successResponse('Check Shared Data', $finalData);
-
-
-
-
-//            if (!empty($request['company_name'])) {
-//
-//                $checkData = B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
-//
-//                if (!empty($checkData)) {
-//
-//                    if ($checkData['share_data'] == Admin::DECLINED_DATA) {
-//
-//                        $data = [
-//                            'Shared_data' => Admin::DECLINED_DATA,
-//                            'company_name' => $request['company_name'],
-//                            'status' => $checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
-//                        ];
-//
-//                        return Helpers::successResponse('Check Shared Data', $data);
-//                    }
-//
-//                    $data = [
-//                        'Shared_data' => Admin::SHARED_DATA,
-//                        'company_name' => $request['company_name']
-//                    ];
-//
-//                    return Helpers::successResponse('Check Shared Data', $data);
-//
-//                } else {
-//
-//                    return Helpers::validationResponse('Data not found.');
-//
-//                }
-//
-//            } else {
-//
-//                $companies = B2BBusinessCandidates::AllLoginUserCompanies();
-//
-//                $data = [];
-//
-//                foreach ($companies as $company) {
-//
-//                    $data[] = [
-//                        'company_name' => $company->businessUsers->company_name ?? 'N/A',
-//                        'share_data' => $company->share_data ?? 'N/A'
-//                    ];
-//                }
-//
-//                return Helpers::successResponse('All Share Data', $data);
-//
-//            }
 
         } catch (\Exception $exception) {
 
