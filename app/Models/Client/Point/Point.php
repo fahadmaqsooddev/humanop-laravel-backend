@@ -66,25 +66,15 @@ class Point extends Model
 
     public static function addPoints($points, $user = null){
 
-        Log::info(['inside points']);
-
         $user = ($user ?? Helpers::getUser());
-
-        Log::info(['user']);
 
         $record = self::where('user_id', $user->id)->first();
 
-        Log::info(['user' => $record]);
-
         if ($record){
-
-            Log::info(['record found']);
 
             $record->increment('point', $points);
 
         }else{
-
-            Log::info(['record not found']);
 
             self::create([
                 'user_id' => $user->id,
@@ -92,11 +82,7 @@ class Point extends Model
             ]);
         }
 
-        Log::info(['record created']);
-
         PointLog::createPointLog($points, 1, $user);
-
-        Log::info(['points logged']);
 
     }
 }
