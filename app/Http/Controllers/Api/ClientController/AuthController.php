@@ -306,8 +306,6 @@ class AuthController extends Controller
 
                     $getUser->setAppends([]);
 
-                    Point::addPoints(Admin::FREEMIUM_CREDITS, $getUser);
-
                     $data = [
                         'user' => $getUser,
                         'b2b_create_Account' => true,
