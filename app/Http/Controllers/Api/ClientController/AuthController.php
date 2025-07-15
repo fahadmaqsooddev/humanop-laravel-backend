@@ -35,6 +35,7 @@ use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
@@ -321,6 +322,8 @@ class AuthController extends Controller
                     $token = $this->auth->login($getUser);
 
                     Point::addPoints(Admin::FREEMIUM_CREDITS);
+
+                    Log::info(['points added']);
 
                     $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
