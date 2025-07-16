@@ -578,20 +578,20 @@ class DashboardController extends Controller
                 }
 
             } else {
+                $pedingShareData=B2BBusinessCandidates::getPendingSharedDataLoginUserCompanies(Helpers::getUser()['id']);
 
-                $companies = B2BBusinessCandidates::AllLoginUserCompanies();
+                $finalData = [];
 
-                $data = [];
-
-                foreach ($companies as $company) {
-
-                    $data[] = [
-                        'company_name' => $company->businessUsers->company_name ?? 'N/A',
-                        'share_data' => $company->share_data ?? 'N/A'
+                foreach ($pedingShareData as $pendingData) {
+                    $finalData[] = [
+                        'Shared_data' => $pendingData->share_data,
+                        'company_name' => $pendingData->businessUsers->company_name ?? null,
+                        'status' => $pendingData->role == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
                     ];
                 }
 
-                return Helpers::successResponse('All Share Data', $data);
+                return Helpers::successResponse('Check Shared Data', $finalData);
+
 
             }
 

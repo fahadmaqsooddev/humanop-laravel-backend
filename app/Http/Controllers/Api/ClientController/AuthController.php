@@ -102,7 +102,7 @@ class AuthController extends Controller
 
                             if ($result === true) {
 
-                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
 
                             } else {
 
@@ -112,7 +112,7 @@ class AuthController extends Controller
 
                         } else {
 
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
 
                         }
 
@@ -192,7 +192,7 @@ class AuthController extends Controller
 
                                 $data = User::getSingleUserFromCompanyName($request['company_name']);
 
-                                B2BBusinessCandidates::registerCandidate($data['id'], $checkUser['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                                B2BBusinessCandidates::registerCandidate($data['id'], $checkUser['id'], $request['prefer'], Admin::DECLINED_DATA);
 
                             }
 
@@ -799,7 +799,7 @@ class AuthController extends Controller
 
                             if ($result === true) {
 
-                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::socialLogin);
 
                             } else {
 
@@ -809,7 +809,7 @@ class AuthController extends Controller
 
                         } else {
 
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::socialLogin);
 
                         }
 
