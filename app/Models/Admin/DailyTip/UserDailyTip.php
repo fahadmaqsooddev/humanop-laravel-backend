@@ -94,13 +94,13 @@ class UserDailyTip extends Model
 
             HumanOpPoints::addPointsAfterCompleteDailyTip($user);
 
-//            $message = 'Your New Daily Tip';
-//
-//            event(new NewDailyTip($user['id'], 'new daily tip', $message));
-//
-//            Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
-//
-//            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+            $message = 'Your New Daily Tip';
+
+            event(new NewDailyTip($user['id'], 'new daily tip', $message));
+
+            Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+
+            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
         }
 
