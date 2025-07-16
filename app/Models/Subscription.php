@@ -52,16 +52,18 @@ class Subscription extends Model
     {
         $key = StripeSetting::getSingle();
 
-        // ✅ Set API key globally for static methods like \Stripe\Customer::update()
         \Stripe\Stripe::setApiKey($key['api_key']);
 
         $stripe_client = new \Stripe\StripeClient($key['api_key']);
 
         $payment_method_id = $request->input('payment_method');
+
         $new_payment_method_detail = $stripe_client->paymentMethods->retrieve($payment_method_id, []);
+
         User::updateUserPaymentMethodFromApi($new_payment_method_detail);
 
         $user = Helpers::getUser();
+
         $user->createOrGetStripeCustomer();
 
         // Attach payment method to customer
@@ -79,13 +81,19 @@ class Subscription extends Model
         $subscription = $user->subscription('main');
 
         if ($subscription && $subscription->stripe_status !== 'incomplete') {
+
             $subscription->swapAndInvoice($request->input('plan_id'));
+
         } else {
+
             if ($subscription && $subscription->stripe_status === 'incomplete') {
+
                 $subscription->cancelNow();
+
             }
 
             $user->newSubscription('main', $request->input('plan_id'))->create($payment_method_id);
+
         }
 
         $plan = \App\Models\Client\Plan\Plan::singlePlan($request->input('plan_id'));
@@ -93,6 +101,7 @@ class Subscription extends Model
         return [
             'plan_name' => $plan['name']
         ];
+
     }
 
     public static function updateUserSubscriptionFromAdmin($plan_id, $user_id)

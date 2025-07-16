@@ -23,5 +23,6 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('submit-assessment', 'AssessmentController@submitAnswers');
     Route::get('user-report', 'AssessmentController@userReport');
     Route::get('intro-assessment', 'AssessmentController@introAssessment');
+    Route::post('assessment-checkout', 'AssessmentController@assessmentCheckout');
 
 });
