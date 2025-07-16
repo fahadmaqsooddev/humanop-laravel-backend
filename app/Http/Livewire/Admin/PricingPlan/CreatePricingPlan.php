@@ -42,7 +42,7 @@ class CreatePricingPlan extends Component
 
             $this->validate();
 
-            Stripe::setApiKey(config('cashier.b2c_secret'));
+            Stripe::setApiKey(config('cashier.secret'));
 
             $product = Product::create([
                 'name' => $this->plan_name,

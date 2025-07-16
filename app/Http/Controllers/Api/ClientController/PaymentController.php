@@ -248,7 +248,7 @@ class PaymentController extends Controller
 
         try {
 
-            $plans = Plan::allPlans();
+            $plans = Plan::getB2CPlans();
 
             return Helpers::successResponse('All plans', $plans);
 

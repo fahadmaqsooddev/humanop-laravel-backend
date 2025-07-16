@@ -47,7 +47,7 @@ class Subscription extends Model
 
     public static function processSubscription($request = null){
 
-        if ($request->input('is_default_payment') == 0){ // when user continues with new payment method
+//        if ($request->input('is_default_payment') == 0){ // when user continues with new payment method
 
             $key = StripeSetting::getSingle();
 
@@ -57,7 +57,7 @@ class Subscription extends Model
 
             User::updateUserPaymentMethodFromApi($new_payment_method_detail); // update local db with payment method detail
 
-        }
+//        }
 
         $user = Helpers::getUser();
 
@@ -65,7 +65,7 @@ class Subscription extends Model
 
         $payment_method = $user['payment_method']; // user payment method new/default
 
-        if ($payment_method != null){ // if payment method is null then
+        if ($payment_method != null){ // if payment method is not null then
 
             $key = StripeSetting::getSingle();
 
