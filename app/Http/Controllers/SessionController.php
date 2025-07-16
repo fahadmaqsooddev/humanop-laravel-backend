@@ -139,6 +139,12 @@ class SessionController extends Controller
 
     }
 
+    public function getData(Request $request){
+
+        dd($request->all());
+
+    }
+
     public function keyEncryptDecrypt(Request $request)
     {
 
