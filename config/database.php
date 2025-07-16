@@ -176,7 +176,7 @@ return [
         ],
         'StripeSetting' => [
             'table' => 'stripe_settings',
-            'fillable' => ['api_key','public_key','account_name','account_email', 'amount'],
+            'fillable' => ['api_key','public_key','account_name','account_email', 'amount','type'],
             'hidden' => ['created_at','updated_at']
         ],
         'Subscription' => [

@@ -26,7 +26,6 @@ class ProcessSubscriptionRequest extends FormRequest
         return [
             'plan_id' => 'required|exists:plans,plan_id',
             'payment_method' => 'required',
-            'default_payment' => 'required|in:0,1',
         ];
     }
 }

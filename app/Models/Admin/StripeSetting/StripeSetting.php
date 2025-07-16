@@ -20,7 +20,7 @@ class StripeSetting extends Model
 
     public static function getSingle()
     {
-        return self::where()->first();
+        return self::where('type', 2)->latest()->first();
     }
 
     public static function updateStripeAccount($data = null, $id = null)
