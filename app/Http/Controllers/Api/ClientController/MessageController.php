@@ -71,7 +71,7 @@ class MessageController extends Controller
 
                 Helpers::OneSignalApiUsed($request->input('receiver_id'), $heading, $request->input('message'));
 
-                Notification::createNotification('message sent', $heading, null, $request->input('receiver_id'), 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                Notification::createNotification('message sent', $heading, null, $request->input('receiver_id'), 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
 
                 event(new NewMessage(Helpers::getUser()->id, $request->input('receiver_id'), $request->input('message'), $message['created_at']));
                 // Helpers::OneSignalApiUsed($request->input('receiver_id'), 'New Message Received', $request->input('message'));

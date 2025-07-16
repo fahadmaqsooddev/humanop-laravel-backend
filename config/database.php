@@ -477,7 +477,7 @@ return [
         ],
         'Notification' => [
             'table' => 'notifications',
-            'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority','role'],
+            'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority','role','sender_id'],
             'hidden' => ['updated_at','deleted_at'],
         ],
         'LlmModel' => [
