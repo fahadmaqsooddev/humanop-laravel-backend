@@ -68,11 +68,11 @@ class Subscription extends Model
 
         // Attach payment method to customer
         $stripe_client->paymentMethods->attach($payment_method_id, [
-            'customer' => $user['stripe_id']
+            'customer' => $user['b2c_stripe_id']
         ]);
 
         // Set default payment method (needs Stripe::setApiKey())
-        \Stripe\Customer::update($user['stripe_id'], [
+        \Stripe\Customer::update($user['b2c_stripe_id'], [
             'invoice_settings' => [
                 'default_payment_method' => $payment_method_id,
             ],
