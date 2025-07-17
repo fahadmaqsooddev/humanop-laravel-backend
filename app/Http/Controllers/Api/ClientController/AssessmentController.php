@@ -15,7 +15,10 @@ use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\AssessmentDetail;
 use App\Models\Question;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class AssessmentController extends Controller
 {
@@ -101,8 +104,7 @@ class AssessmentController extends Controller
                         'name' => $user['card_name'],
                     ]
                 ]);
-            }
-            elseif (!empty($latest_assessment)) {
+            } elseif (!empty($latest_assessment)) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
@@ -128,8 +130,7 @@ class AssessmentController extends Controller
                         ]
                     ]);
 
-                }
-                else{
+                } else {
                     return Helpers::successResponse('Assessment Status', [
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
                         'assessment_count' => $assessment_count,
@@ -244,6 +245,55 @@ class AssessmentController extends Controller
             $introductionAssessment = Page::getSinglePage(14);
 
             return Helpers::successResponse('intro assessment', $introductionAssessment);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function assessmentCheckout(Request $request)
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $latest_assessment = Assessment::getLatestAssessment($user['id']);
+
+            $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
+
+            $userTime = Carbon::parse($latest_assessment['updated_at'])->addMinutes($minutes * 60)->toDateTimeString();
+
+            $difference = Carbon::now()->diffInDays($userTime);
+
+            if (($user['plan_name'] != 'Freemium'))
+            {
+
+                Stripe::setApiKey(config('cashier.secret'));
+
+                $charge = Charge::create([
+                    "amount" => $request['amount'] * 100,
+                    "currency" => "usd",
+                    "source" => 'tok_visa',
+                    "description" => "Retake Assessment Payment"
+                ]);
+
+                if ($charge && $charge->status === 'succeeded') {
+
+                    return Helpers::successResponse("Payment completed successfully! You can now retake assessment.");
+
+                } else {
+
+                    return Helpers::validationResponse("Payment failed. Please try again.");
+
+                }
+
+            }else{
+
+                $takeAssessment = 90 - $difference;
+
+                return Helpers::validationResponse('You can take another assessment after ' . $takeAssessment . ' days.');
+            }
 
         } catch (\Exception $exception) {
 

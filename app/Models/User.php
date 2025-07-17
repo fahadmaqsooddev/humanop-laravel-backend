@@ -724,7 +724,7 @@ class User extends Authenticatable implements JWTSubject
             'email' => $user['email'],
         ]);
 
-        $user->stripe_id = $stripe_customer->id;
+        $user->b2c_stripe_id = $stripe_customer->id;
 
         $user->save();
     }
