@@ -1553,12 +1553,15 @@ class Assessment extends Model
             if ($assessment_id) {
 
                 $q->where('id', $assessment_id);
+
             } else {
 
                 $q->where('user_id', $user->id);
             }
+
         })
             ->where('page', 0)->latest()->first();
+
     }
 
     public static function getEnergyPoolDetail($assessment = null)
@@ -1633,7 +1636,7 @@ class Assessment extends Model
             $polarity_code = 42;
         }
 
-        $record = CodeDetail::whereId($polarity_code)->select(['id', 'public_name', 'text', 'video','name'])->first();
+        $record = CodeDetail::whereId($polarity_code)->select(['id', 'public_name', 'text', 'video', 'name'])->first();
 
         $record['pv'] = $pv > 0 ? '+' . $pv : $pv;
 
