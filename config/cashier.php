@@ -19,8 +19,6 @@ return [
 
     'secret' => env('STRIPE_SECRET'),
 
-    'b2c_secret' => env('B2C_STRIPE_SECRET'),
-
     /*
     |--------------------------------------------------------------------------
     | Cashier Path

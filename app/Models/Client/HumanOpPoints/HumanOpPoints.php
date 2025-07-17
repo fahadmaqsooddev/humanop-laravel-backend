@@ -29,37 +29,58 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteAssessment($user = null)
     {
 
+        $plan = $user['plan_name'];
+
+        $basePoint = Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY;
+
+        $multiplier = match ($plan) {
+            'Freemium' => 1,
+            'Core'     => 3,
+            default    => 5,
+        };
+
+        $pointsToAdd = $multiplier * $basePoint;
+
         $getPoint = self::where('user_id', $user['id'])->first();
 
         if (is_null($getPoint)) {
 
-            $getPoint =  self::create([
+            $getPoint = self::create([
                 'user_id' => $user['id'],
-                'points' => Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY,
+                'points'  => $pointsToAdd,
             ]);
 
-            Helpers::checkAndTakePerformanceLevel($user);
+        } else {
 
-            return $getPoint;
+            $getPoint->points += $pointsToAdd;
+
+            $getPoint->save();
 
         }
-
-        $getPoint->points += Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY;
-
-        $getPoint->save();
 
         Helpers::checkAndTakePerformanceLevel($user);
 
         return $getPoint;
-
     }
 
     public static function addPointsAfterCompleteWatchVideo($user = null)
     {
 
+        $plan = $user['plan_name'];
+
+        $basePoint = Admin::COMPLETE_WATCH_VIDEO_POINT_FOR_CLARITY;
+
+        $multiplier = match ($plan) {
+            'Freemium' => 1,
+            'Core'     => 3,
+            default    => 5,
+        };
+
+        $pointsToAdd = $multiplier * $basePoint;
+
         $getPoint = self::where('user_id', $user['id'])->first();
 
-        $getPoint->points += Admin::COMPLETE_WATCH_VIDEO_POINT_FOR_CLARITY;
+        $getPoint->points += $pointsToAdd;
 
         $getPoint->save();
 
@@ -71,9 +92,21 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteAllWatchVideos($user = null)
     {
 
+        $plan = $user['plan_name'];
+
+        $basePoint = Admin::COMPLETE_ALL_WATCH_VIDEOS_POINT_FOR_CLARITY;
+
+        $multiplier = match ($plan) {
+            'Freemium' => 1,
+            'Core'     => 3,
+            default    => 5,
+        };
+
+        $pointsToAdd = $multiplier * $basePoint;
+
         $getPoint = self::where('user_id', $user['id'])->first();
 
-        $getPoint->points += Admin::COMPLETE_ALL_WATCH_VIDEOS_POINT_FOR_CLARITY;
+        $getPoint->points += $pointsToAdd;
 
         $getPoint->save();
 
@@ -85,9 +118,21 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteDailyTip($user = null)
     {
 
+        $plan = $user['plan_name'];
+
+        $basePoint = Admin::COMPLETE_DAILY_TIP_POINT_FOR_CLARITY;
+
+        $multiplier = match ($plan) {
+            'Freemium' => 1,
+            'Core'     => 3,
+            default    => 5,
+        };
+
+        $pointsToAdd = $multiplier * $basePoint;
+
         $getPoint = self::where('user_id', $user['id'])->first();
 
-        $getPoint->points += Admin::COMPLETE_DAILY_TIP_POINT_FOR_CLARITY;
+        $getPoint->points += $pointsToAdd;
 
         $getPoint->save();
 
@@ -98,13 +143,26 @@ class HumanOpPoints extends Model
 
     public static function createOrUpdateUserPoints($user = null, $currentTime = null)
     {
+
+        $plan = $user['plan_name'];
+
+        $basePoint = Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
+
+        $multiplier = match ($plan) {
+            'Freemium' => 1,
+            'Core'     => 3,
+            default    => 5,
+        };
+
+        $pointsToAdd = $multiplier * $basePoint;
+
         $checkPoint = self::getUserPoints($user);
 
         if ($checkPoint === null) {
 
             self::create([
                 'user_id' => $user['id'],
-                'points' => Admin::DAILY_LOGIN_POINT_FOR_CLARITY,
+                'points' => $pointsToAdd,
             ]);
 
             return LoginStreaks::startLoginStreak($user);
@@ -137,7 +195,7 @@ class HumanOpPoints extends Model
 
                 $streak->save();
 
-                $checkPoint->points += Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
+                $checkPoint->points += $pointsToAdd;
 
                 $checkPoint->save();
 
@@ -159,7 +217,7 @@ class HumanOpPoints extends Model
 
                 }
 
-                $bonus = Admin::DAILY_LOGIN_POINT_FOR_CLARITY + ($streak->login_days - 1);
+                $bonus = $pointsToAdd + ($streak->login_days - 1);
 
                 $checkPoint->points += $bonus;
 
@@ -181,7 +239,7 @@ class HumanOpPoints extends Model
 
             $streak->save();
 
-            $checkPoint->points += Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
+            $checkPoint->points += $pointsToAdd;
 
             $checkPoint->save();
 

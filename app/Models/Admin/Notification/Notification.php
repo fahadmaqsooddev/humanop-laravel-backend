@@ -34,7 +34,7 @@ class Notification extends Model
         return self::where('user_id', $user['id'])
             ->where('role', Admin::B2C_NOTIFICATION)
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
+            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority','sender_id']);
     }
 
     public static function allB2BNotification()
@@ -48,7 +48,7 @@ class Notification extends Model
     }
 
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null)
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null,$senderId=null)
     {
         self::create([
             'user_id' => $userId,
@@ -58,6 +58,7 @@ class Notification extends Model
             'permission' => $permission,
             'notification_priority' => $priority,
             'role' => $role,
+            'sender_id' => $senderId,
         ]);
 
         if ($deviceToken) {

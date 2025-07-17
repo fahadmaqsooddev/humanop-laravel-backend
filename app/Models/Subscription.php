@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
+use App\Models\Client\Point\Point;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Stripe\StripeClient;
@@ -12,24 +14,27 @@ use Stripe\StripeClient;
 class Subscription extends Model
 {
     use HasFactory;
+
     public function __construct(array $attributes = array())
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
 
-    public function plan(){
+    public function plan()
+    {
 
-        return $this->belongsTo(Plan::class,'stripe_price', 'plan_id');
+        return $this->belongsTo(Plan::class, 'stripe_price', 'plan_id');
     }
 
-    public static function checkoutPlan($request = null){
+    public static function checkoutPlan($request = null)
+    {
 
         $plan = \App\Models\Client\Plan\Plan::where('plan_id', $request->input('plan_id'))->first();
 
-        if (!$plan){
+        if (!$plan) {
 
             return Helpers::notFoundResponse("No plan found against. Please contact technical support.");
         }
@@ -45,75 +50,85 @@ class Subscription extends Model
 
     }
 
-    public static function processSubscription($request = null){
+    public static function processSubscription($request = null)
+    {
+        $key = StripeSetting::getSingle();
 
-        if ($request->input('is_default_payment') == 0){ // when user continues with new payment method
+        \Stripe\Stripe::setApiKey($key['api_key']);
 
-            $key = StripeSetting::getSingle();
+        $stripe_client = new \Stripe\StripeClient($key['api_key']);
 
-            $stripe_client = new StripeClient($key['api_key']);
+        $payment_method_id = $request->input('payment_method');
 
-            $new_payment_method_detail = $stripe_client->paymentMethods->retrieve($request->input('payment_method'), []); // then retrieve payment method detail from stripe to update our local db with payment detail
+        $new_payment_method_detail = $stripe_client->paymentMethods->retrieve($payment_method_id, []);
 
-            User::updateUserPaymentMethodFromApi($new_payment_method_detail); // update local db with payment method detail
-
-        }
+        User::updateUserPaymentMethodFromApi($new_payment_method_detail);
 
         $user = Helpers::getUser();
 
         $user->createOrGetStripeCustomer();
 
-        $payment_method = $user['payment_method']; // user payment method new/default
+        // Attach payment method to customer
+        $stripe_client->paymentMethods->attach($payment_method_id, [
+            'customer' => $user['b2c_stripe_id']
+        ]);
 
-        if ($payment_method != null){ // if payment method is null then
+        // Set default payment method (needs Stripe::setApiKey())
+        \Stripe\Customer::update($user['b2c_stripe_id'], [
+            'invoice_settings' => [
+                'default_payment_method' => $payment_method_id,
+            ],
+        ]);
 
-            $key = StripeSetting::getSingle();
+        $subscription = $user->subscription('main');
 
-            $stripe_client = new StripeClient($key['api_key']);
+        if ($subscription && $subscription->stripe_status !== 'incomplete') {
 
-            $payment_method = $stripe_client->paymentMethods->attach(
-                'pm_card_visa', // when stripe test mood will off then change it to the user payment method
-                ['customer' => $user['stripe_id']]
-            );
-        }
+            $subscription->swapAndInvoice($request->input('plan_id'));
 
-        if ($user->subscriptions()->whereNull('deleted_at')->count() > 0){
+        } else {
 
-            $user->subscription('main')->swapAndInvoice($request->input('plan_id'));
+            if ($subscription && $subscription->stripe_status === 'incomplete') {
 
-        }else{
+                $subscription->cancelNow();
 
-            $user->newSubscription('main' , $request->input('plan_id'))->create(isset($payment_method->id) ? $payment_method->id : $payment_method);
+            }
+
+            $user->newSubscription('main', $request->input('plan_id'))->create($payment_method_id);
 
         }
 
         $plan = \App\Models\Client\Plan\Plan::singlePlan($request->input('plan_id'));
 
-        $data = [
+        if($plan['name'] == 'Core'){
+
+            Point::updatePointOnPlanUpdate(Admin::CORE_CREDITS, $user);
+        }
+
+        return [
             'plan_name' => $plan['name']
         ];
 
-        return $data;
-
     }
 
-    public static function updateUserSubscriptionFromAdmin($plan_id, $user_id){
+    public static function updateUserSubscriptionFromAdmin($plan_id, $user_id)
+    {
 
-        if ($user_id){
+        if ($user_id) {
 
             $subscription = self::where('user_id', $user_id)->first();
 
-            if ($subscription){
+            if ($subscription) {
 
                 $subscription->update(['stripe_price' => $plan_id]);
 
-            }else{
+            } else {
 
                 self::create([
                     'user_id' => $user_id,
                     'stripe_price' => $plan_id,
                     'name' => 'main',
-                    'stripe_id' => rand(5,10),
+                    'stripe_id' => rand(5, 10),
                     'stripe_status' => 'active',
                     'quantity' => 1,
                 ]);
@@ -123,7 +138,8 @@ class Subscription extends Model
 
     }
 
-    public static function processPlan($request = null){
+    public static function processPlan($request = null)
+    {
 
         $user = Helpers::getUser();
 
@@ -131,7 +147,7 @@ class Subscription extends Model
 
         $payment_method = $request->input('payment_method');
 
-        if ($payment_method != null){
+        if ($payment_method != null) {
 
             $payment_method = $user->addPaymentMethod($payment_method);
 
@@ -142,7 +158,7 @@ class Subscription extends Model
         $subscription = $user->subscription('main');
 
 
-        if (!empty($subscription->ends_at)){
+        if (!empty($subscription->ends_at)) {
 
             $newSubscription = $user->newSubscription('main', $request->input('plan_id'));
 
@@ -154,7 +170,7 @@ class Subscription extends Model
 
             $newSubscription->create($payment_method !== null ? $payment_method->id : null);
 
-        }else{
+        } else {
 
             if ($subscription && $subscription->valid()) {
 

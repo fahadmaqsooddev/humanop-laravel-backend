@@ -85,4 +85,26 @@ class Point extends Model
         PointLog::createPointLog($points, 1, $user);
 
     }
+
+    public static function updatePointOnPlanUpdate($points, $user = null){
+
+        $user = ($user ?? Helpers::getUser());
+
+        $record = self::where('user_id', $user->id)->first();
+
+        if ($record){
+
+            $record->update(['point' => $points]);
+
+        }else{
+
+            self::create([
+                'user_id' => $user->id,
+                'point' => $points,
+            ]);
+        }
+
+        PointLog::createPointLog($points, 1, $user);
+
+    }
 }

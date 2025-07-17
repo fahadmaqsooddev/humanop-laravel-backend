@@ -140,7 +140,7 @@ class B2BBusinessCandidates extends Model
 
     public static function checkFutureConsiderationShareData($candidateId = null)
     {
-        return self::with('businessUsers')->where('candidate_id', $candidateId)->where('future_consideration', 1)->where('role', Admin::IS_TEAM_MEMBER)->where('future_consideration_share_date', 0)->first();
+        return self::with('businessUsers')->where('candidate_id', $candidateId)->where('future_consideration', 1)->where('role', Admin::IS_CANDIDATE)->where('future_consideration_share_date', 3)->get();
     }
 
 

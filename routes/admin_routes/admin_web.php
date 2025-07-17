@@ -46,6 +46,7 @@ Route::post('/reset-password', [ChangePasswordController::class, 'changePassword
 Route::get('/logout', [SessionController::class, 'destroy'])->name('logout');
 Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::get('/stripe-checkout', [SessionController::class, 'checkout']);
+Route::post('/data-stripe', [SessionController::class, 'getData'])->name('data-stripe');
 Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt']);
 Route::get('/', [SessionController::class, 'create']);
 

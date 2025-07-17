@@ -239,8 +239,8 @@ class User extends Authenticatable implements JWTSubject
     public function getPlanNameAttribute()
     {
 
-//        return $this->userSubscription->plan->name ?? "Freemium";
-        return "Freemium";
+        return $this->userSubscription->plan->name ?? "Freemium";
+
     }
 
     public function getIsViewedStoriesAttribute()
@@ -724,7 +724,7 @@ class User extends Authenticatable implements JWTSubject
             'email' => $user['email'],
         ]);
 
-        $user->stripe_id = $stripe_customer->id;
+        $user->b2c_stripe_id = $stripe_customer->id;
 
         $user->save();
     }
@@ -910,7 +910,7 @@ class User extends Authenticatable implements JWTSubject
             'pm_last_four' => $paymentMethod['card']['last4'],
             'pm_exp_month' => '0' . $paymentMethod['card']['exp_month'],
             'pm_exp_year' => $paymentMethod['card']['exp_year'],
-            'card_name' => $request->input('card_name')
+            'card_name' => null
 
         ]);
     }

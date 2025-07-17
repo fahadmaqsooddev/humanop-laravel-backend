@@ -70,16 +70,17 @@ final class Admin
 
     const TRAINING_RESOURCE_NOTIFICATION = 3;
 
-    const CONNECTION_REQUEST_NOTIFICATION = 4;
+//    const CONNECTION_REQUEST_NOTIFICATION = 4;
 
-    const CONNECTION_ACCEPT_NOTIFICATION = 5;
+//    const CONNECTION_ACCEPT_NOTIFICATION = 5;
 
-    const CONNECTION_CANCEL_NOTIFICATION = 6;
+//    const CONNECTION_CANCEL_NOTIFICATION = 6;
 
-    const FOLLOW_REQUEST_NOTIFICATION = 7;
+//    const FOLLOW_REQUEST_NOTIFICATION = 7;
 
-    const UN_FOLLOW_REQUEST_NOTIFICATION = 8;
+//    const UN_FOLLOW_REQUEST_NOTIFICATION = 8;
 
+    const NETWORK_NOTIFICTAION = 4;
     const MESSAGE_SEND_NOTIFICATION = 9;
 
     const NEW_MESSAGE_NOTIFICATION = 10;
@@ -142,27 +143,27 @@ final class Admin
 
     const FUTURE_CONSIDERATION_NOT_SHARE_DATA = 0;
 
-    const B2B_NOTIFICATION=1;
+    const B2B_NOTIFICATION = 1;
 
-    const B2C_NOTIFICATION=0;
+    const B2C_NOTIFICATION = 0;
 
-    const B2B_PLAN=1;
+    const B2B_PLAN = 1;
 
-    const B2C_PLAN=0;
+    const B2C_PLAN = 0;
 
-    const REQUEST_SEND=1;
+    const REQUEST_SEND = 1;
 
-    const ISSUE_FIXED=0;
+    const ISSUE_FIXED = 0;
 
-    const NEW_FEATURE=1;
+    const NEW_FEATURE = 1;
 
     const B2B_INACTIVE_PLAN = 0;
 
     const B2B_ACTIVE_PLAN = 1;
 
-    const FREEMIUM_CREDITS = 50;
+    const FREEMIUM_CREDITS = 25;
 
-    const CORE_CREDITS = 120;
+    const CORE_CREDITS = 150;
 
     const PREMIUM_CREDITS = 250;
 

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\ClientController\HumanNetwork;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\HumanNetwork\ConnectUnConnectRequest;
+use App\Http\Requests\Api\Client\HumanNetwork\CoreStatsComparisonRequest;
 use App\Http\Requests\Api\Client\HumanNetwork\FollowUnFollowRequest;
 use App\Models\Admin\Code\CodeDetail;
+use App\Models\Assessment;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\NetworkTutorial\NetworkTutorial;
@@ -117,6 +119,38 @@ class HumanNetworkController extends Controller
             $tutorials = NetworkTutorial::allTutorials();
 
             return Helpers::successResponse('Network Tutorials', $tutorials);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function coreStatsComparisonBetweenUsers(CoreStatsComparisonRequest $request){
+
+        try {
+
+            $coreState = [];
+
+            $userIds = $request['user_id'];
+
+            foreach ($userIds as $key => $userId){
+
+                $user_name = User::whereId($userId)->first();
+
+                $assessment = Assessment::getLatestAssessment($userId);
+
+                if ($assessment == null){
+
+                    return Helpers::validationResponse($user_name['first_name'] . ' ' . $user_name['last_name'] . ' has no assessment');
+                }
+
+                $coreState[$key] = Assessment::getCoreState($assessment, $user_name->date_of_birth);
+
+            }
+
+            return Helpers::successResponse('Core Stats Comparison Between' . count($userIds) . '', $coreState);
 
         }catch (\Exception $exception){
 

@@ -96,25 +96,25 @@ class AuthController extends Controller
 
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
 
-                        if ($request['prefer'] == 1) {
-
-                            $result = Helpers::packageLimitation($data['id']);
-
-                            if ($result === true) {
-
-                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
-
-                            } else {
-
-                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
-
-                            }
-
-                        } else {
+//                        if ($request['prefer'] == 1) {
+//
+//                            $result = Helpers::packageLimitation($data['id']);
+//
+//                            if ($result === true) {
+//
+//                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+//
+//                            } else {
+//
+//                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
+//
+//                            }
+//
+//                        } else {
 
                             B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
 
-                        }
+//                        }
 
                     }
 
@@ -663,25 +663,25 @@ class AuthController extends Controller
 
                         if (!empty($data)) {
 
-                            if ($request['prefer'] == 1) {
-
-                                $result = Helpers::packageLimitation($data['id']);
-
-                                if ($result === true) {
-
-                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
-
-                                } else {
-
-                                    return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
-
-                                }
-
-                            } else {
+//                            if ($request['prefer'] == 1) {
+//
+//                                $result = Helpers::packageLimitation($data['id']);
+//
+//                                if ($result === true) {
+//
+//                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+//
+//                                } else {
+//
+//                                    return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
+//
+//                                }
+//
+//                            } else {
 
                                 B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
 
-                            }
+//                            }
 
                             $getInvite = UserInvite::getSingleInvite($user['email']);
 
@@ -793,25 +793,25 @@ class AuthController extends Controller
 
                     if (!empty($data)) {
 
-                        if ($request['prefer'] == 1) {
+//                        if ($request['prefer'] == 1) {
+//
+//                            $result = Helpers::packageLimitation($data['id']);
+//
+//                            if ($result === true) {
+//
+//                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+//
+//                            } else {
+//
+//                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
+//
+//                            }
+//
+//                        } else {
 
-                            $result = Helpers::packageLimitation($data['id']);
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
 
-                            if ($result === true) {
-
-                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::socialLogin);
-
-                            } else {
-
-                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
-
-                            }
-
-                        } else {
-
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::socialLogin);
-
-                        }
+//                        }
 
                         $getInvite = UserInvite::getSingleInvite($user['email']);
 

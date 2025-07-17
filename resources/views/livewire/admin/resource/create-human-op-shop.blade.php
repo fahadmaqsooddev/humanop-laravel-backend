@@ -257,30 +257,20 @@
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
                                         <div class="col-6">
-                                            <div class="form-check">
-                                                <input type="checkbox"  wire:click="togglePermission(2)"
-                                                       @if($permission == 2) checked @endif
-                                                       class="form-check-input option-checkbox"
-
-                                                       style="border: 2px solid #1b3a62" id="">
-                                                <label class="form-check-label" for="freemium">Point</label>
-                                            </div>
+                                            <label for="point">Point</label>
+                                            <input type="number" id="point" class="form-control"
+                                                   placeholder="Enter Point"
+                                                   wire:model.defer="pointValue"
+                                                   style="border: 2px solid #1b3a62;">
                                         </div>
+
                                         <div class="col-6">
-                                            <div class="form-check">
-                                                <input type="checkbox"  wire:click="togglePermission(1)"
-                                                       @if($permission == 1) checked @endif
-                                                       class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="">
-                                                <label class="form-check-label" for="premium">Price</label>
-                                            </div>
+                                            <label for="price">Price</label>
+                                            <input type="number" id="price" class="form-control"
+                                                   placeholder="Enter Price"
+                                                   wire:model.defer="priceValue"
+                                                   style="border: 2px solid #1b3a62;">
                                         </div>
-
-                                        @if($permission == 1 || $permission == 2)
-                                            <input type="number" class="form-control mt-2 "
-                                                   placeholder="Enter {{ $permission == 1 ? 'Price' : 'Point' }}"
-                                                   wire:model.defer="priceValue">
-                                        @endif
                                     </div>
 
                                     @php
@@ -397,44 +387,21 @@
                                     @endif
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
-                                        <ul>
-                                            @if(!empty($editResourceData))
-                                                @if($editResourceData['buy_from'] == 1)
-                                                    <li>Price</li>
-                                                @elseif($editResourceData['buy_from'] == 2)
-                                                    <li>Point</li>
-
-                                                @endif
-                                            @endif
-                                        </ul>
-                                    </div>
-                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
-                                    <div class="row">
                                         <div class="col-6">
-                                            <div class="form-check">
-                                                <input type="checkbox"  wire:click="togglePermission(2)"
-                                                       @if($permission == 2) checked @endif
-                                                       class="form-check-input option-checkbox"
-
-                                                       style="border: 2px solid #1b3a62" id="">
-                                                <label class="form-check-label" for="freemium">Point</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-check">
-                                                <input type="checkbox"  wire:click="togglePermission(1)"
-                                                       @if($permission == 1) checked @endif
-                                                       class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="">
-                                                <label class="form-check-label" for="premium">Price</label>
-                                            </div>
+                                            <label for="point">Point</label>
+                                            <input type="number" id="point" class="form-control"
+                                                   placeholder="Enter Point"
+                                                   wire:model.defer="pointValue"
+                                                   style="border: 2px solid #1b3a62;">
                                         </div>
 
-                                        @if($permission == 1 || $permission == 2)
-                                            <input type="number" class="form-control mt-2 "
-                                                   placeholder="Enter {{ $permission == 1 ? 'Price' : 'Point' }}"
-                                                   wire:model.defer="priceValue">
-                                        @endif
+                                        <div class="col-6">
+                                            <label for="price">Price</label>
+                                            <input type="number" id="price" class="form-control"
+                                                   placeholder="Enter Price"
+                                                   wire:model.defer="priceValue"
+                                                   style="border: 2px solid #1b3a62;">
+                                        </div>
                                     </div>
 
                                     @php
