@@ -65,35 +65,34 @@ class ShopCategoryResource extends Model
         return self::with('shopCategory', 'resourceTraits')->get();
     }
 
-    public static function createShopResource($heading = null, $category_id = null, $buy_from = null, $video_id = null, $audio_id = null, $document_id = null, $point_price = null)
+    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $point = null)
     {
         $resource = self::create([
             'heading' => $heading,
             'slug' => Str::slug($heading),
             'humanop_shop_category_id' => $category_id,
-            'buy_from' => $buy_from,
+            'price' => $price,
             'video_id' => $video_id,
             'audio_id' => $audio_id,
             'document_id' => $document_id,
-            'point_price' => $point_price,
+            'point' => $point,
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($heading = null, $id = null, $category_id = null, $buy_from = null, $video_id = null, $audio_id = null, $document_id = null, $point_price = null)
+    public static function updateResource($heading = null, $id = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $point = null)
     {
 
         self::whereId($id)->update([
             'heading' => $heading,
             'slug' => Str::slug($heading),
-
             'humanop_shop_category_id' => $category_id,
-            'buy_from' => $buy_from,
+            'price' => $price,
             'video_id' => $video_id,
             'audio_id' => $audio_id,
             'document_id' => $document_id,
-            'point_price' => $point_price,
+            'point' => $point,
         ]);
 
         return self::singleLibraryResource($id);

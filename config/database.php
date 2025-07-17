@@ -477,7 +477,7 @@ return [
         ],
         'Notification' => [
             'table' => 'notifications',
-            'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority','role'],
+            'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority','role','sender_id'],
             'hidden' => ['updated_at','deleted_at'],
         ],
         'LlmModel' => [
@@ -641,7 +641,7 @@ return [
         ],
         'ShopCategoryResource' => [
             'table' => 'humanop_shop_resources',
-            'fillable' => ['heading','slug','humanop_shop_category_id','buy_from','video_id','audio_id','document_id','point_price'],
+            'fillable' => ['heading','slug','humanop_shop_category_id','point','video_id','audio_id','document_id','price'],
             'hidden' => ['created_at','updated_at'],
         ],
         'HumanOpShopTraits'=>[
