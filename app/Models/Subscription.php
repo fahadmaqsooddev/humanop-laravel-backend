@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
+use App\Models\Client\Point\Point;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Stripe\StripeClient;
@@ -97,6 +99,11 @@ class Subscription extends Model
         }
 
         $plan = \App\Models\Client\Plan\Plan::singlePlan($request->input('plan_id'));
+
+        if($plan['name'] == 'Core'){
+
+            Point::updatePointOnPlanUpdate(Admin::CORE_CREDITS, $user);
+        }
 
         return [
             'plan_name' => $plan['name']
