@@ -862,15 +862,19 @@ class DashboardController extends Controller
             $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
 
             if (!empty($futureConsideration)) {
+                $data = [];
 
-                $data = [
-                    'company_name' => $futureConsideration['businessUsers']['company_name'],
-                ];
+                foreach ($futureConsideration as $consideration) {
+                    $data[] = [
+                        'company_name' => $consideration['businessUsers']['company_name'] ?? null,
+                    ];
+                }
 
                 return Helpers::successResponse('Future Consideration', $data);
             }
 
             return Helpers::validationResponse('You are not Future Consideration');
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
