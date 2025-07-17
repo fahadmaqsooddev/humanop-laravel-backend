@@ -160,9 +160,9 @@ final class Admin
 
     const B2B_ACTIVE_PLAN = 1;
 
-    const FREEMIUM_CREDITS = 50;
+    const FREEMIUM_CREDITS = 25;
 
-    const CORE_CREDITS = 120;
+    const CORE_CREDITS = 150;
 
     const PREMIUM_CREDITS = 250;
 
