@@ -93,7 +93,7 @@ class Point extends Model
 
         if ($record){
 
-            $record->update(['point' => $points]);
+            $record->increment(['point' => $points]);
 
         }else{
 
