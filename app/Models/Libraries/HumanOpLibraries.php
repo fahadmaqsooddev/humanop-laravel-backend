@@ -17,9 +17,14 @@ class HumanOpLibraries extends Model
         parent::__construct($attributes);
     }
 
-    public static function getItem($item_id = null, $user_id = null)
+    public static function getItem($item_id = null, $user_id = null,$type=null)
     {
-        return self::where('item_id', $item_id)->where('user_id', $user_id)->first();
+        if($type==1){
+            return self::where('item_id', $item_id)->where('user_id', $user_id)->where('type',$type)->first();
+        }else{
+            return self::where('library_resource_id', $item_id)->where('user_id', $user_id)->where('type',$type)->first();
+
+        }
     }
 
     public static function getAllItems($userId = null)
@@ -27,13 +32,23 @@ class HumanOpLibraries extends Model
         return self::where('user_id', $userId)->get();
     }
 
-    public static function addItem($user_id = null, $item_id = null)
+    public static function addItem($user_id = null, $item_id = null,$type = null)
     {
 
-        return self::create([
-            'user_id' => $user_id,
-            'item_id' => $item_id
-        ]);
+        if($type==1){
+            return self::create([
+                'user_id' => $user_id,
+                'item_id' => $item_id,
+                'type' => $type,
+            ]);
+        }else{
+            return self::create([
+                'user_id' => $user_id,
+                'library_resource_id' => $item_id,
+                'type' => $type,
+            ]);
+        }
+
 
     }
 

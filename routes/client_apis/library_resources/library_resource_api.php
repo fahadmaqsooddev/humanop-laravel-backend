@@ -17,5 +17,7 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('/resource-urls', 'LibraryResourceController@resourceUrls');
     Route::get('/resource-categories', 'LibraryResourceController@resourceCategories');
+    Route::post('library-resource-item-checkout', 'LibraryResourceController@libraryResourceItemCheckout');
+
 
 });
