@@ -133,6 +133,7 @@ class B2BBusinessCandidates extends Model
                 $query->whereIn('company_name', $companies);
 
             })
+
             ->get();
 
     }
@@ -270,7 +271,7 @@ class B2BBusinessCandidates extends Model
     }
 
 
-    public static function getPendingSharedDataLoginUserCompanies($candidateId = null)
+    public static function getPendingSharedDataLoginUserCompanies($candidateId=null)
     {
 
         return self::where('candidate_id', $candidateId ?? Helpers::getUser()['id'])

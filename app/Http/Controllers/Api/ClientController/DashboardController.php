@@ -209,11 +209,11 @@ class DashboardController extends Controller
 
         try {
 
-            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+        $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
-            $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
+        $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
 
-            return Helpers::successResponse('core stats', $coreState);
+        return Helpers::successResponse('core stats', $coreState);
 
         } catch (\Exception $exception) {
 
@@ -551,12 +551,22 @@ class DashboardController extends Controller
 
                 $checkData = B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
 
-                if (!empty($checkData) && ($checkData['share_data'] == Admin::DECLINED_DATA)) {
+                if (!empty($checkData)) {
+
+                    if ($checkData['share_data'] == Admin::DECLINED_DATA) {
+
+                        $data = [
+                            'Shared_data' => Admin::DECLINED_DATA,
+                            'company_name' => $request['company_name'],
+                            'status' => $checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
+                        ];
+
+                        return Helpers::successResponse('Check Shared Data', $data);
+                    }
 
                     $data = [
-                        'Shared_data' => Admin::DECLINED_DATA,
-                        'company_name' => $request['company_name'],
-                        'status' => $checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
+                        'Shared_data' => Admin::SHARED_DATA,
+                        'company_name' => $request['company_name']
                     ];
 
                     return Helpers::successResponse('Check Shared Data', $data);
@@ -568,22 +578,20 @@ class DashboardController extends Controller
                 }
 
             } else {
-
-                $pendingShareData = B2BBusinessCandidates::getPendingSharedDataLoginUserCompanies(Helpers::getUser()['id']);
+                $pedingShareData=B2BBusinessCandidates::getPendingSharedDataLoginUserCompanies(Helpers::getUser()['id']);
 
                 $finalData = [];
 
-                foreach ($pendingShareData as $pendingData) {
-
+                foreach ($pedingShareData as $pendingData) {
                     $finalData[] = [
                         'Shared_data' => $pendingData->share_data,
                         'company_name' => $pendingData->businessUsers->company_name ?? null,
                         'status' => $pendingData->role == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
                     ];
-
                 }
 
                 return Helpers::successResponse('Check Shared Data', $finalData);
+
 
             }
 
@@ -854,15 +862,12 @@ class DashboardController extends Controller
             $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
 
             if (!empty($futureConsideration)) {
-
                 $data = [];
 
                 foreach ($futureConsideration as $consideration) {
-
                     $data[] = [
                         'company_name' => $consideration['businessUsers']['company_name'] ?? null,
                     ];
-
                 }
 
                 return Helpers::successResponse('Future Consideration', $data);
