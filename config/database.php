@@ -661,7 +661,7 @@ return [
         ],
         'HumanOpLibraries'=>[
             'table'=>'humanop_libraries',
-            'fillable'=>['user_id','item_id'],
+            'fillable'=>['user_id','item_id','type','library_resource_id'],
             'hidden' => ['updated_at','created_at'],
         ]
     ]
