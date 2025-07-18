@@ -42,7 +42,7 @@ class PermissionResource extends Model
         return $permission ?? [];
     }
 
-    public static function createResourcePermission($resourceId = null, $permissions = null)
+    public static function createResourcePermission($resourceId = null, $permissions = null,$priceValue=null,$pointValue=null)
     {
 
         if ($permissions && !empty($permissions)){
@@ -54,6 +54,8 @@ class PermissionResource extends Model
                 self::create([
                     'resource_id' => $resourceId,
                     'permission' => $permission,
+                    'price' => $priceValue,
+                    'point' => $pointValue,
                 ]);
             }
 

@@ -220,7 +220,7 @@
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Category</label>
-                                        <select  class="form-control input-form-style"
+                                        <select class="form-control input-form-style"
                                                 wire:model.defer="category_id" placeholder="Select category">
                                             <option>Select a category</option>
                                             @foreach($dropDownCategories as $category)
@@ -233,13 +233,14 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Heading</label>
-                                        <input  class="form-control input-form-style"
+                                        <input class="form-control input-form-style"
                                                wire:model.defer="heading" placeholder="heading" type="text"
                                                maxlength="150">
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">All Relevance</label>
-                                        <select style="background-color: #eaf3ff; cursor: pointer" wire:model="relevance" class="form-control input-form-style">
+                                        <select style="background-color: #eaf3ff; cursor: pointer"
+                                                wire:model="relevance" class="form-control input-form-style">
                                             <option value="all_relevance">ALl Relevance</option>
                                             <option value="recommended">Highly Recommended</option>
                                             <option value="new">New</option>
@@ -247,18 +248,18 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Description</label>
-                                        <textarea  class="form-control input-form-style"
+                                        <textarea class="form-control input-form-style"
                                                   wire:model.defer="description" placeholder="Enter description"
                                                   rows="3"></textarea>
                                     </div>
                                     <div class="form-group mt-4" wire:ignore>
                                         <label class="form-label fs-4" style="color: #1b3a62">Content</label>
-                                        <textarea  class="form-control input-form-style" id="editor"
+                                        <textarea class="form-control input-form-style" id="editor"
                                                   name="content" wire:model="content" rows="10" cols="10"></textarea>
                                     </div>
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
-                                        <input  class="form-control input-form-style"
+                                        <input class="form-control input-form-style"
                                                wire:model.debounce.500ms="link" placeholder="Link" type="text"
                                                id="embedlink" wire:change="getVideoLink">
                                     </div>
@@ -266,7 +267,7 @@
                                     <div class="form-group">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input  wire:model="resource_file"
+                                        <input wire:model="resource_file"
                                                id="resourse_file" wire:change="getResourceFile"
                                                class="form-control input-form-style resource_file" type="file"
                                                accept="image/*,video/*,audio/*">
@@ -280,38 +281,53 @@
                                     </div>
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="1"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="freemium">
-                                                <label class="form-check-label" for="freemium">Free</label>
+                                                <label class="form-check-label" for="freemium">Freemium</label>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="premium">
-                                                <label class="form-check-label" for="premium">Elevate Tier</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
+
+                                        <div class="col-4">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="core">
-                                                <label class="form-check-label" for="core">Focus Tier</label>
+                                                <label class="form-check-label" for="core">Focus Tier (core)</label>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+
+
+                                        <div class="col-4">
                                             <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="4"
+                                                <input type="checkbox" wire:model.defer="permission" value="3"
                                                        class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="allOptions">
-                                                <label class="form-check-label" for="hp_look">HP Lock</label>
+                                                       style="border: 2px solid #1b3a62" id="premium">
+                                                <label class="form-check-label" for="premium">Elevate Tier
+                                                    (premium)</label>
                                             </div>
                                         </div>
+
+                                        <div class="row mt-4">
+                                        <div class="col-6">
+                                            <label for="point">Point</label>
+                                            <input type="number" id="point" class="form-control"
+                                                   placeholder="Enter Point"
+                                                   wire:model.defer="pointValue"
+                                                   style="border: 2px solid #1b3a62;">
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label for="price">Price</label>
+                                            <input type="number" id="price" class="form-control"
+                                                   placeholder="Enter Price"
+                                                   wire:model.defer="priceValue"
+                                                   style="border: 2px solid #1b3a62;">
+                                        </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -344,7 +360,7 @@
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Category</label>
-                                        <select  class="form-control input-form-style"
+                                        <select class="form-control input-form-style"
                                                 wire:model.defer="category_id" placeholder="Select category">
                                             @foreach($dropDownCategories as $category)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
@@ -353,12 +369,13 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Heading</label>
-                                        <input  class="form-control input-form-style"
+                                        <input class="form-control input-form-style"
                                                wire:model.defer="heading" placeholder="heading" type="text">
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">All Relevance</label>
-                                        <select style="background-color: #eaf3ff; cursor: pointer" wire:model.defer="relevance" class="form-control input-form-style">
+                                        <select style="background-color: #eaf3ff; cursor: pointer"
+                                                wire:model.defer="relevance" class="form-control input-form-style">
                                             <option value="all_relevance">ALl Relevance</option>
                                             <option value="recommended">Highly Recommended</option>
                                             <option value="new">New</option>
@@ -366,33 +383,33 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Description</label>
-                                        <textarea  class="form-control input-form-style"
+                                        <textarea class="form-control input-form-style"
                                                   wire:model.defer="description" placeholder="Enter description"
                                                   rows="3"></textarea>
                                     </div>
                                     <div class="form-group mt-4" wire:ignore>
                                         <label class="form-label fs-4" style="color: #1b3a62">Content</label>
-                                        <textarea  class="form-control input-form-style"
+                                        <textarea class="form-control input-form-style"
                                                   id="resourse_editor" name="update_content" wire:model="update_content"
                                                   rows="10">
                                         </textarea>
                                     </div>
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
-                                        <input  class="form-control input-form-style"
+                                        <input class="form-control input-form-style"
                                                wire:model.debounce.500ms="link" placeholder="Link" type="text"
                                                id="embedlink" wire:change="getVideoLink">
                                     </div>
                                     <label class="form-label fs-4 text-white ">OR</label>
                                     <div class="form-group mt-4 " hidden>
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource Id</label>
-                                        <input  class="form-control input-form-style"
+                                        <input class="form-control input-form-style"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input  wire:model="resource_file"
+                                        <input wire:model="resource_file"
                                                id="resource_file" wire:change="getResourceFile"
                                                class="form-control input-form-style resource_file1" type="file"
                                                accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
@@ -425,53 +442,68 @@
                                     @else
                                     @endif
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
+{{--                                    <div class="row">--}}
+{{--                                        <ul>--}}
+{{--                                            @if(!empty($editResourceData) && !empty($editResourceData['library_permissions']))--}}
+{{--                                                @if($editResourceData['library_permissions']['permission'] === 1)--}}
+{{--                                                    <li>Freemium</li>--}}
+{{--                                                @elseif($editResourceData['library_permissions']['permission'] === 2)--}}
+{{--                                                    <li>Focus Tier (core)</li>--}}
+{{--                                                @elseif($editResourceData['library_permissions']['permission'] === 3)--}}
+{{--                                                    <li>Elevate Tier (premium)</li>--}}
+
+{{--                                                @endif--}}
+{{--                                            @endif--}}
+{{--                                        </ul>--}}
+{{--                                    </div>--}}
                                     <div class="row">
-                                        <ul>
-                                            @if(!empty($editResourceData) && !empty($editResourceData['library_permissions']))
-                                                @if($editResourceData['library_permissions']['permission'] === 1)
-                                                    <li>Free</li>
-                                                @elseif($editResourceData['library_permissions']['permission'] === 2)
-                                                    <li>Focus Tier</li>
-                                                @elseif($editResourceData['library_permissions']['permission'] === 3)
-                                                    <li>Elevate Tier</li>
-                                                @elseif($editResourceData['library_permissions']['permission'] === 4)
-                                                    <li>HP Unlock</li>
-                                                @endif
-                                            @endif
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
+
+
+                                        <div class="col-4">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="1"
-                                                       class="form-check-input option-checkbox1"
-                                                       style="border: 2px solid #1b3a62">
-                                                <label class="form-check-label">Freemium</label>
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="freemium">
+                                                <label class="form-check-label" for="freemium">Freemium</label>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input option-checkbox1"
-                                                       style="border: 2px solid #1b3a62">
-                                                <label class="form-check-label">Preemium</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
+
+                                        <div class="col-4">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
-                                                       class="form-check-input option-checkbox1"
-                                                       style="border: 2px solid #1b3a62">
-                                                <label class="form-check-label">Core</label>
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="core">
+                                                <label class="form-check-label" for="core">Focus Tier (core)</label>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+
+
+                                        <div class="col-4">
                                             <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="4"
-                                                       class="form-check-input" style="border: 2px solid #1b3a62"
-                                                       id="editOptions">
-                                                <label class="form-check-label" for="editOptions">All Of The
-                                                    Above</label>
+                                                <input type="checkbox" wire:model.defer="permission" value="3"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="premium">
+                                                <label class="form-check-label" for="premium">Elevate Tier
+                                                    (premium)</label>
+                                            </div>
+                                        </div>
+
+                                            <div class="row mt-4">
+                                                <div class="col-6">
+                                                    <label for="point">Point</label>
+                                                    <input type="number" id="point" class="form-control"
+                                                           placeholder="Enter Point"
+                                                           wire:model.defer="pointValue"
+                                                           style="border: 2px solid #1b3a62;">
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <label for="price">Price</label>
+                                                    <input type="number" id="price" class="form-control"
+                                                           placeholder="Enter Price"
+                                                           wire:model.defer="priceValue"
+                                                           style="border: 2px solid #1b3a62;">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -521,7 +553,7 @@
                     <br>
                     <p class="modal-close-btn">@include('layouts.message')</p>
                     <label>Category Name </label>
-                    <input  class="form-control input-form-style" wire:model.defer="category_name"
+                    <input class="form-control input-form-style" wire:model.defer="category_name"
                            placeholder="Enter category name" type="text" maxlength="191">
                     <div class="p-2">
                         <button wire:click="createCategory" style="background-color: #1B3A62 ; color: white"
@@ -556,7 +588,7 @@
                                     <label class="form-label fs-5 text-white">Move Resources To An Other
                                         Category</label>
                                     <br/>
-                                    <select  class="form-control input-form-style"
+                                    <select class="form-control input-form-style"
                                             wire:model.defer="category_id" placeholder="Select category">
                                         <option value="">Select Category</option>
                                         @foreach($dropDownCategories as $category)
