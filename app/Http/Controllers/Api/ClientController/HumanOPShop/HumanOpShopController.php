@@ -93,8 +93,10 @@ class HumanOpShopController extends Controller
             $itemId = $request['item_id'];
 
             $buyFrom = $request['buy_from']; // 1 = money, 2 = points
+//            type 1 mean humanOp shop
+            $type=1;
 
-            $itemAlreadyOwned = HumanOpLibraries::getItem($itemId, $user['id']);
+            $itemAlreadyOwned = HumanOpLibraries::getItem($itemId, $user['id'],$type);
 
             if (!empty($itemAlreadyOwned)) {
 
@@ -115,7 +117,7 @@ class HumanOpShopController extends Controller
 
                 if ($charge && $charge->status === 'succeeded') {
 
-                    HumanOpLibraries::addItem($user['id'], $itemId);
+                    HumanOpLibraries::addItem($user['id'], $itemId,$type);
 
                     return Helpers::successResponse("You have successfully purchased the item.");
 
@@ -133,7 +135,7 @@ class HumanOpShopController extends Controller
 
                     HumanOpPoints::deductPoint($user['id'], $request['points']);
 
-                    HumanOpLibraries::addItem($user['id'], $itemId);
+                    HumanOpLibraries::addItem($user['id'], $itemId,$type);
 
                     return Helpers::successResponse("You have successfully redeemed the item using points.");
 
