@@ -38,9 +38,9 @@ Route::group(['middleware' => ['checkUser']], function () {
 
 
     Route::get('all-companies', 'DashboardController@allCompanies');
-    Route::get('check-future-consideration-member-share-data','DashboardController@checkFutureConsiderationShareData');
-    Route::post('future-consideration-member-share-data','DashboardController@futureConsiderationShareData');
-    Route::post('future-consideration-member-not-share-data','DashboardController@futureConsiderationNotShareData');
+    Route::get('check-future-consideration-share-data','DashboardController@checkFutureConsiderationShareData');
+    Route::post('future-consideration-share-data','DashboardController@futureConsiderationShareData');
+    Route::post('future-consideration-not-share-data','DashboardController@futureConsiderationNotShareData');
 
    Route::get('hai-chat-status', 'DashboardController@haiChatStatus');
 });
