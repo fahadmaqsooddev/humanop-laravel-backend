@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="col-4 text-end">
                                         <div
-                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                             <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
                                                         </div>
                                                         <div class="col-4 text-end">
                                                             <div
-                                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                                    class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                                                 <i class="ni ni-world-2 text-lg opacity-10"
                                                                    aria-hidden="true"></i>
                                                             </div>
@@ -311,21 +311,21 @@
                                         </div>
 
                                         <div class="row mt-4">
-                                        <div class="col-6">
-                                            <label for="point">Point</label>
-                                            <input type="number" id="point" class="form-control"
-                                                   placeholder="Enter Point"
-                                                   wire:model.defer="pointValue"
-                                                   style="border: 2px solid #1b3a62;">
-                                        </div>
+                                            <div class="col-6">
+                                                <label for="point">Point</label>
+                                                <input type="number" id="point" class="form-control"
+                                                       placeholder="Enter Point"
+                                                       wire:model.defer="pointValue"
+                                                       style="border: 2px solid #1b3a62;">
+                                            </div>
 
-                                        <div class="col-6">
-                                            <label for="price">Price</label>
-                                            <input type="number" id="price" class="form-control"
-                                                   placeholder="Enter Price"
-                                                   wire:model.defer="priceValue"
-                                                   style="border: 2px solid #1b3a62;">
-                                        </div>
+                                            <div class="col-6">
+                                                <label for="price">Price</label>
+                                                <input type="number" id="price" class="form-control"
+                                                       placeholder="Enter Price"
+                                                       wire:model.defer="priceValue"
+                                                       style="border: 2px solid #1b3a62;">
+                                            </div>
                                         </div>
 
                                     </div>
@@ -442,20 +442,20 @@
                                     @else
                                     @endif
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
-{{--                                    <div class="row">--}}
-{{--                                        <ul>--}}
-{{--                                            @if(!empty($editResourceData) && !empty($editResourceData['library_permissions']))--}}
-{{--                                                @if($editResourceData['library_permissions']['permission'] === 1)--}}
-{{--                                                    <li>Freemium</li>--}}
-{{--                                                @elseif($editResourceData['library_permissions']['permission'] === 2)--}}
-{{--                                                    <li>Focus Tier (core)</li>--}}
-{{--                                                @elseif($editResourceData['library_permissions']['permission'] === 3)--}}
-{{--                                                    <li>Elevate Tier (premium)</li>--}}
+                                    {{--                                    <div class="row">--}}
+                                    {{--                                        <ul>--}}
+                                    {{--                                            @if(!empty($editResourceData) && !empty($editResourceData['library_permissions']))--}}
+                                    {{--                                                @if($editResourceData['library_permissions']['permission'] === 1)--}}
+                                    {{--                                                    <li>Freemium</li>--}}
+                                    {{--                                                @elseif($editResourceData['library_permissions']['permission'] === 2)--}}
+                                    {{--                                                    <li>Focus Tier (core)</li>--}}
+                                    {{--                                                @elseif($editResourceData['library_permissions']['permission'] === 3)--}}
+                                    {{--                                                    <li>Elevate Tier (premium)</li>--}}
 
-{{--                                                @endif--}}
-{{--                                            @endif--}}
-{{--                                        </ul>--}}
-{{--                                    </div>--}}
+                                    {{--                                                @endif--}}
+                                    {{--                                            @endif--}}
+                                    {{--                                        </ul>--}}
+                                    {{--                                    </div>--}}
                                     <div class="row">
 
 
@@ -488,125 +488,125 @@
                                             </div>
                                         </div>
 
-                                            <div class="row mt-4">
-                                                <div class="col-6">
-                                                    <label for="point">Point</label>
-                                                    <input type="number" id="point" class="form-control"
-                                                           placeholder="Enter Point"
-                                                           wire:model.defer="pointValue"
-                                                           style="border: 2px solid #1b3a62;">
-                                                </div>
+                                        <div class="row mt-4">
+                                            <div class="col-6">
+                                                <label for="point">Point</label>
+                                                <input type="number" id="point" class="form-control"
+                                                       placeholder="Enter Point"
+                                                       wire:model.defer="pointValue"
+                                                       style="border: 2px solid #1b3a62;">
+                                            </div>
 
-                                                <div class="col-6">
-                                                    <label for="price">Price</label>
-                                                    <input type="number" id="price" class="form-control"
-                                                           placeholder="Enter Price"
-                                                           wire:model.defer="priceValue"
-                                                           style="border: 2px solid #1b3a62;">
-                                                </div>
+                                            <div class="col-6">
+                                                <label for="price">Price</label>
+                                                <input type="number" id="price" class="form-control"
+                                                       placeholder="Enter Price"
+                                                       wire:model.defer="priceValue"
+                                                       style="border: 2px solid #1b3a62;">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
-                                <span wire:loading wire:target="updateResource" class="swal2-loader"
-                                      style="font-size: 8px;"></span>
-                            </button>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    @if($booleanValue)
-        <script>
-            const resourceFileInput = document.querySelector('.resource_file1');
-            if (resourceFileInput) {
-                resourceFileInput.value = "";
-            } else {
-                console.log("Resource file input not found.");
-            }
-        </script>
-    @endif
-    @if($booleanValue)
-        <script>
-            const resourceFileInput = document.querySelector('.resource_file');
-            if (resourceFileInput) {
-                resourceFileInput.value = "";
-            } else {
-                console.log("Resource file input not found.");
-            }
-        </script>
-    @endif
-    <!--Create Category Modal -->
-    <div wire:ignore.self class="modal fade" id="createCategory" tabindex="-1" role="dialog"
-         aria-labelledby="createCategory" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-body" style=" border-radius: 9px">
-                    <label class="form-label fs-4" style="color: #1b3a62">Create Resource Category</label>
-                    <button type="button" class="close modal-close-btn" data-dismiss="modal" aria-label="Close"
-                            id="create-category-close-modal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <br>
-                    <p class="modal-close-btn">@include('layouts.message')</p>
-                    <label>Category Name </label>
-                    <input class="form-control input-form-style" wire:model.defer="category_name"
-                           placeholder="Enter category name" type="text" maxlength="191">
-                    <div class="p-2">
-                        <button wire:click="createCategory" style="background-color: #1B3A62 ; color: white"
-                                class="btn btn-sm float-end">submit
-                            <span wire:loading wire:target="createCategory" class="swal2-loader"
+                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
+                            <span wire:loading wire:target="updateResource" class="swal2-loader"
                                   style="font-size: 8px;"></span>
                         </button>
-                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@if($booleanValue)
+    <script>
+        const resourceFileInput = document.querySelector('.resource_file1');
+        if (resourceFileInput) {
+            resourceFileInput.value = "";
+        } else {
+            console.log("Resource file input not found.");
+        }
+    </script>
+@endif
+@if($booleanValue)
+    <script>
+        const resourceFileInput = document.querySelector('.resource_file');
+        if (resourceFileInput) {
+            resourceFileInput.value = "";
+        } else {
+            console.log("Resource file input not found.");
+        }
+    </script>
+@endif
+<!--Create Category Modal -->
+<div wire:ignore.self class="modal fade" id="createCategory" tabindex="-1" role="dialog"
+     aria-labelledby="createCategory" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style=" border-radius: 9px">
+                <label class="form-label fs-4" style="color: #1b3a62">Create Resource Category</label>
+                <button type="button" class="close modal-close-btn" data-dismiss="modal" aria-label="Close"
+                        id="create-category-close-modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <br>
+                <p class="modal-close-btn">@include('layouts.message')</p>
+                <label>Category Name </label>
+                <input class="form-control input-form-style" wire:model.defer="category_name"
+                       placeholder="Enter category name" type="text" maxlength="191">
+                <div class="p-2">
+                    <button wire:click="createCategory" style="background-color: #1B3A62 ; color: white"
+                            class="btn btn-sm float-end">submit
+                        <span wire:loading wire:target="createCategory" class="swal2-loader"
+                              style="font-size: 8px;"></span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    {{--    move resouces--}}
-    <div wire:ignore.self class="modal fade" id="moveResource" tabindex="-1" role="dialog"
-         aria-labelledby="moveResource" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body" style=" border-radius: 9px">
-                    <form wire:submit.prevent="moveResourceToCategory">
-                        @csrf
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <label class="form-label fs-4" style="color: #1b3a62">Edit Category</label>
-                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    @include('layouts.message')
-                                    <br/>
-                                    <br/>
-                                    <label class="form-label fs-5 text-white">Move Resources To An Other
-                                        Category</label>
-                                    <br/>
-                                    <select class="form-control input-form-style"
-                                            wire:model.defer="category_id" placeholder="Select category">
-                                        <option value="">Select Category</option>
-                                        @foreach($dropDownCategories as $category)
-                                            @if($current_category != $category->id)
-                                                <option value="{{$category->id}}">{{$category->name}}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
+</div>
+{{--    move resouces--}}
+<div wire:ignore.self class="modal fade" id="moveResource" tabindex="-1" role="dialog"
+     aria-labelledby="moveResource" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style=" border-radius: 9px">
+                <form wire:submit.prevent="moveResourceToCategory">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="form-label fs-4" style="color: #1b3a62">Edit Category</label>
+                                <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                @include('layouts.message')
+                                <br/>
+                                <br/>
+                                <label class="form-label fs-5 text-white">Move Resources To An Other
+                                    Category</label>
+                                <br/>
+                                <select class="form-control input-form-style"
+                                        wire:model.defer="category_id" placeholder="Select category">
+                                    <option value="">Select Category</option>
+                                    @foreach($dropDownCategories as $category)
+                                        @if($current_category != $category->id)
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
-                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
-                            </button>
                         </div>
-                    </form>
-                </div>
+                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </div>
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
