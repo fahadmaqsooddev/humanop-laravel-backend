@@ -21,7 +21,10 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance;
+    public $resourceId, $pointValue, $priceValue, $current_category,
+        $resourceSlug, $heading, $description, $update_content, $content,
+        $resource_file, $category_id, $permission = [],
+        $editResourceData, $category_name, $link, $relevance;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
@@ -79,7 +82,7 @@ class CreateResource extends Component
 
             $this->uploadFileToGumlet($this->resource_file, $resource['id']);
 
-            PermissionResource::createResourcePermission($resource['id'], $this->permission);
+            PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
 
             if (!empty($resource)) {
 
@@ -183,7 +186,7 @@ class CreateResource extends Component
     {
         $this->booleanValue = false;
 
-        $this->reset(['heading', 'resource_file', 'permission', 'resource_file', 'link', 'description', 'content']);
+        $this->reset(['heading', 'resource_file', 'permission', 'resource_file', 'link', 'description', 'content', 'priceValue', 'pointValue']);
     }
 
     public function handleRefreshQuery()
@@ -209,6 +212,13 @@ class CreateResource extends Component
         $this->description = $this->editResourceData['description'] ?? null;
 
         $this->update_content = $this->editResourceData['content'] ?? null;
+
+        $this->priceValue = $this->editResourceData['library_permissions']['price'] ?? null;
+
+        $this->pointValue = $this->editResourceData['library_permissions']['point'] ?? null;
+
+        $this->permission[] = $this->editResourceData['library_permissions']['permission'] ?? null;
+
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
@@ -252,6 +262,8 @@ class CreateResource extends Component
         $this->description = '';
         $this->content = '';
         $this->resource_file = '';
+        $this->priceValue = '';
+        $this->pointValue = '';
         $this->permission = [];
     }
 
@@ -268,38 +280,57 @@ class CreateResource extends Component
 
         $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
 
-        if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
+        $checkPermission = count($this->permission);
 
-            $getResource = LibraryResource::singleLibraryResource($this->resourceId);
+        if ($checkPermission == 2) {
 
-            $this->deleteFileToGumlet($getResource['source_id']);
+            unset($this->permission[0]);
 
-            $upload_id = $this->uploadFile($this->resource_file);
+            $this->permission = array_values($this->permission);
 
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
+        } elseif ($checkPermission == 3) {
 
-            tap($updateResource);
+            unset($this->permission[0]);
 
+            unset($this->permission[1]);
 
-            $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
-
-        } else {
-
-            $upload_id = $this->uploadFile($this->resource_file);
-
-            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
+            $this->permission = array_values($this->permission);
 
         }
 
-        PermissionResource::createResourcePermission($this->resourceId, $this->permission);
+            if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
-        $this->emit('toggleEditResourceModal');
+                $getResource = LibraryResource::singleLibraryResource($this->resourceId);
 
-        $this->resetForm();
+                $this->deleteFileToGumlet($getResource['source_id']);
 
-        DB::commit();
+                $upload_id = $this->uploadFile($this->resource_file);
 
-        session()->flash('success', 'Library resource updated successfully.');
+                $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
+
+                tap($updateResource);
+
+
+                $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
+
+            } else {
+
+                $upload_id = $this->uploadFile($this->resource_file);
+
+                LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
+
+            }
+
+            PermissionResource::createResourcePermission($this->resourceId, $this->permission, $this->priceValue, $this->pointValue);
+
+            $this->emit('toggleEditResourceModal');
+
+            $this->resetForm();
+
+            DB::commit();
+
+            session()->flash('success', 'Library resource updated successfully.');
+
 
     }
 

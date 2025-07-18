@@ -358,7 +358,7 @@ return [
         ],
         'PermissionResource' => [
             'table' => 'permission_resources',
-            'fillable' => ['resource_id','permission'],
+            'fillable' => ['resource_id','permission','point','price'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'ActionPlan' => [
