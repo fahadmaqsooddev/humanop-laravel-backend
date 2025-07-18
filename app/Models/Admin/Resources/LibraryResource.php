@@ -204,8 +204,20 @@ class LibraryResource extends Model
                 }
             });
         }
+        $plan=Helpers::getUser()['plan_name'];
+        if($plan=='Premium'){
+            $searchType=3;
+        }elseif ($plan=='Core'){
+            $searchType=2;
+        }else{
+            $searchType=1;
+        }
 
-        $resources->with('resourceCategory', 'libraryPermissions')->orderBy('created_at', 'desc');
+        $resources->with(['resourceCategory', 'libraryPermissions'])
+            ->whereHas('libraryPermissions',function ($q) use ($searchType) {
+                $q->where('permission', $searchType);
+            })
+            ->orderBy('created_at', 'desc');
 
         return $resources->get();
     }
