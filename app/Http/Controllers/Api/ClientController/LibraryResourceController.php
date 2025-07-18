@@ -27,31 +27,31 @@ class LibraryResourceController extends Controller
         try {
             $data = LibraryResource::resourceCategoriesForClient($request['type'], $request['access'], $request['relevance']);
 
-            $transformed = [];
+//            $transformed = [];
+//
+//            foreach ($data as $item) {
+//                $transformed[] = [
+//                    'id' => $item->id,
+//                    'heading' => $item->heading,
+//                    'slug' => $item->slug,
+//                    'description' => $item->description,
+//                    'content' => $item->content,
+//                    'relevance' => $item->relevance,
+//                    'photo_url' => $item->photo_url ?? null,
+//                    'video_url' => $item->video_url ?? null,
+//                    'audio_url' => $item->audio_url ?? null,
+//                    'resource_category_name' => optional($item->resourceCategory)->name,
+//                    'library_permission_name' => match(optional($item->libraryPermissions)->permission) {
+//                        1 => 'Freemium',
+//                        2 => 'Core',
+//                        3 => 'Premium',
+//                    },
+//                    'price' => optional($item->libraryPermissions)->price,
+//                    'point' => optional($item->libraryPermissions)->point,
+//                ];
+//            }
 
-            foreach ($data as $item) {
-                $transformed[] = [
-                    'id' => $item->id,
-                    'heading' => $item->heading,
-                    'slug' => $item->slug,
-                    'description' => $item->description,
-                    'content' => $item->content,
-                    'relevance' => $item->relevance,
-                    'photo_url' => $item->photo_url ?? null,
-                    'video_url' => $item->video_url ?? null,
-                    'audio_url' => $item->audio_url ?? null,
-                    'resource_category_name' => optional($item->resourceCategory)->name,
-                    'library_permission_name' => match(optional($item->libraryPermissions)->permission) {
-                        1 => 'Freemium',
-                        2 => 'Core',
-                        3 => 'Premium',
-                    },
-                    'price' => optional($item->libraryPermissions)->price,
-                    'point' => optional($item->libraryPermissions)->point,
-                ];
-            }
-
-            return Helpers::successResponse('Library resources', $transformed);
+            return Helpers::successResponse('Library resources', $data);
 
         }catch (\Exception $exception){
 
@@ -122,7 +122,7 @@ class LibraryResourceController extends Controller
             } else {
 
                 $userPoints = HumanOpPoints::getUserPoints($user);
-                
+
 
                 if (($userPoints) && ($userPoints['points'] >= $request['points'])) {
 
