@@ -55,20 +55,27 @@ class DashboardController extends Controller
 
              $currentUserTraits = Assessment::highLightStyle($getAssessment);
 
-             $allUsers = User::allUsers();
+             $allUsers = User::whereHas('haiAssessments')->with('haiAssessments')->whereIn('is_admin', [Admin::IS_B2B, Admin::IS_CUSTOMER])->get();
 
              $matchedUsers = [];
 
              foreach ($allUsers as $user) {
+
                  $userTraits = Assessment::highLightStyle($user->haiAssessments);
+
                  $matchedTraits = array_intersect($currentUserTraits, $userTraits);
+
                  $matchCount = count($matchedTraits);
 
-                 if ($matchCount > 0) {
+                 if ($matchCount > 2) {
+
                      $matchedUsers[] = [
                          'user' => $user,
+
                      ];
+
                  }
+
              }
 
 

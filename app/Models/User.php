@@ -140,8 +140,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        if (!empty($user))
-        {
+        if (!empty($user)) {
             return UserShareAssessment::getSingleRecord($user['id']);
 
         }
@@ -153,8 +152,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        if (!empty($user))
-        {
+        if (!empty($user)) {
             return UserTagline::getTags($user['id'])->pluck('tagline')->toArray();
 
         }
@@ -240,7 +238,6 @@ class User extends Authenticatable implements JWTSubject
     {
 
         return $this->userSubscription->plan->name ?? "Freemium";
-
 
     }
 
@@ -438,13 +435,6 @@ class User extends Authenticatable implements JWTSubject
         return self::where('referral_code', $referralCode)->first();
     }
 
-
-    public static function allUsers()
-    {
-        return self::whereHas('haiAssessments')
-            ->with('haiAssessments')
-            ->get();
-    }
 
     public static function allReferralUsers($userId = null)
     {
@@ -1406,7 +1396,6 @@ class User extends Authenticatable implements JWTSubject
         $users = self::whereHas('assessments', function ($query) {
 
             $query->where('page', 0)
-
                 ->orderBy('updated_at', 'desc');
 
         })->select(['id', 'first_name', 'last_name'])->orderBy('first_name')->get();
@@ -1555,7 +1544,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function userDataForHAi($user_id = null)
     {
-        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth','email','hai_status'])->first()?->setAppends([]);
+        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth', 'email', 'hai_status'])->first()?->setAppends([]);
 
         return $user;
     }
@@ -1631,9 +1620,7 @@ class User extends Authenticatable implements JWTSubject
             $users->where(function ($query) use ($name) {
 
                 $query->where('first_name', 'LIKE', "%$name%")
-
                     ->orWhere('last_name', 'LIKE', "%$name%")
-
                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
 
             });
@@ -1660,11 +1647,8 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return $users->where('is_permanently_deleted', 0)
-
             ->onlyTrashed()
-
             ->orderBy('deleted_at', 'desc')
-
             ->paginate($perPage);
 
     }
@@ -1799,11 +1783,12 @@ class User extends Authenticatable implements JWTSubject
         return $users;
     }
 
-    public static function userDailyTraits($user_id){
+    public static function userDailyTraits($user_id)
+    {
 
         $assessment = Assessment::getLatestAssessment($user_id);
 
-        if ($assessment){
+        if ($assessment) {
 
             $topThreeStyles = Assessment::getAllStyles($assessment);
 
