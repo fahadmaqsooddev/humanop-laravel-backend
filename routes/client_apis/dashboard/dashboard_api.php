@@ -44,5 +44,4 @@ Route::group(['middleware' => ['checkUser']], function () {
 
    Route::get('hai-chat-status', 'DashboardController@haiChatStatus');
 
-   Route::get('insights-of-connection', 'DashboardController@insightsOfConnection');
 });

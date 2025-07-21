@@ -7,7 +7,6 @@ use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
-use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Notification\PushNotification;
 use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
@@ -15,7 +14,6 @@ use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
 use App\Models\Assessment;
-use Faker\Extension\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\AssessmentColorCode;
@@ -38,59 +36,6 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
-    }
-
-
-    public function insightsOfConnection()
-    {
-     try{
-
-         $userId = Helpers::getUser()['id'];
-
-         $plaName = Helpers::getUser()['plan_name'];
-
-         $getAssessment = Assessment::getLatestAssessment($userId);
-
-         if ($getAssessment && $plaName === 'Core') {
-
-             $currentUserTraits = Assessment::highLightStyle($getAssessment);
-
-             $allUsers = User::whereHas('haiAssessments')->with('haiAssessments')->whereIn('is_admin', [Admin::IS_B2B, Admin::IS_CUSTOMER])->get();
-
-             $matchedUsers = [];
-
-             foreach ($allUsers as $user) {
-
-                 $userTraits = Assessment::highLightStyle($user->haiAssessments);
-
-                 $matchedTraits = array_intersect($currentUserTraits, $userTraits);
-
-                 $matchCount = count($matchedTraits);
-
-                 if ($matchCount > 2) {
-
-                     $matchedUsers[] = [
-                         'user' => $user,
-
-                     ];
-
-                 }
-
-             }
-
-
-             $topMatchedUsers = array_slice($matchedUsers, 0, 10);
-
-             return Helpers::successResponse('insights of connection', $topMatchedUsers);
-
-         } else {
-             return Helpers::successResponse('Not found', '');
-         }
-
-
-     }   catch (\Exception $e){
-         return Helpers::serverErrorResponse($e->getMessage());
-     }
     }
 
     public function dailyTip()
