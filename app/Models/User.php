@@ -241,6 +241,7 @@ class User extends Authenticatable implements JWTSubject
 
         return $this->userSubscription->plan->name ?? "Freemium";
 
+
     }
 
     public function getIsViewedStoriesAttribute()
@@ -435,6 +436,14 @@ class User extends Authenticatable implements JWTSubject
     public static function getReferralByUser($referralCode = null)
     {
         return self::where('referral_code', $referralCode)->first();
+    }
+
+
+    public static function allUsers()
+    {
+        return self::whereHas('haiAssessments')
+            ->with('haiAssessments')
+            ->get();
     }
 
     public static function allReferralUsers($userId = null)

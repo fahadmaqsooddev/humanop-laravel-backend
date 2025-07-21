@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
 use App\Models\Assessment;
+use Faker\Extension\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\AssessmentColorCode;
@@ -30,12 +31,59 @@ use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\VersionControl\Version;
+use PHPUnit\TextUI\Help;
 
 class DashboardController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:api');
+    }
+
+
+    public function insightsOfConnection()
+    {
+     try{
+
+         $userId = Helpers::getUser()['id'];
+
+         $plaName = Helpers::getUser()['plan_name'];
+
+         $getAssessment = Assessment::getLatestAssessment($userId);
+
+         if ($getAssessment && $plaName === 'Core') {
+
+             $currentUserTraits = Assessment::highLightStyle($getAssessment);
+
+             $allUsers = User::allUsers();
+
+             $matchedUsers = [];
+
+             foreach ($allUsers as $user) {
+                 $userTraits = Assessment::highLightStyle($user->haiAssessments);
+                 $matchedTraits = array_intersect($currentUserTraits, $userTraits);
+                 $matchCount = count($matchedTraits);
+
+                 if ($matchCount > 0) {
+                     $matchedUsers[] = [
+                         'user' => $user,
+                     ];
+                 }
+             }
+
+
+             $topMatchedUsers = array_slice($matchedUsers, 0, 10);
+
+             return Helpers::successResponse('insights of connection', $topMatchedUsers);
+
+         } else {
+             return Helpers::successResponse('Not found', '');
+         }
+
+
+     }   catch (\Exception $e){
+         return Helpers::serverErrorResponse($e->getMessage());
+     }
     }
 
     public function dailyTip()
