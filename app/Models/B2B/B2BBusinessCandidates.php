@@ -284,4 +284,14 @@ class B2BBusinessCandidates extends Model
     }
 
 
+    public static function getCompanies($userId = null)
+    {
+        return self::whereHas('businessUsers')
+            ->with('businessUsers')
+            ->where('candidate_id', $userId)
+            ->where('future_consideration', Admin::FUTURE_CONSIDERATION_NOT_SHARE_DATA)
+            ->where('is_permanently_deleted', 0)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+    }
 }
