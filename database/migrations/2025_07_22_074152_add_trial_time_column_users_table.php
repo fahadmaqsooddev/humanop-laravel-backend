@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
-            $table->dateTime('trail_time')->nullable();
+            $table->dateTime('trial_time')->nullable();
 
         });
     }
@@ -29,7 +29,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
-            $table->dropColumn('trail_time');
+            $table->dropColumn('trial_time');
 
         });
     }
