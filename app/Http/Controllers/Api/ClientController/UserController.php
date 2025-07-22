@@ -824,6 +824,8 @@ class UserController extends Controller
 
                 $businessCandidateRecord->future_consideration = 1;
 
+                $businessCandidateRecord->future_consideration_share_date = 3;
+
                 $businessCandidateRecord->save();
 
                 return Helpers::successResponse('You has been successfully removed from the company.');
