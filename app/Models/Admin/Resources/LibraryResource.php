@@ -170,7 +170,18 @@ class LibraryResource extends Model
 
     public static function latestLibraryResourcses()
     {
-        return self::with('resourceCategory')
+        $plan = Helpers::getUser()['plan_name'] ?? '';
+
+        $permission = match ($plan) {
+            'Core' => 2,
+            'Premium' => 3,
+            default => 1,
+        };
+
+        return self::whereHas('libraryPermissions', function ($q) use ($permission) {
+            $q->where('permission', $permission);
+        })
+            ->with(['resourceCategory', 'libraryPermissions'])
             ->latest()
             ->take(3)
             ->get();

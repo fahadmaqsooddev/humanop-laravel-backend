@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\User;
 
 use App\Helpers\Helpers;
+use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\Plan\Plan;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Subscription;
@@ -22,7 +23,7 @@ class AllUser extends Component
 
     public $name = '', $email = '', $age = '', $selectedItems = [], $is_chatBot_published;
 
-    protected $users=[];
+    protected $users = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete'];
@@ -108,7 +109,16 @@ class AllUser extends Component
     public function deleteClientProfile($id)
     {
 
-        User::deleteClientProfile($id);
+
+        $checkAssocicatedCompanies = B2BBusinessCandidates::where('candidate_id', $id)->where('future_consideration', Admin::NOT_IN_FUTURE)->get();
+        if ($checkAssocicatedCompanies) {
+            foreach ($checkAssocicatedCompanies as $associcatedCompany) {
+
+                B2BBusinessCandidates::futureConsiderationUser($associcatedCompany);
+
+            }
+        }
+                User::deleteClientProfile($id);
     }
 
     public function bulkDelete()
@@ -136,9 +146,10 @@ class AllUser extends Component
 
     }
 
-    public function searchFilter(){
+    public function searchFilter()
+    {
 
-        $this->users= User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER,Admin::IS_B2B]);
+        $this->users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER, Admin::IS_B2B]);
     }
 
 
