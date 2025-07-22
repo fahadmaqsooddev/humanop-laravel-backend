@@ -40,7 +40,7 @@ class FutureConsiderationUser implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'futureconsideration-users-data.' . $this->companyId;
+        return 'future-consideration-users-data.' . $this->companyId;
     }
 
 
