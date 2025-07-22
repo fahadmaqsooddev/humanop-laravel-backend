@@ -2,6 +2,7 @@
 
 namespace App\Models\B2B;
 
+use App\Events\B2B\FutureConsiderationUser;
 use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
@@ -58,7 +59,7 @@ class B2BBusinessCandidates extends Model
     public static function getCompany($companyId = null, $candidateId = null)
     {
 
-        return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->first();
+        return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->where('future_consideration', Admin::NOT_IN_FUTURE)->first();
     }
 
     public static function getSingleCompany($companyId = null)
@@ -145,7 +146,6 @@ class B2BBusinessCandidates extends Model
                 $query->whereIn('company_name', $companies);
 
             })
-
             ->get();
 
     }
@@ -283,7 +283,7 @@ class B2BBusinessCandidates extends Model
     }
 
 
-    public static function getPendingSharedDataLoginUserCompanies($candidateId=null)
+    public static function getPendingSharedDataLoginUserCompanies($candidateId = null)
     {
 
         return self::where('candidate_id', $candidateId ?? Helpers::getUser()['id'])
@@ -306,4 +306,22 @@ class B2BBusinessCandidates extends Model
             ->orderBy('updated_at', 'desc')
             ->get();
     }
+
+
+    public static function futureConsiderationUser($company = null)
+    {
+
+        $user = User::where('id', $company['candidate_id'])->first();
+
+        $candidateName = $user->first_name . ' ' . $user->last_name;
+
+        self::where('business_id', $company['business_id'])->update(['future_consideration' => Admin::IN_FUTURE]);
+
+        event(new FutureConsiderationUser($company['business_id'], " Maestro platform will no longer have access to the [ $candidateName ] data"));
+
+        Notification::createNotification('Consent Not Granted', " Maestro platform will no longer have access to the [ $candidateName ] data", '', $company['business_id'], 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+    }
+
+
 }

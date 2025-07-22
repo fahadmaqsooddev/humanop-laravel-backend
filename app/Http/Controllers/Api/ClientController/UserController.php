@@ -818,7 +818,19 @@ class UserController extends Controller
 
             $company = User::getSingleUserFromCompanyName($request['company_name']);
 
-            $company = B2BBusinessCandidates::getCompany($company['id'], $user['id']);
+
+            $businessCandidateRecord = B2BBusinessCandidates::getCompany($company['id'], $user['id']);
+
+            if($businessCandidateRecord){
+
+                B2BBusinessCandidates::futureConsiderationUser($businessCandidateRecord);
+
+                return Helpers::successResponse('You has been successfully removed from the company.');
+            }
+
+            return Helpers::forbiddenResponse('You are not part of this company');
+
+
 
 
         } catch (\Exception $exception) {
