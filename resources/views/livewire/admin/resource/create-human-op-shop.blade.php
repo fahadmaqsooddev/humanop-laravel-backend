@@ -260,6 +260,7 @@
                                             <label for="point">Point</label>
                                             <input type="number" id="point" class="form-control"
                                                    placeholder="Enter Point"
+                                                   min="0"
                                                    wire:model.defer="pointValue"
                                                    style="border: 2px solid #1b3a62;">
                                         </div>
@@ -268,6 +269,7 @@
                                             <label for="price">Price</label>
                                             <input type="number" id="price" class="form-control"
                                                    placeholder="Enter Price"
+                                                   min="0"
                                                    wire:model.defer="priceValue"
                                                    style="border: 2px solid #1b3a62;">
                                         </div>
@@ -391,6 +393,7 @@
                                             <label for="point">Point</label>
                                             <input type="number" id="point" class="form-control"
                                                    placeholder="Enter Point"
+                                                   min="0"
                                                    wire:model.defer="pointValue"
                                                    style="border: 2px solid #1b3a62;">
                                         </div>
@@ -399,6 +402,7 @@
                                             <label for="price">Price</label>
                                             <input type="number" id="price" class="form-control"
                                                    placeholder="Enter Price"
+                                                   min="0"
                                                    wire:model.defer="priceValue"
                                                    style="border: 2px solid #1b3a62;">
                                         </div>
