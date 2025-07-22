@@ -15,6 +15,7 @@ use App\Models\AssessmentColorCode;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
 use App\Models\Payment;
+use App\Models\Plan\CreditPlan;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -194,25 +195,18 @@ class PaymentController extends Controller
 
             if ($charge && $charge->status === 'succeeded') {
 
-                $credits = match (Helpers::getUser()['plan_name']) {
-                    'Freemium' => 25,
-                    'Core' => 75,
-                    default => 100,
-                };
+                $credits = CreditPlan::where('price', $request['amount'])->first()->credits ?? 0;
 
-                $userId = Helpers::getUser()['id'];
+                if ($credits > 0){
 
-                Point::updateOrCreate(
-                    ['user_id' => $userId],
-                    ['point' => $credits]
-                );
+                    Point::addPoints($credits);
+                }
 
                 return Helpers::successResponse("You've successfully received {$credits} credits based on your plan!");
 
             } else {
 
                 return Helpers::validationResponse("Payment failed. Please try again.");
-
             }
 
         }catch (\Exception $exception){
@@ -249,6 +243,21 @@ class PaymentController extends Controller
         try {
 
             $plans = Plan::getB2CPlans();
+
+            return Helpers::successResponse('All plans', $plans);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function haiCreditPlans(){
+
+        try {
+
+            $plans = CreditPlan::allPlans();
 
             return Helpers::successResponse('All plans', $plans);
 

@@ -15,3 +15,4 @@ php artisan migrate
 composer -n install
 php artisan route:clear
 echo "Deploy script finished execution"
+php artisan db:seed --class=CreditPlanSeeder

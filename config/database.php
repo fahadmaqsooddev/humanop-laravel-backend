@@ -658,6 +658,11 @@ return [
             'table'=>'humanop_libraries',
             'fillable'=>['user_id','item_id','type','library_resource_id'],
             'hidden' => ['updated_at','created_at'],
-        ]
+        ],
+        'CreditPlan' => [
+            'table'=>'credit_plans',
+            'fillable'=>['price','credits'],
+            'hidden' => ['deleted_at','updated_at','created_at'],
+        ],
     ]
 ];
