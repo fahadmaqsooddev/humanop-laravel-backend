@@ -786,6 +786,8 @@ class User extends Authenticatable implements JWTSubject
 
         $data['is_admin'] = !empty($is_admin) ? Admin::IS_B2B : Admin::IS_CUSTOMER;
 
+        $data['registration_checkout'] = !empty($is_admin) ? 1 : 0;
+
         $data['company_name'] = null;
 
         $data['status'] = 1;
