@@ -183,7 +183,7 @@ class LibraryResource extends Model
         })
             ->with(['resourceCategory', 'libraryPermissions'])
             ->latest()
-            ->take(3)
+            ->take(4)
             ->get();
     }
 
