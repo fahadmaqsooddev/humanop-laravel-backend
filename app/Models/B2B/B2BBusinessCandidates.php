@@ -55,6 +55,18 @@ class B2BBusinessCandidates extends Model
         return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->exists();
     }
 
+    public static function getCompany($companyId = null, $candidateId = null)
+    {
+
+        return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->first();
+    }
+
+    public static function getSingleCompany($companyId = null)
+    {
+
+        return self::where('business_id', $companyId)->where('is_permanently_deleted', 0)->where('future_consideration', 0)->first();
+    }
+
     public static function allUser()
     {
         return self::all();

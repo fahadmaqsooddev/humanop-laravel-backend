@@ -8,6 +8,7 @@ use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
+use App\Http\Requests\Api\Client\CompanyRequest;
 use App\Http\Requests\Api\Client\TwoWayAuthRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
@@ -800,6 +801,25 @@ class UserController extends Controller
                 return Helpers::successResponse('Data sharing has been disabled for this company.');
 
             }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function removeCompany(CompanyRequest $request)
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $company = User::getSingleUserFromCompanyName($request['company_name']);
+
+            $company = B2BBusinessCandidates::getCompany($company['id'], $user['id']);
+
 
         } catch (\Exception $exception) {
 

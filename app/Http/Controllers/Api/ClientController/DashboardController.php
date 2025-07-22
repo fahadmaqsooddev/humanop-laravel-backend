@@ -850,8 +850,10 @@ class DashboardController extends Controller
             return Helpers::successResponse("All Companies Information", $companies);
 
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
 
     public function checkFutureConsiderationShareData(CandidatetoMember $request)

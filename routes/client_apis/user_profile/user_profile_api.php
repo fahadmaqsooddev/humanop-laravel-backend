@@ -37,6 +37,7 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('get-associated-companies', 'UserController@getAssociatedCompanies');
     Route::post('share-not-share-data-with-associated-companies', 'UserController@shareNotShareDataAssociatedCompanies');
+    Route::post('remove-company', 'UserController@removeCompany');
 
 
 });
