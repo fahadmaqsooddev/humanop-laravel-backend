@@ -73,27 +73,56 @@ class NotificationController extends Controller
     {
         try {
 
-            $unreadFound = false;
-
             if ($request['notification_id']){
+
+                $updatedToRead = 0;
+
+                $updatedToUnread = 0;
 
                 foreach ($request['notification_id'] as $notificationId) {
 
-                    Notification::noReadNotification($notificationId);
+                    $checkNotification = Notification::getNotification($notificationId);
+
+                    if ($checkNotification['read'] == 1)
+                    {
+                        Notification::noReadNotification($checkNotification['id']);
+
+                        $updatedToUnread++;
+
+                    }else{
+
+                        Notification::readNotification($checkNotification['id']);
+
+                        $updatedToRead++;
+                    }
 
                 }
 
-                return Helpers::successResponse('Notifications marked as unread successfully');
+                if ($updatedToRead) {
+
+                    $message = 'Notifications marked as read successfully.';
+
+                } elseif ($updatedToUnread) {
+
+                    $message = 'Notifications marked as unread successfully.';
+
+                } else {
+
+                    $message = 'No changes were made. Notifications were already in desired state.';
+
+                }
+
+                return Helpers::successResponse($message);
 
             }else{
+
+                $unreadFound = false;
 
                 $allNotifications = Notification::allB2CNotification();
 
                 if (empty($allNotifications)) {
 
                     return Helpers::validationResponse('Notification not found');
-
-                    $unreadFound = false;
 
                 }
 
