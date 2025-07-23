@@ -24,14 +24,19 @@ class NotificationRequest extends FormRequest
     public function rules()
     {
         return [
-            'notification_id' => 'required',
+            'notification_id' => 'nullable|array',
+            'notification_id.*' => 'integer|exists:notifications,id',
         ];
     }
 
     public function messages()
     {
         return [
-            'notification_id.required' => 'Notification Id is required',
+//            'notification_id.required' => 'Notification ID list is required.',
+            'notification_id.array' => 'Notification ID must be an array.',
+            'notification_id.*.integer' => 'Each notification ID must be an integer.',
+            'notification_id.*.exists' => 'One or more selected notification IDs do not exist.',
         ];
     }
+
 }
