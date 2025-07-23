@@ -752,13 +752,13 @@ class User extends Authenticatable implements JWTSubject
 
     public static function user($id = null)
     {
-        $user = self::whereId($id)->with('userIntensionPlan','userHaiThread')->selection()->first();
+        $user = self::whereId($id)->with('userIntensionPlan')->selection()->first();
         $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
         $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
         $user['is_feedback'] = $user['is_feedback'];
         $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
         $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
-        $user['hai_thread_id'] = ($user['userHaiThread']['hai_thread_id'] ?? null);
+        $user['hai_thread_id'] = HaiThread::where('user_id', $id)->value('hai_thread_id');
         return $user;
     }
 
