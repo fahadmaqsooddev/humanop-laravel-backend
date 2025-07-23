@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminControllers\FaqController;
+use App\Http\Controllers\Email\EmailTemplateController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ChangePasswordController;
@@ -140,6 +141,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
         Route::get('/network-tutorials',[NetworkTutorialController::class,'networkTutorials'])->name('admin_network_tutorials');
         Route::get('/faq',[FaqController::class,'FaqQuestions'])->name('admin_faq');
+        Route::get('/b2c-email-template',[EmailTemplateController::class,'b2CTemplates'])->name('admin_b2c_email_template');
+
 
     });
 

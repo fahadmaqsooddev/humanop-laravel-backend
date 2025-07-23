@@ -297,6 +297,7 @@
                                                        'admin/admin_get_client_invite',
                                                        'admin/pricing-plans',
                                                        'admin/faq',
+                                                       'admin/b2c-email-template',
                                                        'admin/network-tutorials') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
@@ -510,6 +511,20 @@
                                                                             src="{{ Request::is('admin/faq') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
                                                                     <span
                                                                         class="sidenav-normal"> Faq  </span>
+                                                                </a>
+                                                            </li>
+
+                                                            <li class="nav-item {{ (Request::is('admin/b2c-email-template') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/b2c-email-template') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_b2c_email_template') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/b2c-email-template') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/b2c-email-template') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Email template  </span>
                                                                 </a>
                                                             </li>
                                                         </ul>

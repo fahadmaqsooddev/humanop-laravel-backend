@@ -109,4 +109,16 @@ class EmailTemplateController extends Controller
             return redirect()->route('email_template_index')->with('error', $exception->getMessage());
         }
     }
+
+
+    public function b2CTemplates()
+    {
+        try{
+
+            return view('admin-dashboards.email-template.email-template');
+
+        }catch (\Exception $exception){
+            return redirect()->route('email_template_index')->with('error', $exception->getMessage());
+        }
+    }
 }

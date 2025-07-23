@@ -131,9 +131,11 @@ class AuthController extends Controller
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                        $emailData = $this->prepareEmailData($user, $url);
+                        $template=EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
 
-                        $this->sendEmailVerification($emailData, $user['email'], 'Verify Your Email Address');
+                        $emailData = $this->prepareEmailData($user, $url,null,$template->body,$template->subject);
+
+                        $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL);
 
                     }
 
@@ -167,9 +169,11 @@ class AuthController extends Controller
 
                         }
 
-                        $emailData = $this->prepareEmailData($checkUser, $url);
+                        $template=EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
 
-                        $this->sendEmailVerification($emailData, $checkUser['email'], 'Verify Your Email Address');
+                        $emailData = $this->prepareEmailData($checkUser, $url,null,$template->body,$template->subject);
+
+                        $this->sendEmailVerification($emailData, $checkUser['email'], Admin::VERIFIED_EMAIL);
 
                         $checkUser->setAppends([]);
 
@@ -547,9 +551,11 @@ class AuthController extends Controller
                     $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
                 }
 
-                $emailData = $this->prepareEmailData($checkUserEmail, $url);
+                $template=EmailTemplate::getEmailTemplateByTag(Admin::RESET_PASSWORD);
 
-                $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
+                $emailData = $this->prepareEmailData($checkUserEmail, $url,null,$template->body,$template->subject);
+
+                $this->sendEmailVerification($emailData, $checkUserEmail['email'], Admin::RESET_PASSWORD);
 
                 return Helpers::successResponse('We have emailed your password reset link!');
 
@@ -893,9 +899,11 @@ class AuthController extends Controller
 
             $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
-            $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber);
+            $template=EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
 
-            $this->sendEmailVerification($emailData, $email, '2fa-verification-code');
+            $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber,$template->body,$template->subject);
+
+            $this->sendEmailVerification($emailData, $email, Admin::FA_VERIFICATION_CODE);
 
             return Helpers::successResponse('Otp sent Successfully', ['otp' => $otpNumber]);
 
@@ -1077,13 +1085,15 @@ class AuthController extends Controller
         return Helpers::successResponse('Users Complete Data', $result);
     }
 
-    private function prepareEmailData($user = null, $url = null, $codeNumber = null)
+    private function prepareEmailData($user = null, $url = null, $codeNumber = null,$body=null,$subject=null)
     {
         return [
             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
             '{$link}' => $url,
             '{$code}' => $codeNumber,
             '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$body}' => $body,
+            '{$subject}' => $subject,
             '{$service}' => url('/term-of-service'),
             '{$privacy}' => url('/privacy-policy'),
         ];
