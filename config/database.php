@@ -664,5 +664,10 @@ return [
             'fillable'=>['price','credits'],
             'hidden' => ['deleted_at','updated_at','created_at'],
         ],
+        'HaiThread' => [
+            'table' => 'hai_threads',
+            'fillable' => ['title','is_b2b','user_id','hai_thread_id'],
+            'hidden' => ['deleted_at','updated_at','created_at'],
+        ]
     ]
 ];
