@@ -293,11 +293,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Client\Feedback\Feedback::class, 'user_id', 'id');
     }
 
-    public function userHaiThread(){
-
-        return $this->hasOne(HaiThread::class,'user_id','id')->where('is_b2b', 0)->latest();
-    }
-
     public function sentConnectionRequest()
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
@@ -758,7 +753,7 @@ class User extends Authenticatable implements JWTSubject
         $user['is_feedback'] = $user['is_feedback'];
         $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
         $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
-        $user['hai_thread_id'] = HaiThread::where('user_id', $id)->value('hai_thread_id');
+        $user['hai_thread_id'] = HaiThread::where('user_id', $id)->where('is_b2b', 0)->value('hai_thread_id');
         return $user;
     }
 
