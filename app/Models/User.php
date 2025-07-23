@@ -295,7 +295,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function userHaiThread(){
 
-        return $this->hasOne(HaiThread::class,'user_id','id')->latest();
+        return $this->hasOne(HaiThread::class,'user_id','id')->where('is_b2b', 0)->latest();
     }
 
     public function sentConnectionRequest()
