@@ -5,8 +5,10 @@ namespace App\Models\Client\HumanOpPoints;
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Client\Gamification\GamificationPerformanceLevel;
+use App\Models\Client\Point\Point;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class HumanOpPoints extends Model
 {
@@ -268,5 +270,30 @@ class HumanOpPoints extends Model
         $point->save();
 
         return $point;
+    }
+
+    public static function purchaseHAiCreditsFromHp($hp){
+
+        $user = Helpers::getUser();
+
+        $points = self::getUserPoints($user)?->points;
+
+        if ($points > $hp){
+
+            self::deductPoint($user->id, $hp);
+
+            Point::purchaseHAiCreditsFromHp($hp);
+
+            DB::commit();
+
+            return Helpers::successResponse("Credit purchased.");
+
+        }else{
+
+            DB::rollBack();
+
+            return Helpers::validationResponse("You have no enough HP. To make this purchase.");
+        }
+
     }
 }

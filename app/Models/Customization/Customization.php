@@ -19,4 +19,10 @@ class Customization extends Model
 
         parent::__construct($attributes);
     }
+
+    // query
+    public static function oneHaiCreditDetail(){
+
+        return self::where('detail', self::HP_TO_HAI_CREDITS)->first()?->points;
+    }
 }

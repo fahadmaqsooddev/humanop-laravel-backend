@@ -60,7 +60,7 @@ class PointLog extends Model
 
     }
 
-    public static function createPointLog($points, $is_added = 0, $user = null){
+    public static function createPointLog($points, $is_added = 0, $user = null, $is_b2b = 0){
 
         self::create([
             'user_id' => $user->id,
@@ -68,6 +68,7 @@ class PointLog extends Model
             'is_added' => $is_added,
             'point' => $points,
             'plan' => $user->plan_name ?? 'Freemium',
+            'is_b2b' => $is_b2b
         ]);
     }
 }

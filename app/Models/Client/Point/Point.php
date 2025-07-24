@@ -3,6 +3,7 @@
 namespace App\Models\Client\Point;
 
 use App\Helpers\Helpers;
+use App\Models\Customization\Customization;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -63,11 +64,11 @@ class Point extends Model
 
     }
 
-    public static function addPoints($points, $user = null){
+    public static function addPoints($points, $user = null, $is_b2b = 0){
 
         $user = ($user ?? Helpers::getUser());
 
-        $record = self::where('user_id', $user->id)->first();
+        $record = self::where('user_id', $user->id)->where('is_b2b', $is_b2b)->first();
 
         if ($record){
 
@@ -78,6 +79,7 @@ class Point extends Model
             self::create([
                 'user_id' => $user->id,
                 'point' => $points,
+                'is_b2b' => $is_b2b
             ]);
         }
 
@@ -104,6 +106,20 @@ class Point extends Model
         }
 
         PointLog::createPointLog($points, 1, $user);
+
+    }
+
+    public static function purchaseHAiCreditsFromHp($hp){
+
+        $one_credit = Customization::oneHaiCreditDetail();
+
+        if ($one_credit > 0){
+
+            $credits = ($hp/$one_credit);
+
+            self::addPoints($credits);
+
+        }
 
     }
 }

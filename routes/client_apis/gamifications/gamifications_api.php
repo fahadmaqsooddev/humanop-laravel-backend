@@ -22,7 +22,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('complete-watch-video', 'GamificationController@completeWatchVideo');
     Route::get('get-badges-and-medals', 'GamificationController@getBadgesAndMedals');
     Route::get('get-performance-level', 'GamificationController@getPerformanceLevel');
-
+    Route::post('purchase-hai-credits-from-hp', 'GamificationController@purchaseHaiCreditsFromHp');
 
 });
 
