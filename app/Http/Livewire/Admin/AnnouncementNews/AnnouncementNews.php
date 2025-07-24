@@ -2,11 +2,16 @@
 
 namespace App\Http\Livewire\Admin\AnnouncementNews;
 
+use App\Enums\Admin\Admin;
+use App\Events\Resource\NewResource;
+use App\Helpers\Helpers;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Upload\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\Admin\AnnouncementNews\AnnouncementNews as AnnouncementNewsModel;
+use App\Events\AnnouncementNews\AnnouncementNews as AnnouncementNewsEvents;
 
 class AnnouncementNews extends Component
 {
@@ -50,6 +55,12 @@ class AnnouncementNews extends Component
             $validatedData = $this->validate();
 
             AnnouncementNewsModel::createAnnouncementNews($validatedData);
+
+            $message = 'HumanOp ';
+
+            event(new AnnouncementNewsEvents( 'new announcement & news', $validatedData['description']));
+
+            Notification::createNotification('new announcement & news', $message, null, null, 1, Admin::ANNOUNCEMENT_NEWS_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
             $this->resetForm();
 

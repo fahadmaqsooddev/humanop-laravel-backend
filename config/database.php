@@ -676,8 +676,8 @@ return [
         ],
         'AnnouncementNews' => [
             'table' => 'announcement_news',
-            'fillable' => ['title','description'],
-            'hidden' => ['updated_at','created_at'],
+            'fillable' => ['title','description','updated_at'],
+            'hidden' => ['created_at'],
         ]
     ]
 ];

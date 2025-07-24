@@ -6,6 +6,7 @@ use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
+use App\Models\Admin\AnnouncementNews\AnnouncementNews;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Notification\PushNotification;
 use App\Models\UserOptimalTrait;
@@ -796,6 +797,22 @@ class DashboardController extends Controller
             }
 
             return Helpers::successResponse('Latest resources', $formatedResources);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function announcementNews()
+    {
+        try {
+
+            $announcements = AnnouncementNews::getAnnouncementNews();
+
+            return Helpers::successResponse('All Announcement & News', $announcements);
 
         } catch (\Exception $exception) {
 
