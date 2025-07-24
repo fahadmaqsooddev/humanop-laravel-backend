@@ -190,4 +190,23 @@ final class Admin
     const FIRST_LEVEL = 'Explorer';
 
     const SECOND_LEVEL = 'Seeker';
+
+
+
+
+    const VERIFIED_EMAIL ='verified_email';
+
+    CONST RESET_PASSWORD= 'reset_password';
+
+    const FA_VERIFICATION_CODE = '2fa_verification_code';
+
+    const B2B_SIGNUP_LINK='b2b_signup_link';
+
+    const B2B_LOGIN_LINK = 'b2b_login_link';
+
+    const MAESTRO_SIGNUP = 'maestro_signup';
+
+    const B2B_EMAIL_VERIFICATION='b2b_email_verification';
+
+
 }
