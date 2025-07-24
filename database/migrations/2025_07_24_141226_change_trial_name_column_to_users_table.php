@@ -32,7 +32,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
 
             $table->dropColumn('trial_day');
-            $table->dropColumn('trial_time');
+//            $table->dropColumn('trial_time');
 
         });
 
