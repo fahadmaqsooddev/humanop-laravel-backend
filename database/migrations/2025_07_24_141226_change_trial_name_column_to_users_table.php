@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
 
             $table->integer('trial_day')->default(0);
+            $table->dateTime('trial_time')->nullable();
 
         });
 
@@ -31,6 +32,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
 
             $table->dropColumn('trial_day');
+            $table->dropColumn('trial_time');
 
         });
 
