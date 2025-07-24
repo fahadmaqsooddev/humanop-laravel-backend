@@ -12,8 +12,10 @@ use App\Models\Admin\Coupon\Coupon;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
+use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
+use App\Models\Customization\Customization;
 use App\Models\Payment;
 use App\Models\Plan\CreditPlan;
 use App\Models\Subscription;
@@ -259,7 +261,17 @@ class PaymentController extends Controller
 
             $plans = CreditPlan::allPlans();
 
-            return Helpers::successResponse('All plans', $plans);
+            $hai_credit = Customization::where('detail', Customization::HP_TO_HAI_CREDITS)->value('points');
+
+            $user_hp = HumanOpPoints::where('user_id', Helpers::getUser()->id)->value('points');
+
+            $data = [
+                'plans' => $plans,
+                'available_hp' => $user_hp,
+                'one_hai_credit' => $hai_credit,
+            ];
+
+            return Helpers::successResponse('All plans', $data);
 
         }catch (\Exception $exception){
 
