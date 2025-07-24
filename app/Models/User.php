@@ -790,7 +790,7 @@ class User extends Authenticatable implements JWTSubject
 
         $data['registration_checkout'] = !empty($is_admin) ? 1 : 0;
 
-        $data['trial_date'] = !empty($is_admin) ? Admin::TRIAL_DAY : null;
+        $data['trial_day'] = !empty($is_admin) ? Admin::TRIAL_DAY : null;
 
         $data['company_name'] = null;
 
