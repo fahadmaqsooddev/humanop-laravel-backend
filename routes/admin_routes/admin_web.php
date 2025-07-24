@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminControllers\FaqController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AdminControllers\AdminController;
@@ -22,9 +21,10 @@ use App\Http\Controllers\HAIChat\ClientQueryController;
 use App\Http\Controllers\AdminControllers\NetworkTutorialController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\AdminControllers\PricingPlanController;
+use App\Http\Controllers\AdminControllers\PricingPlanController;
 use App\Http\Controllers\AdminControllers\AssessmentIntroController;
 use App\Http\Controllers\AdminControllers\SummaryReportController;
+use App\Http\Controllers\AdminControllers\AnnouncementsNewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,6 +139,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
         Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
         Route::get('/network-tutorials',[NetworkTutorialController::class,'networkTutorials'])->name('admin_network_tutorials');
+        Route::get('/announcements-news',[AnnouncementsNewsController::class,'announcementsNews'])->name('admin_announcements_news');
         Route::get('/faq',[FaqController::class,'FaqQuestions'])->name('admin_faq');
 
     });

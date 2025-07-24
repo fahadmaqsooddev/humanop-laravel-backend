@@ -673,6 +673,11 @@ return [
             'table' => 'customizations',
             'fillable' => ['points','detail'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'AnnouncementNews' => [
+            'table' => 'announcement_news',
+            'fillable' => ['title','description'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];
