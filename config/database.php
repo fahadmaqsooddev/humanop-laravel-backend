@@ -679,6 +679,11 @@ return [
             'table' => 'announcement_news',
             'fillable' => ['title','description','updated_at'],
             'hidden' => ['created_at'],
+        ],
+        'RecentActivity' => [
+            'table' => 'recent_activities',
+            'fillable' => ['user_id','type','message','read'],
+            'hidden' => ['created_at'],
         ]
     ]
 ];
