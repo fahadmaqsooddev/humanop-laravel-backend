@@ -672,7 +672,6 @@ return [
         'Customization' => [
             'table' => 'customizations',
             'fillable' => ['points','detail'],
-            'fillable' => ['points','detail'],
             'hidden' => ['updated_at','created_at'],
         ],
         'AnnouncementNews' => [
