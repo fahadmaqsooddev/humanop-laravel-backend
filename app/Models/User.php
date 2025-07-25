@@ -86,9 +86,9 @@ class User extends Authenticatable implements JWTSubject
     ];
 
 
-    public function getActivitylogOptions(): LogOptions
+    public function getActivitylogOptions(): \Spatie\Activitylog\LogOptions
     {
-        return LogOptions::defaults()->logOnly(['*']);
+        return \Spatie\Activitylog\LogOptions::defaults()->logOnly(['*']);
     }
 
     // mutator
