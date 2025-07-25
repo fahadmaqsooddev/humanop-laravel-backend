@@ -91,6 +91,9 @@ class AuthController extends Controller
 
                     }
 
+                    Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
+                    Point::addPoints(Admin::CORE_CREDITS, $user, 1);
+
                     if (!empty($request['company_name'])) {
 
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
@@ -321,8 +324,6 @@ class AuthController extends Controller
                 } else {
 
                     $token = $this->auth->login($getUser);
-
-                    Point::addPoints(Admin::FREEMIUM_CREDITS);
 
                     $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
