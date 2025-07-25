@@ -96,7 +96,7 @@ class AuthController extends Controller
 
                     Point::addPoints(Admin::CORE_CREDITS, $user, 1);
 
-                    HaiChatHelpers::syncUserRecordWithHAi();
+                    HaiChatHelpers::syncUserRecordWithHAi($user);
 
                     if (!empty($request['company_name'])) {
 
