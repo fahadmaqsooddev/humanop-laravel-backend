@@ -35,6 +35,7 @@ use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
@@ -91,8 +92,13 @@ class AuthController extends Controller
 
                     }
 
+                    Log::info(['user' => $user]);
+
                     Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
+
                     Point::addPoints(Admin::CORE_CREDITS, $user, 1);
+
+                    Log::info(['logged']);
 
                     if (!empty($request['company_name'])) {
 

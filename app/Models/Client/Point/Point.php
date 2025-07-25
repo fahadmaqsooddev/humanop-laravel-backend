@@ -7,6 +7,7 @@ use App\Models\Customization\Customization;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Point extends Model
 {
@@ -70,6 +71,8 @@ class Point extends Model
 
         $record = self::where('user_id', $user->id)->where('is_b2b', $is_b2b)->first();
 
+        Log::info(['rec' => $record]);
+
         if ($record){
 
             $record->increment('point', $points);
@@ -81,9 +84,11 @@ class Point extends Model
                 'point' => $points,
                 'is_b2b' => $is_b2b
             ]);
+
+            Log::info(['created' => $is_b2b]);
         }
 
-        PointLog::createPointLog($points, 1, $user);
+        PointLog::createPointLog($points, 1, $user, $is_b2b);
 
     }
 
