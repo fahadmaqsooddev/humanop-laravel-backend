@@ -7,6 +7,7 @@ use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\AnnouncementNews\AnnouncementNews;
+use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Notification\PushNotification;
 use App\Models\UserOptimalTrait;
@@ -210,11 +211,11 @@ class DashboardController extends Controller
 
         try {
 
-        $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
-        $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
+            $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
 
-        return Helpers::successResponse('core stats', $coreState);
+            return Helpers::successResponse('core stats', $coreState);
 
         } catch (\Exception $exception) {
 
@@ -579,7 +580,7 @@ class DashboardController extends Controller
                 }
 
             } else {
-                $pedingShareData=B2BBusinessCandidates::getPendingSharedDataLoginUserCompanies(Helpers::getUser()['id']);
+                $pedingShareData = B2BBusinessCandidates::getPendingSharedDataLoginUserCompanies(Helpers::getUser()['id']);
 
                 $finalData = [];
 

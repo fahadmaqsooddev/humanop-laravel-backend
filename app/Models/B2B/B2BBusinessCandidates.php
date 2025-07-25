@@ -3,6 +3,7 @@
 namespace App\Models\B2B;
 
 use App\Events\B2B\FutureConsiderationUser;
+use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
@@ -197,6 +198,12 @@ class B2BBusinessCandidates extends Model
 
                 Notification::createNotification('Consent Not Granted', " [ $candidateName ] elected to  not share their data with your company", '', $businessId, 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
 
+                $name = "{$candidate['first_name']} {$candidate['last_name']}";
+
+                $message = "{$name} has not shared their data with your company.";
+
+                RecentActivity::sharedOrNotSharedDataActivity($businessId, $message, $checkBusinessCandidate['role']);
+
             }
 
             return $checkBusinessCandidate;
@@ -221,6 +228,13 @@ class B2BBusinessCandidates extends Model
                 event(new SharedDataWithBusiness($businessId, "[ $candidateName ] elected to share their data with your company"));
 
                 Notification::createNotification('Data Share Granted', "[ $candidateName ] elected to share their data with your company", '', $businessId, 0, Admin::B2B_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+                $name = "{$candidate['first_name']} {$candidate['last_name']}";
+
+                $message = "{$name} has shared their data with your company.";
+
+                RecentActivity::sharedOrNotSharedDataActivity($businessId, $message, $checkBusinessCandidate['role']);
+
             }
 
             return $checkBusinessCandidate;

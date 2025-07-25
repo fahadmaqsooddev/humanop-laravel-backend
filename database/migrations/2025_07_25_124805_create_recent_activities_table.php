@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('recent_activities', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('type')->nullable();
+            $table->unsignedBigInteger('business_id')->nullable();
+            $table->integer('type')->nullable();
             $table->longText('message')->nullable();
             $table->integer('read')->default(0);
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('business_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ use App\Http\Requests\Client\Register\SmsRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\Admin\DailyTip\UserDailyTip;
+use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
@@ -118,7 +119,13 @@ class AuthController extends Controller
 //
 //                        } else {
 
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+
+                        $role = $request['prefer'] == 1 ? 'team member' : 'candidate';
+
+                        $message = "{$user['first_name']} has been added to your company as a {$role}.";
+
+                        RecentActivity::createAccountActivity($user['id'], $message, $request['prefer']);
 
 //                        }
 
@@ -138,9 +145,9 @@ class AuthController extends Controller
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                        $template=EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
+                        $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
 
-                        $emailData = $this->prepareEmailData($user, $url,null,$template->body,$template->subject);
+                        $emailData = $this->prepareEmailData($user, $url, null, $template->body, $template->subject);
 
                         $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL);
 
@@ -176,9 +183,9 @@ class AuthController extends Controller
 
                         }
 
-                        $template=EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
+                        $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
 
-                        $emailData = $this->prepareEmailData($checkUser, $url,null,$template->body,$template->subject);
+                        $emailData = $this->prepareEmailData($checkUser, $url, null, $template->body, $template->subject);
 
                         $this->sendEmailVerification($emailData, $checkUser['email'], Admin::VERIFIED_EMAIL);
 
@@ -548,17 +555,15 @@ class AuthController extends Controller
 
                 $token = User::generateToken($checkUserEmail['email']);
 
-                if (!empty($request['change_password_from']))
-                {
+                if (!empty($request['change_password_from'])) {
                     $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'] . '&change_password_from=' . $request['change_password_from'];
-                }else
-                {
+                } else {
                     $url = config('client_url.client_dashboard_url') . '/reset-password?token=' . $token['reset_password_token'];
                 }
 
-                $template=EmailTemplate::getEmailTemplateByTag(Admin::RESET_PASSWORD);
+                $template = EmailTemplate::getEmailTemplateByTag(Admin::RESET_PASSWORD);
 
-                $emailData = $this->prepareEmailData($checkUserEmail, $url,null,$template->body,$template->subject);
+                $emailData = $this->prepareEmailData($checkUserEmail, $url, null, $template->body, $template->subject);
 
                 $this->sendEmailVerification($emailData, $checkUserEmail['email'], Admin::RESET_PASSWORD);
 
@@ -652,8 +657,7 @@ class AuthController extends Controller
 
                     Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
 
-                    if ($checkUser['last_login'] == null)
-                    {
+                    if ($checkUser['last_login'] == null) {
                         $checkUser['last_login'] = $currentTime;
                     }
 
@@ -687,7 +691,7 @@ class AuthController extends Controller
 //
 //                            } else {
 
-                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
 
 //                            }
 
@@ -750,8 +754,7 @@ class AuthController extends Controller
 
         try {
 
-            if (!empty($request['invite_link']))
-            {
+            if (!empty($request['invite_link'])) {
 
                 $getInviteLink = UserInvite::getInviteLink($request['invite_link']);
 
@@ -817,7 +820,7 @@ class AuthController extends Controller
 //
 //                        } else {
 
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
 
 //                        }
 
@@ -904,9 +907,9 @@ class AuthController extends Controller
 
             $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
-            $template=EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
+            $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
 
-            $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber,$template->body,$template->subject);
+            $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber, $template->body, $template->subject);
 
             $this->sendEmailVerification($emailData, $email, Admin::FA_VERIFICATION_CODE);
 
@@ -949,7 +952,7 @@ class AuthController extends Controller
 
                 if (!empty($data)) {
 
-                    $url = config('client_url.client_dashboard_url') . '/login?link=' . $dataResult['token'] .'&company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
+                    $url = config('client_url.client_dashboard_url') . '/login?link=' . $dataResult['token'] . '&company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
 
                     return Helpers::successResponse('An account with this email already exists. Please log in to continue.', [
                         'url' => $url,
@@ -1090,7 +1093,7 @@ class AuthController extends Controller
         return Helpers::successResponse('Users Complete Data', $result);
     }
 
-    private function prepareEmailData($user = null, $url = null, $codeNumber = null,$body=null,$subject=null)
+    private function prepareEmailData($user = null, $url = null, $codeNumber = null, $body = null, $subject = null)
     {
         return [
             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],

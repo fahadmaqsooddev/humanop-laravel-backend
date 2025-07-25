@@ -682,7 +682,7 @@ return [
         ],
         'RecentActivity' => [
             'table' => 'recent_activities',
-            'fillable' => ['user_id','type','message','read'],
+            'fillable' => ['business_id','type','message','read'],
             'hidden' => ['created_at'],
         ]
     ]
