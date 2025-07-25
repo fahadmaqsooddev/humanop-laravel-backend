@@ -2,15 +2,15 @@
 
 namespace App\Models\B2B;
 
+use App\Events\B2B\FutureConsiderationUser;
+use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
 use App\Models\Assessment;
-use App\Models\UserInvite\UserInvite;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\B2B\SharedDataWithBusiness;
 use App\Events\B2B\NotSharedDataWithBusiness;
-use App\Events\B2B\RequestAccessData;
 use App\Models\Admin\Notification\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -53,6 +53,18 @@ class B2BBusinessCandidates extends Model
     {
 
         return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->exists();
+    }
+
+    public static function getCompany($companyId = null, $candidateId = null)
+    {
+
+        return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->where('future_consideration', Admin::NOT_IN_FUTURE)->first();
+    }
+
+    public static function getSingleCompany($companyId = null)
+    {
+
+        return self::where('business_id', $companyId)->where('is_permanently_deleted', 0)->where('future_consideration', 0)->first();
     }
 
     public static function allUser()
@@ -133,7 +145,6 @@ class B2BBusinessCandidates extends Model
                 $query->whereIn('company_name', $companies);
 
             })
-
             ->get();
 
     }
@@ -187,6 +198,12 @@ class B2BBusinessCandidates extends Model
 
                 Notification::createNotification('Consent Not Granted', " [ $candidateName ] elected to  not share their data with your company", '', $businessId, 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
 
+                $name = "{$candidate['first_name']} {$candidate['last_name']}";
+
+                $message = "{$name} has not shared their data with your company.";
+
+                RecentActivity::sharedOrNotSharedDataActivity($businessId, $message, $checkBusinessCandidate['role']);
+
             }
 
             return $checkBusinessCandidate;
@@ -211,6 +228,13 @@ class B2BBusinessCandidates extends Model
                 event(new SharedDataWithBusiness($businessId, "[ $candidateName ] elected to share their data with your company"));
 
                 Notification::createNotification('Data Share Granted', "[ $candidateName ] elected to share their data with your company", '', $businessId, 0, Admin::B2B_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+                $name = "{$candidate['first_name']} {$candidate['last_name']}";
+
+                $message = "{$name} has shared their data with your company.";
+
+                RecentActivity::sharedOrNotSharedDataActivity($businessId, $message, $checkBusinessCandidate['role']);
+
             }
 
             return $checkBusinessCandidate;
@@ -271,7 +295,7 @@ class B2BBusinessCandidates extends Model
     }
 
 
-    public static function getPendingSharedDataLoginUserCompanies($candidateId=null)
+    public static function getPendingSharedDataLoginUserCompanies($candidateId = null)
     {
 
         return self::where('candidate_id', $candidateId ?? Helpers::getUser()['id'])
@@ -281,6 +305,34 @@ class B2BBusinessCandidates extends Model
                 $query->select('id', 'company_name');
             }])
             ->get();
+    }
+
+
+    public static function getCompanies($userId = null)
+    {
+        return self::whereHas('businessUsers')
+            ->with('businessUsers')
+            ->where('candidate_id', $userId)
+            ->where('future_consideration', Admin::FUTURE_CONSIDERATION_NOT_SHARE_DATA)
+            ->where('is_permanently_deleted', 0)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+    }
+
+
+    public static function futureConsiderationUser($company = null)
+    {
+
+        $user = User::where('id', $company['candidate_id'])->first();
+
+        $candidateName = $user->first_name . ' ' . $user->last_name;
+
+        self::where('business_id', $company['business_id'])->update(['future_consideration' => Admin::IN_FUTURE]);
+
+        event(new FutureConsiderationUser($company['business_id'], " Maestro platform will no longer have access to the [ $candidateName ] data"));
+
+        Notification::createNotification('Consent Not Granted', " Maestro platform will no longer have access to the [ $candidateName ] data", '', $company['business_id'], 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
     }
 
 

@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api\ClientController\Gamification;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\CompleteWatchVideoRequest;
+use App\Http\Requests\Api\Client\Gamification\PurchaseCreditsFromHp;
 use App\Models\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\Client\Gamification\GamificationMedalRewards;
 use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\HumanOpPoints\LoginStreaks;
 use App\Models\Videos\VideoProgress;
+use Illuminate\Support\Facades\DB;
 
 class GamificationController extends Controller
 {
@@ -164,6 +166,25 @@ class GamificationController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
+        }
+
+    }
+
+    public static function purchaseHaiCreditsFromHp(PurchaseCreditsFromHp $request){
+
+        DB::beginTransaction();
+
+        try {
+
+            $response = HumanOpPoints::purchaseHAiCreditsFromHp($request->integer('hp'));
+
+            return $response;
+
+        }catch (\Exception $exception){
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }

@@ -100,7 +100,7 @@ class HaiChatHelpers
 
     public static function syncUserRecordWithHAi($user = null){
 
-        $user = ($user ?? Helpers::getUser());
+        $user = ($user ?? User::user(Helpers::getUser()->id));
 
         $getAssessment = Assessment::getLatestAssessment($user['id']);
 

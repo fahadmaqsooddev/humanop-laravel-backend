@@ -17,6 +17,7 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('all-notification', 'NotificationController@notifications');
     Route::post('read-notification', 'NotificationController@readNotification');
+    Route::post('all-read-unread-notification', 'NotificationController@allReadNotification');
     Route::delete('delete-notification', 'NotificationController@deleteNotification');
 
 });

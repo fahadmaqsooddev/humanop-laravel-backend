@@ -6,8 +6,9 @@ use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
+use App\Models\Admin\AnnouncementNews\AnnouncementNews;
+use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\B2B\B2BBusinessCandidates;
-use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Notification\PushNotification;
 use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
@@ -30,6 +31,7 @@ use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\VersionControl\Version;
+use PHPUnit\TextUI\Help;
 
 class DashboardController extends Controller
 {
@@ -209,11 +211,11 @@ class DashboardController extends Controller
 
         try {
 
-        $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
-        $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
+            $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
 
-        return Helpers::successResponse('core stats', $coreState);
+            return Helpers::successResponse('core stats', $coreState);
 
         } catch (\Exception $exception) {
 
@@ -578,7 +580,7 @@ class DashboardController extends Controller
                 }
 
             } else {
-                $pedingShareData=B2BBusinessCandidates::getPendingSharedDataLoginUserCompanies(Helpers::getUser()['id']);
+                $pedingShareData = B2BBusinessCandidates::getPendingSharedDataLoginUserCompanies(Helpers::getUser()['id']);
 
                 $finalData = [];
 
@@ -805,6 +807,22 @@ class DashboardController extends Controller
 
     }
 
+    public function announcementNews()
+    {
+        try {
+
+            $announcements = AnnouncementNews::getAnnouncementNews();
+
+            return Helpers::successResponse('All Announcement & News', $announcements);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
     public function haiChatStatus()
     {
         try {
@@ -850,8 +868,10 @@ class DashboardController extends Controller
             return Helpers::successResponse("All Companies Information", $companies);
 
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
 
     public function checkFutureConsiderationShareData(CandidatetoMember $request)

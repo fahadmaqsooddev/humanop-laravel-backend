@@ -8,6 +8,7 @@ use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
+use App\Http\Requests\Api\Client\CompanyRequest;
 use App\Http\Requests\Api\Client\TwoWayAuthRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
@@ -24,6 +25,7 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
+use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
 use App\Models\IntentionPlan\IntentionPlan;
@@ -735,4 +737,111 @@ class UserController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+
+    public function getAssociatedCompanies()
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $getCompanies = B2BBusinessCandidates::getCompanies($user['id']);
+
+            if (!empty($getCompanies)) {
+
+                $companies = [];
+
+                foreach ($getCompanies as $company) {
+
+                    $companies[] = [
+                        'id' => $company['id'],
+                        'company_name' => $company['businessUsers']['company_name'] ?? '',
+                        'role' => $company['role'] == Admin::IS_TEAM_MEMBER ? 'Team Member' : 'Candidate',
+                        'share_data' => $company['share_data'] == Admin::SHARED_DATA ? 1 : 0
+                    ];
+
+                }
+
+                return Helpers::successResponse('You are linked with these companies', $companies);
+            }
+
+            return Helpers::validationResponse('You don\'t have any companies yet');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function shareNotShareDataAssociatedCompanies(Request $request)
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $businessId = User::getSingleUserFromCompanyName($request['company_name'])['id'];
+
+            $checkShareData = B2BBusinessCandidates::checkShareDataDetail($request['company_name'], $user['id']);
+
+            if (!$checkShareData) {
+                return Helpers::validationResponse('No association found between you and the selected company.');
+            }
+
+            if ($checkShareData['share_data'] == Admin::NOT_SHARED_DATA) {
+
+                B2BBusinessCandidates::shareDataWithBusiness($businessId, $user['id']);
+
+                return Helpers::successResponse('Data has been successfully shared with the company.');
+
+            }else{
+
+                B2BBusinessCandidates::notShareDataWithBusiness($businessId, $user['id']);
+
+                return Helpers::successResponse('Data sharing has been disabled for this company.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function removeCompany(CompanyRequest $request)
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $company = User::getSingleUserFromCompanyName($request['company_name']);
+
+            $businessCandidateRecord = B2BBusinessCandidates::getCompany($company['id'], $user['id']);
+
+            if($businessCandidateRecord){
+
+                $businessCandidateRecord->future_consideration = 1;
+
+                $businessCandidateRecord->future_consideration_share_date = 3;
+
+                $businessCandidateRecord->save();
+
+                return Helpers::successResponse('You has been successfully removed from the company.');
+            }
+
+            return Helpers::forbiddenResponse('You are not part of this company');
+
+
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
 }

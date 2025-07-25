@@ -70,15 +70,7 @@ final class Admin
 
     const TRAINING_RESOURCE_NOTIFICATION = 3;
 
-//    const CONNECTION_REQUEST_NOTIFICATION = 4;
-
-//    const CONNECTION_ACCEPT_NOTIFICATION = 5;
-
-//    const CONNECTION_CANCEL_NOTIFICATION = 6;
-
-//    const FOLLOW_REQUEST_NOTIFICATION = 7;
-
-//    const UN_FOLLOW_REQUEST_NOTIFICATION = 8;
+    const ANNOUNCEMENT_NEWS_NOTIFICATION = 14;
 
     const NETWORK_NOTIFICTAION = 4;
     const MESSAGE_SEND_NOTIFICATION = 9;
@@ -198,4 +190,22 @@ final class Admin
     const FIRST_LEVEL = 'Explorer';
 
     const SECOND_LEVEL = 'Seeker';
+
+    const TRIAL_DAY = 14;
+
+    const VERIFIED_EMAIL ='verified_email';
+
+    CONST RESET_PASSWORD= 'reset_password';
+
+    const FA_VERIFICATION_CODE = '2fa_verification_code';
+
+    const B2B_SIGNUP_LINK='b2b_signup_link';
+
+    const B2B_LOGIN_LINK = 'b2b_login_link';
+
+    const MAESTRO_SIGNUP = 'maestro_signup';
+
+    const B2B_EMAIL_VERIFICATION='b2b_email_verification';
+
+
 }

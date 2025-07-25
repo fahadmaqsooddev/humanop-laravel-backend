@@ -4,6 +4,7 @@ namespace App\Models\Email;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class EmailTemplate extends Model
 {
@@ -21,9 +22,15 @@ class EmailTemplate extends Model
 
         $data['{baseURL}'] = url('/');
 
-        $content = self::where('name', '=', $name)->pluck('format')->first();
+        $content = self::where('tag', '=', $name)->pluck('format')->first();
 
         return strtr($content,$data);
+    }
+
+    public static function getEmailTemplateByTag($tag=null)
+    {
+
+        return DB::table('email_templates')->where('tag',$tag)->first();
     }
 
     public static function createTemplate($data = null)
@@ -53,5 +60,11 @@ class EmailTemplate extends Model
         $template = self::whereId($id)->first();
 
         $template->delete();
+    }
+
+    public static function getTemplatesForB2C()
+    {
+
+        return DB::table('email_templates')->where('type', '1')->get();
     }
 }

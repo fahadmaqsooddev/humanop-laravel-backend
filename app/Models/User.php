@@ -11,6 +11,7 @@ use App\Models\B2B\B2BIntentionOption;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
+use App\Models\Client\Hai\HaiThread;
 use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
 use App\Models\IntentionPlan\IntentionOption;
@@ -140,8 +141,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        if (!empty($user))
-        {
+        if (!empty($user)) {
             return UserShareAssessment::getSingleRecord($user['id']);
 
         }
@@ -153,8 +153,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        if (!empty($user))
-        {
+        if (!empty($user)) {
             return UserTagline::getTags($user['id'])->pluck('tagline')->toArray();
 
         }
@@ -436,6 +435,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return self::where('referral_code', $referralCode)->first();
     }
+
 
     public static function allReferralUsers($userId = null)
     {
@@ -753,6 +753,7 @@ class User extends Authenticatable implements JWTSubject
         $user['is_feedback'] = $user['is_feedback'];
         $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
         $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+        $user['hai_thread_id'] = HaiThread::where('user_id', $id)->where('is_b2b', 0)->latest()->value('hai_thread_id');
         return $user;
     }
 
@@ -786,6 +787,12 @@ class User extends Authenticatable implements JWTSubject
         $data['step'] = 1;
 
         $data['is_admin'] = !empty($is_admin) ? Admin::IS_B2B : Admin::IS_CUSTOMER;
+
+        $data['registration_checkout'] = !empty($is_admin) ? 1 : 0;
+
+        $data['trial_day'] = !empty($is_admin) ? Admin::TRIAL_DAY : 0;
+
+        $data['trial_time'] = !empty($is_admin) ? Carbon::now() : null;
 
         $data['company_name'] = null;
 
@@ -1397,7 +1404,6 @@ class User extends Authenticatable implements JWTSubject
         $users = self::whereHas('assessments', function ($query) {
 
             $query->where('page', 0)
-
                 ->orderBy('updated_at', 'desc');
 
         })->select(['id', 'first_name', 'last_name'])->orderBy('first_name')->get();
@@ -1546,7 +1552,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function userDataForHAi($user_id = null)
     {
-        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth','email','hai_status'])->first()?->setAppends([]);
+        $user = self::with('userIntentions')->whereId($user_id)->select(['id', 'first_name', 'last_name', 'date_of_birth', 'email', 'hai_status'])->first()?->setAppends([]);
 
         return $user;
     }
@@ -1622,9 +1628,7 @@ class User extends Authenticatable implements JWTSubject
             $users->where(function ($query) use ($name) {
 
                 $query->where('first_name', 'LIKE', "%$name%")
-
                     ->orWhere('last_name', 'LIKE', "%$name%")
-
                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
 
             });
@@ -1651,11 +1655,8 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return $users->where('is_permanently_deleted', 0)
-
             ->onlyTrashed()
-
             ->orderBy('deleted_at', 'desc')
-
             ->paginate($perPage);
 
     }
@@ -1790,11 +1791,12 @@ class User extends Authenticatable implements JWTSubject
         return $users;
     }
 
-    public static function userDailyTraits($user_id){
+    public static function userDailyTraits($user_id)
+    {
 
         $assessment = Assessment::getLatestAssessment($user_id);
 
-        if ($assessment){
+        if ($assessment) {
 
             $topThreeStyles = Assessment::getAllStyles($assessment);
 

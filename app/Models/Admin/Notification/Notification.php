@@ -27,7 +27,7 @@ class Notification extends Model
         return self::whereId($notificationId)->first();
     }
 
-    public static function allNotification()
+    public static function allB2CNotification()
     {
         $user = Helpers::getUser();
 
@@ -111,15 +111,36 @@ class Notification extends Model
         return self::whereId($notificationId)->update(['read' => 1]);
     }
 
+    public static function noReadNotification($notificationId = null)
+    {
+        return self::whereId($notificationId)->update(['read' => 0]);
+    }
+
     public static function notReadNotification()
     {
         return self::where('read', 0)->get();
     }
 
-    public static function deleteNotification($id = null)
+    public static function deleteNotification($notificationIds = null)
     {
-        $notification = self::whereId($id)->first();
+        if (!empty($notificationIds)) {
 
-        return $notification->delete();
+            self::whereIn('id', $notificationIds)->delete();
+
+        } else {
+
+            $allNotificationIds = self::allB2CNotification()->pluck('id')->toArray();
+
+            if (!empty($allNotificationIds)) {
+
+                self::whereIn('id', $allNotificationIds)->delete();
+
+            }
+
+        }
+
+        return true;
+
     }
+
 }

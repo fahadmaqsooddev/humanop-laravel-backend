@@ -26,5 +26,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('alchemy-codes', 'HumanNetworkController@alchemyCodes');
     Route::get('network-tutorials', 'HumanNetworkController@networkTutorials');
     Route::get('core-stats-comparison-between-users', 'HumanNetworkController@coreStatsComparisonBetweenUsers');
+    Route::get('insights-of-connection', 'HumanNetworkController@insightsOfConnection');
+
 
 });

@@ -186,7 +186,7 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','b2b_step','team_department','prompt_notification','version_update','sms_verify_code','phone_verified_at','complete_assessment_walkthrough','complete_tutorial','chat_summary','profile_status','hai_status','credits_log','life_alchemist','excited_connect','note','profile_privacy','hai_privacy'],
+            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','b2b_step','team_department','prompt_notification','version_update','sms_verify_code','phone_verified_at','complete_assessment_walkthrough','complete_tutorial','chat_summary','profile_status','hai_status','credits_log','life_alchemist','excited_connect','note','profile_privacy','hai_privacy','registration_checkout','trial_day','trial_time'],
             'hidden' => ['created_at','updated_at','remember_token','two_factor_recovery_codes','two_factor_secret']
         ],
         'Page' => [
@@ -343,12 +343,12 @@ return [
         ],
         'Point' => [
             'table' => 'hai_points',
-            'fillable' => ['user_id','point'],
+            'fillable' => ['user_id','point','is_b2b'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'PointLog' => [
             'table' => 'hai_point_logs',
-            'fillable' => ['user_id','point','type','plan','is_added'],
+            'fillable' => ['user_id','point','type','plan','is_added','is_b2b'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'LibraryResource' => [
@@ -663,6 +663,31 @@ return [
             'table'=>'humanop_libraries',
             'fillable'=>['user_id','item_id','type','library_resource_id'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'CreditPlan' => [
+            'table'=>'credit_plans',
+            'fillable'=>['price','credits'],
+            'hidden' => ['deleted_at','updated_at','created_at'],
+        ],
+        'HaiThread' => [
+            'table' => 'hai_threads',
+            'fillable' => ['title','is_b2b','user_id','hai_thread_id'],
+            'hidden' => ['deleted_at','updated_at','created_at'],
+        ],
+        'Customization' => [
+            'table' => 'customizations',
+            'fillable' => ['points','detail'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'AnnouncementNews' => [
+            'table' => 'announcement_news',
+            'fillable' => ['title','description','updated_at'],
+            'hidden' => ['created_at'],
+        ],
+        'RecentActivity' => [
+            'table' => 'recent_activities',
+            'fillable' => ['business_id','type','message','read'],
+            'hidden' => ['created_at'],
         ]
     ]
 ];

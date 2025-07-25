@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController\HumanNetwork;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\HumanNetwork\ConnectUnConnectRequest;
@@ -211,4 +212,58 @@ class HumanNetworkController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+
+
+    public function insightsOfConnection()
+    {
+        try{
+
+            $userId = Helpers::getUser()['id'];
+
+            $plaName = Helpers::getUser()['plan_name'];
+
+            $getAssessment = Assessment::getLatestAssessment($userId);
+
+            if ($getAssessment && $plaName === 'Core') {
+
+                $currentUserTraits = Assessment::highLightStyle($getAssessment);
+
+                $allUsers = User::whereHas('haiAssessments')->with('haiAssessments')->whereIn('is_admin', [Admin::IS_B2B, Admin::IS_CUSTOMER])->get();
+
+                $matchedUsers = [];
+
+                foreach ($allUsers as $user) {
+
+                    $userTraits = Assessment::highLightStyle($user->haiAssessments);
+
+                    $matchedTraits = array_intersect($currentUserTraits, $userTraits);
+
+                    $matchCount = count($matchedTraits);
+
+                    if ($matchCount > 2) {
+
+                        $matchedUsers[] = [
+                            'user' => $user,
+
+                        ];
+
+                    }
+
+                }
+
+
+                $topMatchedUsers = array_slice($matchedUsers, 0, 10);
+
+                return Helpers::successResponse('insights of connection', $topMatchedUsers);
+
+            } else {
+                return Helpers::successResponse('Not found', '');
+            }
+
+
+        }   catch (\Exception $e){
+            return Helpers::serverErrorResponse($e->getMessage());
+        }
+    }
+
 }
