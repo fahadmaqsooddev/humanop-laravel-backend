@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Email;
 
 use App\Http\Controllers\Controller;
 use App\Models\Email\EmailTemplate;
-
+use App\Models\User;
+use Spatie\Activitylog\Models\Activity;
 class EmailTemplateController extends Controller
 {
 
@@ -121,4 +122,21 @@ class EmailTemplateController extends Controller
             return redirect()->route('email_template_index')->with('error', $exception->getMessage());
         }
     }
+
+
+    public function getLogsActitvity()
+    {
+
+        $logs = Activity::latest()->get();
+
+        foreach ($logs as $log) {
+            // Attach user names for display without overwriting ID
+            $log->subject_user = User::where('id', $log->subject_id)->select('first_name', 'last_name')->first();
+            $log->causer_user = User::where('id', $log->causer_id)->select('first_name', 'last_name')->first();
+        }
+
+        return view('admin-dashboards.user-logs-activity.log-activity', compact('logs'));
+    }
+
+
 }

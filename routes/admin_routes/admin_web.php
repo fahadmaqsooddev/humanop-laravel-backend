@@ -145,6 +145,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/faq',[FaqController::class,'FaqQuestions'])->name('admin_faq');
         Route::get('/b2c-email-template',[EmailTemplateController::class,'b2CTemplates'])->name('admin_b2c_email_template');
 
+        Route::get('/logs-activity',[EmailTemplateController::class,'getLogsActitvity'])->name('get_logs_activity');
 
     });
 
