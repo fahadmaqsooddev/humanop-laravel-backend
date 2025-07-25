@@ -343,12 +343,12 @@ return [
         ],
         'Point' => [
             'table' => 'hai_points',
-            'fillable' => ['user_id','point'],
+            'fillable' => ['user_id','point','is_b2b'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'PointLog' => [
             'table' => 'hai_point_logs',
-            'fillable' => ['user_id','point','type','plan','is_added'],
+            'fillable' => ['user_id','point','type','plan','is_added','is_b2b'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'LibraryResource' => [
