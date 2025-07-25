@@ -298,6 +298,7 @@
                                                        'admin/pricing-plans',
                                                        'admin/faq',
                                                        'admin/b2c-email-template',
+                                                       'admin/logs-activity',
                                                        'admin/network-tutorials') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
@@ -538,6 +539,19 @@
                                                                             src="{{ Request::is('admin/b2c-email-template') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
                                                                     <span
                                                                         class="sidenav-normal"> Email template  </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/logs-activity') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/logs-activity') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('get_logs_activity') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/b2c-email-template') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/logs-activity') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> User Activity Logs  </span>
                                                                 </a>
                                                             </li>
                                                         </ul>
