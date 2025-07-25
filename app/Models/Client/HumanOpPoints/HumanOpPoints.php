@@ -278,7 +278,7 @@ class HumanOpPoints extends Model
 
         $points = self::getUserPoints($user)?->points;
 
-        if ($points > $hp){
+        if ($points > $hp || $points == $hp){
 
             self::deductPoint($user->id, $hp);
 

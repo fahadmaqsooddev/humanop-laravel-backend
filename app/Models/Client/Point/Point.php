@@ -46,7 +46,7 @@ class Point extends Model
 
         $points = self::where('user_id', Helpers::getUser()->id)->first();
 
-        $pointLogs = PointLog::query()->where('user_id', Helpers::getUser()->id)->where('type', PointLog::HAI_Credit);
+        $pointLogs = PointLog::query()->where('user_id', Helpers::getUser()->id)->where('type', PointLog::HAI_Credit)->where('is_b2b', 0);
 
         if ($points){
 
@@ -71,8 +71,6 @@ class Point extends Model
 
         $record = self::where('user_id', $user->id)->where('is_b2b', $is_b2b)->first();
 
-        Log::info(['rec' => $record]);
-
         if ($record){
 
             $record->increment('point', $points);
@@ -84,8 +82,6 @@ class Point extends Model
                 'point' => $points,
                 'is_b2b' => $is_b2b
             ]);
-
-            Log::info(['created' => $is_b2b]);
         }
 
         PointLog::createPointLog($points, 1, $user, $is_b2b);

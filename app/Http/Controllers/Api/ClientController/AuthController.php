@@ -92,13 +92,9 @@ class AuthController extends Controller
 
                     }
 
-                    Log::info(['user' => $user]);
-
                     Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
 
                     Point::addPoints(Admin::CORE_CREDITS, $user, 1);
-
-                    Log::info(['logged']);
 
                     if (!empty($request['company_name'])) {
 
