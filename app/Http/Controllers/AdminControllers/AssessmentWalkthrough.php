@@ -14,7 +14,11 @@ class AssessmentWalkthrough extends Controller
             return view('admin-dashboards.walkthrough.assessment-walkthrough');
 
         } catch (\Exception $exception) {
+
             return redirect()->back()->with('error', $exception->getMessage());
+
         }
+
     }
+
 }
