@@ -201,8 +201,8 @@
                         <br>
                         <input type="checkbox"
                                class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.coupons">
-                        <label class="form-check-label text-color-dark">Coupons</label>
+                               wire:model.defer="permission.redemption_code">
+                        <label class="form-check-label text-color-dark">Redemption Code</label>
                     </div>
                 </div>
             </div>
