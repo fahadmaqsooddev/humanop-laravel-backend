@@ -676,25 +676,61 @@ class Assessment extends Model
 
     public static function getAllStyles($assessment = null)
     {
+
+        $second_row_sa  = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+        $second_row_ma  = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+        $second_row_jo  = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+        $second_row_lu  = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
+        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+
+        $third_row = [
+            'sa'  => $assessment['sa'] * $second_row_sa,
+            'ma'  => $assessment['ma'] * $second_row_ma,
+            'jo'  => $assessment['jo'] * $second_row_jo,
+            'lu'  => $assessment['lu'] * $second_row_lu,
+            'ven' => $assessment['ven'] * $second_row_ven,
+            'mer' => $assessment['mer'] * $second_row_mer,
+            'so'  => 10 * $assessment['so']
+        ];
+
         $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
 
         $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
 
-        $getStyle = [];
-
-        foreach ($getResult as $key => $result) {
-
-            if (in_array($key, $style)) {
-
-                $getStyle[$key] = $result;
-            }
-        }
+        $getStyle = array_intersect_key($getResult, array_flip($style));
 
         arsort($getStyle);
 
-        $styleCodes = CodeDetail::getStylePublicNames($getStyle);
+        $remainingStyles = self::getTemporaryStyles($assessment);
 
-        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $getStyle);
+        $data = array_merge($getStyle, $remainingStyles);
+
+        uksort($data, function ($a, $b) use ($getStyle, $third_row, $style) {
+            $scoreA = $getStyle[$a] ?? 0;
+            $scoreB = $getStyle[$b] ?? 0;
+
+            if ($scoreA != $scoreB) {
+                return $scoreB <=> $scoreA;
+            }
+
+            $a_third = $third_row[$a] ?? 0;
+            $b_third = $third_row[$b] ?? 0;
+
+            if ($a_third != $b_third) {
+                if ($a_third > 30 && $b_third <= 30) return -1;
+                if ($b_third > 30 && $a_third <= 30) return 1;
+                return $b_third <=> $a_third;
+            }
+
+            return array_search($a, $style) <=> array_search($b, $style);
+        });
+
+        $topFour = array_slice($data, 0, 3, true);
+
+        $styleCodes = CodeDetail::getStylePublicNames($topFour);
+
+        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $topFour);
 
         $data = [];
 
@@ -714,6 +750,31 @@ class Assessment extends Model
         }
 
         return $data;
+    }
+
+    public static function getTemporaryStyles($assessment = null)
+    {
+
+        $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
+
+        $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
+
+        $matchedStyles = array_map('strtolower', array_keys($getResult));
+
+        $remainingStyles = array_diff($style, $matchedStyles);
+
+
+        $remainingValues = [];
+
+        foreach ($remainingStyles as $styleCode) {
+            if (isset($assessment[$styleCode])) {
+                $remainingValues[$styleCode] = $assessment[$styleCode];
+            }
+        }
+
+        arsort($remainingValues);
+
+        return $remainingValues;
     }
 
     public static function UserTraits($userId = null)
