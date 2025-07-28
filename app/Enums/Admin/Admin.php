@@ -72,6 +72,8 @@ final class Admin
 
     const ANNOUNCEMENT_NEWS_NOTIFICATION = 14;
 
+    const REMOVE_COMPANY_NOTIFICATION = 15;
+
     const NETWORK_NOTIFICTAION = 4;
     const MESSAGE_SEND_NOTIFICATION = 9;
 
