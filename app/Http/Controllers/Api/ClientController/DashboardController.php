@@ -255,6 +255,8 @@ class DashboardController extends Controller
 
         try {
 
+            $userPlan = Helpers::getUser()['action_plan'];
+
             if ($request->has('assessment_id')) {
 
                 $assessment = Assessment::getSingleAssessment($request->input('assessment_id'));
@@ -267,9 +269,17 @@ class DashboardController extends Controller
 
             if (!empty($assessment)) {
 
-                $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment);
+                if ($userPlan == null || $userPlan == 'Freemium')
+                {
+                    $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment, $userPlan);
 
-                $actionPlan = ActionPlan::storeUserActionPlan($assessment);
+                    if (empty($actionPlan)) {
+
+                        $actionPlan = ActionPlan::storeUserActionPlan($assessment, $userPlan);
+
+                    }
+                }
+
 
                 return Helpers::successResponse('Action plan', $actionPlan);
 

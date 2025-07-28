@@ -26,6 +26,10 @@ final class Admin
 
     const HAI_CHAT_HIDE = 2;
 
+    const NINETY_DAYS_ACTION_PLAN = 2;
+
+    const FOURTEEN_DAYS_ACTION_PLAN = 1;
+
     const HAI_CHAT_SHOW = 1;
 
     const SUPER_ADMIN_ROLE = 1;

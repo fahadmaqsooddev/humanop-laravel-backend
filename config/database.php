@@ -363,7 +363,7 @@ return [
         ],
         'ActionPlan' => [
             'table' => 'action_plans',
-            'fillable' => ['plan_text','user_id','updated_at','text','assessment_id','priority'],
+            'fillable' => ['plan_text','user_id','updated_at','text','assessment_id','priority','type'],
             'hidden' => ['created_at'],
         ],
         'ResourceCategory' => [
