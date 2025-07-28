@@ -364,16 +364,18 @@ class DashboardController extends Controller
                 $getTopStyles = array_slice($getStyle, 0, 3, true);
 
                 $traits = [];
-
                 $styleNumber = 1;
 
                 foreach ($getTopStyles as $styleKey => $style) {
 
-                    $traits[] = AssessmentWalkThrough::getbyCodeName(strtoupper($styleKey), $styleNumber);
+                    $trait = AssessmentWalkThrough::getbyCodeName(strtoupper($styleKey), $styleNumber);
+
+                    $trait['public_name'] = "You have access to the {$trait['public_name']} Trait!";
+
+                    $traits[] = $trait;
 
                     $styleNumber += 1;
                 }
-
 
                 $features = ['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil',];
 

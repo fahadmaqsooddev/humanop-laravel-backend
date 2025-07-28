@@ -75,7 +75,7 @@
                     @endforeach
                 </div>
                 <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
-                    @foreach(['pricing_plan', 'b2b_support_admin', 'coupons'] as $permissionName)
+                    @foreach(['pricing_plan', 'b2b_support_admin', 'redemption_code'] as $permissionName)
                         <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
                         <label class="form-check-label" style="color: #1B3A62">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
                         <br>
