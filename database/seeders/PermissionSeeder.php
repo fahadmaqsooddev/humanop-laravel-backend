@@ -145,12 +145,15 @@ class PermissionSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'name' => 'coupons',
+                'name' => 'redemption_code',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
             ]
         ];
+
         DB::table('permissions')->insert($permission);
+
     }
+
 }
