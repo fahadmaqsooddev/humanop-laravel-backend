@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
+use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\BlueHelper\BlueHelpers;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
@@ -22,6 +23,7 @@ use App\Http\Requests\Client\ProfileAccess\ProfileAccessRequest;
 use App\Http\Requests\Client\Register\ResetPasswordRequest;
 use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\Code\CodeDetail;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
@@ -794,7 +796,7 @@ class UserController extends Controller
 
                 return Helpers::successResponse('Data has been successfully shared with the company.');
 
-            }else{
+            } else {
 
                 B2BBusinessCandidates::notShareDataWithBusiness($businessId, $user['id']);
 
@@ -820,7 +822,7 @@ class UserController extends Controller
 
             $businessCandidateRecord = B2BBusinessCandidates::getCompany($company['id'], $user['id']);
 
-            if($businessCandidateRecord){
+            if ($businessCandidateRecord) {
 
                 $businessCandidateRecord->future_consideration = 1;
 
@@ -828,12 +830,14 @@ class UserController extends Controller
 
                 $businessCandidateRecord->save();
 
+                $message = "The Maestro platform will no longer have access to the {$user['first_name']} {$user['last_name']} data";
+
+                Notification::createNotification('Remove Company', $message, $user['device_token'], $user['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
                 return Helpers::successResponse('You has been successfully removed from the company.');
             }
 
             return Helpers::forbiddenResponse('You are not part of this company');
-
-
 
 
         } catch (\Exception $exception) {
