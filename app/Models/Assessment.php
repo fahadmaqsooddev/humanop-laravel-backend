@@ -618,6 +618,7 @@ class Assessment extends Model
         $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
         $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
         $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+        $second_row_so = 10;
 
         $third_row_sa = $assessment['sa'] * $second_row_sa;
         $third_row_ma = $assessment['ma'] * $second_row_ma;
@@ -625,7 +626,7 @@ class Assessment extends Model
         $third_row_lu = $assessment['lu'] * $second_row_lu;
         $third_row_ven = $assessment['ven'] * $second_row_ven;
         $third_row_mer = $assessment['mer'] * $second_row_mer;
-        $third_row_so = 10 * $assessment['so'];
+        $third_row_so = $assessment['so'] * $second_row_so;
 
         $third_row_style = [
             'sa' => $third_row_sa,
@@ -683,6 +684,7 @@ class Assessment extends Model
         $second_row_lu  = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
         $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
         $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+        $second_row_so = 10;
 
         $third_row = [
             'sa'  => $assessment['sa'] * $second_row_sa,
@@ -691,7 +693,7 @@ class Assessment extends Model
             'lu'  => $assessment['lu'] * $second_row_lu,
             'ven' => $assessment['ven'] * $second_row_ven,
             'mer' => $assessment['mer'] * $second_row_mer,
-            'so'  => 10 * $assessment['so']
+            'so'  => $assessment['so'] * $second_row_so
         ];
 
         $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
@@ -825,11 +827,13 @@ class Assessment extends Model
         $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
         $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
         $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+        $second_row_so = 10;
 
         $third_row_ma = $assessment['ma'] * $second_row_ma;
         $third_row_jo = $assessment['jo'] * $second_row_jo;
         $third_row_lu = $assessment['lu'] * $second_row_lu;
         $third_row_mer = $assessment['mer'] * $second_row_mer;
+        $third_row_so = $assessment['so'] * $second_row_so;
 
         $features = [
             'de' => $assessment['de'],

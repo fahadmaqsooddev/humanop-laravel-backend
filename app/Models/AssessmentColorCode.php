@@ -100,6 +100,7 @@ class AssessmentColorCode extends Model
         $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
         $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
         $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+        $second_row_so = 10;
 
         // Calculate third row values
         $third_row_sa = $assessment['sa'] * $second_row_sa;
@@ -108,7 +109,7 @@ class AssessmentColorCode extends Model
         $third_row_lu = $assessment['lu'] * $second_row_lu;
         $third_row_ven = $assessment['ven'] * $second_row_ven;
         $third_row_mer = $assessment['mer'] * $second_row_mer;
-        $third_row_so = 0;
+        $third_row_so = $assessment['so'] * $second_row_so;
 
         $style_greater_than_4 = [];
         $style_equal_to_0 = [];
@@ -203,6 +204,7 @@ class AssessmentColorCode extends Model
         $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
         $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
         $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+        $second_row_so = 10;
 
         $third_row_sa = $assessment['sa'] * $second_row_sa;
         $third_row_ma = $assessment['ma'] * $second_row_ma;
@@ -210,7 +212,7 @@ class AssessmentColorCode extends Model
         $third_row_lu = $assessment['lu'] * $second_row_lu;
         $third_row_ven = $assessment['ven'] * $second_row_ven;
         $third_row_mer = $assessment['mer'] * $second_row_mer;
-        $third_row_so = 0;
+        $third_row_so = $assessment['so'] * $second_row_so;
 
         $features = [
             'de' => $assessment['de'],

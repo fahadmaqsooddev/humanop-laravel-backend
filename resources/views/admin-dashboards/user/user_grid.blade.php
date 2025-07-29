@@ -2,6 +2,7 @@
 <style>
     .greenBox {
         background-color: green !important;
+        color: white !important;
     }
 
     .redBox {
@@ -36,6 +37,7 @@
             $second_row_lu = $grid['jo'] + $grid['lu'] + $grid['ven'];
             $second_row_ven = $grid['lu'] + $grid['ven'] + $grid['mer'];
             $second_row_mer = $grid['ven'] + $grid['mer'] + $grid['sa'];
+            $second_row_so = 10;
 
             $third_row_sa = $grid['sa'] * $second_row_sa;
             $third_row_ma = $grid['ma'] * $second_row_ma;
@@ -43,7 +45,7 @@
             $third_row_lu = $grid['lu'] * $second_row_lu;
             $third_row_ven = $grid['ven'] * $second_row_ven;
             $third_row_mer = $grid['mer'] * $second_row_mer;
-            $third_row_so = 0;
+            $third_row_so = $grid['so'] * $second_row_so;
 
             // Initialize variables based on $grid values
             $de = $grid['de'];
@@ -376,7 +378,7 @@
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : '')) }}">{{$grid['lu']}}</td>
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : '')) }}">{{$grid['ven']}}</td>
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : '')) }}">{{$grid['mer']}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">{{$grid['so']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox text-dark' : '') }}">{{$grid['so']}}</td>
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center ">{{$grid['sa'] + $grid['ma'] + $grid['jo'] + $grid['lu'] + $grid['ven'] + $grid['mer'] + $grid['so']}}</td>
                             </tr>
                             <tr>
@@ -386,9 +388,7 @@
                                 <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : '')) }}">{{$second_row_lu}}</td>
                                 <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : '')) }}">{{$second_row_ven}}</td>
                                 <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : '')) }}">{{$second_row_mer}}</td>
-                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">
-                                    0
-                                </td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox text-dark' : '') }}">{{$second_row_so}}</td>
                                 <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center ">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</td>
                             </tr>
                             <tr>
@@ -398,7 +398,7 @@
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : '')) }}">{{$third_row_lu}}</td>
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : '')) }}">{{$third_row_ven}}</td>
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : '')) }}">{{$third_row_mer}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">{{$third_row_so}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox text-dark' : '') }}">{{$third_row_so}}</td>
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center ">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer + $third_row_so}}</td>
                             </tr>
                             </tbody>
