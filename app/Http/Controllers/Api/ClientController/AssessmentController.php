@@ -209,6 +209,24 @@ class AssessmentController extends Controller
 
     }
 
+    public function createStylesAssessment()
+    {
+
+        try {
+
+            $existingAssessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
+
+            $createStyle = AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+
+            return Helpers::successResponse($createStyle);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
     public function userReport(UserReportRequest $request)
     {
 

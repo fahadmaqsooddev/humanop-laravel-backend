@@ -9,6 +9,10 @@
         background-color: red !important;
     }
 
+    .RedBorderBox{
+        border: 2px solid red !important;
+    }
+
     .lightGreenBox {
         background-color: yellow !important;
         color: black !important;
@@ -168,21 +172,9 @@
                     if (($grid['gre'] > 2 && ($grid['jo'] > 6 || $grid['mer'] > 4 )) || ($grid['gre'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-//                    if (($grid['gre'] > 2 && ($grid['jo'] > 6 || $grid['mer'] > 4 )) || ($grid['gre'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4) || ($grid['gre'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4)) {
-////                        $filtered_keys[$key] = $value;
-////                    }
-//                    if ($grid['gre'] > 2 && ($grid['jo'] > 7 || $grid['mer'] > 4 )) {
-//                        $filtered_keys[$key] = $value;
-//                    }
-//                    elseif (($grid['gre'] > 2 && $grid['jo'] < 7 && $grid['mer'] < 5) && ($grid['gre'] > 2 && ($grid['ma'] < 5 || $grid['lu'] < 5)) && ($grid['gre'] > 2 && ($grid['ven'] < 5 || $grid['sa'] < 5))) {
-//                        $filtered_keys_red[$key] = $value;
-//                    }
                     elseif (($grid['gre'] > 2 && $grid['jo'] < 7 && $grid['mer'] < 5) && ($grid['gre'] > 2 && ($grid['ven'] < 5 || $grid['sa'] < 5))) {
                         $filtered_keys_red[$key] = $value;
                     }
-//                    elseif (($grid['gre'] > 2 && $grid['jo'] < 8 && $grid['mer'] < 5)) {
-//                        $filtered_keys_red[$key] = $value;
-//                    }
                     break;
                 case 'lun':
                     if (($grid['lun'] > 2 && $grid['lu'] > 4) || ($grid['lun'] > 2 && $grid['ven'] > 4 && $grid['jo'] > 4 && $third_row_lu > 30)) {
@@ -256,9 +248,6 @@
                     if (($grid['wil'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4)) || ($grid['wil'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4  && $third_row_ma > 30) || ($grid['wil'] > 2 && $grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-//                    elseif (($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5)) && ($grid['sa'] < 5 || $grid['jo'] < 5 || $grid['ven'] < 5)) {
-//                        $filtered_keys_red[$key] = $value;
-//                    }
                     elseif (($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5))) {
                         if ($third_row_ma > 30 || $third_row_lu > 30){
                             if ($grid['sa'] < 5 || $grid['jo'] < 5 || $grid['ven'] < 5){
@@ -372,33 +361,33 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30? 'border-success' : '')) }}">{{$grid['sa']}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : '')) }}">{{$grid['ma']}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : '')) }}">{{$grid['jo']}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : '')) }}">{{$grid['lu']}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : '')) }}">{{$grid['ven']}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : '')) }}">{{$grid['mer']}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox text-dark' : '') }}">{{$grid['so']}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['sa']) ? ($gridCodeColor['sa'] === 'green' ? 'greenBox' : ($gridCodeColor['sa'] === 'red' ? 'redBox' : ($gridCodeColor['sa'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$grid['sa']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['ma']) ? ($gridCodeColor['ma'] === 'green' ? 'greenBox' : ($gridCodeColor['ma'] === 'red' ? 'redBox' : ($gridCodeColor['ma'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$grid['ma']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['jo']) ? ($gridCodeColor['jo'] === 'green' ? 'greenBox' : ($gridCodeColor['jo'] === 'red' ? 'redBox' : ($gridCodeColor['jo'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$grid['jo']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['lu']) ? ($gridCodeColor['lu'] === 'green' ? 'greenBox' : ($gridCodeColor['lu'] === 'red' ? 'redBox' : ($gridCodeColor['lu'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$grid['lu']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['ven']) ? ($gridCodeColor['ven'] === 'green' ? 'greenBox' : ($gridCodeColor['ven'] === 'red' ? 'redBox' : ($gridCodeColor['ven'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$grid['ven']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['mer']) ? ($gridCodeColor['mer'] === 'green' ? 'greenBox' : ($gridCodeColor['mer'] === 'red' ? 'redBox' : ($gridCodeColor['mer'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$grid['mer']}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['so']) ? ($gridCodeColor['so'] === 'green' ? 'greenBox' : ($gridCodeColor['so'] === 'red' ? 'redBox' : ($gridCodeColor['so'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$grid['so']}}</td>
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center ">{{$grid['sa'] + $grid['ma'] + $grid['jo'] + $grid['lu'] + $grid['ven'] + $grid['mer'] + $grid['so']}}</td>
                             </tr>
                             <tr>
-                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30 ? 'border-success' : '')) }}">{{$second_row_sa}}</td>
-                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : '')) }}">{{$second_row_ma}}</td>
-                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : '')) }}">{{$second_row_jo}}</td>
-                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : '')) }}">{{$second_row_lu}}</td>
-                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : '')) }}">{{$second_row_ven}}</td>
-                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : '')) }}">{{$second_row_mer}}</td>
-                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox text-dark' : '') }}">{{$second_row_so}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['sa']) ? ($gridCodeColor['sa'] === 'green' ? 'greenBox' : ($gridCodeColor['sa'] === 'red' ? 'redBox' : ($gridCodeColor['sa'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$second_row_sa}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['ma']) ? ($gridCodeColor['ma'] === 'green' ? 'greenBox' : ($gridCodeColor['ma'] === 'red' ? 'redBox' : ($gridCodeColor['ma'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$second_row_ma}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['jo']) ? ($gridCodeColor['jo'] === 'green' ? 'greenBox' : ($gridCodeColor['jo'] === 'red' ? 'redBox' : ($gridCodeColor['jo'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$second_row_jo}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['lu']) ? ($gridCodeColor['lu'] === 'green' ? 'greenBox' : ($gridCodeColor['lu'] === 'red' ? 'redBox' : ($gridCodeColor['lu'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$second_row_lu}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['ven']) ? ($gridCodeColor['ven'] === 'green' ? 'greenBox' : ($gridCodeColor['ven'] === 'red' ? 'redBox' : ($gridCodeColor['ven'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$second_row_ven}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['mer']) ? ($gridCodeColor['mer'] === 'green' ? 'greenBox' : ($gridCodeColor['mer'] === 'red' ? 'redBox' : ($gridCodeColor['mer'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$second_row_mer}}</td>
+                                <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['so']) ? ($gridCodeColor['so'] === 'green' ? 'greenBox' : ($gridCodeColor['so'] === 'red' ? 'redBox' : ($gridCodeColor['so'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$second_row_so}}</td>
                                 <td style="border: 2px solid #1b3a62; color: #1b3a62" class="text-sm font-weight-normal text-center ">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</td>
                             </tr>
                             <tr>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['sa'] == 0 ? 'redBox' : ($grid['sa'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['mer'] > 4 && $third_row_sa > 30 ? 'border-success' : '')) }}">{{$third_row_sa}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ma'] == 0 ? 'redBox' : ($grid['ma'] > 4 ? 'greenBox text-dark' : ($grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30 ? 'border-success' : '')) }}">{{$third_row_ma}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['jo'] == 0 ? 'redBox' : ($grid['jo'] > 4 ? 'greenBox text-dark' : ($grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30 ? 'border-success' : '')) }}">{{$third_row_jo}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : '')) }}">{{$third_row_lu}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : '')) }}">{{$third_row_ven}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : '')) }}">{{$third_row_mer}}</td>
-                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox text-dark' : '') }}">{{$third_row_so}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['sa']) ? ($gridCodeColor['sa'] === 'green' ? 'greenBox' : ($gridCodeColor['sa'] === 'red' ? 'redBox' : ($gridCodeColor['sa'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$third_row_sa}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['ma']) ? ($gridCodeColor['ma'] === 'green' ? 'greenBox' : ($gridCodeColor['ma'] === 'red' ? 'redBox' : ($gridCodeColor['ma'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$third_row_ma}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['jo']) ? ($gridCodeColor['jo'] === 'green' ? 'greenBox' : ($gridCodeColor['jo'] === 'red' ? 'redBox' : ($gridCodeColor['jo'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$third_row_jo}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['lu']) ? ($gridCodeColor['lu'] === 'green' ? 'greenBox' : ($gridCodeColor['lu'] === 'red' ? 'redBox' : ($gridCodeColor['lu'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$third_row_lu}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['ven']) ? ($gridCodeColor['ven'] === 'green' ? 'greenBox' : ($gridCodeColor['ven'] === 'red' ? 'redBox' : ($gridCodeColor['ven'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$third_row_ven}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['mer']) ? ($gridCodeColor['mer'] === 'green' ? 'greenBox' : ($gridCodeColor['mer'] === 'red' ? 'redBox' : ($gridCodeColor['mer'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$third_row_mer}}</td>
+                                <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center {{ isset($gridCodeColor['so']) ? ($gridCodeColor['so'] === 'green' ? 'greenBox' : ($gridCodeColor['so'] === 'red' ? 'redBox' : ($gridCodeColor['so'] === 'border-red' ? 'RedBorderBox' : ''))) : '' }}">{{$third_row_so}}</td>
                                 <td style="border: 2px solid #1b3a62 ; color: #1b3a62" class="text-sm font-weight-normal text-center ">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer + $third_row_so}}</td>
                             </tr>
                             </tbody>

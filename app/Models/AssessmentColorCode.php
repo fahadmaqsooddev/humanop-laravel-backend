@@ -40,7 +40,7 @@ class AssessmentColorCode extends Model
 
         $code_color = [];
         foreach ($assessmentCodeColors as $assessment) {
-            $code_color[$assessment['code']] = $assessment['code_number'];
+            $code_color[$assessment['code']] = $assessment['code_color'];
         }
 
         return $code_color;
@@ -103,13 +103,15 @@ class AssessmentColorCode extends Model
         $second_row_so = 10;
 
         // Calculate third row values
-        $third_row_sa = $assessment['sa'] * $second_row_sa;
-        $third_row_ma = $assessment['ma'] * $second_row_ma;
-        $third_row_jo = $assessment['jo'] * $second_row_jo;
-        $third_row_lu = $assessment['lu'] * $second_row_lu;
-        $third_row_ven = $assessment['ven'] * $second_row_ven;
-        $third_row_mer = $assessment['mer'] * $second_row_mer;
-        $third_row_so = $assessment['so'] * $second_row_so;
+        $third_row = [
+            'sa'  => $assessment['sa'] * $second_row_sa,
+            'ma'  => $assessment['ma'] * $second_row_ma,
+            'jo'  => $assessment['jo'] * $second_row_jo,
+            'lu'  => $assessment['lu'] * $second_row_lu,
+            'ven' => $assessment['ven'] * $second_row_ven,
+            'mer' => $assessment['mer'] * $second_row_mer,
+            'so'  => $assessment['so'] * $second_row_so
+        ];
 
         $style_greater_than_4 = [];
         $style_equal_to_0 = [];
@@ -129,32 +131,32 @@ class AssessmentColorCode extends Model
             if ($style < 5) {
                 switch ($key) {
                     case 'sa':
-                        if ($assessment['ma'] > 4 && $assessment['mer'] > 4 && $third_row_sa > 30) {
+                        if ($assessment['ma'] > 4 && $assessment['mer'] > 4 && $third_row['sa'] > 30) {
                             $style_border_green[$key] = $style;
                         }
                         break;
                     case 'ma':
-                        if ($assessment['sa'] > 4 && $assessment['jo'] > 4 && $third_row_ma > 30) {
+                        if ($assessment['sa'] > 4 && $assessment['jo'] > 4 && $third_row['ma'] > 30) {
                             $style_border_green[$key] = $style;
                         }
                         break;
                     case 'jo':
-                        if ($assessment['ma'] > 4 && $assessment['lu'] > 4 && $third_row_jo > 30) {
+                        if ($assessment['ma'] > 4 && $assessment['lu'] > 4 && $third_row['jo'] > 30) {
                             $style_border_green[$key] = $style;
                         }
                         break;
                     case 'lu':
-                        if ($assessment['jo'] > 4 && $assessment['ven'] > 4 && $third_row_lu > 30) {
+                        if ($assessment['jo'] > 4 && $assessment['ven'] > 4 && $third_row['lu'] > 30) {
                             $style_border_green[$key] = $style;
                         }
                         break;
                     case 'ven':
-                        if ($assessment['lu'] > 4 && $assessment['mer'] > 4 && $third_row_ven > 30) {
+                        if ($assessment['lu'] > 4 && $assessment['mer'] > 4 && $third_row['ven'] > 30) {
                             $style_border_green[$key] = $style;
                         }
                         break;
                     case 'mer':
-                        if ($assessment['ven'] > 4 && $assessment['sa'] > 4 && $third_row_mer > 30) {
+                        if ($assessment['ven'] > 4 && $assessment['sa'] > 4 && $third_row['mer'] > 30) {
                             $style_border_green[$key] = $style;
                         }
                         break;
@@ -162,33 +164,60 @@ class AssessmentColorCode extends Model
             }
         }
 
-//        dd($style_greater_than_4);
-        // Create entries for styles greater than 4
-        foreach ($style_greater_than_4 as $key => $style_num) {
+        $hightlight = array_merge($style_greater_than_4, $style_border_green);
+
+        if (count($hightlight) < 3) {
+
+            $remainingStyles = array_diff_key($styles, $hightlight);
+
+            $remainingWithThirdRow = [];
+
+            foreach ($remainingStyles as $key => $val) {
+
+                $remainingWithThirdRow[$key] = $third_row[$key];
+
+            }
+
+            uksort($remainingWithThirdRow, function ($a, $b) use ($third_row, $styles) {
+
+                if ($third_row[$a] == $third_row[$b]) {
+
+                    $keys = array_keys($styles);
+
+                    return array_search($a, $keys) <=> array_search($b, $keys);
+
+                }
+
+                return $third_row[$b] <=> $third_row[$a];
+
+            });
+
+
+            foreach ($remainingWithThirdRow as $key => $val) {
+
+                if (count($hightlight) >= 3) break;
+
+                $hightlight[$key] = $styles[$key];
+
+            }
+
+        }
+
+        foreach ($hightlight as $key => $style_num) {
             self::create([
                 'assessment_id' => $assessment['id'],
                 'code' => $key,
-                'code_color' => 'green',
+                'code_color' => in_array($key, array_keys($style_greater_than_4)) ? 'green' :
+                    (in_array($key, array_keys($style_border_green)) ? 'border-green' : 'border-red'),
                 'code_number' => $style_num,
             ]);
         }
 
-        // Create entries for styles equal to 0
         foreach ($style_equal_to_0 as $key => $style_num) {
             self::create([
                 'assessment_id' => $assessment['id'],
                 'code' => $key,
                 'code_color' => 'red',
-                'code_number' => $style_num,
-            ]);
-        }
-
-        // Create entries for styles border green
-        foreach ($style_border_green as $key => $style_num) {
-            self::create([
-                'assessment_id' => $assessment['id'],
-                'code' => $key,
-                'code_color' => 'border-green',
                 'code_number' => $style_num,
             ]);
         }
