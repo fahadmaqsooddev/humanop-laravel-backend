@@ -171,17 +171,10 @@ class AdminController extends Controller
 
             $grid = Assessment::getGrid($id);
 
-            $grid_code_color = AssessmentColorCode::getCodeColor($grid['id']);
+            $gridCodeColor = AssessmentColorCode::getCodeColor($grid['id']);
 
-            if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER) {
+            return view('admin-dashboards.user.user_grid', compact('grid', 'gridCodeColor'));
 
-                return view('practitioner-dashboard.user.grid', compact('grid', 'grid_code_color'));
-
-            } else {
-
-                return view('admin-dashboards.user.user_grid', compact('grid', 'grid_code_color'));
-
-            }
 
         } catch (\Exception $exception) {
 
@@ -539,7 +532,6 @@ class AdminController extends Controller
 
         }
     }
-
 
 
 }

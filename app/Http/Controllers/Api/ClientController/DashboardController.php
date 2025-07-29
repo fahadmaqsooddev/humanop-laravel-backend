@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Helpers\HaiChat\HaiChatHelpers;
+use App\Http\Requests\Api\Client\AddRecentPlayerRequest;
 use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\AnnouncementNews\AnnouncementNews;
 use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\Client\MultiMedia\MultiMediaStats;
 use App\Models\Notification\PushNotification;
 use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
@@ -189,7 +191,9 @@ class DashboardController extends Controller
             foreach ($podcasts as $podcast) {
 
                 $audioFiles[] = [
+                    'id' => $podcast['id'] ?? null,
                     'title' => $podcast['title'] ?? null,
+                    'audio_id' => $podcast['audio_id'] ?? null,
                     'audio_url' => $podcast['audio_url']['path'] ?? null,
                 ];
 
@@ -826,6 +830,38 @@ class DashboardController extends Controller
             $announcements = AnnouncementNews::getAnnouncementNews();
 
             return Helpers::successResponse('All Announcement & News', $announcements);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function recentPlayer()
+    {
+        try {
+
+            $recentPlayer = MultiMediaStats::getPlayer(Helpers::getUser()['id']);
+
+            return Helpers::successResponse('Recent Player', $recentPlayer);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function addRecentPlayer(AddRecentPlayerRequest $request)
+    {
+        try {
+
+            MultiMediaStats::addOrUpdateRecentPlayer($request->all());
+
+            return Helpers::successResponse('Recent Player added successfully');
 
         } catch (\Exception $exception) {
 

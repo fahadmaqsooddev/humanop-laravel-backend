@@ -688,6 +688,11 @@ return [
             'table' => 'recent_activities',
             'fillable' => ['business_id','type','message','read'],
             'hidden' => ['created_at'],
+        ],
+        'MultiMediaStats' => [
+            'table' => 'multi_media_stats',
+            'fillable' => ['user_id','audio_id','time'],
+            'hidden' => ['created_at'],
         ]
     ]
 ];
