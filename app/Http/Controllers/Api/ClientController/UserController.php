@@ -790,7 +790,7 @@ class UserController extends Controller
                 return Helpers::validationResponse('No association found between you and the selected company.');
             }
 
-            if ($checkShareData['share_data'] == Admin::NOT_SHARED_DATA) {
+            if ($checkShareData['share_data'] == Admin::NOT_SHARED_DATA || $checkShareData['share_data'] == Admin::DECLINED_DATA) {
 
                 B2BBusinessCandidates::shareDataWithBusiness($businessId, $user['id']);
 
