@@ -350,7 +350,7 @@ class AssessmentColorCode extends Model
 //                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['sa'] < 5))) {
 //                        $filtered_keys_red[$key] = $value;
 //                    }
-                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['sa'] < 5))) {
+                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) || ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['sa'] < 5))) {
                         $filtered_keys_red[$key] = $value;
                     }
 //                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 8 && $assessment['mer'] < 5)) {
