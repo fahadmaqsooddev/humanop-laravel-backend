@@ -172,7 +172,7 @@
                     if (($grid['gre'] > 2 && ($grid['jo'] > 6 || $grid['mer'] > 4 )) || ($grid['gre'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($grid['gre'] > 2 && $grid['jo'] < 7 && $grid['mer'] < 5) && ($grid['gre'] > 2 && ($grid['ven'] < 5 || $grid['sa'] < 5))) {
+                    elseif (($grid['gre'] > 2 && $grid['jo'] < 7 && $grid['mer'] < 5) || ($grid['gre'] > 2 && ($grid['ven'] < 5 || $grid['sa'] < 5))) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
