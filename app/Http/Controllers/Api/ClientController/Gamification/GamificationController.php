@@ -6,9 +6,12 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\CompleteWatchVideoRequest;
 use App\Http\Requests\Api\Client\Gamification\PurchaseCreditsFromHp;
+use App\Models\Admin\DailyTip\UserDailyTip;
+use App\Models\Assessment;
 use App\Models\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\Client\Gamification\GamificationMedalRewards;
 use App\Models\Client\Gamification\GamificationPerformanceLevel;
+use App\Models\Client\Hai\HaiThread;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\HumanOpPoints\LoginStreaks;
 use App\Models\Videos\VideoProgress;
@@ -76,6 +79,69 @@ class GamificationController extends Controller
                 return Helpers::validationResponse('Watch video failed or already completed.');
 
             }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function currentChallenges()
+    {
+        try {
+
+            $user = Helpers::getUser() ?? Helpers::getWebUser();
+
+            $userDailyTips = UserDailyTip::getUserCompletedDailyTip();
+
+            $getAssessmentId =Assessment::getLatestAssessment($user['id'])['id'];
+
+            $totalVideos = VideoProgress::getRecords($getAssessmentId);
+
+            $watchVideos = VideoProgress::checkAllWatchVideos($getAssessmentId);
+
+            $haiConversation = HaiThread::getUserChats();
+
+            $challenges = [
+                'daily_tips' => count($userDailyTips),
+                'total_videos' => count($totalVideos),
+                'watch_videos' => count($watchVideos),
+                'hai_conversation' => count($haiConversation) > 0 ? 1 : 0,
+            ];
+
+            return Helpers::successResponse('Current Challenges', $challenges);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function unfinishedChallenges()
+    {
+        try {
+
+            $user = Helpers::getUser() ?? Helpers::getWebUser();
+
+            $userDailyTips = UserDailyTip::getUserCompletedDailyTip();
+
+            $getAssessmentId =Assessment::getLatestAssessment($user['id'])['id'];
+
+            $totalVideos = VideoProgress::getRecords($getAssessmentId);
+
+            $watchVideos = VideoProgress::checkAllWatchVideos($getAssessmentId);
+
+            $haiConversation = HaiThread::getUserChats();
+
+            $challenges = [
+                'daily_tips' => count($userDailyTips) > 7 ? 'finished' : 'unfinished',
+                'watch_videos' => count($watchVideos) < count($totalVideos) ? 'unfinished' : 'finished',
+                'hai_conversation' => count($haiConversation) > 0 ? 'finished' : 'unfinished',
+            ];
+
+            return Helpers::successResponse('Current Challenges', $challenges);
 
         } catch (\Exception $exception) {
 

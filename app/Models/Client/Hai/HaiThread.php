@@ -2,6 +2,7 @@
 
 namespace App\Models\Client\Hai;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,5 +17,12 @@ class HaiThread extends Model
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
+    }
+
+    public static function getUserChats()
+    {
+
+        return self::where('user_id', Helpers::getUser()['id'])->get();
+
     }
 }
