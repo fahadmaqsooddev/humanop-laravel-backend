@@ -109,16 +109,16 @@ class AllUser extends Component
     public function deleteClientProfile($id)
     {
 
-        $checkAssociatedCompanies = B2BBusinessCandidates::where('candidate_id', $id)->where('future_consideration', Admin::NOT_IN_FUTURE)->get();
-
-        if ($checkAssociatedCompanies) {
-
-            foreach ($checkAssociatedCompanies as $associatedCompany) {
-
-                B2BBusinessCandidates::futureConsiderationUser($associatedCompany);
-
-            }
-        }
+//        $checkAssociatedCompanies = B2BBusinessCandidates::where('candidate_id', $id)->where('future_consideration', Admin::NOT_IN_FUTURE)->get();
+//
+//        if ($checkAssociatedCompanies) {
+//
+//            foreach ($checkAssociatedCompanies as $associatedCompany) {
+//
+//                B2BBusinessCandidates::futureConsiderationUser($associatedCompany);
+//
+//            }
+//        }
 
         User::deleteClientProfile($id);
 
