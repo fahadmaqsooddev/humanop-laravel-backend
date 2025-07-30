@@ -188,7 +188,6 @@ class B2BBusinessCandidates extends Model
         $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
 
         if ($checkBusinessCandidate) {
-            ;
 
             $checkBusinessCandidate->update(['share_data' => Admin::NOT_SHARED_DATA]);
 

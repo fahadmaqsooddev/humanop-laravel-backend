@@ -79,6 +79,14 @@ class UserDailyTip extends Model
         return self::where('user_id', $userId)->where('favorite_tip', 2)->with('dailyTips')->orderBy('updated_at', 'DESC')->get();
     }
 
+    public static function getUserCompletedDailyTip()
+    {
+
+        $userId = Helpers::getUser()['id'] ?? Helpers::getWebUser()['id'];
+
+        return self::where('user_id', $userId)->where('is_read', 1)->with('dailyTips')->orderBy('updated_at', 'DESC')->get();
+    }
+
     public static function readUserDailyTip()
     {
 
