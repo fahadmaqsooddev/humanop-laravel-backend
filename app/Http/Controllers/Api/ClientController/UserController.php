@@ -348,11 +348,37 @@ class UserController extends Controller
         try {
 
             UserInvite::deleteInvite();
-            User::whereId(Helpers::getUser()->id)->delete();
+
+            $user = Helpers::getUser();
+
+            $companies = B2BBusinessCandidates::getCompanies($user['id']);
+
+            if (!empty($companies)) {
+
+                foreach ($companies as $company){
+
+                    $company->future_consideration = 1;
+
+                    $company->future_consideration_share_date = 3;
+
+                    $company->save();
+
+                    $companyData = User::getSingleUser($company['business_id']);
+
+                    $message = "The Maestro platform will no longer have access to the {$user['first_name']} {$user['last_name']} data";
+
+                    Notification::createNotification('Remove Company', $message, $companyData['device_token'], $companyData['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+                }
+
+            }
+
+            User::whereId($user['id'])->delete();
 
             Session::flush();
 
             return Helpers::successResponse('User deleted successfully');
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
