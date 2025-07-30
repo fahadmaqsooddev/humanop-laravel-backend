@@ -141,6 +141,8 @@ final class Admin
 
     const FUTURE_CONSIDERATION_NOT_SHARE_DATA = 0;
 
+    const FUTURE_CONSIDERATION_DECLINED_DATA = 3;
+
     const B2B_NOTIFICATION = 1;
 
     const B2C_NOTIFICATION = 0;

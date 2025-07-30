@@ -326,7 +326,13 @@ class B2BBusinessCandidates extends Model
 
         $candidateName = $user->first_name . ' ' . $user->last_name;
 
-        self::where('business_id', $company['business_id'])->update(['future_consideration' => Admin::IN_FUTURE]);
+        $data = self::where('business_id', $company['business_id'])->where('candidate_id', $company['candidate_id'])->first();
+
+        $data->future_consideration = Admin::FUTURE_CONSIDERATION_SHARE_DATA;
+
+        $data->future_consideration_share_date = Admin::FUTURE_CONSIDERATION_DECLINED_DATA;
+
+        $data->save();
 
         event(new FutureConsiderationUser($company['business_id'], " Maestro platform will no longer have access to the [ $candidateName ] data"));
 
