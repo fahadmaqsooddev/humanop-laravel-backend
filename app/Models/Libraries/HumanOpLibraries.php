@@ -2,6 +2,10 @@
 
 namespace App\Models\Libraries;
 
+use App\Helpers\Helpers;
+use App\Models\Admin\HumanOpShopCategory\HumanOpShopTraits;
+use App\Models\Admin\Resources\LibraryResource;
+use App\Models\Admin\Resources\ShopCategoryResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +29,34 @@ class HumanOpLibraries extends Model
             return self::where('library_resource_id', $item_id)->where('user_id', $user_id)->where('type',$type)->first();
 
         }
+    }
+
+    public function shopItems()
+    {
+        return $this->belongsTo(ShopCategoryResource::class, 'item_id', 'id');
+    }
+
+    public function libraryItems()
+    {
+        return $this->belongsTo(LibraryResource::class, 'library_resource_id', 'id');
+    }
+
+    public static function getShopBuyItems()
+    {
+
+        $user = Helpers::getUser();
+
+        return self::where('user_id', $user['id'])->whereNotNull('item_id')->with('shopItems')->get();
+
+    }
+
+    public static function getLibraryBuyItems()
+    {
+
+        $user = Helpers::getUser();
+
+        return self::where('user_id', $user['id'])->whereNotNull('library_resource_id')->with('libraryItems')->get();
+
     }
 
     public static function getAllItems($userId = null)

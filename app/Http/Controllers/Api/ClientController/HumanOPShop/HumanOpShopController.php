@@ -83,6 +83,7 @@ class HumanOpShopController extends Controller
         }
 
     }
+
     public function suggestedItemCheckout(SuggestionItemRequest $request)
     {
         try {
@@ -145,6 +146,28 @@ class HumanOpShopController extends Controller
                 }
 
             }
+
+        } catch (\Exception $e) {
+
+            return Helpers::serverErrorResponse($e->getMessage());
+
+        }
+
+    }
+
+    public function getLibraries()
+    {
+        try {
+
+            $shopItems = HumanOpLibraries::getShopBuyItems();
+            $libraryItems = HumanOpLibraries::getLibraryBuyItems();
+
+            $libraries = [
+                'humanOp_shop_items' => $shopItems,
+                'tools_training_items' => $libraryItems
+            ];
+
+            return Helpers::successResponse('HumanOp Shop Libraries', $libraries);
 
         } catch (\Exception $e) {
 
