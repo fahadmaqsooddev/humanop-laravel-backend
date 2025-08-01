@@ -29,7 +29,12 @@ class HumanOpLibraries extends Model
 
     public static function getAllItems($userId = null)
     {
-        return self::where('user_id', $userId)->get();
+        return self::where('user_id', $userId)->whereNotNull('item_id')->get();
+    }
+
+    public static function getAllLibraries($userId = null)
+    {
+        return self::where('user_id', $userId)->whereNotNull('library_resource_id')->get();
     }
 
     public static function addItem($user_id = null, $item_id = null,$type = null)
