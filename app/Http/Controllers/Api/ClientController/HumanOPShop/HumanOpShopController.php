@@ -65,9 +65,8 @@ class HumanOpShopController extends Controller
                     'heading' => $item->heading,
                     'created_at' => $item->created_at,
                     'updated_at' => $item->updated_at,
-                    'buy_from' => $item->buy_from == 1 ? 'Price' : 'Point',
-                    'points' => $item->buy_from != 1 ? $item['point_price'] : null,
-                    'prices' => $item->buy_from == 1 ? $item['point_price'] : null,
+                    'points' => $item['point'] ?? null,
+                    'prices' => $item['price'] ?? null,
                     'video_url' => isset($item->video_url) ? ($item->video_url['path'] ?? null) : null,
                     'audio_url' => isset($item->audio_url) ? ($item->audio_url['path'] ?? null) : null,
                     'document_url' => isset($item->document_url) ? ($item->document_url['path'] ?? null) : null,
@@ -84,6 +83,7 @@ class HumanOpShopController extends Controller
         }
 
     }
+
     public function suggestedItemCheckout(SuggestionItemRequest $request)
     {
         try {
@@ -146,6 +146,28 @@ class HumanOpShopController extends Controller
                 }
 
             }
+
+        } catch (\Exception $e) {
+
+            return Helpers::serverErrorResponse($e->getMessage());
+
+        }
+
+    }
+
+    public function getLibraries()
+    {
+        try {
+
+            $shopItems = HumanOpLibraries::getShopBuyItems();
+            $libraryItems = HumanOpLibraries::getLibraryBuyItems();
+
+            $libraries = [
+                'humanOp_shop_items' => $shopItems,
+                'tools_training_items' => $libraryItems
+            ];
+
+            return Helpers::successResponse('HumanOp Shop Libraries', $libraries);
 
         } catch (\Exception $e) {
 

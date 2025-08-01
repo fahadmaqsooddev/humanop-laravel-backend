@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Resources;
 
+use App\Models\Libraries\HumanOpLibraries;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -189,23 +190,34 @@ class LibraryResource extends Model
 
     public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null)
     {
-        $resources = self::query();
+        $user = Helpers::getUser();
+        $userId = $user['id'];
+        $userPlan = $user['plan_name'];
 
-        // Filter by relevance in libraryResources
+        // Get all purchased item IDs
+        $purchasedItemIds = HumanOpLibraries::getAllLibraries($userId)->pluck('library_resource_id')->toArray();
+
+        // Build base query
+        $query = self::query();
+
+        // Exclude purchased items
+        $query->whereNotIn('id', $purchasedItemIds);
+
+        // Filter by relevance
         if (!empty($searchRelevance)) {
-            $resources->where('relevance', $searchRelevance);
+            $query->where('relevance', $searchRelevance);
         }
 
-        // Filter by name in resourceCategory
+        // Filter by resource category (type)
         if (!empty($searchType)) {
-            $resources->whereHas('resourceCategory', function ($q) use ($searchType) {
+            $query->whereHas('resourceCategory', function ($q) use ($searchType) {
                 $q->where('name', 'LIKE', '%' . $searchType . '%');
             });
         }
 
-        // Filter by permission level in libraryPermissions
+        // Filter by access level
         if (!empty($searchAccess)) {
-            $resources->whereHas('libraryPermissions', function ($q) use ($searchAccess) {
+            $query->whereHas('libraryPermissions', function ($q) use ($searchAccess) {
                 if ($searchAccess === 'free') {
                     $q->where('permission', 1);
                 } elseif ($searchAccess === 'hp_look') {
@@ -215,22 +227,24 @@ class LibraryResource extends Model
                 }
             });
         }
-        $plan=Helpers::getUser()['plan_name'];
-        if($plan=='Premium'){
-            $searchType=3;
-        }elseif ($plan=='Core'){
-            $searchType=2;
-        }else{
-            $searchType=1;
-        }
 
-        $resources->with(['resourceCategory', 'libraryPermissions'])
-            ->whereHas('libraryPermissions',function ($q) use ($searchType) {
-                $q->where('permission', $searchType);
-            })
+        // Determine permission level based on plan
+        $permissionLevel = match ($userPlan) {
+            'Premium' => 3,
+            'Core'    => 2,
+            default   => 1,
+        };
+
+        // Filter by permission level (plan-based access)
+        $query->whereHas('libraryPermissions', function ($q) use ($permissionLevel) {
+            $q->where('permission', $permissionLevel);
+        });
+
+        // Eager load relationships and order
+        $query->with(['resourceCategory', 'libraryPermissions'])
             ->orderBy('created_at', 'desc');
 
-        return $resources->get();
+        return $query->get();
     }
 
 }
