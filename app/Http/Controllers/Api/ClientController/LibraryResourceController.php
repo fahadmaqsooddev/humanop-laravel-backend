@@ -45,6 +45,8 @@ class LibraryResourceController extends Controller
                         1 => 'Freemium',
                         2 => 'Core',
                         3 => 'Premium',
+                        4 => 'HP Look', // or whatever label you want for permission 4
+                        default => 'null',
                     },
                     'price' => optional($item->libraryPermissions)->price,
                     'point' => optional($item->libraryPermissions)->point,
