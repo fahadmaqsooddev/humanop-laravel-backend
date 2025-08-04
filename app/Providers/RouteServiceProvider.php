@@ -21,7 +21,8 @@ class RouteServiceProvider extends ServiceProvider
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
     protected $GamificationClientController = 'App\Http\Controllers\Api\ClientController\Gamification';
-    protected $PlaylistClientController = 'App\Http\Controllers\Api\ClientController\Playlist';
+    protected $PlaylistClientController = 'App\Http\Controllers\Api\ClientController\PlayList';
+
     protected $HumanOpShopController = 'App\Http\Controllers\Api\ClientController\HumanOPShop';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
