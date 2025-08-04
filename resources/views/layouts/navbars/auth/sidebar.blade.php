@@ -299,7 +299,8 @@
                                                        'admin/faq',
                                                        'admin/b2c-email-template',
                                                        'admin/logs-activity',
-                                                       'admin/network-tutorials') ? 'show' : '' }}"
+                                                       'admin/network-tutorials',
+                                                       'admin/result-videos') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
                                                             <li class="nav-item {{ (Request::is('admin/assessment-walkthrough') ? 'active-itt-all' : '') }}">
@@ -429,15 +430,15 @@
                                                                         class="sidenav-normal"> Information Icon Management </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                                   href="{{ url('#') }}">
+                                                            <li class="nav-item {{ (Request::is('admin/result-videos') ? 'active' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/result-videos') ? 'active' : '') }}"
+                                                                   href="{{ route('admin_result_videos') }}">
                                                                     <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
+                                                                            src="{{ Request::is('admin/result-videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
+                                                                            src="{{ Request::is('admin/result-videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
                                                                     <span class="sidenav-normal"> Video Results Management </span>
                                                                 </a>
                                                             </li>

@@ -30,6 +30,7 @@ use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Notification\PushNotification;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
+use App\Models\UserInvite\UserInviteLog;
 use App\Services\AwsSnsServices\SnsServices;
 use Carbon\Carbon;
 use Dompdf\Exception;
@@ -335,6 +336,10 @@ class AuthController extends Controller
                 } else {
 
                     $token = $this->auth->login($getUser);
+
+                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
+
+                    UserInviteLog::deleteInvite($userInvite['id']);
 
                     $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 

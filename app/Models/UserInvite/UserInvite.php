@@ -21,6 +21,11 @@ class UserInvite extends Model
         parent::__construct($attributes);
     }
 
+    public function b2bInvite()
+    {
+        return $this->hasOne(UserInviteLog::class, 'invite_id', 'id');
+    }
+
     public static function getSingleInvite($email = null)
     {
         return self::where('email', $email)->first();
@@ -34,12 +39,14 @@ class UserInvite extends Model
     public static function getAllInviteLinks($per_page = 10, $email = null, $role = null)
     {
         return self::when($email, function ($query, $email) {
-
             $query->where('email', 'LIKE', "$email%");
-
-        })->orderBy('created_at', 'desc')->paginate($per_page);
-
-
+        })
+            ->whereHas('b2bInvite', function ($query) use ($role) {
+                $query->where('role', $role ?? Admin::CLIENT_INVITE_ROLE);
+            })
+            ->with('b2bInvite')
+            ->orderBy('created_at', 'desc')
+            ->paginate($per_page);
     }
 
     public static function sendInvite($email = null, $file = null, $role = Admin::CLIENT_INVITE_ROLE)
@@ -59,12 +66,14 @@ class UserInvite extends Model
 
                         $link = Str::random(16);
 
-                        return self::create([
+                        $invite = self::create([
                             'email' => $csvEmail,
                             'link' => $link,
                             'role' => $role,
 
                         ]);
+
+                        return UserInviteLog::createInvite($invite);
 
                     }
 
@@ -83,12 +92,14 @@ class UserInvite extends Model
 
                 $link = Str::random(16);
 
-                return self::create([
+                $invite =  self::create([
                     'email' => $email,
                     'link' => $link,
                     'role' => $role,
 
                 ]);
+
+                return UserInviteLog::createInvite($invite);
             }
         }
     }

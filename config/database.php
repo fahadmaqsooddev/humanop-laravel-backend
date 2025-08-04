@@ -460,6 +460,11 @@ return [
             'fillable' => ['id','email','link','role','members_limit','total_member_limit','send_invite_time'],
             'hidden' => ['created_at','updated_at'],
         ],
+        'UserInviteLog' => [
+            'table' => 'user_invite_log',
+            'fillable' => ['id', 'invite_id', 'role'],
+            'hidden' => ['created_at', 'updated_at'],
+        ],
         'EmbeddingGroup' => [
             'table' => 'embedding_groups',
             'fillable' => ['id','name','created_at','updated_at','description'],
@@ -692,6 +697,11 @@ return [
         'MultiMediaStats' => [
             'table' => 'multi_media_stats',
             'fillable' => ['user_id','audio_id','time'],
+            'hidden' => ['created_at'],
+        ],
+        'Playlist' => [
+            'table' => 'playlist',
+            'fillable' => ['user_id','audio_id','title','description'],
             'hidden' => ['created_at'],
         ]
     ]
