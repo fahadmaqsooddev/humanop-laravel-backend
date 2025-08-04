@@ -18,6 +18,14 @@ class Playlist extends Model
         parent::__construct($attributes);
     }
 
+    protected $appends = ['audio_url'];
+
+    public function getAudioUrlAttribute()
+    {
+
+        return Helpers::getAudio($this->audio_id, 1);
+    }
+
     public static function myPlaylists()
     {
         $user = Helpers::getUser();
