@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminControllers\FaqController;
 use App\Http\Controllers\Email\EmailTemplateController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AdminControllers\AdminController;
@@ -27,6 +26,7 @@ use App\Http\Controllers\AdminControllers\PricingPlanController;
 use App\Http\Controllers\AdminControllers\AssessmentIntroController;
 use App\Http\Controllers\AdminControllers\SummaryReportController;
 use App\Http\Controllers\AdminControllers\AnnouncementsNewsController;
+use App\Http\Controllers\AdminControllers\ResultVideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -130,6 +130,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
         Route::get('/create-version-control',[VersionController::class,'createVersion'])->name('create-version');
         Route::get('/edit-version-control/{id}',[VersionController::class,'EditVersion'])->name('edit-version');
+        Route::get('/result-videos',[ResultVideoController::class,'resultVideo'])->name('admin_result_videos');
 
         Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
         Route::get('/assessment-walkthrough', [App\Http\Controllers\AdminControllers\AssessmentWalkthrough::class,'getWalkThrough'])->name('admin_get_assessment_walkthrough');
