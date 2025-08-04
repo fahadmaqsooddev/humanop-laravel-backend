@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\ClientInvites;
 
 use App\Models\UserInvite\UserInvite;
 use App\Models\User;
+use App\Models\UserInvite\UserInviteLog;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -48,39 +49,40 @@ class ClientInvite extends Component
 
             $this->validate();
 
-            $user = User::checkEmail($this->email);
+            if ($this->email) {
 
-            $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
+                $uniqueEmail = UserInvite::where('email', $this->email)->first();
 
-            if (!empty($user) && !empty($user->email_verified_at)) {
+                if (empty($uniqueEmail)) {
 
-                session()->flash('success', "{$this->email} already has a Registered account.");
-
-            } elseif (!empty($softDeletedUser)) {
-
-                session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
-
-            } else {
-
-                $uniqueEmail = UserInvite::getSingleInvite($this->email);
-
-                if (!empty($uniqueEmail)) {
-
-                    session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
-
-                } else {
-
-                    UserInvite::sendInvite($this->email, $this->file, $this->role);
+                    UserInvite::sendInvite($this->email, $this->file);
 
                     session()->flash('success', "{$this->email} invite link generated successfully.");
 
-                    $this->resetForm();
+                }else{
 
-                    $this->emit('closeModal');
+                    $checkB2BInvite = UserInviteLog::checkB2CInvite($uniqueEmail['id']);
 
+                    if (empty($checkB2BInvite)) {
+
+                        $data['id'] = $uniqueEmail['id'];
+
+                        $data['role'] = Admin::CLIENT_INVITE_ROLE;
+
+                        UserInviteLog::createInvite($data);
+
+                        session()->flash('success', "{$this->email} invite link generated successfully.");
+
+                    }else{
+
+                        session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
+
+                        return;
+                    }
                 }
 
             }
+
 
         } catch (\Exception $exception) {
 
