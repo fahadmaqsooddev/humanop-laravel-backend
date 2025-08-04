@@ -798,7 +798,7 @@ class User extends Authenticatable implements JWTSubject
 
         $data['registration_checkout'] = !empty($is_admin) ? 1 : 0;
 
-        $data['trial_day'] = !empty($is_admin) ? 0 : 0;
+        $data['trial_day'] = !empty($is_admin) ? Admin::TRIAL_DAY : 0;
 
         $data['trial_time'] = !empty($is_admin) ? Carbon::now() : null;
 
