@@ -340,7 +340,7 @@ class AuthController extends Controller
                     $userInvite = UserInvite::getSingleInvite($getUser['email']);
 
                     UserInviteLog::deleteInvite($userInvite['id']);
-                    
+
                     $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
                     $signupTime = $getUser['created_at']->addMinutes($userTimezone * 60);
