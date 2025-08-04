@@ -29,7 +29,20 @@ class PlaylistController extends Controller
 
             $playlists = $this->playlist->myPlaylists();
 
-            return  Helpers::successResponse('all My Playlists', $playlists);
+            $myPlaylists = [];
+
+            foreach ($playlists as $playlist) {
+
+                $myPlaylists[] = [
+                    'id' => $playlist['id'],
+                    'title' => $playlist['title'],
+                    'description' => $playlist['description'],
+                    'audio_url' => $playlist['audio_url']['path'],
+                ];
+
+            }
+
+            return  Helpers::successResponse('all My Playlists', $myPlaylists);
 
         } catch (\Exception $exception) {
 
