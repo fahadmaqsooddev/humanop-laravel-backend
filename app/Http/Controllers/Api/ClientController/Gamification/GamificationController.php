@@ -125,7 +125,7 @@ class GamificationController extends Controller
 
             $user = Helpers::getUser() ?? Helpers::getWebUser();
 
-            $userDailyTips = UserDailyTip::getUserCompletedDailyTip();
+            $userDailyTips = UserDailyTip::getLatestTip();
 
             $getAssessmentId =Assessment::getLatestAssessment($user['id'])['id'];
 
@@ -136,7 +136,7 @@ class GamificationController extends Controller
             $haiConversation = HaiThread::getUserChats();
 
             $challenges = [
-                'daily_tips' => count($userDailyTips) > 7 ? 'finished' : 'unfinished',
+                'daily_tips' => $userDailyTips['is_read'] == 1 ? 'finished' : 'unfinished',
                 'watch_videos' => count($watchVideos) < count($totalVideos) ? 'unfinished' : 'finished',
                 'hai_conversation' => count($haiConversation) > 0 ? 'finished' : 'unfinished',
             ];
