@@ -688,6 +688,11 @@ return [
             'table' => 'multi_media_stats',
             'fillable' => ['user_id','audio_id','time'],
             'hidden' => ['created_at'],
+        ],
+        'Playlist' => [
+            'table' => 'playlist',
+            'fillable' => ['user_id','audio_id','title','description'],
+            'hidden' => ['created_at'],
         ]
     ]
 ];
