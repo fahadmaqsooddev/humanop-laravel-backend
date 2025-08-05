@@ -698,6 +698,11 @@ return [
             'table' => 'playlist',
             'fillable' => ['user_id','audio_id','title','description'],
             'hidden' => ['created_at'],
+        ],
+        'ResultVideo' => [
+            'table' => 'assessment_result_videos',
+            'fillable' => ['public_name','video', 'video_upload_id'],
+            'hidden' => ['created_at'],
         ]
     ]
 ];

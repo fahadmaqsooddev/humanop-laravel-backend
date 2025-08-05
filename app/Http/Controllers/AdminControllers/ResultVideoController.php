@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Code\ResultVideo;
 use Illuminate\Http\Request;
 
 class ResultVideoController extends Controller
@@ -12,8 +13,9 @@ class ResultVideoController extends Controller
     {
         try {
 
+            $videos = ResultVideo::allVideos();
 
-            return view('admin-dashboards/result-videos/index');
+            return view('admin-dashboards/result-videos/index', compact('videos'));
 
         } catch (\Exception $exception) {
 
@@ -21,4 +23,17 @@ class ResultVideoController extends Controller
         }
     }
 
+    public function editResultVideo(Request $request)
+    {
+        try {
+
+            $video = ResultVideo::getSingleVideo($request['id']);
+
+            return view('admin-dashboards/result-videos/edit-result-video', compact('video'));
+
+        } catch (\Exception $exception) {
+
+            return back()->withErrors(['msgError' => $exception->getMessage()]);
+        }
+    }
 }

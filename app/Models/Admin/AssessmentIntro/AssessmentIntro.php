@@ -3,9 +3,11 @@
 namespace App\Models\Admin\AssessmentIntro;
 
 use App\Helpers\Helpers;
+use App\Models\Admin\Code\ResultVideo;
 use App\Models\Videos\VideoProgress;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Twilio\Rest\Video;
 
 class AssessmentIntro extends Model
 {
@@ -19,6 +21,11 @@ class AssessmentIntro extends Model
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
+    }
+
+    public function video()
+    {
+        return $this->belongsTo(ResultVideo::class, 'video_id', 'id');
     }
 
     public static function allIntro()
@@ -88,7 +95,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video : '',
+            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video->video : '',
             'video_progress' => $progress,
         ];
 
@@ -105,7 +112,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video : '',
+            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video->video : '',
             'video_progress' => $progress,
         ];
     }
@@ -121,7 +128,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video : '',
+            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video->video : '',
             'video_progress' => $progress,
         ];
     }
@@ -129,7 +136,7 @@ class AssessmentIntro extends Model
     public static function motivationIntroduction($assessmentId = null)
     {
 
-        $data = self::where('code', 'MI')->first();
+        $data = self::where('code', 'MI')->with('video')->first();
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -137,7 +144,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video_url'] ?? '',
+            'video' => $data['video'] ? $data['video']['video_url'] : '',
             'video_progress' => $progress,
         ];
     }
@@ -145,7 +152,7 @@ class AssessmentIntro extends Model
     public static function introBoundaries($assessmentId = null)
     {
 
-        $data = self::where('code', 'BI')->first();
+        $data = self::where('code', 'BI')->with('video')->first();
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -153,7 +160,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video_url'] ?? '',
+            'video' => $data['video'] ? $data['video']['video_url'] : '',
             'video_progress' => $progress,
         ];
     }
@@ -161,7 +168,7 @@ class AssessmentIntro extends Model
     public static function introCommunication($assessmentId = null)
     {
 
-        $data = self::where('code', 'CI')->first();
+        $data = self::where('code', 'CI')->with('video')->first();
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -169,7 +176,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video_url'] ?? '',
+            'video' => $data['video'] ? $data['video']['video_url'] : '',
             'video_progress' => $progress,
         ];
     }
@@ -177,7 +184,7 @@ class AssessmentIntro extends Model
     public static function introEnergypool($assessmentId = null)
     {
 
-        $data = self::where('code', 'EI')->first();
+        $data = self::where('code', 'EI')->with('video')->first();
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -185,7 +192,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video_url'] ?? '',
+            'video' => $data['video'] ? $data['video']['video_url'] : '',
             'video_progress' => $progress,
         ];
     }
@@ -205,7 +212,7 @@ class AssessmentIntro extends Model
     public static function getPerceptionStaticText($assessmentId = null)
     {
 
-        $result = self::where('code', 'PLI')->first(['id', 'text', 'public_name', 'video', 'p_name','name']);
+        $result = self::where('code', 'PLI')->with('video')->first();
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $result->name);
 
@@ -214,9 +221,9 @@ class AssessmentIntro extends Model
             'public_name' => $result['public_name'],
             'name' => $result['name'],
             'description' => $result['text'],
-            'video' => $result['video'],
+            'video' => $result['video'] ? $result['video']['video'] : null,
             'p_name' => $result['p_name'],
-            'video_url' => $result['video_url'],
+            'video_url' => $result['video']['video_url'],
             'video_progress' => $progress,
         ];
 

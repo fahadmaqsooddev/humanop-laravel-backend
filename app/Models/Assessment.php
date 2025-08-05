@@ -562,7 +562,7 @@ class Assessment extends Model
             $publicName = "Fair [{$energy_code['energy_pool']}]";
         }
 
-        $record = CodeDetail::whereId($energy_code['energy_code'])->first();
+        $record = CodeDetail::whereId($energy_code['energy_code'])->with('video')->first();
 
         $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
 
@@ -570,7 +570,7 @@ class Assessment extends Model
             'name' => $record['name'],
             'public_name' => $publicName,
             'description' => $record['text'],
-            'video_url' => $record['video_url'] ?? null,
+            'video_url' => $record['video'] ? $record['video']['video_url'] : null,
             'video_progress' => $progress,
         ];
 
@@ -746,7 +746,7 @@ class Assessment extends Model
                 'public_name' => $style['codeDetails'][0]['public_name'],
                 'name' => $style['codeDetails'][0]['name'],
                 'description' => $style['codeDetails'][0]['text'],
-                'video_url' => $style['codeDetails'][0]['video_url'],
+                'video_url' => $style['codeDetails'][0]['video']['video_url'],
                 'video_progress' => $progress,
             ];
         }
@@ -1664,7 +1664,7 @@ class Assessment extends Model
                 'public_name' => $publicName['public_name'],
                 'code_number' => $gold . $silver . $copper,
                 'description' => $publicName['text'],
-                'video_url' => $publicName['video_url'],
+                'video_url' => $publicName['video']['video_url'],
                 'img_url' => $alchemyCodeDetail['image_url'],
                 'video_progress' => $progress,
             ];
@@ -1701,7 +1701,7 @@ class Assessment extends Model
             $polarity_code = 42;
         }
 
-        $record = CodeDetail::whereId($polarity_code)->select(['id', 'public_name', 'text', 'video', 'name'])->first();
+        $record = CodeDetail::with('video')->whereId($polarity_code)->first();
 
         $record['pv'] = $pv > 0 ? '+' . $pv : $pv;
 
@@ -1712,8 +1712,8 @@ class Assessment extends Model
             'name' => $record['name'],
             'public_name' => $record['public_name'],
             'description' => $record['text'],
-            'video' => $record['video'],
-            'video_url' => $record['video_url'],
+            'video' => $record['video'] ? $record['video']['video'] : null,
+            'video_url' => $record['video'] ? $record['video']['video_url'] : null,
             'pv' => $record['pv'],
             'video_progress' => $progress,
         ];
