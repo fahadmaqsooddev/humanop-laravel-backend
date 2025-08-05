@@ -564,13 +564,20 @@ class Assessment extends Model
 
         $record = CodeDetail::whereId($energy_code['energy_code'])->with('video')->first();
 
+
+        $video = $record['video'];
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
 
         $data = [
             'name' => $record['name'],
             'public_name' => $publicName,
             'description' => $record['text'],
-            'video_url' => $record['video'] ? $record['video']['video_url'] : null,
+            'video_url' => $videoUrl,
             'video_progress' => $progress,
         ];
 
@@ -678,22 +685,22 @@ class Assessment extends Model
     public static function getAllStyles($assessment = null)
     {
 
-        $second_row_sa  = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-        $second_row_ma  = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-        $second_row_jo  = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-        $second_row_lu  = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
         $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
         $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
         $second_row_so = 10;
 
         $third_row = [
-            'sa'  => $assessment['sa'] * $second_row_sa,
-            'ma'  => $assessment['ma'] * $second_row_ma,
-            'jo'  => $assessment['jo'] * $second_row_jo,
-            'lu'  => $assessment['lu'] * $second_row_lu,
+            'sa' => $assessment['sa'] * $second_row_sa,
+            'ma' => $assessment['ma'] * $second_row_ma,
+            'jo' => $assessment['jo'] * $second_row_jo,
+            'lu' => $assessment['lu'] * $second_row_lu,
             'ven' => $assessment['ven'] * $second_row_ven,
             'mer' => $assessment['mer'] * $second_row_mer,
-            'so'  => $assessment['so'] * $second_row_so
+            'so' => $assessment['so'] * $second_row_so
         ];
 
         $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
@@ -738,18 +745,29 @@ class Assessment extends Model
 
         foreach ($allStyles as $style) {
 
-            $progress = VideoProgress::checkVideoProgress($assessment['id'], $style['codeDetails'][0]['name']);
+            $codeDetails = $style['codeDetails'][0] ?? null;
 
-            $data[] = [
-                'code_number' => $style['code_number'],
-                'code_name' => $style['codeDetails'][0]['code'],
-                'public_name' => $style['codeDetails'][0]['public_name'],
-                'name' => $style['codeDetails'][0]['name'],
-                'description' => $style['codeDetails'][0]['text'],
-                'video_url' => $style['codeDetails'][0]['video']['video_url'],
-                'video_progress' => $progress,
-            ];
+            if ($codeDetails) {
+                $video = $codeDetails['video'] ?? [];
+
+                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+                    ? $video['video_upload_url']['path']
+                    : ($video['video_url'] ?? null);
+
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], $codeDetails['name']);
+
+                $data[] = [
+                    'code_number' => $style['code_number'] ?? null,
+                    'code_name' => $codeDetails['code'] ?? null,
+                    'public_name' => $codeDetails['public_name'] ?? null,
+                    'name' => $codeDetails['name'] ?? null,
+                    'description' => $codeDetails['text'] ?? null,
+                    'video_url' => $videoUrl,
+                    'video_progress' => $progress,
+                ];
+            }
         }
+
 
         return $data;
     }
@@ -1657,6 +1675,13 @@ class Assessment extends Model
 
             $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail['code']);
 
+            $video = $publicName['video'];
+
+            $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+                ? $video['video_upload_url']['path']
+                : ($video['video_url'] ?? null);
+
+
             $progress = VideoProgress::checkVideoProgress($assessment['id'], $publicName['name']);
 
             return [
@@ -1664,7 +1689,7 @@ class Assessment extends Model
                 'public_name' => $publicName['public_name'],
                 'code_number' => $gold . $silver . $copper,
                 'description' => $publicName['text'],
-                'video_url' => $publicName['video']['video_url'],
+                'video_url' => $videoUrl,
                 'img_url' => $alchemyCodeDetail['image_url'],
                 'video_progress' => $progress,
             ];
@@ -1705,6 +1730,13 @@ class Assessment extends Model
 
         $record['pv'] = $pv > 0 ? '+' . $pv : $pv;
 
+
+        $video = $record['video'];
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
 
         return $data = [
@@ -1713,7 +1745,7 @@ class Assessment extends Model
             'public_name' => $record['public_name'],
             'description' => $record['text'],
             'video' => $record['video'] ? $record['video']['video'] : null,
-            'video_url' => $record['video'] ? $record['video']['video_url'] : null,
+            'video_url' => $videoUrl,
             'pv' => $record['pv'],
             'video_progress' => $progress,
         ];

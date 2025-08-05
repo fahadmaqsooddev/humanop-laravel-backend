@@ -20,11 +20,20 @@ class ResultVideo extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['video_url'];
+    protected $appends = ['video_upload_url', 'video_url'];
+
+    public function getVideoUploadUrlAttribute()
+    {
+        return Helpers::getVideo($this->video_upload_id, 1, null);
+    }
 
     public function getVideoUrlAttribute()
     {
-        return Helpers::getVideo($this->video_upload_id, 1, null);
+
+        if (!empty($this->video)) {
+
+            return asset('assets/video') . '/' . $this->video;
+        }
     }
 
     public static function getSingleVideo($id = null)

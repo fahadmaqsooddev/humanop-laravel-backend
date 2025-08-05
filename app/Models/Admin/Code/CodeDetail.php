@@ -163,7 +163,13 @@ class CodeDetail extends Model
 
             if ($result && isset($result->public_name)) {
 
-                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video->video_url, $result->code, $result->name];
+                $video = $result->video;
+
+                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+                    ? $video['video_upload_url']['path']
+                    : ($video['video_url'] ?? null);
+
+                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $videoUrl, $result->code, $result->name];
 
             }
 
@@ -267,13 +273,19 @@ class CodeDetail extends Model
 
                     $str_len = strlen($record->public_name) - 2;
 
+                    $video = $record['video'];
+
+                    $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+                        ? $video['video_upload_url']['path']
+                        : ($video['video_url'] ?? null);
+
                     $progress = VideoProgress::checkVideoProgress($assessment['id'], $record->name);
 
                     $data = [
                         'name' => $record->name,
                         'public_name' => substr($record->public_name, 0, $str_len),
                         'description' => $record->text,
-                        'video_url' => $record['video']['video_url'],
+                        'video_url' => $videoUrl,
                         'code_name' => $codeKey,
                         'code_number' => $assessment[$codeKey] ?? null,
                         'video_progress' => $progress,

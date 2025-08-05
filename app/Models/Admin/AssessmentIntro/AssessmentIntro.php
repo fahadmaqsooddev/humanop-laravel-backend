@@ -89,13 +89,20 @@ class AssessmentIntro extends Model
 
         $data = self::where('code', 'MRI')->first();
 
+
+        $video = $data->video;
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video->video : '',
+            'video' => $videoUrl,
             'video_progress' => $progress,
         ];
 
@@ -106,13 +113,19 @@ class AssessmentIntro extends Model
 
         $data = self::where('code', 'CLI')->first();
 
+        $video = $data->video;
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video->video : '',
+            'video' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -122,13 +135,19 @@ class AssessmentIntro extends Model
 
         $data = self::where('code', 'TI')->first();
 
+        $video = $data->video;
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => !empty($data->video) ? url('/') . "/assets/video/" . $data->video->video : '',
+            'video' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -138,13 +157,19 @@ class AssessmentIntro extends Model
 
         $data = self::where('code', 'MI')->with('video')->first();
 
+        $video = $data->video;
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video'] ? $data['video']['video_url'] : '',
+            'video' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -154,13 +179,19 @@ class AssessmentIntro extends Model
 
         $data = self::where('code', 'BI')->with('video')->first();
 
+        $video = $data->video;
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video'] ? $data['video']['video_url'] : '',
+            'video' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -170,13 +201,19 @@ class AssessmentIntro extends Model
 
         $data = self::where('code', 'CI')->with('video')->first();
 
+        $video = $data->video;
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video'] ? $data['video']['video_url'] : '',
+            'video' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -186,13 +223,19 @@ class AssessmentIntro extends Model
 
         $data = self::where('code', 'EI')->with('video')->first();
 
+        $video = $data->video;
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video'] ? $data['video']['video_url'] : '',
+            'video' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -214,6 +257,12 @@ class AssessmentIntro extends Model
 
         $result = self::where('code', 'PLI')->with('video')->first();
 
+        $video = $result['video'];
+
+        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+            ? $video['video_upload_url']['path']
+            : ($video['video_url'] ?? null);
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $result->name);
 
         return [
@@ -221,7 +270,7 @@ class AssessmentIntro extends Model
             'public_name' => $result['public_name'],
             'name' => $result['name'],
             'description' => $result['text'],
-            'video' => $result['video'] ? $result['video']['video'] : null,
+            'video' => $videoUrl,
             'p_name' => $result['p_name'],
             'video_url' => $result['video']['video_url'],
             'video_progress' => $progress,
