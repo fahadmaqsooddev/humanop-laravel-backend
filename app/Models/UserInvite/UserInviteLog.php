@@ -37,10 +37,14 @@ class UserInviteLog extends Model
 
         $getInvite = self::where('invite_id', $inviteId)->where('role', Admin::CLIENT_INVITE_ROLE)->first();
 
-        $getInvite->delete();
+        if (!empty($getInvite)) {
 
-        return true;
+            $getInvite->delete();
 
+            return true;
+
+        }
+        
     }
 
 }
