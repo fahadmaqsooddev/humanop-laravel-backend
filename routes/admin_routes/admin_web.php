@@ -131,6 +131,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/create-version-control',[VersionController::class,'createVersion'])->name('create-version');
         Route::get('/edit-version-control/{id}',[VersionController::class,'EditVersion'])->name('edit-version');
         Route::get('/result-videos',[ResultVideoController::class,'resultVideo'])->name('admin_result_videos');
+        Route::get('/edit/result-videos/{id}',[ResultVideoController::class,'editResultVideo'])->name('admin_edit_result_videos');
 
         Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
         Route::get('/assessment-walkthrough', [App\Http\Controllers\AdminControllers\AssessmentWalkthrough::class,'getWalkThrough'])->name('admin_get_assessment_walkthrough');

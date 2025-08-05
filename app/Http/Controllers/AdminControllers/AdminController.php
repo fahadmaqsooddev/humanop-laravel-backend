@@ -410,9 +410,9 @@ class AdminController extends Controller
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $perception_life = AssessmentIntro::getPerceptionStaticText();
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
-            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
             ActionPlan::storeUserActionPlan($assessment, $get_user);
@@ -428,12 +428,7 @@ class AdminController extends Controller
             $intro_communication = AssessmentIntro::introCommunication();
             $intro_energypool = AssessmentIntro::introEnergypool();
 
-
-            if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER) {
-                return view('practitioner-dashboard.user.profile_overview', compact('allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age', 'id', 'created_at'));
-            } else {
-                return view('admin-dashboards.user.client_profile_overview', compact('summary_static', 'main_result', 'cycle_life', 'trait_intro', 'motivation_intro', 'intro_boundaries', 'intro_communication', 'intro_energypool', 'allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age', 'id', 'created_at'));
-            }
+            return view('admin-dashboards.user.client_profile_overview', compact('summary_static', 'main_result', 'cycle_life', 'trait_intro', 'motivation_intro', 'intro_boundaries', 'intro_communication', 'intro_energypool', 'allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age', 'id', 'created_at'));
 
         } catch (\Exception $exception) {
             $url = request()->fullUrl(); // Get the URL of the request

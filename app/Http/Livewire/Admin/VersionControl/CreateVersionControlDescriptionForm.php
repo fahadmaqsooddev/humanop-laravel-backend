@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire\Admin\VersionControl;
+
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Admin\VersionControl\VersionControlDescription;
 use Livewire\Component;
@@ -8,15 +9,16 @@ use Livewire\Component;
 class CreateVersionControlDescriptionForm extends Component
 {
 
-    
+    public $versions, $version_id, $description, $description_id, $version_heading;
 
-    public $versions,$version_id,$description,$description_id,$version_heading;
-    public $platform=[];
-    protected $listeners = ['updateDescriptionValues','emptyVersionControlValues','updateContent'];
+    public $platform = [];
+
+    protected $listeners = ['updateDescriptionValues', 'emptyVersionControlValues', 'updateContent'];
+
     protected $rules = [
         'version_id' => 'required',
         'description' => 'required',
-        'platform'=>'required'
+        'platform' => 'required'
     ];
 
     protected $messages = [
@@ -25,63 +27,91 @@ class CreateVersionControlDescriptionForm extends Component
         'platform.required' => 'Platform is required',
     ];
 
-    
 
     public function updateContent($editorId, $data)
     {
         $this->description = $data;
     }
 
-    public function updateDescriptionValues($id,$version_id,$description,$platform,$version_heading){
-        // dd($id,$version_id,$description,$platform);
-        
+    public function updateDescriptionValues($id, $version_id, $description, $platform, $version_heading)
+    {
+
         $this->emptyVersionControlValues();
+
         $this->description_id = $id;
+
         $this->version_id = $version_id;
+
         $this->description = $description;
-        // $this->platform = $platform;
+
         $this->platform = explode(',', $platform);
+
         $this->version_heading = $version_heading;
-        // $this->emit('contentUpdated', $this->note);
+
     }
 
-    public function emptyVersionControlValues(){
+    public function emptyVersionControlValues()
+    {
+
         $this->version_id = '';
+
         $this->description_id = '';
+
         $this->description = '';
+
         $this->platform = '';
-        $this->version_heading= '';
+
+        $this->version_heading = '';
+
     }
 
-    public function updateDescription(){
+    public function updateDescription()
+    {
         try {
 
             $validatedData = $this->validate();
 
-            if($this->description_id){
-            
-                // dd($this->description_id,$this->version_id,$this->description,$this->platform,$this->version_heading);
-                VersionControlDescription::editDescription($this->description_id,$this->version_id,$this->description,$this->platform,$this->version_heading);
-                $this->emit('closeModal');
-                $this->reset();
-                $this->emit('refreshVersions');
-                $this->emit('updateSession','Updated');
-            }else{
+            if ($this->description_id) {
 
-       
-                VersionControlDescription::createDescription($this->version_id,$this->description,$this->platform);
+                VersionControlDescription::editDescription($this->description_id, $this->version_id, $this->description, $this->platform, $this->version_heading);
+
                 $this->emit('closeModal');
+
                 $this->reset();
+
+                $this->emit('refreshVersions');
+
+                $this->emit('updateSession', 'Updated');
+
+            } else {
+
+                VersionControlDescription::createDescription($this->version_id, $this->description, $this->platform);
+
+                $this->emit('closeModal');
+
+                $this->reset();
+
                 $this->emit('refreshVersionControl');
-                $this->emit('updateSession','Created');
+
+                $this->emit('updateSession', 'Created');
             }
+
+
         } catch (\Exception $exception) {
+
             session()->flash('error', $exception->getMessage());
+
         }
+
     }
+
     public function render()
     {
-        $this->versions=Version::getVersions();
+
+        $this->versions = Version::getVersions();
+
         return view('livewire.admin.version-control.create-version-control-description-form');
+
     }
+
 }

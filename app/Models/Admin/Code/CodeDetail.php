@@ -11,7 +11,6 @@ class CodeDetail extends Model
 {
     use HasFactory;
 
-    protected $appends = ['video_url'];
 
     public function __construct(array $attributes = [])
     {
@@ -22,16 +21,10 @@ class CodeDetail extends Model
         parent::__construct($attributes);
     }
 
-//    append
-    public function getVideoUrlAttribute()
+    public function video()
     {
-
-        if (!empty($this->video)) {
-
-            return asset('assets/video') . '/' . $this->video;
-        }
+        return $this->belongsTo(ResultVideo::class, 'video_id', 'id');
     }
-
 
     // query
     public static function allCodes()
@@ -166,11 +159,17 @@ class CodeDetail extends Model
 
             $key = strtoupper($index);
 
-            $result = self::where('code', $key)->where('number', 1)->first();
+            $result = self::where('code', $key)->with('video')->where('number', 1)->first();
 
             if ($result && isset($result->public_name)) {
 
-                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video_url, $result->code, $result->name];
+                $video = $result->video;
+
+                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+                    ? $video['video_upload_url']['path']
+                    : ($video['video_url'] ?? null);
+
+                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $videoUrl, $result->code, $result->name];
 
             }
 
@@ -189,7 +188,7 @@ class CodeDetail extends Model
 
             $key = strtoupper($index);
 
-            $codeDetail[] = self::where('code', $key)->inRandomOrder()->first();
+            $codeDetail[] = self::where('code', $key)->with('video')->inRandomOrder()->first();
 
         }
 
@@ -211,7 +210,7 @@ class CodeDetail extends Model
 
     public static function getSinglePublicName($codeKey = null)
     {
-        return self::where('code', $codeKey)->where('number', 1)->first();
+        return self::where('code', $codeKey)->where('number', 1)->with('video')->first();
     }
 
     public static function getCommunicationPublicName($communication = null)
@@ -264,7 +263,7 @@ class CodeDetail extends Model
 
             $key = strtoupper($codeKey);
 
-            $record = self::where('code', $key)->where('number', 1)->first();
+            $record = self::where('code', $key)->where('number', 1)->with('video')->first();
 
             if ($record) {
 
@@ -274,13 +273,19 @@ class CodeDetail extends Model
 
                     $str_len = strlen($record->public_name) - 2;
 
+                    $video = $record['video'];
+
+                    $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+                        ? $video['video_upload_url']['path']
+                        : ($video['video_url'] ?? null);
+
                     $progress = VideoProgress::checkVideoProgress($assessment['id'], $record->name);
 
                     $data = [
                         'name' => $record->name,
                         'public_name' => substr($record->public_name, 0, $str_len),
                         'description' => $record->text,
-                        'video_url' => $record['video_url'],
+                        'video_url' => $videoUrl,
                         'code_name' => $codeKey,
                         'code_number' => $assessment[$codeKey] ?? null,
                         'video_progress' => $progress,
@@ -296,7 +301,7 @@ class CodeDetail extends Model
                         'name' => $record->name,
                         'public_name' => $record->public_name,
                         'description' => $record->text,
-                        'video_url' => $record->video_url,
+                        'video_url' => $record['video']['video_url'],
                         'code_name' => $codeKey,
                         'code_number' => $assessment[$codeKey] ?? null,
                         'video_progress' => $progress,

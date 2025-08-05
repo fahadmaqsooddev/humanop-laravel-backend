@@ -29,18 +29,17 @@
                         </tr>
                         </thead>
                         <tbody>
-{{--                        @foreach($assessmentIntro as $code)--}}
-{{--                            <tr class="table-text-color">--}}
-{{--                                <td class="text-md font-weight-normal">{{$code['name']}} </td>--}}
-{{--                                <td class="text-md font-weight-normal">{{$code['public_name']}}</td>--}}
-{{--                                <td class="text-md font-weight-normal">{{$code['code']}}</td>--}}
-{{--                                <td class="text-md font-weight-normal">{{$code['number']}}</td>--}}
-{{--                                <td class="text-md font-weight-normal"><a--}}
-{{--                                        href="{{ route('admin_edit_assessment_intro',['id' => $code['id'] ]) }}"--}}
-{{--                                        type="submit" style="background-color: #1B3A62 ; color: white"--}}
-{{--                                        class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>--}}
-{{--                            </tr>--}}
-{{--                        @endforeach--}}
+                        @foreach($videos as $key => $video)
+                            <tr class="table-text-color">
+                                <td class="text-md font-weight-normal">{{$key + 1}} </td>
+                                <td class="text-md font-weight-normal">{{$video['public_name']}}</td>
+                                <td class="text-md font-weight-normal">{{$video['code']}}</td>
+                                <td class="text-md font-weight-normal"><a
+                                        href="{{ route('admin_edit_result_videos',['id' => $video['id'] ]) }}"
+                                        type="submit" style="background-color: #1B3A62 ; color: white"
+                                        class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>
+                            </tr>
+                        @endforeach
 
                         </tbody>
                     </table>
