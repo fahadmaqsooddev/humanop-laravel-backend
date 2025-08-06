@@ -323,21 +323,28 @@ class Helpers
 
             $upload = Upload::find($video);
 
+            if (!empty($upload)){
 
-            if ($upload->extension != 'mp4') {
+                if ($upload->extension != 'mp4') {
+
+                    return [];
+                }
+
+                $path = url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name;
+
+                if ($is_original_name) {
+
+                    $original_name = $upload['original_name'];
+
+                    return array('path' => $path, 'original_name' => $original_name);
+
+                }
+
+            }else{
 
                 return [];
             }
 
-            $path = url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name;
-
-            if ($is_original_name) {
-
-                $original_name = $upload['original_name'];
-
-                return array('path' => $path, 'original_name' => $original_name);
-
-            }
         }
     }
 
