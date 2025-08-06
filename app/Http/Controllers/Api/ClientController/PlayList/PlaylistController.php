@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\Playlist\NewPlaylistRequest;
 use App\Models\Playlist\Playlist;
+use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
 {
@@ -83,6 +84,33 @@ class PlaylistController extends Controller
             Playlist::newPlaylist($dataArray);
 
             return Helpers::successResponse("Add your playlist");
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public static function deleteMyPlaylists(Request $request)
+    {
+
+        try {
+
+            $playlistId = $request['playlist_id'];
+
+            if (!empty($playlistId)){
+
+                Playlist::deletePlaylist($playlistId);
+
+                return Helpers::successResponse("Delete your playlist");
+
+            }else{
+
+                return Helpers::validationResponse('Playlist id is required');
+
+            }
 
         } catch (\Exception $exception) {
 

@@ -37,5 +37,24 @@ class Playlist extends Model
         return self::create($playlist);
     }
 
+    public static function deletePlaylist($playlistId = null)
+    {
+
+        $playlist = self::whereId($playlistId)->first();
+
+        if (!empty($playlistId)){
+
+            PlaylistLog::deleteMyPlaylist($playlistId);
+
+            $playlist->delete();
+
+            return true;
+
+        }else{
+
+            return false;
+
+        }
+    }
 
 }
