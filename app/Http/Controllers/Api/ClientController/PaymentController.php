@@ -220,23 +220,23 @@ class PaymentController extends Controller
 
     public function processSubscription(ProcessSubscriptionRequest $request){
 
-        try {
+//        try {
 
             $plan_name = Subscription::processSubscription($request);
 
             return Helpers::successResponse('Subscription is updated', $plan_name);
 
-        }catch (\Exception $exception){
-
-            if ($exception instanceof CardException){
-
-                return Helpers::validationResponse($exception->getMessage());
-
-            }else{
-
-                return Helpers::serverErrorResponse($exception->getMessage());
-            }
-        }
+//        }catch (\Exception $exception){
+//
+//            if ($exception instanceof CardException){
+//
+//                return Helpers::validationResponse($exception->getMessage());
+//
+//            }else{
+//
+//                return Helpers::serverErrorResponse($exception->getMessage());
+//            }
+//        }
 
     }
 
