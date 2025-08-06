@@ -704,6 +704,11 @@ return [
             'fillable' => ['user_id','audio_id','title','description'],
             'hidden' => ['created_at'],
         ],
+        'PlaylistLog' => [
+            'table' => 'playlist_log',
+            'fillable' => ['playlist_id','resource_item_id','shop_item_id','user_id','podcast_id'],
+            'hidden' => ['created_at'],
+        ],
         'ResultVideo' => [
             'table' => 'assessment_result_videos',
             'fillable' => ['public_name','video', 'video_upload_id'],

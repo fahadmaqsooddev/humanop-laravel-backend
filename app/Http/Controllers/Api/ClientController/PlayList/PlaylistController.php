@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api\ClientController\PlayList;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Client\Playlist\AddPlayListRequest;
+use App\Http\Requests\Api\Client\Playlist\NewPlaylistRequest;
 use App\Models\Playlist\Playlist;
-use App\Models\Upload\Upload;
 use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
@@ -24,25 +23,67 @@ class PlaylistController extends Controller
 
     public function myPlaylists()
     {
-
         try {
-
             $playlists = $this->playlist->myPlaylists();
 
             $myPlaylists = [];
 
             foreach ($playlists as $playlist) {
+                $mergedResourceItems = [];
+                $mergedShopItems = [];
+                $mergedPodcastItems = [];
+
+                foreach ($playlist['playlist'] as $playlistLog) {
+
+                    if (!empty($playlistLog['resourceItems'])) {
+                        foreach ($playlistLog['resourceItems'] as $item) {
+                            $mergedResourceItems[] = $item;
+                        }
+                    }
+
+                    if (!empty($playlistLog['shopItems'])) {
+                        foreach ($playlistLog['shopItems'] as $item) {
+                            $mergedShopItems[] = $item;
+                        }
+                    }
+
+                    if (!empty($playlistLog['podcastItems'])) {
+                        foreach ($playlistLog['podcastItems'] as $item) {
+                            $mergedPodcastItems[] = $item;
+                        }
+                    }
+                }
 
                 $myPlaylists[] = [
                     'id' => $playlist['id'],
                     'title' => $playlist['title'],
                     'description' => $playlist['description'],
-                    'audio_url' => $playlist['audio_url']['path'],
+                    'resource_items' => $mergedResourceItems,
+                    'shop_items' => $mergedShopItems,
+                    'podcast_items' => $mergedPodcastItems,
                 ];
-
             }
 
-            return  Helpers::successResponse('all My Playlists', $myPlaylists);
+            return Helpers::successResponse('All My Playlists', $myPlaylists);
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function newPlaylist(NewPlaylistRequest $request)
+    {
+
+        try {
+
+            $dataArray = $request->only($this->playlist->getFillable());
+
+            $dataArray['user_id'] = Helpers::getUser()['id'];
+
+            Playlist::newPlaylist($dataArray);
+
+            return Helpers::successResponse("Add your playlist");
 
         } catch (\Exception $exception) {
 
@@ -52,26 +93,23 @@ class PlaylistController extends Controller
 
     }
 
-    public function addMyPlaylist(AddPlayListRequest $request)
+    public static function deleteMyPlaylists(Request $request)
     {
 
         try {
 
-            $dataArray = $request->only($this->playlist->getFillable());
+            $playlistId = $request['playlist_id'];
 
-            $audioFile = $request->file('audio_file');
+            if (!empty($playlistId)){
 
-            if ($audioFile && in_array($audioFile->extension(), ['mp3', 'wav', 'mpeg', 'aac', 'ogg', 'oga', 'm4a', 'flac', 'alac', 'wma', 'amr', 'midi', 'mid', 'opus', 'aiff', 'aif'])) {
+                Playlist::deletePlaylist($playlistId);
 
-                $uploadId = Upload::uploadFile($audioFile, '', '', 'audio');
+                return Helpers::successResponse("Delete your playlist");
 
-                $dataArray['audio_id'] = $uploadId;
+            }else{
 
-                $dataArray['user_id'] = Helpers::getUser()['id'];
+                return Helpers::validationResponse('Playlist id is required');
 
-                Playlist::addPlaylist($dataArray);
-
-                return Helpers::successResponse("Add your playlist");
             }
 
         } catch (\Exception $exception) {
@@ -79,5 +117,6 @@ class PlaylistController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
+
     }
 }

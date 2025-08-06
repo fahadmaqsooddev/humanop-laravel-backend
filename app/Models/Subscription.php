@@ -54,9 +54,13 @@ class Subscription extends Model
     {
         $key = StripeSetting::getSingle();
 
-        \Stripe\Stripe::setApiKey($key['api_key']);
+        if (!$key || empty($key->api_key)) {
+            throw new \Exception('Stripe API key not configured.');
+        }
 
-        $stripe_client = new \Stripe\StripeClient($key['api_key']);
+        \Stripe\Stripe::setApiKey($key->api_key);
+
+        $stripe_client = new \Stripe\StripeClient($key->api_key);
 
         $payment_method_id = $request->input('payment_method');
 
@@ -70,11 +74,11 @@ class Subscription extends Model
 
         // Attach payment method to customer
         $stripe_client->paymentMethods->attach($payment_method_id, [
-            'customer' => $user['b2c_stripe_id']
+            'customer' => $user->b2c_stripe_id
         ]);
 
-        // Set default payment method (needs Stripe::setApiKey())
-        \Stripe\Customer::update($user['b2c_stripe_id'], [
+        // Set default payment method
+        \Stripe\Customer::update($user->b2c_stripe_id, [
             'invoice_settings' => [
                 'default_payment_method' => $payment_method_id,
             ],
@@ -83,32 +87,26 @@ class Subscription extends Model
         $subscription = $user->subscription('main');
 
         if ($subscription && $subscription->stripe_status !== 'incomplete') {
-
             $subscription->swapAndInvoice($request->input('plan_id'));
-
         } else {
-
             if ($subscription && $subscription->stripe_status === 'incomplete') {
-
                 $subscription->cancelNow();
-
             }
 
             $user->newSubscription('main', $request->input('plan_id'))->create($payment_method_id);
-
         }
+
 
         $plan = \App\Models\Client\Plan\Plan::singlePlan($request->input('plan_id'));
 
-        if($plan['name'] == 'Core'){
+        if ($plan && $plan->name === 'Core') {
 
             Point::updatePointOnPlanUpdate(Admin::CORE_CREDITS, $user);
         }
 
         return [
-            'plan_name' => $plan['name']
+            'plan_name' => $plan->name ?? null
         ];
-
     }
 
     public static function updateUserSubscriptionFromAdmin($plan_id, $user_id)
