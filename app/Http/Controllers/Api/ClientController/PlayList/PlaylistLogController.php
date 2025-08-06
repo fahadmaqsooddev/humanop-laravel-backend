@@ -27,6 +27,8 @@ class PlaylistLogController extends Controller
 
             $dataArray = $request->only($this->playlist->getFillable());
 
+            $dataArray['user_id'] = Helpers::getUser()['id'];
+
             PlaylistLog::addMyPlaylist($dataArray);
 
             return Helpers::successResponse("Add your playlist");

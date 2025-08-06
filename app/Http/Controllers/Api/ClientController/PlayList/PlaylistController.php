@@ -30,6 +30,7 @@ class PlaylistController extends Controller
             foreach ($playlists as $playlist) {
                 $mergedResourceItems = [];
                 $mergedShopItems = [];
+                $mergedPodcastItems = [];
 
                 foreach ($playlist['playlist'] as $playlistLog) {
 
@@ -39,10 +40,15 @@ class PlaylistController extends Controller
                         }
                     }
 
-                    // Merge shop items
                     if (!empty($playlistLog['shopItems'])) {
                         foreach ($playlistLog['shopItems'] as $item) {
                             $mergedShopItems[] = $item;
+                        }
+                    }
+
+                    if (!empty($playlistLog['podcastItems'])) {
+                        foreach ($playlistLog['podcastItems'] as $item) {
+                            $mergedPodcastItems[] = $item;
                         }
                     }
                 }
@@ -53,6 +59,7 @@ class PlaylistController extends Controller
                     'description' => $playlist['description'],
                     'resource_items' => $mergedResourceItems,
                     'shop_items' => $mergedShopItems,
+                    'podcast_items' => $mergedPodcastItems,
                 ];
             }
 

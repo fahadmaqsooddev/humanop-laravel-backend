@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\Podcast\Podcast;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\Resources\ShopCategoryResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,11 @@ class PlaylistLog extends Model
     public function shopItems()
     {
         return $this->hasMany(ShopCategoryResource::class, 'id', 'shop_item_id');
+    }
+
+    public function podcastItems()
+    {
+        return $this->hasMany(Podcast::class, 'id', 'podcast_id');
     }
 
     public static function addMyPlaylist($playlist = null)
