@@ -23,40 +23,32 @@ class AddPlayListRequest extends FormRequest
      */
     public function rules()
     {
-        $userId = auth()->id(); // Get the currently authenticated user's ID
+        $userId = auth()->id();
 
         return [
-            'title' => [
+            'playlist_id' => [
                 'required',
-                'string',
-                'max:255',
-                Rule::unique('playlist', 'title')->where(function ($query) use ($userId) {
+                Rule::exists('playlist', 'id')->where(function ($query) use ($userId) {
                     return $query->where('user_id', $userId);
                 }),
             ],
-            'description' => 'required|string|max:10000',
-            'audio_file' => 'required|file|mimes:mp3,wav,aac,ogg,oga,m4a,flac,alac,wma,amr,midi,mid,opus,aiff,aif|max:204800', // Max 200MB
+            'resource_item_id' => 'required_without:shop_item_id|nullable|exists:library_resources,id',
+            'shop_item_id' => 'required_without:resource_item_id|nullable|exists:humanop_shop_resources,id',
         ];
     }
-
 
 
     public function messages()
     {
         return [
-            'title.required' => 'The title is required.',
-            'title.string' => 'The title must be a string.',
-            'title.max' => 'The title may not be greater than 255 characters.',
-            'title.unique' => 'A playlist with this title already exists.',
+            'playlist_id.required' => 'Playlist ID is required.',
+            'playlist_id.exists' => 'The selected playlist does not belong to you.',
 
-            'description.required' => 'The description is required.',
-            'description.string' => 'The description must be a string.',
-            'description.max' => 'The description is too long.',
+            'resource_item_id.required_without' => 'The resource item is required when no shop item is provided.',
+            'resource_item_id.exists' => 'The selected resource item does not exist.',
 
-            'audio_file.required' => 'An audio file is required.',
-            'audio_file.file' => 'The uploaded audio must be a valid file.',
-            'audio_file.mimes' => 'The audio must be a file of type: mp3, wav, aac, ogg, oga, m4a, flac, alac, wma, amr, midi, mid, opus, aiff, aif.',
-            'audio_file.max' => 'The audio file must not be larger than 200MB.',
+            'shop_item_id.required_without' => 'The shop item is required when no resource item is provided.',
+            'shop_item_id.exists' => 'The selected shop item does not exist.',
         ];
     }
 

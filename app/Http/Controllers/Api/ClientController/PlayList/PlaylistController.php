@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Api\ClientController\PlayList;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Client\Playlist\AddPlayListRequest;
+use App\Http\Requests\Api\Client\Playlist\NewPlaylistRequest;
 use App\Models\Playlist\Playlist;
-use App\Models\Upload\Upload;
-use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
 {
@@ -24,60 +22,66 @@ class PlaylistController extends Controller
 
     public function myPlaylists()
     {
-
         try {
-
             $playlists = $this->playlist->myPlaylists();
 
             $myPlaylists = [];
 
             foreach ($playlists as $playlist) {
+                $mergedResourceItems = [];
+                $mergedShopItems = [];
+
+                foreach ($playlist['playlist'] as $playlistLog) {
+
+                    if (!empty($playlistLog['resourceItems'])) {
+                        foreach ($playlistLog['resourceItems'] as $item) {
+                            $mergedResourceItems[] = $item;
+                        }
+                    }
+
+                    // Merge shop items
+                    if (!empty($playlistLog['shopItems'])) {
+                        foreach ($playlistLog['shopItems'] as $item) {
+                            $mergedShopItems[] = $item;
+                        }
+                    }
+                }
 
                 $myPlaylists[] = [
                     'id' => $playlist['id'],
                     'title' => $playlist['title'],
                     'description' => $playlist['description'],
-                    'audio_url' => $playlist['audio_url']['path'],
+                    'resource_items' => $mergedResourceItems,
+                    'shop_items' => $mergedShopItems,
                 ];
-
             }
 
-            return  Helpers::successResponse('all My Playlists', $myPlaylists);
+            return Helpers::successResponse('All My Playlists', $myPlaylists);
 
         } catch (\Exception $exception) {
-
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
-    public function addMyPlaylist(AddPlayListRequest $request)
+
+    public function newPlaylist(NewPlaylistRequest $request)
     {
 
         try {
 
             $dataArray = $request->only($this->playlist->getFillable());
 
-            $audioFile = $request->file('audio_file');
+            $dataArray['user_id'] = Helpers::getUser()['id'];
 
-            if ($audioFile && in_array($audioFile->extension(), ['mp3', 'wav', 'mpeg', 'aac', 'ogg', 'oga', 'm4a', 'flac', 'alac', 'wma', 'amr', 'midi', 'mid', 'opus', 'aiff', 'aif'])) {
+            Playlist::newPlaylist($dataArray);
 
-                $uploadId = Upload::uploadFile($audioFile, '', '', 'audio');
-
-                $dataArray['audio_id'] = $uploadId;
-
-                $dataArray['user_id'] = Helpers::getUser()['id'];
-
-                Playlist::addPlaylist($dataArray);
-
-                return Helpers::successResponse("Add your playlist");
-            }
+            return Helpers::successResponse("Add your playlist");
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
+
     }
 }

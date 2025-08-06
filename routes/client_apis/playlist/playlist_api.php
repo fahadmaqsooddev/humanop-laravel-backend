@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('my-playlist', 'PlaylistController@myPlaylists');
-    Route::post('add-my-playlist', 'PlaylistController@addMyPlaylist');
+    Route::post('new-playlist', 'PlaylistController@newPlaylist');
+    Route::post('add-my-playlist', 'PlaylistLogController@addMyPlaylist');
 
 });

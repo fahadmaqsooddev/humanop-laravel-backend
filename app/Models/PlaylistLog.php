@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Playlist;
+namespace App\Models;
 
-use App\Helpers\Helpers;
-use App\Models\PlaylistLog;
+use App\Models\Admin\Resources\LibraryResource;
+use App\Models\Admin\Resources\ShopCategoryResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Playlist extends Model
+class PlaylistLog extends Model
 {
     use HasFactory;
 
@@ -19,23 +19,20 @@ class Playlist extends Model
         parent::__construct($attributes);
     }
 
-    public function playlist()
+    public function resourceItems()
     {
-        return $this->hasMany(PlaylistLog::class , 'playlist_id', 'id');
+        return $this->hasMany(LibraryResource::class, 'id', 'resource_item_id');
     }
 
-    public static function myPlaylists()
+    public function shopItems()
     {
-        $user = Helpers::getUser();
-
-        return self::where('user_id', $user['id'])->with(['playlist.resourceItems', 'playlist.shopItems'])->orderBy('created_at', 'desc')->get();
-
+        return $this->hasMany(ShopCategoryResource::class, 'id', 'shop_item_id');
     }
 
-    public static function newPlaylist($playlist = null)
+    public static function addMyPlaylist($playlist = null)
     {
+
         return self::create($playlist);
     }
-
 
 }
