@@ -64,6 +64,7 @@ class Subscription extends Model
 
         $payment_method_id = $request->input('payment_method');
 
+        dd($payment_method_id);
         $new_payment_method_detail = $stripe_client->paymentMethods->retrieve($payment_method_id, []);
 
         dd($new_payment_method_detail);
