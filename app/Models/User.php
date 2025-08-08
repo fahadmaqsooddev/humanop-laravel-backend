@@ -846,7 +846,11 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-        $request['set_daily_tip_time'] = date("H:i:s", strtotime($request['set_daily_tip_time']));
+        if (isset($request['set_daily_tip_time'])){
+
+            $request['set_daily_tip_time'] = date("H:i:s", strtotime($request['set_daily_tip_time']));
+
+        }
 
         self::whereId($user['id'])->update($request);
 
