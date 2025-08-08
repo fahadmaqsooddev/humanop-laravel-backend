@@ -135,9 +135,15 @@ class GamificationController extends Controller
 
             $haiConversation = HaiThread::getUserChats();
 
+            if (count($totalVideos) > 0) {
+                $progress = (count($watchVideos) < count($totalVideos)) ? 'unfinished' : 'finished';
+            } else {
+                $progress = 'unfinished';
+            }
+
             $challenges = [
                 'daily_tips' => $userDailyTips['is_read'] == 1 ? 'finished' : 'unfinished',
-                'watch_videos' => count($watchVideos) < count($totalVideos) ? 'unfinished' : 'finished',
+                'watch_videos' => $progress,
                 'hai_conversation' => count($haiConversation) > 0 ? 'finished' : 'unfinished',
             ];
 
