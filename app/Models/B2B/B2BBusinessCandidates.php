@@ -84,6 +84,7 @@ class B2BBusinessCandidates extends Model
                 'candidate_id' => $candidateId,
                 'role' => $role == 1 ? Admin::IS_TEAM_MEMBER : Admin::IS_CANDIDATE,
                 'share_data' => $sharedData,
+                'paid' => 0
             ]);
 
             return $data;
