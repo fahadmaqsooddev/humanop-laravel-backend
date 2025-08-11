@@ -112,7 +112,7 @@ class UserController extends Controller
 
             if ($request) {
 
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone','set_daily_tip_time']);
 
                 $updated_user = User::updatePersonalInformation($dataArray);
 

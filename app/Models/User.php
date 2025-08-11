@@ -832,8 +832,7 @@ class User extends Authenticatable implements JWTSubject
     public static function updatePersonalInformation($request = null)
     {
 
-        $user_id = Helpers::getUser()->id;
-
+        $user = Helpers::getUser();
 
         $request['gender'] = $request['gender'] === 'male' ? 0 : 1;
 
@@ -847,10 +846,16 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-        self::whereId($user_id)->update($request);
+        if (isset($request['set_daily_tip_time'])){
+
+            $request['set_daily_tip_time'] = date("H:i:s", strtotime($request['set_daily_tip_time']));
+
+        }
+
+        self::whereId($user['id'])->update($request);
 
 
-        return self::user($user_id);
+        return self::user($user['id']);
 
     }
 
