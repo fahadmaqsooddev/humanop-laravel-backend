@@ -522,7 +522,7 @@ return [
         ],
         'B2BBusinessCandidates' => [
             'table' => 'business_candidates',
-            'fillable' => ['business_id','candidate_id','is_permanently_deleted','future_consideration','role','share_data','request_access','future_consideration_share_date'],
+            'fillable' => ['business_id','candidate_id','is_permanently_deleted','future_consideration','role','share_data','request_access','future_consideration_share_date','first_time_share_data'],
             'hidden' => ['updated_at','created_at'],
         ],
         'B2BCandidateStat' => [

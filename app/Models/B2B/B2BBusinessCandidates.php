@@ -220,7 +220,9 @@ class B2BBusinessCandidates extends Model
 
         if ($checkBusinessCandidate) {
 
-            $checkBusinessCandidate->update(['share_data' => Admin::SHARED_DATA]);
+            $firstTimeShareData = $checkBusinessCandidate['first_time_share_data'] != Admin::FIRST_TIME_SHARED_DATA ? Admin::FIRST_TIME_SHARED_DATA : Admin::FIRST_TIME_SHARED_DATA;
+
+            $checkBusinessCandidate->update(['share_data' => Admin::SHARED_DATA, 'first_time_share_data' => $firstTimeShareData]);
 
             if ($checkBusinessCandidate['share_data'] == 1) {
 
