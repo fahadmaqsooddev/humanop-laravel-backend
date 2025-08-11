@@ -133,6 +133,10 @@ final class Admin
 
     const SHARED_DATA = 1;
 
+    const FIRST_TIME_SHARED_DATA = 1;
+
+    const FIRST_TIME_NOT_SHARED_DATA = 0;
+
     const NOT_SHARED_DATA = 0;
 
     const DECLINED_DATA = 3;
