@@ -259,7 +259,7 @@ class DashboardController extends Controller
 
         try {
 
-            $userPlan = Helpers::getUser()['action_plan'];
+            $userPlan = Helpers::getUser()['plan_name'];
 
             if ($request->has('assessment_id')) {
 
@@ -273,17 +273,35 @@ class DashboardController extends Controller
 
             if (!empty($assessment)) {
 
-                if ($userPlan == null || $userPlan == 'Freemium')
-                {
-                    $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment, $userPlan);
+                $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment, $userPlan);
 
-                    if (empty($actionPlan)) {
+                if (empty($actionPlan)) {
 
-                        $actionPlan = ActionPlan::storeUserActionPlan($assessment, $userPlan);
+                    $actionPlan = ActionPlan::storeUserActionPlan($assessment, $userPlan);
 
-                    }
                 }
 
+                if ($userPlan == "Core"){
+
+                    $planText = json_decode($actionPlan['plan_text'], true);
+
+                    $actionPlan = [
+                        'id' => $actionPlan['id'],
+                        'priority' => $actionPlan['priority'],
+                        'plan_text' => [
+                            'intro' => $planText['intro'],
+                            'day1_30' => $planText['day1_30'],
+                            'day31_60' => $planText['day31_60'],
+                            'day61_90' => $planText['day61_90']
+                        ],
+                        'text' => $actionPlan['text'],
+                    ];
+
+                }else{
+
+                    $actionPlan = $actionPlan;
+
+                }
 
                 return Helpers::successResponse('Action plan', $actionPlan);
 

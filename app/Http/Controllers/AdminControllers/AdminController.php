@@ -400,7 +400,6 @@ class AdminController extends Controller
 
             }
 
-
             $get_user = User::getSingleUser($assessment['user_id']);
 
             $age = Carbon::parse($get_user['date_of_birth'])->age;
@@ -415,7 +414,7 @@ class AdminController extends Controller
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
-            ActionPlan::storeUserActionPlan($assessment, $get_user);
+            ActionPlan::storeUserActionPlan($assessment, $get_user['plan_name']);
 
             $actionPlan = ActionPlan::getUserActionPlan($assessment['users'] ? $assessment['users']['id'] : '');
 
