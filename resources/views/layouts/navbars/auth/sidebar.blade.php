@@ -300,7 +300,8 @@
                                                        'admin/b2c-email-template',
                                                        'admin/logs-activity',
                                                        'admin/network-tutorials',
-                                                       'admin/result-videos') ? 'show' : '' }}"
+                                                       'admin/result-videos',
+                                                       'admin/suggested-items') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
                                                             <li class="nav-item {{ (Request::is('admin/assessment-walkthrough') ? 'active-itt-all' : '') }}">
@@ -364,6 +365,19 @@
                                                                             src="{{ Request::is('admin/announcements-news') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
                                                                     <span
                                                                         class="sidenav-normal"> Announcements & News </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/suggested-items') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/suggested-items') ? 'active-itt-all' : '') }}"
+                                                                   href="{{route('admin_suggested_items')}}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/suggested-items') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/suggested-items') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Suggested Items </span>
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}">
