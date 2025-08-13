@@ -77,13 +77,36 @@ class PlaylistController extends Controller
 
         try {
 
+            $user = Helpers::getUser();
+
             $dataArray = $request->only($this->playlist->getFillable());
 
-            $dataArray['user_id'] = Helpers::getUser()['id'];
+            $dataArray['user_id'] = $user['id'];
 
-            Playlist::newPlaylist($dataArray);
+            $checkPlayList = Playlist::myPlaylists();
 
-            return Helpers::successResponse("Add your playlist");
+            if ($user['plan_name'] == 'Freemium'){
+
+                if (count($checkPlayList) == 0){
+
+                    Playlist::newPlaylist($dataArray);
+
+                    return Helpers::successResponse("Add your playlist");
+
+                }else{
+
+                    return Helpers::validationResponse("You can't add more playlists because your plan is Freemium.");
+
+                }
+
+            }else{
+
+                Playlist::newPlaylist($dataArray);
+
+                return Helpers::successResponse("Add your playlist");
+
+            }
+
 
         } catch (\Exception $exception) {
 

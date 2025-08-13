@@ -16,6 +16,7 @@ use App\Http\Controllers\AdminControllers\OptimizationPlanController;
 use App\Http\Controllers\AdminControllers\PaymentController;
 use App\Http\Controllers\AdminControllers\ClientController;
 use App\Http\Controllers\AdminControllers\PodcastController;
+use App\Http\Controllers\AdminControllers\SuggestedItemsController;
 use App\Http\Controllers\AdminControllers\InformationController;
 use App\Http\Controllers\AdminControllers\VersionController;
 use App\Http\Controllers\HAIChat\ClientQueryController;
@@ -139,6 +140,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
         Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');
         Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
+        Route::get('/suggested-items', [SuggestedItemsController::class, 'suggestedItems'])->name('admin_suggested_items');
         Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
         Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
