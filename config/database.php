@@ -708,6 +708,16 @@ return [
             'table' => 'assessment_result_videos',
             'fillable' => ['public_name','video', 'video_upload_id'],
             'hidden' => ['created_at'],
+        ],
+        'SuggestedItem' => [
+            'table' => 'suggested_items',
+            'fillable' => ['title','description', 'image_id', 'video_id', 'audio_id'],
+            'hidden' => ['created_at', 'updated_at'],
+        ],
+        'HumanOpItemsGridActivitiesLog' => [
+            'table' => 'humnop_items_grid_activities_log',
+            'fillable' => ['resource_item_id','shop_item_id', 'suggested_item_id','grid_name'],
+            'hidden' => ['created_at', 'updated_at'],
         ]
     ]
 ];

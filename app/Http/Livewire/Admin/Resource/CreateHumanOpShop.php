@@ -16,7 +16,7 @@ class CreateHumanOpShop extends Component
     use WithFileUploads;
 
     public $booleanValue = false;
-    
+
     public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $update_content, $resource_file, $category_id, $editResourceData, $category_name;
     public $selectedTraits = [];
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
@@ -70,7 +70,8 @@ class CreateHumanOpShop extends Component
                     $this->pointValue
                 );
 
-            } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
+            }
+            elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
                 $resource = ShopCategoryResource::createShopResource(
                     $this->heading,
                     $this->category_id,
@@ -81,7 +82,8 @@ class CreateHumanOpShop extends Component
                     $this->pointValue
                 );
 
-            } else {
+            }
+            else {
 
                 $resource = ShopCategoryResource::createShopResource(
                     $this->heading,

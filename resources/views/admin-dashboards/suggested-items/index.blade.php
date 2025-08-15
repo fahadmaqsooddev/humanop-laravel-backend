@@ -5,7 +5,7 @@
     }
 </style>
 @section('content')
-    @livewire('admin.resource.create-human-op-shop')
+    @livewire('admin.suggested-items.create-suggested-item')
 
     <div class="row" style="margin-top: 200px">
         <div class="col-12">
