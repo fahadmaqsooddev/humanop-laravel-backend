@@ -17,6 +17,8 @@ class CreateSuggestedItem extends Component
 
     public $title, $description, $suggested_item_file, $booleanValue = false, $selectedTraits = [];
 
+    protected $listeners = ['deleteSuggestedItemPermanently' => 'deleteSuggested'];
+
     protected $rules = [
         'title' => 'required|unique:humanop_shop_resources,heading|regex:/^[A-Za-z]/',
         'description' => 'required|string',
@@ -89,11 +91,11 @@ class CreateSuggestedItem extends Component
 
             } elseif (in_array($extension, ['mp3', 'wav', 'mpeg'])) {
 
-                $suggestedItem = SuggestedItem::createSuggestedItem($this->title, $this->description, null, $upload_id, null);
+                $suggestedItem = SuggestedItem::createSuggestedItem($this->title, $this->description, null, null, $upload_id);
 
             } else {
 
-                $suggestedItem = SuggestedItem::createSuggestedItem($this->title, $this->description, null, null, $upload_id);
+                $suggestedItem = SuggestedItem::createSuggestedItem($this->title, $this->description, null, $upload_id, null);
 
             }
 
@@ -123,7 +125,6 @@ class CreateSuggestedItem extends Component
     {
         $this->booleanValue = false;
 
-
     }
 
     public function resetForm()
@@ -140,6 +141,11 @@ class CreateSuggestedItem extends Component
 
         $this->suggested_item_file = '';
         $this->permission = '';
+    }
+
+    public function deleteSuggested($id)
+    {
+//        ShopCategory::deleteSingleCategory($id);
     }
 
     public function render()

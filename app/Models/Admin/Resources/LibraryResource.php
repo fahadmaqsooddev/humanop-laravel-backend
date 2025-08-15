@@ -91,7 +91,6 @@ class LibraryResource extends Model
     }
 
 
-
     // query
     public static function getResources()
     {

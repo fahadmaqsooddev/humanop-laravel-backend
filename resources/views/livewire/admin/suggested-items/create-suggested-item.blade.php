@@ -74,7 +74,7 @@
                         </a>
                         <div class="d-none p-3 py-0 mt-4" id="suggested_edit_{{$suggestedItem->id}}">
                             <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px"
-                                    onclick="confirmDeleteCategory('{{$suggestedItem->id }}')" class="btn btn-sm mb-2">Delete
+                                    onclick="confirmDeleteSuggested('{{$suggestedItem->id }}')" class="btn btn-sm mb-2">Delete
                                 Suggested Item
                             </button>
                             <button style="background-color: #1b3a62; color: white;margin-bottom: 0px"
@@ -608,7 +608,7 @@
         });
 
 
-        function confirmDeleteCategory(category_id) {
+        function confirmDeleteSuggested(suggested_id) {
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -620,12 +620,12 @@
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to delete category and it's HumanOP Shop resources permanently!</span>",
+                html: "<span style='color: white;'>Want to delete Suggested Item permanently!</span>",
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('deleteCategoryPermanently', category_id);
+                    window.livewire.emit('deleteSuggestedItemPermanently', suggested_id);
                 }
             })
         }
