@@ -38,7 +38,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('announcement-news','DashboardController@announcementNews');
     Route::get('recent-player','DashboardController@recentPlayer');
     Route::post('add-recent-player','DashboardController@addRecentPlayer');
-
+    Route::get('suggested-item-for-you', 'DashboardController@suggestedItemForYou');
 
     Route::get('all-companies', 'DashboardController@allCompanies');
     Route::get('check-future-consideration-share-data','DashboardController@checkFutureConsiderationShareData');

@@ -660,7 +660,7 @@ class Assessment extends Model
 
     public static function highLightStyle($assessment = null)
     {
-        $allStyles = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
+        $allStyles = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'dom', 'fe', 'de', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'int', 'mov', 'ins', 'em'];
 
         $highLightStyles = [];
 

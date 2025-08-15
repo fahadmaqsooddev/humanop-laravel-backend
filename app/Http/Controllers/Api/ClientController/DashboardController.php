@@ -9,6 +9,7 @@ use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\AnnouncementNews\AnnouncementNews;
 use App\Models\Admin\RecentActivity\RecentActivity;
+use App\Models\Admin\SuggestedItem\SuggestedItem;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\MultiMedia\MultiMediaStats;
 use App\Models\Notification\PushNotification;
@@ -281,7 +282,7 @@ class DashboardController extends Controller
 
                 }
 
-                if ($userPlan == "Core"){
+                if ($userPlan == "Core") {
 
                     $planText = json_decode($actionPlan['plan_text'], true);
 
@@ -297,7 +298,7 @@ class DashboardController extends Controller
                         'text' => $actionPlan['text'],
                     ];
 
-                }else{
+                } else {
 
                     $actionPlan = $actionPlan;
 
@@ -880,6 +881,33 @@ class DashboardController extends Controller
             MultiMediaStats::addOrUpdateRecentPlayer($request->all());
 
             return Helpers::successResponse('Recent Player added successfully');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function suggestedItemForYou()
+    {
+        try {
+
+            $getSuggestedItem = SuggestedItem::getSingleSuggestedItem(Helpers::getUser()['id']);
+
+            $formatted = [
+                'id' => $getSuggestedItem->id ?? null,
+                'title' => $getSuggestedItem->title ?? null,
+                'description' => $getSuggestedItem->description ?? null,
+                'created_at' => $getSuggestedItem->created_at ?? null,
+                'updated_at' => $getSuggestedItem->updated_at ?? null,
+                'video_url' => isset($getSuggestedItem->video_url) ? ($getSuggestedItem->video_url['path'] ?? null) : null,
+                'audio_url' => isset($getSuggestedItem->audio_url) ? ($getSuggestedItem->audio_url['path'] ?? null) : null,
+                'photo_url' => isset($getSuggestedItem->photo_url) ? ($getSuggestedItem->photo_url['url'] ?? null) : null,
+            ];
+
+            return Helpers::successResponse('HumanOp Shop Suggested Items', $formatted);
 
         } catch (\Exception $exception) {
 
