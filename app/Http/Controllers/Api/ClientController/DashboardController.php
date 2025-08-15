@@ -894,7 +894,7 @@ class DashboardController extends Controller
     {
         try {
 
-            $getSuggestedItem = SuggestedItem::getSuggestedItems(Helpers::getUser()['id']);
+            $getSuggestedItem = SuggestedItem::getSingleSuggestedItem(Helpers::getUser()['id']);
 
             $formatted = [
                 'id' => $getSuggestedItem->id ?? null,

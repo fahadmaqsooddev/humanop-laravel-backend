@@ -71,7 +71,7 @@ class SuggestedItem extends Model
         return $resource;
     }
 
-    public static function getSuggestedItems($userId = null)
+    public static function getSingleSuggestedItem($userId = null)
     {
 
         $getAssessment = Assessment::getLatestAssessment($userId);
@@ -96,4 +96,8 @@ class SuggestedItem extends Model
 
     }
 
+    public static function getItem($suggestedItemId = null)
+    {
+        return self::where('id', $suggestedItemId)->first();
+    }
 }

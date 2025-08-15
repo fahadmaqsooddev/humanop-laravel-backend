@@ -77,10 +77,10 @@
                                     onclick="confirmDeleteSuggested('{{$suggestedItem->id }}')" class="btn btn-sm mb-2">Delete
                                 Suggested Item
                             </button>
-                            <button style="background-color: #1b3a62; color: white;margin-bottom: 0px"
-                                    wire:click="editHumanOpShopResource(`{{$suggestedItem->id}}`)" data-bs-toggle="modal"
-                                    data-bs-target="#moveShopResource" class="btn btn-sm mb-2 ">Edit Suggested Item
-                            </button>
+{{--                            <button style="background-color: #1b3a62; color: white;margin-bottom: 0px"--}}
+{{--                                    wire:click="editHumanOpShopResource(`{{$suggestedItem->id}}`)" data-bs-toggle="modal"--}}
+{{--                                    data-bs-target="#moveShopResource" class="btn btn-sm mb-2 ">Edit Suggested Item--}}
+{{--                            </button>--}}
                         </div>
                     </div>
                 </div>

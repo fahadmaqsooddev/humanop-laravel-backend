@@ -27,4 +27,10 @@ class HumanOpItemsGridActivitiesLog extends Model
         ]);
     }
 
+    public static function deleteSuggestItems($suggestedItemId = null)
+    {
+
+        return self::where('suggested_item_id', $suggestedItemId)->delete();
+
+    }
 }

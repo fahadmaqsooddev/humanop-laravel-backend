@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\SuggestedItems;
 
+use App\Helpers\Helpers;
 use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Admin\SuggestedItem\SuggestedItem;
 use App\Models\Admin\SuggestedItem\SuggestedItemTrait;
@@ -145,7 +146,15 @@ class CreateSuggestedItem extends Component
 
     public function deleteSuggested($id)
     {
-//        ShopCategory::deleteSingleCategory($id);
+
+        $suggestedItem = SuggestedItem::getItem($id);
+
+        HumanOpItemsGridActivitiesLog::deleteSuggestItems($suggestedItem['id']);
+
+        $suggestedItem->delete();
+
+        return Helpers::successResponse(__('Suggested Item deleted successfully.'));
+        
     }
 
     public function render()
