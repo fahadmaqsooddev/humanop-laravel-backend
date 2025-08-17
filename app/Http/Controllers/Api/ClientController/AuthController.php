@@ -304,11 +304,27 @@ class AuthController extends Controller
 
                 if ($getUser['is_admin'] == Admin::IS_B2B) {
 
-                    $getUser->setAppends([]);
+                    $token = $this->auth->login($getUser);
+
+                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
+
+                    UserInviteLog::deleteInvite($userInvite['id']);
+
+                    $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
+
+                    $signupTime = $getUser['created_at']->addMinutes($userTimezone * 60);
+
+                    $getUser->update(['last_login' => $signupTime->format('Y-m-d H:i:s')]);
+
+                    HaiChatHelpers::syncUserRecordWithHAi();
 
                     $data = [
                         'user' => $getUser,
                         'b2b_create_Account' => true,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ],
                     ];
 
                     DB::commit();
