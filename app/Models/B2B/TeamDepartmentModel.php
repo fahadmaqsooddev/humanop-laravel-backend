@@ -18,8 +18,8 @@ class TeamDepartmentModel extends Model
         parent::__construct($attributes);
     }
 
-    public static function getTeamRecord($teamName = null)
+    public static function getTeamRecord($teamName = null, $companyId = null)
     {
-        return self::where('name', $teamName)->firstOrFail();
+        return self::where('name', $teamName)->where('business_id', $companyId)->firstOrFail();
     }
 }

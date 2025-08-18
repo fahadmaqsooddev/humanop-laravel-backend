@@ -116,7 +116,7 @@ class AuthController extends Controller
 
                         if (!empty($request['team_name']) && !empty($request['department_name'])) {
 
-                            $getDepartment = TeamDepartmentModel::getTeamRecord($request['team_name']);
+                            $getDepartment = TeamDepartmentModel::getTeamRecord($request['team_name'], $data['id']);
 
                             TeamDepartmentMembers::createTeamMember($getDepartment['id'], $user['id']);
 
