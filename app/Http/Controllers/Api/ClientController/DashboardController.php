@@ -979,8 +979,10 @@ class DashboardController extends Controller
                 $data = [];
 
                 foreach ($futureConsideration as $consideration) {
+                    
                     $data[] = [
                         'company_name' => $consideration['businessUsers']['company_name'] ?? null,
+                        'user_type' => $consideration['role'] == Admin::IS_CANDIDATE ? 'Candidate' : 'Member',
                     ];
                 }
 

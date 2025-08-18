@@ -20,6 +20,8 @@ use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\B2B\TeamDepartmentMembers;
+use App\Models\B2B\TeamDepartmentModel;
 use App\Models\B2B\UserCandidateInvite;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Point\Point;
@@ -111,6 +113,14 @@ class AuthController extends Controller
                         $message = "{$user['first_name']} has been added to your company as a {$role}.";
 
                         RecentActivity::createAccountActivity($user['id'], $message, $request['prefer']);
+
+                        if (!empty($request['team_name']) && !empty($request['department_name'])) {
+
+                            $getDepartment = TeamDepartmentModel::getTeamRecord($request['team_name'], $data['id']);
+
+                            TeamDepartmentMembers::createTeamMember($getDepartment['id'], $user['id']);
+
+                        }
 
                     }
 

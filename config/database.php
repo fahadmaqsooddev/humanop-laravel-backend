@@ -723,6 +723,17 @@ return [
             'table' => 'humnop_items_grid_activities_log',
             'fillable' => ['resource_item_id','shop_item_id', 'suggested_item_id','grid_name'],
             'hidden' => ['created_at', 'updated_at'],
-        ]
+        ],
+        'TeamDepartmentMembers'=>[
+            'table'=>'teams_or_departments_members',
+            'fillable'=>['team_department_id','member_id'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'TeamDepartmentModel' => [
+            'table' => 'teams_or_departments',
+            'fillable' => ['name', 'description', 'location', 'type', 'member_id', 'team_id','business_id','logo_upload_id','parent_id','level'],
+            'hidden' => ['created_at', 'updated_at']
+
+        ],
     ]
 ];
