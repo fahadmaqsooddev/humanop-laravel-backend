@@ -89,7 +89,7 @@ class AssessmentController extends Controller
 
             $assessment_count = Assessment::getAllAssessmentCount($user['id']);
 
-            if (!empty($latest_assessment) && $latest_assessment['reset_assessment'] == 1) {
+            if ((!empty($latest_assessment) && $latest_assessment['reset_assessment'] == 1) || ($user['plan_name'] != 'Freemium')) {
 
                 return Helpers::successResponse('Reset Assessment', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
