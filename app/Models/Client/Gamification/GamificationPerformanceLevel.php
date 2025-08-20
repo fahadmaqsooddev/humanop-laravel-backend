@@ -44,6 +44,8 @@ class GamificationPerformanceLevel extends Model
     {
         $level = self::getLevel($userId, Admin::SECOND_LEVEL);
 
+        dd($level);
+        
         if (empty($level))
         {
             return self::create([
