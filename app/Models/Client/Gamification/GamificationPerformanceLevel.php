@@ -60,13 +60,14 @@ class GamificationPerformanceLevel extends Model
     {
         $points = HumanOpPoints::getUserPoints($user)['points'];
 
-        dd($points);
         if ($points > 0 || $points < 500)
         {
+            dd(2);
             GamificationPerformanceLevel::addFirstPerformanceLevel($user['id']);
 
         }elseif ($points > 499 || $points < 1000){
 
+            dd(3);
             GamificationPerformanceLevel::addSecondPerformanceLevel($user['id']);
 
         }
