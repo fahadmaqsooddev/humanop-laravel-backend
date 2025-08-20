@@ -230,7 +230,7 @@ class GamificationController extends Controller
 
             $user = Helpers::getUser() ?? Helpers::getWebUser();
 
-            $data=GamificationPerformanceLevel::getSinglePerformanceLevel($user['id']);
+            $data=GamificationPerformanceLevel::getSinglePerformanceLevel($user);
 
             return Helpers::successResponse("Your Performance Level", $data);
 
