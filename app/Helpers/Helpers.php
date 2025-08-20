@@ -1213,11 +1213,11 @@ class Helpers
 
         $points = HumanOpPoints::getUserPoints($user)['points'];
 
-        if ($points > 0 || $points < 500)
+        if ($points > 0 && $points < 500)
         {
             GamificationPerformanceLevel::addFirstPerformanceLevel($user['id']);
 
-        }elseif ($points > 499 || $points < 1000){
+        }elseif ($points > 499 && $points < 1000){
 
             GamificationPerformanceLevel::addSecondPerformanceLevel($user['id']);
 
