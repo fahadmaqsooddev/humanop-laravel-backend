@@ -23,7 +23,7 @@ class CreateSuggestedItem extends Component
     protected $rules = [
         'title' => 'required|unique:humanop_shop_resources,heading|regex:/^[A-Za-z]/',
         'description' => 'required|string',
-        'suggested_item_file' => 'required|file|mimes:jpeg,png,jpg,gif,mp3,wav,mpeg|max:204800',
+        'suggested_item_file' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800',
     ];
 
     protected $messages = [
