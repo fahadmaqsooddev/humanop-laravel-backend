@@ -52,7 +52,6 @@ class GamificationController extends Controller
 
             $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-            dd($user);
             $points = HumanOpPoints::getUserPoints($user);
 
             $hp['points'] = $points['points'];
