@@ -576,6 +576,7 @@ class Assessment extends Model
         $data = [
             'name' => $record['name'],
             'public_name' => $publicName,
+            'code_name' => $record['code'],
             'description' => $record['text'],
             'video_url' => $videoUrl,
             'video_progress' => $progress,
@@ -1743,6 +1744,7 @@ class Assessment extends Model
             'code_number' => $record['id'],
             'name' => $record['name'],
             'public_name' => $record['public_name'],
+            'code_name' => $record['code'],
             'description' => $record['text'],
             'video' => $record['video'] ? $record['video']['video'] : null,
             'video_url' => $videoUrl,
