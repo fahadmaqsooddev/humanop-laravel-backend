@@ -16,7 +16,7 @@ class CreateSuggestedItem extends Component
 
     use WithFileUploads;
 
-    public $title, $description, $suggested_item_file, $booleanValue = false, $selectedTraits = [];
+    public $title, $description, $suggested_item_file, $booleanValue = false, $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
     protected $listeners = ['deleteSuggestedItemPermanently' => 'deleteSuggested'];
 
@@ -101,9 +101,44 @@ class CreateSuggestedItem extends Component
             }
 
             foreach ($this->selectedTraits as $traitCode) {
-
                 HumanOpItemsGridActivitiesLog::storeSuggestedItemTraits($suggestedItem['id'], $traitCode);
+            }
 
+            foreach ($this->selectedFeatures as $featureCode) {
+                HumanOpItemsGridActivitiesLog::storeSuggestedItemTraits($suggestedItem['id'], $featureCode);
+            }
+
+            foreach ($this->selectedAlchemy as $alchemyCode) {
+                HumanOpItemsGridActivitiesLog::storeSuggestedItemTraits($suggestedItem['id'], $alchemyCode);
+            }
+
+            foreach ($this->selectedCommunications as $communicationCode) {
+                HumanOpItemsGridActivitiesLog::storeSuggestedItemTraits($suggestedItem['id'], $communicationCode);
+            }
+
+            $perceptionCodes = [
+                'Negative' => 'NE',
+                'Positive' => 'P',
+                'Neutral'  => 'N',
+            ];
+
+            foreach ($this->selectedPerceptions as $perception) {
+                if (isset($perceptionCodes[$perception])) {
+                    HumanOpItemsGridActivitiesLog::storeSuggestedItemTraits($suggestedItem['id'], $perceptionCodes[$perception]);
+                }
+            }
+
+            $energyPoolCodes = [
+                'Above Excellent' => 'AE',
+                'Average' => 'A',
+                'Excellent'  => 'E',
+                'Fair'  => 'F',
+            ];
+
+            foreach ($this->selectedEnergyPools as $energyPoolCode) {
+                if (isset($energyPoolCodes[$energyPoolCode])) {
+                    HumanOpItemsGridActivitiesLog::storeSuggestedItemTraits($suggestedItem['id'], $energyPoolCodes[$energyPoolCode]);
+                }
             }
 
             $this->resetForm();
@@ -154,7 +189,7 @@ class CreateSuggestedItem extends Component
         $suggestedItem->delete();
 
         return Helpers::successResponse(__('Suggested Item deleted successfully.'));
-        
+
     }
 
     public function render()
