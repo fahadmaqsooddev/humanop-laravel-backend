@@ -45,7 +45,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes,LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment','latest_assessment'];
 
     public function __construct(array $attributes = array())
     {
@@ -118,6 +118,13 @@ class User extends Authenticatable implements JWTSubject
         $assessments = Assessment::getAssessment();
 
         return $assessments->count();
+
+    }
+
+    public function getLatestAssessmentAttribute()
+    {
+
+        return Assessment::getLatestAssessment($this->id)['id'];
 
     }
 

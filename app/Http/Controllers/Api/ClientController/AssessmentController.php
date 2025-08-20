@@ -95,6 +95,7 @@ class AssessmentController extends Controller
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
                     'assessment_count' => $assessment_count,
                     'assessment_page_number' => $status,
+                    'plan_name' => $user['plan_name'],
                     'retake_assessment' => null,
                     'assessment_price' => ($assessment_price->amount ?? 0),
                     'user' => [
@@ -104,7 +105,25 @@ class AssessmentController extends Controller
                         'name' => $user['card_name'],
                     ]
                 ]);
-            } elseif (!empty($latest_assessment)) {
+
+            }
+            elseif ($user['plan_name'] != 'Freemium'){
+
+                return Helpers::successResponse('Assessment Status', [
+                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'assessment_count' => $assessment_count,
+                    'assessment_page_number' => $status,
+                    'plan_name' => $user['plan_name'],
+                    'assessment_price' => ($assessment_price->amount ?? 0),
+                    'user' => [
+                        'last_four_digits' => $user['pm_last_four'],
+                        'exp_month' => $user['pm_exp_month'],
+                        'exp_year' => $user['pm_exp_year'],
+                        'name' => $user['card_name'],
+                    ]
+                ]);
+            }
+            elseif (!empty($latest_assessment)) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
@@ -120,6 +139,7 @@ class AssessmentController extends Controller
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
                         'assessment_count' => $assessment_count,
                         'retake_assessment' => $takeAssessment,
+                        'plan_name' => $user['plan_name'],
                         'assessment_page_number' => $status,
                         'assessment_price' => ($assessment_price->amount ?? 0),
                         'user' => [
@@ -135,6 +155,7 @@ class AssessmentController extends Controller
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
                         'assessment_count' => $assessment_count,
                         'retake_assessment' => null,
+                        'plan_name' => $user['plan_name'],
                         'assessment_page_number' => $status,
                         'assessment_price' => ($assessment_price->amount ?? 0),
                         'user' => [
@@ -145,12 +166,14 @@ class AssessmentController extends Controller
                         ]
                     ]);
                 }
-            } else {
+            }
+            else {
 
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
                     'assessment_count' => $assessment_count,
                     'assessment_page_number' => $status,
+                    'plan_name' => $user['plan_name'],
                     'assessment_price' => ($assessment_price->amount ?? 0),
                     'user' => [
                         'last_four_digits' => $user['pm_last_four'],
@@ -160,7 +183,6 @@ class AssessmentController extends Controller
                     ]
                 ]);
             }
-
 
         } catch (\Exception $exception) {
 

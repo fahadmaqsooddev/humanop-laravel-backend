@@ -367,8 +367,10 @@ class AuthController extends Controller
 
                     DB::commit();
 
-                    return Helpers::successResponse('User logged in successfully', $data);
+                    return Helpers::successResponse('User signed up successfully.', $data);
+
                 }
+
             }
 
             return Helpers::validationResponse('User not found');
