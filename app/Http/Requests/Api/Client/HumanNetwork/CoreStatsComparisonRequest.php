@@ -25,10 +25,10 @@ class CoreStatsComparisonRequest extends FormRequest
     public function rules()
     {
         $plan = Helpers::getUser()['plan_name'];
-        $minUsers = $plan === 'Freemium' ? 2 : 10;
+        $minUsers = $plan === 'Freemium' ? 2 : 3;
 
         return [
-            'user_id'   => "required|array|max:$minUsers",
+            'user_id'   => "required|array|min:$minUsers",
             'user_id.*' => 'integer|exists:users,id',
         ];
     }
@@ -42,7 +42,7 @@ class CoreStatsComparisonRequest extends FormRequest
             'user_id.array' => 'The user ID must be an array.',
             'user_id.max' => $plan === 'Freemium'
                 ? 'At least 2 users are required for the Freemium plan.'
-                : 'At least 10 users are required for the Core plan.',
+                : 'At least 3 users are required for the Core plan.',
             'user_id.*.integer' => 'Each user ID must be an integer.',
             'user_id.*.exists' => 'One or more selected users do not exist.',
         ];
