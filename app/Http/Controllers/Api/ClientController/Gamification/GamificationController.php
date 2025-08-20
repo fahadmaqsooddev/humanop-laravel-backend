@@ -144,7 +144,7 @@ class GamificationController extends Controller
             $challenges = [
                 'daily_tips' => $userDailyTips['is_read'] == 1 ? 'finished' : 'unfinished',
                 'watch_videos' => $progress,
-                'hai_conversation' => count($haiConversation) > 0 ? 'finished' : 'unfinished',
+                'hai_conversation' => count($haiConversation) > 2 ? 'finished' : 'unfinished',
             ];
 
             return Helpers::successResponse('Current Challenges', $challenges);
