@@ -132,9 +132,26 @@ class HumanNetworkController extends Controller
 
         try {
 
+            $plan = Helpers::getUser()['plan_name'];
+
             $coreState = [];
 
             $userIds = $request['user_id'];
+
+            if ($plan == 'Freemium') {
+
+                if (count($userIds) > 2){
+
+                    return Helpers::validationResponse('At least 2 users are required for the Freemium plan.');
+                }
+            }else{
+
+                if (count($userIds) > 3){
+
+                    return Helpers::validationResponse('At least 2 users are required for the Freemium plan.');
+                }
+            }
+
 
             foreach ($userIds as $key => $userId){
 

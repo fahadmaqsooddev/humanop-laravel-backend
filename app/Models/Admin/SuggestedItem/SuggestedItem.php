@@ -5,6 +5,7 @@ namespace App\Models\Admin\SuggestedItem;
 use App\Helpers\Helpers;
 use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -76,23 +77,37 @@ class SuggestedItem extends Model
 
         $getAssessment = Assessment::getLatestAssessment($userId);
 
-        $highlightedStyles = Assessment::highLightStyle($getAssessment);
+        $userAssessmentDetail = AssessmentColorCode::getHighlightCodeColor($getAssessment['id']);
 
-        return self::whereHas('suggestedItems', function ($query) use ($highlightedStyles) {
+        $highlightedStylesAndFeatures = array_keys($userAssessmentDetail);
 
-            $query->whereIn('grid_name', $highlightedStyles);
+        $userAlchemy = Assessment::getAlchemy($getAssessment)['code'];
+
+        $userEnergyPool = Assessment::getEnergyPoolPublicName($getAssessment)['code_name'];
+
+        $userPerception = Assessment::getPreceptionReportDetail($getAssessment)['code_name'];
+
+        $userCommunication = Assessment::getEnergy($getAssessment);
+
+        $getUserGridDetail = array_merge($highlightedStylesAndFeatures, [$userAlchemy], $userCommunication,[$userEnergyPool], [$userPerception]);
+
+        $getUserGridDetail = array_map('strtoupper', $getUserGridDetail);
+
+        return self::whereHas('suggestedItems', function ($query) use ($getUserGridDetail) {
+
+            $query->whereIn('grid_name', $getUserGridDetail);
 
         })
 
-            ->with(['suggestedItems' => function ($query) use ($highlightedStyles) {
+            ->with(['suggestedItems' => function ($query) use ($getUserGridDetail) {
 
-                $query->whereIn('grid_name', $highlightedStyles);
+                $query->whereIn('grid_name', $getUserGridDetail);
 
             }])
 
             ->inRandomOrder()
 
-            ->first(); // only one random record
+            ->first();
 
     }
 

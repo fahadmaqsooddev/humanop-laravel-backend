@@ -3,6 +3,7 @@
 namespace App\Models\Client\Gamification;
 
 use App\Enums\Admin\Admin;
+use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -53,8 +54,22 @@ class GamificationPerformanceLevel extends Model
         }
     }
 
-    public static function getSinglePerformanceLevel($userId = null)
+    public static function getSinglePerformanceLevel($user = null)
     {
-        return self::where('user_id',$userId)->latest()->first();
+        $points = HumanOpPoints::getUserPoints($user)['points'];
+
+        if ($points > 0 || $points < 500)
+        {
+            GamificationPerformanceLevel::addFirstPerformanceLevel($user['id']);
+
+        }elseif ($points > 499 || $points < 1000){
+
+            GamificationPerformanceLevel::addSecondPerformanceLevel($user['id']);
+
+        }
+
+        return self::where('user_id',$user['id'])->latest()->first();
+
     }
+
 }
