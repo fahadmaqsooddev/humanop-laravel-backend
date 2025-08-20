@@ -89,7 +89,7 @@ class AssessmentController extends Controller
 
             $assessment_count = Assessment::getAllAssessmentCount($user['id']);
 
-            if ((!empty($latest_assessment) && $latest_assessment['reset_assessment'] == 1) || ($user['plan_name'] != 'Freemium')) {
+            if (!empty($latest_assessment) && $latest_assessment['reset_assessment'] == 1) {
 
                 return Helpers::successResponse('Reset Assessment', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
@@ -106,7 +106,8 @@ class AssessmentController extends Controller
                     ]
                 ]);
 
-            } elseif (!empty($latest_assessment)) {
+            }
+            elseif (!empty($latest_assessment)) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
@@ -149,7 +150,8 @@ class AssessmentController extends Controller
                         ]
                     ]);
                 }
-            } else {
+            }
+            elseif ($user['plan_name'] != 'Freemium'){
 
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
@@ -165,8 +167,23 @@ class AssessmentController extends Controller
                     ]
                 ]);
             }
+            else {
 
-
+                return Helpers::successResponse('Assessment Status', [
+                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'assessment_count' => $assessment_count,
+                    'assessment_page_number' => $status,
+                    'plan_name' => $user['plan_name'],
+                    'assessment_price' => ($assessment_price->amount ?? 0),
+                    'user' => [
+                        'last_four_digits' => $user['pm_last_four'],
+                        'exp_month' => $user['pm_exp_month'],
+                        'exp_year' => $user['pm_exp_year'],
+                        'name' => $user['card_name'],
+                    ]
+                ]);
+            }
+            
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
