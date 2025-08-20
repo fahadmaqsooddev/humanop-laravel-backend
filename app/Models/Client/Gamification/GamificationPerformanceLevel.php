@@ -45,7 +45,7 @@ class GamificationPerformanceLevel extends Model
         $level = self::getLevel($userId, Admin::SECOND_LEVEL);
 
         dd($level);
-        
+
         if (empty($level))
         {
             return self::create([
@@ -60,6 +60,7 @@ class GamificationPerformanceLevel extends Model
     {
         $points = HumanOpPoints::getUserPoints($user)['points'];
 
+        dd($points);
         if ($points > 0 || $points < 500)
         {
             GamificationPerformanceLevel::addFirstPerformanceLevel($user['id']);
