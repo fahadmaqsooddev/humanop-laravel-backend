@@ -25,9 +25,9 @@ class SoundTrackController extends Controller
             $data = LibraryResource::resourceCategoriesForClient();
             $allShopResources = ShopCategoryResource::getResources();
 
-            $transformed = [];
+            $resourceTransformed = [];
+            $shopTransformed = [];
 
-            // Helper function to extract grid public names
             $getGridPublicNames = function ($grids) {
                 $names = [];
                 foreach ($grids as $grid) {
@@ -39,14 +39,13 @@ class SoundTrackController extends Controller
                 return $names;
             };
 
-            // Process Library Resources
             foreach ($data as $item) {
                 $playList = PlaylistLog::getSingleResourceItem($item['id']);
                 $grids = HumanOpItemsGridActivitiesLog::getResourceGrid($item['id']);
                 $gridPublicName = $getGridPublicNames($grids);
 
                 if (empty($item->photo_url)) {
-                    $transformed[] = [
+                    $resourceTransformed[] = [
                         'id' => $item->id,
                         'heading' => $item->heading,
                         'my_playlist' => !empty($playList) ? 1 : 0,
@@ -72,14 +71,13 @@ class SoundTrackController extends Controller
                 }
             }
 
-            // Process Shop Resources
             foreach ($allShopResources as $resource) {
                 $playList = PlaylistLog::getSingleShopItem($resource['id']);
                 $grids = HumanOpItemsGridActivitiesLog::getShopGrid($resource['id']);
                 $gridPublicName = $getGridPublicNames($grids);
 
                 if (empty($resource->document_url)) {
-                    $transformed[] = [
+                    $shopTransformed[] = [
                         'id' => $resource->id,
                         'category_name' => $resource->name ?? null,
                         'my_playlist' => !empty($playList) ? 1 : 0,
@@ -95,6 +93,11 @@ class SoundTrackController extends Controller
                     ];
                 }
             }
+
+            $transformed = [
+                'resource_items' => $resourceTransformed,
+                'shop_items' => $shopTransformed,
+            ];
 
             return Helpers::successResponse("Sound Track Lists", $transformed);
 

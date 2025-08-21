@@ -188,13 +188,13 @@ class ShopCategoryResource extends Model
 
             ->whereHas('resourceTraits', function ($query) use ($highlightedStyles) {
 
-                $query->whereIn('trait_name', $highlightedStyles);
+                $query->whereIn('grid_name', $highlightedStyles);
 
             })
 
             ->with(['resourceTraits' => function ($query) use ($highlightedStyles) {
 
-                $query->whereIn('trait_name', $highlightedStyles);
+                $query->whereIn('grid_name', $highlightedStyles);
 
             }])
 
