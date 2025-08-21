@@ -333,6 +333,116 @@
                                             </div>
                                         </div>
 
+                                        <div class="row mt-4">
+
+                                            @php
+                                                $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT TRAITS</label>
+                                            <div class="row">
+                                                @foreach($traits as $trait)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedTraits"
+                                                                   value="{{ $trait }}" class="form-check-input"
+                                                                   id="day_{{ $trait }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $trait }}">{{ $trait }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $features = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT MOTIVATIONAL
+                                                DRIVERS</label>
+                                            <div class="row">
+                                                @foreach($features as $feature)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedFeatures"
+                                                                   value="{{ $feature }}" class="form-check-input"
+                                                                   id="day_{{ $feature }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $feature }}">{{ $feature }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $alchemies = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT ALCHEMY</label>
+                                            <div class="row">
+                                                @foreach($alchemies as $alchemy)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedAlchemy"
+                                                                   value="{{ $alchemy }}" class="form-check-input"
+                                                                   id="day_{{ $alchemy }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $alchemy }}">{{ $alchemy }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $communications = ['EM', 'INS', 'INT', 'MOV'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT COMMUNICATION
+                                                STYLE</label>
+                                            <div class="row">
+                                                @foreach($communications as $communication)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedCommunications"
+                                                                   value="{{ $communication }}" class="form-check-input"
+                                                                   id="day_{{ $communication }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $communication }}">{{ $communication }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $perceptions = ['Negative', 'Positive', 'Neutral'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT PERCEPTION OF
+                                                LIFE</label>
+                                            <div class="row">
+                                                @foreach($perceptions as $perception)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedPerceptions"
+                                                                   value="{{ $perception }}" class="form-check-input"
+                                                                   id="day_{{ $perception }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $perception }}">{{ $perception }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $energyPools = ['Above Excellent', 'Average', 'Excellent', 'Fair'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT ENERGY
+                                                POOL</label>
+                                            <div class="row">
+                                                @foreach($energyPools as $energyPool)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedEnergyPools"
+                                                                   value="{{ $energyPool }}" class="form-check-input"
+                                                                   id="day_{{ $energyPool }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $energyPool }}">{{ $energyPool }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -512,6 +622,132 @@
                                                        style="border: 2px solid #1b3a62;">
                                             </div>
                                         </div>
+                                        <div class="row mt-4">
+                                            @php
+                                                $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT TRAITS</label>
+                                            <div class="row">
+                                                @foreach($traits as $trait)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedTraits"
+                                                                   value="{{ $trait }}" class="form-check-input"
+                                                                   id="day_{{ $trait }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $trait }}">{{ $trait }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $features = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT MOTIVATIONAL
+                                                DRIVERS</label>
+                                            <div class="row">
+                                                @foreach($features as $feature)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedFeatures"
+                                                                   value="{{ $feature }}" class="form-check-input"
+                                                                   id="day_{{ $feature }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $feature }}">{{ $feature }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $alchemies = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT ALCHEMY</label>
+                                            <div class="row">
+                                                @foreach($alchemies as $alchemy)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedAlchemy"
+                                                                   value="{{ $alchemy }}" class="form-check-input"
+                                                                   id="day_{{ $alchemy }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $alchemy }}">{{ $alchemy }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $communications = ['EM', 'INS', 'INT', 'MOV'];
+                                            @endphp
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT COMMUNICATION
+                                                STYLE</label>
+                                            <div class="row">
+                                                @foreach($communications as $communication)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" wire:model="selectedCommunications"
+                                                                   value="{{ $communication }}" class="form-check-input"
+                                                                   id="day_{{ $communication }}">
+                                                            <label class="form-check-label"
+                                                                   for="day_{{ $communication }}">{{ $communication }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $perceptionCodes = [
+                                                    'NE' => 'Negative',
+                                                    'P'  => 'Positive',
+                                                    'N'  => 'Neutral'
+                                                ];
+                                            @endphp
+
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT PERCEPTION OF
+                                                LIFE</label>
+                                            <div class="row">
+                                                @foreach($perceptionCodes as $code => $label)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                   wire:model="selectedPerceptions"
+                                                                   value="{{ $code }}"
+                                                                   class="form-check-input"
+                                                                   id="day_{{ $code }}">
+                                                            <label class="form-check-label" for="day_{{ $code }}">
+                                                                {{ $label }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @php
+                                                $energyPoolCodes = [
+                                                    'AE' => 'Above Excellent',
+                                                    'A'  => 'Average',
+                                                    'E'  => 'Excellent',
+                                                    'F'  => 'Fair',
+                                                ];
+                                            @endphp
+
+                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT ENERGY
+                                                POOL</label>
+                                            <div class="row">
+                                                @foreach($energyPoolCodes as $code => $label)
+                                                    <div class="col-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                   wire:model="selectedEnergyPools"
+                                                                   value="{{ $code }}"
+                                                                   class="form-check-input"
+                                                                   id="day_{{ $code }}">
+                                                            <label class="form-check-label" for="day_{{ $code }}">
+                                                                {{ $label }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -586,7 +822,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <br>
-                    <p style="color: #344767">These are the exclusive Tools & Trainings you unlocked with your HPs or by purchasing</p>
+                    <p style="color: #344767">These are the exclusive Tools & Trainings you unlocked with your HPs or by
+                        purchasing</p>
                 </div>
             </div>
         </div>

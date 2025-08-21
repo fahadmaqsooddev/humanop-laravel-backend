@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Resource;
 
 use App\Enums\Admin\Admin;
 use App\Events\Resource\NewResource;
+use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
 use App\Models\User;
@@ -21,10 +22,9 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $pointValue, $priceValue, $current_category,
-        $resourceSlug, $heading, $description, $update_content, $content,
-        $resource_file, $category_id, $permission = [],
-        $editResourceData, $category_name, $link, $relevance;
+    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance;
+
+    public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
@@ -88,23 +88,7 @@ class CreateResource extends Component
 
                 foreach ($this->permission as $permission) {
 
-//                    $users = User::getAllClientUser();
-//
-//                    $isAllPermission = ($permission == 4);
-
                     $message = 'Your New Training & Resource';
-
-//                    foreach ($users as $user) {
-//
-//                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
-//
-//                        $userPermission = $planMapping[$user['plan_name']] ?? 4;
-//
-//                        if ($isAllPermission || $userPermission == $permission) {
-//
-//                            Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
-//                        }
-//                    }
 
                     event(new NewResource($permission, 'new training & resource', $message));
 
@@ -115,6 +99,47 @@ class CreateResource extends Component
             }
 
             $this->emit('toggleCreateResourceModal');
+
+            foreach ($this->selectedTraits as $traitCode) {
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $traitCode);
+            }
+
+            foreach ($this->selectedFeatures as $featureCode) {
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $featureCode);
+            }
+
+            foreach ($this->selectedAlchemy as $alchemyCode) {
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $alchemyCode);
+            }
+
+            foreach ($this->selectedCommunications as $communicationCode) {
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $communicationCode);
+            }
+
+            $perceptionCodes = [
+                'Negative' => 'NE',
+                'Positive' => 'P',
+                'Neutral'  => 'N',
+            ];
+
+            foreach ($this->selectedPerceptions as $perception) {
+                if (isset($perceptionCodes[$perception])) {
+                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $perceptionCodes[$perception]);
+                }
+            }
+
+            $energyPoolCodes = [
+                'Above Excellent' => 'AE',
+                'Average' => 'A',
+                'Excellent'  => 'E',
+                'Fair'  => 'F',
+            ];
+
+            foreach ($this->selectedEnergyPools as $energyPoolCode) {
+                if (isset($energyPoolCodes[$energyPoolCode])) {
+                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $energyPoolCodes[$energyPoolCode]);
+                }
+            }
 
             $this->resetForm();
 
@@ -217,8 +242,19 @@ class CreateResource extends Component
 
         $this->pointValue = $this->editResourceData['library_permissions']['point'] ?? null;
 
-        $this->permission[] = $this->editResourceData['library_permissions']['permission'] ?? null;
+        $this->permission[] = $this->editResourceData['libraryPermissions']['permission'] ?? null;
 
+        $this->selectedTraits = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+
+        $this->selectedFeatures = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+
+        $this->selectedAlchemy = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+
+        $this->selectedCommunications = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+
+        $this->selectedPerceptions = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+
+        $this->selectedEnergyPools = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }

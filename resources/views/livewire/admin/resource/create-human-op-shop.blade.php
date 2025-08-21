@@ -495,8 +495,6 @@
                                                    style="border: 2px solid #1b3a62;">
                                         </div>
                                     </div>
-
-
                                     @php
                                         $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
                                     @endphp

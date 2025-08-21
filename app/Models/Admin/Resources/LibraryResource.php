@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Resources;
 
+use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Libraries\HumanOpLibraries;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,6 +36,11 @@ class LibraryResource extends Model
     public function resourceCategory()
     {
         return $this->belongsTo(ResourceCategory::class, 'resource_category_id', 'id');
+    }
+
+    public function resourceTraits()
+    {
+        return $this->hasMany(HumanOpItemsGridActivitiesLog::class, 'resource_item_id');
     }
 
 
@@ -146,7 +152,7 @@ class LibraryResource extends Model
     public static function singleLibraryResource($resource_id)
     {
 
-        return self::whereId($resource_id)->with('libraryPermissions')->first()->toArray();
+        return self::whereId($resource_id)->with('libraryPermissions')->first();
     }
 
     public static function resourcesForApi()
