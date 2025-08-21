@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Resource;
 
+use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Admin\HumanOpShopCategory\HumanOpShopTraits;
 use App\Models\Admin\HumanOpShopCategory\ShopCategory;
 use App\Models\Admin\Resources\ShopCategoryResource;
@@ -18,7 +19,8 @@ class CreateHumanOpShop extends Component
     public $booleanValue = false;
 
     public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $update_content, $resource_file, $category_id, $editResourceData, $category_name;
-    public $selectedTraits = [];
+    public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
+
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
 
@@ -57,48 +59,63 @@ class CreateHumanOpShop extends Component
             $this->validate();
 
             $extension = $this->resource_file->extension();
+
             $upload_id = $this->uploadFile($this->resource_file);
+
             $resource = null;
             if (in_array($extension, ['mp3', 'wav', 'mpeg'])) {
-                $resource = ShopCategoryResource::createShopResource(
-                    $this->heading,
-                    $this->category_id,
-                    $this->priceValue,
-                    $upload_id,
-                    null,
-                    null,
-                    $this->pointValue
-                );
+
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $upload_id, null, null, $this->pointValue);
+
+            } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
+
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $upload_id, null, null, $this->pointValue);
+
+            } else {
+
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, $upload_id, $this->pointValue);
 
             }
-            elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
-                $resource = ShopCategoryResource::createShopResource(
-                    $this->heading,
-                    $this->category_id,
-                    $this->priceValue,
-                    $upload_id,
-                    null,
-                    null,
-                    $this->pointValue
-                );
-
-            }
-            else {
-
-                $resource = ShopCategoryResource::createShopResource(
-                    $this->heading,
-                    $this->category_id,
-                    $this->priceValue,
-                    null,
-                    null,
-                    $upload_id,
-                    $this->pointValue
-                );
-            }
-
 
             foreach ($this->selectedTraits as $traitCode) {
-                HumanOpShopTraits::storeTraits($resource->id, $traitCode);
+                HumanOpItemsGridActivitiesLog::storeShopItemTraits($resource['id'], $traitCode);
+            }
+
+            foreach ($this->selectedFeatures as $featureCode) {
+                HumanOpItemsGridActivitiesLog::storeShopItemTraits($resource['id'], $featureCode);
+            }
+
+            foreach ($this->selectedAlchemy as $alchemyCode) {
+                HumanOpItemsGridActivitiesLog::storeShopItemTraits($resource['id'], $alchemyCode);
+            }
+
+            foreach ($this->selectedCommunications as $communicationCode) {
+                HumanOpItemsGridActivitiesLog::storeShopItemTraits($resource['id'], $communicationCode);
+            }
+
+            $perceptionCodes = [
+                'Negative' => 'NE',
+                'Positive' => 'P',
+                'Neutral'  => 'N',
+            ];
+
+            foreach ($this->selectedPerceptions as $perception) {
+                if (isset($perceptionCodes[$perception])) {
+                    HumanOpItemsGridActivitiesLog::storeShopItemTraits($resource['id'], $perceptionCodes[$perception]);
+                }
+            }
+
+            $energyPoolCodes = [
+                'Above Excellent' => 'AE',
+                'Average' => 'A',
+                'Excellent'  => 'E',
+                'Fair'  => 'F',
+            ];
+
+            foreach ($this->selectedEnergyPools as $energyPoolCode) {
+                if (isset($energyPoolCodes[$energyPoolCode])) {
+                    HumanOpItemsGridActivitiesLog::storeShopItemTraits($resource['id'], $energyPoolCodes[$energyPoolCode]);
+                }
             }
 
             $this->resetForm();
@@ -120,8 +137,6 @@ class CreateHumanOpShop extends Component
     public function getResourceFile()
     {
         $this->booleanValue = false;
-
-
     }
 
     public function deleteResource($id)
@@ -180,7 +195,12 @@ class CreateHumanOpShop extends Component
 
         $this->priceValue = $this->editResourceData['price'] ?? null;
 
-        $this->selectedTraits = $this->editResourceData['resourceTraits']->pluck('trait_name')->toArray();
+        $this->selectedTraits = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+        $this->selectedFeatures = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+        $this->selectedAlchemy = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+        $this->selectedCommunications = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+        $this->selectedPerceptions = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+        $this->selectedEnergyPools = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
