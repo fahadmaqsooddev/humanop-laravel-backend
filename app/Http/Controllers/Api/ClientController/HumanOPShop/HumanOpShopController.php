@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Client\SuggestionItemRequest;
 use App\Models\Admin\Resources\ShopCategoryResource;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Libraries\HumanOpLibraries;
+use App\Models\PlaylistLog;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -26,9 +27,12 @@ class HumanOpShopController extends Controller
 
             $formatted = $allShopResources->map(function ($item) {
 
+                $playList = PlaylistLog::getSingleShopItem($item['id']);
+
                 return [
                     'id' => $item->id,
                     'category_name' => $item->shopCategory->name ?? null,
+                    'my_playlist' => !empty($playList) ? 1 : 0,
                     'heading' => $item->heading,
                     'created_at' => $item->created_at,
                     'updated_at' => $item->updated_at,
@@ -162,9 +166,58 @@ class HumanOpShopController extends Controller
             $shopItems = HumanOpLibraries::getShopBuyItems();
             $libraryItems = HumanOpLibraries::getLibraryBuyItems();
 
+            $shops = [];
+            $libraries = [];
+
+            foreach ($shopItems as $item) {
+
+                $playList = PlaylistLog::getSingleShopItem($item['shopItems']['id']);
+
+                $shops[] = [
+                    'id' => $item['shopItems']->id,
+                    'category_name' => $item['shopItems']->shopCategory->name ?? null,
+                    'my_playlist' => !empty($playList) ? 1 : 0,
+                    'heading' => $item['shopItems']->heading,
+                    'created_at' => $item['shopItems']->created_at,
+                    'updated_at' => $item['shopItems']->updated_at,
+                    'points' => (int) $item['shopItems']->point ?? null,
+                    'prices' => (int) $item['shopItems']->price ?? null,
+                    'video_url' => isset($item['shopItems']->video_url) ? ($item['shopItems']->video_url['path'] ?? null) : null,
+                    'audio_url' => isset($item['shopItems']->audio_url) ? ($item['shopItems']->audio_url['path'] ?? null) : null,
+                    'document_url' => isset($item['shopItems']->document_url) ? ($item['shopItems']->document_url['path'] ?? null) : null,
+                ];
+
+            }
+            foreach ($libraryItems as $libraryItem) {
+
+                $playList = PlaylistLog::getSingleResourceItem($libraryItem['libraryItems']['id']);
+
+                $libraries[] = [
+                    'id' => $libraryItem['libraryItems']->id,
+                    'heading' => $libraryItem['libraryItems']->heading,
+                    'my_playlist' => !empty($playList) ? 1 : 0,
+                    'slug' => $libraryItem['libraryItems']->slug,
+                    'description' => $libraryItem['libraryItems']->description,
+                    'content' => $libraryItem['libraryItems']->content,
+                    'relevance' => $libraryItem['libraryItems']->relevance,
+                    'photo_url' => $libraryItem['libraryItems']->photo_url ?? null,
+                    'video_url' => $libraryItem['libraryItems']->video_url ?? null,
+                    'audio_url' => $libraryItem['libraryItems']->audio_url ?? null,
+                    'resource_category_name' => optional($libraryItem['libraryItems']->resourceCategory)->name,
+                    'library_permission_name' => match(optional($libraryItem['libraryItems']->libraryPermissions)->permission) {
+                        1 => 'Freemium',
+                        2 => 'Core',
+                        3 => 'Premium',
+                        4 => 'HP Look', // or whatever label you want for permission 4
+                        default => 'null',
+                    },
+                    'price' => optional($libraryItem['libraryItems']->libraryPermissions)->price,
+                    'point' => optional($libraryItem['libraryItems']->libraryPermissions)->point,
+                ];
+            }
             $libraries = [
-                'humanOp_shop_items' => $shopItems,
-                'tools_training_items' => $libraryItems
+                'humanOp_shop_items' => $shops,
+                'tools_training_items' => $libraries
             ];
 
             return Helpers::successResponse('HumanOp Shop Libraries', $libraries);

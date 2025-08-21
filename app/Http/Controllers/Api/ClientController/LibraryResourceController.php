@@ -10,6 +10,7 @@ use App\Models\Admin\ResourceCategory\ResourceCategory;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Libraries\HumanOpLibraries;
+use App\Models\PlaylistLog;
 use Illuminate\Http\Request;
 use Stripe\Charge;
 use Stripe\Stripe;
@@ -30,9 +31,13 @@ class LibraryResourceController extends Controller
             $transformed = [];
 
             foreach ($data as $item) {
+
+                $playList = PlaylistLog::getSingleResourceItem($item['id']);
+
                 $transformed[] = [
                     'id' => $item->id,
                     'heading' => $item->heading,
+                    'my_playlist' => !empty($playList) ? 1 : 0,
                     'slug' => $item->slug,
                     'description' => $item->description,
                     'content' => $item->content,

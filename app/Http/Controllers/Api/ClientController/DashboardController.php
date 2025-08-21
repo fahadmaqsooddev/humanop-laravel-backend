@@ -14,6 +14,7 @@ use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\MultiMedia\MultiMediaStats;
 use App\Models\Client\Suggestion\SuggestionForYou;
 use App\Models\Notification\PushNotification;
+use App\Models\PlaylistLog;
 use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
 use App\Models\User;
@@ -192,8 +193,11 @@ class DashboardController extends Controller
 
             foreach ($podcasts as $podcast) {
 
+                $playList = PlaylistLog::getSinglePodcastItem($podcast['id']);
+
                 $audioFiles[] = [
                     'id' => $podcast['id'] ?? null,
+                    'my_playlist' => !empty($playList) ? 1 : 0,
                     'title' => $podcast['title'] ?? null,
                     'audio_id' => $podcast['audio_id'] ?? null,
                     'audio_url' => $podcast['audio_url']['path'] ?? null,
