@@ -14,6 +14,7 @@ use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\Client\Hai\HaiThread;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\HumanOpPoints\LoginStreaks;
+use App\Models\HAIChai\HaiChat;
 use App\Models\Videos\VideoProgress;
 use Illuminate\Support\Facades\DB;
 
@@ -101,7 +102,7 @@ class GamificationController extends Controller
 
             $watchVideos = VideoProgress::checkAllWatchVideos($getAssessmentId);
 
-            $haiConversation = HaiThread::getUserChats();
+            $haiConversation = HaiChat::getUserChats();
 
             $challenges = [
                 'daily_tips' => count($userDailyTips),
@@ -133,7 +134,7 @@ class GamificationController extends Controller
 
             $watchVideos = VideoProgress::checkAllWatchVideos($getAssessmentId);
 
-            $haiConversation = HaiThread::getUserChats();
+            $haiConversation = HaiChat::getUserChats();
 
             if (count($totalVideos) > 0) {
                 $progress = (count($watchVideos) < count($totalVideos)) ? 'unfinished' : 'finished';

@@ -155,4 +155,12 @@ class HaiChat extends Model
         return [[], []];
 
     }
+
+    public static function getUserChats()
+    {
+
+        return self::where('user_id', Helpers::getUser()['id'])->get();
+
+    }
+
 }
