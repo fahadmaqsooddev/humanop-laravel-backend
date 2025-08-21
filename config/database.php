@@ -728,7 +728,11 @@ return [
             'table' => 'teams_or_departments',
             'fillable' => ['name', 'description', 'location', 'type', 'member_id', 'team_id','business_id','logo_upload_id','parent_id','level'],
             'hidden' => ['created_at', 'updated_at']
-
+        ],
+        'SuggestionForYou' => [
+            'table' => 'suggestion_for_you',
+            'fillable' => ['user_id', 'suggested_item_id'],
+            'hidden' => ['created_at', 'updated_at']
         ],
     ]
 ];

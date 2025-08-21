@@ -26,7 +26,8 @@ class SuggestedItem extends Model
     }
 
     // append
-    public function getPhotoUrlAttribute(){
+    public function getPhotoUrlAttribute()
+    {
 
         return Helpers::getImage($this->image_id);
     }
@@ -46,7 +47,7 @@ class SuggestedItem extends Model
     // relationship
     public function suggestedItems()
     {
-        return $this->hasMany (HumanOpItemsGridActivitiesLog::class, 'suggested_item_id');
+        return $this->hasMany(HumanOpItemsGridActivitiesLog::class, 'suggested_item_id');
     }
 
     public function shopItems()
@@ -72,43 +73,52 @@ class SuggestedItem extends Model
         return $resource;
     }
 
-    public static function getSingleSuggestedItem($userId = null)
+    public static function getSingleSuggestedItem($userId = null, $suggestions = null)
     {
-
         $getAssessment = Assessment::getLatestAssessment($userId);
 
         $userAssessmentDetail = AssessmentColorCode::getHighlightCodeColor($getAssessment['id']);
-
         $highlightedStylesAndFeatures = array_keys($userAssessmentDetail);
 
         $userAlchemy = Assessment::getAlchemy($getAssessment)['code'];
-
         $userEnergyPool = Assessment::getEnergyPoolPublicName($getAssessment)['code_name'];
-
         $userPerception = Assessment::getPreceptionReportDetail($getAssessment)['code_name'];
-
         $userCommunication = Assessment::getEnergy($getAssessment);
 
-        $getUserGridDetail = array_merge($highlightedStylesAndFeatures, [$userAlchemy], $userCommunication,[$userEnergyPool], [$userPerception]);
+        $getUserGridDetail = array_merge(
+            $highlightedStylesAndFeatures,
+            [$userAlchemy],
+            $userCommunication,
+            [$userEnergyPool],
+            [$userPerception]
+        );
 
         $getUserGridDetail = array_map('strtoupper', $getUserGridDetail);
 
-        return self::whereHas('suggestedItems', function ($query) use ($getUserGridDetail) {
+        // Normalize suggestions to an array of IDs
+        $excludeIds = [];
+        if ($suggestions) {
+            if ($suggestions instanceof \Illuminate\Support\Collection) {
+                $excludeIds = $suggestions->pluck('suggested_item_id')->toArray();
+            } elseif (is_array($suggestions)) {
+                $excludeIds = array_column($suggestions, 'suggested_item_id');
+            } elseif (isset($suggestions['suggested_item_id'])) {
+                $excludeIds = [$suggestions['suggested_item_id']];
+            }
+        }
 
-            $query->whereIn('grid_name', $getUserGridDetail);
-
+        $query = self::whereHas('suggestedItems', function ($q) use ($getUserGridDetail) {
+            $q->whereIn('grid_name', $getUserGridDetail);
         })
+            ->with(['suggestedItems' => function ($q) use ($getUserGridDetail) {
+                $q->whereIn('grid_name', $getUserGridDetail);
+            }]);
 
-            ->with(['suggestedItems' => function ($query) use ($getUserGridDetail) {
+        if (!empty($excludeIds)) {
+            $query->whereNotIn('id', $excludeIds);
+        }
 
-                $query->whereIn('grid_name', $getUserGridDetail);
-
-            }])
-
-            ->inRandomOrder()
-
-            ->first();
-
+        return $query->inRandomOrder()->first();
     }
 
     public static function getItem($suggestedItemId = null)
