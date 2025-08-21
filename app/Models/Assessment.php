@@ -1541,7 +1541,7 @@ class Assessment extends Model
 
                                     Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
 
-                                    Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+//                                    Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
                                 }
                             }
                         }
