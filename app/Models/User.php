@@ -45,7 +45,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes,LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment','latest_assessment'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment','latest_assessment','daily_tip_time'];
 
     public function __construct(array $attributes = array())
     {
@@ -103,7 +103,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note','b2c_stripe_id']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note','b2c_stripe_id','set_daily_tip_time']);
     }
 
     // appends
@@ -132,6 +132,17 @@ class User extends Authenticatable implements JWTSubject
         }else{
             return 0;
         }
+    }
+
+    public function getDailyTipTimeAttribute()
+    {
+        $dailyTipTime = $this->attributes['set_daily_tip_time'] ?? null;
+
+        if (!empty($dailyTipTime)) {
+            return \Carbon\Carbon::createFromFormat('H:i:s', $dailyTipTime)->format('h:i A');
+        }
+
+        return null;
     }
 
     public function getOptionalTraitAttribute()

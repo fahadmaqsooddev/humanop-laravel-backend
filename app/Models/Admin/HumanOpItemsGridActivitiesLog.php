@@ -27,10 +27,38 @@ class HumanOpItemsGridActivitiesLog extends Model
         ]);
     }
 
+    public static function storeResourceItemTraits($suggestedItemId = null, $traitName = null)
+    {
+
+        self::create([
+            'resource_item_id' => $suggestedItemId,
+            'grid_name' => $traitName,
+        ]);
+    }
+
+    public static function storeShopItemTraits($suggestedItemId = null, $traitName = null)
+    {
+
+        self::create([
+            'shop_item_id' => $suggestedItemId,
+            'grid_name' => $traitName,
+        ]);
+    }
+
     public static function deleteSuggestItems($suggestedItemId = null)
     {
 
         return self::where('suggested_item_id', $suggestedItemId)->delete();
 
+    }
+
+    public static function getResourceGrid($resourceItemId = null)
+    {
+        return self::where('resource_item_id', $resourceItemId)->get();
+    }
+
+    public static function getShopGrid($resourceItemId = null)
+    {
+        return self::where('shop_item_id', $resourceItemId)->get();
     }
 }

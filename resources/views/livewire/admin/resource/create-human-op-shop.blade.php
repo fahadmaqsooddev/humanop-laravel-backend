@@ -50,7 +50,8 @@
                         </button>
                         <button data-bs-toggle="modal" data-bs-target="#createShopResource" wire:click="emptyCreateForm"
                                 id="create_resourse_btn" class=" btn-sm float-end mt-2 mb-0"
-                                style="background:#1b3a62;color:white;font-weight:bolder;border:none;">Create Shop Resource
+                                style="background:#1b3a62;color:white;font-weight:bolder;border:none;">Create Shop
+                            Resource
                         </button>
                     </div>
                 </div>
@@ -76,7 +77,7 @@
                                     </div>
                                     <div class="col-4 text-end">
                                         <div
-                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                             <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -114,7 +115,7 @@
                                                         </div>
                                                         <div class="col-4 text-end">
                                                             <div
-                                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                                    class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                                                 <i class="ni ni-world-2 text-lg opacity-10"
                                                                    aria-hidden="true"></i>
                                                             </div>
@@ -220,8 +221,8 @@
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Category</label>
-                                        <select  class="form-control input-form-style"
-                                                 wire:model.defer="category_id" placeholder="Select category">
+                                        <select class="form-control input-form-style"
+                                                wire:model.defer="category_id" placeholder="Select category">
                                             <option>Select a category</option>
                                             @foreach($dropDownCategories as $category)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
@@ -233,19 +234,19 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Title</label>
-                                        <input  class="form-control input-form-style"
-                                                wire:model.defer="heading" placeholder="title" type="text"
-                                                maxlength="150">
+                                        <input class="form-control input-form-style"
+                                               wire:model.defer="heading" placeholder="title" type="text"
+                                               maxlength="150">
                                     </div>
 
 
                                     <div class="form-group">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input  wire:model="resource_file"
-                                                id="resourse_file" wire:change="getResourceFile"
-                                                class="form-control input-form-style resource_file" type="file"
-                                                accept="image/*,video/*,audio/*">
+                                        <input wire:model="resource_file"
+                                               id="resourse_file" wire:change="getResourceFile"
+                                               class="form-control input-form-style resource_file" type="file"
+                                               accept="image/*,video/*,audio/*">
                                         <span wire:loading.flex wire:target="resource_file">
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status"
@@ -278,18 +279,104 @@
                                     @php
                                         $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
                                     @endphp
-                                    <label class="form-label fs-4" style="color: #1b3a62">Select Traits</label>
-
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT TRAITS</label>
                                     <div class="row">
                                         @foreach($traits as $trait)
                                             <div class="col-3">
                                                 <div class="form-check">
-                                                    <input type="checkbox"
-                                                           wire:model="selectedTraits"
-                                                           value="{{ $trait }}"
-                                                           class="form-check-input"
+                                                    <input type="checkbox" wire:model="selectedTraits"
+                                                           value="{{ $trait }}" class="form-check-input"
                                                            id="day_{{ $trait }}">
-                                                    <label class="form-check-label" for="day_{{ $trait }}">{{ $trait }}</label>
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $trait }}">{{ $trait }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $features = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT MOTIVATIONAL
+                                        DRIVERS</label>
+                                    <div class="row">
+                                        @foreach($features as $feature)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox" wire:model="selectedFeatures"
+                                                           value="{{ $feature }}" class="form-check-input"
+                                                           id="day_{{ $feature }}">
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $feature }}">{{ $feature }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $alchemies = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT ALCHEMY</label>
+                                    <div class="row">
+                                        @foreach($alchemies as $alchemy)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox" wire:model="selectedAlchemy"
+                                                           value="{{ $alchemy }}" class="form-check-input"
+                                                           id="day_{{ $alchemy }}">
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $alchemy }}">{{ $alchemy }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $communications = ['EM', 'INS', 'INT', 'MOV'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT COMMUNICATION
+                                        STYLE</label>
+                                    <div class="row">
+                                        @foreach($communications as $communication)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox" wire:model="selectedCommunications"
+                                                           value="{{ $communication }}" class="form-check-input"
+                                                           id="day_{{ $communication }}">
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $communication }}">{{ $communication }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $perceptions = ['Negative', 'Positive', 'Neutral'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT PERCEPTION OF
+                                        LIFE</label>
+                                    <div class="row">
+                                        @foreach($perceptions as $perception)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox" wire:model="selectedPerceptions"
+                                                           value="{{ $perception }}" class="form-check-input"
+                                                           id="day_{{ $perception }}">
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $perception }}">{{ $perception }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $energyPools = ['Above Excellent', 'Average', 'Excellent', 'Fair'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT ENERGY POOL</label>
+                                    <div class="row">
+                                        @foreach($energyPools as $energyPool)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox" wire:model="selectedEnergyPools"
+                                                           value="{{ $energyPool }}" class="form-check-input"
+                                                           id="day_{{ $energyPool }}">
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $energyPool }}">{{ $energyPool }}</label>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -327,8 +414,8 @@
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Category</label>
-                                        <select  class="form-control input-form-style"
-                                                 wire:model.defer="category_id" placeholder="Select category">
+                                        <select class="form-control input-form-style"
+                                                wire:model.defer="category_id" placeholder="Select category">
                                             @foreach($dropDownCategories as $category)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
                                             @endforeach
@@ -336,24 +423,23 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Title</label>
-                                        <input  class="form-control input-form-style"
-                                                wire:model.defer="heading" placeholder="title" type="text">
+                                        <input class="form-control input-form-style"
+                                               wire:model.defer="heading" placeholder="title" type="text">
                                     </div>
-
 
 
                                     <div class="form-group mt-4 " hidden>
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource Id</label>
-                                        <input  class="form-control input-form-style"
-                                                wire:model.defer="resourceId" type="text">
+                                        <input class="form-control input-form-style"
+                                               wire:model.defer="resourceId" type="text">
                                     </div>
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Pdf, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input  wire:model="resource_file"
-                                                id="resource_file" wire:change="getResourceFile"
-                                                class="form-control input-form-style resource_file1" type="file"
-                                                accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
+                                        <input wire:model="resource_file"
+                                               id="resource_file" wire:change="getResourceFile"
+                                               class="form-control input-form-style resource_file1" type="file"
+                                               accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
                                     </div>
                                     <span wire:loading.flex wire:target="resource_file">
                                             <div class="d-flex align-items-center mt-2">
@@ -363,21 +449,23 @@
                                               </div>
                                         </span>
                                     @if(!empty($editResourceData['document_id']))
-{{--                                        {{dd($editResourceData['document_url']['path'])}}--}}
+                                        {{--                                        {{dd($editResourceData['document_url']['path'])}}--}}
                                         <div class="form-group mt-4">
-                                            <iframe src="{{ $editResourceData['document_url']['path']??null }}" width="100%" height="500px">
+                                            <iframe src="{{ $editResourceData['document_url']['path']??null }}"
+                                                    width="100%" height="500px">
                                                 This browser does not support PDFs. Please download the PDF to view it:
-                                                <a href="{{ $editResourceData['document_url']['path'] ?? null }}">Download PDF</a>
+                                                <a href="{{ $editResourceData['document_url']['path'] ?? null }}">Download
+                                                    PDF</a>
                                             </iframe>
                                         </div>
                                     @elseif(!empty($editResourceData['video_id']))
-{{--                                        {{dd($editResourceData['video_url']['path'])}}--}}
+                                        {{--                                        {{dd($editResourceData['video_url']['path'])}}--}}
                                         <div class="form-group mt-4">
                                             <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
                                                    style="height: 200px;"></video>
                                         </div>
                                     @elseif(!empty($editResourceData['audio_id']))
-{{--                                        {{dd($editResourceData['audio_url']['path'])}}--}}
+                                        {{--                                        {{dd($editResourceData['audio_url']['path'])}}--}}
                                         <div class="form-group mt-4">
                                             <audio controls style="width: 100%;">
                                                 <source src="{{ $editResourceData['audio_url']['path'] }}"
@@ -407,26 +495,128 @@
                                                    style="border: 2px solid #1b3a62;">
                                         </div>
                                     </div>
-
                                     @php
                                         $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
                                     @endphp
-                                    <label class="form-label fs-4" style="color: #1b3a62">Select Traits</label>
-
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT TRAITS</label>
                                     <div class="row">
                                         @foreach($traits as $trait)
                                             <div class="col-3">
                                                 <div class="form-check">
-                                                    <input type="checkbox"
-                                                           wire:model="selectedTraits"
-                                                           value="{{ $trait }}"
-                                                           class="form-check-input"
+                                                    <input type="checkbox" wire:model="selectedTraits"
+                                                           value="{{ $trait }}" class="form-check-input"
                                                            id="day_{{ $trait }}">
-                                                    <label class="form-check-label" for="day_{{ $trait }}">{{ $trait }}</label>
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $trait }}">{{ $trait }}</label>
                                                 </div>
                                             </div>
                                         @endforeach
                                     </div>
+                                    @php
+                                        $features = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT MOTIVATIONAL
+                                        DRIVERS</label>
+                                    <div class="row">
+                                        @foreach($features as $feature)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox" wire:model="selectedFeatures"
+                                                           value="{{ $feature }}" class="form-check-input"
+                                                           id="day_{{ $feature }}">
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $feature }}">{{ $feature }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $alchemies = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT ALCHEMY</label>
+                                    <div class="row">
+                                        @foreach($alchemies as $alchemy)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox" wire:model="selectedAlchemy"
+                                                           value="{{ $alchemy }}" class="form-check-input"
+                                                           id="day_{{ $alchemy }}">
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $alchemy }}">{{ $alchemy }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $communications = ['EM', 'INS', 'INT', 'MOV'];
+                                    @endphp
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT COMMUNICATION
+                                        STYLE</label>
+                                    <div class="row">
+                                        @foreach($communications as $communication)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox" wire:model="selectedCommunications"
+                                                           value="{{ $communication }}" class="form-check-input"
+                                                           id="day_{{ $communication }}">
+                                                    <label class="form-check-label"
+                                                           for="day_{{ $communication }}">{{ $communication }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $perceptionCodes = [
+                                            'NE' => 'Negative',
+                                            'P'  => 'Positive',
+                                            'N'  => 'Neutral'
+                                        ];
+                                    @endphp
+
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT PERCEPTION OF LIFE</label>
+                                    <div class="row">
+                                        @foreach($perceptionCodes as $code => $label)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox"
+                                                           wire:model="selectedPerceptions"
+                                                           value="{{ $code }}"
+                                                           class="form-check-input"
+                                                           id="day_{{ $code }}">
+                                                    <label class="form-check-label" for="day_{{ $code }}">
+                                                        {{ $label }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $energyPoolCodes = [
+                                            'AE' => 'Above Excellent',
+                                            'A'  => 'Average',
+                                            'E'  => 'Excellent',
+                                            'F'  => 'Fair',
+                                        ];
+                                    @endphp
+
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT ENERGY POOL</label>
+                                    <div class="row">
+                                        @foreach($energyPoolCodes as $code => $label)
+                                            <div class="col-3">
+                                                <div class="form-check">
+                                                    <input type="checkbox"
+                                                           wire:model="selectedEnergyPools"
+                                                           value="{{ $code }}"
+                                                           class="form-check-input"
+                                                           id="day_{{ $code }}">
+                                                    <label class="form-check-label" for="day_{{ $code }}">
+                                                        {{ $label }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
                                 </div>
                             </div>
                             <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
@@ -474,8 +664,8 @@
 
                     <p class="modal-close-btn">@include('layouts.message')</p>
                     <label>Category Name </label>
-                    <input  class="form-control input-form-style" wire:model.defer="category_name"
-                            placeholder="Enter category name" type="text" maxlength="191">
+                    <input class="form-control input-form-style" wire:model.defer="category_name"
+                           placeholder="Enter category name" type="text" maxlength="191">
                     <div class="p-2">
                         <button wire:click="createShopCategory" style="background-color: #1B3A62 ; color: white"
                                 class="btn btn-sm float-end">submit
@@ -510,8 +700,8 @@
                                     <label class="form-label fs-5 " style="color: #1b3a62">Move Resources To An Other
                                         Category</label>
                                     <br/>
-                                    <select  class="form-control input-form-style"
-                                             wire:model.defer="category_id" placeholder="Select category">
+                                    <select class="form-control input-form-style"
+                                            wire:model.defer="category_id" placeholder="Select category">
                                         <option value="">Select Category
                                         @foreach($dropDownCategories as $category)
                                             @if($current_category != $category->id)

@@ -3,6 +3,7 @@
 namespace App\Models\Admin\Resources;
 
 use App\Helpers\Helpers;
+use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Admin\HumanOpShopCategory\HumanOpShopTraits;
 use App\Models\Admin\HumanOpShopCategory\ShopCategory;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
@@ -38,7 +39,7 @@ class ShopCategoryResource extends Model
 //    relation
     public function resourceTraits()
     {
-        return $this->hasMany(HumanOpShopTraits::class, 'humanop_shop_resource_id');
+        return $this->hasMany(HumanOpItemsGridActivitiesLog::class, 'shop_item_id');
     }
 
 
@@ -187,13 +188,13 @@ class ShopCategoryResource extends Model
 
             ->whereHas('resourceTraits', function ($query) use ($highlightedStyles) {
 
-                $query->whereIn('trait_name', $highlightedStyles);
+                $query->whereIn('grid_name', $highlightedStyles);
 
             })
 
             ->with(['resourceTraits' => function ($query) use ($highlightedStyles) {
 
-                $query->whereIn('trait_name', $highlightedStyles);
+                $query->whereIn('grid_name', $highlightedStyles);
 
             }])
 
