@@ -237,8 +237,8 @@ class LibraryResource extends Model
         // Determine permission level based on plan
         $permissionLevel = match ($userPlan) {
             'Premium' => 3,
-            'Core'    => 2,
-            default   => 1,
+            'Core' => 2,
+            default => 1,
         };
 
         // Filter by permission level (plan-based access)

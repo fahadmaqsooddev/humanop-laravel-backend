@@ -51,4 +51,14 @@ class HumanOpItemsGridActivitiesLog extends Model
         return self::where('suggested_item_id', $suggestedItemId)->delete();
 
     }
+
+    public static function getResourceGrid($resourceItemId = null)
+    {
+        return self::where('resource_item_id', $resourceItemId)->get();
+    }
+
+    public static function getShopGrid($resourceItemId = null)
+    {
+        return self::where('shop_item_id', $resourceItemId)->get();
+    }
 }
