@@ -12,7 +12,9 @@ use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\Admin\SuggestedItem\SuggestedItem;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\MultiMedia\MultiMediaStats;
+use App\Models\Client\Suggestion\SuggestionForYou;
 use App\Models\Notification\PushNotification;
+use App\Models\PlaylistLog;
 use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
 use App\Models\User;
@@ -191,8 +193,11 @@ class DashboardController extends Controller
 
             foreach ($podcasts as $podcast) {
 
+                $playList = PlaylistLog::getSinglePodcastItem($podcast['id']);
+
                 $audioFiles[] = [
                     'id' => $podcast['id'] ?? null,
+                    'my_playlist' => !empty($playList) ? 1 : 0,
                     'title' => $podcast['title'] ?? null,
                     'audio_id' => $podcast['audio_id'] ?? null,
                     'audio_url' => $podcast['audio_url']['path'] ?? null,
@@ -893,18 +898,46 @@ class DashboardController extends Controller
     public function suggestedItemForYou()
     {
         try {
+            $user = Helpers::getUser();
 
-            $getSuggestedItem = SuggestedItem::getSingleSuggestedItem(Helpers::getUser()['id']);
+            $currentSuggestion = SuggestionForYou::checkSuggestion($user['id']);
+            $suggestionForYou = null;
+
+            if (!empty($currentSuggestion)) {
+                $difference = Carbon::now()->diffInDays($currentSuggestion['created_at']);
+
+                if ($difference > 0) {
+                    $allSuggestion = SuggestionForYou::allSuggestion($user['id']);
+
+                    $getSuggestedItem = SuggestedItem::getSingleSuggestedItem($user['id'], $allSuggestion);
+
+                    if (!empty($getSuggestedItem)) {
+
+                        SuggestionForYou::createSuggestion($user['id'], $getSuggestedItem['id']);
+                        $suggestionForYou = SuggestionForYou::checkSuggestion($user['id']);
+                    }
+                } else {
+                    $suggestionForYou = $currentSuggestion;
+                }
+            } else {
+
+                $getSuggestedItem = SuggestedItem::getSingleSuggestedItem($user['id']);
+
+                if (!empty($getSuggestedItem)) {
+                    SuggestionForYou::createSuggestion($user['id'], $getSuggestedItem['id']);
+                    $suggestionForYou = SuggestionForYou::checkSuggestion($user['id']);
+                }
+            }
 
             $formatted = [
-                'id' => $getSuggestedItem->id ?? null,
-                'title' => $getSuggestedItem->title ?? null,
-                'description' => $getSuggestedItem->description ?? null,
-                'created_at' => $getSuggestedItem->created_at ?? null,
-                'updated_at' => $getSuggestedItem->updated_at ?? null,
-                'video_url' => isset($getSuggestedItem->video_url) ? ($getSuggestedItem->video_url['path'] ?? null) : null,
-                'audio_url' => isset($getSuggestedItem->audio_url) ? ($getSuggestedItem->audio_url['path'] ?? null) : null,
-                'photo_url' => isset($getSuggestedItem->photo_url) ? ($getSuggestedItem->photo_url['url'] ?? null) : null,
+                'id' => $suggestionForYou['suggestedItem']['id'] ?? null,
+                'title' => $suggestionForYou['suggestedItem']['title'] ?? null,
+                'description' => $suggestionForYou['suggestedItem']['description'] ?? null,
+                'created_at' => $suggestionForYou['created_at'] ?? null,
+                'updated_at' => $suggestionForYou['updated_at'] ?? null,
+                'video_url' => $suggestionForYou['suggestedItem']['video_url']['path'] ?? null,
+                'audio_url' => $suggestionForYou['suggestedItem']['audio_url']['path'] ?? null,
+                'photo_url' => $suggestionForYou['suggestedItem']['photo_url']['url'] ?? null,
             ];
 
             return Helpers::successResponse('HumanOp Shop Suggested Items', $formatted);
@@ -979,7 +1012,7 @@ class DashboardController extends Controller
                 $data = [];
 
                 foreach ($futureConsideration as $consideration) {
-                    
+
                     $data[] = [
                         'company_name' => $consideration['businessUsers']['company_name'] ?? null,
                         'user_type' => $consideration['role'] == Admin::IS_CANDIDATE ? 'Candidate' : 'Member',

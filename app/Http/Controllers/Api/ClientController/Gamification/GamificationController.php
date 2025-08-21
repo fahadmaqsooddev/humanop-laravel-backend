@@ -107,7 +107,7 @@ class GamificationController extends Controller
                 'daily_tips' => count($userDailyTips),
                 'total_videos' => count($totalVideos),
                 'watch_videos' => count($watchVideos),
-                'hai_conversation' => count($haiConversation) > 0 ? 1 : 0,
+                'hai_conversation' => min(count($haiConversation), 3),
             ];
 
             return Helpers::successResponse('Current Challenges', $challenges);

@@ -57,4 +57,22 @@ class PlaylistLog extends Model
 
     }
 
+    public static function getSingleResourceItem($resourceItemId = null)
+    {
+        return self::where('resource_item_id', $resourceItemId)->first();
+
+    }
+
+    public static function getSingleShopItem($shopItemId = null)
+    {
+        return self::where('shop_item_id', $shopItemId)->first();
+
+    }
+
+    public static function getSinglePodcastItem($podcastItemId = null)
+    {
+        return self::where('podcast_id', $podcastItemId)->first();
+
+    }
+
 }
