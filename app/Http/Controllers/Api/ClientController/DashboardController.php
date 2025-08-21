@@ -61,17 +61,17 @@ class DashboardController extends Controller
 
                     $isRead = $userDailyTip['is_read'];
 
-//                    if ($user['plan_name'] == 'Freemium') {
-//
-//                        $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
-//
-//                    } else {
+                    if ($user['plan_name'] == 'Freemium') {
+
+                        $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
+
+                    } else {
 
                         $setTipTimeToday = Carbon::today()->setTimeFromTimeString($user['set_daily_tip_time']);
 
                         $updatedWithinDay = $userDailyTip['updated_at'] >= $setTipTimeToday;
 
-//                    }
+                    }
 
                     if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
 
