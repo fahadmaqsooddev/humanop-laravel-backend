@@ -67,9 +67,11 @@ class DashboardController extends Controller
 
                     } else {
 
-                        $setTipTimeToday = Carbon::today()->setTimeFromTimeString($user['set_daily_tip_time']);
+                        $setTipTime = Carbon::today()->setTimeFromTimeString($user['set_daily_tip_time']);
 
-                        $updatedWithinDay = $userDailyTip['updated_at'] >= $setTipTimeToday;
+                        $nextSetTipTime = $setTipTime->copy()->addDay();
+
+                        $updatedWithinDay = Carbon::parse($userDailyTip['updated_at']) < $nextSetTipTime;
 
                     }
 
@@ -907,9 +909,11 @@ class DashboardController extends Controller
             $user = Helpers::getUser();
 
             $currentSuggestion = SuggestionForYou::checkSuggestion($user['id']);
+
             $suggestionForYou = null;
 
             if (!empty($currentSuggestion)) {
+
                 $difference = Carbon::now()->diffInDays($currentSuggestion['created_at']);
 
                 if ($difference > 0) {
@@ -941,9 +945,9 @@ class DashboardController extends Controller
                 'description' => $suggestionForYou['suggestedItem']['description'] ?? null,
                 'created_at' => $suggestionForYou['created_at'] ?? null,
                 'updated_at' => $suggestionForYou['updated_at'] ?? null,
-                'video_url' => $suggestionForYou['suggestedItem']['video_url']['path'] ?? null,
-                'audio_url' => $suggestionForYou['suggestedItem']['audio_url']['path'] ?? null,
-                'photo_url' => $suggestionForYou['suggestedItem']['photo_url']['url'] ?? null,
+//                'video_url' => $suggestionForYou['suggestedItem']['video_url']['path'] ?? null,
+//                'audio_url' => $suggestionForYou['suggestedItem']['audio_url']['path'] ?? null,
+//                'photo_url' => $suggestionForYou['suggestedItem']['photo_url']['url'] ?? null,
             ];
 
             return Helpers::successResponse('HumanOp Shop Suggested Items', $formatted);
