@@ -201,8 +201,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4" style="color: #1b3a62">Create Shop
-                                        Resource</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Create Suggestion Items</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -220,22 +219,22 @@
                                                   placeholder="Enter description"
                                                   rows="3"></textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Suggested Item File
-                                            (Image, Video, or
-                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input wire:model="suggested_item_file" id="suggested_item_file"
-                                               wire:change="getSuggestedFile"
-                                               class="form-control input-form-style suggested_item_file" type="file"
-                                               accept="image/*,video/*,audio/*">
-                                        <span wire:loading.flex wire:target="suggested_item_file">
-                                            <div class="d-flex align-items-center mt-2">
-                                                <div class="spinner-border" role="status"
-                                                     style="color: #1b3a62 !important;"></div>
-                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
-                                            </div>
-                                        </span>
-                                    </div>
+{{--                                    <div class="form-group">--}}
+{{--                                        <label class="form-label fs-4" style="color: #1b3a62">Suggested Item File--}}
+{{--                                            (Image, Video, or--}}
+{{--                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>--}}
+{{--                                        <input wire:model="suggested_item_file" id="suggested_item_file"--}}
+{{--                                               wire:change="getSuggestedFile"--}}
+{{--                                               class="form-control input-form-style suggested_item_file" type="file"--}}
+{{--                                               accept="image/*,video/*,audio/*">--}}
+{{--                                        <span wire:loading.flex wire:target="suggested_item_file">--}}
+{{--                                            <div class="d-flex align-items-center mt-2">--}}
+{{--                                                <div class="spinner-border" role="status"--}}
+{{--                                                     style="color: #1b3a62 !important;"></div>--}}
+{{--                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>--}}
+{{--                                            </div>--}}
+{{--                                        </span>--}}
+{{--                                    </div>--}}
                                     @php
                                         $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
                                     @endphp
@@ -496,16 +495,16 @@
             }
         </script>
     @endif
-    @if($booleanValue)
-        <script>
-            const resourceFileInput = document.querySelector('.suggested_item_file');
-            if (resourceFileInput) {
-                resourceFileInput.value = "";
-            } else {
-                console.log("Resource file input not found.");
-            }
-        </script>
-    @endif
+{{--    @if($booleanValue)--}}
+{{--        <script>--}}
+{{--            const resourceFileInput = document.querySelector('.suggested_item_file');--}}
+{{--            if (resourceFileInput) {--}}
+{{--                resourceFileInput.value = "";--}}
+{{--            } else {--}}
+{{--                console.log("Resource file input not found.");--}}
+{{--            }--}}
+{{--        </script>--}}
+{{--    @endif--}}
 </div>
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

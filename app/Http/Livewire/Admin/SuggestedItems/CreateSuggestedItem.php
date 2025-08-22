@@ -23,7 +23,7 @@ class CreateSuggestedItem extends Component
     protected $rules = [
         'title' => 'required|unique:humanop_shop_resources,heading|regex:/^[A-Za-z]/',
         'description' => 'required|string',
-        'suggested_item_file' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800',
+//        'suggested_item_file' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800',
     ];
 
     protected $messages = [
@@ -34,10 +34,10 @@ class CreateSuggestedItem extends Component
         'description.required' => 'The description field is required.',
         'description.string' => 'The description must be a valid text.',
 
-        'suggested_item_file.required' => 'Please upload a suggested item file.',
-        'suggested_item_file.file' => 'The suggested item must be a valid file.',
-        'suggested_item_file.mimes' => 'Allowed file types: mp4, mov, avi, mkv, mp3, wav, pdf, doc, docx.',
-        'suggested_item_file.max' => 'The file size may not be greater than 200 MB.',
+//        'suggested_item_file.required' => 'Please upload a suggested item file.',
+//        'suggested_item_file.file' => 'The suggested item must be a valid file.',
+//        'suggested_item_file.mimes' => 'Allowed file types: mp4, mov, avi, mkv, mp3, wav, pdf, doc, docx.',
+//        'suggested_item_file.max' => 'The file size may not be greater than 200 MB.',
     ];
 
     public function getSuggestedItems()
@@ -78,19 +78,20 @@ class CreateSuggestedItem extends Component
 
         DB::beginTransaction();
 
+//        dd($this);
         try {
 
             $this->validate();
 
-            $extension = $this->suggested_item_file->extension();
+            $extension = $this->suggested_item_file ? $this->suggested_item_file->extension() : null;
 
-            $upload_id = $this->uploadFile($this->suggested_item_file);
+            $upload_id =$this->suggested_item_file ? $this->uploadFile($this->suggested_item_file) : null;
 
-            if (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
+            if (in_array($extension, ['jpeg', 'png', 'jpg', 'gif', null])) {
 
                 $suggestedItem = SuggestedItem::createSuggestedItem($this->title, $this->description, $upload_id, null, null);
 
-            } elseif (in_array($extension, ['mp3', 'wav', 'mpeg'])) {
+            } elseif (in_array($extension, ['mp3', 'wav', 'mpeg', null])) {
 
                 $suggestedItem = SuggestedItem::createSuggestedItem($this->title, $this->description, null, null, $upload_id);
 
@@ -119,7 +120,7 @@ class CreateSuggestedItem extends Component
             $perceptionCodes = [
                 'Negative' => 'NE',
                 'Positive' => 'P',
-                'Neutral'  => 'N',
+                'Neutral' => 'N',
             ];
 
             foreach ($this->selectedPerceptions as $perception) {
@@ -131,8 +132,8 @@ class CreateSuggestedItem extends Component
             $energyPoolCodes = [
                 'Above Excellent' => 'AE',
                 'Average' => 'A',
-                'Excellent'  => 'E',
-                'Fair'  => 'F',
+                'Excellent' => 'E',
+                'Fair' => 'F',
             ];
 
             foreach ($this->selectedEnergyPools as $energyPoolCode) {
@@ -167,7 +168,7 @@ class CreateSuggestedItem extends Component
     {
         $this->booleanValue = false;
 
-        $this->reset(['title', 'suggested_item_file', 'description','selectedTraits']);
+        $this->reset(['title', 'suggested_item_file', 'description', 'selectedTraits']);
     }
 
     public function emptyCreateForm()

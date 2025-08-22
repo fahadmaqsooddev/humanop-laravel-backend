@@ -235,7 +235,7 @@
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Title</label>
                                         <input class="form-control input-form-style"
-                                               wire:model.defer="heading" placeholder="title" type="text"
+                                               wire:model="heading" placeholder="title" type="text"
                                                maxlength="150">
                                     </div>
 
