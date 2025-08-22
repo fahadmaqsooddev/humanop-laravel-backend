@@ -909,9 +909,11 @@ class DashboardController extends Controller
             $user = Helpers::getUser();
 
             $currentSuggestion = SuggestionForYou::checkSuggestion($user['id']);
+
             $suggestionForYou = null;
 
             if (!empty($currentSuggestion)) {
+
                 $difference = Carbon::now()->diffInDays($currentSuggestion['created_at']);
 
                 if ($difference > 0) {

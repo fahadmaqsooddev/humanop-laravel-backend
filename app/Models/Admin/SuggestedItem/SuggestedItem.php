@@ -75,28 +75,9 @@ class SuggestedItem extends Model
 
     public static function getSingleSuggestedItem($userId = null, $suggestions = null)
     {
-        $getAssessment = Assessment::getLatestAssessment($userId);
-
-        $userAssessmentDetail = AssessmentColorCode::getHighlightCodeColor($getAssessment['id']);
-        $highlightedStylesAndFeatures = array_keys($userAssessmentDetail);
-
-        $userAlchemy = Assessment::getAlchemy($getAssessment)['code'];
-        $userEnergyPool = Assessment::getEnergyPoolPublicName($getAssessment)['code_name'];
-        $userPerception = Assessment::getPreceptionReportDetail($getAssessment)['code_name'];
-        $userCommunication = Assessment::getEnergy($getAssessment);
-
-        $getUserGridDetail = array_merge(
-            $highlightedStylesAndFeatures,
-            [$userAlchemy],
-            $userCommunication,
-            [$userEnergyPool],
-            [$userPerception]
-        );
-
-        $getUserGridDetail = array_map('strtoupper', $getUserGridDetail);
-
         // Normalize suggestions to an array of IDs
         $excludeIds = [];
+
         if ($suggestions) {
             if ($suggestions instanceof \Illuminate\Support\Collection) {
                 $excludeIds = $suggestions->pluck('suggested_item_id')->toArray();
@@ -107,12 +88,8 @@ class SuggestedItem extends Model
             }
         }
 
-        $query = self::whereHas('suggestedItems', function ($q) use ($getUserGridDetail) {
-            $q->whereIn('grid_name', $getUserGridDetail);
-        })
-            ->with(['suggestedItems' => function ($q) use ($getUserGridDetail) {
-                $q->whereIn('grid_name', $getUserGridDetail);
-            }]);
+        // Start query from SuggestedItem model
+        $query = self::query();
 
         if (!empty($excludeIds)) {
             $query->whereNotIn('id', $excludeIds);
