@@ -941,9 +941,9 @@ class DashboardController extends Controller
                 'description' => $suggestionForYou['suggestedItem']['description'] ?? null,
                 'created_at' => $suggestionForYou['created_at'] ?? null,
                 'updated_at' => $suggestionForYou['updated_at'] ?? null,
-                'video_url' => $suggestionForYou['suggestedItem']['video_url']['path'] ?? null,
-                'audio_url' => $suggestionForYou['suggestedItem']['audio_url']['path'] ?? null,
-                'photo_url' => $suggestionForYou['suggestedItem']['photo_url']['url'] ?? null,
+//                'video_url' => $suggestionForYou['suggestedItem']['video_url']['path'] ?? null,
+//                'audio_url' => $suggestionForYou['suggestedItem']['audio_url']['path'] ?? null,
+//                'photo_url' => $suggestionForYou['suggestedItem']['photo_url']['url'] ?? null,
             ];
 
             return Helpers::successResponse('HumanOp Shop Suggested Items', $formatted);
