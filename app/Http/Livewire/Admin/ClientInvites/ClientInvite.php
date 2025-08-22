@@ -2,9 +2,12 @@
 
 namespace App\Http\Livewire\Admin\ClientInvites;
 
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
 use App\Models\UserInvite\UserInvite;
 use App\Models\User;
 use App\Models\UserInvite\UserInviteLog;
+use Illuminate\Support\Facades\URL;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -55,7 +58,17 @@ class ClientInvite extends Component
 
                 if (empty($uniqueEmail)) {
 
-                    UserInvite::sendInvite($this->email, $this->file);
+                    $data = UserInvite::sendInvite($this->email, $this->file);
+
+                    $inviteLink = UserInvite::where('id', $data['invite_id'])->first();
+
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink['link'];
+
+                    $template = EmailTemplate::getEmailTemplateByTag(Admin::B2C_SIGNUP_LINK);
+
+                    $emailData = $this->myprepareEmailData($url, $template->body, $template->subject);
+
+                    $this->mysendEmailVerification($emailData, $this->email, Admin::B2C_SIGNUP_LINK);
 
                     session()->flash('success', "{$this->email} invite link generated successfully.");
 
@@ -70,6 +83,14 @@ class ClientInvite extends Component
                         $data['role'] = Admin::CLIENT_INVITE_ROLE;
 
                         UserInviteLog::createInvite($data);
+
+                        $url = config('client_url.client_dashboard_url') . '/register?link=' . $uniqueEmail['link'];
+
+                        $template = EmailTemplate::getEmailTemplateByTag(Admin::B2C_SIGNUP_LINK);
+
+                        $emailData = $this->myprepareEmailData($url, $template->body, $template->subject);
+
+                        $this->mysendEmailVerification($emailData, $this->email, "HumanOp Sign Up Invite");
 
                         session()->flash('success', "{$this->email} invite link generated successfully.");
 
@@ -123,6 +144,30 @@ class ClientInvite extends Component
         UserInvite::sendInviteTime($id);
     }
 
+    private function myprepareEmailData($url = null, $body = null, $subject = null)
+    {
+
+        return [
+            '{$link}' => $url,
+            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$subject}' => $subject,
+            '{$body}' => $body,
+            '{$service}' => url('/term-of-service'),
+            '{$privacy}' => url('/privacy-policy'),
+        ];
+    }
+
+    private function mysendEmailVerification($emailData, $recipientEmail, $name)
+    {
+        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+
+        Email::sendEmailVerification(
+            ['content' => $emailTemplate],
+            $recipientEmail,
+            'emails.Email_Template',
+            "HumanOp Sign Up Invite Link"
+        );
+    }
 
     public function searchInvites()
     {

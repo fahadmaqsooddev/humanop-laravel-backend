@@ -211,7 +211,9 @@ final class Admin
 
     const FA_VERIFICATION_CODE = '2fa_verification_code';
 
-    const B2B_SIGNUP_LINK='b2b_signup_link';
+    const B2B_SIGNUP_LINK = 'b2b_signup_link';
+
+    const B2C_SIGNUP_LINK = 'b2c_signup';
 
     const B2B_LOGIN_LINK = 'b2b_login_link';
 
