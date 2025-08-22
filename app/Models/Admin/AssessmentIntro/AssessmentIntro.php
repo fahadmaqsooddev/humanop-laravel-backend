@@ -74,7 +74,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $data['video_url'] ?? '',
+            'video_url' => $data['video_url'] ?? '',
             'video_progress' => $progress,
         ];
     }
@@ -102,7 +102,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $videoUrl,
+            'video_url' => $videoUrl,
             'video_progress' => $progress,
         ];
 
@@ -125,7 +125,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $videoUrl,
+            'video_url' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -147,7 +147,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $videoUrl,
+            'video_url' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -169,7 +169,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $videoUrl,
+            'video_url' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -191,7 +191,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $videoUrl,
+            'video_url' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -213,7 +213,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $videoUrl,
+            'video_url' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
@@ -235,7 +235,7 @@ class AssessmentIntro extends Model
             'name' => $data->name ?? '',
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
-            'video' => $videoUrl,
+            'video_url' => $videoUrl,
             'video_progress' => $progress,
         ];
     }
