@@ -77,7 +77,7 @@
                     <h5 class="mb-0">Client Invites</h5>
                     <a data-bs-toggle="modal"
                        data-bs-target="#inviteLinkSendModel"
-                       style="background-color: #1B3A62 ; color: white" class=" btn-sm float-end mb-0" style="background:#1B3A62 ;color:white;font-weight:bolder;border:none;">send invite</a>
+                       style="background-color: #1B3A62 ; color: white" class=" btn-sm float-end mb-0 cursor-pointer" style="background:#1B3A62 ;color:white;font-weight:bolder;border:none;">send invite</a>
                 </div>
                 @livewire('admin.client-invites.client-invite')
 
