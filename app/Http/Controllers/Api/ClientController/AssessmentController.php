@@ -249,6 +249,20 @@ class AssessmentController extends Controller
 
     }
 
+    public function assessmentWatchVideoTrack()
+    {
+
+        try {
+
+            
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
     public function userReport(UserReportRequest $request)
     {
 
