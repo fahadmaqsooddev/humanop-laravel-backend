@@ -111,6 +111,8 @@ class DashboardController extends Controller
                         'is_read' => $isRead,
                         'favorite_daily_tip' => $userDailyTip['favorite_tip'],
                         'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
                     ];
 
                     return Helpers::successResponse('Daily Tip', $data);
@@ -146,6 +148,8 @@ class DashboardController extends Controller
                             'is_read' => $newUserDailyTip['is_read'],
                             'favorite_daily_tip' => $newUserDailyTip['favorite_tip'],
                             'created_at' => $newUserDailyTip['is_read'] == 1 ? $newUserDailyTip['updated_at'] : null,
+                            'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+                            'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
                         ];
 
                         return Helpers::successResponse('Daily Tip', $data);
