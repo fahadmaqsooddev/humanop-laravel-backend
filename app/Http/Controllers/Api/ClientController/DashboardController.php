@@ -73,11 +73,8 @@ class DashboardController extends Controller
 
                         $setTipTimeToday = Carbon::today()->setTimeFromTimeString($user['set_daily_tip_time']);
 
-//                        dd($currentTime, $setTipTimeToday, $currentTime >= $setTipTimeToday);
-
                         $updatedWithinDay = $currentTime >= $setTipTimeToday;
 
-//                        dd($updatedWithinDay);
 //                        if ($currentTime->greaterThanOrEqualTo($setTipTimeToday)) {
 //
 //                            $nextTipTime = $setTipTimeToday->copy()->addDay();
@@ -91,6 +88,10 @@ class DashboardController extends Controller
 //                        dd($currentTime, $nextTipTime);
 //
 //                        $updatedWithinDay = $userDailyTip['updated_at'] >= $nextTipTime;
+
+                    }else{
+
+                        $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
                     }
 
