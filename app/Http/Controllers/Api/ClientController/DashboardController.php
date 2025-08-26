@@ -47,7 +47,7 @@ class DashboardController extends Controller
 
     public function dailyTip()
     {
-//        try {
+        try {
 
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
@@ -69,22 +69,19 @@ class DashboardController extends Controller
 
                     $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
-                    $currentTime = Carbon::now()->addMinutes($minutes);
+                    $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
 
                     $setTipTimeToday = Carbon::parse($user['set_daily_tip_time'])
-                        ->setDateFrom(Carbon::now());
+                        ->setDateFrom(Carbon::now())
+                        ->startOfMinute();
 
-                    if ($currentTime->greaterThanOrEqualTo($setTipTimeToday)) {
-
+                    if ($currentTime->greaterThan($setTipTimeToday)) {
                         $nextTipTime = $setTipTimeToday->copy()->addDay();
-
                     } else {
-
                         $nextTipTime = $setTipTimeToday;
-
                     }
 
-                    $updatedWithinDay = $currentTime->greaterThanOrEqualTo($nextTipTime);
+                    $updatedWithinDay = $currentTime >= $nextTipTime;
 
 //                    dd([
 //                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
@@ -173,11 +170,11 @@ class DashboardController extends Controller
 
         }
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
 
     }
 
