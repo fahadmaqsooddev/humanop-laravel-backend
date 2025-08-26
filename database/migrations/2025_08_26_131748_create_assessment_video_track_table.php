@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('assessment_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('video_name')->nullable();
-            $table->dateTime('video_time')->nullable();
+            $table->string('video_time')->nullable();
 
             $table->foreign('assessment_id')->references('id')->on('assessments')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

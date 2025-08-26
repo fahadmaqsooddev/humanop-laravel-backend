@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AssessmentAnswersRequest;
 use App\Http\Requests\Api\Client\AssessmentSubmitRequest;
+use App\Http\Requests\Api\Client\AssessmentVideoTrackRequest;
 use App\Http\Requests\Api\Client\GridRequest;
 use App\Http\Requests\Api\Client\QuestionsRequest;
 use App\Http\Requests\Api\Client\UserReportRequest;
@@ -14,6 +15,7 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\AssessmentDetail;
+use App\Models\AssessmentVideoTrack;
 use App\Models\Question;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -106,8 +108,7 @@ class AssessmentController extends Controller
                     ]
                 ]);
 
-            }
-            elseif ($user['plan_name'] != 'Freemium'){
+            } elseif ($user['plan_name'] != 'Freemium') {
 
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
@@ -122,8 +123,7 @@ class AssessmentController extends Controller
                         'name' => $user['card_name'],
                     ]
                 ]);
-            }
-            elseif (!empty($latest_assessment)) {
+            } elseif (!empty($latest_assessment)) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
@@ -166,8 +166,7 @@ class AssessmentController extends Controller
                         ]
                     ]);
                 }
-            }
-            else {
+            } else {
 
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
@@ -249,12 +248,11 @@ class AssessmentController extends Controller
 
     }
 
-    public function assessmentWatchVideoTrack()
+    public function assessmentWatchVideoTrack(AssessmentVideoTrackRequest $request)
     {
-
         try {
-
-            
+            $data = AssessmentVideoTrack::createOrUpdateAssessmentVideoTrack($request);
+            return Helpers::successResponse('Assessment video track.', $data);
 
         } catch (\Exception $exception) {
 
@@ -320,8 +318,7 @@ class AssessmentController extends Controller
 
             $difference = Carbon::now()->diffInDays($userTime);
 
-            if (($user['plan_name'] != 'Freemium'))
-            {
+            if (($user['plan_name'] != 'Freemium')) {
 
                 Stripe::setApiKey(config('cashier.secret'));
 
@@ -342,7 +339,7 @@ class AssessmentController extends Controller
 
                 }
 
-            }else{
+            } else {
 
                 $takeAssessment = 90 - $difference;
 
