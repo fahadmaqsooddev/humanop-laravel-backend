@@ -49,96 +49,131 @@ class DashboardController extends Controller
     {
         try {
 
-            $user = Helpers::getWebUser() ?? Helpers::getUser();
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-            $assessment = Assessment::getLatestAssessment($user['id']);
+        $assessment = Assessment::getLatestAssessment($user['id']);
 
-            if (!empty($assessment)) {
+        if (!empty($assessment)) {
 
-                $userDailyTip = UserDailyTip::getLatestTip();
+            $userDailyTip = UserDailyTip::getLatestTip();
 
-                if ($userDailyTip) {
+            if ($userDailyTip) {
 
-                    $isRead = $userDailyTip['is_read'];
+                $isRead = $userDailyTip['is_read'];
 
-                    if ($user['plan_name'] == 'Freemium') {
+                if ($user['plan_name'] == 'Freemium') {
 
-                        $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
+                    $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
+                } elseif ($user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time'])) {
+
+                    $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
+
+                    $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+
+                    $setTipTimeToday = Carbon::parse($user['set_daily_tip_time'])
+                        ->setDateFrom(Carbon::now())
+                        ->startOfMinute();
+
+                    if ($currentTime->greaterThan($setTipTimeToday)) {
+                        $nextTipTime = $setTipTimeToday->copy()->addDay();
                     } else {
-
-                        $setTipTime = Carbon::today()->setTimeFromTimeString($user['set_daily_tip_time']);
-
-                        $nextSetTipTime = $setTipTime->copy()->addDay();
-
-                        $updatedWithinDay = Carbon::parse($userDailyTip['updated_at']) < $nextSetTipTime;
-
+                        $nextTipTime = $setTipTimeToday;
                     }
 
-                    if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
+                    $updatedWithinDay = $currentTime >= $nextTipTime;
 
-                        HaiChatHelpers::syncUserRecordWithHAi();
+//                    dd([
+//                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+//                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
+//                        'check' => $updatedWithinDay,
+//
+//                    ]);
+
+
+                } else {
+
+                    $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
+
+                }
+
+                if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay == false)) {
+
+                    HaiChatHelpers::syncUserRecordWithHAi();
+
+                    $data = [
+                        'daily_tip_id' => $userDailyTip['daily_tip_id'],
+                        'title' => $userDailyTip['dailyTip']['title'] ?? '',
+                        'description' => $userDailyTip['dailyTip']['description'] ?? '',
+                        'is_read' => $isRead,
+                        'favorite_daily_tip' => $userDailyTip['favorite_tip'],
+                        'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
+                    ];
+
+                    return Helpers::successResponse('Daily Tip', $data);
+                }
+            }
+
+            do {
+
+                $randomCode = DailyTip::randomCode($assessment);
+
+                $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+
+                if ($newDailyTip) {
+
+                    $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
+
+                    if (empty($latestTip)) {
+
+                        $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+
+                        $message = 'Your New Daily Tip';
+
+                        event(new NewDailyTip($user['id'], 'new daily tip', $message));
+
+                        Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+
+                        Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
                         $data = [
-                            'daily_tip_id' => $userDailyTip['daily_tip_id'],
-                            'title' => $userDailyTip['dailyTip']['title'] ?? '',
-                            'description' => $userDailyTip['dailyTip']['description'] ?? '',
-                            'is_read' => $isRead,
-                            'favorite_daily_tip' => $userDailyTip['favorite_tip'],
-                            'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                            'daily_tip_id' => $newUserDailyTip['daily_tip_id'],
+                            'title' => $newUserDailyTip['dailyTip']['title'],
+                            'description' => $newUserDailyTip['dailyTip']['description'],
+                            'is_read' => $newUserDailyTip['is_read'],
+                            'favorite_daily_tip' => $newUserDailyTip['favorite_tip'],
+                            'created_at' => $newUserDailyTip['is_read'] == 1 ? $newUserDailyTip['updated_at'] : null,
+                            'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+                            'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
                         ];
 
                         return Helpers::successResponse('Daily Tip', $data);
+
                     }
+
                 }
 
-                do {
+            } while (
+                $newDailyTip &&
+                $latestTip &&
+                $latestTip['is_read'] == 1 &&
+                $latestTip['updated_at'] >= now()->subYear()
+            );
 
-                    $randomCode = DailyTip::randomCode($assessment);
+            return Helpers::validationResponse('No new daily tip found.');
 
-                    $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+        } else {
 
-                    if ($newDailyTip) {
+            return Helpers::successResponse('No new daily tip found.');
 
-                        $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
-
-                        if (empty($latestTip)) {
-
-                            $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
-
-                            $message = 'Your New Daily Tip';
-
-                            event(new NewDailyTip($user['id'], 'new daily tip', $message));
-
-                            Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
-
-                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
-
-                            $data = [
-                                'daily_tip_id' => $newUserDailyTip['daily_tip_id'],
-                                'title' => $newUserDailyTip['dailyTip']['title'],
-                                'description' => $newUserDailyTip['dailyTip']['description'],
-                                'is_read' => $newUserDailyTip['is_read'],
-                                'favorite_daily_tip' => $newUserDailyTip['favorite_tip'],
-                                'created_at' => $newUserDailyTip['is_read'] == 1 ? $newUserDailyTip['updated_at'] : null,
-                            ];
-
-                            return Helpers::successResponse('Daily Tip', $data);
-                        }
-                    }
-                } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
-
-                return Helpers::validationResponse('No new daily tip found.');
-
-            } else {
-
-                return Helpers::successResponse('No new daily tip found.');
-
-            }
+        }
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
 
     }
@@ -606,7 +641,7 @@ class DashboardController extends Controller
                     if ($checkData['share_data'] == Admin::DECLINED_DATA) {
 
                         $data = [
-                            'Shared_data' => Admin::DECLINED_DATA,
+                            'shared_data' => Admin::DECLINED_DATA,
                             'company_name' => $request['company_name'],
                             'status' => $checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
                         ];
@@ -615,7 +650,7 @@ class DashboardController extends Controller
                     }
 
                     $data = [
-                        'Shared_data' => Admin::SHARED_DATA,
+                        'shared_data' => Admin::SHARED_DATA,
                         'company_name' => $request['company_name']
                     ];
 
@@ -634,7 +669,7 @@ class DashboardController extends Controller
 
                 foreach ($pedingShareData as $pendingData) {
                     $finalData[] = [
-                        'Shared_data' => $pendingData->share_data,
+                        'shared_data' => $pendingData->share_data,
                         'company_name' => $pendingData->businessUsers->company_name ?? null,
                         'status' => $pendingData->role == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
                     ];

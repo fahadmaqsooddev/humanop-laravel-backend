@@ -41,59 +41,53 @@ class dailyTipPushNotification extends Command
 
         foreach ($users as $user) {
 
-           $notification = PushNotification::getSingleNotification($user['id']);
+            $assessment = Assessment::getLatestAssessment($user['id']);
 
-           if ($notification['daily_tip'] == 1) {
+            if (!empty($assessment)) {
 
-               $assessment = Assessment::getLatestAssessment($user['id']);
+                $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
 
-               if (!empty($assessment)) {
+                if (!empty($userDailyTip) && $userDailyTip['is_read'] == 1 && $userDailyTip['updated_at'] < now()->subDay()) {
 
-                   $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
+                    do {
 
-                   if (!empty($userDailyTip) && $userDailyTip['is_read'] == 1 && $userDailyTip['updated_at'] < now()->subDay()) {
+                        $randomCode = DailyTip::randomCode($assessment);
 
-                       do {
+                        $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
-                           $randomCode = DailyTip::randomCode($assessment);
+                        if ($newDailyTip) {
 
-                           $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+                            $latestTip = UserDailyTip::where('user_id', $user['id'])
+                                ->where('daily_tip_id', $newDailyTip['id'])
+                                ->latest()
+                                ->first();
 
-                           if ($newDailyTip) {
+                            if (empty($latestTip)) {
 
-                               $latestTip = UserDailyTip::where('user_id', $user['id'])
-                                   ->where('daily_tip_id', $newDailyTip['id'])
-                                   ->latest()
-                                   ->first();
+                                UserDailyTip::create([
+                                    'user_id' => $user['id'],
+                                    'daily_tip_id' => $newDailyTip['id'],
+                                    'assessment_id' => $assessment['id'],
+                                    'updated_at' => $userDailyTip['updated_at']->addHours(24)
+                                ]);
 
-                               if (empty($latestTip)) {
+                                $message = 'Your New Daily Tip';
 
-                                   UserDailyTip::create([
-                                       'user_id' => $user['id'],
-                                       'daily_tip_id' => $newDailyTip['id'],
-                                       'assessment_id' => $assessment['id'],
-                                       'updated_at' => $userDailyTip['updated_at']->addHours(24)
-                                   ]);
+                                event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-                                   $message = 'Your New Daily Tip';
+//                                Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
 
-                                   event(new NewDailyTip($user['id'], 'new daily tip', $message));
+                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
-                                   Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+                            }
 
-                                   Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION,Admin::B2C_NOTIFICATION);
+                        }
 
-                               }
+                    } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
 
-                           }
+                }
 
-                       } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
-
-                   }
-
-               }
-
-           }
+            }
 
         }
 
