@@ -449,7 +449,6 @@ class Helpers
             $minutes = isset($exploded_value[1]) ? intval($exploded_value[1]) : 0;
             $totalMinutes = ($hours * 60) + ($hours < 0 ? -$minutes : $minutes);
 
-            dd($totalMinutes);
             return $totalMinutes;
         }
 
