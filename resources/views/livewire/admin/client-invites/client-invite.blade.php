@@ -95,9 +95,9 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label class="text-white">Email</label>
+                                            <label style="color: black">Email</label>
                                             <input class="form-control input-form-style"
-                                                   type="email" wire:model="email" name="email" placeholder="icon name">
+                                                   type="email" wire:model="email" name="email" placeholder="Email">
                                             @error('email')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
