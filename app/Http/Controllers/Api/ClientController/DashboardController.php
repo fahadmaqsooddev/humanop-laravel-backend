@@ -67,15 +67,33 @@ class DashboardController extends Controller
 
                     } else {
 
-                        $setTipTime = Carbon::today()->setTimeFromTimeString($user['set_daily_tip_time']);
+                        $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
-                        $nextSetTipTime = $setTipTime->copy()->addDay();
+                        $currentTime = Carbon::now()->addMinutes($minutes);
 
-                        $updatedWithinDay = Carbon::parse($userDailyTip['updated_at']) < $nextSetTipTime;
+                        $setTipTimeToday = Carbon::today()->setTimeFromTimeString($user['set_daily_tip_time']);
+
+//                        dd($currentTime, $setTipTimeToday, $currentTime >= $setTipTimeToday);
+
+                        $updatedWithinDay = $currentTime >= $setTipTimeToday;
+
+//                        if ($currentTime->greaterThanOrEqualTo($setTipTimeToday)) {
+//
+//                            $nextTipTime = $setTipTimeToday->copy()->addDay();
+//
+//                            dd($currentTime >= $nextTipTime, $currentTime, $nextTipTime);
+//
+//                        } else {
+//                            $nextTipTime = $setTipTimeToday;
+//                        }
+//
+//                        dd($currentTime, $nextTipTime);
+//
+//                        $updatedWithinDay = $userDailyTip['updated_at'] >= $nextTipTime;
 
                     }
 
-                    if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
+                    if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay == false)) {
 
                         HaiChatHelpers::syncUserRecordWithHAi();
 
@@ -124,9 +142,17 @@ class DashboardController extends Controller
                             ];
 
                             return Helpers::successResponse('Daily Tip', $data);
+
                         }
+
                     }
-                } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
+
+                } while (
+                    $newDailyTip &&
+                    $latestTip &&
+                    $latestTip['is_read'] == 1 &&
+                    $latestTip['updated_at'] >= now()->subYear()
+                );
 
                 return Helpers::validationResponse('No new daily tip found.');
 
@@ -139,6 +165,7 @@ class DashboardController extends Controller
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
 
     }

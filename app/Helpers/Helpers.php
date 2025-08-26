@@ -432,6 +432,30 @@ class Helpers
         }
     }
 
+    public static function explodeTimezoneWithHoursAndMinutes($userTimezone = null)
+    {
+        if (!empty($userTimezone)) {
+
+            $timezone = explode(' ', $userTimezone);
+
+            $standard_time = isset($timezone[1]) ? $timezone[1] : "+00:00";
+
+            $standard_time = preg_replace('/[^\+\-0-9:]/', '', $standard_time);
+
+            $exploded_value = explode(':', $standard_time);
+
+            $hours = isset($exploded_value[0]) ? intval($exploded_value[0]) : 0;
+
+            $minutes = isset($exploded_value[1]) ? intval($exploded_value[1]) : 0;
+
+            $totalMinutes = ($hours * 60) + ($hours < 0 ? -$minutes : $minutes);
+
+            return $totalMinutes;
+        }
+
+        return 0;
+    }
+
     public static function NinetyDaysActionPlan($assessmentDetails = null, $authenticTraitCount = null, $inAuthenticDriverCount = null, $pilotDriverCount = null, $countFirstRowDriver = null, $countGreaterThan12 = null, $countLessThan7 = null, $values = null)
     {
 
