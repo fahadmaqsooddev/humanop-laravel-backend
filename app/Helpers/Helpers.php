@@ -436,18 +436,19 @@ class Helpers
     {
         if (!empty($userTimezone)) {
 
-            // Match the GMT offset like +05:30 or -04:00
-            preg_match('/([+-]\d{2}:\d{2})/', $userTimezone, $matches);
+            $timezone = explode(' ', $userTimezone);
 
-            $standard_time = isset($matches[1]) ? $matches[1] : "+00:00";
+            dd($timezone, $userTimezone);
+            
+            $standard_time = isset($timezone[1]) ? $timezone[1] : "+00:00";
+
+            $standard_time = preg_replace('/[^\+\-0-9:]/', '', $standard_time);
 
             $exploded_value = explode(':', $standard_time);
 
             $hours = isset($exploded_value[0]) ? intval($exploded_value[0]) : 0;
 
             $minutes = isset($exploded_value[1]) ? intval($exploded_value[1]) : 0;
-
-            // Handle negative hours correctly
             $totalMinutes = ($hours * 60) + ($hours < 0 ? -$minutes : $minutes);
 
             return $totalMinutes;
@@ -455,7 +456,6 @@ class Helpers
 
         return 0;
     }
-
 
     public static function NinetyDaysActionPlan($assessmentDetails = null, $authenticTraitCount = null, $inAuthenticDriverCount = null, $pilotDriverCount = null, $countFirstRowDriver = null, $countGreaterThan12 = null, $countLessThan7 = null, $values = null)
     {
