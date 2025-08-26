@@ -69,28 +69,30 @@ class DashboardController extends Controller
 
                     $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
-                    $currentTime = Carbon::now()->addMinutes($minutes)->format('Y-m-d H:i:s.u T (P)');
+                    $currentTime = Carbon::now()->addMinutes($minutes);
 
-                    $setTipTimeToday = Carbon::now()->setTimeFromTimeString(Carbon::parse($user['set_daily_tip_time'])->format('H:i'))->format('Y-m-d H:i:s.u T (P)');
+                    $setTipTimeToday = Carbon::parse($user['set_daily_tip_time'])
+                        ->setDateFrom(Carbon::now());
 
+                    if ($currentTime->greaterThanOrEqualTo($setTipTimeToday)) {
 
-                    dd($currentTime, $setTipTimeToday, $currentTime >= $setTipTimeToday);
+                        $nextTipTime = $setTipTimeToday->copy()->addDay();
 
-                    $updatedWithinDay = $currentTime >= $setTipTimeToday;
+                    } else {
 
-//                        if ($currentTime->greaterThanOrEqualTo($setTipTimeToday)) {
+                        $nextTipTime = $setTipTimeToday;
+
+                    }
+
+                    $updatedWithinDay = $currentTime->greaterThanOrEqualTo($nextTipTime);
+
+//                    dd([
+//                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+//                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
+//                        'check' => $updatedWithinDay,
 //
-//                            $nextTipTime = $setTipTimeToday->copy()->addDay();
-//
-//                            dd($currentTime >= $nextTipTime, $currentTime, $nextTipTime);
-//
-//                        } else {
-//                            $nextTipTime = $setTipTimeToday;
-//                        }
-//
-//                        dd($currentTime, $nextTipTime);
-//
-//                        $updatedWithinDay = $userDailyTip['updated_at'] >= $nextTipTime;
+//                    ]);
+
 
                 } else {
 
