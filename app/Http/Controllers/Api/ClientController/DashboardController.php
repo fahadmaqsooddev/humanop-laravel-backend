@@ -644,7 +644,7 @@ class DashboardController extends Controller
                     if ($checkData['share_data'] == Admin::DECLINED_DATA) {
 
                         $data = [
-                            'Shared_data' => Admin::DECLINED_DATA,
+                            'shared_data' => Admin::DECLINED_DATA,
                             'company_name' => $request['company_name'],
                             'status' => $checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
                         ];
@@ -653,7 +653,7 @@ class DashboardController extends Controller
                     }
 
                     $data = [
-                        'Shared_data' => Admin::SHARED_DATA,
+                        'shared_data' => Admin::SHARED_DATA,
                         'company_name' => $request['company_name']
                     ];
 
@@ -672,7 +672,7 @@ class DashboardController extends Controller
 
                 foreach ($pedingShareData as $pendingData) {
                     $finalData[] = [
-                        'Shared_data' => $pendingData->share_data,
+                        'shared_data' => $pendingData->share_data,
                         'company_name' => $pendingData->businessUsers->company_name ?? null,
                         'status' => $pendingData->role == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
                     ];
