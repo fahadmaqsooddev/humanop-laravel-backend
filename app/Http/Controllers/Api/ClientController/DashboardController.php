@@ -65,7 +65,7 @@ class DashboardController extends Controller
 
                         $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
-                    } else {
+                    } elseif ($user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time'])) {
 
                         $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
@@ -77,7 +77,7 @@ class DashboardController extends Controller
 
                         $updatedWithinDay = $currentTime >= $setTipTimeToday;
 
-                        dd($updatedWithinDay);
+//                        dd($updatedWithinDay);
 //                        if ($currentTime->greaterThanOrEqualTo($setTipTimeToday)) {
 //
 //                            $nextTipTime = $setTipTimeToday->copy()->addDay();
