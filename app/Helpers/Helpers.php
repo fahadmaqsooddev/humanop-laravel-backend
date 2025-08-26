@@ -438,8 +438,6 @@ class Helpers
 
             $timezone = explode(' ', $userTimezone);
 
-            dd($timezone, $userTimezone);
-            
             $standard_time = isset($timezone[1]) ? $timezone[1] : "+00:00";
 
             $standard_time = preg_replace('/[^\+\-0-9:]/', '', $standard_time);
@@ -451,6 +449,7 @@ class Helpers
             $minutes = isset($exploded_value[1]) ? intval($exploded_value[1]) : 0;
             $totalMinutes = ($hours * 60) + ($hours < 0 ? -$minutes : $minutes);
 
+            dd($totalMinutes);
             return $totalMinutes;
         }
 
