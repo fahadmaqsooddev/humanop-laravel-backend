@@ -61,41 +61,41 @@ class DashboardController extends Controller
 
                 $isRead = $userDailyTip['is_read'];
 
-                if ($user['plan_name'] == 'Freemium') {
+//                if ($user['plan_name'] == 'Freemium') {
 
                     $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
-                } elseif ($user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time'])) {
-
-                    $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
-
-                    $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
-
-                    $setTipTimeToday = Carbon::parse($user['set_daily_tip_time'])
-                        ->setDateFrom(Carbon::now())
-                        ->startOfMinute();
-
-                    if ($currentTime->greaterThan($setTipTimeToday)) {
-                        $nextTipTime = $setTipTimeToday->copy()->addDay();
-                    } else {
-                        $nextTipTime = $setTipTimeToday;
-                    }
-
-                    $updatedWithinDay = $currentTime >= $nextTipTime;
-
-//                    dd([
-//                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
-//                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
-//                        'check' => $updatedWithinDay,
+//                } elseif ($user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time'])) {
 //
-//                    ]);
+//                    $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
+//
+//                    $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+//
+//                    $setTipTimeToday = Carbon::parse($user['set_daily_tip_time'])
+//                        ->setDateFrom(Carbon::now())
+//                        ->startOfMinute();
+//
+//                    if ($currentTime->greaterThan($setTipTimeToday)) {
+//                        $nextTipTime = $setTipTimeToday->copy()->addDay();
+//                    } else {
+//                        $nextTipTime = $setTipTimeToday;
+//                    }
+//
+//                    $updatedWithinDay = $currentTime >= $nextTipTime;
+//
+////                    dd([
+////                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+////                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
+////                        'check' => $updatedWithinDay,
+////
+////                    ]);
+//
+//
+//                } else {
 
+//                    $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
-                } else {
-
-                    $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
-
-                }
+//                }
 
                 if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay == false)) {
 
@@ -108,8 +108,8 @@ class DashboardController extends Controller
                         'is_read' => $isRead,
                         'favorite_daily_tip' => $userDailyTip['favorite_tip'],
                         'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
-                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
-                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
+//                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+//                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
                     ];
 
                     return Helpers::successResponse('Daily Tip', $data);
@@ -145,8 +145,8 @@ class DashboardController extends Controller
                             'is_read' => $newUserDailyTip['is_read'],
                             'favorite_daily_tip' => $newUserDailyTip['favorite_tip'],
                             'created_at' => $newUserDailyTip['is_read'] == 1 ? $newUserDailyTip['updated_at'] : null,
-                            'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
-                            'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
+//                            'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+//                            'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
                         ];
 
                         return Helpers::successResponse('Daily Tip', $data);
