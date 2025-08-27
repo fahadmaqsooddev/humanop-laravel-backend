@@ -144,7 +144,7 @@ class AuthController extends Controller
 
                         $emailData = $this->prepareEmailData($user, $url, null, $template->body, $template->subject);
 
-                        $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL);
+                        $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL, null);
 
                     }
 
@@ -182,7 +182,7 @@ class AuthController extends Controller
 
                         $emailData = $this->prepareEmailData($checkUser, $url, null, $template->body, $template->subject);
 
-                        $this->sendEmailVerification($emailData, $checkUser['email'], Admin::VERIFIED_EMAIL);
+                        $this->sendEmailVerification($emailData, $checkUser['email'], Admin::VERIFIED_EMAIL, null);
 
                         $checkUser->setAppends([]);
 
@@ -582,7 +582,7 @@ class AuthController extends Controller
 
                 $emailData = $this->prepareEmailData($checkUserEmail, $url, null, $template->body, $template->subject);
 
-                $this->sendEmailVerification($emailData, $checkUserEmail['email'], Admin::RESET_PASSWORD);
+                $this->sendEmailVerification($emailData, $checkUserEmail['email'], Admin::RESET_PASSWORD, null);
 
                 return Helpers::successResponse('We have emailed your password reset link!');
 
@@ -658,7 +658,8 @@ class AuthController extends Controller
 
                 $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
 
-                $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE);
+                $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE, $template->name);
+
 
                 $checkUser->update(['sms_verify_code' => $otpNumber]);
 
@@ -936,7 +937,7 @@ class AuthController extends Controller
 
             $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber, $template->body, $template->subject);
 
-            $this->sendEmailVerification($emailData, $email, Admin::FA_VERIFICATION_CODE);
+            $this->sendEmailVerification($emailData, $email, Admin::FA_VERIFICATION_CODE, null);
 
             return Helpers::successResponse('Otp sent Successfully', ['otp' => $otpNumber]);
 
@@ -1132,7 +1133,7 @@ class AuthController extends Controller
         ];
     }
 
-    private function sendEmailVerification($emailData, $recipientEmail, $name)
+    private function sendEmailVerification($emailData, $recipientEmail, $name, $subject)
     {
         $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
 
@@ -1140,7 +1141,7 @@ class AuthController extends Controller
             ['content' => $emailTemplate],
             $recipientEmail,
             'emails.Email_Template',
-            $name
+            $subject ? $subject : $name
         );
     }
 
@@ -1161,33 +1162,6 @@ class AuthController extends Controller
 
     }
 
-    public function verifyOtpCode(VerifyOtpCodeRequest $request)
-    {
-        $user = User::getSingleUser($request->user_id);
-
-        if ($user and $user->sms_verify_code != $request->code) {
-            return Helpers::validationResponse('Invalid code.');
-        }
-
-        $user->update([
-            'sms_verify_code' => null,
-            'phone_verified_at' => now(),
-        ]);
-
-        Auth::login($user);
-        $token = \JWTAuth::fromUser($user);
-
-        $data = [
-            'user' => $user,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ];
-
-        return Helpers::successResponse('Code verified successfully.', $data);
-    }
-
     public function resendOtpCode(ResendOtpCodeRequest $request)
     {
         $checkUser = User::getSingleUser($request->user_id);
@@ -1205,7 +1179,7 @@ class AuthController extends Controller
                 if ($checkUser['phone'])
 //                    $this->sns->sendSms($checkUser['phone'], $message);
 
-                    $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE);
+                    $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE, null);
                 $checkUser->update(['sms_verify_code' => $otpNumber]);
                 DB::commit();
 

@@ -31,7 +31,6 @@ Route::post('send-phone-otp', 'AuthController@sendPhoneOtp');
 Route::get('check-candidate', 'AuthController@checkUserDetail');
 
 Route::post('two-factor-authentication', 'AuthController@twoFactorAuthentication');
-Route::post('verify-otp-code', 'AuthController@verifyOtpCode');
 Route::post('resend-otp-code', 'AuthController@resendOtpCode');
 
 // invite link Create Api

@@ -156,7 +156,7 @@ class EmailTemplateSeeder extends Seeder
 
     </div>
 
-    <div style="padding: 20px; color: #333; background-color: #f3f2f7;">
+    <div style="padding: 20px; color: #333; background-color: #f3deba;">
 {$body}
 </div>
             <div style="text-align: center; padding: 20px; background-color: #f3deba; color: black;">
