@@ -51,7 +51,7 @@ class AuthController extends Controller
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption']);
+        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode']);
 
         $this->auth = Auth::guard('api');
 
@@ -660,7 +660,6 @@ class AuthController extends Controller
 
                 $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE, $template->name);
 
-
                 $checkUser->update(['sms_verify_code' => $otpNumber]);
 
                 DB::commit();
@@ -822,6 +821,31 @@ class AuthController extends Controller
                     ];
 
                     return Helpers::validationResponse('Please complete all required steps in the signup process to log in.', $userData);
+
+                } else if ($checkUser and $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
+
+                    $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+                    $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
+
+                    $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
+
+                    $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE, $template->name);
+
+                    $checkUser->update(['sms_verify_code' => $otpNumber]);
+
+                    DB::commit();
+
+                    $userData = [
+                        'user_id' => $checkUser['id'],
+                        'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
+                        'email' => $checkUser['email'],
+                        'b2c_two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
+                    ];
+
+                    return Helpers::successResponse('Otp sent Successfully', $userData);
+
+
                 }
 
                 if (!empty($request['company_name'])) {
@@ -830,25 +854,7 @@ class AuthController extends Controller
 
                     if (!empty($data)) {
 
-//                        if ($request['prefer'] == 1) {
-//
-//                            $result = Helpers::packageLimitation($data['id']);
-//
-//                            if ($result === true) {
-//
-//                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
-//
-//                            } else {
-//
-//                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
-//
-//                            }
-//
-//                        } else {
-
                         B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
-
-//                        }
 
                         $getInvite = UserInvite::getSingleInvite($user['email']);
 

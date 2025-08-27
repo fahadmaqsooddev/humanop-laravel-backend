@@ -1887,4 +1887,15 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
+    public static function SmsCodeCreate($userId = null)
+    {
+
+        $code = collect(range(1, 9))->random(6)->implode('');
+
+        self::whereId($userId)->update(['sms_verify_code' => $code]);
+
+        return self::getSingleUser($userId);
+
+    }
+
 }
