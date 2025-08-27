@@ -28,7 +28,7 @@ class UpdateUserProfileRequest extends FormRequest
             'life_alchemist' => 'nullable|string|max:255',
             'excited_connect' => 'nullable|string|max:255',
             'note' => 'nullable|string|max:255',
-            'tag_line' => 'required',
+            'tag_line' => 'nullable',
             'profile_status' => 'required',
             'hai_status' => 'required',
             'profile_privacy' => 'required',
