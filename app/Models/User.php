@@ -27,25 +27,23 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
+use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
-use App\Models\Client\Point\Point;
-use Spatie\Activitylog\LogOptions;
 
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes,LogsActivity;
+    use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment','latest_assessment','daily_tip_time'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time'];
 
     public function __construct(array $attributes = array())
     {
@@ -103,7 +101,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note','b2c_stripe_id','set_daily_tip_time']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time']);
     }
 
     // appends
@@ -124,12 +122,11 @@ class User extends Authenticatable implements JWTSubject
     public function getLatestAssessmentAttribute()
     {
 
-        $assessment =  Assessment::getLatestAssessment($this->id);
+        $assessment = Assessment::getLatestAssessment($this->id);
 
-        if (!empty($assessment))
-        {
+        if (!empty($assessment)) {
             return $assessment['id'];
-        }else{
+        } else {
             return 0;
         }
     }
@@ -706,7 +703,6 @@ class User extends Authenticatable implements JWTSubject
 
     public static function updateUser($data = null, $id = null)
     {
-
         return self::find($id)->update($data);
     }
 
@@ -870,7 +866,7 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-        if (isset($request['set_daily_tip_time'])){
+        if (isset($request['set_daily_tip_time'])) {
 
             $request['set_daily_tip_time'] = date("H:i:s", strtotime($request['set_daily_tip_time']));
 
@@ -1873,6 +1869,14 @@ class User extends Authenticatable implements JWTSubject
 
         return [];
 
+    }
+
+    public static function toggleTwoFactorAuth($data = null)
+    {
+        $current_user = Helpers::getUser();
+        $current_user->two_way_auth = $data;
+        $current_user->save();
+        return $current_user;
     }
 
 }

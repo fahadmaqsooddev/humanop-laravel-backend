@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\CheckCandidate;
 use App\Http\Requests\Api\Auth\CheckInviteLinkRequest;
 use App\Http\Requests\Api\Auth\EmailVerifiedRequest;
+use App\Http\Requests\Api\Client\Auth\ResendOtpCodeRequest;
+use App\Http\Requests\Api\Client\Auth\TwoFactorAuthRequest;
+use App\Http\Requests\Api\Client\Auth\VerifyOtpCodeRequest;
 use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
@@ -39,7 +42,6 @@ use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
@@ -49,7 +51,7 @@ class AuthController extends Controller
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption']);
+        $this->middleware('auth:api')->except(['resendOtpCode','verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption']);
 
         $this->auth = Auth::guard('api');
 
@@ -648,6 +650,35 @@ class AuthController extends Controller
 
                 return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
 
+            } else if ($checkUser and $checkUser['two_way_auth'] === 1) {
+                try {
+                    $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+                    $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
+
+                    $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
+                    $message = "Hi {$checkUser['first_name']} {$checkUser['last_name']}, your code is: {$otpNumber} for two factor authentication.";
+
+                    if ($checkUser['phone'])
+//                        $this->sns->sendSms($checkUser['phone'], $message);
+
+                    $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE);
+                    $checkUser->update(['sms_verify_code' => $otpNumber]);
+                    DB::commit();
+
+                    $userData = [
+                        'user_id' => $checkUser['id'],
+                        'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
+                        'email' => $checkUser['email'],
+                        'b2c_two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
+                    ];
+
+                    return Helpers::successResponse('Otp sent Successfully', $userData);
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+                    return Helpers::serverErrorResponse($exception->getMessage());
+                }
+
             } else {
 
                 $remember_me = $request['remember'] == 'true' ? true : false;
@@ -1116,5 +1147,79 @@ class AuthController extends Controller
             'emails.Email_Template',
             $name
         );
+    }
+
+    public function toggleTwoFactorAuth(TwoFactorAuthRequest $request)
+    {
+        $user = User::toggleTwoFactorAuth($request->two_factor_auth);
+
+        if ($user->two_way_auth == 1)
+            return Helpers::successResponse('Two factor authentication is active.');
+        else
+            return Helpers::successResponse('Two factor authentication is inactive.');
+    }
+
+    public function verifyOtpCode(VerifyOtpCodeRequest $request)
+    {
+        $user = User::getSingleUser($request->user_id);
+
+        if ($user and $user->sms_verify_code != $request->code) {
+            return Helpers::validationResponse('Invalid code.');
+        }
+
+        $user->update([
+            'sms_verify_code' => null,
+            'phone_verified_at' => now(),
+        ]);
+
+        Auth::login($user);
+        $token = \JWTAuth::fromUser($user);
+
+        $data = [
+            'user' => $user,
+            'authorization' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
+        ];
+
+        return Helpers::successResponse('Code verified successfully.', $data);
+    }
+
+    public function resendOtpCode(ResendOtpCodeRequest $request)
+    {
+        $checkUser = User::getSingleUser($request->user_id);
+        if ($checkUser and $checkUser['two_way_auth'] === 1) {
+            try {
+                DB::beginTransaction();
+
+                $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+                $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
+
+                $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
+                $message = "Hi {$checkUser['first_name']} {$checkUser['last_name']}, your code is: {$otpNumber} for two factor authentication.";
+
+                if ($checkUser['phone'])
+//                    $this->sns->sendSms($checkUser['phone'], $message);
+
+                $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE);
+                $checkUser->update(['sms_verify_code' => $otpNumber]);
+                DB::commit();
+
+                $userData = [
+                    'user_id' => $checkUser['id'],
+                    'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
+                    'email' => $checkUser['email'],
+                    'b2c_two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
+                ];
+
+                return Helpers::successResponse('Otp sent Successfully', $userData);
+            } catch (\Exception $exception) {
+                DB::rollBack();
+                return Helpers::serverErrorResponse($exception->getMessage());
+            }
+
+        }
     }
 }
