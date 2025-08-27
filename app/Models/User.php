@@ -1871,12 +1871,20 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function toggleTwoFactorAuth($data = null)
+    public static function twoFactorAuth($user = null)
     {
-        $current_user = Helpers::getUser();
-        $current_user->two_way_auth = $data;
-        $current_user->save();
-        return $current_user;
+
+        if ($user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE){
+
+            $user->update(['two_way_auth' => Admin::TWO_WAY_AUTH_DISABLED]);
+
+        }else{
+
+            $user->update(['two_way_auth' => Admin::TWO_WAY_AUTH_ACTIVE]);
+
+        }
+
+        return $user;
     }
 
 }

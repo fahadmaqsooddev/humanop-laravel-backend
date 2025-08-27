@@ -403,7 +403,7 @@ class EmailTemplateSeeder extends Seeder
         $email_template = [
             ['name' => 'Verify Your Email Address', 'format' => $email_verification, 'body' => $body_email_verified, 'tag' => 'verified_email', 'type' => 1, 'subject' => $email_verified_subject],
             ['name' => 'reset-password', 'format' => $reset_password, 'body' => $body_reset_password, 'tag' => 'reset_password', 'type' => 1, 'subject' => $body_reset_password_subject],
-            ['name' => '2fa-verification-code', 'format' => $fa_verifiction_code, 'body' => $body_fa_verification_code, 'tag' => '2fa_verification_code', 'type' => 1, 'subject' => $subject_fa_verification_code],
+            ['name' => 'Two Factor Authentication', 'format' => $fa_verifiction_code, 'body' => $body_fa_verification_code, 'tag' => '2fa_verification_code', 'type' => 1, 'subject' => $subject_fa_verification_code],
             ['name' => 'b2b-signup-link', 'format' => $b2b_signup_link, 'body' => $b2b_signup_link_body, 'tag' => 'b2b_signup_link', 'type' => 2, 'subject' => $b2b_signup_link_subject],
             ['name' => 'b2b-login-link', 'format' => $b2b_login_link, 'body' => $b2b_login_link_body, 'tag' => 'b2b_login_link', 'type' => 2, 'subject' => $b2b_login_link_subject],
             ['name' => 'b2b-maestro-signup', 'format' => $maestro_signup, 'body' => $b2b_maestro_signup_body, 'tag' => 'maestro_signup', 'type' => 2, 'subject' => $b2b_maestro_signup_subject],
