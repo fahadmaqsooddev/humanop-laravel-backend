@@ -739,5 +739,10 @@ return [
             'fillable' => ['assessment_id', 'user_id', 'video_name', 'video_time'],
             'hidden' => ['created_at', 'updated_at']
         ],
+        'UserEmailPhoneNumber' => [
+            'table' => 'user_email_phone_numbers',
+            'fillable' => ['user_id', 'email', 'phone_no', 'default_email', 'default_phone_no'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
     ]
 ];

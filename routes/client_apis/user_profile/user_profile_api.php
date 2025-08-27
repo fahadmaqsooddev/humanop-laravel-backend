@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ClientController\UserProfile\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,13 +32,16 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('summary-report', 'UserController@summaryReport');
     Route::get('version', 'UserController@getLatestVersion');
     Route::get('referral-credits', 'UserController@referralCredits');
-    Route::post('check-prompt-notification','UserController@updatePromptNotification');
-    Route::post('change-profile-public-private','UserController@profilePublicOrPrivate');
-    Route::post('change-hai-access','UserController@haiAccess');
+    Route::post('check-prompt-notification', 'UserController@updatePromptNotification');
+    Route::post('change-profile-public-private', 'UserController@profilePublicOrPrivate');
+    Route::post('change-hai-access', 'UserController@haiAccess');
 
     Route::get('get-associated-companies', 'UserController@getAssociatedCompanies');
     Route::post('share-not-share-data-with-associated-companies', 'UserController@shareNotShareDataAssociatedCompanies');
     Route::post('remove-company', 'UserController@removeCompany');
+
+    Route::get('user-emails-phones', [SettingController::class, 'getUserEmailsPhones']);
+    Route::post('create-emails-phones', [SettingController::class, 'createUserEmailPhone']);
 
 
 });

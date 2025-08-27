@@ -221,5 +221,13 @@ final class Admin
 
     const B2B_EMAIL_VERIFICATION='b2b_email_verification';
 
+    const DEFAULT_EMAIL = 1;
+
+    const NORMAL_EMAIL = 2;
+
+    const DEFAULT_PHONE = 1;
+
+    const NORMAL_PHONE = 2;
+
 
 }
