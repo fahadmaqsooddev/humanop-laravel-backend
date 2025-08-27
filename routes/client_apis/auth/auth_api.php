@@ -29,9 +29,9 @@ Route::get('intention-option', 'AuthController@intentionOption');
 Route::get('check-invite-link', 'AuthController@checkInviteLink');
 Route::post('send-phone-otp', 'AuthController@sendPhoneOtp');
 Route::get('check-candidate', 'AuthController@checkUserDetail');
-Route::post('toggle-two-factor-auth', 'AuthController@toggleTwoFactorAuth');
-Route::post('verify-otp-code', 'AuthController@verifyOtpCode');
-Route::post('resend-otp-code', 'AuthController@resendOtpCode');
+
+Route::post('two-factor-authentication', 'AuthController@twoFactorAuthentication');
+Route::post('resend-fa-verification-code', 'AuthController@ResendFaVerificationCode');
 
 // invite link Create Api
 Route::get('invite', 'AuthController@SendInvite');

@@ -51,7 +51,7 @@ class AuthController extends Controller
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['resendOtpCode','verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption']);
+        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode']);
 
         $this->auth = Auth::guard('api');
 
@@ -144,7 +144,7 @@ class AuthController extends Controller
 
                         $emailData = $this->prepareEmailData($user, $url, null, $template->body, $template->subject);
 
-                        $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL);
+                        $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL, null);
 
                     }
 
@@ -182,7 +182,7 @@ class AuthController extends Controller
 
                         $emailData = $this->prepareEmailData($checkUser, $url, null, $template->body, $template->subject);
 
-                        $this->sendEmailVerification($emailData, $checkUser['email'], Admin::VERIFIED_EMAIL);
+                        $this->sendEmailVerification($emailData, $checkUser['email'], Admin::VERIFIED_EMAIL, null);
 
                         $checkUser->setAppends([]);
 
@@ -582,7 +582,7 @@ class AuthController extends Controller
 
                 $emailData = $this->prepareEmailData($checkUserEmail, $url, null, $template->body, $template->subject);
 
-                $this->sendEmailVerification($emailData, $checkUserEmail['email'], Admin::RESET_PASSWORD);
+                $this->sendEmailVerification($emailData, $checkUserEmail['email'], Admin::RESET_PASSWORD, null);
 
                 return Helpers::successResponse('We have emailed your password reset link!');
 
@@ -650,34 +650,29 @@ class AuthController extends Controller
 
                 return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
 
-            } else if ($checkUser and $checkUser['two_way_auth'] === 1) {
-                try {
-                    $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+            } else if ($checkUser and $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
 
-                    $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
+                $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
-                    $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
-                    $message = "Hi {$checkUser['first_name']} {$checkUser['last_name']}, your code is: {$otpNumber} for two factor authentication.";
+                $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
 
-                    if ($checkUser['phone'])
-//                        $this->sns->sendSms($checkUser['phone'], $message);
+                $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
 
-                    $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE);
-                    $checkUser->update(['sms_verify_code' => $otpNumber]);
-                    DB::commit();
+                $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE, $template->name);
 
-                    $userData = [
-                        'user_id' => $checkUser['id'],
-                        'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
-                        'email' => $checkUser['email'],
-                        'b2c_two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
-                    ];
+                $checkUser->update(['sms_verify_code' => $otpNumber]);
 
-                    return Helpers::successResponse('Otp sent Successfully', $userData);
-                } catch (\Exception $exception) {
-                    DB::rollBack();
-                    return Helpers::serverErrorResponse($exception->getMessage());
-                }
+                DB::commit();
+
+                $userData = [
+                    'user_id' => $checkUser['id'],
+                    'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
+                    'email' => $checkUser['email'],
+                    'b2c_two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
+                ];
+
+                return Helpers::successResponse('Otp sent Successfully', $userData);
+
 
             } else {
 
@@ -826,6 +821,31 @@ class AuthController extends Controller
                     ];
 
                     return Helpers::validationResponse('Please complete all required steps in the signup process to log in.', $userData);
+
+                } else if ($checkUser and $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
+
+                    $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+                    $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
+
+                    $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
+
+                    $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE, $template->name);
+
+                    $checkUser->update(['sms_verify_code' => $otpNumber]);
+
+                    DB::commit();
+
+                    $userData = [
+                        'user_id' => $checkUser['id'],
+                        'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
+                        'email' => $checkUser['email'],
+                        'b2c_two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
+                    ];
+
+                    return Helpers::successResponse('Otp sent Successfully', $userData);
+
+
                 }
 
                 if (!empty($request['company_name'])) {
@@ -834,25 +854,7 @@ class AuthController extends Controller
 
                     if (!empty($data)) {
 
-//                        if ($request['prefer'] == 1) {
-//
-//                            $result = Helpers::packageLimitation($data['id']);
-//
-//                            if ($result === true) {
-//
-//                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
-//
-//                            } else {
-//
-//                                return Helpers::validationResponse('Upgrade: You have reached the maximum number of Member for your account tier.');
-//
-//                            }
-//
-//                        } else {
-
                         B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
-
-//                        }
 
                         $getInvite = UserInvite::getSingleInvite($user['email']);
 
@@ -941,7 +943,7 @@ class AuthController extends Controller
 
             $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber, $template->body, $template->subject);
 
-            $this->sendEmailVerification($emailData, $email, Admin::FA_VERIFICATION_CODE);
+            $this->sendEmailVerification($emailData, $email, Admin::FA_VERIFICATION_CODE, null);
 
             return Helpers::successResponse('Otp sent Successfully', ['otp' => $otpNumber]);
 
@@ -1137,7 +1139,7 @@ class AuthController extends Controller
         ];
     }
 
-    private function sendEmailVerification($emailData, $recipientEmail, $name)
+    private function sendEmailVerification($emailData, $recipientEmail, $name, $subject)
     {
         $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
 
@@ -1145,81 +1147,53 @@ class AuthController extends Controller
             ['content' => $emailTemplate],
             $recipientEmail,
             'emails.Email_Template',
-            $name
+            $subject ? $subject : $name
         );
     }
 
-    public function toggleTwoFactorAuth(TwoFactorAuthRequest $request)
+    public function twoFactorAuthentication()
     {
-        $user = User::toggleTwoFactorAuth($request->two_factor_auth);
 
-        if ($user->two_way_auth == 1)
+        $user = User::twoFactorAuth(Helpers::getUser());
+
+        if ($user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
+
             return Helpers::successResponse('Two factor authentication is active.');
-        else
+
+        } else {
+
             return Helpers::successResponse('Two factor authentication is inactive.');
-    }
 
-    public function verifyOtpCode(VerifyOtpCodeRequest $request)
-    {
-        $user = User::getSingleUser($request->user_id);
-
-        if ($user and $user->sms_verify_code != $request->code) {
-            return Helpers::validationResponse('Invalid code.');
         }
 
-        $user->update([
-            'sms_verify_code' => null,
-            'phone_verified_at' => now(),
-        ]);
-
-        Auth::login($user);
-        $token = \JWTAuth::fromUser($user);
-
-        $data = [
-            'user' => $user,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ];
-
-        return Helpers::successResponse('Code verified successfully.', $data);
     }
 
-    public function resendOtpCode(ResendOtpCodeRequest $request)
+    public function ResendFaVerificationCode(Request $request)
     {
-        $checkUser = User::getSingleUser($request->user_id);
-        if ($checkUser and $checkUser['two_way_auth'] === 1) {
-            try {
-                DB::beginTransaction();
+        try {
 
-                $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+            $user = User::getSingleUser($request['user_id']);
 
-                $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
-
-                $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
-                $message = "Hi {$checkUser['first_name']} {$checkUser['last_name']}, your code is: {$otpNumber} for two factor authentication.";
-
-                if ($checkUser['phone'])
-//                    $this->sns->sendSms($checkUser['phone'], $message);
-
-                $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE);
-                $checkUser->update(['sms_verify_code' => $otpNumber]);
-                DB::commit();
-
-                $userData = [
-                    'user_id' => $checkUser['id'],
-                    'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
-                    'email' => $checkUser['email'],
-                    'b2c_two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
-                ];
-
-                return Helpers::successResponse('Otp sent Successfully', $userData);
-            } catch (\Exception $exception) {
-                DB::rollBack();
-                return Helpers::serverErrorResponse($exception->getMessage());
+            if (!$user) {
+                return Helpers::validationResponse('User not found or email is not verified');
             }
 
+            $userUpdate = User::SmsCodeCreate($user['id']);
+
+            $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
+
+            $emailData = $this->prepareEmailData($userUpdate, null, $userUpdate['b2b_sms_verify_code'], $template->body, $template->subject);
+
+            $this->sendEmailVerification($emailData, $userUpdate['email'], Admin::FA_VERIFICATION_CODE, $template->name);
+
+            return Helpers::successResponse('A new two-factor authentication code has been sent to your email');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
+
 }
