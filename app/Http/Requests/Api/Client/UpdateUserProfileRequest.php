@@ -25,10 +25,10 @@ class UpdateUserProfileRequest extends FormRequest
     {
         return [
             'full_name' => 'required',
-            'life_alchemist' => 'required|string|max:255',
-            'excited_connect' => 'required|string|max:255',
-            'note' => 'required|string|max:255',
-            'tag_line' => 'required',
+            'life_alchemist' => 'nullable|string|max:255',
+            'excited_connect' => 'nullable|string|max:255',
+            'note' => 'nullable|string|max:255',
+            'tag_line' => 'nullable',
             'profile_status' => 'required',
             'hai_status' => 'required',
             'profile_privacy' => 'required',

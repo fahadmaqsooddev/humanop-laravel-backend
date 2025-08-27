@@ -30,7 +30,10 @@ Route::get('check-invite-link', 'AuthController@checkInviteLink');
 Route::post('send-phone-otp', 'AuthController@sendPhoneOtp');
 Route::get('check-candidate', 'AuthController@checkUserDetail');
 
-// invite link Create Api
-Route::get('invite','AuthController@SendInvite');
+Route::post('two-factor-authentication', 'AuthController@twoFactorAuthentication');
+Route::post('resend-fa-verification-code', 'AuthController@ResendFaVerificationCode');
 
-Route::get('user-info-for-hai','AuthController@getUserInfoForHai');
+// invite link Create Api
+Route::get('invite', 'AuthController@SendInvite');
+
+Route::get('user-info-for-hai', 'AuthController@getUserInfoForHai');
