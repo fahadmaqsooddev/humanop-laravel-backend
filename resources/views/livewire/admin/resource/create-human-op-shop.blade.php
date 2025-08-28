@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="col-4 text-end">
                                         <div
-                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                             <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -115,7 +115,7 @@
                                                         </div>
                                                         <div class="col-4 text-end">
                                                             <div
-                                                                    class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                                                 <i class="ni ni-world-2 text-lg opacity-10"
                                                                    aria-hidden="true"></i>
                                                             </div>
@@ -459,19 +459,21 @@
                                             </iframe>
                                         </div>
                                     @elseif(!empty($editResourceData['video_id']))
-                                        {{--                                        {{dd($editResourceData['video_url']['path'])}}--}}
                                         <div class="form-group mt-4">
                                             <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
                                                    style="height: 200px;"></video>
                                         </div>
                                     @elseif(!empty($editResourceData['audio_id']))
-                                        {{--                                        {{dd($editResourceData['audio_url']['path'])}}--}}
                                         <div class="form-group mt-4">
                                             <audio controls style="width: 100%;">
                                                 <source src="{{ $editResourceData['audio_url']['path'] }}"
                                                         type="audio/mpeg">
                                                 Your browser does not support the audio element.
                                             </audio>
+                                        </div>
+                                    @elseif(!empty($editResourceData['image_id']))
+                                        <div class="form-group mt-4">
+                                            <img style="width: 100%;" src="{{ $editResourceData['image_url']['url'] }}">
                                         </div>
                                     @else
                                     @endif
@@ -573,7 +575,8 @@
                                         ];
                                     @endphp
 
-                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT PERCEPTION OF LIFE</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">SELECT PERCEPTION OF
+                                        LIFE</label>
                                     <div class="row">
                                         @foreach($perceptionCodes as $code => $label)
                                             <div class="col-3">
