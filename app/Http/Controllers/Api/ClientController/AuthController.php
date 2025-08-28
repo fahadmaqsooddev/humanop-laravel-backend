@@ -822,25 +822,25 @@ class AuthController extends Controller
 
                     return Helpers::validationResponse('Please complete all required steps in the signup process to log in.', $userData);
 
-                } else if ($checkUser and $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
+                } else if ($user and $user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
 
                     $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
                     $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
 
-                    $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
+                    $emailData = $this->prepareEmailData($user, null, $otpNumber, $template->body, $template->subject);
 
-                    $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE, $template->name);
+                    $this->sendEmailVerification($emailData, $user['email'], Admin::FA_VERIFICATION_CODE, $template->name);
 
-                    $checkUser->update(['sms_verify_code' => $otpNumber]);
+                    $user->update(['sms_verify_code' => $otpNumber]);
 
                     DB::commit();
 
                     $userData = [
-                        'user_id' => $checkUser['id'],
-                        'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
-                        'email' => $checkUser['email'],
-                        'b2c_two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
+                        'user_id' => $user['id'],
+                        'user_name' => $user['first_name'] . ' ' . $user['last_name'],
+                        'email' => $user['email'],
+                        'b2c_two_way_auth' => $user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
                     ];
 
                     return Helpers::successResponse('Otp sent Successfully', $userData);
