@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Admin\Admin;
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +26,7 @@ class UserEmailPhoneNumber extends Model
 
     public static function getUserEmailsPhones($user_id = null)
     {
-        return self::select('email', 'phone_no', 'default_email', 'default_phone_no')->where('user_id', $user_id)->get();
+        return self::select('id','email', 'phone_no', 'default_email', 'default_phone_no')->where('user_id', $user_id)->get();
     }
 
     public static function getSingleEmailPhone($id = null)
@@ -32,13 +34,31 @@ class UserEmailPhoneNumber extends Model
         return self::find($id);
     }
 
-    public static function createUserEmailPhone($data = [])
+    public static function createUserEmailPhone($data = null)
     {
+        $data['default_email'] = $data['email'] ? Admin::NORMAL_EMAIL : null;
+        $data['default_phone_no'] = $data['phone_no'] ? Admin::NORMAL_PHONE : null;
+        $data['user_id'] = Helpers::getUser()->id;
+
         return self::create($data);
     }
 
-    public static function removeEmailPhone($data = null)
+    public static function removeEmailPhone($id = null)
     {
-        return self::find($data)->delete();
+
+        $record = self::getSingleEmailPhone($id);
+
+        if ($record) {
+
+            $record->delete();
+
+            return true;
+
+        }else{
+
+            return false;
+
+        }
+
     }
 }

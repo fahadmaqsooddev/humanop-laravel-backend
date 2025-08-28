@@ -40,10 +40,10 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('share-not-share-data-with-associated-companies', 'UserController@shareNotShareDataAssociatedCompanies');
     Route::post('remove-company', 'UserController@removeCompany');
 
-    Route::get('user-emails-phones', [SettingController::class, 'getUserEmailsPhones']);
-    Route::post('create-emails-phones', [SettingController::class, 'createUserEmailPhone']);
-    Route::get('remove-email-phone/{id}', [SettingController::class, 'removeEmailPhone']);
-    Route::get('set-default-email-phone/{id}', [SettingController::class, 'setDefaultEmailPhone']);
+    Route::get('user-emails-phones', 'UserProfile\SettingController@getUserEmailsPhones');
+    Route::post('create-emails-phones', 'UserProfile\SettingController@createUserEmailPhone');
+    Route::delete('delete-email-phone', 'UserProfile\SettingController@removeEmailPhone');
+    Route::post('set-default-email-phone', 'UserProfile\SettingController@setDefaultEmailPhone');
 
 
 });

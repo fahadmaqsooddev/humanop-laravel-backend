@@ -6,13 +6,27 @@ use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AddUserEmailPhoneRequest;
+use App\Models\User;
 use App\Models\UserEmailPhoneNumber;
+use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
+
+    protected $userRecord;
+
+    public function __construct(UserEmailPhoneNumber $userRecord)
+    {
+        $this->middleware('auth:api');
+
+        $this->userRecord = $userRecord;
+
+    }
+
     public function getUserEmailsPhones()
     {
         $user = Helpers::getUser();
+
         $emails_phones_no = UserEmailPhoneNumber::getUserEmailsPhones($user->id);
 
         return Helpers::successResponse('User emails and phone numbers.', $emails_phones_no);
@@ -20,12 +34,10 @@ class SettingController extends Controller
 
     public function createUserEmailPhone(AddUserEmailPhoneRequest $request)
     {
-        $data = $request->all();
-        $data['default_email'] = $request->has('email') ? Admin::NORMAL_EMAIL : null;
-        $data['default_phone_no'] = $request->has('phone_no') ? Admin::NORMAL_PHONE : null;
-        $data['user_id'] = Helpers::getUser()->id;
 
-        $userEmailPhone = UserEmailPhoneNumber::createUserEmailPhone($data);
+        $dataArray = $request->only($this->userRecord->getFillable());
+
+        $userEmailPhone = UserEmailPhoneNumber::createUserEmailPhone($dataArray);
 
         return Helpers::successResponse('Record created successfully.', $userEmailPhone);
     }
@@ -35,30 +47,32 @@ class SettingController extends Controller
         return self::where($where_clause)->update($data);
     }
 
-    public function removeEmailPhone($id)
+    public function removeEmailPhone(Request $request)
     {
-        $emailPhone = UserEmailPhoneNumber::getSingleEmailPhone($id);
+        $checkRecordDelete = UserEmailPhoneNumber::removeEmailPhone($request['id']);
 
-        if (!$emailPhone) {
-            return Helpers::notFoundResponse('Record Not found.');
+        if ($checkRecordDelete){
+
+            return Helpers::successResponse('Record deleted successfully.');
+
+        }else{
+
+            return Helpers::validationResponse('Record not found');
         }
-        UserEmailPhoneNumber::removeEmailPhone($id);
-
-        return Helpers::successResponse('Record deleted successfully.');
     }
 
-    public function setDefaultEmailPhone($id)
+    public function setDefaultEmailPhone(Request $request)
     {
-        $emailPhone = UserEmailPhoneNumber::getSingleEmailPhone($id);
+        $emailPhone = UserEmailPhoneNumber::getSingleEmailPhone($request['id']);
 
         if (!$emailPhone) {
             return Helpers::notFoundResponse('Record Not found.');
         }
         if ($emailPhone->email) {
-            UserEmailPhoneNumber::changeEmailsPhonesConditional('phone_no', ['id', '!=', $id,], ['default_email' => Admin::NORMAL_EMAIL]);
+            UserEmailPhoneNumber::changeEmailsPhonesConditional('phone_no', ['id', '!=', $request['id'],], ['default_email' => Admin::NORMAL_EMAIL]);
             $emailPhone->update(['default_email' => Admin::DEFAULT_EMAIL]);
         } else {
-            UserEmailPhoneNumber::changeEmailsPhonesConditional('email', ['id', '!=', $id], ['default_phone_no' => Admin::NORMAL_PHONE]);
+            UserEmailPhoneNumber::changeEmailsPhonesConditional('email', ['id', '!=', $request['id']], ['default_phone_no' => Admin::NORMAL_PHONE]);
             $emailPhone->update(['phone_no' => Admin::DEFAULT_PHONE]);
         }
 
