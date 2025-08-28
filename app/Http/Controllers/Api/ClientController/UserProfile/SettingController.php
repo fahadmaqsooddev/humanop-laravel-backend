@@ -25,8 +25,43 @@ class SettingController extends Controller
         $data['default_phone_no'] = $request->has('phone_no') ? Admin::NORMAL_PHONE : null;
         $data['user_id'] = Helpers::getUser()->id;
 
-        $userEmailPhone = UserEmailPhoneNumber::createUserEmail($data);
+        $userEmailPhone = UserEmailPhoneNumber::createUserEmailPhone($data);
 
         return Helpers::successResponse('Record created successfully.', $userEmailPhone);
+    }
+
+    public static function changeEmailsPhonesConditional($where_clause = [], $data = [])
+    {
+        return self::where($where_clause)->update($data);
+    }
+
+    public function removeEmailPhone($id)
+    {
+        $emailPhone = UserEmailPhoneNumber::getSingleEmailPhone($id);
+
+        if (!$emailPhone) {
+            return Helpers::notFoundResponse('Record Not found.');
+        }
+        UserEmailPhoneNumber::removeEmailPhone($id);
+
+        return Helpers::successResponse('Record deleted successfully.');
+    }
+
+    public function setDefaultEmailPhone($id)
+    {
+        $emailPhone = UserEmailPhoneNumber::getSingleEmailPhone($id);
+
+        if (!$emailPhone) {
+            return Helpers::notFoundResponse('Record Not found.');
+        }
+        if ($emailPhone->email) {
+            UserEmailPhoneNumber::changeEmailsPhonesConditional('phone_no', ['id', '!=', $id,], ['default_email' => Admin::NORMAL_EMAIL]);
+            $emailPhone->update(['default_email' => Admin::DEFAULT_EMAIL]);
+        } else {
+            UserEmailPhoneNumber::changeEmailsPhonesConditional('email', ['id', '!=', $id], ['default_phone_no' => Admin::NORMAL_PHONE]);
+            $emailPhone->update(['phone_no' => Admin::DEFAULT_PHONE]);
+        }
+
+        return Helpers::successResponse('Default set.', $emailPhone);
     }
 }

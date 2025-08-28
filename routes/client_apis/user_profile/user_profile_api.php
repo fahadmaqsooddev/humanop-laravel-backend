@@ -42,6 +42,8 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('user-emails-phones', [SettingController::class, 'getUserEmailsPhones']);
     Route::post('create-emails-phones', [SettingController::class, 'createUserEmailPhone']);
+    Route::get('remove-email-phone/{id}', [SettingController::class, 'removeEmailPhone']);
+    Route::get('set-default-email-phone/{id}', [SettingController::class, 'setDefaultEmailPhone']);
 
 
 });

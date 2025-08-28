@@ -17,13 +17,28 @@ class UserEmailPhoneNumber extends Model
         parent::__construct($attributes);
     }
 
+    public static function changeEmailsPhonesConditional($whereNull = null, $where_clause = [], $data = [])
+    {
+        return self::where([$where_clause])->whereNull($whereNull)->update($data);
+    }
+
     public static function getUserEmailsPhones($user_id = null)
     {
         return self::select('email', 'phone_no', 'default_email', 'default_phone_no')->where('user_id', $user_id)->get();
     }
 
-    public static function createUserEmail($data = [])
+    public static function getSingleEmailPhone($id = null)
+    {
+        return self::find($id);
+    }
+
+    public static function createUserEmailPhone($data = [])
     {
         return self::create($data);
+    }
+
+    public static function removeEmailPhone($data = null)
+    {
+        return self::find($data)->delete();
     }
 }
