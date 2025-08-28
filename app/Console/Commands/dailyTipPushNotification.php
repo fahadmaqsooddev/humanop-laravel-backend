@@ -5,91 +5,57 @@ namespace App\Console\Commands;
 use App\Enums\Admin\Admin;
 use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
+use App\Jobs\SendDailyTip;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Assessment;
-use App\Models\Notification\PushNotification;
+use Illuminate\Support\Facades\Cache;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class dailyTipPushNotification extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'make:dailyTipPushNotification';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'This command makes for daily tip notification send.';
+    protected $signature = 'tips:dispatch-due';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
+    protected $description = 'Dispatch daily tips for schedules that are due';
+
     public function handle()
     {
 
-        $users = User::getAllClientUser();
+        $lock = Cache::lock('tips:dispatch-due', 55);
 
-        foreach ($users as $user) {
+        if (!$lock->get()) {
 
-            $assessment = Assessment::getLatestAssessment($user['id']);
+            $this->info('Another dispatcher is running. Exiting.');
 
-            if (!empty($assessment)) {
-
-                $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
-
-                if (!empty($userDailyTip) && $userDailyTip['is_read'] == 1 && $userDailyTip['updated_at'] < now()->subDay()) {
-
-                    do {
-
-                        $randomCode = DailyTip::randomCode($assessment);
-
-                        $newDailyTip = DailyTip::getSameCodeTips($randomCode);
-
-                        if ($newDailyTip) {
-
-                            $latestTip = UserDailyTip::where('user_id', $user['id'])
-                                ->where('daily_tip_id', $newDailyTip['id'])
-                                ->latest()
-                                ->first();
-
-                            if (empty($latestTip)) {
-
-                                UserDailyTip::create([
-                                    'user_id' => $user['id'],
-                                    'daily_tip_id' => $newDailyTip['id'],
-                                    'assessment_id' => $assessment['id'],
-                                    'updated_at' => $userDailyTip['updated_at']->addHours(24)
-                                ]);
-
-                                $message = 'Your New Daily Tip';
-
-                                event(new NewDailyTip($user['id'], 'new daily tip', $message));
-
-//                                Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
-
-                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
-
-                            }
-
-                        }
-
-                    } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
-
-                }
-
-            }
+            return 0;
 
         }
 
+        try {
+
+            User::query()
+                ->where('is_admin', 2)
+                ->chunkById(1000, function ($users) {
+
+                    foreach ($users as $user) {
+
+                        dispatch(new SendDailyTip($user['id']))
+                            ->onQueue('tips');
+                    }
+
+                });
+
+        } finally {
+
+            optional($lock)->release();
+
+        }
+
+        return 0;
     }
+
 }
