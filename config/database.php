@@ -651,7 +651,7 @@ return [
         ],
         'ShopCategoryResource' => [
             'table' => 'humanop_shop_resources',
-            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price'],
+            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price','image_id'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'HumanOpShopTraits' => [
@@ -742,6 +742,11 @@ return [
         'AssessmentVideoTrack' => [
             'table' => 'assessment_video_track',
             'fillable' => ['assessment_id', 'user_id', 'video_name', 'video_time'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'UserEmailPhoneNumber' => [
+            'table' => 'user_email_phone_numbers',
+            'fillable' => ['user_id', 'email', 'phone_no', 'default_email', 'default_phone_no'],
             'hidden' => ['created_at', 'updated_at']
         ],
     ]

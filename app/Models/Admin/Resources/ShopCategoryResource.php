@@ -27,7 +27,7 @@ class ShopCategoryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['document_url', 'video_url', 'audio_url'];
+    protected $appends = ['document_url', 'video_url', 'audio_url','image_url'];
 
     // relation
     public function shopCategory()
@@ -59,6 +59,11 @@ class ShopCategoryResource extends Model
         return Helpers::getAudio($this->audio_id, 1);
     }
 
+    public function getIMageUrlAttribute()
+    {
+        return Helpers::getImage($this->image_id, 1);
+    }
+
 
     // query
     public static function getResources()
@@ -66,7 +71,7 @@ class ShopCategoryResource extends Model
         return self::with('shopCategory', 'resourceTraits')->get();
     }
 
-    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $point = null)
+    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -76,6 +81,7 @@ class ShopCategoryResource extends Model
             'video_id' => $video_id,
             'audio_id' => $audio_id,
             'document_id' => $document_id,
+            'image_id' => $image_id,
             'point' => $point,
         ]);
 

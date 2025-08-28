@@ -42,9 +42,9 @@ class LibraryResourceController extends Controller
                     'description' => $item->description,
                     'content' => $item->content,
                     'relevance' => $item->relevance,
-                    'photo_url' => $item->photo_url ?? null,
-                    'video_url' => $item->video_url ?? null,
-                    'audio_url' => $item->audio_url ?? null,
+                    'photo_url' => !empty($item->photo_url) ? $item->photo_url : null,
+                    'video_url' => !empty($item->video_url) ? $item->video_url : null,
+                    'audio_url' => !empty($item->audio_url) ? $item->audio_url : null,
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => match(optional($item->libraryPermissions)->permission) {
                         1 => 'Freemium',
