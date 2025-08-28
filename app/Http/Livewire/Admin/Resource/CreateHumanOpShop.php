@@ -26,7 +26,7 @@ class CreateHumanOpShop extends Component
 
     protected $rules = [
         'heading' => 'required|unique:humanop_shop_resources,heading|regex:/^[A-Za-z]/',
-        'resource_file' => 'required|file|mimes:mp4,mov,avi,mkv,mp3,wav,pdf,doc,docx|max:204800', // Max file size 200MB
+        'resource_file' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav,pdf,doc,docx|max:204800', // Max file size 200MB
 
         'category_id' => 'required|exists:humanop_shop_categories,id',
         'pointValue' => 'required_without:priceValue|nullable|numeric|min:0',
@@ -48,7 +48,6 @@ class CreateHumanOpShop extends Component
 
     ];
 
-
     public function createShopResource()
     {
 
@@ -65,15 +64,19 @@ class CreateHumanOpShop extends Component
             $resource = null;
             if (in_array($extension, ['mp3', 'wav', 'mpeg'])) {
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $upload_id, null, null, $this->pointValue);
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue);
 
             } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $upload_id, null, null, $this->pointValue);
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $upload_id, null, null, null, $this->pointValue);
+
+            }elseif (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
+
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, null, $upload_id, $this->pointValue);
 
             } else {
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, $upload_id, $this->pointValue);
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, $upload_id, null, $this->pointValue);
 
             }
 
@@ -167,7 +170,7 @@ class CreateHumanOpShop extends Component
     {
         $this->booleanValue = false;
 
-        $this->reset(['heading', 'resource_file', 'pointValue', 'resource_file', 'priceValue']);
+        $this->reset(['heading', 'resource_file', 'pointValue', 'resource_file', 'priceValue', 'selectedEnergyPools', 'selectedPerceptions', 'selectedCommunications', 'selectedAlchemy', 'selectedFeatures','selectedTraits']);
     }
 
     public function handleRefreshQuery()
