@@ -744,5 +744,25 @@ return [
             'fillable' => ['user_id', 'email', 'phone_no', 'default_email', 'default_phone_no'],
             'hidden' => ['created_at', 'updated_at']
         ],
+        'TraitCompatibilityReferenceKeys' => [
+            'table' => 'trait_compatibility_reference_keys',
+            'fillable' => ['first_reference_key', 'second_reference_key', 'volume'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'DriverCompatibilityReferenceKeys' => [
+            'table' => 'driver_compatibility_reference_keys',
+            'fillable' => ['first_reference_key', 'second_reference_key', 'volume'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'EnergyPoolCompatibilityReferenceKeys' => [
+            'table' => 'energy_pool_compatibility_reference_keys',
+            'fillable' => ['first_reference_key', 'second_reference_key', 'volume'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'TraitCompatibilityPolarity' => [
+            'table' => 'trait_compatibility_polarity',
+            'fillable' => ['reference_key', 'volume'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
     ]
 ];

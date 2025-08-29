@@ -683,6 +683,130 @@ class Assessment extends Model
 
     }
 
+    public static function topThreeTraits($assessment = null)
+    {
+
+        $second_row_sa  = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+        $second_row_ma  = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+        $second_row_jo  = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+        $second_row_lu  = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
+        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+
+        $third_row = [
+            'sa'  => $assessment['sa'] * $second_row_sa,
+            'ma'  => $assessment['ma'] * $second_row_ma,
+            'jo'  => $assessment['jo'] * $second_row_jo,
+            'lu'  => $assessment['lu'] * $second_row_lu,
+            'ven' => $assessment['ven'] * $second_row_ven,
+            'mer' => $assessment['mer'] * $second_row_mer,
+            'so'  => 10 * $assessment['so']
+        ];
+
+        $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
+
+        $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
+
+        $getStyle = array_intersect_key($getResult, array_flip($style));
+
+        arsort($getStyle);
+
+        $remainingStyles = self::getTemporaryStyles($assessment);
+
+        $data = array_merge($getStyle, $remainingStyles);
+
+        uksort($data, function ($a, $b) use ($getStyle, $third_row, $style) {
+            $scoreA = $getStyle[$a] ?? 0;
+            $scoreB = $getStyle[$b] ?? 0;
+
+            if ($scoreA != $scoreB) {
+                return $scoreB <=> $scoreA;
+            }
+
+            $a_third = $third_row[$a] ?? 0;
+            $b_third = $third_row[$b] ?? 0;
+
+            if ($a_third != $b_third) {
+                if ($a_third > 30 && $b_third <= 30) return -1;
+                if ($b_third > 30 && $a_third <= 30) return 1;
+                return $b_third <=> $a_third;
+            }
+
+            return array_search($a, $style) <=> array_search($b, $style);
+        });
+
+        $topThreeStyles = array_slice($data, 0, 3, true);
+
+        $topThreeTraits = $topThreeStyles;
+
+        $topThreeWithWeight = [];
+
+        foreach ($topThreeTraits as $key => $val) {
+            if (isset($third_row[$key])) {
+                $topThreeWithWeight[$key] = [
+                    'score' => $val,
+                    'weight' => $third_row[$key],
+                ];
+            }
+        }
+
+        uasort($topThreeWithWeight, function ($a, $b) {
+            if ($a['score'] === $b['score']) {
+                return $b['weight'] <=> $a['weight'];
+            }
+            return $b['score'] <=> $a['score'];
+        });
+
+        // Build final result
+        $getTraitWeight = [];
+        foreach ($topThreeWithWeight as $key => $data) {
+            $getTraitWeight[$key] = $data['weight'];
+        }
+
+        $getTraitWeight = array_slice($getTraitWeight, 0, 3);
+
+        return $getTraitWeight;
+
+    }
+
+
+    public static function getTopThreeTraitWeight($assessment = null)
+    {
+
+        $topThreeTrait = self::topThreeTraits($assessment);
+
+        if (!empty($topThreeTrait) && count($topThreeTrait) > 2) {
+
+            $result = [];
+
+            foreach ($topThreeTrait as $trait => $value) {
+
+                $result[$trait] = $value;
+
+            }
+
+            $countTraitWeight = array_sum(array_values($result));
+
+            $firstWeight = round((array_values(array_slice($result, 0, 1))[0] / $countTraitWeight) * 100, 2);
+
+            $secondWeight = round((array_values(array_slice($result, 1, 1))[0] / $countTraitWeight) * 100, 2);
+
+            $thirdWeight = round((array_values(array_slice($result, 2, 1))[0] / $countTraitWeight) * 100, 2);
+
+            return [
+                'first_weight' => $firstWeight,
+                'second_weight' => $secondWeight,
+                'third_weight' => $thirdWeight
+            ];
+
+        } else {
+
+            return null;
+
+        }
+
+    }
+
     public static function getAllStyles($assessment = null)
     {
 
@@ -1255,6 +1379,54 @@ class Assessment extends Model
         return $communication_keys;
     }
 
+    public static function getEnergyCenter($assessment = null)
+    {
+        $communications = [
+            'em' => $assessment['em'],
+            'ins' => $assessment['ins'],
+            'int' => $assessment['int'],
+            'mov' => $assessment['mov'],
+        ];
+
+        $second_row_em = $assessment['jo'] + $assessment['ven'] + $assessment['lu'];
+        $second_row_ins = $assessment['ma'] + $assessment['ven'] + $assessment['mer'];
+        $second_row_int = $assessment['jo'] + $assessment['sa'] + $assessment['mer'];
+        $second_row_mov = $assessment['ma'] + $assessment['so'] + $assessment['mer'];
+
+        $communication_third_row = [
+            'em' => $assessment['em'] * $second_row_em,
+            'ins' => $assessment['ins'] * $second_row_ins,
+            'int' => $assessment['int'] * $second_row_int,
+            'mov' => $assessment['mov'] * $second_row_mov,
+        ];
+
+        arsort($communications);
+
+        $communication_array = array_filter($communications);
+
+        uksort($communication_array, function ($a, $b) use ($communications, $communication_third_row) {
+
+            if ($communications[$a] == $communications[$b]) {
+
+                $a_third = isset($communication_third_row[$a]) ? $communication_third_row[$a] : -1;
+
+                $b_third = isset($communication_third_row[$b]) ? $communication_third_row[$b] : -1;
+
+                if ($a_third == $b_third) {
+
+                    return array_search($b, array_keys(array_reverse($communications))) - array_search($a, array_keys(array_reverse($communications)));
+                }
+
+                return $a_third < $b_third ? 1 : -1; // Compare $styles_third values
+
+            }
+
+            return $communications[$a] < $communications[$b] ? 1 : -1;
+        });
+
+        return $communication_array;
+    }
+
     public static function getGridKeys($filtered_keys = null, $third_row_feature = null)
     {
 
@@ -1705,6 +1877,16 @@ class Assessment extends Model
                 'img_url' => "",
             ];
         }
+    }
+
+    public static function getPv($assessment = null)
+    {
+        $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+
+        $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
+        return $positive - $negative;
+
     }
 
     public static function getPreceptionReportDetail($assessment = null)
