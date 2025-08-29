@@ -261,6 +261,19 @@ class AssessmentController extends Controller
 
     }
 
+    public function getAssessmentVideoTrack()
+    {
+        try {
+            $data = AssessmentVideoTrack::getAssessmentVideoTrack(Helpers::getUser()->id);
+            return Helpers::successResponse('Assessment video track data.', $data);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
     public function userReport(UserReportRequest $request)
     {
 
