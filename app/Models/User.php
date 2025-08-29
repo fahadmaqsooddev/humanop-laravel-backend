@@ -101,7 +101,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time','matching_connection_score']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score']);
     }
 
     // appends
@@ -865,15 +865,15 @@ class User extends Authenticatable implements JWTSubject
             $request['password'] = Helpers::getUser()->password;
 
         }
-        $dailyTipTimeMessage = false;
+
+        $dailyTipTimeMessage = '';
         if (isset($request['set_daily_tip_time'])) {
 
             $request['set_daily_tip_time'] = date("H:i:s", strtotime($request['set_daily_tip_time']));
-            $dailyTipTimeMessage = self::dailyTipLastTimeChecked($user->timezone);
-
-            if (!$user->last_updated_daily_tip) {
-                $request['last_updated_daily_tip'] = now();
-            } elseif ($user->last_updated_daily_tip and !$dailyTipTimeMessage) {
+            if ($user->last_updated_daily_tip) {
+                $dailyTipTimeMessage = self::dailyTipLastTimeChecked($user->last_updated_daily_tip);
+            }
+            if (!$user->last_updated_daily_tip or !$dailyTipTimeMessage) {
                 $request['last_updated_daily_tip'] = now();
             }
         }
@@ -881,32 +881,26 @@ class User extends Authenticatable implements JWTSubject
         self::whereId($user['id'])->update($request);
 
         $user = self::user($user['id']);
-        $user->daily_tip_time_tessage = $dailyTipTimeMessage ? 'Daily tip limit is reached.' : '';
+        $user->daily_tip_time_tessage = $dailyTipTimeMessage;
         return $user;
     }
 
-    public static function dailyTipLastTimeChecked($timezone)
+    public static function dailyTipLastTimeChecked($datetime)
     {
-        // Extract actual timezone part after the last '-'
-        $userTimezone = trim(explode('-', $timezone)[1]);
+        // Parse in UTC
+        $dateUtc = Carbon::parse($datetime, config('app.timezone'));
+
+        // Add 24 hours in UTC
+        $expiryUtc = $dateUtc->copy()->addHours(24);
 
         // Current UTC time
         $nowUtc = Carbon::now(config('app.timezone'));
 
-        // Convert UTC to user timezone
-        $userNow = $nowUtc->copy()->setTimezone($userTimezone);
-
-        // Define today's 12:00 AM and 12:00 PM in user timezone
-        $midnight = $userNow->copy()->startOfDay(); // 12:00 AM
-        $noon = $midnight->copy()->addHours(12);   // 12:00 PM
-
-        // Check if we passed those times
-        if ($userNow->greaterThanOrEqualTo($midnight) && $userNow->lessThan($noon)) {
-            // After 12 AM but before 12 PM
-            return true;
-        } elseif ($userNow->greaterThanOrEqualTo($noon)) {
-            // After 12 PM
-            return false;
+        // Compare
+        if ($nowUtc->greaterThanOrEqualTo($expiryUtc)) {
+            return '';
+        } else {
+            return 'Daily tip limit is reached.';
         }
     }
 
