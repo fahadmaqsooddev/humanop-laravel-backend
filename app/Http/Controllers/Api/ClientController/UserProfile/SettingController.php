@@ -42,11 +42,6 @@ class SettingController extends Controller
         return Helpers::successResponse('Record created successfully.', $userEmailPhone);
     }
 
-    public static function changeEmailsPhonesConditional($where_clause = [], $data = [])
-    {
-        return self::where($where_clause)->update($data);
-    }
-
     public function removeEmailPhone(Request $request)
     {
         $checkRecordDelete = UserEmailPhoneNumber::removeEmailPhone($request['id']);

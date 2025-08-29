@@ -17,6 +17,11 @@ class AssessmentVideoTrack extends Model
         parent::__construct($attributes);
     }
 
+    public static function getAssessmentVideoTrack($user_id = null)
+    {
+        return self::select('assessment_id', 'user_id', 'video_name', 'video_time')->where('user_id', $user_id)->get();
+    }
+
     public static function createOrUpdateAssessmentVideoTrack($data = [])
     {
         return self::updateOrCreate(

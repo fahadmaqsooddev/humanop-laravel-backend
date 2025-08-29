@@ -96,6 +96,9 @@ class Subscription extends Model
             $user->newSubscription('main', $request->input('plan_id'))->create($payment_method_id);
         }
 
+        $user->set_daily_tip_time = '12:00:00';
+
+        $user->save();
 
         $plan = \App\Models\Client\Plan\Plan::singlePlan($request->input('plan_id'));
 

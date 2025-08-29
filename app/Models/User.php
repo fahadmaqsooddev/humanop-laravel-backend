@@ -101,7 +101,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time','matching_connection_score']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score']);
     }
 
     // appends
@@ -866,17 +866,42 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
+        $dailyTipTimeMessage = '';
         if (isset($request['set_daily_tip_time'])) {
 
             $request['set_daily_tip_time'] = date("H:i:s", strtotime($request['set_daily_tip_time']));
-
+            if ($user->last_updated_daily_tip) {
+                $dailyTipTimeMessage = self::dailyTipLastTimeChecked($user->last_updated_daily_tip);
+            }
+            if (!$user->last_updated_daily_tip or !$dailyTipTimeMessage) {
+                $request['last_updated_daily_tip'] = now();
+            }
         }
 
         self::whereId($user['id'])->update($request);
 
+        $user = self::user($user['id']);
+        $user->daily_tip_time_tessage = $dailyTipTimeMessage;
+        return $user;
+    }
 
-        return self::user($user['id']);
+    public static function dailyTipLastTimeChecked($datetime)
+    {
+        // Parse in UTC
+        $dateUtc = Carbon::parse($datetime, config('app.timezone'));
 
+        // Add 24 hours in UTC
+        $expiryUtc = $dateUtc->copy()->addHours(24);
+
+        // Current UTC time
+        $nowUtc = Carbon::now(config('app.timezone'));
+
+        // Compare
+        if ($nowUtc->greaterThanOrEqualTo($expiryUtc)) {
+            return '';
+        } else {
+            return 'Daily tip limit is reached.';
+        }
     }
 
     public static function updateProfile($request = null)
@@ -1874,11 +1899,11 @@ class User extends Authenticatable implements JWTSubject
     public static function twoFactorAuth($user = null)
     {
 
-        if ($user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE){
+        if ($user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
 
             $user->update(['two_way_auth' => Admin::TWO_WAY_AUTH_DISABLED]);
 
-        }else{
+        } else {
 
             $user->update(['two_way_auth' => Admin::TWO_WAY_AUTH_ACTIVE]);
 
