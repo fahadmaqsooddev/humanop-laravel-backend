@@ -110,9 +110,37 @@ class UserController extends Controller
 
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
+            $user = Helpers::getUser();
+
             if ($request) {
 
                 $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone','set_daily_tip_time']);
+
+                if (!empty($request['set_daily_tip_time'])) {
+
+                    $setDailyTipTime = date("H:i:s", strtotime($dataArray['set_daily_tip_time']));
+
+                    if (empty($user['last_updated_daily_tip'])) {
+                        $dataArray['last_updated_daily_tip'] = Carbon::now();
+                    }
+
+                    if ($user['set_daily_tip_time'] != $setDailyTipTime) {
+
+                        if (empty($user['last_updated_daily_tip']) || Carbon::parse($user['last_updated_daily_tip'])->diffInDays(Carbon::now()) >= 1) {
+
+                            $dataArray['set_daily_tip_time'] = $setDailyTipTime;
+                            $dataArray['last_updated_daily_tip'] = Carbon::now();
+
+                        } else {
+                            return Helpers::validationResponse('You can set daily tip again tomorrow.');
+                        }
+
+                    }else{
+
+                        $dataArray['set_daily_tip_time'] = $setDailyTipTime;
+
+                    }
+                }
 
                 $updated_user = User::updatePersonalInformation($dataArray);
 
