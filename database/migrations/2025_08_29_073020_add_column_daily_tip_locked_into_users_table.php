@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dateTime('last_updated_daily_tip')->after('set_daily_tip_time')->nullable(); // 1 = active, 0 = inactive
+            $table->dateTime('last_updated_daily_tip')->after('set_daily_tip_time')->nullable();
         });
     }
 
