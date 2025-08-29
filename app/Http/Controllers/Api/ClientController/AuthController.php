@@ -433,9 +433,17 @@ class AuthController extends Controller
 
                     $user->update(['phone_verified_at' => Carbon::now()]);
 
-                    $user->setAppends([]);
+                    $token = $this->auth->login($user);
 
-                    return Helpers::successResponse('phone number is verified', $user);
+                    $data = [
+                        'user' => $user,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ]
+                    ];
+
+                    return Helpers::successResponse('phone number is verified', $data);
 
                 } else {
 
