@@ -866,42 +866,11 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-        $dailyTipTimeMessage = '';
-        if (isset($request['set_daily_tip_time'])) {
-
-            $request['set_daily_tip_time'] = date("H:i:s", strtotime($request['set_daily_tip_time']));
-            if ($user->last_updated_daily_tip) {
-                $dailyTipTimeMessage = self::dailyTipLastTimeChecked($user->last_updated_daily_tip);
-            }
-            if (!$user->last_updated_daily_tip or !$dailyTipTimeMessage) {
-                $request['last_updated_daily_tip'] = now();
-            }
-        }
-
         self::whereId($user['id'])->update($request);
 
         $user = self::user($user['id']);
-        $user->daily_tip_time_tessage = $dailyTipTimeMessage;
+
         return $user;
-    }
-
-    public static function dailyTipLastTimeChecked($datetime)
-    {
-        // Parse in UTC
-        $dateUtc = Carbon::parse($datetime, config('app.timezone'));
-
-        // Add 24 hours in UTC
-        $expiryUtc = $dateUtc->copy()->addHours(24);
-
-        // Current UTC time
-        $nowUtc = Carbon::now(config('app.timezone'));
-
-        // Compare
-        if ($nowUtc->greaterThanOrEqualTo($expiryUtc)) {
-            return '';
-        } else {
-            return 'Daily tip limit is reached.';
-        }
     }
 
     public static function updateProfile($request = null)
