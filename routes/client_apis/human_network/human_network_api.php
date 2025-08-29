@@ -27,6 +27,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('network-tutorials', 'HumanNetworkController@networkTutorials');
     Route::get('core-stats-comparison-between-users', 'HumanNetworkController@coreStatsComparisonBetweenUsers');
     Route::get('insights-of-connection', 'HumanNetworkController@insightsOfConnection');
+    Route::get('matching-connections', 'HumanNetworkController@matchingConnection');
+    Route::post('set-score-for-matching-connections', 'HumanNetworkController@setScoreForMatchingConnection');
 
 
 });

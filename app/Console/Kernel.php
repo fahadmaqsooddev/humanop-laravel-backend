@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         if (env('IS_DEMO')){
             $schedule->command('migrate:fresh --seed')->everyFifteenMinutes();
             $schedule->command('image:seed')->everyFifteenMinutes();
+            $schedule->command('tips:dispatch-due')->everyMinute()->withoutOverlapping();
         }
     }
 

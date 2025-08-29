@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\HumanNetwork\ConnectUnConnectRequest;
 use App\Http\Requests\Api\Client\HumanNetwork\CoreStatsComparisonRequest;
 use App\Http\Requests\Api\Client\HumanNetwork\FollowUnFollowRequest;
+use App\Http\Requests\Api\Client\HumanNetwork\SetScoreForMatchingConnectionRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Assessment;
 use App\Models\Client\Connection\Connection;
@@ -24,21 +25,23 @@ class HumanNetworkController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function followUnfollow(FollowUnFollowRequest $request){
+    public function followUnfollow(FollowUnFollowRequest $request)
+    {
 
         try {
 
             Follow::followUnFollowForApi($request);
 
-            return Helpers::successResponse('User '.$request->type.'ed successfully');
+            return Helpers::successResponse('User ' . $request->type . 'ed successfully');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function followers(Request $request){
+    public function followers(Request $request)
+    {
 
         try {
 
@@ -46,13 +49,14 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('User followers', $followers, $request->input('pagination'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function following(Request $request){
+    public function following(Request $request)
+    {
 
         try {
 
@@ -60,13 +64,14 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('User followers', $following, $request->input('pagination'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function connectUnconnect(ConnectUnConnectRequest $request){
+    public function connectUnconnect(ConnectUnConnectRequest $request)
+    {
 
         try {
 
@@ -76,14 +81,15 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('User ' . $request->type . 'ed successfully');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function users(Request $request){
+    public function users(Request $request)
+    {
 
         try {
 
@@ -91,14 +97,15 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('All users', $users, $request->input('pagination'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function connectionRequests(Request $request){
+    public function connectionRequests(Request $request)
+    {
 
         try {
 
@@ -106,14 +113,15 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('Connection requests', $connection_requests, $request->input('pagination'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function networkTutorials(){
+    public function networkTutorials()
+    {
 
         try {
 
@@ -121,14 +129,15 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('Network Tutorials', $tutorials);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function coreStatsComparisonBetweenUsers(CoreStatsComparisonRequest $request){
+    public function coreStatsComparisonBetweenUsers(CoreStatsComparisonRequest $request)
+    {
 
         try {
 
@@ -140,26 +149,26 @@ class HumanNetworkController extends Controller
 
             if ($plan == 'Freemium') {
 
-                if (count($userIds) > 2){
+                if (count($userIds) > 2) {
 
                     return Helpers::validationResponse('At least 2 users are required for the Freemium plan.');
                 }
-            }else{
+            } else {
 
-                if (count($userIds) > 3){
+                if (count($userIds) > 3) {
 
                     return Helpers::validationResponse('At least 2 users are required for the Freemium plan.');
                 }
             }
 
 
-            foreach ($userIds as $key => $userId){
+            foreach ($userIds as $key => $userId) {
 
                 $user_name = User::whereId($userId)->first();
 
                 $assessment = Assessment::getLatestAssessment($userId);
 
-                if ($assessment == null){
+                if ($assessment == null) {
 
                     return Helpers::validationResponse($user_name['first_name'] . ' ' . $user_name['last_name'] . ' has no assessment');
                 }
@@ -170,20 +179,21 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('Core Stats Comparison Between' . count($userIds) . '', $coreState);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function connections(Request $request){
+    public function connections(Request $request)
+    {
 
         try {
 
             $connections = Connection::userPaginatedConnections($request);
 
-            foreach ($connections as $connection){
+            foreach ($connections as $connection) {
 
                 $connection->setAppends(['thread_id']);
             }
@@ -191,14 +201,15 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('Connections', $connections, $request->input('pagination'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function styleFeatureCodes(){
+    public function styleFeatureCodes()
+    {
 
         try {
 
@@ -208,13 +219,14 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('Style and Feature codes', $style_feature_codes);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function alchemyCodes(){
+    public function alchemyCodes()
+    {
 
         try {
 
@@ -224,7 +236,7 @@ class HumanNetworkController extends Controller
 
             return Helpers::successResponse('Style and Feature codes', $alchemy_codes);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -233,7 +245,7 @@ class HumanNetworkController extends Controller
 
     public function insightsOfConnection()
     {
-        try{
+        try {
 
             $userId = Helpers::getUser()['id'];
 
@@ -278,9 +290,107 @@ class HumanNetworkController extends Controller
             }
 
 
-        }   catch (\Exception $e){
+        } catch (\Exception $e) {
             return Helpers::serverErrorResponse($e->getMessage());
         }
     }
+
+    public function matchingConnection(Request $request)
+    {
+
+        try {
+
+            $loginUser = Helpers::getUser();
+
+            if ($loginUser['plan_name'] == 'Core') {
+
+                $users = User::query();
+
+                if (!empty($request['search_name'])) {
+
+                    $search_name = $request['search_name'];
+
+                    $users = $users->where(function ($q) use ($search_name) {
+
+                        $q->where('first_name', 'LIKE', "%$search_name%")
+                            ->orWhere('last_name', 'LIKE', "%$search_name%")
+                            ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+                    });
+                }
+
+                $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
+
+                $matchingUsers = [];
+
+                foreach ($users as $user) {
+
+                    $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
+
+                    $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
+
+                    if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
+
+                        // ==================== Trait Compatability Calculator =========================== //
+
+                        $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
+
+                        $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
+
+                        if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
+
+                            $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+
+                            if ($compatabilityCalculator >= $loginUser['matching_connection_score']){
+
+                                $matchingUsers[] = $user;
+                            }
+
+                        }
+
+                    }
+                }
+
+                return Helpers::successResponse('Matching Connections', $matchingUsers);
+
+            }else{
+
+                return Helpers::validationResponse('Only for paid users');
+
+            }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function setScoreForMatchingConnection(SetScoreForMatchingConnectionRequest $request)
+    {
+
+        try {
+
+            $user = Helpers::getUser();
+
+            if ($user['plan_name'] === 'Core') {
+
+                User::setConnectionScore($user['id'], $request['matching_connection_score']);
+
+                return Helpers::successResponse('Matching Connection Score Updated');
+
+            }else{
+
+                return Helpers::validationResponse('Only for paid users');
+            }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
 
 }
