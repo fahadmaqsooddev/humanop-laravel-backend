@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\HumanNetwork\ConnectUnConnectRequest;
 use App\Http\Requests\Api\Client\HumanNetwork\CoreStatsComparisonRequest;
 use App\Http\Requests\Api\Client\HumanNetwork\FollowUnFollowRequest;
+use App\Http\Requests\Api\Client\HumanNetwork\SetScoreForMatchingConnectionRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Assessment;
 use App\Models\Client\Connection\Connection;
@@ -299,53 +300,90 @@ class HumanNetworkController extends Controller
 
         try {
 
-            $users = User::query();
+            $loginUser = Helpers::getUser();
 
-            if (!empty($request['search_name'])) {
+            if ($loginUser['plan_name'] == 'Core') {
 
-                $search_name = $request['search_name'];
+                $users = User::query();
 
-                $users = $users->where(function ($q) use ($search_name) {
+                if (!empty($request['search_name'])) {
 
-                    $q->where('first_name', 'LIKE', "%$search_name%")
-                        ->orWhere('last_name', 'LIKE', "%$search_name%")
-                        ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
-                });
-            }
+                    $search_name = $request['search_name'];
 
-            $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
+                    $users = $users->where(function ($q) use ($search_name) {
 
-            $matchingUsers = [];
+                        $q->where('first_name', 'LIKE', "%$search_name%")
+                            ->orWhere('last_name', 'LIKE', "%$search_name%")
+                            ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+                    });
+                }
 
-            foreach ($users as $user) {
+                $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
 
-                $getFirstUserAssessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
+                $matchingUsers = [];
 
-                $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
+                foreach ($users as $user) {
 
-                if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
+                    $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
 
-                    // ==================== Trait Compatability Calculator =========================== //
+                    $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
 
-                    $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
+                    if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
 
-                    $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
+                        // ==================== Trait Compatability Calculator =========================== //
 
-                    if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
+                        $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
 
-                        $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+                        $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
 
-                        if ($compatabilityCalculator >= 70){
+                        if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
 
-                            $matchingUsers[] = $user;
+                            $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+
+                            if ($compatabilityCalculator >= $loginUser['matching_connection_score']){
+
+                                $matchingUsers[] = $user;
+                            }
+
                         }
 
                     }
-
                 }
+
+                return Helpers::successResponse('Matching Connections', $matchingUsers);
+
+            }else{
+
+                return Helpers::validationResponse('Only for paid users');
+
             }
 
-            return Helpers::successResponse('Matching Connections', $matchingUsers);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function setScoreForMatchingConnection(SetScoreForMatchingConnectionRequest $request)
+    {
+
+        try {
+
+            $user = Helpers::getUser();
+
+            if ($user['plan_name'] === 'Core') {
+
+                User::setConnectionScore($user['id'], $request['matching_connection_score']);
+
+                return Helpers::successResponse('Matching Connection Score Updated');
+
+            }else{
+
+                return Helpers::validationResponse('Only for paid users');
+            }
+
 
         } catch (\Exception $exception) {
 
