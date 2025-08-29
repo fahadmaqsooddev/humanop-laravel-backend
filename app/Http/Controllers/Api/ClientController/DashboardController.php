@@ -115,8 +115,8 @@ class DashboardController extends Controller
                                 'is_read' => $isRead,
                                 'favorite_daily_tip' => $userDailyTip['favorite_tip'],
                                 'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
-                                'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
-                                'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
+                                'nextTipTime' => !empty($nextTipTime)  ? $nextTipTime->format('Y-m-d H:i:s.u T (P)') : null,
+                                'currentTime' => !empty($currentTime) ? $currentTime->format('Y-m-d H:i:s.u T (P)') : null,
                             ];
                         }
 
@@ -166,8 +166,8 @@ class DashboardController extends Controller
                                     'is_read' => $isRead,
                                     'favorite_daily_tip' => $userDailyTip['favorite_tip'],
                                     'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
-                                    'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
-                                    'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
+                                    'nextTipTime' => !empty($nextTipTime) ? $nextTipTime->format('Y-m-d H:i:s.u T (P)') : null,
+                                    'currentTime' => !empty($currentTime) ? $currentTime->format('Y-m-d H:i:s.u T (P)') : null,
                                 ];
                             }
 

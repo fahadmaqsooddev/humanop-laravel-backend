@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\Assessments\AssessmentHelper;
 use App\Models\Admin\Notification\Notification;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\UserCandidateInvite;
@@ -10,6 +11,8 @@ use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
+use App\Models\CompatibilityReferenceKeys\DriverCompatibilityReferenceKeys;
+use App\Models\CompatibilityReferenceKeys\EnergyPoolCompatibilityReferenceKeys;
 use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -325,7 +328,7 @@ class Helpers
 
             $upload = Upload::find($video);
 
-            if (!empty($upload)){
+            if (!empty($upload)) {
 
                 if ($upload->extension != 'mp4') {
 
@@ -342,7 +345,7 @@ class Helpers
 
                 }
 
-            }else{
+            } else {
 
                 return [];
             }
@@ -1245,6 +1248,97 @@ class Helpers
             GamificationPerformanceLevel::addSecondPerformanceLevel($user['id']);
 
         }
+
+    }
+
+    public static function getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight = null, $getSecondUserTraitWeight = null, $getFirstUserAssessment = null, $getSecondUserAssessment = null)
+    {
+
+        $traitCompatabilityCalculate = AssessmentHelper::traitCompatabilityCalculate($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+
+        // ==================================== End =========================== //
+        // ==================== Driver Compatability Calculator =========================== //
+
+        $getFirstUserDriver = Assessment::getFeatures($getFirstUserAssessment)['top_two_keys'];
+
+        $getSecondUserDriver = Assessment::getFeatures($getSecondUserAssessment)['top_two_keys'];
+
+        $firstUserScores = [];
+
+        $secondUserScores = [];
+
+        foreach ($getFirstUserDriver as $firstDriver) {
+
+            foreach ($getSecondUserDriver as $secondDriver) {
+
+                $firstUserScores[] = DriverCompatibilityReferenceKeys::driverCompatabilityCalculate($firstDriver, $secondDriver);
+
+            }
+
+        }
+
+        foreach ($getSecondUserDriver as $secondDriver) {
+
+            foreach ($getFirstUserDriver as $firstDriver) {
+
+                $secondUserScores[] = DriverCompatibilityReferenceKeys::driverCompatabilityCalculate($secondDriver, $firstDriver);
+
+            }
+
+        }
+
+        $firstUserAverageScore = array_sum($firstUserScores) / count($firstUserScores);
+
+        $secondUserAverageScore = array_sum($secondUserScores) / count($secondUserScores);
+
+        $driverCompatabilityCalculate = ($firstUserAverageScore + $secondUserAverageScore) / 2;
+
+        // ==================================== End =========================== //
+        // ==================== Alchemy Compatability Calculator =========================== //
+
+        $getFirstUserAlchemy = Assessment::getAlchlCode($getFirstUserAssessment['id']);
+
+        $getSecondUserAlchemy = Assessment::getAlchlCode($getSecondUserAssessment['id']);
+
+        $difference = abs($getFirstUserAlchemy - $getSecondUserAlchemy); // always positive
+
+        $alchemyCompatabilityCalculate = AssessmentHelper::alchemyCompatabilityCalculate($difference);
+
+        // ==================================== End =========================== //
+        // ==================== Energy Center Compatability Calculator =========================== //
+
+        $getFirstUserEnergyCenter = Assessment::getEnergyCenter($getFirstUserAssessment);
+
+        $getSecondUserEnergyCenter = Assessment::getEnergyCenter($getSecondUserAssessment);
+
+        $energyCenterCompatabilityCalculate = AssessmentHelper::energyCenterCompatabilityCalculate($getFirstUserEnergyCenter, $getSecondUserEnergyCenter);
+
+        // ==================================== End =========================== //
+        // ==================== Polarity Compatability Calculator =========================== //
+
+        $getFirstUserPolarity = Assessment::getPv($getFirstUserAssessment);
+
+        $getSecondUserPolarity = Assessment::getPv($getSecondUserAssessment);
+
+        $polarityCompatabilityCalculate = AssessmentHelper::polarityCompatabilityCalculate($getFirstUserPolarity, $getSecondUserPolarity);
+
+        // ==================================== End =========================== //
+        // ==================== Energy Pool Compatability Calculator =========================== //
+
+        $getFirstUserEnergyPool = Assessment::getEnergyPoolDetail($getFirstUserAssessment)['public_name'];
+
+        $getSecondUserEnergyPool = Assessment::getEnergyPoolDetail($getSecondUserAssessment)['public_name'];
+
+        $energyPoolCompatabilityCalculate = EnergyPoolCompatibilityReferenceKeys::energyPoolCompatabilityCalculate($getFirstUserEnergyPool, $getSecondUserEnergyPool);
+
+        // ==================================== End =========================== //
+        // ==================== Energy Pool Compatability Calculator =========================== //
+
+        $gridDataResultsCompatabilityCalculate = AssessmentHelper::gridResultsCompatabilityCalculate($traitCompatabilityCalculate, $driverCompatabilityCalculate, $alchemyCompatabilityCalculate, $energyCenterCompatabilityCalculate, $polarityCompatabilityCalculate, $energyPoolCompatabilityCalculate);
+
+        // ==================================== End =========================== //
+
+        return $gridDataResultsCompatabilityCalculate;
 
     }
 
