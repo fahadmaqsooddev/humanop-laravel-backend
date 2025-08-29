@@ -891,7 +891,7 @@ class User extends Authenticatable implements JWTSubject
         $userTimezone = trim(explode('-', $timezone)[1]);
 
         // Current UTC time
-        $nowUtc = Carbon::now('UTC');
+        $nowUtc = Carbon::now(config('app.timezone'));
 
         // Convert UTC to user timezone
         $userNow = $nowUtc->copy()->setTimezone($userTimezone);
