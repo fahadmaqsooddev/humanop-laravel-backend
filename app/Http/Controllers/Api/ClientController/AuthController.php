@@ -433,9 +433,17 @@ class AuthController extends Controller
 
                     $user->update(['phone_verified_at' => Carbon::now()]);
 
-                    $user->setAppends([]);
+                    $token = $this->auth->login($user);
 
-                    return Helpers::successResponse('phone number is verified', $user);
+                    $data = [
+                        'user' => $user,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ]
+                    ];
+
+                    return Helpers::successResponse('phone number is verified', $data);
 
                 } else {
 
@@ -668,7 +676,7 @@ class AuthController extends Controller
                     'user_id' => $checkUser['id'],
                     'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
                     'email' => $checkUser['email'],
-                    'b2c_two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
+                    'two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? true : false,
                 ];
 
                 return Helpers::successResponse('Otp sent Successfully', $userData);
@@ -840,7 +848,7 @@ class AuthController extends Controller
                         'user_id' => $user['id'],
                         'user_name' => $user['first_name'] . ' ' . $user['last_name'],
                         'email' => $user['email'],
-                        'b2c_two_way_auth' => $user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? Admin::TWO_WAY_AUTH_ACTIVE : Admin::TWO_WAY_AUTH_DISABLED,
+                        'two_way_auth' => $user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? true : false,
                     ];
 
                     return Helpers::successResponse('Otp sent Successfully', $userData);
