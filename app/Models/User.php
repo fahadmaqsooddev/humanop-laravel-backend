@@ -865,18 +865,49 @@ class User extends Authenticatable implements JWTSubject
             $request['password'] = Helpers::getUser()->password;
 
         }
-
+        $dailyTipTimeMessage = false;
         if (isset($request['set_daily_tip_time'])) {
 
             $request['set_daily_tip_time'] = date("H:i:s", strtotime($request['set_daily_tip_time']));
+            $dailyTipTimeMessage = self::dailyTipLastTimeChecked($user->timezone);
 
+            if (!$user->last_updated_daily_tip) {
+                $request['last_updated_daily_tip'] = now();
+            } elseif ($user->last_updated_daily_tip and !$dailyTipTimeMessage) {
+                $request['last_updated_daily_tip'] = now();
+            }
         }
 
         self::whereId($user['id'])->update($request);
 
+        $user = self::user($user['id']);
+        $user->daily_tip_time_tessage = $dailyTipTimeMessage ? 'Daily tip limit is reached.' : '';
+        return $user;
+    }
 
-        return self::user($user['id']);
+    public static function dailyTipLastTimeChecked($timezone)
+    {
+        // Extract actual timezone part after the last '-'
+        $userTimezone = trim(explode('-', $timezone)[1]);
 
+        // Current UTC time
+        $nowUtc = Carbon::now('UTC');
+
+        // Convert UTC to user timezone
+        $userNow = $nowUtc->copy()->setTimezone($userTimezone);
+
+        // Define today's 12:00 AM and 12:00 PM in user timezone
+        $midnight = $userNow->copy()->startOfDay(); // 12:00 AM
+        $noon = $midnight->copy()->addHours(12);   // 12:00 PM
+
+        // Check if we passed those times
+        if ($userNow->greaterThanOrEqualTo($midnight) && $userNow->lessThan($noon)) {
+            // After 12 AM but before 12 PM
+            return true;
+        } elseif ($userNow->greaterThanOrEqualTo($noon)) {
+            // After 12 PM
+            return false;
+        }
     }
 
     public static function updateProfile($request = null)
@@ -1874,11 +1905,11 @@ class User extends Authenticatable implements JWTSubject
     public static function twoFactorAuth($user = null)
     {
 
-        if ($user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE){
+        if ($user['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
 
             $user->update(['two_way_auth' => Admin::TWO_WAY_AUTH_DISABLED]);
 
-        }else{
+        } else {
 
             $user->update(['two_way_auth' => Admin::TWO_WAY_AUTH_ACTIVE]);
 
