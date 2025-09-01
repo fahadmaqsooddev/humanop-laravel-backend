@@ -66,31 +66,6 @@ class DashboardController extends Controller
                         $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
                     }
-                    elseif ($user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time'])) {
-
-                        $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
-
-                        $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
-
-                        $setTipTimeToday = Carbon::parse($user['set_daily_tip_time'])->setDateFrom(Carbon::now())->startOfMinute();
-
-                        $nextTipTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
-
-                        $updatedWithinDay = $currentTime->greaterThanOrEqualTo($nextTipTime);
-
-//                    dd([
-//                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
-//                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
-//                        'check' => $updatedWithinDay,
-//
-//                    ]);
-
-
-                    } else {
-
-                        $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
-
-                    }
 
                     if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
 
