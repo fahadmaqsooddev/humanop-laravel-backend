@@ -36,8 +36,7 @@ class CreateResource extends Component
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
         'content' => 'nullable|string',
-        'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/main\.mp4$/']
-
+        'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9_-]+\.(mp4)$/']
     ];
 
     protected $messages = [
@@ -53,7 +52,7 @@ class CreateResource extends Component
         'category_id.exists' => 'The selected category does not exist.',
         'description.max' => 'Description may not exceed 1000 characters.',
         'link.max' => 'Video URL may not exceed 90 characters.',
-        'link.regex' => 'The video URL must match the required format (e.g., https://video.gumlet.io/xyz/abc/main.mp4).',
+        'link.regex' => 'The video URL must match the required format (e.g., https://video.gumlet.io/xyz/abc.mp4).',
     ];
 
     public function fileChanged($value)
