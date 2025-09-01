@@ -65,6 +65,9 @@ class DashboardController extends Controller
 
                         $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
+                    }else{
+                        $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
+
                     }
 
                     if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
