@@ -229,6 +229,8 @@ class CreateResource extends Component
 
         $this->heading = $this->editResourceData['heading'] ?? null;
 
+        $this->link = $this->editResourceData['embed_link'] ?? null;
+
         $this->relevance = $this->editResourceData['relevance'] ?? null;
 
         $this->category_id = $this->editResourceData['resource_category_id'] ?? null;
