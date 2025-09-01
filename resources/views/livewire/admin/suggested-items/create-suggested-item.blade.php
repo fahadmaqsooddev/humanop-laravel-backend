@@ -65,7 +65,7 @@
                                     </div>
                                     <div class="col-4 text-end">
                                         <div
-                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                             <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -74,50 +74,51 @@
                         </a>
                         <div class="d-none p-3 py-0 mt-4" id="suggested_edit_{{$suggestedItem->id}}">
                             <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px"
-                                    onclick="confirmDeleteSuggested('{{$suggestedItem->id }}')" class="btn btn-sm mb-2">Delete
+                                    onclick="confirmDeleteSuggested('{{$suggestedItem->id }}')" class="btn btn-sm mb-2">
+                                Delete
                                 Suggested Item
                             </button>
-{{--                            <button style="background-color: #1b3a62; color: white;margin-bottom: 0px"--}}
-{{--                                    wire:click="editHumanOpShopResource(`{{$suggestedItem->id}}`)" data-bs-toggle="modal"--}}
-{{--                                    data-bs-target="#moveShopResource" class="btn btn-sm mb-2 ">Edit Suggested Item--}}
-{{--                            </button>--}}
+                            {{--                            <button style="background-color: #1b3a62; color: white;margin-bottom: 0px"--}}
+                            {{--                                    wire:click="editHumanOpShopResource(`{{$suggestedItem->id}}`)" data-bs-toggle="modal"--}}
+                            {{--                                    data-bs-target="#moveShopResource" class="btn btn-sm mb-2 ">Edit Suggested Item--}}
+                            {{--                            </button>--}}
                         </div>
                     </div>
                 </div>
-{{--                <div class="col-12">--}}
-{{--                    <div class="collapse pb-3" id="collapse-{{$suggestedItem->tit}}">--}}
-{{--                        <div class="card-body p-3">--}}
-{{--                            <div class="row">--}}
-{{--                                @foreach($category['libraryResources'] as $resource)--}}
-{{--                                    <div class="col-lg-5 col-sm-5">--}}
-{{--                                        <div data-bs-toggle="modal" data-bs-target="#{{$resource['slug']}}">--}}
-{{--                                            <div class="card mb-4"--}}
-{{--                                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%); cursor: pointer;">--}}
-{{--                                                <div class="card-body p-3">--}}
-{{--                                                    <div class="row">--}}
-{{--                                                        <div class="col-8 m-auto">--}}
-{{--                                                            <div class="numbers">--}}
-{{--                                                                <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                                                   style="color: white;">{{$resource['heading']}}</p>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="col-4 text-end">--}}
-{{--                                                            <div--}}
-{{--                                                                    class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                                                <i class="ni ni-world-2 text-lg opacity-10"--}}
-{{--                                                                   aria-hidden="true"></i>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                @endforeach--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                {{--                <div class="col-12">--}}
+                {{--                    <div class="collapse pb-3" id="collapse-{{$suggestedItem->tit}}">--}}
+                {{--                        <div class="card-body p-3">--}}
+                {{--                            <div class="row">--}}
+                {{--                                @foreach($category['libraryResources'] as $resource)--}}
+                {{--                                    <div class="col-lg-5 col-sm-5">--}}
+                {{--                                        <div data-bs-toggle="modal" data-bs-target="#{{$resource['slug']}}">--}}
+                {{--                                            <div class="card mb-4"--}}
+                {{--                                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%); cursor: pointer;">--}}
+                {{--                                                <div class="card-body p-3">--}}
+                {{--                                                    <div class="row">--}}
+                {{--                                                        <div class="col-8 m-auto">--}}
+                {{--                                                            <div class="numbers">--}}
+                {{--                                                                <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
+                {{--                                                                   style="color: white;">{{$resource['heading']}}</p>--}}
+                {{--                                                            </div>--}}
+                {{--                                                        </div>--}}
+                {{--                                                        <div class="col-4 text-end">--}}
+                {{--                                                            <div--}}
+                {{--                                                                    class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
+                {{--                                                                <i class="ni ni-world-2 text-lg opacity-10"--}}
+                {{--                                                                   aria-hidden="true"></i>--}}
+                {{--                                                            </div>--}}
+                {{--                                                        </div>--}}
+                {{--                                                    </div>--}}
+                {{--                                                </div>--}}
+                {{--                                            </div>--}}
+                {{--                                        </div>--}}
+                {{--                                    </div>--}}
+                {{--                                @endforeach--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
             @endforeach
         </div>
     </div>
@@ -201,7 +202,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4" style="color: #1b3a62">Create Suggestion Items</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Create Suggestion
+                                        Items</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -219,22 +221,111 @@
                                                   placeholder="Enter description"
                                                   rows="3"></textarea>
                                     </div>
-{{--                                    <div class="form-group">--}}
-{{--                                        <label class="form-label fs-4" style="color: #1b3a62">Suggested Item File--}}
-{{--                                            (Image, Video, or--}}
-{{--                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>--}}
-{{--                                        <input wire:model="suggested_item_file" id="suggested_item_file"--}}
-{{--                                               wire:change="getSuggestedFile"--}}
-{{--                                               class="form-control input-form-style suggested_item_file" type="file"--}}
-{{--                                               accept="image/*,video/*,audio/*">--}}
-{{--                                        <span wire:loading.flex wire:target="suggested_item_file">--}}
-{{--                                            <div class="d-flex align-items-center mt-2">--}}
-{{--                                                <div class="spinner-border" role="status"--}}
-{{--                                                     style="color: #1b3a62 !important;"></div>--}}
-{{--                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>--}}
-{{--                                            </div>--}}
-{{--                                        </span>--}}
-{{--                                    </div>--}}
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Module Type</label>
+
+                                        <div class="d-flex flex-wrap gap-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="module_type"
+                                                       wire:model.defer="module_type"
+                                                       value="tool_training" id="radio1">
+                                                <label class="form-check-label" for="radio1">
+                                                    Tool Training
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="module_type"
+                                                       wire:model.defer="module_type"
+                                                       value="humanop_shop" id="radio2">
+                                                <label class="form-check-label" for="radio2">
+                                                    HumanOp Shop
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="module_type"
+                                                       wire:model.defer="module_type"
+                                                       value="video_result" id="radio3">
+                                                <label class="form-check-label" for="radio3">
+                                                    Video Result
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="module_type"
+                                                       wire:model.defer="module_type"
+                                                       value="sound_track_library" id="radio4">
+                                                <label class="form-check-label" for="radio4">
+                                                    Sound Track Library
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="module_type"
+                                                       wire:model.defer="module_type"
+                                                       value="hai_chat" id="radio5">
+                                                <label class="form-check-label" for="radio5">
+                                                    Hai Chat
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="module_type"
+                                                       wire:model.defer="module_type"
+                                                       value="support" id="radio9">
+                                                <label class="form-check-label" for="radio9">
+                                                    Support
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="module_type"
+                                                       wire:model.defer="module_type"
+                                                       value="humanop_network" id="radio6">
+                                                <label class="form-check-label" for="radio6">
+                                                    HumanOp Network
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="module_type"
+                                                       wire:model.defer="module_type"
+                                                       value="humanop_integration" id="radio8">
+                                                <label class="form-check-label" for="radio8">
+                                                    HumanOp Integration
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="module_type"
+                                                       wire:model.defer="module_type"
+                                                       value="reward_hb" id="radio7">
+                                                <label class="form-check-label" for="radio7">
+                                                    Reward HB
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    {{--                                    <div class="form-group">--}}
+                                    {{--                                        <label class="form-label fs-4" style="color: #1b3a62">Suggested Item File--}}
+                                    {{--                                            (Image, Video, or--}}
+                                    {{--                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>--}}
+                                    {{--                                        <input wire:model="suggested_item_file" id="suggested_item_file"--}}
+                                    {{--                                               wire:change="getSuggestedFile"--}}
+                                    {{--                                               class="form-control input-form-style suggested_item_file" type="file"--}}
+                                    {{--                                               accept="image/*,video/*,audio/*">--}}
+                                    {{--                                        <span wire:loading.flex wire:target="suggested_item_file">--}}
+                                    {{--                                            <div class="d-flex align-items-center mt-2">--}}
+                                    {{--                                                <div class="spinner-border" role="status"--}}
+                                    {{--                                                     style="color: #1b3a62 !important;"></div>--}}
+                                    {{--                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </span>--}}
+                                    {{--                                    </div>--}}
                                     @php
                                         $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
                                     @endphp
@@ -495,16 +586,16 @@
             }
         </script>
     @endif
-{{--    @if($booleanValue)--}}
-{{--        <script>--}}
-{{--            const resourceFileInput = document.querySelector('.suggested_item_file');--}}
-{{--            if (resourceFileInput) {--}}
-{{--                resourceFileInput.value = "";--}}
-{{--            } else {--}}
-{{--                console.log("Resource file input not found.");--}}
-{{--            }--}}
-{{--        </script>--}}
-{{--    @endif--}}
+    {{--    @if($booleanValue)--}}
+    {{--        <script>--}}
+    {{--            const resourceFileInput = document.querySelector('.suggested_item_file');--}}
+    {{--            if (resourceFileInput) {--}}
+    {{--                resourceFileInput.value = "";--}}
+    {{--            } else {--}}
+    {{--                console.log("Resource file input not found.");--}}
+    {{--            }--}}
+    {{--        </script>--}}
+    {{--    @endif--}}
 </div>
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -518,7 +609,8 @@
                 height: 200,
                 callbacks: {
                     onChange: function (contents) {
-                    @this.set('description', contents)
+                        @this.
+                        set('description', contents)
                         ;
                     }
                 }
