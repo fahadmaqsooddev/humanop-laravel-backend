@@ -7,8 +7,14 @@ use App\Helpers\Helpers;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
+use Stripe\Customer;
+use Stripe\Invoice;
+use Stripe\Stripe;
 use Stripe\StripeClient;
 
 class Subscription extends Model
@@ -58,9 +64,9 @@ class Subscription extends Model
             throw new \Exception('Stripe API key not configured.');
         }
 
-        \Stripe\Stripe::setApiKey($key->api_key);
+        Stripe::setApiKey($key->api_key);
 
-        $stripe_client = new \Stripe\StripeClient($key->api_key);
+        $stripe_client = new StripeClient($key->api_key);
 
         $payment_method_id = $request->input('payment_method');
 
@@ -78,7 +84,7 @@ class Subscription extends Model
         ]);
 
         // Set default payment method
-        \Stripe\Customer::update($user->b2c_stripe_id, [
+        Customer::update($user->b2c_stripe_id, [
             'invoice_settings' => [
                 'default_payment_method' => $payment_method_id,
             ],
@@ -100,12 +106,22 @@ class Subscription extends Model
 
         $user->save();
 
-        $plan = \App\Models\Client\Plan\Plan::singlePlan($request->input('plan_id'));
+        $plan = Plan::singlePlan($request->input('plan_id'));
 
         if ($plan && $plan->name === 'Core') {
 
             Point::updatePointOnPlanUpdate(Admin::CORE_CREDITS, $user);
         }
+
+        $latestInvoiceId = $subscription->asStripeSubscription()->latest_invoice;
+        $invoice = Invoice::retrieve($latestInvoiceId);
+        $invoicePdf = $invoice->invoice_pdf;
+
+        $template = EmailTemplate::getEmailTemplateByTag(Admin::INVOICE_CODE);
+
+        $emailData = self::prepareEmailData($user, $invoicePdf, null, $template->body, $template->subject);
+
+        self::sendEmailVerification($emailData, $user['email'], Admin::INVOICE_CODE, $template->name);
 
         return [
             'plan_name' => $plan->name ?? null
@@ -203,6 +219,32 @@ class Subscription extends Model
 
         return $data;
 
+    }
+
+    public static function prepareEmailData($user = null, $url = null, $codeNumber = null, $body = null, $subject = null)
+    {
+        return [
+            '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+            '{$link}' => $url,
+            '{$code}' => $codeNumber,
+            '{$subject}' => $subject,
+            '{$body}' => $body,
+            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$service}' => url('/term-of-service'),
+            '{$privacy}' => url('/privacy-policy'),
+        ];
+    }
+
+    public static function sendEmailVerification($emailData, $recipientEmail, $name, $subject)
+    {
+        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+
+        Email::sendEmailVerification(
+            ['content' => $emailTemplate],
+            $recipientEmail,
+            'emails.Email_Template',
+            $subject ? $subject : $name
+        );
     }
 
 }

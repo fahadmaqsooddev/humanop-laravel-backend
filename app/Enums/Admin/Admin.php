@@ -229,5 +229,6 @@ final class Admin
 
     const NORMAL_PHONE = 2;
 
+    const INVOICE_CODE = 'email_invoice';
 
 }
