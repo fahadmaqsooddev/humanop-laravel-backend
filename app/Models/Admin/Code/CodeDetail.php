@@ -293,7 +293,8 @@ class CodeDetail extends Model
                         'video_url' => $videoUrl,
                         'code_name' => $codeKey,
                         'code_number' => $assessment[$codeKey] ?? null,
-                        'video_progress' => $progress,
+                        'video_progress' => $progress['video_progress'],
+                        'video_time' => $progress['video_time']
                     ];
 
                     array_push($result, $data);
@@ -309,7 +310,8 @@ class CodeDetail extends Model
                         'video_url' => $record['video']['video_url'],
                         'code_name' => $codeKey,
                         'code_number' => $assessment[$codeKey] ?? null,
-                        'video_progress' => $progress,
+                        'video_progress' => $progress['video_progress'],
+                        'video_time' => $progress['video_time']
                     ];
 
                     array_push($result, $data);

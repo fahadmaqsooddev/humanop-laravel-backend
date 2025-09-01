@@ -255,8 +255,11 @@ class AssessmentController extends Controller
     public function assessmentWatchVideoTrack(AssessmentVideoTrackRequest $request)
     {
         try {
+
             $data = AssessmentVideoTrack::createOrUpdateAssessmentVideoTrack($request);
+
             VideoProgress::updateVideoProgress($data->assessment_id, $data->video_name, ['watch_time' => $data->video_time]);
+
             return Helpers::successResponse('Assessment video track.', $data);
 
         } catch (\Exception $exception) {

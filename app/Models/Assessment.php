@@ -575,7 +575,8 @@ class Assessment extends Model
             'code_name' => $record['code'],
             'description' => $record['text'],
             'video_url' => $videoUrl,
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
 
         return $data;
@@ -882,7 +883,8 @@ class Assessment extends Model
                     'name' => $codeDetails['name'] ?? null,
                     'description' => $codeDetails['text'] ?? null,
                     'video_url' => $videoUrl,
-                    'video_progress' => $progress,
+                    'video_progress' => $progress['video_progress'],
+                    'video_time' => $progress['video_time']
                 ];
             }
         }
@@ -1348,7 +1350,8 @@ class Assessment extends Model
                 'video_url' => $item[3],
                 'code_name' => $item[4],
                 'name' => $item[5],
-                'video_progress' => $progress,
+                'video_progress' => $progress['video_progress'],
+                'video_time' => $progress['video_time']
             ];
         }, $topfeaturesdata);
 
@@ -1913,7 +1916,8 @@ class Assessment extends Model
                 'description' => $publicName['text'],
                 'video_url' => $videoUrl,
                 'img_url' => $alchemyCodeDetail['image_url'],
-                'video_progress' => $progress,
+                'video_progress' => $progress['video_progress'],
+                'video_time' => $progress['video_time']
             ];
         } else {
 
@@ -1980,7 +1984,8 @@ class Assessment extends Model
             'video' => $record['video'] ? $record['video']['video'] : null,
             'video_url' => $videoUrl,
             'pv' => $record['pv'],
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
     }
 
