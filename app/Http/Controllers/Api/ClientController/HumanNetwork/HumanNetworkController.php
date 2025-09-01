@@ -298,7 +298,7 @@ class HumanNetworkController extends Controller
     public function matchingConnection(Request $request)
     {
 
-        try {
+//        try {
 
             $loginUser = Helpers::getUser();
 
@@ -359,10 +359,10 @@ class HumanNetworkController extends Controller
             }
 
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
 
     }
 
