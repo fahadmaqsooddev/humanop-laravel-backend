@@ -4,9 +4,6 @@ namespace App\Models\Admin\SuggestedItem;
 
 use App\Helpers\Helpers;
 use App\Models\Admin\HumanOpItemsGridActivitiesLog;
-use App\Models\Assessment;
-use App\Models\AssessmentColorCode;
-use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -60,11 +57,12 @@ class SuggestedItem extends Model
         return $this->belongsTo(HumanOpItemsGridActivitiesLog::class, 'resource_item_id', 'id');
     }
 
-    public static function createSuggestedItem($title = null, $description = null, $image_id = null, $video_id = null, $audio_id = null)
+    public static function createSuggestedItem($module_type = null, $title = null, $description = null, $image_id = null, $video_id = null, $audio_id = null)
     {
         $resource = self::create([
             'title' => $title,
             'description' => $description,
+            'module_type' => $module_type,
             'video_id' => $video_id,
             'audio_id' => $audio_id,
             'image_id' => $image_id,

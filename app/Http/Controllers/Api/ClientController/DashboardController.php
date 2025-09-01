@@ -1000,6 +1000,7 @@ class DashboardController extends Controller
                 'id' => $suggestionForYou['suggestedItem']['id'] ?? null,
                 'title' => $suggestionForYou['suggestedItem']['title'] ?? null,
                 'description' => $suggestionForYou['suggestedItem']['description'] ?? null,
+                'module_type' => $suggestionForYou['suggestedItem']['module_type'] ?? null,
                 'created_at' => $suggestionForYou['created_at'] ?? null,
                 'updated_at' => $suggestionForYou['updated_at'] ?? null,
 //                'video_url' => $suggestionForYou['suggestedItem']['video_url']['path'] ?? null,

@@ -16,13 +16,14 @@ class CreateSuggestedItem extends Component
 
     use WithFileUploads;
 
-    public $title, $description, $suggested_item_file, $booleanValue = false, $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
+    public $module_type, $title, $description, $suggested_item_file, $booleanValue = false, $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
     protected $listeners = ['deleteSuggestedItemPermanently' => 'deleteSuggested'];
 
     protected $rules = [
         'title' => 'required|unique:humanop_shop_resources,heading|regex:/^[A-Za-z]/',
         'description' => 'required|string',
+        'module_type' => 'required|in:tool_training,humanop_shop,video_result,sound_track_library,hai_chat,support,humanop_network,humanop_integration,reward_hb',
 //        'suggested_item_file' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800',
     ];
 
@@ -33,6 +34,9 @@ class CreateSuggestedItem extends Component
 
         'description.required' => 'The description field is required.',
         'description.string' => 'The description must be a valid text.',
+
+        'module_type.required' => 'Please Select any module.',
+        'module_type.in' => 'Selected module is invalid.',
 
 //        'suggested_item_file.required' => 'Please upload a suggested item file.',
 //        'suggested_item_file.file' => 'The suggested item must be a valid file.',
@@ -85,19 +89,19 @@ class CreateSuggestedItem extends Component
 
             $extension = $this->suggested_item_file ? $this->suggested_item_file->extension() : null;
 
-            $upload_id =$this->suggested_item_file ? $this->uploadFile($this->suggested_item_file) : null;
+            $upload_id = $this->suggested_item_file ? $this->uploadFile($this->suggested_item_file) : null;
 
             if (in_array($extension, ['jpeg', 'png', 'jpg', 'gif', null])) {
 
-                $suggestedItem = SuggestedItem::createSuggestedItem($this->title, $this->description, $upload_id, null, null);
+                $suggestedItem = SuggestedItem::createSuggestedItem($this->module_type, $this->title, $this->description, $upload_id, null, null);
 
             } elseif (in_array($extension, ['mp3', 'wav', 'mpeg', null])) {
 
-                $suggestedItem = SuggestedItem::createSuggestedItem($this->title, $this->description, null, null, $upload_id);
+                $suggestedItem = SuggestedItem::createSuggestedItem($this->module_type, $this->title, $this->description, null, null, $upload_id);
 
             } else {
 
-                $suggestedItem = SuggestedItem::createSuggestedItem($this->title, $this->description, null, $upload_id, null);
+                $suggestedItem = SuggestedItem::createSuggestedItem($this->module_type, $this->title, $this->description, null, $upload_id, null);
 
             }
 

@@ -711,7 +711,7 @@ return [
         ],
         'SuggestedItem' => [
             'table' => 'suggested_items',
-            'fillable' => ['title', 'description', 'image_id', 'video_id', 'audio_id'],
+            'fillable' => ['title', 'description', 'image_id', 'video_id', 'audio_id','module_type'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'HumanOpItemsGridActivitiesLog' => [
