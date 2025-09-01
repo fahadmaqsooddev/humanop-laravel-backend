@@ -43,7 +43,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time','user_traits'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits'];
 
     public function __construct(array $attributes = array())
     {
@@ -182,15 +182,43 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = Helpers::getUser();
 
-        if ($user['plan_name'] == 'Core') {
+        $assessment = Assessment::getLatestAssessment($user['id']);
 
-            $assessment = Assessment::getLatestAssessment($user['id']);
+        if (!empty($assessment)) {
 
-            return Assessment::authenticTraits($assessment);
+            if ($user['plan_name'] == 'Core') {
 
-        }else{
+                $styleCodes = Assessment::authenticTraits($assessment);
+
+                $public_name = [];
+
+                foreach ($styleCodes as $style) {
+
+                    $public_name[] = $style['public_name'];
+                }
+
+                return $public_name;
+
+            } else {
+
+                $styleCodes = Assessment::getAllStyles($assessment);
+
+                $public_name = [];
+
+                foreach ($styleCodes as $style) {
+
+                    $public_name[] = $style['public_name'];
+                }
+
+                return $public_name;
+
+            }
+
+        } else {
+
             return null;
         }
+
     }
 
     public function getUserTaglineAttribute()

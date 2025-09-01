@@ -942,16 +942,8 @@ class Assessment extends Model
             return array_search($a, $style) <=> array_search($b, $style);
         });
 
-        $styleCodes = CodeDetail::getStylePublicNames($data);
+        return CodeDetail::getStylePublicNames($data);
 
-        $public_name = [];
-
-        foreach ($styleCodes as $style){
-
-            $public_name[] = $style['public_name'];
-        }
-
-        return $public_name;
     }
 
     public static function getTemporaryStyles($assessment = null)
