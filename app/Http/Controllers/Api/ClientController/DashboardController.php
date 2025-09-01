@@ -65,7 +65,8 @@ class DashboardController extends Controller
 
                         $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
-                    } elseif ($user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time'])) {
+                    }
+                    elseif ($user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time'])) {
 
                         $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
@@ -91,7 +92,7 @@ class DashboardController extends Controller
 
                     }
 
-                    if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay == false)) {
+                    if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
 
                         HaiChatHelpers::syncUserRecordWithHAi();
 
