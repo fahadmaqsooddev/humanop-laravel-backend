@@ -7,14 +7,13 @@ use App\Events\Resource\NewResource;
 use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
-use App\Models\User;
+use App\Models\Admin\Resources\LibraryResource;
+use App\Models\Admin\Resources\PermissionResource;
+use App\Models\Upload\Upload;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\Upload\Upload;
-use App\Models\Admin\Resources\LibraryResource;
-use App\Models\Admin\Resources\PermissionResource;
 
 class CreateResource extends Component
 {
@@ -118,7 +117,7 @@ class CreateResource extends Component
             $perceptionCodes = [
                 'Negative' => 'NE',
                 'Positive' => 'P',
-                'Neutral'  => 'N',
+                'Neutral' => 'N',
             ];
 
             foreach ($this->selectedPerceptions as $perception) {
@@ -130,8 +129,8 @@ class CreateResource extends Component
             $energyPoolCodes = [
                 'Above Excellent' => 'AE',
                 'Average' => 'A',
-                'Excellent'  => 'E',
-                'Fair'  => 'F',
+                'Excellent' => 'E',
+                'Fair' => 'F',
             ];
 
             foreach ($this->selectedEnergyPools as $energyPoolCode) {
@@ -334,39 +333,41 @@ class CreateResource extends Component
             $this->permission = array_values($this->permission);
 
         }
+        $upload_id = null;
 
-            if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
+        if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
-                $getResource = LibraryResource::singleLibraryResource($this->resourceId);
+            $getResource = LibraryResource::singleLibraryResource($this->resourceId);
 
-                $this->deleteFileToGumlet($getResource['source_id']);
+            $this->deleteFileToGumlet($getResource['source_id']);
 
+            $upload_id = $this->uploadFile($this->resource_file);
+
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
+
+            tap($updateResource);
+
+
+            $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
+
+        } else {
+            if ($this->resource_file) {
                 $upload_id = $this->uploadFile($this->resource_file);
-
-                $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
-
-                tap($updateResource);
-
-
-                $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
-
-            } else {
-
-                $upload_id = $this->uploadFile($this->resource_file);
-
-                LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
-
             }
 
-            PermissionResource::createResourcePermission($this->resourceId, $this->permission, $this->priceValue, $this->pointValue);
+            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
 
-            $this->emit('toggleEditResourceModal');
+        }
 
-            $this->resetForm();
+        PermissionResource::createResourcePermission($this->resourceId, $this->permission, $this->priceValue, $this->pointValue);
 
-            DB::commit();
+        $this->emit('toggleEditResourceModal');
 
-            session()->flash('success', 'Library resource updated successfully.');
+        $this->resetForm();
+
+        DB::commit();
+
+        session()->flash('success', 'Library resource updated successfully.');
 
 
     }
