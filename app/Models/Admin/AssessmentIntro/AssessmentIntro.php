@@ -64,6 +64,11 @@ class AssessmentIntro extends Model
         return self::where('code', 'SI')->get();
     }
 
+    public static function getRecord($videoName = null)
+    {
+        return self::where('name', $videoName)->first();
+    }
+
     public static function summaryIntro($assessmentId = null)
     {
         $data = self::where('code', 'SI')->first();
@@ -75,7 +80,8 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $data['video_url'] ?? '',
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
     }
 
@@ -103,7 +109,8 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
 
     }
@@ -126,7 +133,8 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
     }
 
@@ -148,7 +156,8 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
     }
 
@@ -170,7 +179,8 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
     }
 
@@ -192,7 +202,8 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
     }
 
@@ -214,7 +225,8 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
     }
 
@@ -236,7 +248,8 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
     }
 
@@ -252,7 +265,7 @@ class AssessmentIntro extends Model
         ];
     }
 
-    public static function getPerceptionStaticText($assessmentId = null)
+    public static function  getPerceptionStaticText($assessmentId = null)
     {
 
         $result = self::where('code', 'PLI')->with('video')->first();
@@ -273,7 +286,8 @@ class AssessmentIntro extends Model
             'video' => $videoUrl,
             'p_name' => $result['p_name'],
             'video_url' => $result['video']['video_url'],
-            'video_progress' => $progress,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
         ];
 
 

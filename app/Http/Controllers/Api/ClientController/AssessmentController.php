@@ -10,6 +10,8 @@ use App\Http\Requests\Api\Client\AssessmentVideoTrackRequest;
 use App\Http\Requests\Api\Client\GridRequest;
 use App\Http\Requests\Api\Client\QuestionsRequest;
 use App\Http\Requests\Api\Client\UserReportRequest;
+use App\Models\Admin\AssessmentIntro\AssessmentIntro;
+use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Pages\Page;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
@@ -17,6 +19,8 @@ use App\Models\AssessmentColorCode;
 use App\Models\AssessmentDetail;
 use App\Models\AssessmentVideoTrack;
 use App\Models\Question;
+use App\Models\User;
+use App\Models\Videos\VideoProgress;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Stripe\Charge;
@@ -251,7 +255,11 @@ class AssessmentController extends Controller
     public function assessmentWatchVideoTrack(AssessmentVideoTrackRequest $request)
     {
         try {
+
             $data = AssessmentVideoTrack::createOrUpdateAssessmentVideoTrack($request);
+
+            VideoProgress::updateVideoProgress($data->assessment_id, $data->video_name, ['watch_time' => $data->video_time]);
+
             return Helpers::successResponse('Assessment video track.', $data);
 
         } catch (\Exception $exception) {
@@ -264,14 +272,84 @@ class AssessmentController extends Controller
     public function getAssessmentVideoTrack()
     {
         try {
-            $data = AssessmentVideoTrack::getAssessmentVideoTrack(Helpers::getUser()->id);
-            return Helpers::successResponse('Assessment video track data.', $data);
+
+            $user = Helpers::getUser();
+
+            $records = AssessmentVideoTrack::getAssessmentVideoTrack($user['id']);
+
+            $trackRecords = [];
+
+            foreach ($records as $record) {
+
+                $data = AssessmentIntro::getRecord($record['video_name']);
+
+                $codeDetail = CodeDetail::getRecord($record['video_name']);
+
+                $interval_life = User::getUserAgeRecord($user['date_of_birth'], $record['assessment_id']);
+
+                if (!empty($data)) {
+
+                    $video = $data->video ?? null;
+
+                    $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+                        ? $video['video_upload_url']['path']
+                        : ($video['video_url'] ?? null);
+
+                    $progress = VideoProgress::checkVideoProgress($record['assessment_id'], $data->name);
+
+                    $trackRecords[] = [
+                        'assessment_id' => $record['assessment_id'],
+                        'user_id' => $record['user_id'],
+                        'video_name' => $data->name,
+                        'public_name' => $data->public_name,
+                        'description' => $data->text,
+                        'video_url' => $videoUrl,
+                        'video_progress' => $progress,
+                        'video_time' => $record['video_time'],
+                    ];
+
+                } elseif (!empty($codeDetail)) {
+
+                    $video = $codeDetail->video ?? null;
+
+                    $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+                        ? $video['video_upload_url']['path']
+                        : ($video['video_url'] ?? null);
+
+                    $progress = VideoProgress::checkVideoProgress($record['assessment_id'], $codeDetail->name);
+
+                    $trackRecords[] = [
+                        'assessment_id' => $record['assessment_id'],
+                        'user_id' => $record['user_id'],
+                        'video_name' => $codeDetail->name,
+                        'public_name' => $codeDetail->public_name,
+                        'description' => $codeDetail->text,
+                        'video_url' => $videoUrl,
+                        'video_progress' => $progress,
+                        'video_time' => $record['video_time'],
+                    ];
+
+                } elseif ($interval_life['name'] == $record['video_name']) {
+
+                    $trackRecords[] = [
+                        'assessment_id' => $record['assessment_id'],
+                        'user_id' => $record['user_id'],
+                        'video_name' => $interval_life['name'],
+                        'public_name' => $interval_life['public_name'],
+                        'description' => $interval_life['description'],
+                        'video_url' => $interval_life['video_url'],
+                        'video_progress' => $interval_life['video_progress'],
+                        'video_time' => $record['video_time'],
+                    ];
+                }
+
+            }
+
+            return Helpers::successResponse('Assessment video track data.', $trackRecords);
 
         } catch (\Exception $exception) {
-
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function userReport(UserReportRequest $request)

@@ -626,7 +626,7 @@ return [
         ],
         'VideoProgress' => [
             'table' => 'video_progress',
-            'fillable' => ['assessment_id', 'video_name', 'video_progress'],
+            'fillable' => ['assessment_id', 'video_name', 'video_progress','watch_time'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'GamificationBadgesAchievement' => [
@@ -716,7 +716,7 @@ return [
         ],
         'SuggestedItem' => [
             'table' => 'suggested_items',
-            'fillable' => ['title', 'description', 'image_id', 'video_id', 'audio_id'],
+            'fillable' => ['title', 'description', 'image_id', 'video_id', 'audio_id','module_type'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'HumanOpItemsGridActivitiesLog' => [

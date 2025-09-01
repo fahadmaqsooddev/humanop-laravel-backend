@@ -38,8 +38,19 @@ class VideoProgress extends Model
     {
         $progress = self::where('assessment_id', $assessmentId)->where('video_name', $name)->first();
 
-        return $progress ? $progress['video_progress'] == 1 ? Admin::COMPLETE_VIDEO : Admin::NOT_COMPLETE_VIDEO : Admin::NOT_COMPLETE_VIDEO;
+        if ($progress) {
+            return [
+                'video_progress' => $progress->video_progress == 1 ? Admin::COMPLETE_VIDEO : Admin::NOT_COMPLETE_VIDEO,
+                'video_time' => $progress->watch_time,
+            ];
+        }
+
+        return [
+            'video_progress' => Admin::NOT_COMPLETE_VIDEO,
+            'video_time' => null,
+        ];
     }
+
 
     public static function createVideoProgress($assessmentId = null, $resultNames = null, $traits = null, $topTwoFeatures = null, $topCommunications = null)
     {
@@ -149,5 +160,10 @@ class VideoProgress extends Model
         }
 
         return null;
+    }
+
+    public static function updateVideoProgress($assessment_id = null, $video_name = null, $data = [])
+    {
+        return self::where('assessment_id', $assessment_id)->where('video_name', $video_name)->update($data);
     }
 }
