@@ -99,7 +99,7 @@ class Subscription extends Model
                 $subscription->cancelNow();
             }
 
-            $user->newSubscription('main', $request->input('plan_id'))->create($payment_method_id);
+            $subscription = $user->newSubscription('main', $request->input('plan_id'))->create($payment_method_id);
         }
 
         $user->set_daily_tip_time = '12:00:00';
@@ -113,9 +113,9 @@ class Subscription extends Model
             Point::updatePointOnPlanUpdate(Admin::CORE_CREDITS, $user);
         }
 
-        $latestInvoiceId = $subscription->asStripeSubscription()->latest_invoice;
-        $invoice = Invoice::retrieve($latestInvoiceId);
-        $invoicePdf = $invoice->invoice_pdf;
+        $stripeSubscription = $subscription->asStripeSubscription();
+        $invoice = Invoice::retrieve($stripeSubscription->latest_invoice);
+        $invoicePdf = $invoice->invoice_pdf ?? null;
 
         $template = EmailTemplate::getEmailTemplateByTag(Admin::INVOICE_CODE);
 
