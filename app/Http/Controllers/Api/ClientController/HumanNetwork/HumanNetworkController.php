@@ -342,7 +342,7 @@ class HumanNetworkController extends Controller
 
                             if ($compatabilityCalculator >= $loginUser['matching_connection_score']){
 
-                                $matchingUsers[] = $user;
+                                $matchingUsers[] = $user['id'];
                             }
 
                         }
