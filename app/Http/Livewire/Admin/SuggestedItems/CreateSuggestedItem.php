@@ -172,7 +172,7 @@ class CreateSuggestedItem extends Component
     {
         $this->booleanValue = false;
 
-        $this->reset(['title', 'suggested_item_file', 'description', 'selectedTraits']);
+        $this->reset(['title', 'suggested_item_file', 'description', 'selectedTraits','module_type']);
     }
 
     public function emptyCreateForm()
