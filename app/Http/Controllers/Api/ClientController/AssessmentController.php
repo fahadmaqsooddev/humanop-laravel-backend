@@ -301,6 +301,7 @@ class AssessmentController extends Controller
                         'description' => $data->text,
                         'video_url' => $videoUrl,
                         'video_progress' => $progress,
+                        'video_time' => $record['video_time'],
                     ];
 
                 } elseif (!empty($codeDetail)) {
@@ -321,6 +322,7 @@ class AssessmentController extends Controller
                         'description' => $codeDetail->text,
                         'video_url' => $videoUrl,
                         'video_progress' => $progress,
+                        'video_time' => $record['video_time'],
                     ];
 
                 } elseif ($interval_life['name'] == $record['video_name']) {
@@ -333,6 +335,7 @@ class AssessmentController extends Controller
                         'description' => $interval_life['description'],
                         'video_url' => $interval_life['video_url'],
                         'video_progress' => $interval_life['video_progress'],
+                        'video_time' => $record['video_time'],
                     ];
                 }
 

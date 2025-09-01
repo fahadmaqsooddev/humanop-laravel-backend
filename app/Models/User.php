@@ -184,7 +184,9 @@ class User extends Authenticatable implements JWTSubject
 
         if ($user['plan_name'] == 'Core') {
 
-            return Assessment::UserTraits($user['id']);
+            $assessment = Assessment::getLatestAssessment($user['id']);
+
+            return Assessment::authenticTraits($assessment);
 
         }else{
             return null;
