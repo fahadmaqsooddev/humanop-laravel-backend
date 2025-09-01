@@ -213,6 +213,11 @@ class CodeDetail extends Model
         return self::where('code', $codeKey)->where('number', 1)->with('video')->first();
     }
 
+    public static function getRecord($videoName = null)
+    {
+        return self::where('name', $videoName)->where('number', 1)->with('video')->first();
+    }
+
     public static function getCommunicationPublicName($communication = null)
     {
         $result = [];

@@ -64,6 +64,11 @@ class AssessmentIntro extends Model
         return self::where('code', 'SI')->get();
     }
 
+    public static function getRecord($videoName = null)
+    {
+        return self::where('name', $videoName)->first();
+    }
+
     public static function summaryIntro($assessmentId = null)
     {
         $data = self::where('code', 'SI')->first();

@@ -769,7 +769,6 @@ class Assessment extends Model
 
     }
 
-
     public static function getTopThreeTraitWeight($assessment = null)
     {
 
