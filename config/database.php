@@ -621,7 +621,7 @@ return [
         ],
         'VideoProgress' => [
             'table' => 'video_progress',
-            'fillable' => ['assessment_id', 'video_name', 'video_progress'],
+            'fillable' => ['assessment_id', 'video_name', 'video_progress','watch_time'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'GamificationBadgesAchievement' => [

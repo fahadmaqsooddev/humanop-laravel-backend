@@ -256,6 +256,7 @@ class AssessmentController extends Controller
     {
         try {
             $data = AssessmentVideoTrack::createOrUpdateAssessmentVideoTrack($request);
+            VideoProgress::updateVideoProgress($data->assessment_id, $data->video_name, ['watch_time' => $data->video_time]);
             return Helpers::successResponse('Assessment video track.', $data);
 
         } catch (\Exception $exception) {

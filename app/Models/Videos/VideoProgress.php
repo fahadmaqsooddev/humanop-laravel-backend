@@ -150,4 +150,9 @@ class VideoProgress extends Model
 
         return null;
     }
+
+    public static function updateVideoProgress($assessment_id = null, $video_name = null, $data = [])
+    {
+        return self::where('assessment_id', $assessment_id)->where('video_name', $video_name)->update($data);
+    }
 }
