@@ -1086,6 +1086,7 @@ class User extends Authenticatable implements JWTSubject
             $referralBy = self::getReferralByUser($referralCode);
 
             $data['referred_by'] = $referralBy['id'];
+            $data['parent_referal_plan_name'] = $referralBy['plan_name'];
         }
 
         $user = self::create($data);
