@@ -149,11 +149,11 @@ class VideoProgress extends Model
                 if ($getLatestWatchVideo && Carbon::parse($getLatestWatchVideo['created_at'])->diffInDays(Carbon::now()) <= 3) {
 
                     HumanOpPoints::addPointsAfterCompleteAllWatchVideos($user);
-
-                    GamificationBadgesAchievement::addBadgeAfterCompleteWatchVideos($user['id']);
-
-                    GamificationMedalRewards::addMedalAfterCompleteWatchVideos($user['id']);
                 }
+
+                GamificationBadgesAchievement::addBadgeAfterCompleteWatchVideos($user['id']);
+
+                GamificationMedalRewards::addMedalAfterCompleteWatchVideos($user['id']);
             }
 
             return $progress;
