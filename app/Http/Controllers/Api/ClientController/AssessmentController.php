@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AssessmentAnswersRequest;
@@ -18,6 +19,7 @@ use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\AssessmentDetail;
 use App\Models\AssessmentVideoTrack;
+use App\Models\Client\PurchasedItems;
 use App\Models\Question;
 use App\Models\User;
 use App\Models\Videos\VideoProgress;
@@ -421,6 +423,10 @@ class AssessmentController extends Controller
                 ]);
 
                 if ($charge && $charge->status === 'succeeded') {
+
+                    $name = "You have purchased Assessment";
+
+                    PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
 
                     return Helpers::successResponse("Payment completed successfully! You can now retake assessment.");
 

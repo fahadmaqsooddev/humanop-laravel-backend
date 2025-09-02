@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\CheckoutPaymentRequest;
@@ -15,6 +16,7 @@ use App\Models\AssessmentColorCode;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
+use App\Models\Client\PurchasedItems;
 use App\Models\Customization\Customization;
 use App\Models\Payment;
 use App\Models\Plan\CreditPlan;
@@ -203,6 +205,10 @@ class PaymentController extends Controller
 
                     Point::addPoints($credits);
                 }
+
+                $name = "You have purchased Hai item";
+
+                PurchasedItems::createItem(Helpers::getUser()['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
 
                 return Helpers::successResponse("You've successfully received {$credits} credits based on your plan!");
 

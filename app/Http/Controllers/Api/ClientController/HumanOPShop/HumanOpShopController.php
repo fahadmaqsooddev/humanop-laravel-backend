@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api\ClientController\HumanOPShop;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\SuggestionItemRequest;
 use App\Models\Admin\Resources\ShopCategoryResource;
+use App\Models\Admin\SuggestedItem\SuggestedItem;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
+use App\Models\Client\PurchasedItems;
 use App\Models\Libraries\HumanOpLibraries;
 use App\Models\PlaylistLog;
 use Stripe\Charge;
@@ -122,6 +125,13 @@ class HumanOpShopController extends Controller
                 if ($charge && $charge->status === 'succeeded') {
 
                     HumanOpLibraries::addItem($user['id'], $itemId,$type);
+
+                    $resourceName = SuggestedItem::getItem($itemId)['title'];
+
+                    $name = "You have purchased Suggested item {$resourceName}";
+
+                    PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
+
 
                     return Helpers::successResponse("You have successfully purchased the item.");
 
