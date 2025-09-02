@@ -316,7 +316,7 @@ class PaymentController extends Controller
             foreach ($purchasedItems as $purchasedItem) {
                 $totalPrice += $purchasedItem->item_price;
                 $items[] = [
-                    'item_name' => 'You have purchased ' . $purchasedItem->item_name,
+                    'item_name' => $purchasedItem->item_name,
                     'item_price' => $purchasedItem->item_price,
                 ];
             }
