@@ -190,7 +190,6 @@ class CodeDetail extends Model
 
             $codeDetail[] = self::where('code', $key)->with('video')->inRandomOrder()->first();
 
-            dd($codeDetail);
         }
 
         return $codeDetail;
