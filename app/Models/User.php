@@ -512,19 +512,19 @@ class User extends Authenticatable implements JWTSubject
 
     public static function allReferralUsers($userId = null)
     {
-        $users = self::where('referred_by', $userId)->where('step', 3)->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login', 'date_of_birth'])->get();
+        $usersCount = self::where('referred_by', $userId)
+            ->where('step', 3)
+            ->select('parent_referal_plan_name', DB::raw('COUNT(*) as total'))
+            ->groupBy('parent_referal_plan_name')
+            ->pluck('total', 'parent_referal_plan_name');
 
-        foreach ($users as $user) {
-
-            $user['gender'] = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
-
-            $user['last_login'] = Carbon::parse($user['last_login'])->format('m/d/Y h:i A');
-
-            $user->setAppends([]);
-
-        }
-
-        return $users;
+        // remap to your custom keys
+        $usersCount = [
+            'clarity'    => $usersCount->get('Freemium', 0),
+            'focus'    => $usersCount->get('Core', 0),
+            'elevate' => $usersCount->get('Premium', 0),
+        ];
+        return $usersCount;
     }
 
     public static function updateWorkEmail($id = null, $email = null)
