@@ -27,7 +27,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('hai-credit-checkout', 'PaymentController@haiCreditCheckout');
     Route::get('hai-credit-plans','PaymentController@haiCreditPlans');
 
-    Route::get('b2c_invoice', 'PaymentController@invoice');
+    Route::get('b2c-invoice', 'PaymentController@invoice');
 
 
 });
