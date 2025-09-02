@@ -61,37 +61,11 @@ class DashboardController extends Controller
 
                     $isRead = $userDailyTip['is_read'];
 
-                    $plan = $user['plan_name'];
+                    if ($user['plan_name'] == 'Freemium') {
 
-                    $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
+                        $updatedWithinDay = $userDailyTip['updated_at'] < now()->subDay();
 
-                    $data = [];
-
-                    // ========== FREEMIUM ==========
-                    if ($plan === 'Freemium') {
-
-                        if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
-
-                            HaiChatHelpers::syncUserRecordWithHAi();
-
-                            $data = [
-                                'daily_tip_id' => $userDailyTip['daily_tip_id'],
-                                'title' => $userDailyTip['dailyTip']['title'] ?? '',
-                                'description' => $userDailyTip['dailyTip']['description'] ?? '',
-                                'is_read' => $isRead,
-                                'favorite_daily_tip' => $userDailyTip['favorite_tip'],
-                                'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
-                            ];
-
-                            return Helpers::successResponse('Daily Tip', $data);
-
-                        }
-
-                    }
-
-                    // ========== CORE (with set time) ==========
-
-                    if ($plan === 'Core' && !empty($user['set_daily_tip_time'])) {
+                    } elseif ($user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time'])) {
 
                         $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
@@ -101,11 +75,27 @@ class DashboardController extends Controller
 
                         $nextTipTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
 
-                        $eligible = ($isRead == 0 || ($isRead == 1 && $currentTime->lessThan($nextTipTime)));
+                        $updatedWithinDay = $currentTime->greaterThanOrEqualTo($nextTipTime);
 
-                        if ($eligible) {
+//                    dd([
+//                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
+//                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
+//                        'check' => $updatedWithinDay,
+//
+//                    ]);
 
-                            HaiChatHelpers::syncUserRecordWithHAi();
+
+                    } else {
+
+                        $updatedWithinDay = $userDailyTip['updated_at'] < now()->subDay();
+
+                    }
+
+                    if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay == false)) {
+
+                        HaiChatHelpers::syncUserRecordWithHAi();
+
+                        if ($user['plan_name'] == 'Freemium') {
 
                             $data = [
                                 'daily_tip_id' => $userDailyTip['daily_tip_id'],
@@ -114,34 +104,24 @@ class DashboardController extends Controller
                                 'is_read' => $isRead,
                                 'favorite_daily_tip' => $userDailyTip['favorite_tip'],
                                 'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
-                                'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
-                                'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
                             ];
 
-                            return Helpers::successResponse('Daily Tip', $data);
+                        } else {
 
+                            $data = [
+                                'daily_tip_id' => $userDailyTip['daily_tip_id'],
+                                'title' => $userDailyTip['dailyTip']['title'] ?? '',
+                                'description' => $userDailyTip['dailyTip']['description'] ?? '',
+                                'is_read' => $isRead,
+                                'favorite_daily_tip' => $userDailyTip['favorite_tip'],
+                                'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                                'nextTipTime' => !empty($nextTipTime) ? $nextTipTime->format('Y-m-d H:i:s.u T (P)') : null,
+                                'currentTime' => !empty($currentTime) ? $currentTime->format('Y-m-d H:i:s.u T (P)') : null,
+                            ];
                         }
 
-                    }
-
-                    // ========== DEFAULT (other plans) ==========
-                    if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
-                      
-                        HaiChatHelpers::syncUserRecordWithHAi();
-
-                        $data = [
-                            'daily_tip_id' => $userDailyTip['daily_tip_id'],
-                            'title' => $userDailyTip['dailyTip']['title'] ?? '',
-                            'description' => $userDailyTip['dailyTip']['description'] ?? '',
-                            'is_read' => $isRead,
-                            'favorite_daily_tip' => $userDailyTip['favorite_tip'],
-                            'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
-                        ];
-
                         return Helpers::successResponse('Daily Tip', $data);
-
                     }
-
                 }
 
                 do {
@@ -197,11 +177,8 @@ class DashboardController extends Controller
 
                     }
 
-                } while (
-                    $newDailyTip &&
-                    $latestTip &&
-                    $latestTip['is_read'] == 1 &&
-                    $latestTip['updated_at'] >= now()->subYear()
+                } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear()
+
                 );
 
                 return Helpers::validationResponse('No new daily tip found.');

@@ -36,8 +36,8 @@ class UserEmailPhoneNumber extends Model
 
     public static function createUserEmailPhone($data = null)
     {
-        $data['default_email'] = $data['email'] ? Admin::NORMAL_EMAIL : null;
-        $data['default_phone_no'] = $data['phone_no'] ? Admin::NORMAL_PHONE : null;
+        $data['default_email'] = isset($data['email']) ? Admin::NORMAL_EMAIL : null;
+        $data['default_phone_no'] = isset($data['phone_no']) ? Admin::NORMAL_PHONE : null;
         $data['user_id'] = Helpers::getUser()->id;
 
         return self::create($data);

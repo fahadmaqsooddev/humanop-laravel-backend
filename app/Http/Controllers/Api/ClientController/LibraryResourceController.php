@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\LibraryResourceSuggestionItemRequest;
@@ -9,9 +10,11 @@ use App\Http\Requests\Api\Client\SuggestionItemRequest;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
+use App\Models\Client\PurchasedItems;
 use App\Models\Libraries\HumanOpLibraries;
 use App\Models\PlaylistLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -87,12 +90,14 @@ class LibraryResourceController extends Controller
     {
         try {
 
+            DB::beginTransaction();
+
             $user = Helpers::getUser();
 
             $itemId = $request['item_id'];
 
             $buyFrom = $request['buy_from']; // 1 = money, 2 = points
-//            type 2 mean libraray resource
+
             $type=2;
 
             $itemAlreadyOwned = HumanOpLibraries::getItem($itemId, $user['id'],$type);
@@ -118,6 +123,14 @@ class LibraryResourceController extends Controller
 
                     HumanOpLibraries::addItem($user['id'], $itemId,$type);
 
+                    $resourceName = LibraryResource::singleLibraryResource($itemId)['heading'];
+
+                    $name = "You have purchased Tool & Training item {$resourceName}";
+
+                    PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
+
+                    DB::commit();
+
                     return Helpers::successResponse("You have successfully purchased the item.");
 
                 } else {
@@ -130,12 +143,13 @@ class LibraryResourceController extends Controller
 
                 $userPoints = HumanOpPoints::getUserPoints($user);
 
-
                 if (($userPoints) && ($userPoints['points'] >= $request['points'])) {
 
                     HumanOpPoints::deductPoint($user['id'], $request['points']);
 
                     HumanOpLibraries::addItem($user['id'], $itemId,$type);
+
+                    DB::commit();
 
                     return Helpers::successResponse("You have successfully redeemed the item using points.");
 
@@ -148,6 +162,8 @@ class LibraryResourceController extends Controller
             }
 
         } catch (\Exception $e) {
+
+            DB::rollback();
 
             return Helpers::serverErrorResponse($e->getMessage());
 

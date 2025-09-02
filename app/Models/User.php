@@ -180,7 +180,8 @@ class User extends Authenticatable implements JWTSubject
 
     public function getUserTraitsAttribute()
     {
-        $user = Helpers::getUser();
+
+        $user = self::getSingleUser($this->id);
 
         $assessment = Assessment::getLatestAssessment($user['id']);
 
@@ -1085,6 +1086,7 @@ class User extends Authenticatable implements JWTSubject
             $referralBy = self::getReferralByUser($referralCode);
 
             $data['referred_by'] = $referralBy['id'];
+            $data['parent_referal_plan_name'] = $referralBy['plan_name'];
         }
 
         $user = self::create($data);

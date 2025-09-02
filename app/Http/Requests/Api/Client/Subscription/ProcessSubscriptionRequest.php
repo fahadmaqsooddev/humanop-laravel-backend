@@ -25,7 +25,7 @@ class ProcessSubscriptionRequest extends FormRequest
     {
         return [
             'plan_id' => 'required|exists:plans,plan_id',
-            'payment_method' => 'required',
+            'payment_method' => 'nullable',
         ];
     }
 }
