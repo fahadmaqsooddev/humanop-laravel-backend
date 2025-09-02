@@ -129,7 +129,7 @@ class HumanOpShopController extends Controller
 
                     HumanOpLibraries::addItem($user['id'], $itemId,$type);
 
-                    $resourceName = SuggestedItem::getItem($itemId)['title'];
+                    $resourceName = ShopCategoryResource::singleLibraryResource($itemId)['heading'];
 
                     $name = "You have purchased Suggested item {$resourceName}";
 
