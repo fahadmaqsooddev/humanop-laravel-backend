@@ -609,7 +609,7 @@ class AuthController extends Controller
     public function loginClient(LoginRequest $request)
     {
 
-        try {
+//        try {
 
             DB::beginTransaction();
 
@@ -772,13 +772,13 @@ class AuthController extends Controller
 
             }
 
-        } catch (\Exception $exception) {
-
-            DB::rollBack();
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
+//        } catch (\Exception $exception) {
+//
+//            DB::rollBack();
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//
+//        }
 
     }
 
