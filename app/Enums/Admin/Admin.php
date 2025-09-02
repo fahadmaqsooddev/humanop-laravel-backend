@@ -229,6 +229,8 @@ final class Admin
 
     const NORMAL_PHONE = 2;
 
+    const B2C_PURCHASED_ITEM = 1;
+
     const INVOICE_CODE = 'email_invoice';
 
 }

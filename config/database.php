@@ -764,5 +764,10 @@ return [
             'fillable' => ['reference_key', 'volume'],
             'hidden' => ['created_at', 'updated_at']
         ],
+        'purchased_items' => [
+            'table' => 'trait_compatibility_polarity',
+            'fillable' => ['user_id', 'item_name', 'item_price', 'purchased_from'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
     ]
 ];
