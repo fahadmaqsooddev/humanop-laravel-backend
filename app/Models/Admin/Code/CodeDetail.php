@@ -186,6 +186,7 @@ class CodeDetail extends Model
 
         foreach ($codekeys as $index => $codeKey) {
 
+            dd($index);
             $key = strtoupper($index);
 
             $codeDetail[] = self::where('code', $key)->with('video')->inRandomOrder()->first();

@@ -946,7 +946,6 @@ class Assessment extends Model
 
         $styleCodes = CodeDetail::getStylePublicNames($data);
 
-
         $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $data);
 
         dd($styleCodes, $allStyles);
