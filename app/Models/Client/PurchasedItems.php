@@ -28,4 +28,9 @@ class PurchasedItems extends Model
             'purchased_from' => $itemType,
         ]);
     }
+
+    public static function getPurchasedItems($userId = null)
+    {
+        return self::where('user_id', $userId)->get();
+    }
 }

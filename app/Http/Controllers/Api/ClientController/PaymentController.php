@@ -22,6 +22,7 @@ use App\Models\Payment;
 use App\Models\Plan\CreditPlan;
 use App\Models\Subscription;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -37,7 +38,8 @@ class PaymentController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function paymentCheckout(CheckoutPaymentRequest $request){
+    public function paymentCheckout(CheckoutPaymentRequest $request)
+    {
 
         DB::beginTransaction();
 
@@ -49,18 +51,18 @@ class PaymentController extends Controller
 
             $stripe = StripeSetting::getSingle();
 
-            if ($stripe){
+            if ($stripe) {
 
                 $stripe_client = new StripeClient($stripe['api_key']);
 
-                if (Str::contains($request->input('card_number'),'*') && $user['payment_method']){
+                if (Str::contains($request->input('card_number'), '*') && $user['payment_method']) {
 
                     $user->charge($request->input('price') * 100, $user['payment_method'], [
                         'currency' => 'usd',
                         'description' => 'Test Payment',
                     ]);
 
-                }else{
+                } else {
 
                     $payment_method = $stripe_client->paymentMethods->attach(
                         'pm_card_visa',
@@ -87,7 +89,7 @@ class PaymentController extends Controller
                 $coupon = Coupon::getSingleCoupon($request['coupon']);
 
                 $data['user_id'] = $user['id'];
-                $data['coupon_id'] =  $coupon->id ?? null;
+                $data['coupon_id'] = $coupon->id ?? null;
                 $data['assessment_id'] = $assessment->id ?? null;
                 $data['discount_price'] = $request['price'];
                 $data['total_price'] = $stripe['amount'];
@@ -103,7 +105,7 @@ class PaymentController extends Controller
 
             return Helpers::validationResponse('Something went wrong while charging');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             DB::rollBack();
 
@@ -112,7 +114,8 @@ class PaymentController extends Controller
 
     }
 
-    public function redeemCoupon(RedeemCouponRequest $request){
+    public function redeemCoupon(RedeemCouponRequest $request)
+    {
 
         try {
 
@@ -122,13 +125,14 @@ class PaymentController extends Controller
 
             return $response;
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function paymentHistory(Request $request){
+    public function paymentHistory(Request $request)
+    {
 
         try {
 
@@ -138,14 +142,15 @@ class PaymentController extends Controller
 
             return Helpers::successResponse('Payment History', $payments, $request->input('pagination'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public static function billing(){
+    public static function billing()
+    {
 
         try {
 
@@ -161,29 +166,31 @@ class PaymentController extends Controller
 
             return Helpers::successResponse('Billing information', $data);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function checkoutSubscription(CheckoutSubscriptionRequest $request){
+    public function checkoutSubscription(CheckoutSubscriptionRequest $request)
+    {
 
         try {
 
             $data = Subscription::checkoutPlan($request);
 
-            return Helpers::successResponse('Payment method has been created successfully!',$data);
+            return Helpers::successResponse('Payment method has been created successfully!', $data);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function haiCreditCheckout(Request $request){
+    public function haiCreditCheckout(Request $request)
+    {
 
         try {
 
@@ -203,7 +210,7 @@ class PaymentController extends Controller
 
                 $credits = CreditPlan::where('price', $request['amount'])->first()->credits ?? 0;
 
-                if ($credits > 0){
+                if ($credits > 0) {
 
                     Point::addPoints($credits);
                 }
@@ -221,7 +228,7 @@ class PaymentController extends Controller
                 return Helpers::validationResponse("Payment failed. Please try again.");
             }
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             DB::rollBack();
 
@@ -230,7 +237,8 @@ class PaymentController extends Controller
 
     }
 
-    public function processSubscription(ProcessSubscriptionRequest $request){
+    public function processSubscription(ProcessSubscriptionRequest $request)
+    {
 
         try {
 
@@ -238,13 +246,13 @@ class PaymentController extends Controller
 
             return Helpers::successResponse('Subscription is updated', $plan_name);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
-            if ($exception instanceof CardException){
+            if ($exception instanceof CardException) {
 
                 return Helpers::validationResponse($exception->getMessage());
 
-            }else{
+            } else {
 
                 return Helpers::serverErrorResponse($exception->getMessage());
             }
@@ -252,7 +260,8 @@ class PaymentController extends Controller
 
     }
 
-    public static function plans(){
+    public static function plans()
+    {
 
         try {
 
@@ -260,14 +269,15 @@ class PaymentController extends Controller
 
             return Helpers::successResponse('All plans', $plans);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function haiCreditPlans(){
+    public function haiCreditPlans()
+    {
 
         try {
 
@@ -285,11 +295,65 @@ class PaymentController extends Controller
 
             return Helpers::successResponse('All plans', $data);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
+
+    public function invoice()
+    {
+        try {
+            $user = Helpers::getUser();
+
+            $subscription = $user->subscription('main');
+            $purchasedItems = PurchasedItems::getPurchasedItems($user['id']);
+
+            $totalPrice = 0;
+            $items = [];
+
+            foreach ($purchasedItems as $purchasedItem) {
+                $totalPrice += $purchasedItem->item_price;
+                $items[] = [
+                    'item_name' => 'You have purchased ' . $purchasedItem->item_name,
+                    'item_price' => $purchasedItem->item_price,
+                ];
+            }
+
+            $invoice = [
+                'user_name' => $user['first_name'] . ' ' . $user['last_name'],
+                'email' => $user['email'],
+                'pone_number' => $user['phone'],
+            ];
+
+            if ($user['plan_name'] !== 'Freemium') {
+                $dueDate = null;
+
+                if ($subscription && $subscription->active()) {
+                    $dueDate = Carbon::createFromTimestamp(
+                        $subscription->asStripeSubscription()->current_period_end
+                    )->toDateTimeString();
+                }
+
+                $invoice['plan_name'] = $user['plan_name'];
+                $invoice['plan_price'] = 19;
+                $invoice['due_date'] = $dueDate;
+            }
+
+            foreach ($items as $index => $item) {
+                $invoice['item_name_' . ($index + 1)] = $item['item_name'];
+                $invoice['item_price_' . ($index + 1)] = $item['item_price'];
+            }
+
+            $invoice['total_price'] = $totalPrice + ($user['plan_name'] !== 'Freemium' ? 19 : 0);
+
+            return Helpers::successResponse('HumanOp Invoice', $invoice);
+
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
+    }
+
 
 }
