@@ -14,6 +14,7 @@ use App\Models\Client\PurchasedItems;
 use App\Models\Libraries\HumanOpLibraries;
 use App\Models\PlaylistLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -89,6 +90,8 @@ class LibraryResourceController extends Controller
     {
         try {
 
+            DB::beginTransaction();
+
             $user = Helpers::getUser();
 
             $itemId = $request['item_id'];
@@ -126,6 +129,8 @@ class LibraryResourceController extends Controller
 
                     PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
 
+                    DB::commit();
+
                     return Helpers::successResponse("You have successfully purchased the item.");
 
                 } else {
@@ -144,6 +149,8 @@ class LibraryResourceController extends Controller
 
                     HumanOpLibraries::addItem($user['id'], $itemId,$type);
 
+                    DB::commit();
+
                     return Helpers::successResponse("You have successfully redeemed the item using points.");
 
                 } else {
@@ -155,6 +162,8 @@ class LibraryResourceController extends Controller
             }
 
         } catch (\Exception $e) {
+
+            DB::rollback();
 
             return Helpers::serverErrorResponse($e->getMessage());
 

@@ -187,6 +187,8 @@ class PaymentController extends Controller
 
         try {
 
+            DB::beginTransaction();
+
             Stripe::setApiKey(config('cashier.secret'));
 
             $charge = Charge::create([
@@ -210,6 +212,8 @@ class PaymentController extends Controller
 
                 PurchasedItems::createItem(Helpers::getUser()['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
 
+                DB::commit();
+
                 return Helpers::successResponse("You've successfully received {$credits} credits based on your plan!");
 
             } else {
@@ -218,6 +222,8 @@ class PaymentController extends Controller
             }
 
         }catch (\Exception $exception){
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }

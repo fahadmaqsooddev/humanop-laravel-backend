@@ -12,6 +12,7 @@ use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\PurchasedItems;
 use App\Models\Libraries\HumanOpLibraries;
 use App\Models\PlaylistLog;
+use Illuminate\Support\Facades\DB;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -95,12 +96,14 @@ class HumanOpShopController extends Controller
     {
         try {
 
+            DB::beginTransaction();
+
             $user = Helpers::getUser();
 
             $itemId = $request['item_id'];
 
             $buyFrom = $request['buy_from']; // 1 = money, 2 = points
-//            type 1 mean humanOp shop
+
             $type=1;
 
             $itemAlreadyOwned = HumanOpLibraries::getItem($itemId, $user['id'],$type);
@@ -132,6 +135,7 @@ class HumanOpShopController extends Controller
 
                     PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
 
+                    DB::commit();
 
                     return Helpers::successResponse("You have successfully purchased the item.");
 
@@ -151,6 +155,8 @@ class HumanOpShopController extends Controller
 
                     HumanOpLibraries::addItem($user['id'], $itemId,$type);
 
+                    DB::commit();
+
                     return Helpers::successResponse("You have successfully redeemed the item using points.");
 
                 } else {
@@ -162,6 +168,8 @@ class HumanOpShopController extends Controller
             }
 
         } catch (\Exception $e) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($e->getMessage());
 

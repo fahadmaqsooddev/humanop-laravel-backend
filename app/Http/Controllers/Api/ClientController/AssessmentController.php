@@ -25,6 +25,7 @@ use App\Models\User;
 use App\Models\Videos\VideoProgress;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -401,6 +402,8 @@ class AssessmentController extends Controller
     {
         try {
 
+            DB::beginTransaction();
+
             $user = Helpers::getUser();
 
             $latest_assessment = Assessment::getLatestAssessment($user['id']);
@@ -424,9 +427,11 @@ class AssessmentController extends Controller
 
                 if ($charge && $charge->status === 'succeeded') {
 
-                    $name = "You have purchased Assessment";
+                    $name = "You have purchased Paid Assessment";
 
                     PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
+
+                    DB::commit();
 
                     return Helpers::successResponse("Payment completed successfully! You can now retake assessment.");
 
@@ -444,6 +449,8 @@ class AssessmentController extends Controller
             }
 
         } catch (\Exception $exception) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
