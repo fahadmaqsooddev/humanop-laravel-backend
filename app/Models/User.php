@@ -181,7 +181,9 @@ class User extends Authenticatable implements JWTSubject
     public function getUserTraitsAttribute()
     {
 
-        $assessment = Assessment::getLatestAssessment($this->id);
+        $user = self::getSingleUser($this->id);
+
+        $assessment = Assessment::getLatestAssessment($user['id']);
 
         if (!empty($assessment)) {
 
