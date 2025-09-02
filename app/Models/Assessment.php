@@ -944,12 +944,14 @@ class Assessment extends Model
             return array_search($a, $style) <=> array_search($b, $style);
         });
 
-        dd($data);
         $styleCodes = CodeDetail::getStylePublicNames($data);
+
 
         $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $data);
 
-        return $styleCodes;
+        dd($styleCodes, $allStyles);
+
+        return $allStyles;
     }
 
     public static function getTemporaryStyles($assessment = null)
