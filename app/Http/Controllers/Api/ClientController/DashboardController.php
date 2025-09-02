@@ -47,7 +47,7 @@ class DashboardController extends Controller
 
     public function dailyTip()
     {
-        try {
+//        try {
 
             $user = Helpers::getWebUser() ?? Helpers::getUser();
 
@@ -189,11 +189,11 @@ class DashboardController extends Controller
 
             }
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//
+//        }
 
     }
 
