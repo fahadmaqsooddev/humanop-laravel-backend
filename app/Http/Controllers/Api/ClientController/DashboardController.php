@@ -102,11 +102,11 @@ class DashboardController extends Controller
 
                         $nextTipTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
 
-                        $currentTime = "2025-08-28 14:35:00.000000";
-                        $nextTipTime = "2025-08-28 14:35:00.000000";
-                        $eligible = $currentTime == $nextTipTime;
+//                        $currentTime = "2025-08-28 14:35:00.000000";
+//                        $nextTipTime = "2025-08-28 14:35:00.000000";
+//                        $eligible = $currentTime == $nextTipTime;
 
-//                        $eligible = ($isRead == 0 || ($isRead == 1 && $currentTime->lessThan($nextTipTime)));
+                        $eligible = ($isRead == 0 || ($isRead == 1 && $currentTime->lessThan($nextTipTime)));
 
                         if ($eligible) {
 
