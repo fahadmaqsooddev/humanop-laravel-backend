@@ -61,7 +61,6 @@ class SettingController extends Controller
     {
         $emailPhone = UserEmailPhoneNumber::getSingleEmailPhone($request['id']);
 
-        dd($request->all());
         if (!$emailPhone) {
             return Helpers::notFoundResponse('Record Not found.');
         }
@@ -70,7 +69,7 @@ class SettingController extends Controller
             $emailPhone->update(['default_email' => Admin::DEFAULT_EMAIL]);
         } else {
             UserEmailPhoneNumber::changeEmailsPhonesConditional('email', ['id', '!=', $request['id']], ['default_phone_no' => Admin::NORMAL_PHONE]);
-            $emailPhone->update(['phone_no' => Admin::DEFAULT_PHONE]);
+            $emailPhone->update(['default_phone_no' => Admin::DEFAULT_PHONE]);
         }
 
         return Helpers::successResponse('Default set.', $emailPhone);
