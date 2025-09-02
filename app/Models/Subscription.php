@@ -58,6 +58,9 @@ class Subscription extends Model
 
     public static function processSubscription($request = null)
     {
+
+        $user = Helpers::getUser();
+
         $key = StripeSetting::getSingle();
 
         if (!$key || empty($key->api_key)) {
@@ -68,38 +71,44 @@ class Subscription extends Model
 
         $stripe_client = new StripeClient($key->api_key);
 
-        $payment_method_id = $request->input('payment_method');
-
-        $new_payment_method_detail = $stripe_client->paymentMethods->retrieve($payment_method_id, []);
-
-        User::updateUserPaymentMethodFromApi($new_payment_method_detail);
-
-        $user = Helpers::getUser();
-
         $user->createOrGetStripeCustomer();
 
-        // Attach payment method to customer
-        $stripe_client->paymentMethods->attach($payment_method_id, [
-            'customer' => $user->b2c_stripe_id
-        ]);
+        $payment_method_id = $request->input('payment_method');
 
-        // Set default payment method
-        Customer::update($user->b2c_stripe_id, [
-            'invoice_settings' => [
-                'default_payment_method' => $payment_method_id,
-            ],
-        ]);
+        if ($payment_method_id) {
+
+            $new_payment_method_detail = $stripe_client->paymentMethods->retrieve($payment_method_id, []);
+
+            User::updateUserPaymentMethodFromApi($new_payment_method_detail);
+
+            $stripe_client->paymentMethods->attach($payment_method_id, [
+                'customer' => $user->b2c_stripe_id
+            ]);
+
+            Customer::update($user->b2c_stripe_id, [
+                'invoice_settings' => [
+                    'default_payment_method' => $payment_method_id,
+                ],
+            ]);
+
+        }
 
         $subscription = $user->subscription('main');
 
         if ($subscription && $subscription->stripe_status !== 'incomplete') {
+
             $subscription->swapAndInvoice($request->input('plan_id'));
+
         } else {
+
             if ($subscription && $subscription->stripe_status === 'incomplete') {
+
                 $subscription->cancelNow();
+
             }
 
             $subscription = $user->newSubscription('main', $request->input('plan_id'))->create($payment_method_id);
+
         }
 
         $user->set_daily_tip_time = '12:00:00';
@@ -114,7 +123,9 @@ class Subscription extends Model
         }
 
         $stripeSubscription = $subscription->asStripeSubscription();
+
         $invoice = Invoice::retrieve($stripeSubscription->latest_invoice);
+
         $invoicePdf = $invoice->invoice_pdf ?? null;
 
         $template = EmailTemplate::getEmailTemplateByTag(Admin::INVOICE_CODE);
