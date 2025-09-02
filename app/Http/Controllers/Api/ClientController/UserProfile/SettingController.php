@@ -36,6 +36,7 @@ class SettingController extends Controller
     {
 
         $dataArray = $request->only($this->userRecord->getFillable());
+//        dd($dataArray);
 
         $userEmailPhone = UserEmailPhoneNumber::createUserEmailPhone($dataArray);
 
@@ -68,7 +69,7 @@ class SettingController extends Controller
             $emailPhone->update(['default_email' => Admin::DEFAULT_EMAIL]);
         } else {
             UserEmailPhoneNumber::changeEmailsPhonesConditional('email', ['id', '!=', $request['id']], ['default_phone_no' => Admin::NORMAL_PHONE]);
-            $emailPhone->update(['phone_no' => Admin::DEFAULT_PHONE]);
+            $emailPhone->update(['default_phone_no' => Admin::DEFAULT_PHONE]);
         }
 
         return Helpers::successResponse('Default set.', $emailPhone);
