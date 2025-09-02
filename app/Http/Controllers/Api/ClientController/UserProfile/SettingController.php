@@ -36,6 +36,7 @@ class SettingController extends Controller
     {
 
         $dataArray = $request->only($this->userRecord->getFillable());
+//        dd($dataArray);
 
         $userEmailPhone = UserEmailPhoneNumber::createUserEmailPhone($dataArray);
 
@@ -60,6 +61,7 @@ class SettingController extends Controller
     {
         $emailPhone = UserEmailPhoneNumber::getSingleEmailPhone($request['id']);
 
+        dd($request->all());
         if (!$emailPhone) {
             return Helpers::notFoundResponse('Record Not found.');
         }
