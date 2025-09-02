@@ -68,7 +68,7 @@ class DashboardController extends Controller
                     $data = [];
 
                     // ========== FREEMIUM ==========
-                    if ($plan === 'Freemium') {
+                    if ($plan == 'Freemium') {
 
                         if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
 
@@ -81,6 +81,7 @@ class DashboardController extends Controller
                                 'is_read' => $isRead,
                                 'favorite_daily_tip' => $userDailyTip['favorite_tip'],
                                 'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                                'check' => 1
                             ];
 
                             return Helpers::successResponse('Daily Tip', $data);
@@ -101,7 +102,11 @@ class DashboardController extends Controller
 
                         $nextTipTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
 
-                        $eligible = ($isRead == 0 || ($isRead == 1 && $currentTime->lessThan($nextTipTime)));
+                        $currentTime = "2025-08-28 14:35:00.000000";
+                        $nextTipTime = "2025-08-28 14:35:00.000000";
+                        $eligible = $currentTime == $nextTipTime;
+
+//                        $eligible = ($isRead == 0 || ($isRead == 1 && $currentTime->lessThan($nextTipTime)));
 
                         if ($eligible) {
 
@@ -126,7 +131,7 @@ class DashboardController extends Controller
 
                     // ========== DEFAULT (other plans) ==========
                     if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
-                      
+
                         HaiChatHelpers::syncUserRecordWithHAi();
 
                         $data = [
@@ -175,6 +180,7 @@ class DashboardController extends Controller
                                     'is_read' => $isRead,
                                     'favorite_daily_tip' => $userDailyTip['favorite_tip'],
                                     'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                                    'check' => 2
                                 ];
 
                             } else {
