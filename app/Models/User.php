@@ -191,6 +191,8 @@ class User extends Authenticatable implements JWTSubject
 
                 $styleCodes = Assessment::authenticTraits($assessment);
 
+                dd($styleCodes);
+                
                 $public_name = [];
 
                 foreach ($styleCodes as $style) {
