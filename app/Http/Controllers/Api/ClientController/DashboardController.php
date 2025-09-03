@@ -117,6 +117,7 @@ class DashboardController extends Controller
                                 'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
                                 'nextTipTime' => !empty($nextTipTime) ? $nextTipTime->format('Y-m-d H:i:s.u T (P)') : null,
                                 'currentTime' => !empty($currentTime) ? $currentTime->format('Y-m-d H:i:s.u T (P)') : null,
+                                'check' => $updatedWithinDay ?? null
                             ];
                         }
 
@@ -168,6 +169,8 @@ class DashboardController extends Controller
                                     'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
                                     'nextTipTime' => !empty($nextTipTime) ? $nextTipTime->format('Y-m-d H:i:s.u T (P)') : null,
                                     'currentTime' => !empty($currentTime) ? $currentTime->format('Y-m-d H:i:s.u T (P)') : null,
+                                    'check' => $updatedWithinDay ?? null
+
                                 ];
                             }
 
