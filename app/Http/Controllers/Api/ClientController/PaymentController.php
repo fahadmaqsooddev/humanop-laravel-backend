@@ -319,8 +319,6 @@ class PaymentController extends Controller
 
             $paidAmount = $invoice->amount_paid / 100;
 
-            dd($paidAmount);
-
             $purchasedItems = PurchasedItems::getPurchasedItems($user['id']);
 
             $totalPrice = 0;
@@ -351,7 +349,7 @@ class PaymentController extends Controller
                 }
 
                 $invoice['plan_name'] = $user['plan_name'];
-                $invoice['plan_price'] = 19;
+                $invoice['plan_price'] = $paidAmount;
                 $invoice['due_date'] = $dueDate;
             }
 
