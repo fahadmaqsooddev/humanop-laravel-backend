@@ -39,7 +39,11 @@ class dailyTipPushNotification extends Command
                 return;
             }
 
+            Log::info('get assessment');
+
             $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
+
+            Log::info('get tip');
 
             $canUpdate = false;
 
