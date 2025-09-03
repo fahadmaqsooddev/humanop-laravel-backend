@@ -33,7 +33,8 @@ class dailyTipPushNotification extends Command
         foreach ($users as $user) {
 
             Log::info('get user');
-            $assessment = Assessment::getLatestAssessment($user['id']);
+
+            $assessment = Assessment::where('user_id', $user['id'])->where('page', 0)->latest()->first();
 
             if (empty($assessment)) {
                 return;
