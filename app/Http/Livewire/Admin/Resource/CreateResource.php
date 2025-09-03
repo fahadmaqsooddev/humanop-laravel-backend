@@ -12,6 +12,7 @@ use App\Models\Admin\Resources\PermissionResource;
 use App\Models\Upload\Upload;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -19,7 +20,7 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $booleanValue = false;
+    public $booleanValue = false,$file_path = '';
 
     public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance;
 
@@ -73,6 +74,7 @@ class CreateResource extends Component
             DB::beginTransaction();
 
             $this->validate();
+//            dd($this->resource_file);
 
             $upload_id = $this->uploadFile($this->resource_file);
 
@@ -223,6 +225,12 @@ class CreateResource extends Component
         $this->emit('toggleEditResourceModal');
 
         $this->editResourceData = LibraryResource::singleLibraryResource($resource_id);
+
+        $uploaded_video = \App\Models\Upload\Upload::getSingleUpload($this->editResourceData->upload_id);
+        $filename = explode("\\", $uploaded_video->path);
+        if (Storage::disk('public')->exists('videos/' . end($filename))){
+            $this->file_path = asset('storage/videos/'.end($filename));
+        }
 
         $this->resourceId = $resource_id;
 
