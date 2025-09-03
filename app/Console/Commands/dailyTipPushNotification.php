@@ -37,12 +37,8 @@ class dailyTipPushNotification extends Command
 
                     foreach ($users as $user) {
 
-                        Log::info('command start');
-
                         dispatch(new SendDailyTip($user['id']))
                             ->onQueue('tips');
-
-                        Log::info('Queue end');
 
                     }
 

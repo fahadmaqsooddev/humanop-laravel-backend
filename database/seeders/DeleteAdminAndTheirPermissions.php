@@ -50,7 +50,7 @@ class DeleteAdminAndTheirPermissions extends Seeder
 
             DB::rollBack();
 
-            Log::info(['add admin seeder exception' => $exception->getMessage()]);
+//            Log::info(['add admin seeder exception' => $exception->getMessage()]);
         }
     }
 }

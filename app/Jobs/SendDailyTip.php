@@ -45,6 +45,8 @@ class SendDailyTip implements ShouldQueue
     public function handle()
     {
 
+        Log::info('queue execute');
+
         $lock = Cache::lock("tips:send:{$this->userId}", 55);
         if (!$lock->get()) return;
 

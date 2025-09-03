@@ -2085,13 +2085,13 @@ class User extends Authenticatable implements JWTSubject
 
             $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user_id);
 
-            Log::info(['user optimal trait' => $userOptimalTrait]);
-
-            Log::info(['style and driver count' => count($stylesAndDrivers)]);
+//            Log::info(['user optimal trait' => $userOptimalTrait]);
+//
+//            Log::info(['style and driver count' => count($stylesAndDrivers)]);
 
             if (count($stylesAndDrivers) > 2) {
 
-                Log::info(['inside']);
+//                Log::info(['inside']);
 
                 $optionalTraitMorning = $stylesAndDrivers[0]['public_name'] ?? null;
 
