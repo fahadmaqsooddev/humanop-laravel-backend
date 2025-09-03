@@ -178,7 +178,7 @@
                                 </video>
                             @endif
                             <div class="mt-2 text-white">
-                                <span class="text-white text-sm" id="html-formated-text-span">
+                                <span class="text-sm" style="color: black" id="html-formated-text-span">
                                     {!! $resource['content'] ?? null !!}
                                 </span>
                             </div>

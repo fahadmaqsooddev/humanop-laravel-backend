@@ -12,6 +12,7 @@ use App\Models\Admin\Resources\PermissionResource;
 use App\Models\Upload\Upload;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -79,7 +80,10 @@ class CreateResource extends Component
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance);
 
-//            $this->uploadFileToGumlet($this->resource_file, $resource['id']);
+//            if (!empty($upload_id) && in_array($this->resource_file->extension(), ['mp4'])){
+//
+//                $this->uploadFileToGumlet($this->resource_file, $resource['id']);
+//            }
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
 
@@ -315,7 +319,7 @@ class CreateResource extends Component
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
+        $data = $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
 
         $checkPermission = count($this->permission);
 
@@ -352,11 +356,29 @@ class CreateResource extends Component
 //            $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
 
         } else {
+
             if ($this->resource_file) {
+
                 $upload_id = $this->uploadFile($this->resource_file);
+
+                LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
+
+            }else{
+
+                LibraryResource::whereId($this->resourceId)->update([
+                    'heading' => $this->heading,
+                    'slug' => Str::slug($this->heading),
+                    'resource_category_id' => $this->category_id,
+                    'description' => $this->description,
+                    'content' => $this->update_content,
+                    'source_id' => null,
+                    'source_url' => null,
+                    'embed_link' => $this->link,
+                    'relevance' => $this->relevance
+                ]);
+
             }
 
-            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
 
         }
 
@@ -370,7 +392,7 @@ class CreateResource extends Component
 
         session()->flash('success', 'Library resource updated successfully.');
 
-        
+
     }
 
     public function createCategory()
