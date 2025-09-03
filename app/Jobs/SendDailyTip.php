@@ -19,6 +19,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\Middleware\ThrottlesExceptions;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class SendDailyTip implements ShouldQueue
 {
@@ -48,6 +49,8 @@ class SendDailyTip implements ShouldQueue
         if (!$lock->get()) return;
 
         try {
+
+            Log::info('queue start');
 
             $user = User::getSingleUser($this->userId);
             if (!$user) return;

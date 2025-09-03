@@ -2,19 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\Admin\Admin;
-use App\Events\DailyTip\NewDailyTip;
-use App\Helpers\HaiChat\HaiChatHelpers;
-use App\Helpers\Helpers;
 use App\Jobs\SendDailyTip;
-use App\Models\Admin\DailyTip\DailyTip;
-use App\Models\Admin\DailyTip\UserDailyTip;
-use App\Models\Admin\Notification\Notification;
-use App\Models\Assessment;
 use Illuminate\Support\Facades\Cache;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class dailyTipPushNotification extends Command
 {
@@ -45,8 +37,13 @@ class dailyTipPushNotification extends Command
 
                     foreach ($users as $user) {
 
+                        Log::info('command start');
+
                         dispatch(new SendDailyTip($user['id']))
                             ->onQueue('tips');
+
+                        Log::info('Queue end');
+
                     }
 
                 });
