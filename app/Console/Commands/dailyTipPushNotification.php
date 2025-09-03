@@ -26,29 +26,29 @@ class dailyTipPushNotification extends Command
     public function handle()
     {
 
-        Log::info('command start');
+//        Log::info('command start');
 
         $users = User::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->get();
 
         foreach ($users as $user) {
 
-            Log::info('get user');
+//            Log::info('get user');
 
             $assessment = Assessment::where('user_id', $user['id'])->where('page', 0)->latest()->first();
 
             if (!empty($assessment)) {
 
-                Log::info('get assessment');
+//                Log::info('get assessment');
 
                 $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
 
-                Log::info('get tip');
+//                Log::info('get tip');
 
                 $canUpdate = false;
 
                 if (!empty($userDailyTip) && $user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time']) && $userDailyTip['is_read'] == 1) {
 
-                    Log::info('daily tip update');
+//                    Log::info('daily tip update');
 
                     $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
