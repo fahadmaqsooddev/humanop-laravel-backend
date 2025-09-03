@@ -119,11 +119,13 @@ class LibraryResource extends Model
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null,$resource_file = null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null)
     {
-        $data = [
+
+        self::whereId($id)->update([
             'heading' => $heading,
             'slug' => Str::slug($heading),
+            'upload_id' => $uploadId,
             'resource_category_id' => $category_id,
             'description' => $description,
             'content' => $content,
@@ -131,11 +133,7 @@ class LibraryResource extends Model
             'source_url' => null,
             'embed_link' => $link,
             'relevance' => $relevance
-        ];
-        if ($resource_file){
-            $data['upload_id'] = $uploadId;
-        }
-        self::whereId($id)->update($data);
+        ]);
 
         return self::singleLibraryResource($id);
 
