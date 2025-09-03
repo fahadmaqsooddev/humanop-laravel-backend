@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\Admin\Admin;
 use App\Events\DailyTip\NewDailyTip;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Jobs\SendDailyTip;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -24,6 +25,7 @@ class dailyTipPushNotification extends Command
 
     public function handle()
     {
+
 
         $lock = Cache::lock('tips:dispatch-due', 55);
 
@@ -56,6 +58,7 @@ class dailyTipPushNotification extends Command
         }
 
         return 0;
+
     }
 
 }

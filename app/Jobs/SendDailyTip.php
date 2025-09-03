@@ -53,11 +53,14 @@ class SendDailyTip implements ShouldQueue
             if (!$user) return;
 
             $assessment = Assessment::getLatestAssessment($user['id']);
-            if (empty($assessment)) return;
+
+            if (empty($assessment)) {
+                return;
+            }
 
             $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
 
-            $eligible = false;
+            $canUpdate = false;
 
             if (!empty($userDailyTip) && $user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time']) && $userDailyTip['is_read'] == 1) {
 
@@ -69,18 +72,11 @@ class SendDailyTip implements ShouldQueue
 
                 $nextTipTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
 
-//                $currentTime = "2025-08-28 14:35:00.000000";
-//                $nextTipTime = "2025-08-28 14:35:00.000000";
-//                $eligible = $currentTime == $nextTipTime;
-                $eligible = $currentTime->greaterThanOrEqualTo($nextTipTime);
+                $canUpdate = $currentTime->greaterThanOrEqualTo($nextTipTime);
 
-            } else {
-                // Fallback: once every 24h max
-                $eligible = empty($userDailyTip) ||
-                    $userDailyTip['updated_at'] <= now()->subDay();
             }
 
-            if (!$eligible) return;
+            if (!$canUpdate) return;
 
             do {
 
@@ -88,34 +84,34 @@ class SendDailyTip implements ShouldQueue
 
                 $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
-                if ($newDailyTip) {
+                if (!$newDailyTip) {
+                    break;
+                }
 
-                    $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
+                $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
 
-                    if (empty($latestTip)) {
+                if (empty($latestTip)) {
 
-                        UserDailyTip::create([
-                            'user_id' => $user['id'],
-                            'daily_tip_id' => $newDailyTip['id'],
-                            'assessment_id' => $assessment['id']
-                        ]);
+                    UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
-                        $message = 'Your New Daily Tip';
+                    $message = 'Your New Daily Tip';
 
-                        event(new NewDailyTip($user['id'], 'new daily tip', $message));
+                    event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-                        Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                    Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
-                        break;
-
-                    }
+                    break;
 
                 }
 
-            } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
+            } while ($latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
 
         } finally {
+
             optional($lock)->release();
+
         }
+
     }
+
 }
