@@ -319,6 +319,8 @@ class PaymentController extends Controller
 
             $paidAmount = $invoice->amount_paid / 100;
 
+            dd($paidAmount);
+            
             $purchasedItems = PurchasedItems::getPurchasedItems($user['id']);
 
             $totalPrice = 0;
