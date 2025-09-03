@@ -117,6 +117,7 @@ class DashboardController extends Controller
                                 'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
                                 'nextTipTime' => !empty($nextTipTime) ? $nextTipTime->format('Y-m-d H:i:s.u T (P)') : null,
                                 'currentTime' => !empty($currentTime) ? $currentTime->format('Y-m-d H:i:s.u T (P)') : null,
+                                'check' => $updatedWithinDay ?? null
                             ];
                         }
 
@@ -136,15 +137,21 @@ class DashboardController extends Controller
 
                         if (empty($latestTip)) {
 
-                            $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+                            $getLatestTip = UserDailyTip::where('user_id', $user['id'])->latest()->first();
 
-                            $message = 'Your New Daily Tip';
+                            if($getLatestTip['updated_at']->startOfMinute() != Carbon::now()->startOfMinute()){
 
-                            event(new NewDailyTip($user['id'], 'new daily tip', $message));
+                                UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
-                            Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+                                $message = 'Your New Daily Tip';
 
-                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                                event(new NewDailyTip($user['id'], 'new daily tip', $message));
+
+                                Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+
+                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                            }
 
                             if ($user['plan_name'] == 'Freemium') {
 
@@ -168,6 +175,8 @@ class DashboardController extends Controller
                                     'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
                                     'nextTipTime' => !empty($nextTipTime) ? $nextTipTime->format('Y-m-d H:i:s.u T (P)') : null,
                                     'currentTime' => !empty($currentTime) ? $currentTime->format('Y-m-d H:i:s.u T (P)') : null,
+                                    'check' => $updatedWithinDay ?? null
+
                                 ];
                             }
 

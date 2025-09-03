@@ -97,7 +97,11 @@ class Subscription extends Model
 
         if ($subscription && $subscription->stripe_status !== 'incomplete') {
 
-            $subscription->swapAndInvoice($request->input('plan_id'));
+            $subscription->swapAndInvoice($request->input('plan_id'),
+                [
+                    'proration_behavior' => 'create_prorations'
+                ]
+            );
 
         } else {
 
@@ -107,7 +111,9 @@ class Subscription extends Model
 
             }
 
-            $subscription = $user->newSubscription('main', $request->input('plan_id'))->create($payment_method_id);
+            $subscription = $user->newSubscription('main', $request->input('plan_id'))->create($payment_method_id, [
+                'proration_behavior' => 'create_prorations'
+            ]);
 
         }
 

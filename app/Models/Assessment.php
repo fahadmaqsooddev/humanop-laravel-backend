@@ -217,10 +217,16 @@ class Assessment extends Model
 
     public static function getAssessment()
     {
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
+
+        if (!$user) {
+            return collect();
+        }
+
         return static::with(['assessmentColorCodes' => function ($query) {
             $query->selection();
         }])
-            ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
+            ->where('user_id', $user->id)
             ->where('page', 0)
             ->orderBy('created_at', 'desc')
             ->selection()
