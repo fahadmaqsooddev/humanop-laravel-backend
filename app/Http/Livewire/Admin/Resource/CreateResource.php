@@ -243,9 +243,9 @@ class CreateResource extends Component
 
         $this->update_content = $this->editResourceData['content'] ?? null;
 
-        $this->priceValue = $this->editResourceData['library_permissions']['price'] ?? null;
+        $this->priceValue = $this->editResourceData['libraryPermissions']['price'] ?? null;
 
-        $this->pointValue = $this->editResourceData['library_permissions']['point'] ?? null;
+        $this->pointValue = $this->editResourceData['libraryPermissions']['point'] ?? null;
 
         $this->permission[] = $this->editResourceData['libraryPermissions']['permission'] ?? null;
 
@@ -392,6 +392,7 @@ class CreateResource extends Component
 
         session()->flash('success', 'Library resource updated successfully.');
 
+        $this->emit('reloadPage');
 
     }
 

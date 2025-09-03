@@ -967,6 +967,10 @@
             })
         })
 
+        window.livewire.on('reloadPage', () => {
+            location.reload();
+        });
+
 
         window.livewire.on('toggleShowResourceModal', (slug) => {
             $('.modal-backdrop').hide();

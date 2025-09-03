@@ -231,7 +231,7 @@
                                                        wire:model.defer="module_type"
                                                        value="tool_training" id="radio1">
                                                 <label class="form-check-label" for="radio1">
-                                                    Tool Training
+                                                    Tools & Training
                                                 </label>
                                             </div>
 
@@ -303,7 +303,7 @@
                                                        wire:model.defer="module_type"
                                                        value="reward_hb" id="radio7">
                                                 <label class="form-check-label" for="radio7">
-                                                    Reward HB
+                                                    HB Reward
                                                 </label>
                                             </div>
 
