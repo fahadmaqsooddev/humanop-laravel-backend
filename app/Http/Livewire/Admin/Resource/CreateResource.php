@@ -227,9 +227,11 @@ class CreateResource extends Component
         $this->editResourceData = LibraryResource::singleLibraryResource($resource_id);
 
         $uploaded_video = \App\Models\Upload\Upload::getSingleUpload($this->editResourceData->upload_id);
-        $filename = explode("\\", $uploaded_video->path);
-        if (Storage::disk('public')->exists('videos/' . end($filename))){
-            $this->file_path = asset('storage/videos/'.end($filename));
+        if (isset($uploaded_video->path)){
+            $filename = explode("\\", $uploaded_video->path);
+            if (Storage::disk('public')->exists('videos/' . end($filename))){
+                $this->file_path = asset('storage/videos/'.end($filename));
+            }
         }
 
         $this->resourceId = $resource_id;
@@ -342,7 +344,6 @@ class CreateResource extends Component
 
         }
         $upload_id = null;
-
         if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
             $getResource = LibraryResource::singleLibraryResource($this->resourceId);
@@ -363,7 +364,7 @@ class CreateResource extends Component
                 $upload_id = $this->uploadFile($this->resource_file);
             }
 
-            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
+            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link,null,$this->resource_file);
 
         }
 
