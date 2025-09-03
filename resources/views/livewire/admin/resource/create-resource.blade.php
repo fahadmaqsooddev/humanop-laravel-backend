@@ -157,30 +157,18 @@
                                 @if(!empty($resource['photo_url']))
                                     <img style="width: 100%; max-height: 400px;"
                                          src="{{ $resource['photo_url'] ? $resource['photo_url']['url'] : '' }}">
-{{--                                @elseif(!empty($resource['video_url']))--}}
-{{--                                    <video controls style="width: 100%; max-height: 400px;">--}}
-{{--                                        <source src="{{ $resource['video_url'] ? $resource['video_url']['path'] : '' }}"--}}
-{{--                                                type="video/mp4">--}}
-{{--                                        Your browser does not support the video tag.--}}
-{{--                                    </video>--}}
+                                @elseif(!empty($resource['video_url']))
+                                    <video controls style="width: 100%; max-height: 400px;">
+                                        <source src="{{ $resource['video_url'] ? $resource['video_url']['path'] : '' }}"
+                                                type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
                                 @elseif(!empty($resource['audio_url']))
                                     <audio controls style="width: 100%;">
                                         <source src="{{ $resource['audio_url'] ? $resource['audio_url']['path'] : '' }}"
                                                 type="audio/mpeg">
                                         Your browser does not support the audio element.
                                     </audio>
-                                @else
-                                    <?php
-                                    $uploaded_video = \App\Models\Upload\Upload::getSingleUpload($resource['upload_id']);
-                                    $filename = explode("\\", $uploaded_video->path);
-                                    if (Storage::disk('public')->exists('videos/' . end($filename))){
-                                        ?>
-                                    <video controls style="width: 100%; max-height: 400px;">
-                                        <source src="{{asset('storage/videos/'.end($filename))}}"
-                                                type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                    <?php } ?>
                                 @endif
                             @elseif($resource['embed_link'] != null)
                                 <video controls style="width: 100%; max-height: 400px;">
@@ -553,11 +541,11 @@
                                             <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
                                                  width="200">
                                         </div>
-{{--                                    @elseif(!empty($editResourceData['video_url']))--}}
-{{--                                        <div class="form-group mt-4">--}}
-{{--                                            <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"--}}
-{{--                                                   style="height: 200px;"></video>--}}
-{{--                                        </div>--}}
+                                    @elseif(!empty($editResourceData['video_url']))
+                                        <div class="form-group mt-4">
+                                            <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
+                                                   style="height: 200px;"></video>
+                                        </div>
                                     @elseif(!empty($editResourceData['audio_url']))
                                         <div class="form-group mt-4">
                                             <audio controls style="width: 100%;">
@@ -567,10 +555,6 @@
                                             </audio>
                                         </div>
                                     @else
-                                        <div class="form-group mt-4">
-                                            <video controls src="{{$file_path}}"
-                                                   style="height: 200px;"></video>
-                                        </div>
                                     @endif
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     {{--                                    <div class="row">--}}
@@ -798,7 +782,7 @@
             }
         </script>
     @endif
-<!--Create Category Modal -->
+    <!--Create Category Modal -->
     <div wire:ignore.self class="modal fade" id="createCategory" tabindex="-1" role="dialog"
          aria-labelledby="createCategory" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
@@ -896,10 +880,19 @@
                 "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
             }
         }
-
     </script>
     <script type="module">
-        import {AutoLink, Bold, ClassicEditor, Essentials, Font, Italic, Link, List, Paragraph} from 'ckeditor5';
+        import {
+            ClassicEditor,
+            Essentials,
+            Paragraph,
+            Bold,
+            Italic,
+            Font,
+            List,
+            Link,
+            AutoLink
+        } from 'ckeditor5';
         // Function to initialize CKEditor for a specific textarea by ID
         let editorInstance, updateEditorInstance;
         const editorElement = document.getElementById('editor');
@@ -916,8 +909,7 @@
                 })
                 .then(editor => {
                     editor.model.document.on('change:data', () => {
-                        @this.
-                        set('content', editor.getData())
+                    @this.set('content', editor.getData())
                         ;
                     })
                     Livewire.on('editorContentUpdated', content => {
@@ -947,8 +939,7 @@
                 })
                 .then(editor => {
                     editor.model.document.on('change:data', () => {
-                        @this.
-                        set('update_content', editor.getData())
+                    @this.set('update_content', editor.getData())
                         ;
                     })
                     Livewire.on('contentUpdated', content => {
