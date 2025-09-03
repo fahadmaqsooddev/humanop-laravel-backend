@@ -36,66 +36,65 @@ class dailyTipPushNotification extends Command
 
             $assessment = Assessment::where('user_id', $user['id'])->where('page', 0)->latest()->first();
 
-            if (empty($assessment)) {
-                return;
-            }
+            if (!empty($assessment)) {
 
-            Log::info('get assessment');
+                Log::info('get assessment');
 
-            $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
+                $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
 
-            Log::info('get tip');
+                Log::info('get tip');
 
-            $canUpdate = false;
+                $canUpdate = false;
 
-            if (!empty($userDailyTip) && $user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time']) && $userDailyTip['is_read'] == 1) {
+                if (!empty($userDailyTip) && $user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time']) && $userDailyTip['is_read'] == 1) {
 
-                Log::info('daily tip update');
+                    Log::info('daily tip update');
 
-                $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
+                    $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
-                $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+                    $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
 
-                $setTipTimeToday = Carbon::parse($user['set_daily_tip_time'])->setDateFrom(Carbon::now())->startOfMinute();
+                    $setTipTimeToday = Carbon::parse($user['set_daily_tip_time'])->setDateFrom(Carbon::now())->startOfMinute();
 
-                $nextTipTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
+                    $nextTipTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
 
-                $canUpdate = $currentTime->greaterThanOrEqualTo($nextTipTime);
-
-            }
-
-            if (!$canUpdate) return;
-
-            do {
-
-                Log::info('daily tip update 01');
-
-                $randomCode = DailyTip::randomCode($assessment);
-
-                $newDailyTip = DailyTip::getSameCodeTips($randomCode);
-
-                if (!$newDailyTip) {
-                    break;
-                }
-
-                $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
-
-                if (empty($latestTip)) {
-
-                    UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
-
-                    $message = 'Your New Daily Tip';
-
-                    event(new NewDailyTip($user['id'], 'new daily tip', $message));
-
-                    Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
-
-                    break;
+                    $canUpdate = $currentTime->greaterThanOrEqualTo($nextTipTime);
 
                 }
 
-            } while ($latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
+                if (!$canUpdate) return;
 
+                do {
+
+                    Log::info('daily tip update 01');
+
+                    $randomCode = DailyTip::randomCode($assessment);
+
+                    $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+
+                    if (!$newDailyTip) {
+                        break;
+                    }
+
+                    $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
+
+                    if (empty($latestTip)) {
+
+                        UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+
+                        $message = 'Your New Daily Tip';
+
+                        event(new NewDailyTip($user['id'], 'new daily tip', $message));
+
+                        Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                        break;
+
+                    }
+
+                } while ($latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
+
+            }
         }
 
 
