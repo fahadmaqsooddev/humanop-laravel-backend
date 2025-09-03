@@ -137,15 +137,21 @@ class DashboardController extends Controller
 
                         if (empty($latestTip)) {
 
-                            $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+                            $getLatestTip = UserDailyTip::where('user_id', $user['id'])->latest()->first();
 
-                            $message = 'Your New Daily Tip';
+                            if($getLatestTip['updated_at']->startOfMinute() != Carbon::now()->startOfMinute()){
 
-                            event(new NewDailyTip($user['id'], 'new daily tip', $message));
+                                UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
-                            Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+                                $message = 'Your New Daily Tip';
 
-                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                                event(new NewDailyTip($user['id'], 'new daily tip', $message));
+
+                                Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+
+                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                            }
 
                             if ($user['plan_name'] == 'Freemium') {
 

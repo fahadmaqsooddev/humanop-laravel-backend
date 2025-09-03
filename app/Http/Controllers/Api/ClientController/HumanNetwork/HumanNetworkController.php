@@ -392,5 +392,65 @@ class HumanNetworkController extends Controller
 
     }
 
+    public function userTraits(Request $request)
+    {
+
+        try {
+
+            $loginUser = Helpers::getUser();
+
+            if (!empty($request['user_id'])){
+
+                $assessment = Assessment::getLatestAssessment($request['user_id']);
+
+                if (!empty($assessment)) {
+
+
+                    if ($loginUser['plan_name'] == 'Core') {
+
+                        $styleCodes = Assessment::authenticTraits($assessment);
+
+                        $public_name = [];
+
+                        foreach ($styleCodes as $style) {
+
+                            $public_name[] = $style['public_name'];
+                        }
+
+                        return $public_name;
+
+                    } else {
+
+                        $styleCodes = Assessment::getAllStyles($assessment);
+
+                        $public_name = [];
+
+                        foreach ($styleCodes as $style) {
+
+                            $public_name[] = $style['public_name'];
+                        }
+
+                        return $public_name;
+
+                    }
+
+                }else{
+
+                    return Helpers::validationResponse('Assessment Not Found');
+                }
+
+            }else{
+
+                return Helpers::validationResponse('User Id is required');
+            }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
 
 }
