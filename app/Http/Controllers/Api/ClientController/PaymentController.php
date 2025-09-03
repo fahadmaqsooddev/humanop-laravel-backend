@@ -308,6 +308,17 @@ class PaymentController extends Controller
             $user = Helpers::getUser();
 
             $subscription = $user->subscription('main');
+
+            $key = StripeSetting::getSingle();
+
+            $stripe = new StripeClient($key->api_key);
+
+            $stripeSubscription = $subscription->asStripeSubscription();
+
+            $invoice = $stripe->invoices->retrieve($stripeSubscription->latest_invoice, []);
+
+            $paidAmount = $invoice->amount_paid / 100;
+
             $purchasedItems = PurchasedItems::getPurchasedItems($user['id']);
 
             $totalPrice = 0;
@@ -318,6 +329,7 @@ class PaymentController extends Controller
                 $items[] = [
                     'item_name' => $purchasedItem->item_name,
                     'item_price' => $purchasedItem->item_price,
+                    'item_purchased_at' => $purchasedItem->created_at,
                 ];
             }
 
@@ -344,9 +356,10 @@ class PaymentController extends Controller
             foreach ($items as $index => $item) {
                 $invoice['item_name_' . ($index + 1)] = $item['item_name'];
                 $invoice['item_price_' . ($index + 1)] = $item['item_price'];
+                $invoice['item_purchased_at_' . ($index + 1)] = $item['item_purchased_at'];
             }
 
-            $invoice['total_price'] = $totalPrice + ($user['plan_name'] !== 'Freemium' ? 19 : 0);
+            $invoice['total_price'] = $totalPrice + ($user['plan_name'] !== 'Freemium' ? $paidAmount : 0);
 
             return Helpers::successResponse('HumanOp Invoice', $invoice);
 
