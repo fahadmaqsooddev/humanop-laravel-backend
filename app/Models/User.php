@@ -238,17 +238,24 @@ class User extends Authenticatable implements JWTSubject
     public function getPhotoUrlAttribute()
     {
 
-        if ($this->gender == '1') {
+        if (!empty($this->image_id)){
 
-            $profilePic = 'female_profile_pic.png';
+            if ($this->gender == '1') {
 
-        } else {
+                $profilePic = 'female_profile_pic.png';
 
-            $profilePic = 'profile_pic.png';
+            } else {
 
+                $profilePic = 'profile_pic.png';
+
+            }
+
+            return Helpers::getImage($this->image_id, $profilePic);
+
+        }else{
+
+            return null;
         }
-
-        return Helpers::getImage($this->image_id, $profilePic);
 
     }
 
