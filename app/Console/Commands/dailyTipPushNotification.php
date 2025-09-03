@@ -62,37 +62,39 @@ class dailyTipPushNotification extends Command
 
                 }
 
-                if (!$canUpdate) return;
+                if ($canUpdate){
 
-                do {
+                    do {
 
-                    Log::info('daily tip update 01');
+                        Log::info('daily tip find');
 
-                    $randomCode = DailyTip::randomCode($assessment);
+                        $randomCode = DailyTip::randomCode($assessment);
 
-                    $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+                        $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
-                    if (!$newDailyTip) {
-                        break;
-                    }
+                        if ($newDailyTip) {
 
-                    $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
+                            $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
 
-                    if (empty($latestTip)) {
+                            if (empty($latestTip)) {
 
-                        UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+                                UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
-                        $message = 'Your New Daily Tip';
+                                Log::info('Your New Daily Tip');
 
-                        event(new NewDailyTip($user['id'], 'new daily tip', $message));
+                                $message = 'Your New Daily Tip';
 
-                        Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                                event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-                        break;
+                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
-                    }
+                            }
 
-                } while ($latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
+                        }
+
+                    } while ($latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
+
+                }
 
             }
         }
