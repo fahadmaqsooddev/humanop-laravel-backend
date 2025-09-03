@@ -349,7 +349,7 @@ class PaymentController extends Controller
                 }
 
                 $invoice['plan_name'] = $user['plan_name'];
-                $invoice['plan_price'] = 19;
+                $invoice['plan_price'] = $paidAmount;
                 $invoice['due_date'] = $dueDate;
             }
 
