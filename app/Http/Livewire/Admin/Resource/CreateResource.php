@@ -21,7 +21,7 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance;
+    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink;
 
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
@@ -35,7 +35,7 @@ class CreateResource extends Component
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
         'content' => 'nullable|string',
-        'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9_-]+\.(mp4)$/']
+        'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9_-]+\.(mp4)$/'],
     ];
 
     protected $messages = [
@@ -74,11 +74,12 @@ class CreateResource extends Component
 
             $this->validate();
 
+
             $upload_id = $this->uploadFile($this->resource_file);
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance);
 
-            $this->uploadFileToGumlet($this->resource_file, $resource['id']);
+//            $this->uploadFileToGumlet($this->resource_file, $resource['id']);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
 
@@ -339,7 +340,7 @@ class CreateResource extends Component
 
             $getResource = LibraryResource::singleLibraryResource($this->resourceId);
 
-            $this->deleteFileToGumlet($getResource['source_id']);
+//            $this->deleteFileToGumlet($getResource['source_id']);
 
             $upload_id = $this->uploadFile($this->resource_file);
 
@@ -348,7 +349,7 @@ class CreateResource extends Component
             tap($updateResource);
 
 
-            $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
+//            $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
 
         } else {
             if ($this->resource_file) {
@@ -369,7 +370,7 @@ class CreateResource extends Component
 
         session()->flash('success', 'Library resource updated successfully.');
 
-
+        
     }
 
     public function createCategory()

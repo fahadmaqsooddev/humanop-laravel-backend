@@ -557,22 +557,7 @@
                                     @else
                                     @endif
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
-                                    {{--                                    <div class="row">--}}
-                                    {{--                                        <ul>--}}
-                                    {{--                                            @if(!empty($editResourceData) && !empty($editResourceData['library_permissions']))--}}
-                                    {{--                                                @if($editResourceData['library_permissions']['permission'] === 1)--}}
-                                    {{--                                                    <li>Freemium</li>--}}
-                                    {{--                                                @elseif($editResourceData['library_permissions']['permission'] === 2)--}}
-                                    {{--                                                    <li>Focus Tier (core)</li>--}}
-                                    {{--                                                @elseif($editResourceData['library_permissions']['permission'] === 3)--}}
-                                    {{--                                                    <li>Elevate Tier (premium)</li>--}}
-
-                                    {{--                                                @endif--}}
-                                    {{--                                            @endif--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </div>--}}
                                     <div class="row">
-
 
                                         <div class="col-4">
                                             <div class="form-check">
