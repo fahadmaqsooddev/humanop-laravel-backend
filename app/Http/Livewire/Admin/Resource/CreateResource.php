@@ -119,29 +119,29 @@ class CreateResource extends Component
                 HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $communicationCode);
             }
 
-            $perceptionCodes = [
-                'Negative' => 'NE',
-                'Positive' => 'P',
-                'Neutral' => 'N',
-            ];
+//            $perceptionCodes = [
+//                'Negative' => 'NE',
+//                'Positive' => 'P',
+//                'Neutral' => 'N',
+//            ];
 
             foreach ($this->selectedPerceptions as $perception) {
-                if (isset($perceptionCodes[$perception])) {
-                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $perceptionCodes[$perception]);
-                }
+//                if (isset($perceptionCodes[$perception])) {
+                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $perception);
+//                }
             }
 
-            $energyPoolCodes = [
-                'Above Excellent' => 'AE',
-                'Average' => 'A',
-                'Excellent' => 'E',
-                'Fair' => 'F',
-            ];
+//            $energyPoolCodes = [
+//                'Above Excellent' => 'AE',
+//                'Average' => 'A',
+//                'Excellent' => 'E',
+//                'Fair' => 'F',
+//            ];
 
             foreach ($this->selectedEnergyPools as $energyPoolCode) {
-                if (isset($energyPoolCodes[$energyPoolCode])) {
-                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $energyPoolCodes[$energyPoolCode]);
-                }
+//                if (isset($energyPoolCodes[$energyPoolCode])) {
+                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $energyPoolCode);
+//                }
             }
 
             $this->resetForm();
@@ -224,6 +224,7 @@ class CreateResource extends Component
 
     public function editResource($resource_id)
     {
+//        dd($resource_id);
 
         $this->emit('toggleEditResourceModal');
 
@@ -249,17 +250,24 @@ class CreateResource extends Component
 
         $this->permission[] = $this->editResourceData['libraryPermissions']['permission'] ?? null;
 
-        $this->selectedTraits = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+        // Define your code groups
+        $traits        = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
+        $features      = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
+        $alchemies     = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
+        $communications = ['EM', 'INS', 'INT', 'MOV'];
+        $perceptions   = ['NEG', 'P', 'N'];
+        $energyPools   = ['AE', 'A', 'E', 'F'];
 
-        $this->selectedFeatures = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+        $allCodes = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
 
-        $this->selectedAlchemy = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
+        // Filter them into groups
+        $this->selectedTraits         = array_values(array_intersect($allCodes, $traits));
+        $this->selectedFeatures       = array_values(array_intersect($allCodes, $features));
+        $this->selectedAlchemy        = array_values(array_intersect($allCodes, $alchemies));
+        $this->selectedCommunications = array_values(array_intersect($allCodes, $communications));
+        $this->selectedPerceptions    = array_values(array_intersect($allCodes, $perceptions));
+        $this->selectedEnergyPools    = array_values(array_intersect($allCodes, $energyPools));
 
-        $this->selectedCommunications = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
-
-        $this->selectedPerceptions = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
-
-        $this->selectedEnergyPools = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
@@ -321,7 +329,6 @@ class CreateResource extends Component
 
         $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
 
-//        dd($this->selectedTraits, $this->selectedFeatures, $this->selectedAlchemy, $this->selectedCommunications, $this->selectedPerceptions, $this->selectedEnergyPools);
         $checkPermission = count($this->permission);
 
         if ($checkPermission == 2) {
@@ -339,7 +346,7 @@ class CreateResource extends Component
             $this->permission = array_values($this->permission);
 
         }
-        $upload_id = null;
+//        $upload_id = null;
 
         if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
@@ -388,10 +395,10 @@ class CreateResource extends Component
         $resourceGrids = HumanOpItemsGridActivitiesLog::getResourceGrid($this->resourceId);
 
         foreach ($resourceGrids as $gird){
-
-            HumanOpItemsGridActivitiesLog::deleteResourceGrid($gird['id']);
-
+            $gird->delete();
         }
+
+//        dd($this->selectedTraits,$this->selectedFeatures,$this->selectedAlchemy,$this->selectedCommunications,$this->selectedPerceptions,$this->selectedEnergyPools);
 
         foreach ($this->selectedTraits as $traitCode) {
             HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $traitCode);
@@ -409,29 +416,29 @@ class CreateResource extends Component
             HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $communicationCode);
         }
 
-        $perceptionCodes = [
-            'Negative' => 'NE',
-            'Positive' => 'P',
-            'Neutral' => 'N',
-        ];
+//        $perceptionCodes = [
+//            'Negative' => 'NE',
+//            'Positive' => 'P',
+//            'Neutral' => 'N',
+//        ];
 
         foreach ($this->selectedPerceptions as $perception) {
-            if (isset($perceptionCodes[$perception])) {
-                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $perceptionCodes[$perception]);
-            }
+//            if (isset($perceptionCodes[$perception])) {
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $perception);
+//            }
         }
 
-        $energyPoolCodes = [
-            'Above Excellent' => 'AE',
-            'Average' => 'A',
-            'Excellent' => 'E',
-            'Fair' => 'F',
-        ];
+//        $energyPoolCodes = [
+//            'Above Excellent' => 'AE',
+//            'Average' => 'A',
+//            'Excellent' => 'E',
+//            'Fair' => 'F',
+//        ];
 
         foreach ($this->selectedEnergyPools as $energyPoolCode) {
-            if (isset($energyPoolCodes[$energyPoolCode])) {
-                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $energyPoolCodes[$energyPoolCode]);
-            }
+//            if (isset($energyPoolCodes[$energyPoolCode])) {
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $energyPoolCode);
+//            }
         }
 
         $this->emit('toggleEditResourceModal');
