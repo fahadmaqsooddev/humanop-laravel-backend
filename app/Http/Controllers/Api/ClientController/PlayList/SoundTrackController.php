@@ -30,9 +30,12 @@ class SoundTrackController extends Controller
             $resourceTransformed = [];
             $shopTransformed = [];
 
-            $searchNames = $request->has('search_name')
-                ? (is_array($request->search_name) ? $request->search_name : [$request->search_name])
+            // normalize inputs
+            $searchGrids = $request->has('search_grid')
+                ? (is_array($request->search_grid) ? $request->search_grid : [$request->search_grid])
                 : [];
+
+            $searchName = $request->get('search_name'); // string ya null
 
             $getGridPublicNames = function ($grids) {
                 $names = [];
@@ -52,13 +55,13 @@ class SoundTrackController extends Controller
                 $paid = HumanOpLibraries::singleLibraryBuyItems($item['id']);
                 $gridPublicName = $getGridPublicNames($grids);
 
-                $match = [];
-                if (!empty($searchNames)) {
-                    $match = array_intersect($searchNames, $gridPublicName);
-                }
+                // grid match
+                $match = !empty($searchGrids) ? array_intersect($searchGrids, $gridPublicName) : [];
 
-                // agar search_name hai to sirf matched grids include karo
-                if (empty($searchNames) || !empty($match)) {
+                // name match
+                $matchName = (!empty($searchName) && strcasecmp($item['heading'], $searchName) === 0);
+
+                if (empty($searchGrids) && empty($searchName) || !empty($match) || $matchName) {
                     if (empty($item->photo_url)) {
                         $resourceTransformed[] = [
                             'id' => $item->id,
@@ -94,12 +97,13 @@ class SoundTrackController extends Controller
                 $gridPublicName = $getGridPublicNames($grids);
                 $paid = HumanOpLibraries::singleLibraryBuyItems($resource['id']);
 
-                $match = [];
-                if (!empty($searchNames)) {
-                    $match = array_intersect($searchNames, $gridPublicName);
-                }
+                // grid match
+                $match = !empty($searchGrids) ? array_intersect($searchGrids, $gridPublicName) : [];
 
-                if (empty($searchNames) || !empty($match)) {
+                // name match
+                $matchName = (!empty($searchName) && strcasecmp($resource['heading'], $searchName) === 0);
+
+                if (empty($searchGrids) && empty($searchName) || !empty($match) || $matchName) {
                     if (empty($resource->document_url)) {
                         $shopTransformed[] = [
                             'id' => $resource->id,
