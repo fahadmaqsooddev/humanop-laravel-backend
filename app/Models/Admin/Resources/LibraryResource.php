@@ -253,4 +253,29 @@ class LibraryResource extends Model
         return $query->get();
     }
 
+    public static function allResourceCategories()
+    {
+
+        $user = Helpers::getUser();
+
+        $userPlan = $user['plan_name'];
+
+        $query = self::query();
+
+        $permissionLevel = match ($userPlan) {
+            'Premium' => 3,
+            'Core' => 2,
+            default => 1,
+        };
+
+        $query->whereHas('libraryPermissions', function ($q) use ($permissionLevel) {
+            $q->where('permission', $permissionLevel);
+        });
+
+        $query->with(['resourceCategory', 'libraryPermissions'])
+            ->orderBy('created_at', 'desc');
+
+        return $query->get();
+    }
+
 }

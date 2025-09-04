@@ -8,6 +8,7 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\Resources\ShopCategoryResource;
+use App\Models\Libraries\HumanOpLibraries;
 use App\Models\PlaylistLog;
 
 class SoundTrackController extends Controller
@@ -22,27 +23,44 @@ class SoundTrackController extends Controller
     public function soundTrackLists()
     {
         try {
-            $data = LibraryResource::resourceCategoriesForClient();
+
+            $allLibraries = LibraryResource::allResourceCategories();
+
             $allShopResources = ShopCategoryResource::getResources();
 
             $resourceTransformed = [];
+
             $shopTransformed = [];
 
             $getGridPublicNames = function ($grids) {
+
                 $names = [];
+
                 foreach ($grids as $grid) {
+
                     $public = CodeDetail::getSinglePublicName($grid['grid_name']);
+
                     if (!empty($public['public_name'])) {
+
                         $names[] = $public['public_name'];
+
                     }
+
                 }
+
                 return $names;
+
             };
 
-            foreach ($data as $item) {
+            foreach ($allLibraries as $item) {
+
                 $playList = PlaylistLog::getSingleResourceItem($item['id']);
+
                 $grids = HumanOpItemsGridActivitiesLog::getResourceGrid($item['id']);
+
                 $gridPublicName = $getGridPublicNames($grids);
+
+                $paid = HumanOpLibraries::singleLibraryBuyItems($item['id']);
 
                 if (empty($item->photo_url)) {
                     $resourceTransformed[] = [
@@ -64,19 +82,25 @@ class SoundTrackController extends Controller
                             4 => 'HP Look',
                             default => null,
                         },
-                        'price' => optional($item->libraryPermissions)->price,
-                        'point' => optional($item->libraryPermissions)->point,
+                        'price' => empty($paid) ? optional($item->libraryPermissions)->price : null,
+                        'point' => empty($paid) ? optional($item->libraryPermissions)->point : null,
                         'grid' => $gridPublicName,
                     ];
                 }
             }
 
             foreach ($allShopResources as $resource) {
+
                 $playList = PlaylistLog::getSingleShopItem($resource['id']);
+
                 $grids = HumanOpItemsGridActivitiesLog::getShopGrid($resource['id']);
+
                 $gridPublicName = $getGridPublicNames($grids);
 
+                $paid = HumanOpLibraries::singleLibraryBuyItems($resource['id']);
+
                 if (empty($resource->document_url)) {
+
                     $shopTransformed[] = [
                         'id' => $resource->id,
                         'category_name' => $resource->name ?? null,
@@ -91,7 +115,9 @@ class SoundTrackController extends Controller
                         'document_url' => $resource->document_url['path'] ?? null,
                         'grid' => $gridPublicName,
                     ];
+
                 }
+
             }
 
             $transformed = [
@@ -102,8 +128,11 @@ class SoundTrackController extends Controller
             return Helpers::successResponse("Sound Track Lists", $transformed);
 
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
 }
