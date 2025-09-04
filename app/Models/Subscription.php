@@ -141,7 +141,7 @@ class Subscription extends Model
         self::sendEmailVerification($emailData, $user['email'], Admin::INVOICE_CODE, $template->name);
 
         return [
-            'plan_name' => $plan->name ?? null
+            'plan_name' => $plan->name == 'Freemium' ? "Subscription is downgraded" : "Subscription is upgraded"
         ];
     }
 
