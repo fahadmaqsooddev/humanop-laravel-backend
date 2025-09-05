@@ -8,6 +8,7 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\Resources\ShopCategoryResource;
+use App\Models\Assessment;
 use App\Models\Libraries\HumanOpLibraries;
 use App\Models\PlaylistLog;
 use Illuminate\Http\Request;
@@ -28,6 +29,32 @@ class SoundTrackController extends Controller
             $allLibraries = LibraryResource::allResourceCategories();
 
             $allShopResources = ShopCategoryResource::getResources();
+
+            $userLatestAssessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
+
+            $traits = collect(Assessment::authenticTraits($userLatestAssessment))->pluck('public_name')->toArray();
+
+            $getDrivers = Assessment::getFeatures($userLatestAssessment);
+
+            $topTwoDrivers = collect(Assessment::getTopTwoFeatures($getDrivers['top_two_keys'], $userLatestAssessment))->pluck('public_name')->toArray();
+
+            $alchemy = [Assessment::getAlchemyDetail($userLatestAssessment)['public_name']];
+
+            $communication = Assessment::getEnergy($userLatestAssessment);
+
+            $topCommunication = collect(CodeDetail::getCommunicationDetail($communication, $userLatestAssessment))->pluck('public_name')->toArray();
+
+            $topCommunication = [$topCommunication[0]];
+
+            $perception = [Assessment::getPreceptionReportDetail($userLatestAssessment)['public_name']];
+
+            $energyPool = Assessment::getEnergyPoolPublicName($userLatestAssessment)['public_name'];
+
+            $energyPool = explode(' ', $energyPool);
+
+            $energyPool = [$energyPool[0]];
+
+            $userAssessmentGrid = array_merge($traits, $topTwoDrivers, $alchemy, $topCommunication, $perception, $energyPool);
 
             $resourceTransformed = [];
 
@@ -68,37 +95,43 @@ class SoundTrackController extends Controller
 
                 $gridPublicName = $getGridPublicNames($grids);
 
-                $matchName = empty($searchName) || strcasecmp($item['heading'], $searchName) === 0;
+                $matchAssessment = !empty(array_intersect($userAssessmentGrid, $gridPublicName));
 
-                $matchGrid = empty($searchGrids) || !empty(array_intersect($searchGrids, $gridPublicName));
+                if ($matchAssessment) {
 
-                if ($matchName && $matchGrid) {
+                    $matchName = empty($searchName) || strcasecmp($item['heading'], $searchName) === 0;
 
-                    if (empty($item->photo_url)) {
+                    $matchGrid = empty($searchGrids) || !empty(array_intersect($searchGrids, $gridPublicName));
 
-                        $resourceTransformed[] = [
-                            'id' => $item->id,
-                            'heading' => $item->heading,
-                            'my_playlist' => !empty($playList) ? 1 : 0,
-                            'slug' => $item->slug,
-                            'description' => $item->description,
-                            'content' => $item->content,
-                            'relevance' => $item->relevance,
-                            'photo_url' => $item->photo_url ?? null,
-                            'video_url' => $item->video_url ?? null,
-                            'audio_url' => $item->audio_url ?? null,
-                            'resource_category_name' => optional($item->resourceCategory)->name,
-                            'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
-                                1 => 'Freemium',
-                                2 => 'Core',
-                                3 => 'Premium',
-                                4 => 'HP Look',
-                                default => null,
-                            },
-                            'price' => empty($paid) ? optional($item->libraryPermissions)->price : null,
-                            'point' => empty($paid) ? optional($item->libraryPermissions)->point : null,
-                            'grid' => $gridPublicName,
-                        ];
+                    if ($matchName && $matchGrid) {
+
+                        if (empty($item->photo_url)) {
+
+                            $resourceTransformed[] = [
+                                'id' => $item->id,
+                                'heading' => $item->heading,
+                                'my_playlist' => !empty($playList) ? 1 : 0,
+                                'slug' => $item->slug,
+                                'description' => $item->description,
+                                'content' => $item->content,
+                                'relevance' => $item->relevance,
+                                'photo_url' => $item->photo_url ?? null,
+                                'video_url' => $item->video_url ?? null,
+                                'audio_url' => $item->audio_url ?? null,
+                                'resource_category_name' => optional($item->resourceCategory)->name,
+                                'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
+                                    1 => 'Freemium',
+                                    2 => 'Core',
+                                    3 => 'Premium',
+                                    4 => 'HP Look',
+                                    default => null,
+                                },
+                                'price' => empty($paid) ? optional($item->libraryPermissions)->price : null,
+                                'point' => empty($paid) ? optional($item->libraryPermissions)->point : null,
+                                'grid' => $gridPublicName,
+                            ];
+
+                        }
 
                     }
 
@@ -117,28 +150,34 @@ class SoundTrackController extends Controller
 
                 $paid = HumanOpLibraries::singleLibraryBuyItems($resource['id']);
 
-                $matchName = empty($searchName) || strcasecmp($resource['heading'], $searchName) === 0;
+                $matchAssessment = !empty(array_intersect($userAssessmentGrid, $gridPublicName));
 
-                $matchGrid = empty($searchGrids) || !empty(array_intersect($searchGrids, $gridPublicName));
+                if ($matchAssessment) {
 
-                if ($matchName && $matchGrid) {
+                    $matchName = empty($searchName) || strcasecmp($resource['heading'], $searchName) === 0;
 
-                    if (empty($resource->document_url)) {
+                    $matchGrid = empty($searchGrids) || !empty(array_intersect($searchGrids, $gridPublicName));
 
-                        $shopTransformed[] = [
-                            'id' => $resource->id,
-                            'category_name' => $resource->name ?? null,
-                            'my_playlist' => !empty($playList) ? 1 : 0,
-                            'heading' => $resource->heading,
-                            'created_at' => $resource->created_at,
-                            'updated_at' => $resource->updated_at,
-                            'points' => empty($paid) ? (int)($resource->point ?? 0) : null,
-                            'prices' => empty($paid) ? (int)($resource->price ?? 0) : null,
-                            'video_url' => $resource->video_url['path'] ?? null,
-                            'audio_url' => $resource->audio_url['path'] ?? null,
-                            'document_url' => $resource->document_url['path'] ?? null,
-                            'grid' => $gridPublicName,
-                        ];
+                    if ($matchName && $matchGrid) {
+
+                        if (empty($resource->document_url)) {
+
+                            $shopTransformed[] = [
+                                'id' => $resource->id,
+                                'category_name' => $resource->name ?? null,
+                                'my_playlist' => !empty($playList) ? 1 : 0,
+                                'heading' => $resource->heading,
+                                'created_at' => $resource->created_at,
+                                'updated_at' => $resource->updated_at,
+                                'points' => empty($paid) ? (int)($resource->point ?? 0) : null,
+                                'prices' => empty($paid) ? (int)($resource->price ?? 0) : null,
+                                'video_url' => $resource->video_url['path'] ?? null,
+                                'audio_url' => $resource->audio_url['path'] ?? null,
+                                'document_url' => $resource->document_url['path'] ?? null,
+                                'grid' => $gridPublicName,
+                            ];
+
+                        }
 
                     }
 
