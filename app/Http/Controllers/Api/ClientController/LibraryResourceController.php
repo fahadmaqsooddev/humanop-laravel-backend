@@ -56,8 +56,8 @@ class LibraryResourceController extends Controller
                         4 => 'HP Look', // or whatever label you want for permission 4
                         default => 'null',
                     },
-                    'price' => (int)optional($item->libraryPermissions)->price ?? 0,
-                    'point' => (int)optional($item->libraryPermissions)->point ?? 0,
+                    'price' => optional($item->libraryPermissions)->price,
+                    'point' => optional($item->libraryPermissions)->point,
                 ];
             }
 
