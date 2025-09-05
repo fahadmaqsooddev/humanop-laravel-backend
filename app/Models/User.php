@@ -28,7 +28,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
@@ -238,7 +237,7 @@ class User extends Authenticatable implements JWTSubject
     public function getPhotoUrlAttribute()
     {
 
-        if (!empty($this->image_id)){
+        if (!empty($this->image_id)) {
 
             if ($this->gender == '1') {
 
@@ -252,7 +251,7 @@ class User extends Authenticatable implements JWTSubject
 
             return Helpers::getImage($this->image_id, $profilePic);
 
-        }else{
+        } else {
 
             return null;
         }
@@ -527,10 +526,11 @@ class User extends Authenticatable implements JWTSubject
 
         // remap to your custom keys
         $usersCount = [
-            'clarity'    => $usersCount->get('Freemium', 0),
-            'focus'    => $usersCount->get('Core', 0),
+            'clarity' => $usersCount->get('Freemium', 0),
+            'focus' => $usersCount->get('Core', 0),
             'elevate' => $usersCount->get('Premium', 0),
         ];
+        $usersCount['referral_credit_earned'] = ($usersCount['clarity'] * 5) + ($usersCount['focus'] * 10) + ($usersCount['elevate'] * 15);
         return $usersCount;
     }
 
