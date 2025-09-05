@@ -1609,6 +1609,13 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static function checkPhoneVerified($userEmail = null)
+    {
+
+        return self::where('email', $userEmail)->whereNotNull('phone_verified_at')->first();
+
+    }
+
     public static function checkLastStep($userEmail = null)
     {
         return self::where('email', $userEmail)->first();
