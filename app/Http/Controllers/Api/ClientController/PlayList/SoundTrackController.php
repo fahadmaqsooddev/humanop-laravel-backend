@@ -105,7 +105,7 @@ class SoundTrackController extends Controller
 
                     if ($matchName && $matchGrid) {
 
-                        if (empty($item->photo_url)) {
+                        if ((empty($item->photo_url)) && (!empty($item->video_url) || !empty($item->audio_url))) {
 
                             $resourceTransformed[] = [
                                 'id' => $item->id,
@@ -160,7 +160,7 @@ class SoundTrackController extends Controller
 
                     if ($matchName && $matchGrid) {
 
-                        if (empty($resource->document_url)) {
+                        if ((empty($resource->document_url)) && (empty($resource->image_url)) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
 
                             $shopTransformed[] = [
                                 'id' => $resource->id,
@@ -261,7 +261,7 @@ class SoundTrackController extends Controller
                 $paid = HumanOpLibraries::singleLibraryBuyItems($resource['id']);
 
                 // ✅ Sirf video_url ya audio_url wale results
-                if (empty($resource->document_url) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
+                if (empty($resource->document_url) && empty($resource->image_url) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
                     $shopTransformed[] = [
                         'id' => $resource->id,
                         'category_name' => $resource->name ?? null,
