@@ -247,8 +247,8 @@ class SoundTrackController extends Controller
                             4 => 'HP Look',
                             default => null,
                         },
-                        'price' => empty($paid) ? optional($item->libraryPermissions)->price : null,
-                        'point' => empty($paid) ? optional($item->libraryPermissions)->point : null,
+                        'price' => empty($paid) ? optional($item->libraryPermissions)->price ?? 0 : null,
+                        'point' => empty($paid) ? optional($item->libraryPermissions)->point ?? 0 : null,
                         'grid' => $gridPublicName,
                     ];
                 }
@@ -260,6 +260,7 @@ class SoundTrackController extends Controller
                 $gridPublicName = $getGridPublicNames($grids);
                 $paid = HumanOpLibraries::singleLibraryBuyItems($resource['id']);
 
+                dd($paid);
                 // ✅ Sirf video_url ya audio_url wale results
                 if (empty($resource->document_url) && empty($resource->image_url) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
                     $shopTransformed[] = [
