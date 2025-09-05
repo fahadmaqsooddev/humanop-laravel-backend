@@ -203,46 +203,31 @@ class SoundTrackController extends Controller
     public function soundTrackLists()
     {
         try {
-
             $allLibraries = LibraryResource::allResourceCategories();
-
             $allShopResources = ShopCategoryResource::getResources();
 
             $resourceTransformed = [];
-
             $shopTransformed = [];
 
             $getGridPublicNames = function ($grids) {
-
                 $names = [];
-
                 foreach ($grids as $grid) {
-
                     $public = CodeDetail::getSinglePublicName($grid['grid_name']);
-
                     if (!empty($public['public_name'])) {
-
                         $names[] = $public['public_name'];
-
                     }
-
                 }
-
                 return $names;
-
             };
 
             foreach ($allLibraries as $item) {
-
                 $playList = PlaylistLog::getSingleResourceItem($item['id']);
-
                 $grids = HumanOpItemsGridActivitiesLog::getResourceGrid($item['id']);
-
                 $gridPublicName = $getGridPublicNames($grids);
-
                 $paid = HumanOpLibraries::singleLibraryBuyItems($item['id']);
 
-                if (empty($item->photo_url)) {
+                // ✅ Sirf video_url ya audio_url wale results
+                if ((empty($item->photo_url)) && (!empty($item->video_url) || !empty($item->audio_url))) {
                     $resourceTransformed[] = [
                         'id' => $item->id,
                         'heading' => $item->heading,
@@ -270,17 +255,13 @@ class SoundTrackController extends Controller
             }
 
             foreach ($allShopResources as $resource) {
-
                 $playList = PlaylistLog::getSingleShopItem($resource['id']);
-
                 $grids = HumanOpItemsGridActivitiesLog::getShopGrid($resource['id']);
-
                 $gridPublicName = $getGridPublicNames($grids);
-
                 $paid = HumanOpLibraries::singleLibraryBuyItems($resource['id']);
 
-                if (empty($resource->document_url)) {
-
+                // ✅ Sirf video_url ya audio_url wale results
+                if (empty($resource->document_url) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
                     $shopTransformed[] = [
                         'id' => $resource->id,
                         'category_name' => $resource->name ?? null,
@@ -295,9 +276,7 @@ class SoundTrackController extends Controller
                         'document_url' => $resource->document_url['path'] ?? null,
                         'grid' => $gridPublicName,
                     ];
-
                 }
-
             }
 
             $transformed = [
@@ -306,13 +285,9 @@ class SoundTrackController extends Controller
             ];
 
             return Helpers::successResponse("Sound Track Lists", $transformed);
-
         } catch (\Exception $exception) {
-
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
 }
