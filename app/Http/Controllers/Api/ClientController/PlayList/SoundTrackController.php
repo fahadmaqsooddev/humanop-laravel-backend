@@ -260,7 +260,6 @@ class SoundTrackController extends Controller
                 $gridPublicName = $getGridPublicNames($grids);
                 $paid = HumanOpLibraries::singleLibraryBuyItems($resource['id']);
 
-                dd($paid);
                 // ✅ Sirf video_url ya audio_url wale results
                 if (empty($resource->document_url) && empty($resource->image_url) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
                     $shopTransformed[] = [
