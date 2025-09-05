@@ -148,7 +148,7 @@ class SoundTrackController extends Controller
 
                 $gridPublicName = $getGridPublicNames($grids);
 
-                $paid = HumanOpLibraries::singleLibraryBuyItems($resource['id']);
+                $paid = HumanOpLibraries::singleShopBuyItems($resource['id']);
 
                 $matchAssessment = !empty(array_intersect($userAssessmentGrid, $gridPublicName));
 
@@ -278,7 +278,7 @@ class SoundTrackController extends Controller
 
                 $gridPublicName = $getGridPublicNames($grids);
 
-                $paid = HumanOpLibraries::singleLibraryBuyItems($resource['id']);
+                $paid = HumanOpLibraries::singleShopBuyItems($resource['id']);
 
                 if (empty($resource->document_url) && empty($resource->image_url) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
 
