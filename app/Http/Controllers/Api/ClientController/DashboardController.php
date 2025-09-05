@@ -901,8 +901,6 @@ class DashboardController extends Controller
 
             foreach ($resources as $resource) {
 
-                $resource['created_at'] =
-
                 $resource['resource_created_at'] = $resource['created_at'] ? Carbon::parse($resource['created_at'])->format('m/d/Y h:i A') : null;
 
                 $formatedResources[] = $resource;

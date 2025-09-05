@@ -68,6 +68,15 @@ class HumanOpLibraries extends Model
 
     }
 
+    public static function singleShopBuyItems($shopId = null)
+    {
+
+        $user = Helpers::getUser();
+
+        return self::where('user_id', $user['id'])->where('item_id', $shopId)->first();
+
+    }
+
     public static function getAllItems($userId = null)
     {
         return self::where('user_id', $userId)->whereNotNull('item_id')->get();

@@ -166,6 +166,8 @@ class AuthController extends Controller
 
                     $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
 
+                    $checkPhoneVerified = User::checkPhoneVerified($checkUser['email']);
+
                     if (empty($checkEmailVerified)) {
 
                         if (!empty($request['register_from_app'])) {
@@ -189,6 +191,28 @@ class AuthController extends Controller
                         return Helpers::successResponse('Your email is not verified. Verification email sent.', [
                             'authorization' => [
                                 'user' => $checkUser,
+                                'email' => 'not verified',
+                                'status' => true,
+                                'type' => 'bearer',
+                            ],
+                        ]);
+
+                    } elseif (empty($checkPhoneVerified)) {
+
+                        $code = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+                        $message = "Hi {$checkUser['first_name']} {$checkUser['last_name']}, your code is: {$code} for verifying your phone number.";
+
+                        $checkUser->update(['phone' => $request['phone'], 'sms_verify_code' => $code]);
+
+                        $checkUser->setAppends([]);
+
+                        $this->sns->sendSms($request['phone'], $message);
+
+                        return Helpers::successResponse('Your phone number is not verified. Verification otp code sent.', [
+                            'authorization' => [
+                                'user' => $checkUser,
+                                'phone_number' => 'not verified',
                                 'status' => true,
                                 'type' => 'bearer',
                             ],
@@ -403,7 +427,7 @@ class AuthController extends Controller
 
                 $user->setAppends([]);
 
-                //                $this->sns->sendSms($request['phone'], $message);
+                $this->sns->sendSms($request['phone'], $message);
 
                 return Helpers::successResponse('sms code send', $user);
 

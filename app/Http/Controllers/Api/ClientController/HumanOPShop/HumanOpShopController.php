@@ -71,6 +71,7 @@ class HumanOpShopController extends Controller
                     'id' => $item->id,
                     'category_name' => $item->shopCategory->name ?? null,
                     'heading' => $item->heading,
+                    'description' => $item->description,
                     'created_at' => $item->created_at,
                     'updated_at' => $item->updated_at,
                     'points' => $item['point'] ?? null,

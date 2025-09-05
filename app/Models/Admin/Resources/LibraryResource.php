@@ -185,14 +185,20 @@ class LibraryResource extends Model
             default => 1,
         };
 
-        return self::whereHas('libraryPermissions', function ($q) use ($permission) {
+        $purchasedItemIds = HumanOpLibraries::getAllLibraries(Helpers::getUser()['id'])->pluck('library_resource_id')->toArray();
+
+        $resource = self::whereHas('libraryPermissions', function ($q) use ($permission) {
             $q->where('permission', $permission);
         })
             ->with(['resourceCategory', 'libraryPermissions'])
+            ->whereNotIn('id', $purchasedItemIds)
             ->latest()
             ->take(4)
             ->get();
+
+        return $resource;
     }
+
 
     public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null)
     {
