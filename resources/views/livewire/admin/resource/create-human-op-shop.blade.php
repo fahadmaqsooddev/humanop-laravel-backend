@@ -239,6 +239,11 @@
                                                maxlength="150">
                                     </div>
 
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Description</label>
+                                        <textarea class="form-control input-form-style" wire:model="description" placeholder="Enter description" rows="3"></textarea>
+                                    </div>
+
 
                                     <div class="form-group">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
@@ -425,6 +430,11 @@
                                         <label class="form-label fs-4" style="color: #1b3a62">Title</label>
                                         <input class="form-control input-form-style"
                                                wire:model.defer="heading" placeholder="title" type="text">
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Description</label>
+                                        <textarea class="form-control input-form-style" wire:model.defer="description" placeholder="Enter description" rows="3"></textarea>
                                     </div>
 
 

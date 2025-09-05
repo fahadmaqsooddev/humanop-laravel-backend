@@ -71,10 +71,11 @@ class ShopCategoryResource extends Model
         return self::with('shopCategory', 'resourceTraits')->get();
     }
 
-    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null)
+    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null)
     {
         $resource = self::create([
             'heading' => $heading,
+            'description' => $description,
             'slug' => Str::slug($heading),
             'humanop_shop_category_id' => $category_id,
             'price' => $price,
@@ -88,11 +89,12 @@ class ShopCategoryResource extends Model
         return $resource;
     }
 
-    public static function updateResource($heading = null, $id = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $point = null)
+    public static function updateResource($heading = null, $id = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $point = null,$description = null)
     {
 
         self::whereId($id)->update([
             'heading' => $heading,
+            'description' => $description,
             'slug' => Str::slug($heading),
             'humanop_shop_category_id' => $category_id,
             'price' => $price,
