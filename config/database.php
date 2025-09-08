@@ -696,7 +696,7 @@ return [
         ],
         'Playlist' => [
             'table' => 'playlist',
-            'fillable' => ['user_id', 'audio_id', 'title', 'description'],
+            'fillable' => ['user_id', 'audio_id', 'title', 'description','image_id'],
             'hidden' => ['created_at'],
         ],
         'PlaylistLog' => [
