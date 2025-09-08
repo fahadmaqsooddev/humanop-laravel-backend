@@ -646,7 +646,7 @@ return [
         ],
         'ShopCategoryResource' => [
             'table' => 'humanop_shop_resources',
-            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price','image_id','description'],
+            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price','image_id','description','thumbnail_id'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'HumanOpShopTraits' => [

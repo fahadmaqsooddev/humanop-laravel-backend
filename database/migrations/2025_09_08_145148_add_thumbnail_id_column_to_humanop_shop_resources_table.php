@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('podcast', function (Blueprint $table) {
+        Schema::table('humanop_shop_resources', function (Blueprint $table) {
 
             $table->unsignedBigInteger('thumbnail_id')->nullable();
 
@@ -29,9 +29,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('podcast', function (Blueprint $table) {
+        Schema::table('humanop_shop_resources', function (Blueprint $table) {
 
-            $table->dropForeign('podcast_thumbnail_id');
+            $table->dropForeign('humanop_shop_resources_thumbnail_id');
             $table->dropColumn('thumbnail_id');
 
         });

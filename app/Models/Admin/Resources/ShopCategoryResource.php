@@ -27,7 +27,7 @@ class ShopCategoryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['document_url', 'video_url', 'audio_url','image_url'];
+    protected $appends = ['document_url', 'video_url', 'audio_url','image_url', 'thumbnail_url'];
 
     // relation
     public function shopCategory()
@@ -61,7 +61,26 @@ class ShopCategoryResource extends Model
 
     public function getImageUrlAttribute()
     {
-        return Helpers::getImage($this->image_id, 1);
+        if (!empty($this->image_id)){
+
+            return Helpers::getImage($this->image_id, 1);
+
+        }else{
+
+            return null;
+        }
+    }
+
+    public function getThumbnailUrlAttribute()
+    {
+        if (!empty($this->thumbnail_id)){
+
+            return Helpers::getImage($this->thumbnail_id);
+
+        }else{
+
+            return null;
+        }
     }
 
 
@@ -71,7 +90,7 @@ class ShopCategoryResource extends Model
         return self::with('shopCategory', 'resourceTraits')->get();
     }
 
-    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null)
+    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -84,6 +103,7 @@ class ShopCategoryResource extends Model
             'document_id' => $document_id,
             'image_id' => $image_id,
             'point' => $point,
+            'thumbnail_id' => $thumbnail_id
         ]);
 
         return $resource;
