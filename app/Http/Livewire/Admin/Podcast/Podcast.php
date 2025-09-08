@@ -14,13 +14,14 @@ class Podcast extends Component
 
     use WithFileUploads, WithPagination;
 
-    public $title, $audio_file, $podcastId;
+    public $title, $audio_file, $podcastId, $thumbnail_file;
 
     protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm', 'deletePodcast'];
 
     protected $rules = [
         'title' => 'required|string|max:200',
         'audio_file' => 'required|file|mimes:mp3,wav,aac,ogg,flac|max:204800', // 200MB limit (204800 KB)
+        'thumbnail_file' => 'required|file|mimes:png,jpg,jpeg,gif|max:204800', // 200MB limit (204800 KB)
     ];
 
     protected $messages = [
@@ -32,6 +33,11 @@ class Podcast extends Component
         'audio_file.file' => 'The uploaded file must be a valid file.',
         'audio_file.mimes' => 'The audio must be in one of these formats: mp3, wav, aac, ogg, or flac.',
         'audio_file.max' => 'The audio file must not exceed 200MB.',
+
+        'thumbnail_file.required' => 'Please upload an thumbnail file.',
+        'thumbnail_file.file' => 'The uploaded file must be a valid file.',
+        'thumbnail_file.mimes' => 'The thumbnail must be in one of these formats: png, jpg, jpeg, or gif.',
+        'thumbnail_file.max' => 'The thumbnail file must not exceed 200MB.',
     ];
 
     public function getPodcasts()
@@ -50,7 +56,9 @@ class Podcast extends Component
 
             $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
 
-            \App\Models\Admin\Podcast\Podcast::createPodcast($this->title, $upload_id);
+            $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+            \App\Models\Admin\Podcast\Podcast::createPodcast($this->title, $upload_id, $thumbnail_id);
 
             session()->flash('success', 'Audio File uploaded successfully.');
 

@@ -19,12 +19,27 @@ class Podcast extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['audio_url'];
+    protected $appends = ['audio_url', 'thumbnail_url'];
 
     public function getAudioUrlAttribute()
     {
 
         return Helpers::getAudio($this->audio_id, 1);
+    }
+
+    public function getThumbnailUrlAttribute()
+    {
+
+        if (!empty($this->thumbnail_id)) {
+
+
+            return Helpers::getImage($this->thumbnail_id);
+
+        } else {
+
+            return null;
+        }
+
     }
 
     public static function singlePodcast($id = null)
@@ -42,12 +57,13 @@ class Podcast extends Model
         return self::orderBy('created_at', 'desc')->get();
     }
 
-    public static function createPodcast($title = null, $audioId = null)
+    public static function createPodcast($title = null, $audioId = null, $thumbnailId = null)
     {
 
         return self::create([
             'title' => $title,
-            'audio_id' => $audioId
+            'audio_id' => $audioId,
+            'thumbnail_id' => $thumbnailId
         ]);
 
     }

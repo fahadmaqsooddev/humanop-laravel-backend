@@ -272,6 +272,7 @@ class DashboardController extends Controller
                     'title' => $podcast['title'] ?? null,
                     'audio_id' => $podcast['audio_id'] ?? null,
                     'audio_url' => $podcast['audio_url'] ?? null,
+                    'thumbnail_url' => $podcast['thumbnail_url']['url'] ?? null
                 ];
 
             }

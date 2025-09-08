@@ -34,7 +34,7 @@ class InformationIconSeeder extends Seeder
             ['name' => "Your HumanOp Profile Overview", 'information' => "<p>This is where you can access your explanation of your unique HumanOp Assessment Results!</p>"],
             ['name' => "HumanOp Integration Radio", 'information' => "<p>This is where you can listen to the integration podcast to deepen your understanding of how to use your results to change your life!</p>"],
             ['name' => "Hello, I'm HAi® Ask About Your Results!", 'information' => "<p>This is where you can listen to the integration podcast to deepen your understanding of how to use your results to change your life!</p>"],
-            ['name' => "Matching Connection", 'information' => "<p>Find people who match your traits and interests.</p>"],
+            ['name' => "Search Using The Compatibility Matrix Algorithm", 'information' => "<p>Find people who match your traits and interests.</p>"],
             ['name' => "Find & Connect", 'information' => "<p>Search and connect with others in the community.</p>"],
             ['name' => "Your Connection", 'information' => "<p>View and manage your current connections.</p>"],
             ['name' => "Your Connection Requests", 'information' => "<p>Check and respond to your connection requests.</p>"],
