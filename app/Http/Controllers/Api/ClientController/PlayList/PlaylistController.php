@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\Playlist\NewPlaylistRequest;
 use App\Models\Playlist\Playlist;
+use App\Models\Upload\Upload;
 use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
@@ -58,6 +59,7 @@ class PlaylistController extends Controller
                     'id' => $playlist['id'],
                     'title' => $playlist['title'],
                     'description' => $playlist['description'],
+                    'playlist_image' => $playlist['image_url'] ? $playlist['image_url']['url'] : null,
                     'resource_items' => $mergedResourceItems,
                     'shop_items' => $mergedShopItems,
                     'podcast_items' => $mergedPodcastItems,
@@ -89,6 +91,10 @@ class PlaylistController extends Controller
 
                 if (count($checkPlayList) == 0){
 
+                    $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image', 'png', true);
+
+                    $dataArray['image_id']= $upload_id;
+
                     Playlist::newPlaylist($dataArray);
 
                     return Helpers::successResponse("Add your playlist");
@@ -100,6 +106,10 @@ class PlaylistController extends Controller
                 }
 
             }else{
+
+                $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image', 'png', true);
+
+                $dataArray['image_id']= $upload_id;
 
                 Playlist::newPlaylist($dataArray);
 

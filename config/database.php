@@ -318,7 +318,7 @@ return [
         ],
         'Podcast' => [
             'table' => 'podcast',
-            'fillable' => ['title', 'audio_id'],
+            'fillable' => ['title', 'audio_id', 'thumbnail_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'HaiChat' => [
@@ -651,7 +651,7 @@ return [
         ],
         'ShopCategoryResource' => [
             'table' => 'humanop_shop_resources',
-            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price','image_id','description'],
+            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price','image_id','description','thumbnail_id'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'HumanOpShopTraits' => [
@@ -701,7 +701,7 @@ return [
         ],
         'Playlist' => [
             'table' => 'playlist',
-            'fillable' => ['user_id', 'audio_id', 'title', 'description'],
+            'fillable' => ['user_id', 'audio_id', 'title', 'description','image_id'],
             'hidden' => ['created_at'],
         ],
         'PlaylistLog' => [

@@ -11,12 +11,30 @@ class Playlist extends Model
 {
     use HasFactory;
 
+    protected $appends = ['image_url'];
+
     public function __construct(array $attributes = array())
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
         $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
+    }
+
+    // Append
+
+    public function getImageUrlAttribute()
+    {
+
+        if (!empty($this->image_id)) {
+
+            return Helpers::getImage($this->image_id);
+
+        } else {
+
+            return null;
+        }
+
     }
 
     public function playlist()

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Upload\Upload;
+use Illuminate\Validation\Rule;
 
 
 class CreateHumanOpShop extends Component
@@ -18,16 +19,16 @@ class CreateHumanOpShop extends Component
 
     public $booleanValue = false;
 
-    public $description,$resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $update_content, $resource_file, $category_id, $editResourceData, $category_name;
+    public $description,$resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $update_content, $resource_file, $category_id, $editResourceData, $category_name, $thumbnail_file, $fileType, $showThumbnailUpload = false;
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
-
 
     protected $rules = [
         'heading' => 'required|unique:humanop_shop_resources,heading|regex:/^[A-Za-z]/',
         'description' => 'required|string',
         'resource_file' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav,pdf,doc,docx|max:204800', // Max file size 200MB
+        'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
         'category_id' => 'required|exists:humanop_shop_categories,id',
         'pointValue' => 'required_without:priceValue|nullable|numeric|min:0',
         'priceValue' => 'required_without:pointValue|nullable|numeric|min:0',
@@ -56,6 +57,16 @@ class CreateHumanOpShop extends Component
 
         try {
 
+            $ext = strtolower($this->resource_file->getClientOriginalExtension());
+
+            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
+
+                $this->validate([
+                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
+                ]);
+
+            }
+
             $this->validate();
 
             $extension = $this->resource_file->extension();
@@ -65,11 +76,15 @@ class CreateHumanOpShop extends Component
             $resource = null;
             if (in_array($extension, ['mp3', 'wav', 'mpeg'])) {
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue,$this->description);
+                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue,$this->description, $thumbnail_id);
 
             } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $upload_id, null, null, null, $this->pointValue,$this->description);
+                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $upload_id, null, null, null, $this->pointValue,$this->description, $thumbnail_id);
 
             }elseif (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
 
@@ -138,7 +153,30 @@ class CreateHumanOpShop extends Component
 
     }
 
-    public function getResourceFile()
+    public function updatedResourceFile()
+    {
+
+        if ($this->resource_file) {
+
+            $this->fileType = strtolower($this->resource_file->getClientOriginalExtension());
+
+            if (in_array($this->fileType, ['jpeg', 'png', 'jpg', 'gif'])) {
+
+                $this->showThumbnailUpload = false;
+
+            } else {
+
+                $this->showThumbnailUpload = true;
+
+            }
+
+        } else {
+
+            $this->showThumbnailUpload = false;
+
+        }
+    }
+    public function getThumbnailFile()
     {
         $this->booleanValue = false;
     }
