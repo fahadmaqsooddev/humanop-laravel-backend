@@ -241,15 +241,15 @@ class LibraryResource extends Model
         }
 
         // Determine permission level based on plan
-        $permissionLevel = match ($userPlan) {
-            'Premium' => 3,
-            'Core' => 2,
-            default => 1,
+        $permissionLevels = match ($userPlan) {
+            'Premium' => [3, 2, 1],
+            'Core' => [2, 1],
+            default => [1], // Freemium or anything else
         };
 
-        // Filter by permission level (plan-based access)
-        $query->whereHas('libraryPermissions', function ($q) use ($permissionLevel) {
-            $q->where('permission', $permissionLevel);
+        // Filter by permission levels (plan-based access)
+        $query->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
+            $q->whereIn('permission', $permissionLevels);
         });
 
         // Eager load relationships and order

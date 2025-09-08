@@ -37,6 +37,12 @@ class LibraryResourceController extends Controller
 
                 $playList = PlaylistLog::getSingleResourceItem($item['id']);
 
+                // Get base price
+                $basePrice = (int)optional($item->libraryPermissions)->price ?? 0;
+
+                // Apply discount if plan is Core
+                $finalPrice = (Helpers::getUser()['plan_name'] === 'Core' && !empty($basePrice)) ? $basePrice * 0.75 : $basePrice;
+
                 $transformed[] = [
                     'id' => $item->id,
                     'heading' => $item->heading,
@@ -56,8 +62,8 @@ class LibraryResourceController extends Controller
                         4 => 'HP Look', // or whatever label you want for permission 4
                         default => 'null',
                     },
-                    'price' => optional($item->libraryPermissions)->price,
-                    'point' => optional($item->libraryPermissions)->point,
+                    'price' => $finalPrice,
+                    'point' => (int)optional($item->libraryPermissions)->point ?? 0,
                 ];
             }
 
