@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::table('playlist', function (Blueprint $table) {
 
-//            $table->unsignedBigInteger('image_id')->nullable();
-//
-//            $table->foreign('image_id')->references('id')->on('uploads')->onDelete('cascade');
+            $table->unsignedBigInteger('image_id')->nullable();
+
+            $table->foreign('image_id')->references('id')->on('uploads')->onDelete('cascade');
 
             $table->dropConstrainedForeignId('audio_id');
         });

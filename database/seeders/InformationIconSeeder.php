@@ -26,6 +26,7 @@ class InformationIconSeeder extends Seeder
             ['name' => "14-Day Optimization Plan", 'information' => "<p>Your HumanOp assessment results provide specific insights into your natural needs and motivations. Your unique 90-Day Optimization Plan reveals the precise strategies, related to your latest results, that you can apply to improve your performance in business, at home and in life.</p>"],
             ['name' => "Tools & Trainings", 'information' => "<p>Explore our rich library of resources and trainings! Here, you'll find insightful articles, practical guides, video trainings, and more to support your journey of self-discovery and optimization. Whatever your self-optimization goals, our resources are here to assist you in reaching them.</p>"],
             ['name' => "Just For You", 'information' => "<p>Get personalized support and guidance whenever you need it.</p>"],
+            ['name' => "What's Next?", 'information' => "<p>Get personalized support and guidance whenever you need it.</p>"],
             ['name' => "Your Assessment Core Stats", 'information' => "<p>Review your main HumanOp assessment stats and insights.</p>"],
             ['name' => "Display Mode", 'information' => "<p>Adjust how your information and profile are displayed.</p>"],
             ['name' => "Announcements & News", 'information' => "<p>Stay updated with the latest news and announcements.</p>"],
