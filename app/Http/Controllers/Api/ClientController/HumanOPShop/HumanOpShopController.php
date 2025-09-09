@@ -27,7 +27,7 @@ class HumanOpShopController extends Controller
     {
         try {
 
-            $allShopResources = ShopCategoryResource::getResources();
+            $allShopResources = ShopCategoryResource::getNotPurchasedShopResources(Helpers::getUser()['id']);
 
             $formatted = $allShopResources->map(function ($item) {
 
