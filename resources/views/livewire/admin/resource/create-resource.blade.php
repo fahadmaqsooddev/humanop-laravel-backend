@@ -217,6 +217,7 @@
             'N'  => 'Neutral'
         ];
     @endphp
+
     {{-- Create Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="createResource" tabindex="-1" role="dialog"
          data-bs-focus="false"
@@ -508,6 +509,7 @@
             </div>
         </div>
     </div>
+
     {{-- Edit Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="editResource" tabindex="-1" role="dialog" data-bs-focus="false"
          aria-labelledby="editResource" aria-hidden="true">
@@ -577,7 +579,7 @@
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input wire:model="resource_file"
-                                               id="resource_file" wire:change="getResourceFile"
+                                               id="resource_file"
                                                class="form-control input-form-style resource_file1" type="file"
                                                accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
                                     </div>
@@ -590,8 +592,7 @@
                                         </span>
                                     @if(!empty($editResourceData['photo_url']))
                                         <div class="form-group mt-4">
-                                            <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
-                                                 width="200">
+                                            <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120" width="200">
                                         </div>
                                     @elseif(!empty($editResourceData['video_url']))
                                         <div class="form-group mt-4">
@@ -608,6 +609,57 @@
                                         </div>
                                     @else
                                     @endif
+
+                                    @if($showThumbnailUpload)
+                                        <div class="form-group">
+                                            <label class="form-label fs-4" style="color: #1b3a62">
+                                                Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
+                                            </label>
+                                            <input wire:model="thumbnail_file"
+                                                   id="thumbnail_file"
+                                                   class="form-control input-form-style thumbnail_file"
+                                                   type="file"
+                                                   accept="image/*">
+
+                                            <span wire:loading.flex wire:target="thumbnail_file">
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <div class="spinner-border" role="status"
+                                                         style="color: #1b3a62 !important;"></div>
+                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    @else
+                                        @if(!in_array($typeThumbnail, ['jpeg', 'png', 'jpg', 'gif']))
+                                            @if(!empty($editResourceData['video_url']) || !empty($editResourceData['audio_url']))
+                                                <div class="form-group">
+                                                    <label class="form-label fs-4" style="color: #1b3a62">
+                                                        Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
+                                                    </label>
+                                                    <input wire:model="thumbnail_file"
+                                                           id="thumbnail_file"
+                                                           class="form-control input-form-style thumbnail_file"
+                                                           type="file"
+                                                           accept="image/*">
+
+                                                    <span wire:loading.flex wire:target="thumbnail_file">
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <div class="spinner-border" role="status"
+                                                         style="color: #1b3a62 !important;"></div>
+                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                                </div>
+                                            </span>
+                                                </div>
+                                                @if(!empty($editResourceData['thumbnail_id']))
+                                                    <div class="form-group mt-4">
+                                                        <img height="120" width="200" src="{{ $editResourceData['thumbnail_url']['url'] }}">
+                                                    </div>
+                                                @endif
+                                            @endif
+
+                                        @endif
+                                    @endif
+
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
 
