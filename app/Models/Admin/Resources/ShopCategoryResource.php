@@ -90,6 +90,16 @@ class ShopCategoryResource extends Model
         return self::with('shopCategory', 'resourceTraits')->get();
     }
 
+    public static function getNotPurchasedShopResources($userId = null)
+    {
+        $shops = self::query();
+
+        $purchasedItemIds = HumanOpLibraries::getAllItems($userId)->pluck('item_id')->toArray();
+
+        return $shops->whereNotIn('id', $purchasedItemIds)->with(['shopCategory', 'resourceTraits'])->get();
+
+    }
+
     public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
     {
         $resource = self::create([
