@@ -109,7 +109,7 @@ class ShopCategoryResource extends Model
         return $resource;
     }
 
-    public static function updateResource($heading = null, $id = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $point = null,$description = null)
+    public static function updateResource($heading = null, $id = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
     {
 
         self::whereId($id)->update([
@@ -121,7 +121,10 @@ class ShopCategoryResource extends Model
             'video_id' => $video_id,
             'audio_id' => $audio_id,
             'document_id' => $document_id,
+            'image_id' => $image_id,
             'point' => $point,
+            'thumbnail_id' => $thumbnail_id
+
         ]);
 
         return self::singleLibraryResource($id);

@@ -22,7 +22,7 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false;
+    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false;
 
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
@@ -90,18 +90,18 @@ class CreateResource extends Component
 
             $extension = $this->resource_file->extension();
 
-            if (in_array($extension, ['mp4', 'mov', 'avi', 'mkv']) || in_array($extension, ['mp3', 'wav', 'mpeg'])){
+            if (in_array($extension, ['mp4', 'mov', 'avi', 'mkv']) || in_array($extension, ['mp3', 'wav', 'mpeg'])) {
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-            }else{
+            } else {
 
                 $thumbnail_id = null;
             }
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
 
-            if (!empty($upload_id) && in_array($extension, ['mp4'])){
+            if (!empty($upload_id) && in_array($extension, ['mp4'])) {
 
                 $this->uploadFileToGumlet($this->resource_file, $resource['id']);
 
@@ -149,7 +149,7 @@ class CreateResource extends Component
 
             foreach ($this->selectedPerceptions as $perception) {
 //                if (isset($perceptionCodes[$perception])) {
-                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $perception);
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $perception);
 //                }
             }
 
@@ -162,7 +162,7 @@ class CreateResource extends Component
 
             foreach ($this->selectedEnergyPools as $energyPoolCode) {
 //                if (isset($energyPoolCodes[$energyPoolCode])) {
-                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $energyPoolCode);
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $energyPoolCode);
 //                }
             }
 
@@ -199,15 +199,21 @@ class CreateResource extends Component
 
                 $this->showThumbnailUpload = false;
 
+                $this->typeThumbnail = $this->fileType;
+
             } else {
 
                 $this->showThumbnailUpload = true;
+
+                $this->typeThumbnail = false;
 
             }
 
         } else {
 
             $this->showThumbnailUpload = false;
+
+            $this->typeThumbnail = false;
 
         }
     }
@@ -290,22 +296,22 @@ class CreateResource extends Component
         $this->permission[] = $this->editResourceData['libraryPermissions']['permission'] ?? null;
 
         // Define your code groups
-        $traits        = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
-        $features      = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
-        $alchemies     = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
+        $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
+        $features = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
+        $alchemies = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
         $communications = ['EM', 'INS', 'INT', 'MOV'];
-        $perceptions   = ['NEG', 'P', 'N'];
-        $energyPools   = ['AE', 'A', 'E', 'F'];
+        $perceptions = ['NEG', 'P', 'N'];
+        $energyPools = ['AE', 'A', 'E', 'F'];
 
         $allCodes = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
 
         // Filter them into groups
-        $this->selectedTraits         = array_values(array_intersect($allCodes, $traits));
-        $this->selectedFeatures       = array_values(array_intersect($allCodes, $features));
-        $this->selectedAlchemy        = array_values(array_intersect($allCodes, $alchemies));
+        $this->selectedTraits = array_values(array_intersect($allCodes, $traits));
+        $this->selectedFeatures = array_values(array_intersect($allCodes, $features));
+        $this->selectedAlchemy = array_values(array_intersect($allCodes, $alchemies));
         $this->selectedCommunications = array_values(array_intersect($allCodes, $communications));
-        $this->selectedPerceptions    = array_values(array_intersect($allCodes, $perceptions));
-        $this->selectedEnergyPools    = array_values(array_intersect($allCodes, $energyPools));
+        $this->selectedPerceptions = array_values(array_intersect($allCodes, $perceptions));
+        $this->selectedEnergyPools = array_values(array_intersect($allCodes, $energyPools));
 
 
         $this->emit('contentUpdated', $this->update_content ?? '');
@@ -433,7 +439,7 @@ class CreateResource extends Component
 
         $resourceGrids = HumanOpItemsGridActivitiesLog::getResourceGrid($this->resourceId);
 
-        foreach ($resourceGrids as $gird){
+        foreach ($resourceGrids as $gird) {
             $gird->delete();
         }
 
@@ -463,7 +469,7 @@ class CreateResource extends Component
 
         foreach ($this->selectedPerceptions as $perception) {
 //            if (isset($perceptionCodes[$perception])) {
-                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $perception);
+            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $perception);
 //            }
         }
 
@@ -476,7 +482,7 @@ class CreateResource extends Component
 
         foreach ($this->selectedEnergyPools as $energyPoolCode) {
 //            if (isset($energyPoolCodes[$energyPoolCode])) {
-                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $energyPoolCode);
+            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $energyPoolCode);
 //            }
         }
 
