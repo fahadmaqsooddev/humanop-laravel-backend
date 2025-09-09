@@ -282,14 +282,14 @@ class LibraryResource extends Model
 
         $query = self::query();
 
-        $permissionLevel = match ($userPlan) {
-            'Premium' => 3,
-            'Core' => 2,
-            default => 1,
+        $permissionLevels = match ($userPlan) {
+            'Premium' => [3, 2, 1],
+            'Core' => [2, 1],
+            default => [1], // Freemium or anything else
         };
 
-        $query->whereHas('libraryPermissions', function ($q) use ($permissionLevel) {
-            $q->where('permission', $permissionLevel);
+        $query->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
+            $q->whereIn('permission', $permissionLevels);
         });
 
         $query->with(['resourceCategory', 'libraryPermissions'])

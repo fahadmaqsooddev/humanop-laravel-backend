@@ -118,6 +118,7 @@ class SoundTrackController extends Controller
                                 'photo_url' => $item->photo_url ?? null,
                                 'video_url' => $item->video_url ?? null,
                                 'audio_url' => $item->audio_url ?? null,
+                                'thumbnail_url' => $item->thumbnail_url['url'] ?? null,
                                 'resource_category_name' => optional($item->resourceCategory)->name,
                                 'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
                                     1 => 'Freemium',
@@ -174,6 +175,7 @@ class SoundTrackController extends Controller
                                 'video_url' => $resource->video_url['path'] ?? null,
                                 'audio_url' => $resource->audio_url['path'] ?? null,
                                 'document_url' => $resource->document_url['path'] ?? null,
+                                'thumbnail_url' => $resource->thumbnail_url['url'] ?? null,
                                 'grid' => $gridPublicName,
                             ];
 
@@ -253,6 +255,7 @@ class SoundTrackController extends Controller
                         'photo_url' => $item->photo_url ?? null,
                         'video_url' => $item->video_url ?? null,
                         'audio_url' => $item->audio_url ?? null,
+                        'thumbnail_url' => $item->thumbnail_url['url'] ?? null,
                         'resource_category_name' => optional($item->resourceCategory)->name,
                         'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
                             1 => 'Freemium',
@@ -294,6 +297,7 @@ class SoundTrackController extends Controller
                         'video_url' => $resource->video_url['path'] ?? null,
                         'audio_url' => $resource->audio_url['path'] ?? null,
                         'document_url' => $resource->document_url['path'] ?? null,
+                        'thumbnail_url' => $resource->thumbnail_url['url'] ?? null,
                         'grid' => $gridPublicName,
                     ];
 
