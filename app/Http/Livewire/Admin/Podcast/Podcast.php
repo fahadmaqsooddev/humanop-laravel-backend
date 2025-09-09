@@ -14,7 +14,7 @@ class Podcast extends Component
 
     use WithFileUploads, WithPagination;
 
-    public $title, $audio_file, $podcastId, $thumbnail_file;
+    public $title, $audio_file, $podcastId, $thumbnail_file, $thumbnail_url;
 
     protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm', 'deletePodcast'];
 
@@ -82,9 +82,14 @@ class Podcast extends Component
 
     public function editPodcastModal($id, $title, $audio_url)
     {
+
+        $thumbnail_url = \App\Models\Admin\Podcast\Podcast::singlePodcast($id);
+
         $this->podcastId = $id;
         $this->title = $title;
         $this->audio_file = $audio_url;
+        $this->thumbnail_url = $thumbnail_url['thumbnail_url'] ? $thumbnail_url['thumbnail_url']['path'] : null;
+
     }
 
     public function updatePodcast(Request $request)

@@ -4,7 +4,7 @@
         <table class="table table-flush">
             <thead class="thead-light">
             <tr class="text-color-blue">
-{{--                <th>#</th>--}}
+                {{--                <th>#</th>--}}
                 <th>Title</th>
                 <th>Audio File</th>
                 <th style="display: flex; justify-content: center">Action</th>
@@ -13,7 +13,7 @@
             <tbody>
             @foreach($podcasts as $key => $podcast)
                 <tr class="text-color-blue">
-{{--                    <td class="text-sm font-weight-normal" style="align-items: center">{{ $key + 1 }}</td>--}}
+                    {{--                    <td class="text-sm font-weight-normal" style="align-items: center">{{ $key + 1 }}</td>--}}
                     <td class="text-sm font-weight-normal">
                         @if(strlen(strip_tags($podcast['title'])) > 10)
                             {!! Str::limit(strip_tags($podcast['title']), 10, '') !!}
@@ -29,14 +29,18 @@
                     <td class="text-sm font-weight-normal">
                         @if (!empty($podcast) && !empty($podcast['audio_url']['path']))
                             <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn btn-sm btn-secondary seek-back" style="font-size: 12px;">⏪ 10s</button>
+                                <button type="button" class="btn btn-sm btn-secondary seek-back"
+                                        style="font-size: 12px;">⏪ 10s
+                                </button>
 
                                 <audio controls class="audio-player" style="width: 100%;">
                                     <source src="{{ asset($podcast['audio_url']['path']) }}" type="audio/mpeg">
                                     Your browser does not support the audio element.
                                 </audio>
 
-                                <button type="button" class="btn btn-sm btn-secondary seek-forward" style="font-size: 12px;">⏩ 10s</button>
+                                <button type="button" class="btn btn-sm btn-secondary seek-forward"
+                                        style="font-size: 12px;">⏩ 10s
+                                </button>
                             </div>
                         @else
                             <span class="text-muted">No audio available</span>
@@ -186,6 +190,44 @@
                                         @enderror
                                     </div>
 
+                                    @if (!empty($podcast) && !empty($podcast['audio_url']['path']))
+                                        <div class="d-flex align-items-center gap-2 mt-4">
+                                            <button type="button" class="btn btn-sm btn-secondary seek-back"
+                                                    style="font-size: 12px;">⏪ 10s
+                                            </button>
+
+                                            <audio controls class="audio-player" style="width: 100%;">
+                                                <source src="{{ asset($podcast['audio_url']['path']) }}"
+                                                        type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+
+                                            <button type="button" class="btn btn-sm btn-secondary seek-forward"
+                                                    style="font-size: 12px;">⏩ 10s
+                                            </button>
+                                        </div>
+                                    @else
+                                        <span class="text-muted">No audio available</span>
+                                    @endif
+                                    <div class="col-12 mt-4">
+                                        <label class="form-label" style="color: #1b3a62">
+                                            Upload Thumbnail Image File [PNG, JPG, JPEG AND GIF]
+                                        </label>
+                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style"
+                                               type="file" Wire:model="thumbnail_file" placeholder="Choose audio file"
+                                               id="audioInput" accept="image/*">
+                                        <span wire:loading.flex wire:target="thumbnail_file" style="color: #1b3a62">Uploading ...</span>
+                                        @error('thumbnail_file')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    @if(!empty($thumbnail_url))
+                                        <div class="form-group mt-4">
+                                            <img style="width: 100%;"
+                                                 src="{{ $thumbnail_url }}">
+                                        </div>
+                                    @endif
+
                                 </div>
                                 <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
                                         style="background-color: #1b3a62">Create Podcast
@@ -228,15 +270,6 @@
                 }
             })
         }
-
-        // document.addEventListener('livewire:load', function () {
-        //     Livewire.on('closeModal', () => {
-        //         // Wait 5 seconds (5000ms) before closing the modal
-        //         setTimeout(function () {
-        //             $('#addPodcast').modal('hide');
-        //         }, 5000);
-        //     });
-        // });
 
         $(document).ready(function () {
             $('#addPodcast').on('hidden.bs.modal', function () {
