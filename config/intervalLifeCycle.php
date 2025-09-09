@@ -108,7 +108,7 @@ return [
 
     'the_power_interval_(30-33)' => '
     <p class="text-sm mt-3 fs-12px"
-       style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#eaf3ff !important;">
+       style="color:#1C365E !important; text-align: justify; font-size:1rem;">
         Your current interval of life between 30 and 33 is “The Power Interval”.
         This is a time of life when you have the most physical energy in all of life,
         and when you begin to make your mark on society. You\'re naturally marketable
@@ -180,18 +180,18 @@ return [
 
 
     'awareness_(43-51)' => '
-    <p class="text-sm mt-3 fs-12px" style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#eaf3ff !important;">
+    <p class="text-sm mt-3 fs-12px" style="color:#1C365E !important; text-align: justify; font-size:1rem;">
         Your current interval begins at age 43 and it ends at 52. This interval is called “The Interval of Awareness”, and it marks the beginning of adulthood. It\'s interesting because even though society embraces a 21 year old as an adult, by nature, age 21 simply highlights a physically mature individual. Adulthood is something that requires a history of experience in making life choices. So consider this… throughout the past ten years you have experienced the metamorphosis of what\'s called the midlife transformation. And you have weathered the storm, and you have emerged as an adult. It\'s not until age 43 that one is officially an adult by nature. You are now awake, and you have an innate knowingness that a completely different life lies ahead for you. An opportunity to pursue a whole new outlook on life presents itself to you during this interval. And your perception of reality, purpose and love holds an even greater significance. Reasonability and a recognition of your mortality become the focus of this interval. It\'s really the first wake up call for you that life is short. Depending on how deep into this interval you are, notice for yourself this new, more awareness-filled desire to gather more information, indulge in meaningful experiences, and even take better care of your body. The awareness that you have this one body, and in order to sustain it, you have to maintain it. All of these dynamics take priority for you in this interval. It\'s important to recognize that you are essentially reinventing yourself in this interval, and this is great. You simply want to use your awareness to ensure that you\'re not getting too distracted with the reinvention process. The workshop junkie syndrome comes into play for some people during this interval. And, of course, there\'s nothing wrong with gathering more information or aligning with meaningful experiences, just remind yourself to notice what really resonates for you and what\'s just adding more to your life. And really enjoy this interval! It\'s like a rest vacation after the more tumultuous dynamic of the previous interval that you just experienced.
     </p>',
 
     'pay_it_forward_(52-65)' => '
-    <p class="text-sm mt-3 fs-12px" style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#eaf3ff !important;">
+    <p class="text-sm mt-3 fs-12px" style="color:#1C365E !important; text-align: justify; font-size:1rem;">
         Your current interval begins at age 52 and it ends at 66. This interval is called “The Pay It Forward Interval”. All that you\'ve collected over the past many years becomes fuel for the gifts you are to leave behind in this life as you pay it forward. You\'ve become more altruistic. You\'re done competing. You no longer are territorial and you\'re well versed in your views and your expertise. It becomes “beyond you”. You become aware of your purpose and want to give back and contribute to causes that are important to you. With this interval comes personal forgiveness and understanding. You become comfortable in your own skin and you feel worthy of your age and the respect that it commands. There\'s actually a proud survival that shines through in your smile. You do want to make sure that you continue to pay attention to your physical health in this interval, because just like a vehicle, the longer it\'s driven, it continues to rack up more miles. So you\'re continuing to rack up more miles on your “vehicle of self”. And as you pay it forward, also pay attention to self care to ensure that you\'re remaining energized and optimized.
     </p>',
 
 
     'liberated_(66-69)' => "
-<p class=\"text-sm mt-3 fs-12px\" style=\"color:#1C365E !important; text-align: justify; font-size:1rem; background-color:#eaf3ff !important;\">
+<p class=\"text-sm mt-3 fs-12px\" style=\"color:#1C365E !important; text-align: justify; font-size:1rem; \">
     Your current interval begins at age 66 and ends at 70, and even for some, it can go on up to 75.
     It's the interval where you experience “Liberation”...a freedom from responsibility in this life.
     Life becomes more manageable in this interval. Even though it's retirement age, many choose to keep working during this interval.
@@ -203,7 +203,7 @@ return [
 </p>",
 
     'being_(70-74)' => "
-<p class=\"text-sm mt-3 fs-12px\" style=\"color:#1C365E !important; text-align: justify; font-size:1rem; background-color:#eaf3ff !important;\">
+<p class=\"text-sm mt-3 fs-12px\" style=\"color:#1C365E !important; text-align: justify; font-size:1rem; \">
     Your current interval begins at age 70 and ends at 75. And we call this interval “The Interval of Being”.
     So much has been archived in the files of your physicality by this time and nature will actually begin to delete that which is most current.
     And it's important to remind yourself that it's okay to discard that which is not important, without putting pressure or judgment on yourself
@@ -217,7 +217,7 @@ return [
 </p>",
 
     'life_review_(75-83)' => "
-<p class=\"text-sm mt-3 fs-12px\" style=\"color:#1C365E !important; text-align: justify; font-size:1rem; background-color:#eaf3ff !important;\">
+<p class=\"text-sm mt-3 fs-12px\" style=\"color:#1C365E !important; text-align: justify; font-size:1rem; \">
     Your current interval begins at age 75 and ends at 84. It is in this interval where a “Natural Life Review” takes place.
     It's a time when forgiving and forgetting transpires naturally. And with this occurrence the onset of surrender follows.
     The beautiful thing about being human is that each phase of life holds a place for understanding.
@@ -226,7 +226,7 @@ return [
 </p>",
 
     'surrender_(84+)' => "
-<p class=\"text-sm mt-3 fs-12px\" style=\"color:#1C365E !important; text-align: justify; font-size:1rem; background-color:#eaf3ff !important;\">
+<p class=\"text-sm mt-3 fs-12px\" style=\"color:#1C365E !important; text-align: justify; font-size:1rem; \">
     This interval begins at age 84 and extends for the remainder of your life.
     It is known as the time of Surrender. This is not about giving up, but rather letting go — surrendering into peace, presence, and the divine order of life.
     There’s a calm that can arrive in this phase, as the busyness of life begins to quiet. You may feel more connected to the spiritual,
