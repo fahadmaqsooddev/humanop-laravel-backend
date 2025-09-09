@@ -11,6 +11,7 @@ use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\Resources\PermissionResource;
 use App\Models\Upload\Upload;
 use GuzzleHttp\Client;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -101,11 +102,11 @@ class CreateResource extends Component
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
 
-            if (!empty($upload_id) && in_array($extension, ['mp4'])) {
-
-                $this->uploadFileToGumlet($this->resource_file, $resource['id']);
-
-            }
+//            if (!empty($upload_id) && in_array($extension, ['mp4'])) {
+//
+//                $this->uploadFileToGumlet($this->resource_file, $resource['id']);
+//
+//            }
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
 
@@ -171,6 +172,8 @@ class CreateResource extends Component
             DB::commit();
 
             session()->flash('success', 'Library resource created successfully.');
+
+            $this->emit('reloadPage');
 
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -269,7 +272,6 @@ class CreateResource extends Component
 
     public function editResource($resource_id)
     {
-//        dd($resource_id);
 
         $this->emit('toggleEditResourceModal');
 
@@ -372,7 +374,21 @@ class CreateResource extends Component
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
+        if ($this->resource_file) {
+            if ($this->resource_file instanceof UploadedFile) {
+                $ext = strtolower($this->resource_file->getClientOriginalExtension());
+            } else {
+                $ext = strtolower(pathinfo($this->resource_file, PATHINFO_EXTENSION));
+            }
+
+            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
+                $this->validate([
+                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
+                ]);
+            }
+        }
+
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
 
         $checkPermission = count($this->permission);
 
@@ -391,20 +407,22 @@ class CreateResource extends Component
             $this->permission = array_values($this->permission);
 
         }
-//        $upload_id = null;
+
+        $upload_id = null;
 
         if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
-            $getResource = LibraryResource::singleLibraryResource($this->resourceId);
+//            $getResource = LibraryResource::singleLibraryResource($this->resourceId);
 
 //            $this->deleteFileToGumlet($getResource['source_id']);
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
+            $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance, $thumbnail_id);
 
             tap($updateResource);
-
 
 //            $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
 
@@ -414,21 +432,76 @@ class CreateResource extends Component
 
                 $upload_id = $this->uploadFile($this->resource_file);
 
-                LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance);
+                $extension = $this->resource_file->extension();
+
+                if (in_array($extension, ['mp4', 'mov', 'avi', 'mkv']) || in_array($extension, ['mp3', 'wav', 'mpeg'])) {
+
+                    $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+                    LibraryResource::whereId($this->resourceId)->update([
+                        'heading' => $this->heading,
+                        'slug' => Str::slug($this->heading),
+                        'upload_id' => $upload_id,
+                        'resource_category_id' => $this->category_id,
+                        'description' => $this->description,
+                        'content' => $this->update_content,
+                        'source_id' => null,
+                        'source_url' => null,
+                        'embed_link' => $this->link,
+                        'relevance' => $this->relevance,
+                        'thumbnail_id' => $thumbnail_id,
+                    ]);
+
+                }else{
+
+                    LibraryResource::whereId($this->resourceId)->update([
+                        'heading' => $this->heading,
+                        'slug' => Str::slug($this->heading),
+                        'upload_id' => $upload_id,
+                        'resource_category_id' => $this->category_id,
+                        'description' => $this->description,
+                        'content' => $this->update_content,
+                        'source_id' => null,
+                        'source_url' => null,
+                        'embed_link' => $this->link,
+                        'relevance' => $this->relevance,
+                        'thumbnail_id' => null,
+                    ]);
+                }
 
             } else {
+                if (!empty($this->thumbnail_file)) {
 
-                LibraryResource::whereId($this->resourceId)->update([
-                    'heading' => $this->heading,
-                    'slug' => Str::slug($this->heading),
-                    'resource_category_id' => $this->category_id,
-                    'description' => $this->description,
-                    'content' => $this->update_content,
-                    'source_id' => null,
-                    'source_url' => null,
-                    'embed_link' => $this->link,
-                    'relevance' => $this->relevance
-                ]);
+                    $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+                    LibraryResource::whereId($this->resourceId)->update([
+                        'heading' => $this->heading,
+                        'slug' => Str::slug($this->heading),
+                        'resource_category_id' => $this->category_id,
+                        'description' => $this->description,
+                        'content' => $this->update_content,
+                        'source_id' => null,
+                        'source_url' => null,
+                        'embed_link' => $this->link,
+                        'relevance' => $this->relevance,
+                        'thumbnail_id' => $thumbnail_id,
+                    ]);
+
+                } else {
+
+                    LibraryResource::whereId($this->resourceId)->update([
+                        'heading' => $this->heading,
+                        'slug' => Str::slug($this->heading),
+                        'resource_category_id' => $this->category_id,
+                        'description' => $this->description,
+                        'content' => $this->update_content,
+                        'source_id' => null,
+                        'source_url' => null,
+                        'embed_link' => $this->link,
+                        'relevance' => $this->relevance
+                    ]);
+
+                }
 
             }
 
