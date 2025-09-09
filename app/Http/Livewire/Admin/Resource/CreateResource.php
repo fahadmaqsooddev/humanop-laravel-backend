@@ -22,7 +22,7 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink;
+    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false;
 
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
@@ -32,6 +32,7 @@ class CreateResource extends Component
         'heading' => 'required|unique:library_resources,heading',
         'relevance' => 'required|string',
         'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
+        'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
@@ -73,17 +74,38 @@ class CreateResource extends Component
 
             DB::beginTransaction();
 
-            $this->validate();
+            $ext = strtolower($this->resource_file->getClientOriginalExtension());
 
+            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
+
+                $this->validate([
+                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
+                ]);
+
+            }
+
+            $this->validate();
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance);
+            $extension = $this->resource_file->extension();
 
-//            if (!empty($upload_id) && in_array($this->resource_file->extension(), ['mp4'])){
-//
-//                $this->uploadFileToGumlet($this->resource_file, $resource['id']);
-//            }
+            if (in_array($extension, ['mp4', 'mov', 'avi', 'mkv']) || in_array($extension, ['mp3', 'wav', 'mpeg'])) {
+
+                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+            } else {
+
+                $thumbnail_id = null;
+            }
+
+            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
+
+            if (!empty($upload_id) && in_array($extension, ['mp4'])) {
+
+                $this->uploadFileToGumlet($this->resource_file, $resource['id']);
+
+            }
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
 
@@ -127,7 +149,7 @@ class CreateResource extends Component
 
             foreach ($this->selectedPerceptions as $perception) {
 //                if (isset($perceptionCodes[$perception])) {
-                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $perception);
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $perception);
 //                }
             }
 
@@ -140,7 +162,7 @@ class CreateResource extends Component
 
             foreach ($this->selectedEnergyPools as $energyPoolCode) {
 //                if (isset($energyPoolCodes[$energyPoolCode])) {
-                    HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $energyPoolCode);
+                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $energyPoolCode);
 //                }
             }
 
@@ -166,11 +188,34 @@ class CreateResource extends Component
 
     }
 
-    public function getResourceFile()
+    public function updatedResourceFile()
     {
-        $this->booleanValue = false;
-        $this->link = null;
 
+        if ($this->resource_file) {
+
+            $this->fileType = strtolower($this->resource_file->getClientOriginalExtension());
+
+            if (in_array($this->fileType, ['jpeg', 'png', 'jpg', 'gif'])) {
+
+                $this->showThumbnailUpload = false;
+
+                $this->typeThumbnail = $this->fileType;
+
+            } else {
+
+                $this->showThumbnailUpload = true;
+
+                $this->typeThumbnail = false;
+
+            }
+
+        } else {
+
+            $this->showThumbnailUpload = false;
+
+            $this->typeThumbnail = false;
+
+        }
     }
 
     public function deleteResource($id, $slug)
@@ -251,22 +296,22 @@ class CreateResource extends Component
         $this->permission[] = $this->editResourceData['libraryPermissions']['permission'] ?? null;
 
         // Define your code groups
-        $traits        = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
-        $features      = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
-        $alchemies     = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
+        $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
+        $features = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
+        $alchemies = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
         $communications = ['EM', 'INS', 'INT', 'MOV'];
-        $perceptions   = ['NEG', 'P', 'N'];
-        $energyPools   = ['AE', 'A', 'E', 'F'];
+        $perceptions = ['NEG', 'P', 'N'];
+        $energyPools = ['AE', 'A', 'E', 'F'];
 
         $allCodes = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
 
         // Filter them into groups
-        $this->selectedTraits         = array_values(array_intersect($allCodes, $traits));
-        $this->selectedFeatures       = array_values(array_intersect($allCodes, $features));
-        $this->selectedAlchemy        = array_values(array_intersect($allCodes, $alchemies));
+        $this->selectedTraits = array_values(array_intersect($allCodes, $traits));
+        $this->selectedFeatures = array_values(array_intersect($allCodes, $features));
+        $this->selectedAlchemy = array_values(array_intersect($allCodes, $alchemies));
         $this->selectedCommunications = array_values(array_intersect($allCodes, $communications));
-        $this->selectedPerceptions    = array_values(array_intersect($allCodes, $perceptions));
-        $this->selectedEnergyPools    = array_values(array_intersect($allCodes, $energyPools));
+        $this->selectedPerceptions = array_values(array_intersect($allCodes, $perceptions));
+        $this->selectedEnergyPools = array_values(array_intersect($allCodes, $energyPools));
 
 
         $this->emit('contentUpdated', $this->update_content ?? '');
@@ -394,7 +439,7 @@ class CreateResource extends Component
 
         $resourceGrids = HumanOpItemsGridActivitiesLog::getResourceGrid($this->resourceId);
 
-        foreach ($resourceGrids as $gird){
+        foreach ($resourceGrids as $gird) {
             $gird->delete();
         }
 
@@ -424,7 +469,7 @@ class CreateResource extends Component
 
         foreach ($this->selectedPerceptions as $perception) {
 //            if (isset($perceptionCodes[$perception])) {
-                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $perception);
+            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $perception);
 //            }
         }
 
@@ -437,7 +482,7 @@ class CreateResource extends Component
 
         foreach ($this->selectedEnergyPools as $energyPoolCode) {
 //            if (isset($energyPoolCodes[$energyPoolCode])) {
-                HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $energyPoolCode);
+            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $energyPoolCode);
 //            }
         }
 
@@ -505,6 +550,7 @@ class CreateResource extends Component
     public function uploadFileToGumlet($resourceFile = null, $resourceId = null)
     {
         if (!empty($resourceFile) && in_array($resourceFile->extension(), ['mp4'])) {
+
             $getResource = LibraryResource::singleLibraryResource($resourceId);
 
             $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
@@ -517,6 +563,7 @@ class CreateResource extends Component
             );
 
             LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id'], 'source_url' => $responseData['output']['playback_url']]);
+
         }
 
     }
@@ -525,6 +572,7 @@ class CreateResource extends Component
     {
 
         if (!empty($resourceId)) {
+
             $url = 'https://api.gumlet.com/v1/video/assets/' . $resourceId;
 
             $this->sendRequestFromGuzzle('DELETE', $url);

@@ -134,7 +134,6 @@
         </div>
     </div>
     {{-- Library Resources Models--}}
-
     @foreach($categories as $category)
         @foreach($category['libraryResources'] as $resource)
             <div class="modal fade" id="{{$resource['slug']}}" aria-hidden="true"
@@ -200,6 +199,7 @@
             </div>
         @endforeach
     @endforeach
+
     {{-- Create Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="createShopResource" tabindex="-1" role="dialog"
          data-bs-focus="false"
@@ -241,7 +241,8 @@
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Description</label>
-                                        <textarea class="form-control input-form-style" wire:model="description" placeholder="Enter description" rows="3"></textarea>
+                                        <textarea class="form-control input-form-style" wire:model="description"
+                                                  placeholder="Enter description" rows="3"></textarea>
                                     </div>
 
                                     <div class="form-group">
@@ -256,7 +257,8 @@
 
                                         <span wire:loading.flex wire:target="resource_file">
                                             <div class="d-flex align-items-center mt-2">
-                                                <div class="spinner-border" role="status" style="color: #1b3a62 !important;"></div>
+                                                <div class="spinner-border" role="status"
+                                                     style="color: #1b3a62 !important;"></div>
                                                 <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
                                             </div>
                                         </span>
@@ -276,7 +278,8 @@
 
                                             <span wire:loading.flex wire:target="thumbnail_file">
                                                 <div class="d-flex align-items-center mt-2">
-                                                    <div class="spinner-border" role="status" style="color: #1b3a62 !important;"></div>
+                                                    <div class="spinner-border" role="status"
+                                                         style="color: #1b3a62 !important;"></div>
                                                     <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
                                                 </div>
                                             </span>
@@ -422,7 +425,6 @@
         </div>
     </div>
 
-
     {{-- Edit Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="editShopResource" tabindex="-1" role="dialog" data-bs-focus="false"
          aria-labelledby="editShopResource" aria-hidden="true">
@@ -457,9 +459,9 @@
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4" style="color: #1b3a62">Description</label>
-                                        <textarea class="form-control input-form-style" wire:model.defer="description" placeholder="Enter description" rows="3"></textarea>
+                                        <textarea class="form-control input-form-style" wire:model.defer="description"
+                                                  placeholder="Enter description" rows="3"></textarea>
                                     </div>
-
 
                                     <div class="form-group mt-4 " hidden>
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource Id</label>
@@ -470,7 +472,7 @@
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Pdf, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input wire:model="resource_file"
-                                               id="resource_file" wire:change="getResourceFile"
+                                               id="resource_file"
                                                class="form-control input-form-style resource_file1" type="file"
                                                accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
                                     </div>
@@ -480,9 +482,9 @@
                                                      style="color: #1b3a62 !important;"></div>
                                                 <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
                                               </div>
-                                        </span>
+                                    </span>
+
                                     @if(!empty($editResourceData['document_id']))
-                                        {{--                                        {{dd($editResourceData['document_url']['path'])}}--}}
                                         <div class="form-group mt-4">
                                             <iframe src="{{ $editResourceData['document_url']['path']??null }}"
                                                     width="100%" height="500px">
@@ -510,6 +512,58 @@
                                         </div>
                                     @else
                                     @endif
+
+                                    @if($showThumbnailUpload)
+                                        <div class="form-group">
+                                            <label class="form-label fs-4" style="color: #1b3a62">
+                                                Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
+                                            </label>
+                                            <input wire:model="thumbnail_file"
+                                                   id="thumbnail_file"
+                                                   class="form-control input-form-style thumbnail_file"
+                                                   type="file"
+                                                   accept="image/*">
+
+                                            <span wire:loading.flex wire:target="thumbnail_file">
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <div class="spinner-border" role="status"
+                                                         style="color: #1b3a62 !important;"></div>
+                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    @else
+                                        @if(!in_array($typeThumbnail, ['jpeg', 'png', 'jpg', 'gif']))
+                                            @if(!empty($editResourceData['video_id']) || !empty($editResourceData['audio_id']))
+                                                <div class="form-group">
+                                                    <label class="form-label fs-4" style="color: #1b3a62">
+                                                        Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
+                                                    </label>
+                                                    <input wire:model="thumbnail_file"
+                                                           id="thumbnail_file"
+                                                           class="form-control input-form-style thumbnail_file"
+                                                           type="file"
+                                                           accept="image/*">
+
+                                                    <span wire:loading.flex wire:target="thumbnail_file">
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <div class="spinner-border" role="status"
+                                                         style="color: #1b3a62 !important;"></div>
+                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                                </div>
+                                            </span>
+                                                </div>
+                                                @if(!empty($editResourceData['thumbnail_id']))
+                                                    <div class="form-group mt-4">
+                                                        <img style="width: 100%;"
+                                                             src="{{ $editResourceData['thumbnail_url']['url'] }}">
+                                                    </div>
+                                                @endif
+                                            @endif
+
+                                        @endif
+                                    @endif
+
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
                                         <div class="col-6">
@@ -947,5 +1001,11 @@
                 }
             })
         }
+
+        document.addEventListener('livewire:load', function () {
+            Livewire.on('refreshPage', () => {
+                window.location.reload();
+            });
+        });
     </script>
 @endpush

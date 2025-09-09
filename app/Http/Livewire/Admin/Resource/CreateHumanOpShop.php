@@ -6,7 +6,9 @@ use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Admin\HumanOpShopCategory\HumanOpShopTraits;
 use App\Models\Admin\HumanOpShopCategory\ShopCategory;
 use App\Models\Admin\Resources\ShopCategoryResource;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Upload\Upload;
@@ -19,7 +21,7 @@ class CreateHumanOpShop extends Component
 
     public $booleanValue = false;
 
-    public $description,$resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $update_content, $resource_file, $category_id, $editResourceData, $category_name, $thumbnail_file, $fileType, $showThumbnailUpload = false;
+    public $description, $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $update_content, $resource_file, $category_id, $editResourceData, $category_name, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false;
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
@@ -78,21 +80,21 @@ class CreateHumanOpShop extends Component
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue,$this->description, $thumbnail_id);
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue, $this->description, $thumbnail_id);
 
             } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $upload_id, null, null, null, $this->pointValue,$this->description, $thumbnail_id);
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $upload_id, null, null, null, $this->pointValue, $this->description, $thumbnail_id);
 
-            }elseif (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
+            } elseif (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, null, $upload_id, $this->pointValue,$this->description);
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, null, $upload_id, $this->pointValue, $this->description);
 
             } else {
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, $upload_id, null, $this->pointValue,$this->description);
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, $upload_id, null, $this->pointValue, $this->description);
 
             }
 
@@ -115,7 +117,7 @@ class CreateHumanOpShop extends Component
             $perceptionCodes = [
                 'Negative' => 'NE',
                 'Positive' => 'P',
-                'Neutral'  => 'N',
+                'Neutral' => 'N',
             ];
 
             foreach ($this->selectedPerceptions as $perception) {
@@ -127,8 +129,8 @@ class CreateHumanOpShop extends Component
             $energyPoolCodes = [
                 'Above Excellent' => 'AE',
                 'Average' => 'A',
-                'Excellent'  => 'E',
-                'Fair'  => 'F',
+                'Excellent' => 'E',
+                'Fair' => 'F',
             ];
 
             foreach ($this->selectedEnergyPools as $energyPoolCode) {
@@ -138,6 +140,8 @@ class CreateHumanOpShop extends Component
             }
 
             $this->resetForm();
+
+            $this->emit('refreshPage');
 
             DB::commit();
 
@@ -164,9 +168,13 @@ class CreateHumanOpShop extends Component
 
                 $this->showThumbnailUpload = false;
 
+                $this->typeThumbnail = $this->fileType;
+
             } else {
 
                 $this->showThumbnailUpload = true;
+
+                $this->typeThumbnail = false;
 
             }
 
@@ -174,8 +182,11 @@ class CreateHumanOpShop extends Component
 
             $this->showThumbnailUpload = false;
 
+            $this->typeThumbnail = false;
+
         }
     }
+
     public function getThumbnailFile()
     {
         $this->booleanValue = false;
@@ -209,7 +220,7 @@ class CreateHumanOpShop extends Component
     {
         $this->booleanValue = false;
 
-        $this->reset(['heading', 'resource_file', 'pointValue', 'resource_file', 'priceValue', 'selectedEnergyPools', 'selectedPerceptions', 'selectedCommunications', 'selectedAlchemy', 'selectedFeatures','selectedTraits']);
+        $this->reset(['heading', 'resource_file', 'pointValue', 'resource_file', 'priceValue', 'selectedEnergyPools', 'selectedPerceptions', 'selectedCommunications', 'selectedAlchemy', 'selectedFeatures', 'selectedTraits']);
     }
 
     public function handleRefreshQuery()
@@ -294,41 +305,105 @@ class CreateHumanOpShop extends Component
     public function updateShopResource()
     {
 
-
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'description' => 'required', 'category_id' => 'required', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:mp4,mov,avi,mkv,mp3,wav,pdf,doc,docx|max:204800',
+        if ($this->resource_file) {
+            if ($this->resource_file instanceof UploadedFile) {
+                $ext = strtolower($this->resource_file->getClientOriginalExtension());
+            } else {
+                $ext = strtolower(pathinfo($this->resource_file, PATHINFO_EXTENSION));
+            }
+
+            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
+                $this->validate([
+                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
+                ]);
+            }
+        }
+
+        $this->validate(['heading' => 'required', 'description' => 'required', 'category_id' => 'required', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav,pdf,doc,docx|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
             'pointValue' => 'required_without:priceValue|nullable|numeric|min:0',
             'priceValue' => 'required_without:pointValue|nullable|numeric|min:0']);
 
         if (!empty($this->resource_file)) {
+
             $extension = $this->resource_file->extension();
+
             $upload_id = $this->uploadFile($this->resource_file);
 
             if (in_array($extension, ['mp3', 'wav', 'mpeg'])) {
-                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, $upload_id, null, $this->pointValue,$this->description);
+
+                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue, $this->description, $thumbnail_id);
+
             } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
-                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, $upload_id, null, null, $this->pointValue,$this->description);
-            } elseif (in_array($extension, ['pdf', 'doc'])) {
-                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, null, $upload_id, $this->pointValue,$this->description);
+
+                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, $upload_id, null, null, null, $this->pointValue, $this->description, $thumbnail_id);
+
+            }elseif (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
+
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, null, null, $upload_id, $this->pointValue, $this->description);
+
+            } else{
+
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, null, $upload_id, null, $this->pointValue, $this->description);
+
             }
+
         } else {
-            $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, null, null, $this->pointValue,$this->description);
+
+            if (!empty($this->thumbnail_file)){
+
+                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+                ShopCategoryResource::whereId($this->resourceId)->update([
+                    'heading' => $this->heading,
+                    'description' => $this->description,
+                    'slug' => Str::slug($this->heading),
+                    'humanop_shop_category_id' => $this->category_id,
+                    'price' => $this->priceValue,
+                    'point' => $this->pointValue,
+                    'thumbnail_id' => $thumbnail_id
+
+                ]);
+
+            }else{
+
+                ShopCategoryResource::whereId($this->resourceId)->update([
+                    'heading' => $this->heading,
+                    'description' => $this->description,
+                    'slug' => Str::slug($this->heading),
+                    'humanop_shop_category_id' => $this->category_id,
+                    'price' => $this->priceValue,
+                    'point' => $this->pointValue,
+
+                ]);
+
+            }
+
+            $updateResource = ShopCategoryResource::singleLibraryResource($this->resourceId);
+
         }
 
         HumanOpShopTraits::where('humanop_shop_resource_id', $updateResource->id)->delete();
 
         foreach ($this->selectedTraits as $traitCode) {
+
             HumanOpShopTraits::create([
                 'humanop_shop_resource_id' => $updateResource->id,
                 'trait_name' => $traitCode,
             ]);
-        }
 
+        }
 
         $this->emit('toggleEditShopResourceModal');
 
         $this->resetForm();
+
+        $this->emit('refreshPage');
 
         DB::commit();
 

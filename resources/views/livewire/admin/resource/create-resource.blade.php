@@ -282,21 +282,62 @@
                                                id="embedlink" wire:change="getVideoLink">
                                     </div>
                                     <label class="form-label fs-4" style="color: #1b3a62">OR</label>
+
+{{--                                    <div class="form-group">--}}
+{{--                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or--}}
+{{--                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>--}}
+{{--                                        <input wire:model="resource_file"--}}
+{{--                                               id="resourse_file" wire:change="getResourceFile"--}}
+{{--                                               class="form-control input-form-style resource_file" type="file"--}}
+{{--                                               accept="image/*,video/*,audio/*">--}}
+{{--                                        <span wire:loading.flex wire:target="resource_file">--}}
+{{--                                            <div class="d-flex align-items-center mt-2">--}}
+{{--                                                <div class="spinner-border" role="status"--}}
+{{--                                                     style="color: #1b3a62 !important;"></div>--}}
+{{--                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>--}}
+{{--                                              </div>--}}
+{{--                                        </span>--}}
+{{--                                    </div>--}}
+
                                     <div class="form-group">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
-                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">
+                                            Resource (Image, Video, or Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])
+                                        </label>
                                         <input wire:model="resource_file"
-                                               id="resourse_file" wire:change="getResourceFile"
-                                               class="form-control input-form-style resource_file" type="file"
+                                               id="resource_file"
+                                               class="form-control input-form-style resource_file"
+                                               type="file"
                                                accept="image/*,video/*,audio/*">
+
                                         <span wire:loading.flex wire:target="resource_file">
                                             <div class="d-flex align-items-center mt-2">
-                                                <div class="spinner-border" role="status"
-                                                     style="color: #1b3a62 !important;"></div>
+                                                <div class="spinner-border" role="status" style="color: #1b3a62 !important;"></div>
                                                 <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
-                                              </div>
+                                            </div>
                                         </span>
                                     </div>
+
+                                    {{-- Show only if file is audio or video --}}
+                                    @if($showThumbnailUpload)
+                                        <div class="form-group">
+                                            <label class="form-label fs-4" style="color: #1b3a62">
+                                                Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
+                                            </label>
+                                            <input wire:model="thumbnail_file"
+                                                   id="thumbnail_file"
+                                                   class="form-control input-form-style thumbnail_file"
+                                                   type="file"
+                                                   accept="image/*">
+
+                                            <span wire:loading.flex wire:target="thumbnail_file">
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <div class="spinner-border" role="status" style="color: #1b3a62 !important;"></div>
+                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    @endif
+
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
                                         <div class="col-4">
