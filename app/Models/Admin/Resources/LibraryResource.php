@@ -24,7 +24,7 @@ class LibraryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['photo_url', 'video_url', 'audio_url'];
+    protected $appends = ['photo_url', 'video_url', 'audio_url', 'thumbnail_url'];
 
     // relation
     public function libraryPermissions()
@@ -49,6 +49,19 @@ class LibraryResource extends Model
     {
         if (empty($this->source_id) && empty($this->embed_link)) {
             return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
+
+        } else {
+
+            return null;
+        }
+
+    }
+
+    public function getThumbnailUrlAttribute()
+    {
+        if (!empty($this->thumbnail_id)) {
+
+            return Helpers::getImage($this->thumbnail_id);
 
         } else {
 
@@ -103,7 +116,7 @@ class LibraryResource extends Model
         return self::get();
     }
 
-    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null)
+    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null, $thumbnailId = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -113,7 +126,8 @@ class LibraryResource extends Model
             'description' => $description,
             'content' => $content,
             'embed_link' => $link,
-            'relevance' => $relevance
+            'relevance' => $relevance,
+            'thumbnail_id' => $thumbnailId
         ]);
 
         return $resource;

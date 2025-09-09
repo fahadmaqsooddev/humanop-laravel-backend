@@ -22,7 +22,7 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink;
+    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false;
 
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
@@ -32,6 +32,7 @@ class CreateResource extends Component
         'heading' => 'required|unique:library_resources,heading',
         'relevance' => 'required|string',
         'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
+        'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
@@ -73,17 +74,38 @@ class CreateResource extends Component
 
             DB::beginTransaction();
 
-            $this->validate();
+            $ext = strtolower($this->resource_file->getClientOriginalExtension());
 
+            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
+
+                $this->validate([
+                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
+                ]);
+
+            }
+
+            $this->validate();
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance);
+            $extension = $this->resource_file->extension();
 
-//            if (!empty($upload_id) && in_array($this->resource_file->extension(), ['mp4'])){
-//
-//                $this->uploadFileToGumlet($this->resource_file, $resource['id']);
-//            }
+            if (in_array($extension, ['mp4', 'mov', 'avi', 'mkv']) || in_array($extension, ['mp3', 'wav', 'mpeg'])){
+
+                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+            }else{
+
+                $thumbnail_id = null;
+            }
+
+            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
+
+            if (!empty($upload_id) && in_array($extension, ['mp4'])){
+
+                $this->uploadFileToGumlet($this->resource_file, $resource['id']);
+
+            }
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
 
@@ -166,11 +188,28 @@ class CreateResource extends Component
 
     }
 
-    public function getResourceFile()
+    public function updatedResourceFile()
     {
-        $this->booleanValue = false;
-        $this->link = null;
 
+        if ($this->resource_file) {
+
+            $this->fileType = strtolower($this->resource_file->getClientOriginalExtension());
+
+            if (in_array($this->fileType, ['jpeg', 'png', 'jpg', 'gif'])) {
+
+                $this->showThumbnailUpload = false;
+
+            } else {
+
+                $this->showThumbnailUpload = true;
+
+            }
+
+        } else {
+
+            $this->showThumbnailUpload = false;
+
+        }
     }
 
     public function deleteResource($id, $slug)
@@ -505,6 +544,7 @@ class CreateResource extends Component
     public function uploadFileToGumlet($resourceFile = null, $resourceId = null)
     {
         if (!empty($resourceFile) && in_array($resourceFile->extension(), ['mp4'])) {
+
             $getResource = LibraryResource::singleLibraryResource($resourceId);
 
             $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
@@ -517,6 +557,7 @@ class CreateResource extends Component
             );
 
             LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id'], 'source_url' => $responseData['output']['playback_url']]);
+
         }
 
     }
@@ -525,6 +566,7 @@ class CreateResource extends Component
     {
 
         if (!empty($resourceId)) {
+
             $url = 'https://api.gumlet.com/v1/video/assets/' . $resourceId;
 
             $this->sendRequestFromGuzzle('DELETE', $url);

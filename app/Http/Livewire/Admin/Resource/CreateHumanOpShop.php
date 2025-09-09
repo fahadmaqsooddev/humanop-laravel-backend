@@ -176,6 +176,7 @@ class CreateHumanOpShop extends Component
 
         }
     }
+
     public function getThumbnailFile()
     {
         $this->booleanValue = false;
