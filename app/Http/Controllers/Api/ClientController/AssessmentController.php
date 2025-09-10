@@ -117,7 +117,7 @@ class AssessmentController extends Controller
 
             } elseif ($user['plan_name'] != 'Freemium') {
 
-                $checkAssessment = self::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
+                $checkAssessment = Assessment::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
 
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
