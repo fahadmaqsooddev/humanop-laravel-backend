@@ -260,7 +260,7 @@ class Helpers
 
             if ($upload->extension === 'mp4' || $upload->extension === 'mp3') {
 
-                return [];
+                return null;
 
             }
 
@@ -332,7 +332,7 @@ class Helpers
 
                 if ($upload->extension != 'mp4') {
 
-                    return [];
+                    return null;
                 }
 
                 $path = url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name;

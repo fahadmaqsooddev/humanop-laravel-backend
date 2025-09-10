@@ -117,10 +117,12 @@ class AssessmentController extends Controller
 
             } elseif ($user['plan_name'] != 'Freemium') {
 
+                $checkAssessment = Assessment::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
+
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
                     'assessment_count' => $assessment_count,
-                    'assessment_page_number' => $status,
+                    'assessment_page_number' => $checkAssessment['page'],
                     'plan_name' => $user['plan_name'],
                     'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                     'user' => [
@@ -130,6 +132,7 @@ class AssessmentController extends Controller
                         'name' => $user['card_name'],
                     ]
                 ]);
+
             } elseif (!empty($latest_assessment)) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);

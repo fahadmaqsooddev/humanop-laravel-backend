@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\ClientController\PlayList;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\Playlist\AddPlayListRequest;
+use App\Http\Requests\Api\Client\Playlist\DeletePlayListRequest;
 use App\Models\PlaylistLog;
 use Illuminate\Http\Request;
 
@@ -42,30 +43,23 @@ class PlaylistLogController extends Controller
 
     }
 
-    public function deleteMyPlaylistItem(Request $request)
+    public function deleteMyPlaylistItem(DeletePlayListRequest $request)
     {
-
         try {
+            $dataArray = $request->all();
+            $dataArray['user_id'] = Helpers::getUser()['id'];
 
-            $playlistId = $request['playlist_item_id'];
+            $deleted = PlaylistLog::deleteMyPlaylist($dataArray);
 
-            if (!empty($playlistId)){
-
-                PlaylistLog::deleteMyPlaylist($playlistId);
-
-                return Helpers::successResponse("delete your playlist item");
-
-            }else{
-
-                return Helpers::validationResponse('playlist Item id is required');
+            if ($deleted) {
+                return Helpers::successResponse("Deleted your playlist item successfully");
+            } else {
+                return Helpers::validationResponse("Playlist item not found or could not be deleted");
             }
 
         } catch (\Exception $exception) {
-
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
 }
