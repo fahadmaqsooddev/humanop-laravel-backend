@@ -59,6 +59,8 @@ class CreateHumanOpShop extends Component
 
         try {
 
+            $this->validate();
+
             $ext = strtolower($this->resource_file->getClientOriginalExtension());
 
             if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
@@ -68,8 +70,6 @@ class CreateHumanOpShop extends Component
                 ]);
 
             }
-
-            $this->validate();
 
             $extension = $this->resource_file->extension();
 
