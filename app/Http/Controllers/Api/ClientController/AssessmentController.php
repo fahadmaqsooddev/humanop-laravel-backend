@@ -106,7 +106,7 @@ class AssessmentController extends Controller
                     'assessment_page_number' => $status,
                     'plan_name' => $user['plan_name'],
                     'retake_assessment' => null,
-                    'assessment_price' => ($assessment_price->amount ?? 0),
+                    'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                     'user' => [
                         'last_four_digits' => $user['pm_last_four'],
                         'exp_month' => $user['pm_exp_month'],
@@ -122,7 +122,7 @@ class AssessmentController extends Controller
                     'assessment_count' => $assessment_count,
                     'assessment_page_number' => $status,
                     'plan_name' => $user['plan_name'],
-                    'assessment_price' => ($assessment_price->amount ?? 0),
+                    'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                     'user' => [
                         'last_four_digits' => $user['pm_last_four'],
                         'exp_month' => $user['pm_exp_month'],
@@ -148,7 +148,7 @@ class AssessmentController extends Controller
                         'retake_assessment' => $takeAssessment,
                         'plan_name' => $user['plan_name'],
                         'assessment_page_number' => $status,
-                        'assessment_price' => ($assessment_price->amount ?? 0),
+                        'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                         'user' => [
                             'last_four_digits' => $user['pm_last_four'],
                             'exp_month' => $user['pm_exp_month'],
@@ -164,7 +164,7 @@ class AssessmentController extends Controller
                         'retake_assessment' => null,
                         'plan_name' => $user['plan_name'],
                         'assessment_page_number' => $status,
-                        'assessment_price' => ($assessment_price->amount ?? 0),
+                        'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                         'user' => [
                             'last_four_digits' => $user['pm_last_four'],
                             'exp_month' => $user['pm_exp_month'],
@@ -180,7 +180,7 @@ class AssessmentController extends Controller
                     'assessment_count' => $assessment_count,
                     'assessment_page_number' => $status,
                     'plan_name' => $user['plan_name'],
-                    'assessment_price' => ($assessment_price->amount ?? 0),
+                    'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                     'user' => [
                         'last_four_digits' => $user['pm_last_four'],
                         'exp_month' => $user['pm_exp_month'],
