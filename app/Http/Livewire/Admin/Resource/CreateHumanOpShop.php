@@ -164,7 +164,7 @@ class CreateHumanOpShop extends Component
 
             $this->fileType = strtolower($this->resource_file->getClientOriginalExtension());
 
-            if (in_array($this->fileType, ['jpeg', 'png', 'jpg', 'gif'])) {
+            if (in_array($this->fileType, ['jpeg', 'png', 'jpg', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'ppt', 'pptx', 'txt'])) {
 
                 $this->showThumbnailUpload = false;
 
