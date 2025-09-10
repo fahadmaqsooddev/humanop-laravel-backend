@@ -207,6 +207,7 @@ class HumanOpShopController extends Controller
                     'video_url' => isset($item['shopItems']->video_url) ? ($item['shopItems']->video_url['path'] ?? null) : null,
                     'audio_url' => isset($item['shopItems']->audio_url) ? ($item['shopItems']->audio_url['path'] ?? null) : null,
                     'document_url' => isset($item['shopItems']->document_url) ? ($item['shopItems']->document_url['path'] ?? null) : null,
+                    'thumbnail_url' => isset($item['shopItems']->thumbnail_url) ? ($item['shopItems']->thumbnail_url['url'] ?? null) : null,
                 ];
 
             }
@@ -225,6 +226,7 @@ class HumanOpShopController extends Controller
                     'photo_url' => $libraryItem['libraryItems']->photo_url ?? null,
                     'video_url' => $libraryItem['libraryItems']->video_url ?? null,
                     'audio_url' => $libraryItem['libraryItems']->audio_url ?? null,
+                    'thumbnail_url' => $libraryItem['libraryItems']->thumbnail_url ?? null,
                     'resource_category_name' => optional($libraryItem['libraryItems']->resourceCategory)->name,
                     'library_permission_name' => match(optional($libraryItem['libraryItems']->libraryPermissions)->permission) {
                         1 => 'Freemium',
