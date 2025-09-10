@@ -223,9 +223,9 @@ class HumanOpShopController extends Controller
                     'description' => $libraryItem['libraryItems']->description,
                     'content' => $libraryItem['libraryItems']->content,
                     'relevance' => $libraryItem['libraryItems']->relevance,
-                    'photo_url' => $libraryItem['libraryItems']->photo_url ? $libraryItem['libraryItems']->photo_url['url'] :  null,
-                    'video_url' => $libraryItem['libraryItems']->video_url ? $libraryItem['libraryItems']->video_url['path'] : null,
-                    'audio_url' => $libraryItem['libraryItems']->audio_url ? $libraryItem['libraryItems']->audio_url['path'] : null,
+                    'photo_url' => $libraryItem['libraryItems']->photo_url ?? null,
+                    'video_url' => $libraryItem['libraryItems']->video_url ?? null,
+                    'audio_url' => $libraryItem['libraryItems']->audio_url ?? null,
                     'thumbnail_url' => $libraryItem['libraryItems']->thumbnail_url ?? null,
                     'resource_category_name' => optional($libraryItem['libraryItems']->resourceCategory)->name,
                     'library_permission_name' => match(optional($libraryItem['libraryItems']->libraryPermissions)->permission) {
