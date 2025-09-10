@@ -2,7 +2,9 @@
 
 namespace App\Models\Admin\Resources;
 
+use App\Helpers\Assessments\AssessmentHelper;
 use App\Helpers\Helpers;
+use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Admin\HumanOpShopCategory\HumanOpShopTraits;
 use App\Models\Admin\HumanOpShopCategory\ShopCategory;
@@ -221,9 +223,29 @@ class ShopCategoryResource extends Model
 
         $purchasedItemIds = HumanOpLibraries::getAllItems($userId)->pluck('item_id');
 
-        $getAssessment = Assessment::getLatestAssessment($userId);
+        $userLatestAssessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
 
-        $highlightedStyles = Assessment::highLightStyle($getAssessment);
+        $traits = collect(Assessment::authenticTraits($userLatestAssessment))->pluck('code')->toArray();
+
+        $getDrivers = Assessment::getFeatures($userLatestAssessment);
+
+        $topTwoDrivers = collect(Assessment::getTopTwoFeatures($getDrivers['top_two_keys'], $userLatestAssessment))->pluck('code_name')->toArray();
+
+        $alchemy = [Assessment::getAlchemyDetail($userLatestAssessment)['code_name']];
+
+        $communication = Assessment::getEnergy($userLatestAssessment);
+
+        $topCommunication = collect(CodeDetail::getCommunicationDetail($communication, $userLatestAssessment))->pluck('code_name')->toArray();
+
+        $topCommunication = [$topCommunication[0]];
+
+        $perception = [Assessment::getPreceptionReportDetail($userLatestAssessment)['code_name']];
+
+        $energyPool = Assessment::getEnergyPoolPublicName($userLatestAssessment)['code_name'];
+
+        $energyPool = [$energyPool];
+
+        $highlightedStyles = array_merge($traits, $topTwoDrivers, $alchemy, array_map('strtoupper', $topCommunication), $perception, $energyPool);
 
         $matchingItems = self::whereNotIn('id', $purchasedItemIds)
 
@@ -247,15 +269,7 @@ class ShopCategoryResource extends Model
 
         }
 
-        $needed = 3 - $matchingItems->count();
-
-        $additionalItems = self::whereNotIn('id', $matchingItems->pluck('id')->merge($purchasedItemIds))
-            ->inRandomOrder()
-            ->with('resourceTraits')
-            ->take($needed)
-            ->get();
-
-        return $matchingItems->merge($additionalItems);
+        return $matchingItems;
 
     }
 
