@@ -204,8 +204,8 @@ class HumanOpShopController extends Controller
                     'updated_at' => $item['shopItems']->updated_at,
                     'points' => (int) $item['shopItems']->point ?? null,
                     'prices' => (int) $item['shopItems']->price ?? null,
-                    'video_url' => isset($item['shopItems']->video_url) ?? null,
-                    'audio_url' => isset($item['shopItems']->audio_url) ?? null,
+                    'video_url' => (isset($item['shopItems']->video_url) && !empty($item['shopItems']->video_url)) ? $item['shopItems']->video_url : null,
+                    'audio_url' => (isset($item['shopItems']->audio_url) && !empty($item['shopItems']->audio_url)) ? $item['shopItems']->audio_url : null,
                     'document_url' => isset($item['shopItems']->document_url) ?? null,
                     'thumbnail_url' => isset($item['shopItems']->thumbnail_url) ? ($item['shopItems']->thumbnail_url['url'] ?? null) : null,
                 ];
