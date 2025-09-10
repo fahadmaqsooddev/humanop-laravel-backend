@@ -1918,6 +1918,7 @@ class Assessment extends Model
             return [
                 'name' => $publicName['name'],
                 'public_name' => $publicName['public_name'],
+                'code_name' => $publicName['code'],
                 'code_number' => $gold . $silver . $copper,
                 'description' => $publicName['text'],
                 'video_url' => $videoUrl,
