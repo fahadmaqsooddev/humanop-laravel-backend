@@ -24,18 +24,18 @@ class UpdateUserImageRequest extends FormRequest
     public function rules()
     {
         return [
-            
-            'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:3072'
+
+            'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:204800',
         ];
     }
 
     public function messages()
     {
         return [
-            
+
             'profile_image.image' => 'Profile Image must be an image',
             'profile_image.mimes' => 'Profile Image mimes must be (jpg,png,jpeg,gif,svg)',
-            'profile_image.max' => "Profile Image maximum size is 3Mb's",
+            'profile_image.max' => "Profile Image maximum size is 200Mb's",
 
         ];
     }
