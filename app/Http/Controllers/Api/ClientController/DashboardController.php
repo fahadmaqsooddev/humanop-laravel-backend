@@ -351,8 +351,6 @@ class DashboardController extends Controller
 
             if (!empty($assessment)) {
 
-                dd($assessment, $userPlan);
-                
                 $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment, $userPlan);
 
                 if (empty($actionPlan)) {
