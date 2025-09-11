@@ -231,9 +231,8 @@ class ShopCategoryResource extends Model
 
         $topTwoDrivers = collect(Assessment::getTopTwoFeatures($getDrivers['top_two_keys'], $userLatestAssessment))->pluck('code_name')->toArray();
 
-        $alchemy = [Assessment::getAlchemyDetail($userLatestAssessment)['code_name']];
+        $alchemy = Assessment::getAlchemyDetail($userLatestAssessment);
 
-        dd(isset($alchemy));
         $communication = Assessment::getEnergy($userLatestAssessment);
 
         $topCommunication = collect(CodeDetail::getCommunicationDetail($communication, $userLatestAssessment))->pluck('code_name')->toArray();
@@ -246,7 +245,7 @@ class ShopCategoryResource extends Model
 
         $energyPool = [$energyPool];
 
-        $highlightedStyles = array_merge($traits, $topTwoDrivers, $alchemy, array_map('strtoupper', $topCommunication), $perception, $energyPool);
+        $highlightedStyles = array_merge($traits, $topTwoDrivers, !empty($alchemy['code_name']) ? [$alchemy['code_name']] : [], array_map('strtoupper', $topCommunication), $perception, $energyPool);
 
         $matchingItems = self::whereNotIn('id', $purchasedItemIds)
 
