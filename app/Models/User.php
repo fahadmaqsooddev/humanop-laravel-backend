@@ -317,6 +317,7 @@ class User extends Authenticatable implements JWTSubject
     public function getPlanNameAttribute()
     {
 
+        dd($this->userSubscription);
         if ($this->userSubscription->plan){
 
             return $this->userSubscription->plan->name == 'Core' ?  $this->userSubscription->plan->name :  "Freemium";
