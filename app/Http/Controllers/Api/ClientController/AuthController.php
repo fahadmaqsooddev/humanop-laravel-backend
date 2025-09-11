@@ -207,7 +207,7 @@ class AuthController extends Controller
 
                         $checkUser->setAppends([]);
 
-//                        $this->sns->sendSms($request['phone'], $message);
+                        $this->sns->sendSms($request['phone'], $message);
 
                         return Helpers::successResponse('Your phone number is not verified. Verification otp code sent.', [
                             'authorization' => [
@@ -427,7 +427,7 @@ class AuthController extends Controller
 
                 $user->setAppends([]);
 
-//                $this->sns->sendSms($request['phone'], $message);
+                $this->sns->sendSms($request['phone'], $message);
 
                 return Helpers::successResponse('sms code send', $user);
 
