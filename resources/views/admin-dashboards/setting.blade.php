@@ -203,15 +203,17 @@
                     <div class="row">
                         <div class="col-sm-auto col-4">
                             <div class="avatar avatar-xl position-relative">
-                                @if(\App\Helpers\Helpers::getWebUser()->gender === \App\Enums\Admin\Admin::IS_MALE)
-                                    <img src="{{ Auth::user()['photo_url']['url'] }}"
-                                         alt="bruce"
-                                         class="w-100 border-radius-lg shadow-sm user_profile_image">
-                                @else
-                                    <img src="{{ Auth::user()['photo_url']['url'] }}"
-                                         alt="bruce"
-                                         class="w-100 border-radius-lg shadow-sm user_profile_image">
-                                @endif
+                                @php
+                                    $user = \App\Helpers\Helpers::getWebUser();
+                                    $photoUrl = Auth::user()['photo_url']['url'] ?? null;
+                                    $defaultMale = asset('assets/img/default-user-image');
+                                    $defaultFemale = asset('assets/img/default-user-image');
+                                @endphp
+
+                                <img src="{{ $photoUrl ?? ($user->gender === \App\Enums\Admin\Admin::IS_MALE ? $defaultMale : $defaultFemale) }}"
+                                     alt="user_profile"
+                                     class="w-100 border-radius-lg shadow-sm user_profile_image">
+
                             </div>
                         </div>
                         <div class="col-sm-auto col-8 my-auto">
