@@ -38,7 +38,7 @@ class SoundTrackController extends Controller
 
             $topTwoDrivers = collect(Assessment::getTopTwoFeatures($getDrivers['top_two_keys'], $userLatestAssessment))->pluck('public_name')->toArray();
 
-            $alchemy = [Assessment::getAlchemyDetail($userLatestAssessment)['public_name']];
+            $alchemy = Assessment::getAlchemyDetail($userLatestAssessment);
 
             $communication = Assessment::getEnergy($userLatestAssessment);
 
@@ -54,7 +54,7 @@ class SoundTrackController extends Controller
 
             $energyPool = [$energyPool[0]];
 
-            $userAssessmentGrid = array_merge($traits, $topTwoDrivers, $alchemy, $topCommunication, $perception, $energyPool);
+            $userAssessmentGrid = array_merge($traits, $topTwoDrivers, !empty($alchemy['code_name']) ? [$alchemy['code_name']] : [], $topCommunication, $perception, $energyPool);
 
             $resourceTransformed = [];
 
