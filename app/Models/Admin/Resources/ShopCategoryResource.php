@@ -233,7 +233,7 @@ class ShopCategoryResource extends Model
 
         $alchemy = Assessment::getAlchemyDetail($userLatestAssessment);
 
-        dd($alchemy['code_name']);
+        dd(isset($alchemy['code_name']));
         $communication = Assessment::getEnergy($userLatestAssessment);
 
         $topCommunication = collect(CodeDetail::getCommunicationDetail($communication, $userLatestAssessment))->pluck('code_name')->toArray();
