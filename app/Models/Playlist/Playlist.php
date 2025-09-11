@@ -39,7 +39,7 @@ class Playlist extends Model
 
     public function playlist()
     {
-        return $this->hasMany(PlaylistLog::class , 'playlist_id', 'id');
+        return $this->hasMany(PlaylistLog::class, 'playlist_id', 'id');
     }
 
     public static function myPlaylists()
@@ -55,12 +55,23 @@ class Playlist extends Model
         return self::create($playlist);
     }
 
+    public static function editPlaylist($playlist = null)
+    {
+        $getPlaylist = self::where('id', $playlist['playlist_id'])->first();
+
+        return $getPlaylist->update([
+            'title' => $playlist['title'] ?? $getPlaylist->title,
+            'description' => $playlist['description'] ?? $getPlaylist->description,
+            'image_id' => $playlist['image_id'] ?? $getPlaylist->image_id,
+        ]);
+    }
+
     public static function deletePlaylist($playlistId = null)
     {
 
         $playlist = self::whereId($playlistId)->first();
 
-        if (!empty($playlistId)){
+        if (!empty($playlistId)) {
 
             PlaylistLog::deleteMyPlaylist($playlistId);
 
@@ -68,7 +79,7 @@ class Playlist extends Model
 
             return true;
 
-        }else{
+        } else {
 
             return false;
 

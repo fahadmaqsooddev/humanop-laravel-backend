@@ -25,7 +25,7 @@ class NewPlaylistRequest extends FormRequest
 
     public function rules()
     {
-        $userId = auth()->id(); // Get the currently authenticated user's ID
+        $userId = auth()->id();
 
         return [
             'title' => [

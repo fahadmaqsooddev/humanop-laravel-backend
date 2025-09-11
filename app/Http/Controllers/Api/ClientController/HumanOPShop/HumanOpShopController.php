@@ -98,7 +98,7 @@ class HumanOpShopController extends Controller
 
     public function suggestedItemCheckout(SuggestionItemRequest $request)
     {
-//        try {
+        try {
 
             DB::beginTransaction();
 
@@ -171,13 +171,13 @@ class HumanOpShopController extends Controller
 
             }
 
-//        } catch (\Exception $e) {
-//
-//            DB::rollBack();
-//
-//            return Helpers::serverErrorResponse($e->getMessage());
-//
-//        }
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($e->getMessage());
+
+        }
 
     }
 

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api\ClientController\PlayList;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Client\Playlist\EditPlayListRequest;
 use App\Http\Requests\Api\Client\Playlist\NewPlaylistRequest;
 use App\Models\Playlist\Playlist;
 use App\Models\Upload\Upload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PlaylistController extends Controller
 {
@@ -126,6 +128,55 @@ class PlaylistController extends Controller
 
     }
 
+    public static function updateMyPlaylists(EditPlayListRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $playlistId = $request->input('playlist_id');
+
+            if (!empty($playlistId)) {
+
+                if ($request->hasFile('image')) {
+
+                    $upload_id = Upload::uploadFile($request->file('image'), 200, 200, 'base64Image', 'png', true);
+
+                    $request->merge(['image_id' => $upload_id]);
+                }
+
+                $playlistUpdated = Playlist::editPlaylist($request->all());
+
+                if ($playlistUpdated) {
+
+                    DB::commit();
+
+                    return Helpers::successResponse("Playlist has been updated");
+
+                } else {
+
+
+                    DB::rollBack();
+
+                    return Helpers::validationResponse("Playlist update failed");
+
+                }
+
+            } else {
+
+                return Helpers::validationResponse('Playlist id is required');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
     public static function deleteMyPlaylists(Request $request)
     {
 

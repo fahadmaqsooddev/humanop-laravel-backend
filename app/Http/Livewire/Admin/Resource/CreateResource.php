@@ -75,6 +75,8 @@ class CreateResource extends Component
 
             DB::beginTransaction();
 
+            $this->validate();
+
             $ext = strtolower($this->resource_file->getClientOriginalExtension());
 
             if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
@@ -84,8 +86,6 @@ class CreateResource extends Component
                 ]);
 
             }
-
-            $this->validate();
 
             $upload_id = $this->uploadFile($this->resource_file);
 
