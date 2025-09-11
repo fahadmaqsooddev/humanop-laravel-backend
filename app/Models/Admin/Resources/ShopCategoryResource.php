@@ -231,9 +231,9 @@ class ShopCategoryResource extends Model
 
         $topTwoDrivers = collect(Assessment::getTopTwoFeatures($getDrivers['top_two_keys'], $userLatestAssessment))->pluck('code_name')->toArray();
 
-        $alchemy = Assessment::getAlchemyDetail($userLatestAssessment);
+        $alchemy = [Assessment::getAlchemyDetail($userLatestAssessment)['code_name']];
 
-        dd(isset($alchemy['code_name']));
+        dd(isset($alchemy));
         $communication = Assessment::getEnergy($userLatestAssessment);
 
         $topCommunication = collect(CodeDetail::getCommunicationDetail($communication, $userLatestAssessment))->pluck('code_name')->toArray();
