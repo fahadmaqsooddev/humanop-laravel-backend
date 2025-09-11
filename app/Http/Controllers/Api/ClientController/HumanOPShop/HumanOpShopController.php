@@ -63,7 +63,7 @@ class HumanOpShopController extends Controller
 
     public function suggestedItems()
     {
-        try {
+//        try {
 
             $getSuggestedItems = ShopCategoryResource::suggestedItems(Helpers::getUser()['id']);
 
@@ -88,11 +88,11 @@ class HumanOpShopController extends Controller
 
             return Helpers::successResponse('HumanOp Shop Suggested Items', $formatted);
 
-        } catch (\Exception $e) {
-
-            return Helpers::serverErrorResponse($e->getMessage());
-
-        }
+//        } catch (\Exception $e) {
+//
+//            return Helpers::serverErrorResponse($e->getMessage());
+//
+//        }
 
     }
 
