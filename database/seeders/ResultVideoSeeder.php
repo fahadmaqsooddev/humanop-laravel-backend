@@ -18,7 +18,7 @@ class ResultVideoSeeder extends Seeder
     public function run()
     {
 
-        DB::table('assessment_result_videos')->truncate();
+//        DB::table('assessment_result_videos')->truncate();
 
         $codeDetails = CodeDetail::allCodes();
 
