@@ -335,7 +335,7 @@ class DashboardController extends Controller
     public function actionPlan(Request $request)
     {
 
-        try {
+//        try {
 
             $userPlan = Helpers::getUser()['plan_name'];
 
@@ -387,10 +387,10 @@ class DashboardController extends Controller
 
             return Helpers::validationResponse('Assessment not found');
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
     }
 
     public function informationIcon()
