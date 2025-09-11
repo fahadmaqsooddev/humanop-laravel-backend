@@ -13,7 +13,7 @@ if (env('APP_ENV') == 'local') {
     return [
         'client_dashboard_url' => 'https://dev.humanop.com',
         'admin_dashboard_url' => 'https://dev.humanoptech.com',
-        'hai_admin_dashboard_url' => 'https://dev-hai.humanoptech.com',
+        'hai_admin_dashboard_url' => 'https://pre-beta-ha.humanoptech.com',
         'b2b_dashboard_url' => 'https://maestro-dev.humanop.com',
         'b2b_admin_dashboard_url' => 'https://maestro-dev.humanoptech.com',
     ];
