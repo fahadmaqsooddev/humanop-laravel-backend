@@ -374,6 +374,8 @@ class CreateResource extends Component
 
         DB::beginTransaction();
 
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
+
         if ($this->resource_file) {
             if ($this->resource_file instanceof UploadedFile) {
                 $ext = strtolower($this->resource_file->getClientOriginalExtension());
@@ -387,9 +389,7 @@ class CreateResource extends Component
                 ]);
             }
         }
-
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
-
+        
         $checkPermission = count($this->permission);
 
         if ($checkPermission == 2) {
