@@ -1,94 +1,97 @@
 <div>
-    <div class="table-responsive table-header-text w-100 pt-4 table-orange-color">
-        @include('layouts.message')
-        <table class="table table-flush">
-            <thead class="thead-light">
-            <tr class="text-color-blue">
-                {{--                <th>#</th>--}}
-                <th>Title</th>
-                <th>Audio File</th>
-                <th style="display: flex; justify-content: center">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($podcasts as $key => $podcast)
+    @if(!empty($podcasts))
+        <div class="table-responsive table-header-text w-100 pt-4 table-orange-color">
+            @include('layouts.message')
+            <table class="table table-flush">
+                <thead class="thead-light">
                 <tr class="text-color-blue">
-                    {{--                    <td class="text-sm font-weight-normal" style="align-items: center">{{ $key + 1 }}</td>--}}
-                    <td class="text-sm font-weight-normal">
-                        @if(strlen(strip_tags($podcast['title'])) > 10)
-                            {!! Str::limit(strip_tags($podcast['title']), 10, '') !!}
-                            <a data-bs-toggle="modal"
-                               data-bs-target="#viewPodcastModal{{ $podcast['id'] }}"
-                               style="color: #1b3a62; cursor: pointer; font-size: larger; font-weight: bold">
-                                more...
-                            </a>
-                        @else
-                            {!! $podcast['title'] !!}
-                        @endif
-                    </td>
-                    <td class="text-sm font-weight-normal">
-                        @if (!empty($podcast) && !empty($podcast['audio_url']['path']))
-                            <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn btn-sm btn-secondary seek-back"
-                                        style="font-size: 12px;">⏪ 10s
-                                </button>
-
-                                <audio controls class="audio-player" style="width: 100%;">
-                                    <source src="{{ asset($podcast['audio_url']['path']) }}" type="audio/mpeg">
-                                    Your browser does not support the audio element.
-                                </audio>
-
-                                <button type="button" class="btn btn-sm btn-secondary seek-forward"
-                                        style="font-size: 12px;">⏩ 10s
-                                </button>
-                            </div>
-                        @else
-                            <span class="text-muted">No audio available</span>
-                        @endif
-                    </td>
-                    <td class="text-sm font-weight-normal" style="display: flex; justify-content: center">
-                        <a onclick="deletePodcast({{ $podcast['id'] }})" class="btn-sm mt-2 mb-0"
-                           style="background:#ff0000;color:white;font-weight:bolder;cursor:pointer;">Delete</a>
-                        <a wire:click="editPodcastModal({{ $podcast['id'] }},`{{ $podcast['title']  }}`,`{{ $podcast['audio_url']['path'] }}`)"
-                           class="btn-sm mt-2 mb-0"
-                           data-bs-target="#editFormPodcastModal" data-bs-toggle="modal"
-                           style="background:#1b3a62;color:white;font-weight:bolder;cursor:pointer;margin-left: 10px">Edit</a>
-                    </td>
+                    {{--                <th>#</th>--}}
+                    <th>Title</th>
+                    <th>Audio File</th>
+                    <th style="display: flex; justify-content: center">Action</th>
                 </tr>
-                <div wire:ignore.self class="modal fade" id="viewPodcastModal{{ $podcast['id'] }}"
-                     tabindex="-1"
-                     role="dialog"
-                     aria-labelledby="viewPodcastModal{{ $podcast['id'] }}" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body" style=" border-radius: 9px">
-                                <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                        aria-label="Close" id="close-query-view-modal-{{$podcast['id']}}">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <form wire:submit.prevent="">
-                                    @csrf
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <label class="form-label"
-                                                       style="color: #0f1534; font-size: 22px">Title:</label>
-                                                <span
-                                                    style="font-size: 18px;font-weight: 600;display: flex;color: #1b3a62; padding: 10px; border-radius: 5px; text-align: justify;">{!! $podcast['title'] !!}</span>
+                </thead>
+                <tbody>
+                @foreach($podcasts as $key => $podcast)
+                    <tr class="text-color-blue">
+                        {{--                    <td class="text-sm font-weight-normal" style="align-items: center">{{ $key + 1 }}</td>--}}
+                        <td class="text-sm font-weight-normal">
+                            @if(strlen(strip_tags($podcast['title'])) > 10)
+                                {!! Str::limit(strip_tags($podcast['title']), 10, '') !!}
+                                <a data-bs-toggle="modal"
+                                   data-bs-target="#viewPodcastModal{{ $podcast['id'] }}"
+                                   style="color: #1b3a62; cursor: pointer; font-size: larger; font-weight: bold">
+                                    more...
+                                </a>
+                            @else
+                                {!! $podcast['title'] !!}
+                            @endif
+                        </td>
+                        <td class="text-sm font-weight-normal">
+                            @if (!empty($podcast) && !empty($podcast['audio_url']['path']))
+                                <div class="d-flex align-items-center gap-2">
+                                    <button type="button" class="btn btn-sm btn-secondary seek-back"
+                                            style="font-size: 12px;">⏪ 10s
+                                    </button>
 
+                                    <audio controls class="audio-player" style="width: 100%;">
+                                        <source src="{{ asset($podcast['audio_url']['path']) }}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+
+                                    <button type="button" class="btn btn-sm btn-secondary seek-forward"
+                                            style="font-size: 12px;">⏩ 10s
+                                    </button>
+                                </div>
+                            @else
+                                <span class="text-muted">No audio available</span>
+                            @endif
+                        </td>
+                        <td class="text-sm font-weight-normal" style="display: flex; justify-content: center">
+                            <a onclick="deletePodcast({{ $podcast['id'] }})" class="btn-sm mt-2 mb-0"
+                               style="background:#ff0000;color:white;font-weight:bolder;cursor:pointer;">Delete</a>
+                            <a wire:click="editPodcastModal({{ $podcast['id'] }},`{{ $podcast['title']  }}`,`{{ $podcast['audio_url']['path'] }}`)"
+                               class="btn-sm mt-2 mb-0"
+                               data-bs-target="#editFormPodcastModal" data-bs-toggle="modal"
+                               style="background:#1b3a62;color:white;font-weight:bolder;cursor:pointer;margin-left: 10px">Edit</a>
+                        </td>
+                    </tr>
+                    <div wire:ignore.self class="modal fade" id="viewPodcastModal{{ $podcast['id'] }}"
+                         tabindex="-1"
+                         role="dialog"
+                         aria-labelledby="viewPodcastModal{{ $podcast['id'] }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body" style=" border-radius: 9px">
+                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                            aria-label="Close" id="close-query-view-modal-{{$podcast['id']}}">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <form wire:submit.prevent="">
+                                        @csrf
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="form-label"
+                                                           style="color: #0f1534; font-size: 22px">Title:</label>
+                                                    <span
+                                                        style="font-size: 18px;font-weight: 600;display: flex;color: #1b3a62; padding: 10px; border-radius: 5px; text-align: justify;">{!! $podcast['title'] !!}</span>
+
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
-    {{$podcasts->links()}}
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+        {{$podcasts->links()}}
+    @else
+    @endif
 
     {{--    add Podcast model   --}}
     <div wire:ignore.self class="modal fade" id="addPodcast" tabindex="-1"
