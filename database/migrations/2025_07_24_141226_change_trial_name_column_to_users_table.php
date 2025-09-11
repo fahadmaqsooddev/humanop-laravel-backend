@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
 
             $table->integer('trial_day')->default(0);
-            $table->dateTime('trial_time')->nullable();
+            if (!Schema::hasColumn('users', 'trial_time')) {
+                $table->dateTime('trial_time')->nullable();
+            }
 
         });
 
