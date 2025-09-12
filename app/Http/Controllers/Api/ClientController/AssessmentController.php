@@ -429,6 +429,12 @@ class AssessmentController extends Controller
                 ]);
 
                 if ($charge && $charge->status === 'succeeded') {
+                    
+                    Assessment::create([
+                        'user_id' => $user['id'],
+                        'page' => null,
+                        'type' => 0
+                    ]);
 
                     $name = "You have purchased Paid Assessment";
 
