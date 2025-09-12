@@ -42,41 +42,53 @@ class Point extends Model
 
     }
 
-    public static function getPoints(){
-
+    public static function getPoints()
+    {
         $points = self::where('user_id', Helpers::getUser()->id)->first();
 
         $pointLogs = PointLog::query()->where('user_id', Helpers::getUser()->id)->where('type', PointLog::HAI_Credit)->where('is_b2b', 0);
 
-        dd($points, $pointLogs);
-        if ($points){
+        // Initialize defaults
+        $total_tokens = 0;
+        $used_tokens = 0;
+        $remaining_tokens = 0;
+        $rollover_tokens = 0;
 
-                $total_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 1)->sum('point');
-                $used_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 0)->sum('point');
-                $remaining_tokens = $points['point'];
-                $rollover_tokens = ((clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 1)->sum('point') - (clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 0)->sum('point'));
+        if ($points) {
+            $total_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 1)->sum('point');
+
+            $used_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 0)->sum('point');
+
+            $remaining_tokens = $points['point'];
+
+            $rollover_tokens = (
+                (clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 1)->sum('point')
+                -
+                (clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 0)->sum('point')
+            );
         }
 
         return [
-            'total_tokens' => (int)$total_tokens ?? 0,
-            'used_tokens' => (int)$used_tokens ?? 0,
-            'remaining_tokens' => (int)$remaining_tokens ?? 0,
-            'rollover_tokens' => (int)$rollover_tokens ?? 0,
+            'total_tokens' => (int)$total_tokens,
+            'used_tokens' => (int)$used_tokens,
+            'remaining_tokens' => (int)$remaining_tokens,
+            'rollover_tokens' => (int)$rollover_tokens,
         ];
-
     }
 
-    public static function addPoints($points, $user = null, $is_b2b = 0){
+
+    public static function addPoints($points, $user = null, $is_b2b = 0)
+    {
 
         $user = ($user ?? Helpers::getUser());
 
         $record = self::where('user_id', $user->id)->where('is_b2b', $is_b2b)->first();
 
-        if ($record){
+        if ($record) {
 
             $record->increment('point', $points);
 
-        }else{
+        } else {
 
             self::create([
                 'user_id' => $user->id,
@@ -89,18 +101,19 @@ class Point extends Model
 
     }
 
-    public static function updatePointOnPlanUpdate($points, $user = null){
+    public static function updatePointOnPlanUpdate($points, $user = null)
+    {
 
         $user = ($user ?? Helpers::getUser());
 
         $record = self::where('user_id', $user->id)->first();
 
-        if ($record){
+        if ($record) {
 
             $record->increment('point', $points);
 
 
-        }else{
+        } else {
 
             self::create([
                 'user_id' => $user->id,
@@ -112,13 +125,14 @@ class Point extends Model
 
     }
 
-    public static function purchaseHAiCreditsFromHp($hp){
+    public static function purchaseHAiCreditsFromHp($hp)
+    {
 
         $one_credit = Customization::oneHaiCreditDetail();
 
-        if ($one_credit > 0){
+        if ($one_credit > 0) {
 
-            $credits = ($hp/$one_credit);
+            $credits = ($hp / $one_credit);
 
             self::addPoints($credits);
 
