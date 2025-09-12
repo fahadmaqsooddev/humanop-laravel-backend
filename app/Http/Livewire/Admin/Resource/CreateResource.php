@@ -100,6 +100,10 @@ class CreateResource extends Component
                     $thumbnail_id = null;
                 }
 
+            }else{
+
+                $upload_id = null;
+                
             }
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
