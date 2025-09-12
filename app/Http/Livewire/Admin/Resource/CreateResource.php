@@ -102,7 +102,14 @@ class CreateResource extends Component
 
                 $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
 
-            }else{
+            }elseif (!empty($this->link)){
+
+                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+                $resource = LibraryResource::createResource($this->heading, null, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
+
+            }
+            else{
 
                 $resource = LibraryResource::createResource($this->heading, null, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, null);
 
