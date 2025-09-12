@@ -48,6 +48,7 @@ class Point extends Model
 
         $pointLogs = PointLog::query()->where('user_id', Helpers::getUser()->id)->where('type', PointLog::HAI_Credit)->where('is_b2b', 0);
 
+        dd($points, $pointLogs);
         if ($points){
 
                 $total_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 1)->sum('point');
