@@ -166,7 +166,7 @@ class AuthController extends Controller
 
                     $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
 
-                    $checkPhoneVerified = User::checkPhoneVerified($checkUser['email']);
+                    $checkPhoneVerified = User::checkPhoneVerified($checkUser['phone']);
 
                     if (empty($checkEmailVerified)) {
 
@@ -198,29 +198,28 @@ class AuthController extends Controller
                         ]);
 
                     }
-//                    elseif (empty($checkPhoneVerified)) {
-//
-//                        $code = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
-//
-//                        $message = "Hi {$checkUser['first_name']} {$checkUser['last_name']}, your code is: {$code} for verifying your phone number.";
-//
-//                        $checkUser->update(['phone' => $request['phone'], 'sms_verify_code' => $code]);
-//
-//                        $checkUser->setAppends([]);
-//
-//                        $this->sns->sendSms($request['phone'], $message);
-//
-//                        return Helpers::successResponse('Your phone number is not verified. Verification otp code sent.', [
-//                            'authorization' => [
-//                                'user' => $checkUser,
-//                                'phone_number' => 'not verified',
-//                                'status' => true,
-//                                'type' => 'bearer',
-//                            ],
-//                        ]);
-//
-//                    }
-                    else {
+                    elseif (empty($checkPhoneVerified)) {
+
+                        $code = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+                        $message = "Hi {$checkUser['first_name']} {$checkUser['last_name']}, your code is: {$code} for verifying your phone number.";
+
+                        $checkUser->update(['phone' => $request['phone'], 'sms_verify_code' => $code]);
+
+                        $checkUser->setAppends([]);
+
+                        $this->sns->sendSms($request['phone'], $message);
+
+                        return Helpers::successResponse('Your phone number is not verified. Verification otp code sent.', [
+                            'authorization' => [
+                                'user' => $checkUser,
+                                'phone_number' => 'not verified',
+                                'status' => true,
+                                'type' => 'bearer',
+                            ],
+                        ]);
+
+                    } else {
 
                         $checkLastStep = User::checkLastStep($checkUser['email']);
 
