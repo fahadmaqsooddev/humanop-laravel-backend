@@ -98,6 +98,8 @@ class AssessmentIntro extends Model
 
         $video = $data->video;
 
+        dd($video);
+
         $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
             ? $video['video_upload_url']['path']
             : ($video['video_url'] ?? null);
