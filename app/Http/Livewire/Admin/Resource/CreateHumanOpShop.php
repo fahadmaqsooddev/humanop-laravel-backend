@@ -61,17 +61,15 @@ class CreateHumanOpShop extends Component
 
             $this->validate();
 
-            $ext = strtolower($this->resource_file->getClientOriginalExtension());
+            $extension = $this->resource_file->extension();
 
-            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
+            if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
 
                 $this->validate([
                     'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
                 ]);
 
             }
-
-            $extension = $this->resource_file->extension();
 
             $upload_id = $this->uploadFile($this->resource_file);
 

@@ -77,9 +77,9 @@ class CreateResource extends Component
 
             $this->validate();
 
-            $ext = strtolower($this->resource_file->getClientOriginalExtension());
+            $extension = $this->resource_file->extension();
 
-            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
+            if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
 
                 $this->validate([
                     'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
@@ -88,8 +88,6 @@ class CreateResource extends Component
             }
 
             $upload_id = $this->uploadFile($this->resource_file);
-
-            $extension = $this->resource_file->extension();
 
             if (in_array($extension, ['mp4', 'mov', 'avi', 'mkv']) || in_array($extension, ['mp3', 'wav', 'mpeg'])) {
 
@@ -389,7 +387,7 @@ class CreateResource extends Component
                 ]);
             }
         }
-        
+
         $checkPermission = count($this->permission);
 
         if ($checkPermission == 2) {
