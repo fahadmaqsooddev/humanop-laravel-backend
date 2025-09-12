@@ -112,7 +112,7 @@
                                                 <label class="form-label fs-6 "
                                                        style="font-size: 24px !important;font-weight: 800 !important;color: #1b3a62;"><strong>FeedBack:</strong></label>
                                                 <span class="mt-3"
-                                                      style="color: white;font-size: 20px;font-weight: 800;display: flex;">{{ $feedback['comment']  ?? null}}</span>
+                                                      style="color: #1b3a62;font-size: 20px;font-weight: 800;display: flex;">{{ $feedback['comment']  ?? null}}</span>
                                             </div>
                                         </div>
                                     </div>
