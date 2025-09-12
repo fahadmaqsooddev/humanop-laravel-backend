@@ -100,19 +100,13 @@ class CreateResource extends Component
                     $thumbnail_id = null;
                 }
 
+                $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
+
             }else{
 
-                $upload_id = null;
-                
+                $resource = LibraryResource::createResource($this->heading, null, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, null);
+
             }
-
-            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
-
-//            if (!empty($upload_id) && in_array($extension, ['mp4'])) {
-//
-//                $this->uploadFileToGumlet($this->resource_file, $resource['id']);
-//
-//            }
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
 
