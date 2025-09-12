@@ -77,25 +77,29 @@ class CreateResource extends Component
 
             $this->validate();
 
-            $extension = $this->resource_file->extension();
+            if ($this->resource_file) {
 
-            if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
+                $extension = $this->resource_file->extension();
 
-                $this->validate([
-                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
-                ]);
+                if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
 
-            }
+                    $this->validate([
+                        'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
+                    ]);
 
-            $upload_id = $this->uploadFile($this->resource_file);
+                }
 
-            if (in_array($extension, ['mp4', 'mov', 'avi', 'mkv']) || in_array($extension, ['mp3', 'wav', 'mpeg'])) {
+                $upload_id = $this->uploadFile($this->resource_file);
 
-                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+                if (in_array($extension, ['mp4', 'mov', 'avi', 'mkv']) || in_array($extension, ['mp3', 'wav', 'mpeg'])) {
 
-            } else {
+                    $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                $thumbnail_id = null;
+                } else {
+
+                    $thumbnail_id = null;
+                }
+
             }
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
@@ -191,33 +195,47 @@ class CreateResource extends Component
 
     public function updatedResourceFile()
     {
-
         if ($this->resource_file) {
-
             $this->fileType = strtolower($this->resource_file->getClientOriginalExtension());
 
-            if (in_array($this->fileType, ['jpeg', 'png', 'jpg', 'gif'])) {
+            // Clear Gumlet link if file is uploaded
+            $this->link = null;
 
+            // If file is image
+            if (in_array($this->fileType, ['jpeg', 'jpg', 'png', 'gif'])) {
                 $this->showThumbnailUpload = false;
-
                 $this->typeThumbnail = $this->fileType;
-
-            } else {
-
-                $this->showThumbnailUpload = true;
-
-                $this->typeThumbnail = false;
-
             }
-
+            // If file is video/audio
+            elseif (in_array($this->fileType, ['mp4', 'mp3', 'mpeg', 'mov'])) {
+                $this->showThumbnailUpload = true;
+                $this->typeThumbnail = false;
+            }
+            // Unsupported type
+            else {
+                $this->showThumbnailUpload = false;
+                $this->typeThumbnail = false;
+            }
         } else {
-
             $this->showThumbnailUpload = false;
-
             $this->typeThumbnail = false;
-
         }
     }
+
+    public function updatedLink($value)
+    {
+        if (!empty($value)) {
+            // Clear resource file if Gumlet link is provided
+            $this->reset('resource_file');
+
+            $this->showThumbnailUpload = true;
+            $this->typeThumbnail = false;
+        } else {
+            $this->showThumbnailUpload = false;
+            $this->typeThumbnail = false;
+        }
+    }
+
 
     public function deleteResource($id, $slug)
     {
@@ -450,7 +468,7 @@ class CreateResource extends Component
                         'thumbnail_id' => $thumbnail_id,
                     ]);
 
-                }else{
+                } else {
 
                     LibraryResource::whereId($this->resourceId)->update([
                         'heading' => $this->heading,

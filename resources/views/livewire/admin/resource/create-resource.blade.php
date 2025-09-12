@@ -280,25 +280,9 @@
                                         <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
                                         <input class="form-control input-form-style"
                                                wire:model.debounce.500ms="link" placeholder="Link" type="text"
-                                               id="embedlink" wire:change="getVideoLink">
+                                               id="embedlink">
                                     </div>
                                     <label class="form-label fs-4" style="color: #1b3a62">OR</label>
-
-{{--                                    <div class="form-group">--}}
-{{--                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or--}}
-{{--                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>--}}
-{{--                                        <input wire:model="resource_file"--}}
-{{--                                               id="resourse_file" wire:change="getResourceFile"--}}
-{{--                                               class="form-control input-form-style resource_file" type="file"--}}
-{{--                                               accept="image/*,video/*,audio/*">--}}
-{{--                                        <span wire:loading.flex wire:target="resource_file">--}}
-{{--                                            <div class="d-flex align-items-center mt-2">--}}
-{{--                                                <div class="spinner-border" role="status"--}}
-{{--                                                     style="color: #1b3a62 !important;"></div>--}}
-{{--                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>--}}
-{{--                                              </div>--}}
-{{--                                        </span>--}}
-{{--                                    </div>--}}
 
                                     <div class="form-group">
                                         <label class="form-label fs-4" style="color: #1b3a62">
