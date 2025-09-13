@@ -251,6 +251,8 @@ class GamificationController extends Controller
 
             $response = HumanOpPoints::purchaseHAiCreditsFromHp($request->integer('hp'));
 
+            DB::commit();
+
             return $response;
 
         }catch (\Exception $exception){
