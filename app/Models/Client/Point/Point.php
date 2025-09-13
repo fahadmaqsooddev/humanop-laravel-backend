@@ -130,7 +130,6 @@ class Point extends Model
 
         $one_credit = Customization::oneHaiCreditDetail();
 
-        dd($one_credit);
         if ($one_credit > 0) {
 
             $credits = ($hp / $one_credit);
