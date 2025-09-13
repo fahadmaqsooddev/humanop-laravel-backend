@@ -263,6 +263,8 @@ class HumanOpPoints extends Model
 
     public static function deductPoint($userId = null, $points = null)
     {
+
+        dd($userId, $points);
         $point =  self::where('user_id', $userId)->first();
 
         $point->points -= $points;
