@@ -1357,12 +1357,12 @@
                                                     <li>Self-understanding and interpersonal relationships</li>
                                                 </ul>
 
-                                                @if($assessment)
-                                                    <a href="{{url('practitioner/download-practitioner-report/'. $assessment->id)}}"
-                                                       target="_blank"
-                                                       class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0"
-                                                       style="background-color: #1b3a62">Download Summary Report</a>
-                                                @endif
+{{--                                                @if($assessment)--}}
+{{--                                                    <a href="{{url('practitioner/download-practitioner-report/'. $assessment->id)}}"--}}
+{{--                                                       target="_blank"--}}
+{{--                                                       class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0"--}}
+{{--                                                       style="background-color: #1b3a62">Download Summary Report</a>--}}
+{{--                                                @endif--}}
                                             </div>
                                         </div>
                                         <div class="tab-pane {{request()->has('video_url') ? 'active' : ""}}"

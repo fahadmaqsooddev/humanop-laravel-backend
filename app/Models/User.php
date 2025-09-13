@@ -179,47 +179,33 @@ class User extends Authenticatable implements JWTSubject
 
     public function getUserTraitsAttribute()
     {
-
         $user = self::getSingleUser($this->id);
 
-        $assessment = Assessment::getLatestAssessment($user['id']);
-
-        if (!empty($assessment)) {
-
-            if ($user['plan_name'] == 'Core') {
-
-                $styleCodes = Assessment::authenticTraits($assessment);
-
-                $public_name = [];
-
-                foreach ($styleCodes as $style) {
-
-                    $public_name[] = $style['public_name'];
-                }
-
-                return $public_name;
-
-            } else {
-
-                $styleCodes = Assessment::getAllStyles($assessment);
-
-                $public_name = [];
-
-                foreach ($styleCodes as $style) {
-
-                    $public_name[] = $style['public_name'];
-                }
-
-                return $public_name;
-
-            }
-
-        } else {
-
+        if (empty($user)) {
             return null;
         }
 
+        $assessment = Assessment::getLatestAssessment($user['id']);
+
+        if (empty($assessment)) {
+            return null;
+        }
+
+        if ($user['plan_name'] == 'Core') {
+            $styleCodes = Assessment::authenticTraits($assessment);
+        } else {
+            $styleCodes = Assessment::getAllStyles($assessment);
+        }
+
+        $public_name = [];
+
+        foreach ($styleCodes as $style) {
+            $public_name[] = $style['public_name'];
+        }
+
+        return $public_name;
     }
+
 
     public function getUserTaglineAttribute()
     {
