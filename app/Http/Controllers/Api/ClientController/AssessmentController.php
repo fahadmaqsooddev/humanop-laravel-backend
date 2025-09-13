@@ -429,7 +429,7 @@ class AssessmentController extends Controller
                 ]);
 
                 if ($charge && $charge->status === 'succeeded') {
-                    
+
                     Assessment::create([
                         'user_id' => $user['id'],
                         'page' => null,
@@ -438,7 +438,7 @@ class AssessmentController extends Controller
 
                     $name = "You have purchased Paid Assessment";
 
-                    PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
+                    PurchasedItems::createItem($user['id'], $name, 499, Admin::B2C_PURCHASED_ITEM);
 
                     DB::commit();
 
