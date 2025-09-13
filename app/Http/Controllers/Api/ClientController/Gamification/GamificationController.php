@@ -73,7 +73,7 @@ class GamificationController extends Controller
 
             if (!empty($watchVideo)) {
 
-                return Helpers::successResponse("Congratulations! You completed watching the video: {$watchVideo['video_name']}.");
+                return Helpers::successResponse("Congratulations! You completed watching the video: " . ucwords(str_replace('_', ' ', $watchVideo['video_name'])) . ".");
 
             } else {
 
