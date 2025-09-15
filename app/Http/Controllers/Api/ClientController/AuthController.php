@@ -361,9 +361,9 @@ class AuthController extends Controller
 
                     $token = $this->auth->login($getUser);
 
-                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
+//                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
 
-                    UserInviteLog::deleteInvite($userInvite['id']);
+//                    UserInviteLog::deleteInvite($userInvite['id']);
 
                     $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
@@ -390,9 +390,9 @@ class AuthController extends Controller
 
                     $token = $this->auth->login($getUser);
 
-                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
+//                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
 
-                    UserInviteLog::deleteInvite($userInvite['id']);
+//                    UserInviteLog::deleteInvite($userInvite['id']);
 
                     $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
