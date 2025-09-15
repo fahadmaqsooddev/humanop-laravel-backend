@@ -75,6 +75,18 @@ class AssessmentColorCode extends Model
         return $code_color;
     }
 
+    public static function getAllAuthenticTraitCodeColor($assessmentId = null)
+    {
+        $assessmentCodeColors = self::where('assessment_id', $assessmentId)->where('code_color', 'green')->get();
+
+        $code_color = [];
+        foreach ($assessmentCodeColors as $assessment) {
+            $code_color[$assessment['code']] = $assessment['code_number'];
+        }
+
+        return $code_color;
+    }
+
     public static function deleteAssessemntColorCodeData($assessment = null)
     {
         self::where('assessment_id', $assessment['id'])->delete();
