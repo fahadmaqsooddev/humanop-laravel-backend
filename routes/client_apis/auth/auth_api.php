@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::get('onboarding-screens', 'AuthController@onboardingScreens');
 Route::post('register-first-step', 'AuthController@registerFirstStep');
 Route::post('check-email-verification', 'AuthController@checkEmailVerification');
 Route::post('email-verified', 'AuthController@EmailVerified');

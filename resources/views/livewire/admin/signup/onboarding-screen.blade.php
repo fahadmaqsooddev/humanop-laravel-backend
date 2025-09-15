@@ -90,7 +90,8 @@
                                     <div class="col-12 mt-4">
                                         <label class="form-label" style="color: #1b3a62">Description</label>
                                         <div wire:ignore>
-        <textarea id="edit-summernote"
+        <textarea id="summernote"
+                  wire:model.defer="description"
                   class="form-control input-form-style editor"
                   placeholder="Enter description"></textarea>
                                         </div>
@@ -113,32 +114,42 @@
 </div>
 
 @push('javascript')
-    <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-    <script>
 
-        document.addEventListener("livewire:load", function () {
-            // Initialize summernote
-            $('#edit-summernote').summernote({
+    <script>
+        document.addEventListener('livewire:load', function () {
+            // Initialize Summernote
+            $('#summernote').summernote({
                 height: 200,
                 callbacks: {
-                    onChange: function (contents) {
-                    @this.set('description', contents); // send back to Livewire
+                    onChange: function(contents) {
+                    @this.set('description', contents); // sync Summernote → Livewire
                     }
                 }
             });
 
-            // Listen for Livewire event → load description into summernote
+            // Listen for browser event → set Summernote content from Livewire
             window.addEventListener('loadDescription', event => {
-                $('#edit-summernote').summernote('code', event.detail.description);
+                $('#summernote').summernote('code', event.detail);
+            });
+
+            // Reinitialize Summernote if DOM refreshed by Livewire
+            Livewire.hook('message.processed', (message, component) => {
+                if (!$('#summernote').next().hasClass('note-editor')) {
+                    $('#summernote').summernote({
+                        height: 200,
+                        callbacks: {
+                            onChange: function(contents) {
+                            @this.set('description', contents);
+                            }
+                        }
+                    });
+                }
             });
         });
-
-
-
     </script>
 @endpush
+
 

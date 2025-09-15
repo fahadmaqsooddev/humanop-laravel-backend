@@ -23,10 +23,8 @@ class OnboardingScreen extends Component
         $this->title = $screenName;
         $this->description = $screenText;
 
-        // Send description to JS so Summernote can display it
-        $this->dispatchBrowserEvent('loadDescription', [
-            'description' => $screenText,
-        ]);
+        // Send description to Summernote
+        $this->dispatchBrowserEvent('loadDescription', $this->description);
     }
 
     public function updateForm(Request $request)

@@ -21,6 +21,7 @@ use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\RecentActivity\RecentActivity;
+use App\Models\Admin\Signup\SignupScreen;
 use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\TeamDepartmentMembers;
@@ -51,11 +52,27 @@ class AuthController extends Controller
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode']);
+        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode','onboardingScreens']);
 
         $this->auth = Auth::guard('api');
 
         $this->sns = $sns;
+    }
+
+    public function onboardingScreens()
+    {
+        try {
+
+            $screens = SignupScreen::allScreens();
+
+            return Helpers::successResponse('Signup Onboarding Screens', $screens);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
     }
 
     public function registerFirstStep(RegisterFirstStepRequest $request)
