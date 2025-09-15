@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-//        Schema::table('stripe_settings', function (Blueprint $table) {
-//
-//            $table->integer('type')->default(1)->comment('1: B2C, 2: B2B');
-//
-//        });
+        Schema::create('signup_screens', function (Blueprint $table) {
+            $table->id();
+            $table->string('screen_name')->nullable();
+            $table->longText('description')->nullable();
+            $table->integer('screen_type')->default(1)->comment('1:B2C, 2:B2B');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -27,10 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('stripe_settings', function (Blueprint $table) {
-
-            $table->dropColumn('type');
-
-        });
+        Schema::dropIfExists('signup_screens');
     }
 };

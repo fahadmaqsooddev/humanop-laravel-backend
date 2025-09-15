@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('email_templates', function (Blueprint $table) {
-
-            $table->string('tag')->nullable();
-            $table->longText('body')->nullable();
-            $table->integer('type')->nullable();
-            $table->unsignedBigInteger('logo_upload_id')->nullable();
-            $table->foreign('logo_upload_id')->references('id')->on('uploads')->onDelete('cascade');
-            $table->string('subject')->nullable();
-
-        });
+//        Schema::table('email_templates', function (Blueprint $table) {
+//
+//            $table->string('tag')->nullable();
+//            $table->longText('body')->nullable();
+//            $table->integer('type')->nullable();
+//            $table->unsignedBigInteger('logo_upload_id')->nullable();
+//            $table->foreign('logo_upload_id')->references('id')->on('uploads')->onDelete('cascade');
+//            $table->string('subject')->nullable();
+//
+//        });
     }
 
     /**

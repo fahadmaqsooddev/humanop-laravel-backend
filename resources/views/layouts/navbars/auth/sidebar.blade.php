@@ -300,6 +300,7 @@
                                                        'admin/b2c-email-template',
                                                        'admin/logs-activity',
                                                        'admin/network-tutorials',
+                                                       'admin/onboarding-screens',
                                                        'admin/result-videos',
                                                        'admin/suggested-items') ? 'show' : '' }}"
                                                         id="vrExamples">
@@ -339,6 +340,19 @@
                                                                             src="{{ Request::is('admin/summary-report','admin/edit-summary-report/*') ? asset('assets/new-blue-icons/summary-report-content.png') : asset('assets/new-white-icons/summary-report-content.png') }}"></span>
                                                                     <span
                                                                         class="sidenav-normal"> Summary Report Content </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/onboarding-screens') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/onboarding-screens') ? 'active-itt-all' : '') }}"
+                                                                   href="{{route('admin_onboarding_screens')}}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/onboarding-screens') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/networkonboarding-screens') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Onboarding Screens </span>
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/network-tutorials') ? 'active-itt-all' : '') }}">

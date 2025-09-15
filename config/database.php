@@ -774,5 +774,11 @@ return [
             'fillable' => ['user_id', 'item_name', 'item_price', 'purchased_from'],
             'hidden' => ['created_at', 'updated_at']
         ],
+
+        'SignupScreen' => [
+            'table' => 'signup_screens',
+            'fillable' => ['screen_name', 'description', 'screen_type'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
     ]
 ];

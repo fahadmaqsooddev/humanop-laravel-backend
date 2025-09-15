@@ -21,6 +21,7 @@ use App\Http\Controllers\AdminControllers\InformationController;
 use App\Http\Controllers\AdminControllers\VersionController;
 use App\Http\Controllers\HAIChat\ClientQueryController;
 use App\Http\Controllers\AdminControllers\NetworkTutorialController;
+use App\Http\Controllers\AdminControllers\OnboardingScreenController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminControllers\PricingPlanController;
@@ -144,6 +145,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
         Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
+        Route::get('/onboarding-screens',[OnboardingScreenController::class,'onboardingScreens'])->name('admin_onboarding_screens');
         Route::get('/network-tutorials',[NetworkTutorialController::class,'networkTutorials'])->name('admin_network_tutorials');
         Route::get('/announcements-news',[AnnouncementsNewsController::class,'announcementsNews'])->name('admin_announcements_news');
         Route::get('/faq',[FaqController::class,'FaqQuestions'])->name('admin_faq');

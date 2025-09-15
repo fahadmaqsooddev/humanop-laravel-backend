@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_invite_log', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('invite_id')->nullable();
-            $table->integer('role')->default(\App\Enums\Admin\Admin::CLIENT_INVITE_ROLE)->comment('1: B2C invite, 2: Client invite');
-
-            $table->foreign('invite_id')->references('id')->on('user_invites')->onDelete('cascade');
-            $table->timestamps();
-        });
+//        Schema::create('user_invite_log', function (Blueprint $table) {
+//            $table->id();
+//            $table->unsignedBigInteger('invite_id')->nullable();
+//            $table->integer('role')->default(\App\Enums\Admin\Admin::CLIENT_INVITE_ROLE)->comment('1: B2C invite, 2: Client invite');
+//
+//            $table->foreign('invite_id')->references('id')->on('user_invites')->onDelete('cascade');
+//            $table->timestamps();
+//        });
     }
 
     /**
