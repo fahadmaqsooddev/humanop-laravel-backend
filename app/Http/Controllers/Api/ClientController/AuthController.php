@@ -89,9 +89,9 @@ class AuthController extends Controller
             $dataArray['first_name'] = $parts[0] ?? '';
             $dataArray['last_name'] = $parts[1] ?? '';
 
-            $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
-
-            if (!empty($authorizedUser)) {
+//            $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
+//
+//            if (!empty($authorizedUser)) {
 
                 $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
 
@@ -274,11 +274,11 @@ class AuthController extends Controller
 
                 }
 
-            } else {
-
-                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
-
-            }
+//            } else {
+//
+//                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+//
+//            }
 
         } catch (\Exception $exception) {
 
