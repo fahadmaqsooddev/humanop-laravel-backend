@@ -480,12 +480,19 @@ class DashboardController extends Controller
 
                     $trait = AssessmentWalkThrough::getbyCodeName(strtoupper($styleKey), $styleNumber);
 
-                    $trait['public_name'] = "You have access to the {$trait['public_name']} Trait!";
+                    if ($styleNumber === 1) {
+                        $trait['public_name'] = "Your primary trait is the {$trait['public_name']} Trait! [Overview]";
+                    } elseif ($styleNumber === 2) {
+                        $trait['public_name'] = "Your Highest and Optimal Expression of your {$trait['public_name']} Trait";
+                    } else {
+                        $trait['public_name'] = "Optimization Hot Spots And Things To Recognize As Natural Triggers for your {$trait['public_name']} Trait";
+
+                    }
 
                     $traits[] = $trait;
-
                     $styleNumber += 1;
                 }
+
 
                 $features = ['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil',];
 
