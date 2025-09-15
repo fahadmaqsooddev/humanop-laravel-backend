@@ -37,7 +37,7 @@ class NewPlaylistRequest extends FormRequest
                 }),
             ],
             'description' => 'required|string|max:10000',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:204800',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:204800',
         ];
     }
 

@@ -93,9 +93,13 @@ class PlaylistController extends Controller
 
                 if (count($checkPlayList) == 0){
 
-                    $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image', 'png', true);
+                    if ($request['image']){
 
-                    $dataArray['image_id']= $upload_id;
+                        $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image', 'png', true);
+
+                        $dataArray['image_id']= $upload_id;
+
+                    }
 
                     Playlist::newPlaylist($dataArray);
 
@@ -109,10 +113,13 @@ class PlaylistController extends Controller
 
             }else{
 
-                $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image', 'png', true);
+                if ($request['image']){
 
-                $dataArray['image_id']= $upload_id;
+                    $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image', 'png', true);
 
+                    $dataArray['image_id']= $upload_id;
+
+                }
                 Playlist::newPlaylist($dataArray);
 
                 return Helpers::successResponse("Add your playlist");
