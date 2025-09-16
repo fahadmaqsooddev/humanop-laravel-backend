@@ -149,6 +149,9 @@
                                 <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>
                                     Freemium
                                 </option>
+                                <option value="Freemium" {{$user['plan_name'] === "Core" ? 'selected' : ""}}>
+                                    Premium
+                                </option>
                             </select>
                         </td>
                         <td class="text-sm font-weight-normal">
