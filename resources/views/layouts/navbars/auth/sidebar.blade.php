@@ -381,19 +381,19 @@
                                                                         class="sidenav-normal"> Announcements & News </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/suggested-items') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/suggested-items') ? 'active-itt-all' : '') }}"
-                                                                   href="{{route('admin_suggested_items')}}">
-                                                                    <span class="sidenav-mini-icon"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/suggested-items') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/suggested-items') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> Suggested Items </span>
-                                                                </a>
-                                                            </li>
+{{--                                                            <li class="nav-item {{ (Request::is('admin/suggested-items') ? 'active-itt-all' : '') }}">--}}
+{{--                                                                <a class="nav-link {{ (Request::is('admin/suggested-items') ? 'active-itt-all' : '') }}"--}}
+{{--                                                                   href="{{route('admin_suggested_items')}}">--}}
+{{--                                                                    <span class="sidenav-mini-icon"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{ Request::is('admin/suggested-items') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>--}}
+{{--                                                                    <span class="sidenav-normal"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{ Request::is('admin/suggested-items') ? asset('assets/new-blue-icons/assessment-intro-page.png') : asset('assets/new-white-icons/assessment-intro-page.png') }}"></span>--}}
+{{--                                                                    <span--}}
+{{--                                                                        class="sidenav-normal"> Suggested Items </span>--}}
+{{--                                                                </a>--}}
+{{--                                                            </li>--}}
                                                             <li class="nav-item {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_resources') }}">
