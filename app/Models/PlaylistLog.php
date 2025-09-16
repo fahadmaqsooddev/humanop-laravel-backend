@@ -38,6 +38,18 @@ class PlaylistLog extends Model
     public static function addMyPlaylist($playlist = null)
     {
 
+        $latestPlaylistItem = self::where('user_id', $playlist['user_id'])->latest()->first();
+
+        if ($latestPlaylistItem) {
+
+            $playlist['order'] = 1 + $latestPlaylistItem['order'];
+
+        }else{
+
+            $playlist['order'] = 1;
+
+        }
+
         return self::create($playlist);
     }
 
