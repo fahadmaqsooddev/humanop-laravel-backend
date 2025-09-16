@@ -202,8 +202,8 @@ class HumanOpShopController extends Controller
                     'heading' => $item['shopItems']->heading,
                     'created_at' => $item['shopItems']->created_at,
                     'updated_at' => $item['shopItems']->updated_at,
-                    'points' => (int) $item['shopItems']->point ?? null,
-                    'prices' => (int) $item['shopItems']->price ?? null,
+                    'points' => 0,
+                    'prices' => 0,
                     'video_url' => (isset($item['shopItems']->video_url) && !empty($item['shopItems']->video_url)) ? $item['shopItems']->video_url : null,
                     'audio_url' => (isset($item['shopItems']->audio_url) && !empty($item['shopItems']->audio_url)) ? $item['shopItems']->audio_url : null,
                     'document_url' => isset($item['shopItems']->document_url) ?? null,
@@ -235,8 +235,8 @@ class HumanOpShopController extends Controller
                         4 => 'HP Look', // or whatever label you want for permission 4
                         default => 'null',
                     },
-                    'price' => optional($libraryItem['libraryItems']->libraryPermissions)->price,
-                    'point' => optional($libraryItem['libraryItems']->libraryPermissions)->point,
+                    'price' => 0,
+                    'point' => 0,
                 ];
             }
             $libraries = [
