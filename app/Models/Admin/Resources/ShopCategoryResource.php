@@ -77,9 +77,7 @@ class ShopCategoryResource extends Model
     {
         if (!empty($this->thumbnail_id)){
 
-            $url =  Helpers::getImage($this->thumbnail_id);
-
-            return $url['url'] ?? null;
+            return Helpers::getImage($this->thumbnail_id);
 
         }else{
 

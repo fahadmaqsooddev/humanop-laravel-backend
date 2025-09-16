@@ -48,7 +48,6 @@ class LibraryResource extends Model
     public function getPhotoUrlAttribute()
     {
         if (empty($this->source_id) && empty($this->embed_link)) {
-
             return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
 
         } else {
@@ -62,9 +61,7 @@ class LibraryResource extends Model
     {
         if (!empty($this->thumbnail_id)) {
 
-            $url = Helpers::getImage($this->thumbnail_id);
-
-            return $url['url'] ?? null;
+            return Helpers::getImage($this->thumbnail_id);
 
         } else {
 
