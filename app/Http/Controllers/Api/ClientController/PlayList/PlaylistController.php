@@ -42,6 +42,7 @@ class PlaylistController extends Controller
                     if (!empty($playlistLog['resourceItems'])) {
                         foreach ($playlistLog['resourceItems'] as $item) {
                             $item['order'] = $playlistLog['order'];
+                            $item['item_id'] = $playlistLog['id'];
                             $mergedResourceItems[] = $item;
                         }
                     }
@@ -49,6 +50,7 @@ class PlaylistController extends Controller
                     if (!empty($playlistLog['shopItems'])) {
                         foreach ($playlistLog['shopItems'] as $item) {
                             $item['order'] = $playlistLog['order'];
+                            $item['item_id'] = $playlistLog['id'];
                             $mergedShopItems[] = $item;
                         }
                     }
@@ -56,6 +58,7 @@ class PlaylistController extends Controller
                     if (!empty($playlistLog['podcastItems'])) {
                         foreach ($playlistLog['podcastItems'] as $item) {
                             $item['order'] = $playlistLog['order'];
+                            $item['item_id'] = $playlistLog['id'];
                             $mergedPodcastItems[] = $item;
                         }
                     }
