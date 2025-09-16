@@ -46,7 +46,7 @@ class Playlist extends Model
     {
         $user = Helpers::getUser();
 
-        return self::where('user_id', $user['id'])->with(['playlist.resourceItems', 'playlist.shopItems', 'playlist.podcastItems'])->orderBy('created_at', 'desc')->get();
+        return self::where('user_id', $user['id'])->with('playlist')->orderBy('created_at', 'desc')->get();
 
     }
 

@@ -47,19 +47,27 @@ class PlaylistLogController extends Controller
     {
         try {
             $dataArray = $request->all();
+
             $dataArray['user_id'] = Helpers::getUser()['id'];
 
             $deleted = PlaylistLog::deleteMyPlaylist($dataArray);
 
             if ($deleted) {
+
                 return Helpers::successResponse("Deleted your playlist item successfully");
+
             } else {
+
                 return Helpers::validationResponse("Playlist item not found or could not be deleted");
+
             }
 
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
 }

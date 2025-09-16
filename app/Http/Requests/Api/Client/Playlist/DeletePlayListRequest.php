@@ -25,10 +25,7 @@ class DeletePlayListRequest extends FormRequest
     {
         return [
             'playlist_id' => 'required|exists:playlist,id',
-
-            'playlist_resource_item_id' => 'nullable|required_without_all:playlist_shop_item_id,playlist_podcast_item_id|exists:library_resources,id',
-            'playlist_shop_item_id'     => 'nullable|required_without_all:playlist_resource_item_id,playlist_podcast_item_id|exists:humanop_shop_resources,id',
-            'playlist_podcast_item_id'  => 'nullable|required_without_all:playlist_resource_item_id,playlist_shop_item_id|exists:podcast,id',
+            'playlist_item_id' => 'required',
         ];
     }
 
@@ -38,13 +35,7 @@ class DeletePlayListRequest extends FormRequest
             'playlist_id.required' => 'The playlist is required.',
             'playlist_id.exists'   => 'The selected playlist does not exist.',
 
-            'playlist_resource_item_id.required_without_all' => 'At least one of Resource Item, Shop Item, or Podcast Item is required.',
-            'playlist_shop_item_id.required_without_all'     => 'At least one of Resource Item, Shop Item, or Podcast Item is required.',
-            'playlist_podcast_item_id.required_without_all'  => 'At least one of Resource Item, Shop Item, or Podcast Item is required.',
-
-            'playlist_resource_item_id.exists' => 'The selected resource item does not exist.',
-            'playlist_shop_item_id.exists'     => 'The selected shop item does not exist.',
-            'playlist_podcast_item_id.exists'  => 'The selected podcast does not exist.',
+            'playlist_item_id.exists' => 'The selected Playlist item does not exist.',
         ];
     }
 

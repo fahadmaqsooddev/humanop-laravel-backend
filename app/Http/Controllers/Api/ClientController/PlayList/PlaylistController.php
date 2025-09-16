@@ -32,6 +32,7 @@ class PlaylistController extends Controller
             $myPlaylists = [];
 
             foreach ($playlists as $playlist) {
+
                 $mergedResourceItems = [];
                 $mergedShopItems = [];
                 $mergedPodcastItems = [];
@@ -40,31 +41,38 @@ class PlaylistController extends Controller
 
                     if (!empty($playlistLog['resourceItems'])) {
                         foreach ($playlistLog['resourceItems'] as $item) {
+                            $item['order'] = $playlistLog['order'];
                             $mergedResourceItems[] = $item;
                         }
                     }
 
                     if (!empty($playlistLog['shopItems'])) {
                         foreach ($playlistLog['shopItems'] as $item) {
+                            $item['order'] = $playlistLog['order'];
                             $mergedShopItems[] = $item;
                         }
                     }
 
                     if (!empty($playlistLog['podcastItems'])) {
                         foreach ($playlistLog['podcastItems'] as $item) {
+                            $item['order'] = $playlistLog['order'];
                             $mergedPodcastItems[] = $item;
                         }
                     }
                 }
+
+                $playlistItems = array_merge($mergedResourceItems, $mergedShopItems, $mergedPodcastItems);
+
+                usort($playlistItems, function ($a, $b) {
+                    return $a['order'] <=> $b['order'];
+                });
 
                 $myPlaylists[] = [
                     'id' => $playlist['id'],
                     'title' => $playlist['title'],
                     'description' => $playlist['description'],
                     'playlist_image' => $playlist['image_url'] ? $playlist['image_url']['url'] : null,
-                    'resource_items' => $mergedResourceItems,
-                    'shop_items' => $mergedShopItems,
-                    'podcast_items' => $mergedPodcastItems,
+                    'play_items' => $playlistItems
                 ];
             }
 

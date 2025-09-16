@@ -47,24 +47,34 @@ class PlaylistLog extends Model
             return false;
         }
 
-        $query = self::where('playlist_id', $data['playlist_id'])
-            ->where('user_id', $data['user_id']);
+        $query = self::where('playlist_id', $data['playlist_id'])->where('user_id', $data['user_id']);
 
-        if (!empty($data['playlist_resource_item_id'])) {
-            $query->where('resource_item_id', $data['playlist_resource_item_id']);
-        } elseif (!empty($data['playlist_shop_item_id'])) {
-            $query->where('shop_item_id', $data['playlist_shop_item_id']);
-        } elseif (!empty($data['playlist_podcast_item_id'])) {
-            $query->where('podcast_id', $data['playlist_podcast_item_id']);
+        if (!empty($data['playlist_item_id'])) {
+
+            $query->where('resource_item_id', $data['playlist_item_id']);
+
+        } elseif (!empty($data['playlist_item_id'])) {
+
+            $query->where('shop_item_id', $data['playlist_item_id']);
+
+        } elseif (!empty($data['playlist_item_id'])) {
+
+            $query->where('podcast_id', $data['playlist_item_id']);
+
         } else {
+
             return false;
+
         }
 
         $playlist = $query->first();
 
         if ($playlist) {
+
             $playlist->delete();
+
             return true;
+
         }
 
         return false;
