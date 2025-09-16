@@ -45,7 +45,7 @@ class Plan extends Model
                     'Early Releases'
                 ];
 
-            } elseif ($plan['name'] === 'Core') {
+            } elseif ($plan['name'] === 'Premium') {
 
                 $plan['limitations'] = [
                     '1 Assessment every 90 days',
@@ -58,20 +58,21 @@ class Plan extends Model
                     'Early Releases'
                 ];
 
-            } elseif ($plan['name'] === 'Premium') {
-
-                $plan['limitations'] = [
-                    'Licensing Model',
-                    'Multiple Daily Tips',
-                    'HAI Feature',
-                    'Gamification',
-                    'Training Strategies',
-                    'Renewal System',
-                    'Action Plan',
-                    'Early Releases'
-                ];
-
             }
+//            elseif ($plan['name'] === 'Premium') {
+//
+//                $plan['limitations'] = [
+//                    'Licensing Model',
+//                    'Multiple Daily Tips',
+//                    'HAI Feature',
+//                    'Gamification',
+//                    'Training Strategies',
+//                    'Renewal System',
+//                    'Action Plan',
+//                    'Early Releases'
+//                ];
+//
+//            }
 
         }
 
@@ -82,7 +83,7 @@ class Plan extends Model
     public static function findPlanFromIntValue($int_value = null)
     {
 
-        $plan_name = $int_value === 0 || $int_value === 1 ? $int_value === 1 ? "Core" : "Freemium" : "Premium";
+        $plan_name = $int_value === 0 || $int_value === 1 ? $int_value === 1 ? "Premium" : "Freemium" : "Premium";
 
         return self::where('name', $plan_name)->first();
     }

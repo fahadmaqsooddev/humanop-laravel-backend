@@ -37,7 +37,7 @@ class HumanOpPoints extends Model
 
         $multiplier = match ($plan) {
             'Freemium' => 1,
-            'Core'     => 3,
+            'Premium'     => 3,
             default    => 5,
         };
 
@@ -74,7 +74,7 @@ class HumanOpPoints extends Model
 
         $multiplier = match ($plan) {
             'Freemium' => 1,
-            'Core'     => 3,
+            'Premium'     => 3,
             default    => 5,
         };
 
@@ -100,7 +100,7 @@ class HumanOpPoints extends Model
 
         $multiplier = match ($plan) {
             'Freemium' => 1,
-            'Core'     => 3,
+            'Premium'     => 3,
             default    => 5,
         };
 
@@ -126,7 +126,7 @@ class HumanOpPoints extends Model
 
         $multiplier = match ($plan) {
             'Freemium' => 1,
-            'Core'     => 3,
+            'Premium'     => 3,
             default    => 5,
         };
 
@@ -152,7 +152,7 @@ class HumanOpPoints extends Model
 
         $multiplier = match ($plan) {
             'Freemium' => 1,
-            'Core'     => 3,
+            'Premium'     => 3,
             default    => 5,
         };
 

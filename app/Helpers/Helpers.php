@@ -1210,8 +1210,8 @@ class Helpers
 
                 $point = match ($user['plan_name']) {
                     'Freemium' => 1,
-                    'Core' => 2,
-                    default => 3,
+                    'Premium' => 2,
+//                    default => 3,
                 };
 
                 Point::addPoints($point);

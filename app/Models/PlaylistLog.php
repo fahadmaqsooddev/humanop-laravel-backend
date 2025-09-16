@@ -86,7 +86,7 @@ class PlaylistLog extends Model
             $playlistItem->delete();
 
             return true;
-            
+
         } else {
 
             return false;

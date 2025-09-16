@@ -175,7 +175,7 @@ class LibraryResource extends Model
 
         $user_plan = Helpers::getUser()->plan_name;
 
-        $permission_id = $user_plan === 'Freemium' || $user_plan === 'Core' ? $user_plan === 'Core' ? 2 : 1 : 3;
+        $permission_id = $user_plan === 'Freemium' || $user_plan === 'Premium' ? $user_plan === 'Premium' ? 2 : 1 : 3;
 
         return self::whereHas('libraryPermissions', function ($q) use ($permission_id) {
 
@@ -195,7 +195,7 @@ class LibraryResource extends Model
         $plan = Helpers::getUser()['plan_name'] ?? '';
 
         $permission = match ($plan) {
-            'Core' => 2,
+//            'Core' => 2,
             'Premium' => 3,
             default => 1,
         };
@@ -257,8 +257,8 @@ class LibraryResource extends Model
 
         // Determine permission level based on plan
         $permissionLevels = match ($userPlan) {
-            'Premium' => [3, 2, 1],
-            'Core' => [2, 1],
+//            'Premium' => [3, 2, 1],
+            'Premium' => [2, 1],
             default => [1], // Freemium or anything else
         };
 
@@ -284,8 +284,8 @@ class LibraryResource extends Model
         $query = self::query();
 
         $permissionLevels = match ($userPlan) {
-            'Premium' => [3, 2, 1],
-            'Core' => [2, 1],
+            'Premium' => [2, 1],
+//            'Core' => [2, 1],
             default => [1], // Freemium or anything else
         };
 

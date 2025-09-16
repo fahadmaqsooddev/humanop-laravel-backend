@@ -122,8 +122,8 @@ class SoundTrackController extends Controller
                                 'resource_category_name' => optional($item->resourceCategory)->name,
                                 'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
                                     1 => 'Freemium',
-                                    2 => 'Core',
-                                    3 => 'Premium',
+                                    2 => 'Premium',
+//                                    3 => 'Premium',
                                     4 => 'HP Look',
                                     default => null,
                                 },
@@ -259,8 +259,8 @@ class SoundTrackController extends Controller
                         'resource_category_name' => optional($item->resourceCategory)->name,
                         'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
                             1 => 'Freemium',
-                            2 => 'Core',
-                            3 => 'Premium',
+                            2 => 'Premium',
+//                            3 => 'Premium',
                             4 => 'HP Look',
                             default => null,
                         },

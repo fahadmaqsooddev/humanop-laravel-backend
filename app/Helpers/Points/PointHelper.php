@@ -92,13 +92,9 @@ class PointHelper
 
             $data['point'] = 1;
 
-        } elseif ($user['plan_name'] === 'Core') {
-
-            $data['point'] = 2;
-
         } elseif ($user['plan_name'] === 'Premium') {
 
-            $data['point'] = 4;
+            $data['point'] = 2;
 
         } else {
 
@@ -122,7 +118,7 @@ class PointHelper
 
             $sequential_points = 90;
 
-        } else if ($plan == 'Core') {
+        } else if ($plan == 'Premium') {
 
             $points = 2;
 

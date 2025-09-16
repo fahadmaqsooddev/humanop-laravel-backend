@@ -253,7 +253,7 @@ class HumanNetworkController extends Controller
 
             $getAssessment = Assessment::getLatestAssessment($userId);
 
-            if ($getAssessment && $plaName === 'Core') {
+            if ($getAssessment && $plaName === 'Premium') {
 
                 $currentUserTraits = Assessment::highLightStyle($getAssessment);
 
@@ -302,7 +302,7 @@ class HumanNetworkController extends Controller
 
             $loginUser = Helpers::getUser();
 
-            if ($loginUser['plan_name'] == 'Core') {
+            if ($loginUser['plan_name'] == 'Premium') {
 
                 $users = User::query();
 
@@ -373,7 +373,7 @@ class HumanNetworkController extends Controller
 
             $user = Helpers::getUser();
 
-            if ($user['plan_name'] === 'Core') {
+            if ($user['plan_name'] === 'Premium') {
 
                 User::setConnectionScore($user['id'], $request['matching_connection_score']);
 
@@ -406,7 +406,7 @@ class HumanNetworkController extends Controller
                 if (!empty($assessment)) {
 
 
-                    if ($loginUser['plan_name'] == 'Core') {
+                    if ($loginUser['plan_name'] == 'Premium') {
 
                         $styleCodes = Assessment::authenticTraits($assessment);
 

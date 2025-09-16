@@ -27,7 +27,8 @@ class NewResource implements ShouldBroadcast
 
     public function __construct($permission = null, $heading = null, $message = null)
     {
-        $this->permission = $permission === '1' ? 'freemium' : ($permission === '2' ? 'core' : ($permission === '3' ? 'premium' : 'all'));
+//        $this->permission = $permission === '1' ? 'freemium' : ($permission === '2' ? 'Premium' : ($permission === '3' ? 'premium' : 'all'));
+        $this->permission = $permission === '1' ? 'Freemium' : ($permission === '2' ? 'Premium' : 'all');
         $this->heading = $heading;
         $this->message = $message;
     }
