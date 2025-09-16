@@ -512,19 +512,19 @@
                                                             </li>
                                                             @if(env("APP_ENV") === 'production')
                                                             @else
-                                                                <li class="nav-item {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}">
-                                                                    <a class="nav-link {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}"
-                                                                       href="{{ route('admin_get_client_invite') }}">
-                                                                    <span class="sidenav-mini-icon"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/client-invites') ? asset('assets/new-blue-icons/client-invites.png') : asset('assets/new-white-icons/client-invites.png') }}"></span>
-                                                                        <span class="sidenav-normal"><img
-                                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                                src="{{ Request::is('admin/client-invites') ? asset('assets/new-blue-icons/client-invites.png') : asset('assets/new-white-icons/client-invites.png') }}"></span>
-                                                                        <span
-                                                                            class="sidenav-normal"> Client Invites </span>
-                                                                    </a>
-                                                                </li>
+{{--                                                                <li class="nav-item {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}">--}}
+{{--                                                                    <a class="nav-link {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}"--}}
+{{--                                                                       href="{{ route('admin_get_client_invite') }}">--}}
+{{--                                                                    <span class="sidenav-mini-icon"><img--}}
+{{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                            src="{{ Request::is('admin/client-invites') ? asset('assets/new-blue-icons/client-invites.png') : asset('assets/new-white-icons/client-invites.png') }}"></span>--}}
+{{--                                                                        <span class="sidenav-normal"><img--}}
+{{--                                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+{{--                                                                                src="{{ Request::is('admin/client-invites') ? asset('assets/new-blue-icons/client-invites.png') : asset('assets/new-white-icons/client-invites.png') }}"></span>--}}
+{{--                                                                        <span--}}
+{{--                                                                            class="sidenav-normal"> Client Invites </span>--}}
+{{--                                                                    </a>--}}
+{{--                                                                </li>--}}
                                                             @endif
 
                                                             <li class="nav-item {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}">
