@@ -53,6 +53,21 @@ class PlaylistLog extends Model
         return self::create($playlist);
     }
 
+    public static function sortingMyPlaylist($playlist = null)
+    {
+
+        foreach ($playlist['playlist_item_ids'] as $key => $itemId){
+
+            $playlistItem = self::where('user_id', $playlist['user_id'])->where('id', $itemId)->first();
+
+            $playlistItem->order = $key + 1;
+
+            $playlistItem->save();
+
+        }
+
+    }
+
     public static function deleteMyPlaylist($data = null)
     {
         if (empty($data['playlist_id']) || empty($data['user_id'])) {

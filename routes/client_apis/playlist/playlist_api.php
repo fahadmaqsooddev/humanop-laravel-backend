@@ -20,6 +20,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::delete('delete-my-playlist', 'PlaylistController@deleteMyPlaylists');
     Route::post('new-playlist', 'PlaylistController@newPlaylist');
     Route::post('add-my-playlist', 'PlaylistLogController@addMyPlaylist');
+    Route::post('sorting-my-playlist-items', 'PlaylistLogController@sortingMyPlaylistItems');
     Route::delete('delete-my-playlist-item', 'PlaylistLogController@deleteMyPlaylistItem');
 
     Route::get('sound-track-lists', 'SoundTrackController@soundTrackLists');

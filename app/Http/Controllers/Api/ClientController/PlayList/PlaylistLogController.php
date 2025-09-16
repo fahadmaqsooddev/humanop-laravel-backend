@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\Playlist\AddPlayListRequest;
 use App\Http\Requests\Api\Client\Playlist\DeletePlayListRequest;
+use App\Http\Requests\Api\Client\Playlist\SortingPlaylistRequest;
 use App\Models\PlaylistLog;
 use Illuminate\Http\Request;
 
@@ -34,6 +35,29 @@ class PlaylistLogController extends Controller
             PlaylistLog::addMyPlaylist($dataArray);
 
             return Helpers::successResponse("Add your playlist");
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function sortingMyPlaylistItems(SortingPlaylistRequest $request)
+    {
+
+        try {
+
+            $dataArray = $request->only($this->playlist->getFillable());
+
+            $dataArray['user_id'] = Helpers::getUser()['id'];
+
+            $dataArray['playlist_item_ids'] = $request['playlist_item_ids'];
+
+            PlaylistLog::sortingMyPlaylist($dataArray);
+
+            return Helpers::successResponse("your playlist sorting has been updated");
 
         } catch (\Exception $exception) {
 
