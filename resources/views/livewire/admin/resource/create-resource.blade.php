@@ -339,20 +339,20 @@
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="core">
-                                                <label class="form-check-label" for="core">Focus Tier (core)</label>
+                                                <label class="form-check-label" for="core">Premium</label>
                                             </div>
                                         </div>
 
 
-                                        <div class="col-4">
-                                            <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="premium">
-                                                <label class="form-check-label" for="premium">Elevate Tier
-                                                    (premium)</label>
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-4">--}}
+{{--                                            <div class="form-check">--}}
+{{--                                                <input type="checkbox" wire:model.defer="permission" value="3"--}}
+{{--                                                       class="form-check-input option-checkbox"--}}
+{{--                                                       style="border: 2px solid #1b3a62" id="premium">--}}
+{{--                                                <label class="form-check-label" for="premium">Elevate Tier--}}
+{{--                                                    (premium)</label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
 
                                         <div class="row mt-4">
                                             <div class="col-6">
@@ -661,20 +661,20 @@
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="core">
-                                                <label class="form-check-label" for="core">Focus Tier (core)</label>
+                                                <label class="form-check-label" for="core">Premium</label>
                                             </div>
                                         </div>
 
 
-                                        <div class="col-4">
-                                            <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="premium">
-                                                <label class="form-check-label" for="premium">Elevate Tier
-                                                    (premium)</label>
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-4">--}}
+{{--                                            <div class="form-check">--}}
+{{--                                                <input type="checkbox" wire:model.defer="permission" value="3"--}}
+{{--                                                       class="form-check-input option-checkbox"--}}
+{{--                                                       style="border: 2px solid #1b3a62" id="premium">--}}
+{{--                                                <label class="form-check-label" for="premium">Elevate Tier--}}
+{{--                                                    (premium)</label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
 
                                         <div class="row mt-4">
                                             <div class="col-6">
