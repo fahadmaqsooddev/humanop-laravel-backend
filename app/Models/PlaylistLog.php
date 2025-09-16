@@ -44,7 +44,7 @@ class PlaylistLog extends Model
 
             $playlist['order'] = 1 + $latestPlaylistItem['order'];
 
-        }else{
+        } else {
 
             $playlist['order'] = 1;
 
@@ -56,7 +56,7 @@ class PlaylistLog extends Model
     public static function sortingMyPlaylist($playlist = null)
     {
 
-        foreach ($playlist['playlist_item_ids'] as $key => $itemId){
+        foreach ($playlist['playlist_item_ids'] as $key => $itemId) {
 
             $playlistItem = self::where('user_id', $playlist['user_id'])->where('id', $itemId)->first();
 
@@ -71,40 +71,28 @@ class PlaylistLog extends Model
     public static function deleteMyPlaylist($data = null)
     {
         if (empty($data['playlist_id']) || empty($data['user_id'])) {
+
             return false;
+
         }
 
-        $query = self::where('playlist_id', $data['playlist_id'])->where('user_id', $data['user_id']);
+        $playlistItem = self::where('id', $data['playlist_item_id'])
+            ->where('playlist_id', $data['playlist_id'])
+            ->where('user_id', $data['user_id'])
+            ->first();
 
-        if (!empty($data['playlist_item_id'])) {
+        if (!empty($playlistItem)) {
 
-            $query->where('resource_item_id', $data['playlist_item_id']);
+            $playlistItem->delete();
 
-        } elseif (!empty($data['playlist_item_id'])) {
-
-            $query->where('shop_item_id', $data['playlist_item_id']);
-
-        } elseif (!empty($data['playlist_item_id'])) {
-
-            $query->where('podcast_id', $data['playlist_item_id']);
-
+            return true;
+            
         } else {
 
             return false;
 
         }
 
-        $playlist = $query->first();
-
-        if ($playlist) {
-
-            $playlist->delete();
-
-            return true;
-
-        }
-
-        return false;
     }
 
     public static function getSingleResourceItem($resourceItemId = null)
