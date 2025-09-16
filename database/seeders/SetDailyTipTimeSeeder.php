@@ -19,7 +19,7 @@ class SetDailyTipTimeSeeder extends Seeder
 
         foreach ($users as $user) {
 
-            if ($user['plan_name'] === 'Core') {
+            if ($user['plan_name'] === 'Premium') {
 
                 $user->set_daily_tip_time = '12:00:00';
                 $user->save();

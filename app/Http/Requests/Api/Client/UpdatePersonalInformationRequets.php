@@ -34,7 +34,7 @@ class UpdatePersonalInformationRequets extends FormRequest
         ];
 
 
-        if (Helpers::getUser()['plan_name'] == 'Core') {
+        if (Helpers::getUser()['plan_name'] == 'Premium') {
             $rules['set_daily_tip_time'] = 'required|date_format:h:i A';
         } else {
             // Trigger custom error if user tries to set time without a paid plan

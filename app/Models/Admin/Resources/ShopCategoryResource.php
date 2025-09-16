@@ -164,7 +164,7 @@ class ShopCategoryResource extends Model
 
         $user_plan = Helpers::getUser()->plan_name;
 
-        $permission_id = $user_plan === 'Freemium' || $user_plan === 'Core' ? $user_plan === 'Core' ? 2 : 1 : 3;
+        $permission_id = $user_plan === 'Freemium' || $user_plan === 'Premium' ? $user_plan === 'Premium' ? 2 : 1 : 3;
 
         return self::whereHas('libraryPermissions', function ($q) use ($permission_id) {
 

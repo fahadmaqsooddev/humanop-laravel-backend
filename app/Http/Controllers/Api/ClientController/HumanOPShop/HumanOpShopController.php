@@ -230,8 +230,8 @@ class HumanOpShopController extends Controller
                     'resource_category_name' => optional($libraryItem['libraryItems']->resourceCategory)->name,
                     'library_permission_name' => match(optional($libraryItem['libraryItems']->libraryPermissions)->permission) {
                         1 => 'Freemium',
-                        2 => 'Core',
-                        3 => 'Premium',
+                        2 => 'Premium',
+//                        3 => 'Premium',
                         4 => 'HP Look', // or whatever label you want for permission 4
                         default => 'null',
                     },

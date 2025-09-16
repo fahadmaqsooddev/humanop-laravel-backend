@@ -149,7 +149,7 @@
                                 <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>
                                     Freemium
                                 </option>
-                                <option value="Freemium" {{$user['plan_name'] === "Core" ? 'selected' : ""}}>
+                                <option value="Freemium" {{$user['plan_name'] === "Premium" ? 'selected' : ""}}>
                                     Premium
                                 </option>
                             </select>

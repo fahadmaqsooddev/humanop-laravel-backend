@@ -65,7 +65,7 @@ class DashboardController extends Controller
 
                         $updatedWithinDay = $userDailyTip['updated_at'] < now()->subDay();
 
-                    } elseif ($user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time'])) {
+                    } elseif ($user['plan_name'] == 'Premium' && !empty($user['set_daily_tip_time'])) {
 
                         $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
@@ -335,7 +335,7 @@ class DashboardController extends Controller
     public function actionPlan(Request $request)
     {
 
-//        try {
+        try {
 
             $userPlan = Helpers::getUser()['plan_name'];
 
@@ -387,10 +387,10 @@ class DashboardController extends Controller
 
             return Helpers::validationResponse('Assessment not found');
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
     public function informationIcon()

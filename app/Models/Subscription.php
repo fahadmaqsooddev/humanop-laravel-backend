@@ -123,7 +123,7 @@ class Subscription extends Model
 
         $plan = Plan::singlePlan($request->input('plan_id'));
 
-        if ($plan && $plan->name === 'Core') {
+        if ($plan && $plan->name === 'Premium') {
 
             Point::updatePointOnPlanUpdate(Admin::CORE_CREDITS, $user);
         }

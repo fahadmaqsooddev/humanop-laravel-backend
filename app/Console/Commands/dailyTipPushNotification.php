@@ -46,7 +46,7 @@ class dailyTipPushNotification extends Command
 
                 $canUpdate = false;
 
-                if (!empty($userDailyTip) && $user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time']) && $userDailyTip['is_read'] == 1) {
+                if (!empty($userDailyTip) && $user['plan_name'] == 'Premium' && !empty($user['set_daily_tip_time']) && $userDailyTip['is_read'] == 1) {
 
 //                    Log::info('daily tip update');
 
@@ -92,7 +92,7 @@ class dailyTipPushNotification extends Command
 
                                     Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
                                 }
-                           
+
                             }
 
                         }

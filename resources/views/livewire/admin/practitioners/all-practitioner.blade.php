@@ -56,8 +56,8 @@
                     <td class="text-sm font-weight-normal">
                         <select class="form-control table-orange-color table-text-color search-bar" onchange="changeUserMemberShip(this, {{$user['id']}})" style="background-color: #0F1535; border-radius: 12px;">
                             <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>Freemium</option>
-                            <option value="Core" {{$user['plan_name'] === "Core" ? 'selected' : "" }}>Core</option>
-                            <option value="Premium" {{$user['plan_name'] === "Premium" ? 'selected' : "" }}>Premium</option>
+                            <option value="Core" {{$user['plan_name'] === "Premium" ? 'selected' : "" }}>Premium</option>
+{{--                            <option value="Premium" {{$user['plan_name'] === "Premium" ? 'selected' : "" }}>Premium</option>--}}
                         </select>
                     </td>
                     <td class="text-sm font-weight-normal">{{request()->getHttpHost(). '/' . $user['first_name'].'/'.$user['last_name']. '/login'}}</td>

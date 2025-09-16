@@ -37,14 +37,15 @@ class Chatbot extends Model
 
                 return '#F3DEBA';
 
-            } elseif ($this->setting->plan()->first()->name === 'Core') {
+            } elseif ($this->setting->plan()->first()->name === 'Premium') {
 
                 return '#8BB1AB';
 
-            } elseif ($this->setting->plan()->first()->name === 'Premium') {
-
-                return '#1A7D9E';
             }
+//            elseif ($this->setting->plan()->first()->name === 'Premium') {
+//
+//                return '#1A7D9E';
+//            }
         }
 
         return '#F3DEBA';

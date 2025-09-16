@@ -30,14 +30,15 @@ class PermissionResource extends Model
 
             $permission = self::has('resource')->with('resource')->whereIn('permission', [1,4])->get();
 
-        }elseif ($planName == 'Core') {
+        }elseif ($planName == 'Premium') {
 
             $permission = self::has('resource')->with('resource')->whereIn('permission', [2, 4])->get();
 
-        }elseif ($planName == 'Premium'){
-
-            $permission = self::has('resource')->with('resource')->whereIn('permission', [3, 4])->get();
         }
+//        elseif ($planName == 'Premium'){
+//
+//            $permission = self::has('resource')->with('resource')->whereIn('permission', [3, 4])->get();
+//        }
 
         return $permission ?? [];
     }

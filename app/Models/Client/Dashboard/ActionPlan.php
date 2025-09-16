@@ -153,7 +153,7 @@ class ActionPlan extends Model
 
         $plan = self::create([
             'user_id' => $assessment['user_id'],
-            'plan_text' => $userPlan == 'Core' ? json_encode($actionPlan['plan_text']) : $actionPlan['plan_text'],
+            'plan_text' => $userPlan == 'Premium' ? json_encode($actionPlan['plan_text']) : $actionPlan['plan_text'],
             'priority' => $actionPlan['priority'],
             'assessment_id' => $assessment['id'],
             'type' => $userPlan == null || $userPlan == 'Freemium' ? Admin::FOURTEEN_DAYS_ACTION_PLAN : Admin::NINETY_DAYS_ACTION_PLAN,

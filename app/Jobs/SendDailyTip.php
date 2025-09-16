@@ -67,7 +67,7 @@ class SendDailyTip implements ShouldQueue
 
             $canUpdate = false;
 
-            if (!empty($userDailyTip) && $user['plan_name'] == 'Core' && !empty($user['set_daily_tip_time']) && $userDailyTip['is_read'] == 1) {
+            if (!empty($userDailyTip) && $user['plan_name'] == 'Premium' && !empty($user['set_daily_tip_time']) && $userDailyTip['is_read'] == 1) {
 
                 $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 

@@ -191,7 +191,7 @@ class User extends Authenticatable implements JWTSubject
             return null;
         }
 
-        if ($user['plan_name'] == 'Core') {
+        if ($user['plan_name'] == 'Premium') {
             $styleCodes = Assessment::authenticTraits($assessment);
         } else {
             $styleCodes = Assessment::getAllStyles($assessment);
@@ -304,7 +304,7 @@ class User extends Authenticatable implements JWTSubject
     {
         if (!empty($this->userSubscription) && !empty($this->userSubscription->plan)) {
 
-            return $this->userSubscription->plan->name === 'Core'
+            return $this->userSubscription->plan->name === 'Premium'
                 ? $this->userSubscription->plan->name
                 : 'Freemium';
         }
@@ -518,8 +518,8 @@ class User extends Authenticatable implements JWTSubject
         // remap to your custom keys
         $usersCount = [
             'clarity' => $usersCount->get('Freemium', 0),
-            'focus' => $usersCount->get('Core', 0),
-            'elevate' => $usersCount->get('Premium', 0),
+            'focus' => $usersCount->get('Premium', 0),
+//            'elevate' => $usersCount->get('Premium', 0),
         ];
         $usersCount['referral_credit_earned'] = ($usersCount['clarity'] * 5) + ($usersCount['focus'] * 10) + ($usersCount['elevate'] * 15);
         return $usersCount;
