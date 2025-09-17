@@ -709,6 +709,11 @@ return [
             'fillable' => ['playlist_id', 'resource_item_id', 'shop_item_id', 'user_id', 'podcast_id','order'],
             'hidden' => ['created_at'],
         ],
+        'PlaylistItemTrack' => [
+            'table' => 'playlist_item_track',
+            'fillable' => ['playlist_id', 'user_id', 'item_id', 'playlist_time'],
+            'hidden' => ['created_at'],
+        ],
         'ResultVideo' => [
             'table' => 'assessment_result_videos',
             'fillable' => ['public_name', 'video', 'video_upload_id'],
