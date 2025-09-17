@@ -278,17 +278,25 @@ class PaymentController extends Controller
 
     public function haiCreditPlans()
     {
-
         try {
-
             $plans = CreditPlan::allPlans();
 
             $hai_credit = Customization::where('detail', Customization::HP_TO_HAI_CREDITS)->value('points');
 
             $user_hp = HumanOpPoints::where('user_id', Helpers::getUser()->id)->value('points');
 
+            $haiPlans = [];
+
+            foreach ($plans as $plan) {
+                $haiPlans[] = [
+                    'id' => $plan->id,
+                    'price' => Helpers::getUser()['plan_name'] == 'Premium' ? $plan->price * 0.50 : $plan->price,
+                    'credits' => $plan->credits,
+                ];
+            }
+
             $data = [
-                'plans' => $plans,
+                'plans' => $haiPlans,
                 'available_hp' => $user_hp,
                 'one_hai_credit' => $hai_credit,
             ];
@@ -296,10 +304,8 @@ class PaymentController extends Controller
             return Helpers::successResponse('All plans', $data);
 
         } catch (\Exception $exception) {
-
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function invoice()
