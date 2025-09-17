@@ -359,7 +359,7 @@ class DashboardController extends Controller
 
                 }
 
-                if ($userPlan == "Core") {
+                if ($userPlan == "Premium") {
 
                     $planText = json_decode($actionPlan['plan_text'], true);
 
