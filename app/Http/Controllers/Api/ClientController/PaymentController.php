@@ -208,7 +208,9 @@ class PaymentController extends Controller
 
             if ($charge && $charge->status === 'succeeded') {
 
-                $credits = CreditPlan::where('price', $request['amount'])->first()->credits ?? 0;
+                $amount = Helpers::getUser()['plan_name'] == "Premium" ? $request['amount'] * 2 : $request['amount'];
+
+                $credits = CreditPlan::where('price', $amount)->first()->credits ?? 0;
 
                 if ($credits > 0) {
 
