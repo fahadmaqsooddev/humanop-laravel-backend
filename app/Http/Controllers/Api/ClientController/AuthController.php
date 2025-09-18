@@ -1352,32 +1352,14 @@ class AuthController extends Controller
 
                 }
 
-//                if ($fetchUserData['hai_chat']){
-//
-//                    foreach ($fetchUserData['hai_chat'] as $chat){
-//
-//                        $haiChat = HaiChat::createUserFetchChat($user['id'], $chat);
-//
-//                        if ($fetchUserData['user_queries']){
-//
-//                            foreach ($fetchUserData['user_queries'] as $query){
-//
-//                                ClientQuery::createUserFetchQueries();
-//
-//                            }
-//
-//                        }
-//
-//                    }
-//
-//                }
-
                 if ($fetchUserData['feedback']){
 
+                    dd(1);
                     Feedback::createUserFetchFeedback($user['id'], $fetchUserData['feedback']);
                 }
 
                 if ($fetchUserData['hai_chat_conversation']){
+                    dd(2);
 
                     HaiChatConversation::createUserFetchChatConversation($user['id'], $fetchUserData['hai_chat_conversation']);
 
