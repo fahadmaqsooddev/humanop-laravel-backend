@@ -1278,11 +1278,11 @@ class AuthController extends Controller
 
                 $fetchUserData = $json['result']['data'];
 
-//                if($fetchUserData['user']){
-//
-//                    $user = User::createFetchUserData($fetchUserData['user']);
-//
-//                }
+                if($fetchUserData['user']){
+
+                    $user = User::createFetchUserData($fetchUserData['user']);
+
+                }
 
 //                if ($fetchUserData['assessment']){
 //
