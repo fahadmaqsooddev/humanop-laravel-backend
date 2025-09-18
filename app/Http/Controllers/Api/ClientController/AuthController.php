@@ -1284,82 +1284,80 @@ class AuthController extends Controller
 
                 }
 
-                if ($fetchUserData['assessment']){
-
-                    foreach ($fetchUserData['assessment'] as $assessment){
-
-                        $assessment['user_id'] = $user['id'];
-
-                        $assessment = Assessment::createFetchUserAssessment($assessment);
-
-                        if ($fetchUserData['assessment_detail']){
-
-                            foreach ($fetchUserData['assessment_detail'] as $assessmentDetail){
-
-                                AssessmentDetail::createFetchUserAssessmentDetail($assessment['id'], $user['id'], $assessmentDetail);
-
-                            }
-
-                        }
-
-                        if ($fetchUserData['assessment_color_code']){
-
-                            foreach ($fetchUserData['assessment_color_code'] as $assessmentColorCode){
-
-                                AssessmentColorCode::createFetchUserAssessmentColorCode($assessment['id'], $assessmentColorCode);
-
-                            }
-
-                        }
-
-                        if ($fetchUserData['pdf_generate_data']){
-
-                            foreach ($fetchUserData['pdf_generate_data'] as $pdfGenerateData){
-
-                                PdfGenerate::createFetchUserPdfGenerate($assessment['id'], $user['id'], $pdfGenerateData);
-
-                            }
-
-                        }
-
-                        if ($fetchUserData['daily_tip']){
-
-                            UserDailyTip::createUserFetchDailtTip($assessment['id'], $user['id'], $fetchUserData['daily_tip']);
-
-                        }
-
-                        GamificationBadgesAchievement::addBadgeAfterCompleteAssessment($user['id']);
-
-                        HumanOpPoints::addPointsAfterCompleteAssessment($user);
-
-                        Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
-
-                        Point::addPoints(Admin::CORE_CREDITS, $user, 1);
-
-                    }
-
-                }
-
-                if ($fetchUserData['connections']){
-
-                    Connection::createUserFetchConnection($user['id'], $fetchUserData['connections']);
-
-                }
-
-                if ($fetchUserData['notification']){
-
-                    Notification::createUserFetchNotification($user['id'], $fetchUserData['notification']);
-
-                }
+//                if ($fetchUserData['assessment']){
+//
+//                    foreach ($fetchUserData['assessment'] as $assessment){
+//
+//                        $assessment['user_id'] = $user['id'];
+//
+//                        $assessment = Assessment::createFetchUserAssessment($assessment);
+//
+//                        if ($fetchUserData['assessment_detail']){
+//
+//                            foreach ($fetchUserData['assessment_detail'] as $assessmentDetail){
+//
+//                                AssessmentDetail::createFetchUserAssessmentDetail($assessment['id'], $user['id'], $assessmentDetail);
+//
+//                            }
+//
+//                        }
+//
+//                        if ($fetchUserData['assessment_color_code']){
+//
+//                            foreach ($fetchUserData['assessment_color_code'] as $assessmentColorCode){
+//
+//                                AssessmentColorCode::createFetchUserAssessmentColorCode($assessment['id'], $assessmentColorCode);
+//
+//                            }
+//
+//                        }
+//
+//                        if ($fetchUserData['pdf_generate_data']){
+//
+//                            foreach ($fetchUserData['pdf_generate_data'] as $pdfGenerateData){
+//
+//                                PdfGenerate::createFetchUserPdfGenerate($assessment['id'], $user['id'], $pdfGenerateData);
+//
+//                            }
+//
+//                        }
+//
+//                        if ($fetchUserData['daily_tip']){
+//
+//                            UserDailyTip::createUserFetchDailtTip($assessment['id'], $user['id'], $fetchUserData['daily_tip']);
+//
+//                        }
+//
+//                        GamificationBadgesAchievement::addBadgeAfterCompleteAssessment($user['id']);
+//
+//                        HumanOpPoints::addPointsAfterCompleteAssessment($user);
+//
+//                        Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
+//
+//                        Point::addPoints(Admin::CORE_CREDITS, $user, 1);
+//
+//                    }
+//
+//                }
+//
+//                if ($fetchUserData['connections']){
+//
+//                    Connection::createUserFetchConnection($user['id'], $fetchUserData['connections']);
+//
+//                }
+//
+//                if ($fetchUserData['notification']){
+//
+//                    Notification::createUserFetchNotification($user['id'], $fetchUserData['notification']);
+//
+//                }
 
                 if ($fetchUserData['feedback']){
 
-                    dd(1);
                     Feedback::createUserFetchFeedback($user['id'], $fetchUserData['feedback']);
                 }
 
                 if ($fetchUserData['hai_chat_conversation']){
-                    dd(2);
 
                     HaiChatConversation::createUserFetchChatConversation($user['id'], $fetchUserData['hai_chat_conversation']);
 
@@ -1380,7 +1378,7 @@ class AuthController extends Controller
                     PointLog::createUserFetchPointLog($user['id'], $fetchUserData['point_log']);
                 }
 
-                HaiChatHelpers::syncUserRecordWithHAi($user);
+//                HaiChatHelpers::syncUserRecordWithHAi($user);
 
 //                DB::commit();
 
