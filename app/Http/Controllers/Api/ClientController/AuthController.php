@@ -1378,6 +1378,7 @@ class AuthController extends Controller
                     PointLog::createUserFetchPointLog($user['id'], $fetchUserData['point_log']);
                 }
 
+                dd(4);
                 HaiChatHelpers::syncUserRecordWithHAi($user);
 
 //                DB::commit();
