@@ -31,7 +31,7 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteAssessment($user = null)
     {
 
-        $plan = $user['plan_name'];
+        $plan = $user['plan_name'] ?? 'Freemium';
 
         $basePoint = Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY;
 
