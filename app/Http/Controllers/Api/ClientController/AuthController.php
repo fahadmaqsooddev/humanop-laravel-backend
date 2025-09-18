@@ -1262,9 +1262,9 @@ class AuthController extends Controller
 
     public function storeUserDataFromOtherDb(Request $request)
     {
-        try {
-
-            DB::beginTransaction();
+//        try {
+//
+//            DB::beginTransaction();
 
             $response = Http::get('https://beta.humanoptech.com/api/user-all-data-fetch', [
 
@@ -1400,23 +1400,23 @@ class AuthController extends Controller
 
                 HaiChatHelpers::syncUserRecordWithHAi($user);
 
-                DB::commit();
+//                DB::commit();
 
                 return Helpers::successResponse('User Data Created Successfully');
 
             }
 
-            DB::rollBack();
+//            DB::rollBack();
 
             return Helpers::serverErrorResponse('Something went wrong');
 
-        } catch (\Exception $exception) {
-
-            DB::rollBack();
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
+//        } catch (\Exception $exception) {
+//
+//            DB::rollBack();
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//
+//        }
 
     }
 
