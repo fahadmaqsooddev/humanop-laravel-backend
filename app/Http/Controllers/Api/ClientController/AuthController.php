@@ -1352,16 +1352,16 @@ class AuthController extends Controller
 //
 //                }
 
-                if ($fetchUserData['feedback']){
-
-                    Feedback::createUserFetchFeedback($user['id'], $fetchUserData['feedback']);
-                }
-
-                if ($fetchUserData['hai_chat_conversation']){
-
-                    HaiChatConversation::createUserFetchChatConversation($user['id'], $fetchUserData['hai_chat_conversation']);
-
-                }
+//                if ($fetchUserData['feedback']){
+//
+//                    Feedback::createUserFetchFeedback($user['id'], $fetchUserData['feedback']);
+//                }
+//
+//                if ($fetchUserData['hai_chat_conversation']){
+//
+//                    HaiChatConversation::createUserFetchChatConversation($user['id'], $fetchUserData['hai_chat_conversation']);
+//
+//                }
 
                 if ($fetchUserData['push_notification']){
 
@@ -1378,7 +1378,7 @@ class AuthController extends Controller
                     PointLog::createUserFetchPointLog($user['id'], $fetchUserData['point_log']);
                 }
 
-//                HaiChatHelpers::syncUserRecordWithHAi($user);
+                HaiChatHelpers::syncUserRecordWithHAi($user);
 
 //                DB::commit();
 
