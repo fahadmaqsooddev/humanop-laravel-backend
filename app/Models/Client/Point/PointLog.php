@@ -77,7 +77,7 @@ class PointLog extends Model
 
         foreach ($points as $point){
 
-            $point['user_id'] = $point;
+            $point['user_id'] = $userId;
 
             self::create($point);
         }

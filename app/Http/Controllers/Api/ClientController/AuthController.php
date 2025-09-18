@@ -1262,9 +1262,9 @@ class AuthController extends Controller
 
     public function storeUserDataFromOtherDb(Request $request)
     {
-//        try {
-//
-//            DB::beginTransaction();
+        try {
+
+            DB::beginTransaction();
 
             $response = Http::get('https://beta.humanoptech.com/api/user-all-data-fetch', [
 
@@ -1284,84 +1284,84 @@ class AuthController extends Controller
 
                 }
 
-//                if ($fetchUserData['assessment']){
-//
-//                    foreach ($fetchUserData['assessment'] as $assessment){
-//
-//                        $assessment['user_id'] = $user['id'];
-//
-//                        $assessment = Assessment::createFetchUserAssessment($assessment);
-//
-//                        if ($fetchUserData['assessment_detail']){
-//
-//                            foreach ($fetchUserData['assessment_detail'] as $assessmentDetail){
-//
-//                                AssessmentDetail::createFetchUserAssessmentDetail($assessment['id'], $user['id'], $assessmentDetail);
-//
-//                            }
-//
-//                        }
-//
-//                        if ($fetchUserData['assessment_color_code']){
-//
-//                            foreach ($fetchUserData['assessment_color_code'] as $assessmentColorCode){
-//
-//                                AssessmentColorCode::createFetchUserAssessmentColorCode($assessment['id'], $assessmentColorCode);
-//
-//                            }
-//
-//                        }
-//
-//                        if ($fetchUserData['pdf_generate_data']){
-//
-//                            foreach ($fetchUserData['pdf_generate_data'] as $pdfGenerateData){
-//
-//                                PdfGenerate::createFetchUserPdfGenerate($assessment['id'], $user['id'], $pdfGenerateData);
-//
-//                            }
-//
-//                        }
-//
-//                        if ($fetchUserData['daily_tip']){
-//
-//                            UserDailyTip::createUserFetchDailtTip($assessment['id'], $user['id'], $fetchUserData['daily_tip']);
-//
-//                        }
-//
-//                        GamificationBadgesAchievement::addBadgeAfterCompleteAssessment($user['id']);
-//
-//                        HumanOpPoints::addPointsAfterCompleteAssessment($user);
-//
-//                        Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
-//
-//                        Point::addPoints(Admin::CORE_CREDITS, $user, 1);
-//
-//                    }
-//
-//                }
-//
-//                if ($fetchUserData['connections']){
-//
-//                    Connection::createUserFetchConnection($user['id'], $fetchUserData['connections']);
-//
-//                }
-//
-//                if ($fetchUserData['notification']){
-//
-//                    Notification::createUserFetchNotification($user['id'], $fetchUserData['notification']);
-//
-//                }
+                if ($fetchUserData['assessment']){
 
-//                if ($fetchUserData['feedback']){
-//
-//                    Feedback::createUserFetchFeedback($user['id'], $fetchUserData['feedback']);
-//                }
-//
-//                if ($fetchUserData['hai_chat_conversation']){
-//
-//                    HaiChatConversation::createUserFetchChatConversation($user['id'], $fetchUserData['hai_chat_conversation']);
-//
-//                }
+                    foreach ($fetchUserData['assessment'] as $assessment){
+
+                        $assessment['user_id'] = $user['id'];
+
+                        $assessment = Assessment::createFetchUserAssessment($assessment);
+
+                        if ($fetchUserData['assessment_detail']){
+
+                            foreach ($fetchUserData['assessment_detail'] as $assessmentDetail){
+
+                                AssessmentDetail::createFetchUserAssessmentDetail($assessment['id'], $user['id'], $assessmentDetail);
+
+                            }
+
+                        }
+
+                        if ($fetchUserData['assessment_color_code']){
+
+                            foreach ($fetchUserData['assessment_color_code'] as $assessmentColorCode){
+
+                                AssessmentColorCode::createFetchUserAssessmentColorCode($assessment['id'], $assessmentColorCode);
+
+                            }
+
+                        }
+
+                        if ($fetchUserData['pdf_generate_data']){
+
+                            foreach ($fetchUserData['pdf_generate_data'] as $pdfGenerateData){
+
+                                PdfGenerate::createFetchUserPdfGenerate($assessment['id'], $user['id'], $pdfGenerateData);
+
+                            }
+
+                        }
+
+                        if ($fetchUserData['daily_tip']){
+
+                            UserDailyTip::createUserFetchDailtTip($assessment['id'], $user['id'], $fetchUserData['daily_tip']);
+
+                        }
+
+                        GamificationBadgesAchievement::addBadgeAfterCompleteAssessment($user['id']);
+
+                        HumanOpPoints::addPointsAfterCompleteAssessment($user);
+
+                        Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
+
+                        Point::addPoints(Admin::CORE_CREDITS, $user, 1);
+
+                    }
+
+                }
+
+                if ($fetchUserData['connections']){
+
+                    Connection::createUserFetchConnection($user['id'], $fetchUserData['connections']);
+
+                }
+
+                if ($fetchUserData['notification']){
+
+                    Notification::createUserFetchNotification($user['id'], $fetchUserData['notification']);
+
+                }
+
+                if ($fetchUserData['feedback']){
+
+                    Feedback::createUserFetchFeedback($user['id'], $fetchUserData['feedback']);
+                }
+
+                if ($fetchUserData['hai_chat_conversation']){
+
+                    HaiChatConversation::createUserFetchChatConversation($user['id'], $fetchUserData['hai_chat_conversation']);
+
+                }
 
                 if ($fetchUserData['push_notification']){
 
@@ -1373,30 +1373,30 @@ class AuthController extends Controller
                     Point::createUserFetchPoints($user['id'], $fetchUserData['points']);
                 }
 
-//                if ($fetchUserData['point_log']){
-//
-//                    PointLog::createUserFetchPointLog($user['id'], $fetchUserData['point_log']);
-//                }
+                if ($fetchUserData['point_log']){
+
+                    PointLog::createUserFetchPointLog($user['id'], $fetchUserData['point_log']);
+                }
 
                 HaiChatHelpers::syncUserRecordWithHAi($user);
 
-//                DB::commit();
+                DB::commit();
 
                 return Helpers::successResponse('User Data Created Successfully');
 
             }
 
-//            DB::rollBack();
+            DB::rollBack();
 
             return Helpers::serverErrorResponse('Something went wrong');
 
-//        } catch (\Exception $exception) {
-//
-//            DB::rollBack();
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//
-//        }
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
 
     }
 
