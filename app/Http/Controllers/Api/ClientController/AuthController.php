@@ -1363,20 +1363,20 @@ class AuthController extends Controller
 //
 //                }
 
-//                if ($fetchUserData['push_notification']){
-//
-//                    PushNotification::createUserFetchPushNotification($user['id'], $fetchUserData['push_notification']);
-//                }
-//
-//                if ($fetchUserData['points']){
-//
-//                    Point::createUserFetchPoints($user['id'], $fetchUserData['points']);
-//                }
+                if ($fetchUserData['push_notification']){
 
-                if ($fetchUserData['point_log']){
-
-                    PointLog::createUserFetchPointLog($user['id'], $fetchUserData['point_log']);
+                    PushNotification::createUserFetchPushNotification($user['id'], $fetchUserData['push_notification']);
                 }
+
+                if ($fetchUserData['points']){
+
+                    Point::createUserFetchPoints($user['id'], $fetchUserData['points']);
+                }
+
+//                if ($fetchUserData['point_log']){
+//
+//                    PointLog::createUserFetchPointLog($user['id'], $fetchUserData['point_log']);
+//                }
 
                 HaiChatHelpers::syncUserRecordWithHAi($user);
 
