@@ -128,4 +128,13 @@ class UserDailyTip extends Model
 
         return UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $daily_tip)->latest()->first();
     }
+
+    public static function createUserFetchDailtTip($assessmentId = null, $userId = null, $userDailyTip = null)
+    {
+
+        $userDailyTip['user_id'] = $userId;
+        $userDailyTip['assessment_id'] = $assessmentId;
+
+        return self::create($userDailyTip);
+    }
 }

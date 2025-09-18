@@ -82,4 +82,19 @@ class PushNotification extends Model
 
     }
 
+    public static function createUserFetchPushNotification($userId = null, $notifications = null)
+    {
+
+        foreach ($notifications as $notification){
+
+            $notification['user_id'] = $userId;
+
+            self::create($notification);
+
+        }
+
+        return true;
+
+    }
+
 }

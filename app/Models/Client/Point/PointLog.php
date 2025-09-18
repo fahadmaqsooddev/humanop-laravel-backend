@@ -71,4 +71,19 @@ class PointLog extends Model
             'is_b2b' => $is_b2b
         ]);
     }
+
+    public static function createUserFetchPointLog($userId = null, $points = null)
+    {
+
+        foreach ($points as $point){
+
+            $point['user_id'] = $point;
+
+            self::create($point);
+        }
+
+        return true;
+
+    }
+
 }

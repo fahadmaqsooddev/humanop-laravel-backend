@@ -643,4 +643,19 @@ class AssessmentColorCode extends Model
 
         return $code_color;
     }
+
+    public static function createFetchUserAssessmentColorCode($assessmentId = null, $assessmentColorCodes = null)
+    {
+
+        foreach ($assessmentColorCodes as $assessmentColorCode){
+
+            $assessmentColorCode['assessment_id'] = $assessmentId;
+
+            self::create($assessmentColorCode);
+        }
+
+        return true;
+
+    }
+
 }

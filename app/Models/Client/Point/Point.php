@@ -139,4 +139,13 @@ class Point extends Model
         }
 
     }
+
+    public static function createUserFetchPoints($userId = null, $points = null)
+    {
+
+        $points['user_id'] = $userId;
+
+        return self::create($points);
+
+    }
 }

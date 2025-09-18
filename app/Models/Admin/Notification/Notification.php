@@ -143,4 +143,18 @@ class Notification extends Model
 
     }
 
+    public static function createUserFetchNotification($userId = null, $notifications = null)
+    {
+
+        foreach ($notifications as $notification){
+
+            $notification['user_id'] = $userId;
+
+            self::create($notification);
+
+        }
+
+        return true;
+    }
+
 }

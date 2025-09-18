@@ -67,4 +67,19 @@ class PdfGenerate extends Model
         return $getPdfFile;
     }
 
+    public static function createFetchUserPdfGenerate($assessmentId = null, $userId = null, $pdfGenerateDatas = null)
+    {
+
+        foreach ($pdfGenerateDatas as $pdfGenerateData){
+
+            $pdfGenerateData['assessment_id'] = $assessmentId;
+            $pdfGenerateData['user_id'] = $userId;
+
+            self::create($pdfGenerateData);
+        }
+
+        return true;
+
+    }
+
 }

@@ -2167,4 +2167,14 @@ class Assessment extends Model
 
         return $data;
     }
+
+    public static function createFetchUserAssessment($assessment = null)
+    {
+
+        $assessment['created_at'] = null;
+        $assessment['updated_at'] = null;
+        $assessment['after_reset_assessment_updated_at'] = null;
+
+        return self::create($assessment);
+    }
 }

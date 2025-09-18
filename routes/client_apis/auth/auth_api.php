@@ -38,3 +38,4 @@ Route::post('resend-fa-verification-code', 'AuthController@ResendFaVerificationC
 Route::get('invite', 'AuthController@SendInvite');
 
 Route::get('user-info-for-hai', 'AuthController@getUserInfoForHai');
+Route::post('store-user-data-from-other-db', 'AuthController@storeUserDataFromOtherDb');

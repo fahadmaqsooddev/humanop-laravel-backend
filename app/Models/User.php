@@ -2153,4 +2153,22 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static function createFetchUserData($userData = null)
+    {
+//        $userData['profile_status'] = 1;
+//        $userData['hai_status'] = 0;
+//        $userData['profile_privacy'] = 1;
+//        $userData['hai_privacy'] = 1;
+//        $userData['hai_medal_status'] = 0;
+//        $userData['registration_checkout'] = 0;
+//        $userData['trial_day'] = 0;
+//        $userData['b2b_invoice'] = 0;
+//        $userData['b2b_two_way_auth'] = 2;
+//        $userData['matching_connection_score'] = 0.00;
+        $userData['stripe_id'] = null;
+
+
+        return self::create($userData);
+    }
+
 }

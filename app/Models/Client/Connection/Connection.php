@@ -224,4 +224,18 @@ class Connection extends Model
 
     }
 
+    public static function createUserFetchConnection($userId = null, $connections = null)
+    {
+
+        foreach ($connections as $connection) {
+
+            $connection['user_id'] = $userId;
+
+            self::create($connection);
+        }
+
+        return true;
+
+    }
+
 }
