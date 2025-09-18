@@ -32,6 +32,7 @@ use App\Models\B2B\TeamDepartmentModel;
 use App\Models\B2B\UserCandidateInvite;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Client\Feedback\Feedback;
 use App\Models\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\Point\Point;
@@ -39,6 +40,9 @@ use App\Models\Client\Point\PointLog;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\GenerateFile\PdfGenerate;
+use App\Models\HAIChai\ClientQuery;
+use App\Models\HAIChai\HaiChat;
+use App\Models\HAIChai\HaiChatConversation;
 use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Notification\PushNotification;
@@ -1345,6 +1349,37 @@ class AuthController extends Controller
                 if ($fetchUserData['notification']){
 
                     Notification::createUserFetchNotification($user['id'], $fetchUserData['notification']);
+
+                }
+
+//                if ($fetchUserData['hai_chat']){
+//
+//                    foreach ($fetchUserData['hai_chat'] as $chat){
+//
+//                        $haiChat = HaiChat::createUserFetchChat($user['id'], $chat);
+//
+//                        if ($fetchUserData['user_queries']){
+//
+//                            foreach ($fetchUserData['user_queries'] as $query){
+//
+//                                ClientQuery::createUserFetchQueries();
+//
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//                }
+
+                if ($fetchUserData['feedback']){
+
+                    Feedback::createUserFetchFeedback($user['id'], $fetchUserData['feedback']);
+                }
+
+                if ($fetchUserData['hai_chat_conversation']){
+
+                    HaiChatConversation::createUserFetchChatConversation($user['id'], $fetchUserData['hai_chat_conversation']);
 
                 }
 

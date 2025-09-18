@@ -198,4 +198,13 @@ class HaiChat extends Model
 
     }
 
+    public static function createUserFetchChat($userId = null, $chat = null)
+    {
+
+        $chat['user_id'] = $userId;
+
+        return self::create($chat);
+
+    }
+
 }

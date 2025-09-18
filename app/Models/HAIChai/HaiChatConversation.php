@@ -19,4 +19,19 @@ class HaiChatConversation extends Model
         parent::__construct($attributes);
     }
 
+
+    public static function createUserFetchChatConversation($userId = null, $conversations = null)
+    {
+
+        foreach ($conversations as $conversation){
+
+            $conversation['user_id'] = $userId;
+
+            self::create($conversation);
+
+        }
+
+        return true;
+
+    }
 }

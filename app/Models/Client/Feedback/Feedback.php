@@ -84,4 +84,18 @@ class Feedback extends Model
         return self::where('approve', 1)->whereHas('user')->with('user')->orderBy('created_at', 'desc')->get();
     }
 
+    public static function createUserFetchFeedback($userId = null, $feedbacks = null)
+    {
+
+        foreach ($feedbacks as $feedback) {
+
+            $feedback['user_id'] = $userId;
+
+            self::create($feedback);
+        }
+
+        return true;
+
+    }
+
 }
