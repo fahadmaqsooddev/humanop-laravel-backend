@@ -245,7 +245,11 @@
                                                   placeholder="Enter description" rows="3"></textarea>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group"
+                                         x-data="{ progress: 0 }"
+                                         x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                         x-on:livewire-upload-finish="progress = 0"
+                                         x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label fs-4" style="color: #1b3a62">
                                             Resource (Image, Video, or Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])
                                         </label>
@@ -255,18 +259,24 @@
                                                type="file"
                                                accept="image/*,video/*,audio/*">
 
-                                        <span wire:loading.flex wire:target="resource_file">
-                                            <div class="d-flex align-items-center mt-2">
-                                                <div class="spinner-border" role="status"
-                                                     style="color: #1b3a62 !important;"></div>
-                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                        {{-- Progress bar --}}
+                                        <div class="progress mt-2" x-show="progress > 0">
+                                            <div class="progress-bar" role="progressbar"
+                                                 :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                 x-text="`${progress}%`">
                                             </div>
-                                        </span>
+                                        </div>
+
+                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+
                                     </div>
 
                                     {{-- Show only if file is audio or video --}}
                                     @if($showThumbnailUpload)
-                                        <div class="form-group">
+                                        <div class="form-group" x-data="{ progress: 0 }"
+                                             x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                             x-on:livewire-upload-finish="progress = 0"
+                                             x-on:livewire-upload-error="progress = 0">
                                             <label class="form-label fs-4" style="color: #1b3a62">
                                                 Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
                                             </label>
@@ -276,13 +286,17 @@
                                                    type="file"
                                                    accept="image/*">
 
-                                            <span wire:loading.flex wire:target="thumbnail_file">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <div class="spinner-border" role="status"
-                                                         style="color: #1b3a62 !important;"></div>
-                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                            {{-- Progress bar --}}
+                                            <div class="progress mt-2" x-show="progress > 0">
+                                                <div class="progress-bar" role="progressbar"
+                                                     :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                     x-text="`${progress}%`">
                                                 </div>
-                                            </span>
+                                            </div>
+
+                                            <span wire:loading.flex wire:target="audio_file"
+                                                  style="color:#1b3a62"></span>
+
                                         </div>
                                     @endif
 
@@ -470,21 +484,27 @@
                                         <input class="form-control input-form-style"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
-                                    <div class="form-group mt-4 ">
+                                    <div class="form-group mt-4" x-data="{ progress: 0 }"
+                                         x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                         x-on:livewire-upload-finish="progress = 0"
+                                         x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Pdf, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input wire:model="resource_file"
                                                id="resource_file"
                                                class="form-control input-form-style resource_file1" type="file"
-                                               accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
+                                               accept="image/,video/,audio/*" >
                                     </div>
-                                    <span wire:loading.flex wire:target="resource_file">
-                                            <div class="d-flex align-items-center mt-2">
-                                                <div class="spinner-border" role="status"
-                                                     style="color: #1b3a62 !important;"></div>
-                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
-                                              </div>
-                                    </span>
+                                    {{-- Progress bar --}}
+                                    <div class="progress mt-2" x-show="progress > 0">
+                                        <div class="progress-bar" role="progressbar"
+                                             :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                             x-text="`${progress}%`">
+                                        </div>
+                                    </div>
+
+                                    <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+
 
                                     @if(!empty($editResourceData['document_id']))
                                         <div class="form-group mt-4">
@@ -516,7 +536,10 @@
                                     @endif
 
                                     @if($showThumbnailUpload)
-                                        <div class="form-group">
+                                        <div class="form-group" x-data="{ progress: 0 }"
+                                             x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                             x-on:livewire-upload-finish="progress = 0"
+                                             x-on:livewire-upload-error="progress = 0">
                                             <label class="form-label fs-4" style="color: #1b3a62">
                                                 Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
                                             </label>
@@ -526,18 +549,25 @@
                                                    type="file"
                                                    accept="image/*">
 
-                                            <span wire:loading.flex wire:target="thumbnail_file">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <div class="spinner-border" role="status"
-                                                         style="color: #1b3a62 !important;"></div>
-                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                            {{-- Progress bar --}}
+                                            <div class="progress mt-2" x-show="progress > 0">
+                                                <div class="progress-bar" role="progressbar"
+                                                     :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                     x-text="`${progress}%`">
                                                 </div>
-                                            </span>
+                                            </div>
+
+                                            <span wire:loading.flex wire:target="audio_file"
+                                                  style="color:#1b3a62"></span>
+
                                         </div>
                                     @else
                                         @if(!in_array($typeThumbnail, ['jpeg', 'png', 'jpg', 'gif']))
                                             @if(!empty($editResourceData['video_id']) || !empty($editResourceData['audio_id']))
-                                                <div class="form-group">
+                                                <div class="form-group" x-data="{ progress: 0 }"
+                                                     x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                                     x-on:livewire-upload-finish="progress = 0"
+                                                     x-on:livewire-upload-error="progress = 0">
                                                     <label class="form-label fs-4" style="color: #1b3a62">
                                                         Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
                                                     </label>
@@ -547,13 +577,17 @@
                                                            type="file"
                                                            accept="image/*">
 
-                                                    <span wire:loading.flex wire:target="thumbnail_file">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <div class="spinner-border" role="status"
-                                                         style="color: #1b3a62 !important;"></div>
-                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
-                                                </div>
-                                            </span>
+                                                    {{-- Progress bar --}}
+                                                    <div class="progress mt-2" x-show="progress > 0">
+                                                        <div class="progress-bar" role="progressbar"
+                                                             :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                             x-text="`${progress}%`">
+                                                        </div>
+                                                    </div>
+
+                                                    <span wire:loading.flex wire:target="audio_file"
+                                                          style="color:#1b3a62"></span>
+
                                                 </div>
                                                 @if(!empty($editResourceData['thumbnail_id']))
                                                     <div class="form-group mt-4">
@@ -816,6 +850,8 @@
     </div>
 </div>
 @push('javascript')
+    <script src="//unpkg.com/alpinejs" defer></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="importmap">
         {

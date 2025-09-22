@@ -284,7 +284,10 @@
                                     </div>
                                     <label class="form-label fs-4" style="color: #1b3a62">OR</label>
 
-                                    <div class="form-group">
+                                    <div class="form-group" x-data="{ progress: 0 }"
+                                         x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                         x-on:livewire-upload-finish="progress = 0"
+                                         x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label fs-4" style="color: #1b3a62">
                                             Resource (Image, Video, or Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])
                                         </label>
@@ -294,17 +297,24 @@
                                                type="file"
                                                accept="image/*,video/*,audio/*">
 
-                                        <span wire:loading.flex wire:target="resource_file">
-                                            <div class="d-flex align-items-center mt-2">
-                                                <div class="spinner-border" role="status" style="color: #1b3a62 !important;"></div>
-                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                        {{-- Progress bar --}}
+                                        <div class="progress mt-2" x-show="progress > 0" >
+                                            <div class="progress-bar" role="progressbar"
+                                                 :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                 x-text="`${progress}%`">
                                             </div>
-                                        </span>
+                                        </div>
+
+                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+
                                     </div>
 
                                     {{-- Show only if file is audio or video --}}
                                     @if($showThumbnailUpload)
-                                        <div class="form-group">
+                                        <div class="form-group" x-data="{ progress: 0 }"
+                                             x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                             x-on:livewire-upload-finish="progress = 0"
+                                             x-on:livewire-upload-error="progress = 0">
                                             <label class="form-label fs-4" style="color: #1b3a62">
                                                 Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
                                             </label>
@@ -314,12 +324,18 @@
                                                    type="file"
                                                    accept="image/*">
 
-                                            <span wire:loading.flex wire:target="thumbnail_file">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <div class="spinner-border" role="status" style="color: #1b3a62 !important;"></div>
-                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                            {{-- Progress bar --}}
+                                            <div class="progress mt-2" x-show="progress > 0"
+                                                 >
+                                                <div class="progress-bar" role="progressbar"
+                                                     :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                     x-text="`${progress}%`">
                                                 </div>
-                                            </span>
+                                            </div>
+
+                                            <span wire:loading.flex wire:target="audio_file"
+                                                  style="color:#1b3a62"></span>
+
                                         </div>
                                     @endif
 
@@ -344,15 +360,15 @@
                                         </div>
 
 
-{{--                                        <div class="col-4">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input type="checkbox" wire:model.defer="permission" value="3"--}}
-{{--                                                       class="form-check-input option-checkbox"--}}
-{{--                                                       style="border: 2px solid #1b3a62" id="premium">--}}
-{{--                                                <label class="form-check-label" for="premium">Elevate Tier--}}
-{{--                                                    (premium)</label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
+                                        {{--                                        <div class="col-4">--}}
+                                        {{--                                            <div class="form-check">--}}
+                                        {{--                                                <input type="checkbox" wire:model.defer="permission" value="3"--}}
+                                        {{--                                                       class="form-check-input option-checkbox"--}}
+                                        {{--                                                       style="border: 2px solid #1b3a62" id="premium">--}}
+                                        {{--                                                <label class="form-check-label" for="premium">Elevate Tier--}}
+                                        {{--                                                    (premium)</label>--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                        </div>--}}
 
                                         <div class="row mt-4">
                                             <div class="col-6">
@@ -384,7 +400,8 @@
                                                 @foreach($traits as $key=>$trait)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="edit_trait{{$key}}" type="checkbox" wire:model.defer="selectedTraits"
+                                                            <input wire:key="edit_trait{{$key}}" type="checkbox"
+                                                                   wire:model.defer="selectedTraits"
                                                                    value="{{ $trait }}" class="form-check-input"
                                                                    id="day_{{ $trait }}">
                                                             <label class="form-check-label"
@@ -402,7 +419,8 @@
                                                 @foreach($features as $key=>$feature)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="edit_feature{{$key}}" type="checkbox" wire:model.defer="selectedFeatures"
+                                                            <input wire:key="edit_feature{{$key}}" type="checkbox"
+                                                                   wire:model.defer="selectedFeatures"
                                                                    value="{{ $feature }}" class="form-check-input"
                                                                    id="day_{{ $feature }}">
                                                             <label class="form-check-label"
@@ -419,7 +437,8 @@
                                                 @foreach($alchemies as $key=>$alchemy)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="edit_alchemy{{$key}}" type="checkbox" wire:model.defer="selectedAlchemy"
+                                                            <input wire:key="edit_alchemy{{$key}}" type="checkbox"
+                                                                   wire:model.defer="selectedAlchemy"
                                                                    value="{{ $alchemy }}" class="form-check-input"
                                                                    id="day_{{ $alchemy }}">
                                                             <label class="form-check-label"
@@ -437,7 +456,8 @@
                                                 @foreach($communications as $key=>$communication)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="edit_communication{{$key}}" type="checkbox" wire:model.defer="selectedCommunications"
+                                                            <input wire:key="edit_communication{{$key}}" type="checkbox"
+                                                                   wire:model.defer="selectedCommunications"
                                                                    value="{{ $communication }}" class="form-check-input"
                                                                    id="day_{{ $communication }}">
                                                             <label class="form-check-label"
@@ -453,7 +473,8 @@
                                                 @foreach($perceptionCodes as $code=>$perception)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="edit_perception{{$code}}" type="checkbox" wire:model.defer="selectedPerceptions"
+                                                            <input wire:key="edit_perception{{$code}}" type="checkbox"
+                                                                   wire:model.defer="selectedPerceptions"
                                                                    value="{{ $code }}" class="form-check-input"
                                                                    id="day_{{ $perception }}">
                                                             <label class="form-check-label"
@@ -469,7 +490,8 @@
                                                 @foreach($energyPoolCodes as $code=>$energyPool)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="edit_enerygypool{{$code}}" type="checkbox" wire:model.defer="selectedEnergyPools"
+                                                            <input wire:key="edit_enerygypool{{$code}}" type="checkbox"
+                                                                   wire:model.defer="selectedEnergyPools"
                                                                    value="{{ $code }}" class="form-check-input"
                                                                    id="day_{{ $energyPool }}">
                                                             <label class="form-check-label"
@@ -559,7 +581,11 @@
                                         <input class="form-control input-form-style"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
-                                    <div class="form-group mt-4 ">
+                                    <div class="form-group mt-4 "
+                                         x-data="{ progress: 0 }"
+                                         x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                         x-on:livewire-upload-finish="progress = 0"
+                                         x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
                                             Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input wire:model="resource_file"
@@ -567,16 +593,20 @@
                                                class="form-control input-form-style resource_file1" type="file"
                                                accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
                                     </div>
-                                    <span wire:loading.flex wire:target="resource_file">
-                                            <div class="d-flex align-items-center mt-2">
-                                                <div class="spinner-border" role="status"
-                                                     style="color: #1b3a62 !important;"></div>
-                                                <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
-                                              </div>
-                                        </span>
+                                    {{-- Progress bar --}}
+                                    <div class="progress mt-2" x-show="progress > 0" >
+                                        <div class="progress-bar" role="progressbar"
+                                             :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                             x-text="`${progress}%`">
+                                        </div>
+                                    </div>
+
+                                    <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+
                                     @if(!empty($editResourceData['photo_url']))
                                         <div class="form-group mt-4">
-                                            <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120" width="200">
+                                            <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
+                                                 width="200">
                                         </div>
                                     @elseif(!empty($editResourceData['video_url']))
                                         <div class="form-group mt-4">
@@ -595,7 +625,10 @@
                                     @endif
 
                                     @if($showThumbnailUpload)
-                                        <div class="form-group">
+                                        <div class="form-group" x-data="{ progress: 0 }"
+                                             x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                             x-on:livewire-upload-finish="progress = 0"
+                                             x-on:livewire-upload-error="progress = 0">
                                             <label class="form-label fs-4" style="color: #1b3a62">
                                                 Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
                                             </label>
@@ -605,18 +638,26 @@
                                                    type="file"
                                                    accept="image/*">
 
-                                            <span wire:loading.flex wire:target="thumbnail_file">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <div class="spinner-border" role="status"
-                                                         style="color: #1b3a62 !important;"></div>
-                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                                            {{-- Progress bar --}}
+                                            <div class="progress mt-2" x-show="progress > 0"
+                                                 >
+                                                <div class="progress-bar" role="progressbar"
+                                                     :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                     x-text="`${progress}%`">
                                                 </div>
-                                            </span>
+                                            </div>
+
+                                            <span wire:loading.flex wire:target="audio_file"
+                                                  style="color:#1b3a62"></span>
+
                                         </div>
                                     @else
                                         @if(!in_array($typeThumbnail, ['jpeg', 'png', 'jpg', 'gif']))
                                             @if(!empty($editResourceData['video_url']) || !empty($editResourceData['audio_url']))
-                                                <div class="form-group">
+                                                <div class="form-group" x-data="{ progress: 0 }"
+                                                     x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                                     x-on:livewire-upload-finish="progress = 0"
+                                                     x-on:livewire-upload-error="progress = 0">
                                                     <label class="form-label fs-4" style="color: #1b3a62">
                                                         Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
                                                     </label>
@@ -626,17 +667,23 @@
                                                            type="file"
                                                            accept="image/*">
 
-                                                    <span wire:loading.flex wire:target="thumbnail_file">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <div class="spinner-border" role="status"
-                                                         style="color: #1b3a62 !important;"></div>
-                                                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
-                                                </div>
-                                            </span>
+                                                    {{-- Progress bar --}}
+                                                    <div class="progress mt-2" x-show="progress > 0"
+                                                         >
+                                                        <div class="progress-bar" role="progressbar"
+                                                             :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                             x-text="`${progress}%`">
+                                                        </div>
+                                                    </div>
+
+                                                    <span wire:loading.flex wire:target="audio_file"
+                                                          style="color:#1b3a62"></span>
+
                                                 </div>
                                                 @if(!empty($editResourceData['thumbnail_id']))
                                                     <div class="form-group mt-4">
-                                                        <img height="120" width="200" src="{{ $editResourceData['thumbnail_url']['url'] }}">
+                                                        <img height="120" width="200"
+                                                             src="{{ $editResourceData['thumbnail_url']['url'] }}">
                                                     </div>
                                                 @endif
                                             @endif
@@ -666,15 +713,15 @@
                                         </div>
 
 
-{{--                                        <div class="col-4">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input type="checkbox" wire:model.defer="permission" value="3"--}}
-{{--                                                       class="form-check-input option-checkbox"--}}
-{{--                                                       style="border: 2px solid #1b3a62" id="premium">--}}
-{{--                                                <label class="form-check-label" for="premium">Elevate Tier--}}
-{{--                                                    (premium)</label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
+                                        {{--                                        <div class="col-4">--}}
+                                        {{--                                            <div class="form-check">--}}
+                                        {{--                                                <input type="checkbox" wire:model.defer="permission" value="3"--}}
+                                        {{--                                                       class="form-check-input option-checkbox"--}}
+                                        {{--                                                       style="border: 2px solid #1b3a62" id="premium">--}}
+                                        {{--                                                <label class="form-check-label" for="premium">Elevate Tier--}}
+                                        {{--                                                    (premium)</label>--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                        </div>--}}
 
                                         <div class="row mt-4">
                                             <div class="col-6">
@@ -704,7 +751,8 @@
                                                 @foreach($traits as $key=>$trait)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="trait-{{$key}}" type="checkbox" wire:model.defer="selectedTraits"
+                                                            <input wire:key="trait-{{$key}}" type="checkbox"
+                                                                   wire:model.defer="selectedTraits"
                                                                    value="{{ $trait }}" class="form-check-input"
                                                                    id="day_{{ $trait }}">
                                                             <label class="form-check-label"
@@ -722,7 +770,8 @@
                                                 @foreach($features as $key=>$feature)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="feature-{{$key}}" type="checkbox" wire:model.defer="selectedFeatures"
+                                                            <input wire:key="feature-{{$key}}" type="checkbox"
+                                                                   wire:model.defer="selectedFeatures"
                                                                    value="{{ $feature }}" class="form-check-input"
                                                                    id="day_{{ $feature }}">
                                                             <label class="form-check-label"
@@ -739,7 +788,8 @@
                                                 @foreach($alchemies as $key=>$alchemy)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="alchemy-{{$key}}" type="checkbox" wire:model.defer="selectedAlchemy"
+                                                            <input wire:key="alchemy-{{$key}}" type="checkbox"
+                                                                   wire:model.defer="selectedAlchemy"
                                                                    value="{{ $alchemy }}" class="form-check-input"
                                                                    id="day_{{ $alchemy }}">
                                                             <label class="form-check-label"
@@ -757,7 +807,8 @@
                                                 @foreach($communications as $key=>$communication)
                                                     <div class="col-3">
                                                         <div class="form-check">
-                                                            <input wire:key="communication-{{$key}}" type="checkbox" wire:model.defer="selectedCommunications"
+                                                            <input wire:key="communication-{{$key}}" type="checkbox"
+                                                                   wire:model.defer="selectedCommunications"
                                                                    value="{{ $communication }}" class="form-check-input"
                                                                    id="day_{{ $communication }}">
                                                             <label class="form-check-label"
@@ -930,6 +981,8 @@
     </div>
 </div>
 @push('javascript')
+    <script src="//unpkg.com/alpinejs" defer></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="importmap">
         {

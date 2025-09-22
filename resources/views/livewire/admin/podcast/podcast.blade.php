@@ -118,26 +118,56 @@
                                                placeholder="Enter tutorial title">
                                         @error('title') <small class="text-danger">{{ $message }}</small> @enderror
                                     </div>
-                                    <div class="col-12 mt-4">
+                                    <div class="col-12 mt-4"
+                                         x-data="{ progress: 0 }"
+                                         x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                         x-on:livewire-upload-finish="progress = 0"
+                                         x-on:livewire-upload-error="progress = 0">
+
                                         <label class="form-label" style="color: #1b3a62">
                                             Upload Audio File [MP3, WAV AND MPEG]
                                         </label>
-                                        <input style="background-color: #eaf3ff;" class="form-control input-form-style"
-                                               type="file" Wire:model="audio_file" placeholder="Choose audio file"
-                                               id="audioInput" accept="audio/*">
-                                        <span wire:loading.flex wire:target="audio_file" style="color: #1b3a62">Uploading ...</span>
+
+                                        <input style="background-color:#eaf3ff;" class="form-control input-form-style"
+                                               type="file" wire:model="audio_file" id="audioInput" accept="audio/*">
+
+                                        {{-- Progress bar --}}
+                                        <div class="progress mt-2" x-show="progress > 0" style="height:10% !important;">
+                                            <div class="progress-bar" role="progressbar"
+                                                 :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                 x-text="`${progress}%`">
+                                            </div>
+                                        </div>
+
+                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+
                                         @error('audio_file')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                    <div class="col-12 mt-4">
+
+
+                                    <div class="col-12 mt-4"
+                                         x-data="{ progress: 0 }"
+                                         x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                         x-on:livewire-upload-finish="progress = 0"
+                                         x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label" style="color: #1b3a62">
                                             Upload Thumbnail Image File [PNG, JPG, JPEG AND GIF]
                                         </label>
                                         <input style="background-color: #eaf3ff;" class="form-control input-form-style"
                                                type="file" Wire:model="thumbnail_file" placeholder="Choose audio file"
                                                id="audioInput" accept="image/*">
-                                        <span wire:loading.flex wire:target="thumbnail_file" style="color: #1b3a62">Uploading ...</span>
+                                        {{-- Progress bar --}}
+                                        <div class="progress mt-2" x-show="progress > 0" style="height:10% !important;">
+                                            <div class="progress-bar" role="progressbar"
+                                                 :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                 x-text="`${progress}%`">
+                                            </div>
+                                        </div>
+
+                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+
                                         @error('thumbnail_file')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -180,14 +210,26 @@
                                                placeholder="Enter tutorial title">
                                         @error('title') <small class="text-danger">{{ $message }}</small> @enderror
                                     </div>
-                                    <div class="col-12 mt-4">
+                                    <div class="col-12 mt-4" x-data="{ progress: 0 }"
+                                         x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                         x-on:livewire-upload-finish="progress = 0"
+                                         x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label" style="color: #1b3a62">
                                             Upload Audio File [MP3, WAV AND MPEG]
                                         </label>
                                         <input style="background-color: #eaf3ff;" class="form-control input-form-style"
                                                type="file" Wire:model="audio_file" placeholder="Choose audio file"
                                                id="audioInput" accept="audio/*">
-                                        <span wire:loading.flex wire:target="audio_file" style="color: #1b3a62">Uploading ...</span>
+                                        {{-- Progress bar --}}
+                                        <div class="progress mt-2" x-show="progress > 0" style="height:10% !important;">
+                                            <div class="progress-bar" role="progressbar"
+                                                 :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                 x-text="`${progress}%`">
+                                            </div>
+                                        </div>
+
+                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+
                                         @error('audio_file')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -212,14 +254,27 @@
                                     @else
                                         <span class="text-muted">No audio available</span>
                                     @endif
-                                    <div class="col-12 mt-4">
+                                    <div class="col-12 mt-4"
+                                         x-data="{ progress: 0 }"
+                                         x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                         x-on:livewire-upload-finish="progress = 0"
+                                         x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label" style="color: #1b3a62">
                                             Upload Thumbnail Image File [PNG, JPG, JPEG AND GIF]
                                         </label>
                                         <input style="background-color: #eaf3ff;" class="form-control input-form-style"
                                                type="file" Wire:model="thumbnail_file" placeholder="Choose audio file"
                                                id="audioInput" accept="image/*">
-                                        <span wire:loading.flex wire:target="thumbnail_file" style="color: #1b3a62">Uploading ...</span>
+                                        {{-- Progress bar --}}
+                                        <div class="progress mt-2" x-show="progress > 0" style="height:10% !important;">
+                                            <div class="progress-bar" role="progressbar"
+                                                 :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                 x-text="`${progress}%`">
+                                            </div>
+                                        </div>
+
+                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+
                                         @error('thumbnail_file')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -245,6 +300,8 @@
 </div>
 
 @push('javascript')
+    <script src="//unpkg.com/alpinejs" defer></script>
+
     <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
