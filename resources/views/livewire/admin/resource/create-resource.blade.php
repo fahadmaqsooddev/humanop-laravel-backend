@@ -305,7 +305,7 @@
                                             </div>
                                         </div>
 
-                                        <span wire:loading.flex wire:target="resource_file" style="color:#1b3a62"></span>
+                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
 
                                     </div>
 
@@ -333,7 +333,7 @@
                                                 </div>
                                             </div>
 
-                                            <span wire:loading.flex wire:target="thumbnail_file"
+                                            <span wire:loading.flex wire:target="audio_file"
                                                   style="color:#1b3a62"></span>
 
                                         </div>
@@ -601,7 +601,7 @@
                                         </div>
                                     </div>
 
-                                    <span wire:loading.flex wire:target="resource_file" style="color:#1b3a62"></span>
+                                    <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
 
                                     @if(!empty($editResourceData['photo_url']))
                                         <div class="form-group mt-4">
@@ -647,7 +647,7 @@
                                                 </div>
                                             </div>
 
-                                            <span wire:loading.flex wire:target="thumbnail_file"
+                                            <span wire:loading.flex wire:target="audio_file"
                                                   style="color:#1b3a62"></span>
 
                                         </div>
@@ -676,7 +676,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <span wire:loading.flex wire:target="thumbnail_file"
+                                                    <span wire:loading.flex wire:target="audio_file"
                                                           style="color:#1b3a62"></span>
 
                                                 </div>
