@@ -196,7 +196,7 @@ class LibraryResource extends Model
 
         $permission = match ($plan) {
 //            'Core' => 2,
-            'Premium' => 3,
+            'Premium' => 2,
             default => 1,
         };
 
