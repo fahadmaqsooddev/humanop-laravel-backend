@@ -25,4 +25,15 @@ class HaiThread extends Model
         return self::where('user_id', Helpers::getUser()['id'])->get();
 
     }
+
+    public static function createThreadIds($thread = null)
+    {
+
+        return self::create([
+            'title' => $thread['thread_title'],
+            'user_id' => $thread['user_id'],
+            'thread_id' => $thread['thread_id'],
+        ]);
+
+    }
 }

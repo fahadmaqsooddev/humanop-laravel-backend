@@ -214,4 +214,19 @@ class HaiChat extends Model
 
     }
 
+    public static function createChatThreadId($thread = null, $new_thread = null)
+    {
+
+        $chats = self::where('user_id', $thread['user_id'])->get();
+
+        foreach ($chats as $chat) {
+
+            $chat->thread_id = $new_thread;
+
+            $chat->save();
+
+        }
+
+    }
+
 }

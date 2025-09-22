@@ -152,4 +152,13 @@ class HaiChatHelpers
 
 //        Log::info(['hai chat sync res' => $response]);
     }
+
+    public static function createThreadIds(){
+
+
+        $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('get',"NewHaiApi/api/threads-id/recent_users?limit=50&hours=24");
+
+        return $response['result']['users'];
+
+    }
 }

@@ -42,4 +42,5 @@ Route::post('store-user-data-from-other-db', 'AuthController@storeUserDataFromOt
 Route::post('beta-breaker-club-users', 'AuthController@betaBreakerClubUsers');
 
 Route::get('hai-chat-history', 'AuthController@haiChatHistory');
+Route::get('create-thread-ids', 'AuthController@createThreadIds');
 

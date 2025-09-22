@@ -34,6 +34,7 @@ use App\Models\Client\Connection\Connection;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\Client\Gamification\GamificationBadgesAchievement;
+use App\Models\Client\Hai\HaiThread;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\Point\Point;
 use App\Models\Client\Point\PointLog;
@@ -65,7 +66,7 @@ class AuthController extends Controller
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens', 'storeUserDataFromOtherDb', 'betaBreakerClubUsers', 'haiChatHistory']);
+        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens', 'storeUserDataFromOtherDb', 'betaBreakerClubUsers', 'haiChatHistory','createThreadIds']);
 
         $this->auth = Auth::guard('api');
 
@@ -1472,6 +1473,34 @@ class AuthController extends Controller
             return Helpers::successResponse('HAI CHAT status fetched successfully', $data);
 
         } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function createThreadIds()
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $threads = HaiChatHelpers::createThreadIds();
+
+            foreach ($threads as $thread) {
+
+               $new_thread = HaiThread::createThreadIds($thread);
+
+               HaiChat::createChatThreadId($thread, $new_thread['id']);
+
+            }
+
+            DB::commit();
+
+            return Helpers::successResponse('HAI CHAT status fetched successfully');
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
