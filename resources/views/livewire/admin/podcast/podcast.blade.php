@@ -226,14 +226,14 @@
                                     </div>
                                     @if(!empty($thumbnail_url))
                                         <div class="form-group mt-4">
-                                            <img style="width: 100%;"
+                                            <img style="width: 25%;"
                                                  src="{{ $thumbnail_url }}">
                                         </div>
                                     @endif
 
                                 </div>
                                 <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                        style="background-color: #1b3a62">Create Podcast
+                                        style="background-color: #1b3a62">Update Podcast
                                 </button>
                             </div>
                         </form>

@@ -88,7 +88,7 @@ class Podcast extends Component
         $this->podcastId = $id;
         $this->title = $title;
         $this->audio_file = $audio_url;
-        $this->thumbnail_url = $thumbnail_url['thumbnail_url'] ? $thumbnail_url['thumbnail_url']['path'] : null;
+        $this->thumbnail_url = $thumbnail_url['thumbnail_url'] ? $thumbnail_url['thumbnail_url']['url'] : null;
 
     }
 
