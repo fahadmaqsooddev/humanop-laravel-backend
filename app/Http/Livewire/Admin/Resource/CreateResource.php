@@ -84,7 +84,7 @@ class CreateResource extends Component
                 if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
 
                     $this->validate([
-                        'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
+                        'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800',
                     ]);
 
                 }
@@ -406,7 +406,7 @@ class CreateResource extends Component
 
             if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
                 $this->validate([
-                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif',
+                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800',
                 ]);
             }
         }
