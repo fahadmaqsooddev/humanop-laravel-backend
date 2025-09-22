@@ -233,4 +233,6 @@ final class Admin
 
     const INVOICE_CODE = 'email_invoice';
 
+    const BETA_BREAKER_CLUB = 1;
+
 }

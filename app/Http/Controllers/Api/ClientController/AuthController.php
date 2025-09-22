@@ -65,7 +65,7 @@ class AuthController extends Controller
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens','storeUserDataFromOtherDb']);
+        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens', 'storeUserDataFromOtherDb', 'betaBreakerClubUsers']);
 
         $this->auth = Auth::guard('api');
 
@@ -1278,23 +1278,23 @@ class AuthController extends Controller
 
                 $fetchUserData = $json['result']['data'];
 
-                if($fetchUserData['user']){
+                if ($fetchUserData['user']) {
 
                     $user = User::createFetchUserData($fetchUserData['user']);
 
                 }
 
-                if ($fetchUserData['assessment']){
+                if ($fetchUserData['assessment']) {
 
-                    foreach ($fetchUserData['assessment'] as $assessment){
+                    foreach ($fetchUserData['assessment'] as $assessment) {
 
                         $assessment['user_id'] = $user['id'];
 
                         $assessment = Assessment::createFetchUserAssessment($assessment);
 
-                        if ($fetchUserData['assessment_detail']){
+                        if ($fetchUserData['assessment_detail']) {
 
-                            foreach ($fetchUserData['assessment_detail'] as $assessmentDetail){
+                            foreach ($fetchUserData['assessment_detail'] as $assessmentDetail) {
 
                                 AssessmentDetail::createFetchUserAssessmentDetail($assessment['id'], $user['id'], $assessmentDetail);
 
@@ -1302,9 +1302,9 @@ class AuthController extends Controller
 
                         }
 
-                        if ($fetchUserData['assessment_color_code']){
+                        if ($fetchUserData['assessment_color_code']) {
 
-                            foreach ($fetchUserData['assessment_color_code'] as $assessmentColorCode){
+                            foreach ($fetchUserData['assessment_color_code'] as $assessmentColorCode) {
 
                                 AssessmentColorCode::createFetchUserAssessmentColorCode($assessment['id'], $assessmentColorCode);
 
@@ -1312,9 +1312,9 @@ class AuthController extends Controller
 
                         }
 
-                        if ($fetchUserData['pdf_generate_data']){
+                        if ($fetchUserData['pdf_generate_data']) {
 
-                            foreach ($fetchUserData['pdf_generate_data'] as $pdfGenerateData){
+                            foreach ($fetchUserData['pdf_generate_data'] as $pdfGenerateData) {
 
                                 PdfGenerate::createFetchUserPdfGenerate($assessment['id'], $user['id'], $pdfGenerateData);
 
@@ -1322,7 +1322,7 @@ class AuthController extends Controller
 
                         }
 
-                        if ($fetchUserData['daily_tip']){
+                        if ($fetchUserData['daily_tip']) {
 
                             UserDailyTip::createUserFetchDailtTip($assessment['id'], $user['id'], $fetchUserData['daily_tip']);
 
@@ -1340,45 +1340,86 @@ class AuthController extends Controller
 
                 }
 
-                if ($fetchUserData['connections']){
+                if ($fetchUserData['connections']) {
 
                     Connection::createUserFetchConnection($user['id'], $fetchUserData['connections']);
 
                 }
 
-                if ($fetchUserData['notification']){
+                if ($fetchUserData['notification']) {
 
                     Notification::createUserFetchNotification($user['id'], $fetchUserData['notification']);
 
                 }
 
-                if ($fetchUserData['feedback']){
+                if ($fetchUserData['feedback']) {
 
                     Feedback::createUserFetchFeedback($user['id'], $fetchUserData['feedback']);
                 }
 
-                if ($fetchUserData['hai_chat_conversation']){
+                if ($fetchUserData['hai_chat_conversation']) {
 
                     HaiChatConversation::createUserFetchChatConversation($user['id'], $fetchUserData['hai_chat_conversation']);
 
                 }
 
-                if ($fetchUserData['push_notification']){
+                if ($fetchUserData['push_notification']) {
 
                     PushNotification::createUserFetchPushNotification($user['id'], $fetchUserData['push_notification']);
                 }
 
-                if ($fetchUserData['points']){
+                if ($fetchUserData['points']) {
 
                     Point::createUserFetchPoints($user['id'], $fetchUserData['points']);
                 }
 
-                if ($fetchUserData['point_log']){
+                if ($fetchUserData['point_log']) {
 
                     PointLog::createUserFetchPointLog($user['id'], $fetchUserData['point_log']);
                 }
 
                 HaiChatHelpers::syncUserRecordWithHAi($user);
+
+                DB::commit();
+
+                return Helpers::successResponse('User Data Created Successfully');
+
+            }
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse('Something went wrong');
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+
+    public function betaBreakerClubUsers(Request $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $response = Http::get('https://beta.humanoptech.com/api/fetch-all-user-email');
+
+            if ($response->successful()) {
+
+                $json = $response->json();
+
+                $fetchUserEmails = $json['result']['data'];
+
+                foreach ($fetchUserEmails as $email) {
+
+                    User::checkBetaBreaker($email);
+
+                }
 
                 DB::commit();
 
