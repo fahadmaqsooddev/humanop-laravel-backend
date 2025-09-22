@@ -46,5 +46,4 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('future-consideration-not-share-data','DashboardController@futureConsiderationNotShareData');
 
    Route::get('hai-chat-status', 'DashboardController@haiChatStatus');
-
 });

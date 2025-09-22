@@ -198,6 +198,13 @@ class HaiChat extends Model
 
     }
 
+    public static function getSingleUserChats($userId = null)
+    {
+        $userId = $userId ?? Helpers::getUser()['id'];
+
+        return self::where('user_id', $userId)->whereNull('thread_id')->get(['user_id','query','answer']);
+    }
+
     public static function createUserFetchChat($userId = null, $chat = null)
     {
 

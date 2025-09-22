@@ -14,6 +14,7 @@ use App\Models\Client\Follow\Follow;
 use App\Models\Client\Hai\HaiThread;
 use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
+use App\Models\HAIChai\HaiChat;
 use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User\UserShareAssessment;
@@ -345,6 +346,11 @@ class User extends Authenticatable implements JWTSubject
     public function assessments()
     {
         return $this->hasMany(Assessment::class, 'user_id', 'id');
+    }
+
+    public function haiChats()
+    {
+        return $this->hasMany(HaiChat::class, 'user_id', 'id');
     }
 
     public function haiAssessments()

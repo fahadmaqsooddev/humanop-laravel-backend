@@ -13,6 +13,7 @@ use App\Models\Admin\SuggestedItem\SuggestedItem;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\MultiMedia\MultiMediaStats;
 use App\Models\Client\Suggestion\SuggestionForYou;
+use App\Models\HAIChai\HaiChat;
 use App\Models\Notification\PushNotification;
 use App\Models\PlaylistLog;
 use App\Models\UserOptimalTrait;
@@ -1071,7 +1072,6 @@ class DashboardController extends Controller
         }
 
     }
-
 
     public static function allCompanies()
     {

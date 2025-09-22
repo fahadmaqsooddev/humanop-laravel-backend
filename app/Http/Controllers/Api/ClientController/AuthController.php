@@ -65,7 +65,7 @@ class AuthController extends Controller
 
     public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens', 'storeUserDataFromOtherDb', 'betaBreakerClubUsers']);
+        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens', 'storeUserDataFromOtherDb', 'betaBreakerClubUsers', 'haiChatHistory']);
 
         $this->auth = Auth::guard('api');
 
@@ -1441,5 +1441,40 @@ class AuthController extends Controller
 
     }
 
+
+    public function haiChatHistory()
+    {
+        try {
+
+            $users = User::get();
+
+            $data = [];
+
+            foreach ($users as $user) {
+
+                // ✅ Current user ke chats lo
+                $userChats = HaiChat::getSingleUserChats($user->id);
+
+                if (count($userChats) > 0) {
+                    $data[] = [
+                        'user_id' => $user->id,
+                        'chats'   => $userChats->map(function ($chat) {
+                            return [
+                                'query'  => $chat->query,
+                                'answer' => $chat->answer
+                            ];
+                        })->values(),
+                    ];
+                }
+
+            }
+
+            return Helpers::successResponse('HAI CHAT status fetched successfully', $data);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 
 }
