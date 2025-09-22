@@ -101,6 +101,7 @@ class Podcast extends Component
 
             \App\Models\Admin\Podcast\Podcast::updatePodcast($this->podcastId, $this->title);
 
+
             if ($request->hasFile('audio_file')) {
 
                 $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
@@ -108,6 +109,10 @@ class Podcast extends Component
                 $podcast = \App\Models\Admin\Podcast\Podcast::singlePodcast($this->podcastId);
 
                 $podcast['audio_id'] = $upload_id;
+
+                $podcast->save();
+
+                DB::commit();
             }
 
             session()->flash('success', 'Audio File uploaded successfully.');
