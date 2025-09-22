@@ -166,7 +166,7 @@
                                             </div>
                                         </div>
 
-                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+                                        <span wire:loading.flex wire:target="thumbnail_file" style="color:#1b3a62"></span>
 
                                         @error('thumbnail_file')
                                         <small class="text-danger">{{ $message }}</small>
@@ -273,7 +273,7 @@
                                             </div>
                                         </div>
 
-                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
+                                        <span wire:loading.flex wire:target="thumbnail_file" style="color:#1b3a62"></span>
 
                                         @error('thumbnail_file')
                                         <small class="text-danger">{{ $message }}</small>
