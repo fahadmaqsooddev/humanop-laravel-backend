@@ -29,7 +29,7 @@ if (env('APP_ENV') == 'local') {
     return [
         'client_dashboard_url' => 'https://beta.humanop.com',
         'admin_dashboard_url' => 'https://beta.humanoptech.com',
-        'hai_admin_dashboard_url' => 'https://beta-hai.humanoptech.com',
+        'hai_admin_dashboard_url' => 'https://pre-beta-hai.humanoptech.com',
         'b2b_dashboard_url' => 'https://maestro.humanop.com',
         'b2b-admin_dashboard_url' => 'https://maestro.humanoptech.com',
     ];
