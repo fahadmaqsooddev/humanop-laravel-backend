@@ -3,20 +3,15 @@
 namespace App\Http\Livewire\Admin\Podcast;
 
 use App\Models\Upload\Upload;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Livewire\WithPagination;
 
-class Podcast extends Component
+class CreatePodcast extends Component
 {
+    use WithFileUploads;
 
-    use WithFileUploads, WithPagination;
-
-    public $title, $audio_file, $podcastId, $thumbnail_file, $thumbnail_url;
-
-    protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm', 'deletePodcast'];
+    public $title, $audio_file, $thumbnail_file, $thumbnail_url;
 
     protected $rules = [
         'title' => 'required|string|max:200',
@@ -40,11 +35,6 @@ class Podcast extends Component
         'thumbnail_file.max' => 'The thumbnail file must not exceed 200MB.',
     ];
 
-    public function getPodcasts()
-    {
-        return \App\Models\Admin\Podcast\Podcast::getPodcast();
-    }
-
     public function submitForm()
     {
 
@@ -62,8 +52,6 @@ class Podcast extends Component
 
             session()->flash('success', 'Audio File uploaded successfully.');
 
-            $this->resetForm();
-
             $this->emit('closeModal');
 
             $this->emit('refreshPage');
@@ -80,46 +68,8 @@ class Podcast extends Component
 
     }
 
-    public function editPodcastModal($id, $title, $audio_url)
-    {
-
-        $thumbnail_url = \App\Models\Admin\Podcast\Podcast::singlePodcast($id);
-
-        $this->podcastId = $id;
-        $this->title = $title;
-        $this->audio_file = $audio_url;
-        $this->thumbnail_url = $thumbnail_url['thumbnail_url'] ? $thumbnail_url['thumbnail_url']['url'] : null;
-
-    }
-
-
-
-    public function deletePodcast($podcastId)
-    {
-        try {
-
-            \App\Models\Admin\Podcast\Podcast::deletePodcast($podcastId);
-
-            session()->flash('success', 'Audio File delete successfully.');
-
-            $this->render();
-
-        } catch (\Exception $exception) {
-
-            session()->flash('error', $exception->getMessage());
-
-        }
-    }
-
-    public function resetForm()
-    {
-        $this->reset('title', 'audio_file');
-        $this->resetValidation();
-    }
-
     public function render()
     {
-
-        return view('livewire.admin.podcast.podcast', ['podcasts' => $this->getPodcasts()]);
+        return view('livewire.admin.podcast.create-podcast');
     }
 }

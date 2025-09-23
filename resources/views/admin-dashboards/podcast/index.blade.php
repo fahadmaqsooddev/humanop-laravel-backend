@@ -51,10 +51,7 @@
                 <!-- Card header -->
                 <div class="card-header table-header-text">
                     <h5 class="mb-0">All Network Tutorials</h5>
-                    <a data-bs-toggle="modal"
-                       data-bs-target="#addPodcast"
-                       style="background-color: #1B3A62 ; color: white"
-                       class="btn btn-sm float-end mb-0 createForm">Add Podcast</a>
+                    <a href="{{ route('admin_create_podcast') }}" type="submit" style="background-color: #1B3A62 ; color: white" class="btn btn-sm float-end mt-2 mb-0">Add Podcast</a>
                 </div>
 
                 @livewire('admin.podcast.podcast')

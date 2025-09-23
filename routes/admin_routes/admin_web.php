@@ -127,6 +127,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/cms/{id}', [WebPagesController::class, 'editWebPages'])->name('admin_edit_web_pages');
         Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('admin_payment_history');
         Route::get('podcast', [PodcastController::class, 'podcast'])->name('podcast');
+        Route::get('create-podcast', [PodcastController::class, 'createPodcast'])->name('admin_create_podcast');
+        Route::get('edit-podcast/{id}', [PodcastController::class, 'editPodcast'])->name('admin_edit_podcast');
         Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
         Route::get('/information-icon', [InformationController::class, 'getInfo'])->name('admin_get_info');
         Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
