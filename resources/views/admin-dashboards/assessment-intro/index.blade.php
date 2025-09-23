@@ -21,7 +21,7 @@
             <div class="card" >
                 <!-- Card header -->
                 <div class="card-header table-header-text">
-                    <h5 class="mb-0">Manage AssessmentIntro</h5>
+                    <h5 class="mb-0">Manage Assessment Intro</h5>
                 </div>
 
 
@@ -32,7 +32,7 @@
                             <th>Name</th>
                             <th>Public Name</th>
                             <th>Code</th>
-                            <th>Number</th>
+                            <th>Volume</th>
                             <th></th>
                         </tr>
                         </thead>

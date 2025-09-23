@@ -284,7 +284,7 @@
                                                         'admin/dashboard-cms',
                                                         'admin/all-coupons','admin/cms','admin/all-optimization-plan',
                                                         'admin/all-intention-plans',
-                                                        'admin/admin_resources','admin/podcast','admin/version-control',
+                                                        'admin/admin_resources','admin/podcast','admin/create-podcast','admin/edit-podcast/*','admin/version-control',
                                                         'admin/information-icon','admin/payment-history',
                                                         'admin/edit-version-control*','admin/create-version-control',
                                                         'admin/summary-report',
@@ -300,8 +300,10 @@
                                                        'admin/b2c-email-template',
                                                        'admin/logs-activity',
                                                        'admin/network-tutorials',
+                                                       'admin/announcements-news',
                                                        'admin/onboarding-screens',
                                                        'admin/result-videos',
+                                                       'admin/edit/result-videos/*',
                                                        'admin/suggested-items') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
@@ -458,27 +460,27 @@
                                                                         class="sidenav-normal"> Information Icon Management </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/result-videos') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/result-videos') ? 'active' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/result-videos','admin/edit/result-videos/*') ? 'active' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/result-videos','admin/edit/result-videos/*') ? 'active' : '') }}"
                                                                    href="{{ route('admin_result_videos') }}">
                                                                     <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/result-videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
+                                                                            src="{{ Request::is('admin/result-videos','admin/edit/result-videos/*') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/result-videos') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
+                                                                            src="{{ Request::is('admin/result-videos','admin/edit/result-videos/*') ? asset('assets/new-blue-icons/video-management.png') : asset('assets/new-white-icons/video-management.png') }}"></span>
                                                                     <span class="sidenav-normal"> Video Results Management </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/podcast') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/podcast') ? 'active-itt-all' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/podcast', 'admin/create-podcast','admin/edit-podcast/*') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/podcast', 'admin/create-podcast','admin/edit-podcast/*') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('podcast') }}">
                                                                    <span class="sidenav-mini-icon"><img
                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                           src="{{ Request::is('admin/podcast') ? asset('assets/new-blue-icons/podcast-management.png') : asset('assets/new-white-icons/podcast-management.png') }}"></span>
+                                                                           src="{{ Request::is('admin/podcast', 'admin/create-podcast','admin/edit-podcast/*') ? asset('assets/new-blue-icons/podcast-management.png') : asset('assets/new-white-icons/podcast-management.png') }}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/podcast') ? asset('assets/new-blue-icons/podcast-management.png') : asset('assets/new-white-icons/podcast-management.png') }}"></span>
+                                                                            src="{{ Request::is('admin/podcast', 'admin/create-podcast','admin/edit-podcast/*') ? asset('assets/new-blue-icons/podcast-management.png') : asset('assets/new-white-icons/podcast-management.png') }}"></span>
                                                                     <span
                                                                         class="sidenav-normal"> Podcast </span>
                                                                 </a>

@@ -32,7 +32,7 @@
                             <th>Name</th>
                             <th>Public Name</th>
                             <th>Code</th>
-                            <th>Number</th>
+                            <th>Volume</th>
                             <th></th>
                         </tr>
                         </thead>
