@@ -44,11 +44,13 @@ class CreatePodcast extends Component
 
             $this->validate();
 
-            $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
+//            $upload_id = Upload::uploadFile($this->audio_file, '', '', 'audio');
+
+            $upload_id = Upload::uploadMp3($this->audio_file);
 
             $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-            \App\Models\Admin\Podcast\Podcast::createPodcast($this->title, $upload_id, $thumbnail_id);
+            \App\Models\Admin\Podcast\Podcast::createPodcast($this->title, $upload_id['id'], $thumbnail_id);
 
             session()->flash('success', 'Audio File uploaded successfully.');
 

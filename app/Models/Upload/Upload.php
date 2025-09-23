@@ -4,6 +4,7 @@ namespace App\Models\Upload;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -187,6 +188,51 @@ class Upload extends Model
 
             return $upload->id;
         }
+    }
+
+    /**
+     * Upload an MP3 file to public storage and create Upload record.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $file
+     * @return int|null   Upload ID
+     */
+    public static function uploadMp3(UploadedFile $file): ?array
+    {
+        // 1) Guard: only .mp3
+        $ext = strtolower($file->getClientOriginalExtension() ?: $file->extension() ?: '');
+        if ($ext !== 'mp3') {
+            return null;
+        }
+        // 2) Names & paths
+        $original   = $file->getClientOriginalName() ?: 'audio.mp3';
+        $timestamp  = now()->format('Y-m-d-His');      // keeps your pre_fill style
+        $hash       = Str::lower(Str::random(20));     // folder-level hash
+        $filename   = $timestamp . '_' . Str::random(10) . '.mp3';
+        $folder     = "audios/{$hash}";                // storage/app/public/audios/{hash}
+        // 3) Store the file (IMPORTANT: folder, filename, 'public')
+        $stored = $file->storeAs($folder, $filename, 'public');
+        if (!$stored) {
+            return null;
+        }
+        // 4) DB row (path points to "storage/..." for direct public URL building)
+        $upload = Upload::create([
+            'name'          => $filename,
+            'path'          => "storage/{$stored}",   // e.g. storage/audios/{hash}/{filename}
+            'extension'     => 'mp3',
+            'pre_fill'      => $timestamp,
+            'original_name' => $original,
+            'hash'          => $hash,
+        ]);
+        if (!$upload) {
+            // Roll back file if you want:
+            // Storage::disk('public')->delete($stored);
+            return null;
+        }
+        return [
+            'id'  => $upload->id,
+            'url' => url("storage/{$stored}"),        // https://your-domain/storage/...
+        ];
+        // (No cookies / PHP handling; Apache serves it statically → seeking works)
     }
 
     public static function resizeImage($image, $width = 200, $height = 200)

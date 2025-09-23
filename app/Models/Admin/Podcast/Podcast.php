@@ -24,7 +24,9 @@ class Podcast extends Model
     public function getAudioUrlAttribute()
     {
 
-        return Helpers::getAudio($this->audio_id, 1);
+//        return Helpers::getAudio($this->audio_id, 1);
+        return Helpers::getMp3Url($this->audio_id);
+
     }
 
     public function getThumbnailUrlAttribute()
@@ -59,7 +61,6 @@ class Podcast extends Model
 
     public static function createPodcast($title = null, $audioId = null, $thumbnailId = null)
     {
-
         return self::create([
             'title' => $title,
             'audio_id' => $audioId,
