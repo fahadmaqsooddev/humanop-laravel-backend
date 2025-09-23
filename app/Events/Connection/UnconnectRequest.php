@@ -13,16 +13,17 @@ use Illuminate\Queue\SerializesModels;
 class UnconnectRequest implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     public $friendId;
     public $heading;
     public $message;
-    
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($friendId=null,$heading=null,$message=null)
+    public function __construct($friendId = null, $heading = null, $message = null)
     {
         //
         $this->friendId = $friendId;
@@ -39,10 +40,13 @@ class UnconnectRequest implements ShouldBroadcast
     {
         return new Channel('push-notification.' . $this->friendId);
     }
-    public function broadcastAs(){
-    
+
+    public function broadcastAs()
+    {
+
         return 'connection.un-connect';
     }
+
     public function broadcastWith()
     {
         return [
@@ -51,6 +55,6 @@ class UnconnectRequest implements ShouldBroadcast
             'message' => $this->message,
         ];
 
-        
+
     }
 }

@@ -93,10 +93,18 @@ class HumanNetworkController extends Controller
 
         try {
 
-            $users = User::allPaginatedClients($request);
+            if (Helpers::getUser()['profile_status'] == 1){
 
-            return Helpers::successResponse('All users', $users, $request->input('pagination'));
+                return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
+            }else{
+
+                $users = User::allPaginatedClients($request);
+
+                return Helpers::successResponse('All users', $users, $request->input('pagination'));
+
+            }
+            
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());

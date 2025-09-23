@@ -22,8 +22,8 @@ class ConnectionRequest implements ShouldBroadcast
     public $friendId;
     public $heading;
     public $message;
-    
-    public function __construct($friendId=null,$heading=null,$message=null)
+
+    public function __construct($friendId = null, $heading = null, $message = null)
     {
         $this->friendId = $friendId;
         $this->heading = $heading;
@@ -35,15 +35,18 @@ class ConnectionRequest implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-   
+
     public function broadcastOn()
     {
         return new Channel('push-notification.' . $this->friendId);
     }
-    public function broadcastAs(){
-    
+
+    public function broadcastAs()
+    {
+
         return 'connection.request';
     }
+
     public function broadcastWith()
     {
         return [
@@ -52,6 +55,6 @@ class ConnectionRequest implements ShouldBroadcast
             'message' => $this->message,
         ];
 
-        
+
     }
 }
