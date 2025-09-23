@@ -175,7 +175,7 @@ class AuthController extends Controller
 
                     $emailData = $this->prepareEmailData($user, $url, null, $template->body, $template->subject);
 
-                    $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL, null);
+                    $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL, "Verify Your Email Address");
 
                 }
 
