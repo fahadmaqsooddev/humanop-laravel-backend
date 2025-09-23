@@ -1080,7 +1080,7 @@ class User extends Authenticatable implements JWTSubject
 
         $data['status'] = 1;
 
-        $data['hai_chat'] = 2;
+        $data['hai_chat'] = Admin::HAI_CHAT_SHOW;
 
         $data['profile_status'] = 1;
 
