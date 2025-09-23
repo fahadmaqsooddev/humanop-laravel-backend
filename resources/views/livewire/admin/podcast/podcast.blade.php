@@ -29,14 +29,14 @@
                             @endif
                         </td>
                         <td class="text-sm font-weight-normal">
-                            @if (!empty($podcast) && !empty($podcast['audio_url']))
+                            @if (!empty($podcast) && !empty($podcast['audio_url']['path']))
                                 <div class="d-flex align-items-center gap-2">
                                     <button type="button" class="btn btn-sm btn-secondary seek-back"
                                             style="font-size: 12px;">⏪ 10s
                                     </button>
 
                                     <audio controls class="audio-player" style="width: 100%;">
-                                        <source src="{{ $podcast['audio_url'] }}" type="audio/mpeg">
+                                        <source src="{{ $podcast['audio_url']['path'] }}" type="audio/mpeg">
                                         Your browser does not support the audio element.
                                     </audio>
 

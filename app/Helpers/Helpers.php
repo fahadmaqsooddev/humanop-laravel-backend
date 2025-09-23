@@ -378,7 +378,7 @@ class Helpers
         }
     }
 
-    public static function getMp3Url(int $uploadId): ?string
+    public static function getMp3Url(int $uploadId): ?array
     {
         $upload = Upload::find($uploadId);
         if (!$upload || $upload->extension !== 'mp3') {
@@ -386,7 +386,9 @@ class Helpers
         }
         // Example: https://your-domain/storage/audios/{hash}/{filename}.mp3
 
-        return url($upload->path);
+        return array('path' => url($upload->path));
+
+//        return url($upload->path);
     }
 
     public static function getDocument($documentId, $is_original_name = 0, $sourceUrl = null)
