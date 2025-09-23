@@ -527,7 +527,8 @@ class User extends Authenticatable implements JWTSubject
             'focus' => $usersCount->get('Premium', 0),
 //            'elevate' => $usersCount->get('Premium', 0),
         ];
-        $usersCount['referral_credit_earned'] = ($usersCount['clarity'] * 5) + ($usersCount['focus'] * 10) + ($usersCount['elevate'] * 15);
+//        $usersCount['referral_credit_earned'] = ($usersCount['clarity'] * 5) + ($usersCount['focus'] * 10) + ($usersCount['elevate'] * 15);
+        $usersCount['referral_credit_earned'] = ($usersCount['clarity'] * 5) + ($usersCount['focus'] * 10);
         return $usersCount;
     }
 
