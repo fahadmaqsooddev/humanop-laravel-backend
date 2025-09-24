@@ -1344,7 +1344,7 @@ class Assessment extends Model
 
                 case 'wil':
 
-                    if (($assessment['wil'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4)) || ($assessment['wil'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4) || ($assessment['wil'] > 2 && $assessment['jo'] > 4 && $assessment['ven'] > 4)) {
+                    if (($assessment['wil'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4)) || ($assessment['wil'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4 && $third_row_ma > 30) || ($assessment['wil'] > 2 && $assessment['jo'] > 4 && $assessment['ven'] > 4 && $third_row_lu > 30)) {
 
                         $filtered_keys[$key] = $value;
                     } elseif (($assessment['wil'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5))) {
@@ -1364,8 +1364,6 @@ class Assessment extends Model
                     break;
             }
         }
-
-        $redKeys = array_keys($filtered_keys_red);
 
         if (count($filtered_keys) < 2) {
 
