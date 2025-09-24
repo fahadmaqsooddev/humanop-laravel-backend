@@ -43,7 +43,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits','assessment_permission'];
 
     public function __construct(array $attributes = array())
     {
@@ -207,6 +207,22 @@ class User extends Authenticatable implements JWTSubject
         return $public_name;
     }
 
+    public function getAssessmentPermissionAttribute()
+    {
+
+        $permission = UserShareAssessment::getSingleRecord($this->id);
+
+        if (!empty($permission)){
+
+            return $permission;
+
+        }else{
+
+            return null;
+
+        }
+
+    }
 
     public function getUserTaglineAttribute()
     {

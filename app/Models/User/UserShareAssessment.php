@@ -20,7 +20,7 @@ class UserShareAssessment extends Model
 
     public static function getSingleRecord($user_id)
     {
-        return self::where('user_id', $user_id)->first();
+        return self::where('user_id', $user_id)->select('user_id', 'authentic_traits', 'core_state')->first();
     }
 
     public static function createOrUpdateShareAssessment($shareAssessment = null)
