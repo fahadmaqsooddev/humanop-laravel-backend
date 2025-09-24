@@ -176,9 +176,9 @@ class UserController extends Controller
 
             $authUser->update($dataArray);
 
-            $shareAssessment = $request->only(['interval_of_life', 'traits', 'motivational_driver', 'alchemic_boundaries', 'communication_style', 'perception_of_life', 'energy_pool']);
-
             if (Helpers::getUser()['plan_name'] !== 'Freemium') {
+
+                $shareAssessment = $request->only(['core_state','authentic_traits']);
 
                 User\UserShareAssessment::createOrUpdateShareAssessment($shareAssessment);
 

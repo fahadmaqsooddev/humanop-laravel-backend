@@ -34,13 +34,8 @@ class UserShareAssessment extends Model
         {
             return self::create([
                 'user_id' => $userId,
-                'interval_of_life' => $shareAssessment['interval_of_life'],
-                'traits' => $shareAssessment['traits'],
-                'motivational_driver' => $shareAssessment['motivational_driver'],
-                'alchemic_boundaries' => $shareAssessment['alchemic_boundaries'],
-                'communication_style' => $shareAssessment['communication_style'],
-                'perception_of_life' => $shareAssessment['perception_of_life'],
-                'energy_pool' => $shareAssessment['energy_pool'],
+                'authentic_traits' => $shareAssessment['authentic_traits'],
+                'core_state' => $shareAssessment['core_state'],
             ]);
         }
         else

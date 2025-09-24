@@ -601,7 +601,7 @@ return [
         ],
         'UserShareAssessment' => [
             'table' => 'user_share_assessment',
-            'fillable' => ['user_id', 'interval_of_life', 'traits', 'motivational_driver', 'alchemic_boundaries', 'communication_style', 'perception_of_life', 'energy_pool'],
+            'fillable' => ['user_id', 'interval_of_life', 'traits', 'motivational_driver', 'alchemic_boundaries', 'communication_style', 'perception_of_life', 'energy_pool','authentic_traits','core_state'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'UserTagline' => [

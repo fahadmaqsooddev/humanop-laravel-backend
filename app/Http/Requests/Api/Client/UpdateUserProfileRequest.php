@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Client;
 
+use App\Helpers\Helpers;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserProfileRequest extends FormRequest
@@ -23,6 +24,9 @@ class UpdateUserProfileRequest extends FormRequest
      */
     public function rules()
     {
+
+        $assessmentPermission = Helpers::getUser()['plan_name'] === "Freemium" ? 'nullable' : 'required';
+
         return [
             'full_name' => 'required',
             'life_alchemist' => 'nullable|string|max:255',
@@ -33,13 +37,8 @@ class UpdateUserProfileRequest extends FormRequest
             'hai_status' => 'required',
             'profile_privacy' => 'required',
             'hai_privacy' => 'required',
-            'interval_of_life' => 'required',
-            'traits' => 'required',
-            'motivational_driver' => 'required',
-            'alchemic_boundaries' => 'required',
-            'communication_style' => 'required',
-            'perception_of_life' => 'required',
-            'energy_pool' => 'required',
+            'authentic_traits' => $assessmentPermission,
+            'core_state' => $assessmentPermission,
         ];
     }
 
@@ -61,13 +60,8 @@ class UpdateUserProfileRequest extends FormRequest
             'hai_status.required' => 'HAI status is required.',
             'profile_privacy.required' => 'Profile privacy setting is required.',
             'hai_privacy.required' => 'HAI privacy setting is required.',
-            'interval_of_life.required' => 'Interval of life is required.',
-            'traits.required' => 'Please specify your traits.',
-            'motivational_driver.required' => 'Please specify your motivational driver.',
-            'alchemic_boundaries.required' => 'Alchemic boundaries are required.',
-            'communication_style.required' => 'Communication style is required.',
-            'perception_of_life.required' => 'Perception of life is required.',
-            'energy_pool.required' => 'Energy pool is required.',
+            'authentic_traits.required' => 'Authentic traits are required for paid users.',
+            'core_state.required'       => 'Core state is required for paid users.',
         ];
     }
 
