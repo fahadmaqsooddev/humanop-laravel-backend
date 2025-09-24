@@ -76,7 +76,7 @@ class Connection extends Model
 
                 event(new ConnectionRequest($data['friend_id'], 'Connection Request', $msg));
 
-                Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request', $msg);
+//                Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request', $msg);
 
                 Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
 
@@ -100,7 +100,7 @@ class Connection extends Model
 
             event(new UnconnectRequest($data['friend_id'], 'Dis-Connection Request', $msg));
 
-            Helpers::OneSignalApiUsed($data['friend_id'], 'Dis-Connection Request', $msg);
+//            Helpers::OneSignalApiUsed($data['friend_id'], 'Dis-Connection Request', $msg);
 
             Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
 
@@ -126,7 +126,7 @@ class Connection extends Model
 
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
 
-                Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
+//                Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
 
                 Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
 
@@ -140,7 +140,7 @@ class Connection extends Model
 
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
 
-                Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
+//                Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
 
                 Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
 
