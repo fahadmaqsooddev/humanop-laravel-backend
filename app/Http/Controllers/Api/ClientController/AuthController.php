@@ -181,7 +181,7 @@ class AuthController extends Controller
 
                 Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                Helpers::createClientsOnOneSignal($user['id']);
+//                Helpers::createClientsOnOneSignal($user['id']);
 
                 DB::commit();
 
@@ -799,7 +799,7 @@ class AuthController extends Controller
                     }
                 }
 
-                Helpers::createClientsOnOneSignal($user['id']);
+//                Helpers::createClientsOnOneSignal($user['id']);
 
                 $updateUser = User::updateUserIsFeedback();
 
