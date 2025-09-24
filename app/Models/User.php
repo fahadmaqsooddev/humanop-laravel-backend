@@ -218,7 +218,11 @@ class User extends Authenticatable implements JWTSubject
 
         }else{
 
-            return null;
+            return [
+                'user_id' => $this->id,
+                'authentic_traits' => 2,
+                'core_state' => 2
+            ];
 
         }
 
