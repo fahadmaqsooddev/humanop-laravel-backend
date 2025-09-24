@@ -153,7 +153,7 @@ class Assessment extends Component
 
                     event(new ResetAssessment($assessment['user_id'], $heading, $message));
 
-                    Helpers::OneSignalApiUsed($user['id'], $heading, $message);
+//                    Helpers::OneSignalApiUsed($user['id'], $heading, $message);
 
                 }
 

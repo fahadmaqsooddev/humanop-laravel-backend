@@ -103,7 +103,7 @@ class optimalTraitPushNotification extends Command
 
                             HaiChatHelpers::syncUserRecordWithHAi($user);
 
-                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
+//                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 
                             Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
 
@@ -113,7 +113,7 @@ class optimalTraitPushNotification extends Command
 
                             HaiChatHelpers::syncUserRecordWithHAi($user);
 
-                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
+//                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 
                             Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
 

@@ -1231,7 +1231,7 @@ class Helpers
 
                 $message = 'THEY GOT ONE ' . $point . ' BONUS CREDIT.';
 
-                Helpers::OneSignalApiUsed($user['id'], 'Credit Bonus', $message);
+//                Helpers::OneSignalApiUsed($user['id'], 'Credit Bonus', $message);
 
                 Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION);
 
