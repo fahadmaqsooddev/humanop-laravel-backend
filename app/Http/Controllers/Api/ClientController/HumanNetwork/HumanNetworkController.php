@@ -459,7 +459,11 @@ class HumanNetworkController extends Controller
 
                     $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
 
-                    return Helpers::successResponse('Authentic Traits', $publicNames);
+                    $data = [
+                        'authentic' => $publicNames,
+                    ];
+
+                    return Helpers::successResponse('Authentic Traits', $data);
 
                 }
 
@@ -467,16 +471,16 @@ class HumanNetworkController extends Controller
 
                     $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
 
-                    return Helpers::successResponse('Core Stats', $coreStats);
+                    $data = [
+                        'core_state' => $coreStats,
+                    ];
+
+                    return Helpers::successResponse('Core Stats', $data);
                 }
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 2 && $assessmentPermission->authentic_traits == 2) {
 
-                    return Helpers::validationResponse(
-
-                        'Access denied because this user has denied permission.'
-
-                    );
+                    return Helpers::validationResponse('Access denied because this user has denied permission.');
 
                 }
 
@@ -486,7 +490,11 @@ class HumanNetworkController extends Controller
 
             $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
 
-            return Helpers::successResponse('Top Three Traits', $publicNames);
+            $data = [
+                'top_three_traits' => $publicNames,
+            ];
+
+            return Helpers::successResponse('Top Three Traits', $data);
 
         } catch (\Exception $e) {
 
