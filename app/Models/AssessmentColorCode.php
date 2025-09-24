@@ -182,37 +182,32 @@ class AssessmentColorCode extends Model
 
             $remainingStyles = array_diff_key($styles, $hightlight);
 
-            $remainingWithThirdRow = [];
+            // ✅ Sort by:
+            // 1️⃣ First row DESC
+            // 2️⃣ If same → Third row DESC
+            // 3️⃣ If still same → Left-Right (original order)
+            uksort($remainingStyles, function ($a, $b) use ($styles, $third_row) {
 
-            foreach ($remainingStyles as $key => $val) {
-
-                $remainingWithThirdRow[$key] = $third_row[$key];
-
-            }
-
-            uksort($remainingWithThirdRow, function ($a, $b) use ($third_row, $styles) {
-
-                if ($third_row[$a] == $third_row[$b]) {
-
-                    $keys = array_keys($styles);
-
-                    return array_search($a, $keys) <=> array_search($b, $keys);
-
+                // Step 1️⃣: First row
+                if ($styles[$a] != $styles[$b]) {
+                    return $styles[$b] <=> $styles[$a];
                 }
 
-                return $third_row[$b] <=> $third_row[$a];
+                // Step 2️⃣: Third row
+                if ($third_row[$a] != $third_row[$b]) {
+                    return $third_row[$b] <=> $third_row[$a];
+                }
 
+                // Step 3️⃣: Left–Right (original key order)
+                $keys = array_keys($styles); // original order
+                return array_search($a, $keys) <=> array_search($b, $keys);
             });
 
-
-            foreach ($remainingWithThirdRow as $key => $val) {
-
+            // ✅ Pick until highlight has at least 3
+            foreach ($remainingStyles as $key => $val) {
                 if (count($hightlight) >= 3) break;
-
                 $hightlight[$key] = $styles[$key];
-
             }
-
         }
 
         foreach ($hightlight as $key => $style_num) {
