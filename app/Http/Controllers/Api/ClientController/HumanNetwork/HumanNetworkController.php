@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController\HumanNetwork;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\Assessments\AssessmentHelper;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\HumanNetwork\ConnectUnConnectRequest;
@@ -13,6 +14,7 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Assessment;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
+use App\Models\Client\Plan\Plan;
 use App\Models\NetworkTutorial\NetworkTutorial;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -75,11 +77,11 @@ class HumanNetworkController extends Controller
 
 //        try {
 
-            $request['user_id'] = Helpers::getUser()->id;
+        $request['user_id'] = Helpers::getUser()->id;
 
-            Connection::connectUnConnect($request->all());
+        Connection::connectUnConnect($request->all());
 
-            return Helpers::successResponse('User ' . $request->type . 'ed successfully');
+        return Helpers::successResponse('User ' . $request->type . 'ed successfully');
 
 //        } catch (\Exception $exception) {
 //
@@ -93,11 +95,11 @@ class HumanNetworkController extends Controller
 
         try {
 
-            if (Helpers::getUser()['profile_status'] == 1){
+            if (Helpers::getUser()['profile_status'] == 1) {
 
                 return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
-            }else{
+            } else {
 
                 $users = User::allPaginatedClients($request);
 
@@ -308,63 +310,63 @@ class HumanNetworkController extends Controller
 
 //        try {
 
-            $loginUser = Helpers::getUser();
+        $loginUser = Helpers::getUser();
 
-            if ($loginUser['plan_name'] == 'Premium') {
+        if ($loginUser['plan_name'] == 'Premium') {
 
-                $users = User::query();
+            $users = User::query();
 
-                if (!empty($request['search_name'])) {
+            if (!empty($request['search_name'])) {
 
-                    $search_name = $request['search_name'];
+                $search_name = $request['search_name'];
 
-                    $users = $users->where(function ($q) use ($search_name) {
+                $users = $users->where(function ($q) use ($search_name) {
 
-                        $q->where('first_name', 'LIKE', "%$search_name%")
-                            ->orWhere('last_name', 'LIKE', "%$search_name%")
-                            ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
-                    });
-                }
+                    $q->where('first_name', 'LIKE', "%$search_name%")
+                        ->orWhere('last_name', 'LIKE', "%$search_name%")
+                        ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+                });
+            }
 
-                $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
+            $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
 
-                $matchingUsers = [];
+            $matchingUsers = [];
 
-                foreach ($users as $user) {
+            foreach ($users as $user) {
 
-                    $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
+                $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
 
-                    $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
+                $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
 
-                    if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
+                if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
 
-                        // ==================== Trait Compatability Calculator =========================== //
+                    // ==================== Trait Compatability Calculator =========================== //
 
-                        $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
+                    $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
 
-                        $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
+                    $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
 
-                        if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
+                    if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
 
-                            $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+                        $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
 
-                            if ($compatabilityCalculator >= $loginUser['matching_connection_score']){
+                        if ($compatabilityCalculator >= $loginUser['matching_connection_score']) {
 
-                                $matchingUsers[] = $user;
-                            }
-
+                            $matchingUsers[] = $user;
                         }
 
                     }
+
                 }
-
-                return Helpers::successResponse('Matching Connections', $matchingUsers);
-
-            }else{
-
-                return Helpers::validationResponse('Only for paid users');
-
             }
+
+            return Helpers::successResponse('Matching Connections', $matchingUsers);
+
+        } else {
+
+            return Helpers::validationResponse('Only for paid users');
+
+        }
 
 
 //        } catch (\Exception $exception) {
@@ -387,7 +389,7 @@ class HumanNetworkController extends Controller
 
                 return Helpers::successResponse('Matching Connection Score Updated');
 
-            }else{
+            } else {
 
                 return Helpers::validationResponse('Only for paid users');
             }
@@ -402,60 +404,94 @@ class HumanNetworkController extends Controller
 
     public function userTraits(Request $request)
     {
-
         try {
 
-            $loginUser = Helpers::getUser();
-
-            if (!empty($request['user_id'])){
-
-                $assessment = Assessment::getLatestAssessment($request['user_id']);
-
-                if (!empty($assessment)) {
-
-
-                    if ($loginUser['plan_name'] == 'Premium') {
-
-                        $styleCodes = Assessment::authenticTraits($assessment);
-
-                        $public_name = [];
-
-                        foreach ($styleCodes as $style) {
-
-                            $public_name[] = $style['public_name'];
-                        }
-
-                        return $public_name;
-
-                    } else {
-
-                        $styleCodes = Assessment::getAllStyles($assessment);
-
-                        $public_name = [];
-
-                        foreach ($styleCodes as $style) {
-
-                            $public_name[] = $style['public_name'];
-                        }
-
-                        return $public_name;
-
-                    }
-
-                }else{
-
-                    return Helpers::validationResponse('Assessment Not Found');
-                }
-
-            }else{
+            if (empty($request->user_id)) {
 
                 return Helpers::validationResponse('User Id is required');
+
             }
 
+            $user = User::getSingleUser($request->user_id);
 
-        } catch (\Exception $exception) {
+            if (!$user) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+                return Helpers::validationResponse('User not found');
+
+            }
+
+            $priceId = optional($user->subscription('main'))->stripe_price ?? null;
+
+            $planName = Plan::where('plan_id', $priceId)->value('name');
+
+            $assessment = Assessment::getLatestAssessment($request->user_id);
+
+            if (!$assessment) {
+
+                return Helpers::validationResponse('Assessment Not Found');
+
+            }
+
+            if ($planName === 'Premium') {
+
+                $assessmentPermission = User\UserShareAssessment::getSingleRecord($user->id);
+
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
+
+                    $styleCodes = Assessment::authenticTraits($assessment);
+
+                    $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
+
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+
+                    $data = [
+                        'authentic' => $publicNames,
+                        'core_state' => $coreStats,
+                    ];
+
+                    return Helpers::successResponse('Authentic Traits and Core Stats', $data);
+
+                }
+
+                if (!empty($assessmentPermission) && $assessmentPermission->authentic_traits == 1) {
+
+                    $styleCodes = Assessment::authenticTraits($assessment);
+
+                    $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
+
+                    return Helpers::successResponse('Authentic Traits', $publicNames);
+
+                }
+
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1) {
+
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+
+                    return Helpers::successResponse('Core Stats', $coreStats);
+                }
+
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 2 && $assessmentPermission->authentic_traits == 2) {
+
+                    return Helpers::validationResponse(
+
+                        'Access denied because this user has denied permission.'
+
+                    );
+
+                }
+
+            }
+
+            $styleCodes = Assessment::getAllStyles($assessment);
+
+            $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
+
+            return Helpers::successResponse('Top Three Traits', $publicNames);
+
+        } catch (\Exception $e) {
+
+            return Helpers::serverErrorResponse($e->getMessage());
+
         }
 
     }

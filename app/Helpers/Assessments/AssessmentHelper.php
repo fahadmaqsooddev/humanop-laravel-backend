@@ -309,5 +309,69 @@ class AssessmentHelper
 
     }
 
+    public static function getCoreStatsData($assessment = null, $user = null)
+    {
 
+        $coreState = Assessment::getCoreState($assessment, $user->date_of_birth);
+
+        $traits = [];
+
+        foreach ($coreState['topThreeStyles'] as $style) {
+
+            $traits[] = [
+                'public_name' => $style['public_name'],
+                'code_number' => $style['code_number'],
+            ];
+
+        }
+
+        $features = [];
+
+        foreach ($coreState['topTwoFeatures'] as $style) {
+
+            $features[] = [
+                'public_name' => $style['public_name'],
+                'code_number' => $style['code_number'],
+            ];
+
+        }
+
+        $communications = [];
+
+        foreach ($coreState['topCommunication'] as $style) {
+
+            $communications[] = [
+                'public_name' => $style['public_name'],
+                'code_number' => $style['code_number'],
+            ];
+
+        }
+
+        $boundary = [
+            'public_name' => $coreState['boundary']['public_name'],
+            'code_number' => $coreState['boundary']['code_number'],
+        ];
+
+        $explode = explode('[', $coreState['energyPool']['public_name']);
+
+        $energyPool = [
+            'public_name' => trim($explode[0]),
+            'code_number' => isset($explode[1]) ? rtrim($explode[1], ']') : null,
+        ];
+
+        $perception = [
+            'public_name' => $coreState['perception']['public_name'],
+            'code_number' => $coreState['perception']['code_number'],
+        ];
+
+        return [
+            'interval_of_life' => $coreState['interval_of_life']['public_name'],
+            'traits' => $traits,
+            'features' => $features,
+            'communications' => $communications,
+            'boundary' => $boundary,
+            'energy_pool' => $energyPool,
+            'perception' => $perception,
+        ];
+    }
 }
