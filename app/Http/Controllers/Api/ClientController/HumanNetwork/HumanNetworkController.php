@@ -432,9 +432,7 @@ class HumanNetworkController extends Controller
 
             }
 
-            $planName = 'Freemium';
-
-            if ($planName === 'Freemium') {
+            if ($planName === 'Premium') {
 
                 $assessmentPermission = User\UserShareAssessment::getSingleRecord($user->id);
 
