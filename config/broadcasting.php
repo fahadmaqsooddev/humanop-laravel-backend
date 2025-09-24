@@ -21,7 +21,14 @@ switch (env('APP_ENV')) {
         $pusher_app_key = 'a784653c21fbfff4364b';
         $pusher_app_secret = '8ec8323cc9e28627cf21';
         $pusher_app_cluster = 'ap2';
- break;
+        break;
+
+    case 'pre-production':
+        $pusher_app_id = 2014416;
+        $pusher_app_key = 'f6f99e849dc96da462d5';
+        $pusher_app_secret = '059b2b9bf0ec3a52908a';
+        $pusher_app_cluster = 'ap2';
+        break;
 
 };
 
@@ -61,7 +68,7 @@ return [
             'secret' => $pusher_app_secret,
             'app_id' => $pusher_app_id,
             'options' => [
-                'cluster' =>$pusher_app_cluster ,
+                'cluster' => $pusher_app_cluster,
                 'useTLS' => true,
 //                'useTLS' => env('PUSHER_USE_TLS'),
 //                'host' => env('PUSHER_LOCALHOST_IP'),
