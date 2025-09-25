@@ -499,7 +499,7 @@ class EmailTemplateSeeder extends Seeder
             ['name' => 'Two Factor Authentication', 'format' => $fa_verification_code, 'body'=>$body_fa_verification_code,'tag'=>'2fa_verification_code','type'=>1,'subject'=>$subject_fa_verification_code],
             ['name' => 'b2b-signup-link', 'format' => $b2b_signup_link,'body'=>$b2b_signup_link_body,'tag'=>'b2b_signup_link','type'=>2,'subject'=>$b2b_signup_link_subject],
             ['name' => 'b2b-login-link', 'format' => $b2b_login_link,'body'=>$b2b_login_link_body,'tag'=>'b2b_login_link','type'=>2,'subject'=>$b2b_login_link_subject],
-            ['name' => 'b2b-maestro-signup', 'format' => $maestro_signup,'body'=>$b2b_maestro_signup_body,'tag'=>'maestro_signup','type'=>2,'subject'=>$b2b_maestro_signup_subject],
+            ['name' => 'Maestro Signup Invite Link', 'format' => $maestro_signup,'body'=>$b2b_maestro_signup_body,'tag'=>'maestro_signup','type'=>2,'subject'=>$b2b_maestro_signup_subject],
             ['name' => 'Verify Your Email Address For Maestro HumanOp', 'format' => $b2b_email_verification,'body'=>$body_b2b_email_verified,'tag'=>'b2b_email_verification','type'=>2,'subject'=>$body_b2b_email_verified_subject],
             ['name' => 'Maestro HumanOp Subscription Invoice', 'format' => $b2b_invoice,'body'=>$body_b2b_invoice,'tag'=>'b2b_email_invoice','type'=>2,'subject'=>$body_b2b_subject_invoice],
             ['name' => 'HumanOp Subscription Invoice', 'format' => $invoice,'body'=>$body_invoice,'tag'=>'email_invoice','type'=>1,'subject'=>$body_subject_invoice],
