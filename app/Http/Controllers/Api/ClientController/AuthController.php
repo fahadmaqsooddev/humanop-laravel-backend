@@ -353,19 +353,19 @@ class AuthController extends Controller
 
                 PushNotification::createNotification($request['user_id']);
 
-//                $getInvite = UserInvite::getSingleInvite($getUser['email']);
-//
-//                if ($getInvite) {
-//
-//                    $memberCandidateInvite = UserCandidateInvite::getInviteById($getInvite['id']);
-//
-//                    if ($memberCandidateInvite) {
-//
-//                        $memberCandidateInvite->delete();
-//
-//                    }
-//
-//                }
+                $getInvite = UserInvite::getSingleInvite($getUser['email']);
+
+                if ($getInvite) {
+
+                    $memberCandidateInvite = UserCandidateInvite::getInviteById($getInvite['id']);
+
+                    if ($memberCandidateInvite) {
+
+                        $memberCandidateInvite->delete();
+
+                    }
+
+                }
 
                 $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
 
@@ -375,9 +375,13 @@ class AuthController extends Controller
 
                     $token = $this->auth->login($getUser);
 
-//                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
+                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
 
-//                    UserInviteLog::deleteInvite($userInvite['id']);
+                    if (!empty($userInvite)){
+
+                        UserInviteLog::deleteInvite($userInvite['id']);
+
+                    }
 
                     $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
@@ -404,9 +408,13 @@ class AuthController extends Controller
 
                     $token = $this->auth->login($getUser);
 
-//                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
+                    $userInvite = UserInvite::getSingleInvite($getUser['email']);
 
-//                    UserInviteLog::deleteInvite($userInvite['id']);
+                    if(!empty($userInvite)){
+
+                        UserInviteLog::deleteInvite($userInvite['id']);
+
+                    }
 
                     $userTimezone = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
