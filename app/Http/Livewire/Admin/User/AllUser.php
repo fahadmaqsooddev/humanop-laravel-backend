@@ -153,7 +153,7 @@ class AllUser extends Component
     public function searchFilter()
     {
 
-        $this->users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER, Admin::IS_B2B]);
+        $this->users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER]);
     }
 
 
