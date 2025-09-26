@@ -48,7 +48,7 @@ class DashboardController extends Controller
 
     public function dailyTip()
     {
-//        try {
+        try {
 
             $user = Helpers::getWebUser() ?? Helpers::getUser();
 
@@ -104,7 +104,7 @@ class DashboardController extends Controller
                                 'description' => $userDailyTip['dailyTip']['description'] ?? '',
                                 'is_read' => $isRead,
                                 'favorite_daily_tip' => $userDailyTip['favorite_tip'],
-                                'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                                'created_at' => $isRead == 1 ? $userDailyTip['tip_completed_at'] : null,
                             ];
 
                         } else {
@@ -115,7 +115,7 @@ class DashboardController extends Controller
                                 'description' => $userDailyTip['dailyTip']['description'] ?? '',
                                 'is_read' => $isRead,
                                 'favorite_daily_tip' => $userDailyTip['favorite_tip'],
-                                'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                                'created_at' => $isRead == 1 ? $userDailyTip['tip_completed_at'] : null,
                                 'nextTipTime' => !empty($nextTipTime) ? $nextTipTime->format('Y-m-d H:i:s.u T (P)') : null,
                                 'currentTime' => !empty($currentTime) ? $currentTime->format('Y-m-d H:i:s.u T (P)') : null,
                                 'check' => $updatedWithinDay ?? null
@@ -162,7 +162,7 @@ class DashboardController extends Controller
                                     'description' => $userDailyTip['dailyTip']['description'] ?? '',
                                     'is_read' => $isRead,
                                     'favorite_daily_tip' => $userDailyTip['favorite_tip'],
-                                    'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                                    'created_at' => $isRead == 1 ? $userDailyTip['tip_completed_at'] : null,
                                 ];
 
                             } else {
@@ -173,7 +173,7 @@ class DashboardController extends Controller
                                     'description' => $userDailyTip['dailyTip']['description'] ?? '',
                                     'is_read' => $isRead,
                                     'favorite_daily_tip' => $userDailyTip['favorite_tip'],
-                                    'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
+                                    'created_at' => $isRead == 1 ? $userDailyTip['tip_completed_at'] : null,
                                     'nextTipTime' => !empty($nextTipTime) ? $nextTipTime->format('Y-m-d H:i:s.u T (P)') : null,
                                     'currentTime' => !empty($currentTime) ? $currentTime->format('Y-m-d H:i:s.u T (P)') : null,
                                     'check' => $updatedWithinDay ?? null
@@ -199,11 +199,11 @@ class DashboardController extends Controller
 
             }
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
 
     }
 

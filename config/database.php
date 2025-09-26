@@ -402,7 +402,7 @@ return [
         ],
         'UserDailyTip' => [
             'table' => 'user_daily_tips',
-            'fillable' => ['user_id', 'daily_tip_id', 'is_read', 'assessment_id', 'favorite_tip'],
+            'fillable' => ['user_id', 'daily_tip_id', 'is_read', 'assessment_id', 'favorite_tip','tip_completed_at '],
             'hidden' => ['updated_at'],
         ],
         'Version' => [

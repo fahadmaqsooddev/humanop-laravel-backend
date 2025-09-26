@@ -7,6 +7,7 @@ use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -55,7 +56,8 @@ class UserDailyTip extends Model
         self::create([
             'user_id' => $user_id,
             'daily_tip_id' => $daily_tip_id,
-            'assessment_id' => $assessment_id
+            'assessment_id' => $assessment_id,
+            'tip_completed_at' => Carbon::now(),
         ]);
 
         return self::getLatestTip();
@@ -69,7 +71,7 @@ class UserDailyTip extends Model
 
         if (!empty($userTip)) {
 
-            $userTip->update(['favorite_tip' => $userTip->favorite_tip == 1 ? Admin::FAVORITE_DAILY_TIP : Admin::NOT_FAVORITE_DAILY_TIP]);
+            $userTip->update(['favorite_tip' => $userTip->favorite_tip == 1 ? Admin::FAVORITE_DAILY_TIP : Admin::NOT_FAVORITE_DAILY_TIP, 'tip_completed_at' => Carbon::now()]);
 
             return $userTip;
         }
