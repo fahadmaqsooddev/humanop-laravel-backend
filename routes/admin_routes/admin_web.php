@@ -147,6 +147,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
         Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
+        Route::get('/create-pricing-plan',[PricingPlanController::class,'createPricingPlan'])->name('admin_create_pricing_plan');
+        Route::get('/edit-pricing-plan/{id}',[PricingPlanController::class,'editPricingPlan'])->name('admin_edit_pricing_plan');
         Route::get('/onboarding-screens',[OnboardingScreenController::class,'onboardingScreens'])->name('admin_onboarding_screens');
         Route::get('/network-tutorials',[NetworkTutorialController::class,'networkTutorials'])->name('admin_network_tutorials');
         Route::get('/announcements-news',[AnnouncementsNewsController::class,'announcementsNews'])->name('admin_announcements_news');

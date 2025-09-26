@@ -20,7 +20,7 @@
 
     </style>
 @endpush
-<form wire:submit.prevent="submitForm">
+<form wire:submit.prevent="updatePlan">
     @include('layouts.message')
     <div class="row mt-4">
         <div class="col-12">
@@ -36,7 +36,7 @@
     <div class="row mt-4">
         <div class="col-12">
             <select class="form-control input-form-style" style="color: #1b3a62"
-                    wire:model="plan_type">
+                    wire:model="plan_type" disabled>
                 <option value="" style="color: white">Select Plan Type</option>
                 <option value="month" style="color: white">Month</option>
                 <option value="year" style="color: white">Year</option>
@@ -47,7 +47,7 @@
         <div class="col-12">
             <label class="form-label" style="color: #1b3a62">Plan Amount</label>
             <div class="input-group">
-                <input wire:model="price"
+                <input disabled wire:model="price"
                        class="form-control input-form-style table-header-text"
                        type="text">
             </div>
@@ -63,7 +63,7 @@
         </div>
     </div>
     <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-            style="background-color: #1b3a62 ">create plan
+            style="background-color: #1b3a62 ">Update plan
     </button>
 </form>
 

@@ -41,7 +41,7 @@
     <div class="row mt-4 container-fluid">
         <div class="col-12">
 
-            @livewire('admin.pricing-plan.create-pricing-plan')
+            @livewire('admin.pricing-plan.pricing-plan-lists')
 
         </div>
     </div>
