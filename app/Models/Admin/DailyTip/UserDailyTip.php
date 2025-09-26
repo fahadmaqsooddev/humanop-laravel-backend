@@ -106,7 +106,11 @@ class UserDailyTip extends Model
 
         if ($daily_tip['is_read'] == 0) {
 
-            $daily_tip->update(['is_read' => 1, 'tip_completed_at' => Carbon::now()]);
+            $daily_tip->is_read = 1;
+
+            $daily_tip->tip_completed_at = Carbon::now();
+
+            $daily_tip->save();
 
             HumanOpPoints::addPointsAfterCompleteDailyTip($user);
 
