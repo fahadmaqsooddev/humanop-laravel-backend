@@ -106,9 +106,13 @@ class UserDailyTip extends Model
 
         if ($daily_tip['is_read'] == 0) {
 
+            $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
+
+            $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+
             $daily_tip->is_read = 1;
 
-            $daily_tip->tip_completed_at = Carbon::now();
+            $daily_tip->tip_completed_at = $currentTime;
 
             $daily_tip->save();
 
