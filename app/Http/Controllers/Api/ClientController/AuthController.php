@@ -91,9 +91,9 @@ class AuthController extends Controller
 
     public function registerFirstStep(RegisterFirstStepRequest $request)
     {
-//        DB::beginTransaction();
-//
-//        try {
+        DB::beginTransaction();
+
+        try {
 
             $user = new User();
 
@@ -294,13 +294,13 @@ class AuthController extends Controller
 //
 //            }
 
-//        } catch (\Exception $exception) {
-//
-//            DB::rollBack();
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//
-//        }
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
 
     }
 
