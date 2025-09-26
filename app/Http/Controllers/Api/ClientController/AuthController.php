@@ -185,7 +185,7 @@ class AuthController extends Controller
 
                 DB::commit();
 
-                return Helpers::successResponse('User registered successfully', [
+                return Helpers::successResponse('Verification Email Send successfully', [
                     'authorization' => [
                         'user' => $user,
                         'status' => true,
