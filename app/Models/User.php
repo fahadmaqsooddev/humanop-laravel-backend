@@ -43,7 +43,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits','assessment_permission'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission'];
 
     public function __construct(array $attributes = array())
     {
@@ -212,11 +212,11 @@ class User extends Authenticatable implements JWTSubject
 
         $permission = UserShareAssessment::getSingleRecord($this->id);
 
-        if (!empty($permission)){
+        if (!empty($permission)) {
 
             return $permission;
 
-        }else{
+        } else {
 
             return [
                 'user_id' => $this->id,
@@ -1342,6 +1342,8 @@ class User extends Authenticatable implements JWTSubject
     {
 
         $users = self::query();
+
+        $users->where('profile_status', '!=', 1);
 
         $users = $users->when($request->input('name'), function ($q, $search_name) {
 

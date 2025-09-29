@@ -75,7 +75,7 @@ class HumanNetworkController extends Controller
     public function connectUnconnect(ConnectUnConnectRequest $request)
     {
 
-//        try {
+        try {
 
         $request['user_id'] = Helpers::getUser()->id;
 
@@ -83,10 +83,10 @@ class HumanNetworkController extends Controller
 
         return Helpers::successResponse('User ' . $request->type . 'ed successfully');
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
 
     }
 
@@ -308,7 +308,7 @@ class HumanNetworkController extends Controller
     public function matchingConnection(Request $request)
     {
 
-//        try {
+        try {
 
         $loginUser = Helpers::getUser();
 
@@ -369,10 +369,10 @@ class HumanNetworkController extends Controller
         }
 
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
 
     }
 

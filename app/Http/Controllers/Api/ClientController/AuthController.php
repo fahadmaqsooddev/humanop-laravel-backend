@@ -589,23 +589,11 @@ class AuthController extends Controller
                 $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
             }
 
-            $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+            $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
 
-            $privacyUrl = url('/privacy-policy');
+            $emailData = $this->prepareEmailData($user, $baseUrl, null, $template->body, $template->subject);
 
-            $serviceUrl = url('/term-of-service');
-
-            $data = [
-                '{$userName}' => $updateProfile['first_name'] . ' ' . $updateProfile['last_name'],
-                '{$link}' => $baseUrl,
-                '{$logo}' => $logoUrl,
-                '{$service}' => $serviceUrl,
-                '{$privacy}' => $privacyUrl,
-            ];
-
-            $email_template = EmailTemplate::getTemplate($data, 'Verify Your Email Address');
-
-            Email::sendEmailVerification(['content' => $email_template], $updateProfile['email'], 'emails.Email_Template', 'Verify Your Email Address');
+            $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL, "Verify Your Email Address");
 
             return Helpers::successResponse('Resend email sent successfully!');
 
