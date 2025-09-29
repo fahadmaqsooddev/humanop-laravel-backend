@@ -27,6 +27,10 @@ padding: 0px 10px 1px 10px;
                 <!-- Card header -->
                 <div class="card-header table-header-text">
                     <h5 class="mb-0 table-text-color">Sub Admins</h5>
+                    <a data-bs-toggle="modal"
+                       data-bs-target="#addSubAdmin"
+                       style="background-color: #1B3A62 ; color: white"
+                       class="btn btn-sm float-end mb-0 createForm">Add Sub Admin</a>
                 </div>
 
                 @livewire('admin.sub-admin.index',['admins' => $admins])
