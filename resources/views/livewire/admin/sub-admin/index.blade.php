@@ -260,6 +260,12 @@
                                                    wire:model.defer="permission.knowledge">
                                             <label class="form-check-label text-color-dark">Knowledge</label>
                                         </div>
+                                        <div class="col-sm-4 col-6 w-50">
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.suggestions">
+                                            <label class="form-check-label text-color-dark">Suggestions</label>
+                                        </div>
                                     </div>
                                     <h5 class="text-bold mt-4 mb-2">
                                         Please assign permissions to Sub Admin for B2B Admin Dashboard:

@@ -60,6 +60,13 @@
                         <br>
                     @endforeach
                 </div>
+                <div class="col-sm-4 col-6 w-50">
+                    @foreach(['suggestions'] as $permissionName)
+                        <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
+                        <label class="form-check-label" style="color: #1B3A62">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
+                        <br>
+                    @endforeach
+                </div>
             </div>
             <div class="row">
                 <h5 class="text-bold">Please assign permissions to Sub Admin for B2B Admin Dashboard:</h5>

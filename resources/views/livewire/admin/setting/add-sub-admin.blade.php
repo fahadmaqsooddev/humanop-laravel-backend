@@ -27,7 +27,7 @@
                     <label class="form-label mt-4 text-color-dark">Email</label>
                     <div class="input-group">
                         <input wire:model.defer="sub_admin.email"
-                               class="form-control input-form-style"  placeholder="email">
+                               class="form-control input-form-style" placeholder="email">
                     </div>
                 </div>
                 <div class="col-6">
@@ -42,7 +42,8 @@
                 <div class="col-6">
                     <label class="form-label mt-4 text-color-dark">Password</label>
                     <div class="input-group">
-                        <input wire:model="sub_admin.password" class="form-control input-form-style" placeholder="Password">
+                        <input wire:model="sub_admin.password" class="form-control input-form-style"
+                               placeholder="Password">
                     </div>
                 </div>
                 <div class="col-sm-4 col-6 w-50">
@@ -166,51 +167,58 @@
                                wire:model.defer="permission.knowledge">
                         <label class="form-check-label text-color-dark">Knowledge</label>
                     </div>
-                </div>
-                <h5 class="text-bold mt-4 mb-2">
-                    Please assign permissions to Sub Admin for B2B Admin Dashboard:
-                </h5>
-                <div class="row">
                     <div class="col-sm-4 col-6 w-50">
                         <input type="checkbox"
                                class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.organizations">
-                        <label class="form-check-label text-color-dark">Organizations</label>
-                        <br>
-                        <input type="checkbox"
-                               class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.role_template_manage">
-                        <label class="form-check-label text-color-dark">Role Template Manage</label>
-                        <br>
-                        <input type="checkbox"
-                               class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.invites">
-                        <label class="form-check-label text-color-dark">Invites</label>
-
-                    </div>
-                    <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
-                        <input type="checkbox"
-                               class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.pricing_plan">
-                        <label class="form-check-label text-color-dark">Pricing Plan</label>
-                        <br>
-                        <input type="checkbox"
-                               class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.support_admin">
-                        <label class="form-check-label text-color-dark">Support Admin</label>
-                        <br>
-                        <input type="checkbox"
-                               class="form-check-input" style="border: 2px solid #1b3a62"
-                               wire:model.defer="permission.redemption_code">
-                        <label class="form-check-label text-color-dark">Redemption Code</label>
+                               wire:model.defer="permission.suggestions">
+                        <label class="form-check-label text-color-dark">Suggestions</label>
                     </div>
                 </div>
             </div>
-            <button type="submit" class=" btn-sm float-end mt-4 mb-4"
-                    style="background:#1b3a62 !important;color:white;font-weight:bolder;border:none;">
-                Create Sub Admin
-            </button>
+            <h5 class="text-bold mt-4 mb-2">
+                Please assign permissions to Sub Admin for B2B Admin Dashboard:
+            </h5>
+            <div class="row">
+                <div class="col-sm-4 col-6 w-50">
+                    <input type="checkbox"
+                           class="form-check-input" style="border: 2px solid #1b3a62"
+                           wire:model.defer="permission.organizations">
+                    <label class="form-check-label text-color-dark">Organizations</label>
+                    <br>
+                    <input type="checkbox"
+                           class="form-check-input" style="border: 2px solid #1b3a62"
+                           wire:model.defer="permission.role_template_manage">
+                    <label class="form-check-label text-color-dark">Role Template Manage</label>
+                    <br>
+                    <input type="checkbox"
+                           class="form-check-input" style="border: 2px solid #1b3a62"
+                           wire:model.defer="permission.invites">
+                    <label class="form-check-label text-color-dark">Invites</label>
+
+                </div>
+                <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
+                    <input type="checkbox"
+                           class="form-check-input" style="border: 2px solid #1b3a62"
+                           wire:model.defer="permission.pricing_plan">
+                    <label class="form-check-label text-color-dark">Pricing Plan</label>
+                    <br>
+                    <input type="checkbox"
+                           class="form-check-input" style="border: 2px solid #1b3a62"
+                           wire:model.defer="permission.support_admin">
+                    <label class="form-check-label text-color-dark">Support Admin</label>
+                    <br>
+                    <input type="checkbox"
+                           class="form-check-input" style="border: 2px solid #1b3a62"
+                           wire:model.defer="permission.redemption_code">
+                    <label class="form-check-label text-color-dark">Redemption Code</label>
+                </div>
+            </div>
         </div>
-    </form>
+        <button type="submit" class=" btn-sm float-end mt-4 mb-4"
+                style="background:#1b3a62 !important;color:white;font-weight:bolder;border:none;">
+            Create Sub Admin
+        </button>
+</div>
+</form>
 </div>
 
