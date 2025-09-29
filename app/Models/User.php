@@ -716,7 +716,7 @@ class User extends Authenticatable implements JWTSubject
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'payit_forward');
 
                 $interval = [
-                    'interval' => 'Payit Forward',
+                    'interval' => 'Pay it Forwarda',
                     'name' => 'payit_forward',
                     'public_name' => 'Cycle of Life - Pay It Forward (52-65)',
                     'video_url' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4'),
@@ -914,7 +914,7 @@ class User extends Authenticatable implements JWTSubject
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'payit_forward');
 
                 $interval = [
-                    'interval' => 'Payit Forward',
+                    'interval' => 'Pay it Forwarda',
                     'name' => 'payit_forward',
                     'public_name' => 'Cycle of Life - Pay It Forward (52-65)',
                     'video_url' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4'),
@@ -2049,7 +2049,7 @@ class User extends Authenticatable implements JWTSubject
                 break;
             case (52 <= $age && $age <= 65):
                 $interval = [
-                    'interval' => 'Payit Forward',
+                    'interval' => 'Pay it Forwarda',
                     'public_name' => 'Cycle of Life - Pay It Forward (52-65)'
                 ];
                 break;
