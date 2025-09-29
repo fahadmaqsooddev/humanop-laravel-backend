@@ -12,6 +12,7 @@ use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Hai\HaiThread;
+use App\Models\Client\Plan\Plan;
 use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
 use App\Models\HAIChai\HaiChat;
@@ -535,21 +536,35 @@ class User extends Authenticatable implements JWTSubject
 
     public static function allReferralUsers($userId = null)
     {
-        $usersCount = self::where('referred_by', $userId)
-            ->where('step', 3)
-            ->select('parent_referal_plan_name', DB::raw('COUNT(*) as total'))
-            ->groupBy('parent_referal_plan_name')
-            ->pluck('total', 'parent_referal_plan_name');
+        $referralUsers = self::where('referred_by', $userId)->where('step', 3)->get();
 
-        // remap to your custom keys
         $usersCount = [
-            'clarity' => $usersCount->get('Freemium', 0),
-            'focus' => $usersCount->get('Premium', 0),
-//            'elevate' => $usersCount->get('Premium', 0),
+            'clarity' => 0,
+            'focus'   => 0,
         ];
-//        $usersCount['referral_credit_earned'] = ($usersCount['clarity'] * 5) + ($usersCount['focus'] * 10) + ($usersCount['elevate'] * 15);
-        $usersCount['referral_credit_earned'] = ($usersCount['clarity'] * 5) + ($usersCount['focus'] * 10);
+
+        foreach ($referralUsers as $user) {
+
+            $priceId = optional($user->subscription('main'))->stripe_price;
+
+            $planName = Plan::where('plan_id', $priceId)->value('name');
+
+            if ($planName == "Freemium" || empty($planName)) {
+
+                $usersCount['clarity'] += 1;
+
+            } elseif ($planName == "Premium") {
+
+                $usersCount['focus'] += 1;
+
+            }
+
+        }
+
+        $usersCount['referral_credit_earned'] = ($usersCount['clarity'] * 1) + ($usersCount['focus'] * 2);
+
         return $usersCount;
+
     }
 
     public static function updateWorkEmail($id = null, $email = null)
