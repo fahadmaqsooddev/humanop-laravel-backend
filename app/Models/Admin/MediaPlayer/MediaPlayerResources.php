@@ -47,7 +47,7 @@ class MediaPlayerResources extends Model
         }else{
 
             return null;
-            
+
         }
 
     }

@@ -479,12 +479,19 @@ class DashboardController extends Controller
 
                 foreach ($getTopStyles as $styleKey => $style) {
 
+                    $label = match ($styleNumber) {
+                        1 => 'Primary',
+                        2 => 'Secondary',
+                        3 => 'Tertiary',
+                        default => '',
+                    };
+
                     $trait = AssessmentWalkThrough::getbyCodeName(strtoupper($styleKey), $styleNumber);
 
                     $getTrait['public_name'] = $trait['public_name'];
                     $getTrait['code_name'] = $trait['code_name'];
                     $getTrait['overview'] = [
-                        'title' => "Your primary trait is the {$trait['public_name']} Trait! [Overview]",
+                        'title' => "Your {$label} trait is the {$trait['public_name']} Trait! [Overview]",
                         'description' => $trait['overview'],
                     ];
                     $getTrait['optimal'] = [
