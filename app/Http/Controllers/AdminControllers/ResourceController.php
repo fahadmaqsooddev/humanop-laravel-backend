@@ -19,4 +19,19 @@ class ResourceController extends Controller
 
         }
     }
+
+    public function mediaPlayer()
+    {
+        try {
+
+            return view('admin-dashboards.media-player.index');
+
+        }catch (\Exception $exception)
+        {
+
+            return redirect()->route('admin_resources')->with('error', $exception->getMessage());
+
+        }
+    }
+
 }

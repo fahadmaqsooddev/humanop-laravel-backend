@@ -281,6 +281,7 @@
                                                         class="collapse  {{ Request::is('admin/codes','admin/client-invites',
                                                         'admin/assessment-walkthrough','admin/all-daily-tips',
                                                         'admin/resources',
+                                                        'admin/media-player',
                                                         'admin/dashboard-cms',
                                                         'admin/all-coupons','admin/cms','admin/all-optimization-plan',
                                                         'admin/all-intention-plans',
@@ -407,6 +408,19 @@
                                                                             src="{{ Request::is('admin/resources') ? asset('assets/new-blue-icons/resource-training.png') : asset('assets/new-white-icons/resource-training.png') }}"></span>
                                                                     <span
                                                                         class="sidenav-normal"> Resources & Trainings </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/media-player') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/media-player') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_media_player') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/media-player') ? asset('assets/new-blue-icons/resource-training.png') : asset('assets/new-white-icons/resource-training.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/media-player') ? asset('assets/new-blue-icons/resource-training.png') : asset('assets/new-white-icons/resource-training.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Media Player </span>
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/all-daily-tips') ? 'active-itt-all' : '') }}">

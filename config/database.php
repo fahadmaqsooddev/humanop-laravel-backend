@@ -779,10 +779,19 @@ return [
             'fillable' => ['user_id', 'item_name', 'item_price', 'purchased_from'],
             'hidden' => ['created_at', 'updated_at']
         ],
-
         'SignupScreen' => [
             'table' => 'signup_screens',
             'fillable' => ['screen_name', 'description', 'screen_type'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'MediaPlayerCategories' => [
+            'table' => 'media_player_categories',
+            'fillable' => ['name'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'MediaPlayerResources' => [
+            'table' => 'media_player_resources',
+            'fillable' => ['media_player_category_id', 'video_id', 'audio_id', 'thumbnail_id', 'heading', 'slug', 'description', 'permission', 'prices', 'points'],
             'hidden' => ['created_at', 'updated_at']
         ],
     ]

@@ -1,0 +1,122 @@
+<?php
+
+namespace App\Models\Admin\MediaPlayer;
+
+use App\Helpers\Helpers;
+use App\Models\Libraries\HumanOpLibraries;
+use GuzzleHttp\Client;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
+class MediaPlayerResources extends Model
+{
+    use HasFactory;
+
+    public function __construct(array $attributes = [])
+    {
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+
+        parent::__construct($attributes);
+    }
+
+    protected $appends = ['video_url', 'audio_url', 'thumbnail_url'];
+
+    public function getThumbnailUrlAttribute()
+    {
+        if (!empty($this->thumbnail_id)) {
+
+            return Helpers::getImage($this->thumbnail_id);
+
+        } else {
+
+            return null;
+        }
+
+    }
+
+    public function getVideoUrlAttribute()
+    {
+
+        return Helpers::getVideo($this->video_id, 1, null);
+
+    }
+
+    public function getAudioUrlAttribute()
+    {
+
+        return Helpers::getMp3Url($this->audio_id);
+
+    }
+
+    public function resourceCategory()
+    {
+        return $this->belongsTo(MediaPlayerCategories::class, 'media_player_category_id', 'id');
+    }
+
+    public static function deleteResourceOfCategory($id = null)
+    {
+        return self::where('media_player_category_id', $id)->delete();
+    }
+
+    public static function singleLibraryResource($resource_id)
+    {
+        return self::whereId($resource_id)->first();
+    }
+
+    public static function updateCategory($current, $new)
+    {
+        self::where('media_player_category_id', $current)->update(['media_player_category_id' => $new]);
+    }
+
+    public static function createResource($heading = null, $category_id = null, $description = null, $thumbnailId = null, $videoId = null, $audioId = null, $permission = null, $priceValue = null, $pointValue = null)
+    {
+        $resource = self::create([
+            'heading' => $heading,
+            'slug' => Str::slug($heading),
+            'media_player_category_id' => $category_id,
+            'description' => $description,
+            'thumbnail_id' => $thumbnailId,
+            'video_id' => $videoId,
+            'audio_id' => $audioId,
+            'permission' => $permission,
+            'prices' => (int)$priceValue ?? 0,
+            'points' => (int)$pointValue ?? 0,
+        ]);
+
+        return $resource;
+    }
+
+    public static function deleteResource($id = null)
+    {
+        return self::whereId($id)->delete();
+    }
+
+    public static function resourceCategoriesForClient()
+    {
+        $user = Helpers::getUser();
+
+        $userId = $user['id'];
+        $userPlan = $user['plan_name'];
+
+        $purchasedItemIds = HumanOpLibraries::getAllLibraries($userId)
+            ->pluck('library_resource_id')
+            ->toArray();
+
+        $query = self::query()
+            ->whereNotIn('id', $purchasedItemIds);
+
+        $allowedPermissions = match ($userPlan) {
+            'Premium' => [2, 1],
+            default => [1],
+        };
+
+        $query->whereIn('permission', $allowedPermissions)->with(['resourceCategory'])->orderBy('created_at', 'desc');
+
+        return $query->get();
+    }
+
+
+}

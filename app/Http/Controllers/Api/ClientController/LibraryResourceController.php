@@ -7,6 +7,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\LibraryResourceSuggestionItemRequest;
 use App\Http\Requests\Api\Client\SuggestionItemRequest;
+use App\Models\Admin\MediaPlayer\MediaPlayerResources;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
@@ -65,6 +66,52 @@ class LibraryResourceController extends Controller
                     },
                     'price' => $finalPrice,
                     'point' => (int)optional($item->libraryPermissions)->point ?? 0,
+                ];
+            }
+
+            return Helpers::successResponse('Library resources', $transformed);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function mediaPlayer()
+    {
+        try {
+            $data = MediaPlayerResources::resourceCategoriesForClient();
+
+            $transformed = [];
+
+            foreach ($data as $item) {
+
+                $playList = PlaylistLog::getSingleResourceItem($item['id']);
+
+                // Get base price
+                $basePrice = $item->prices ?? 0;
+
+                // Apply discount if plan is Core
+                $finalPrice = (Helpers::getUser()['plan_name'] === 'Premium' && !empty($basePrice)) ? $basePrice * 0.75 : $basePrice;
+
+                $transformed[] = [
+                    'id' => $item->id,
+                    'heading' => $item->heading,
+                    'my_playlist' => !empty($playList) ? 1 : 0,
+                    'slug' => $item->slug,
+                    'description' => $item->description,
+                    'video_url' => !empty($item->video_url) ? $item->video_url : null,
+                    'audio_url' => !empty($item->audio_url) ? $item->audio_url : null,
+                    'thumbnail_url' => !empty($item->thumbnail_url) ? $item->thumbnail_url['url'] : null,
+                    'resource_category_name' => optional($item->resourceCategory)->name,
+                    'library_permission_name' => match($item->permission) {
+                        1 => 'Freemium',
+                        2 => 'Premium',
+                        default => 'null',
+                    },
+                    'price' => $finalPrice,
+                    'point' => $item->points ?? 0,
                 ];
             }
 
