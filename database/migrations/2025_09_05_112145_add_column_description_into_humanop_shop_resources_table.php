@@ -10,22 +10,22 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::table('humanop_shop_resources', function (Blueprint $table) {
-            $table->longText('description')->after('heading')->nullable();
-        });
-    }
+//    public function up()
+//    {
+//        Schema::table('humanop_shop_resources', function (Blueprint $table) {
+//            $table->longText('description')->after('heading')->nullable();
+//        });
+//    }
 
     /**
      * Reverse the migrations.
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::table('humanop_shop_resources', function (Blueprint $table) {
-            $table->dropColumn('description');
-        });
-    }
+//    public function down()
+//    {
+//        Schema::table('humanop_shop_resources', function (Blueprint $table) {
+//            $table->dropColumn('description');
+//        });
+//    }
 };
