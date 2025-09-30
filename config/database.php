@@ -706,7 +706,7 @@ return [
         ],
         'PlaylistLog' => [
             'table' => 'playlist_log',
-            'fillable' => ['playlist_id', 'resource_item_id', 'shop_item_id', 'user_id', 'podcast_id','order'],
+            'fillable' => ['playlist_id', 'resource_item_id', 'shop_item_id', 'user_id', 'podcast_id','order', 'media_player_item_id'],
             'hidden' => ['created_at'],
         ],
         'PlaylistItemTrack' => [

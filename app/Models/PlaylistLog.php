@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\MediaPlayer\MediaPlayerResources;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\Resources\ShopCategoryResource;
@@ -33,6 +34,11 @@ class PlaylistLog extends Model
     public function podcastItems()
     {
         return $this->hasMany(Podcast::class, 'id', 'podcast_id');
+    }
+
+    public function mediaPlayerItems()
+    {
+        return $this->hasMany(MediaPlayerResources::class, 'id', 'media_player_item_id');
     }
 
     public static function addMyPlaylist($playlist = null)

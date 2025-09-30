@@ -37,7 +37,7 @@ class AddPlayListRequest extends FormRequest
 
             // Require at least one of the three fields
             'resource_item_id' => [
-                'required_without_all:shop_item_id,podcast_id',
+                'required_without_all:shop_item_id,podcast_id,media_player_item_id',
                 'nullable',
                 'exists:library_resources,id',
                 function ($attribute, $value, $fail) use ($userId) {
@@ -56,7 +56,7 @@ class AddPlayListRequest extends FormRequest
             ],
 
             'shop_item_id' => [
-                'required_without_all:resource_item_id,podcast_id',
+                'required_without_all:resource_item_id,podcast_id,media_player_item_id',
                 'nullable',
                 'exists:humanop_shop_resources,id',
                 function ($attribute, $value, $fail) use ($userId) {
@@ -75,7 +75,7 @@ class AddPlayListRequest extends FormRequest
             ],
 
             'podcast_id' => [
-                'required_without_all:resource_item_id,shop_item_id',
+                'required_without_all:resource_item_id,shop_item_id,media_player_item_id',
                 'nullable',
                 'exists:podcast,id',
                 function ($attribute, $value, $fail) use ($userId) {
@@ -84,6 +84,25 @@ class AddPlayListRequest extends FormRequest
                             ->where('user_id', $userId)
                             ->where('playlist_id', request('playlist_id'))
                             ->where('podcast_id', $value)
+                            ->exists();
+
+                        if ($exists) {
+                            $fail('You already added this item.');
+                        }
+                    }
+                },
+            ],
+
+            'media_player_item_id' => [
+                'required_without_all:resource_item_id,shop_item_id,podcast_id',
+                'nullable',
+                'exists:media_player_resources,id',
+                function ($attribute, $value, $fail) use ($userId) {
+                    if ($value) {
+                        $exists = DB::table('playlist_log')
+                            ->where('user_id', $userId)
+                            ->where('playlist_id', request('playlist_id'))
+                            ->where('media_player_item_id', $value)
                             ->exists();
 
                         if ($exists) {
@@ -101,13 +120,15 @@ class AddPlayListRequest extends FormRequest
             'playlist_id.required' => 'Playlist ID is required.',
             'playlist_id.exists' => 'This playlist does not belong to you.',
 
-            'resource_item_id.required_without_all' => 'At least one item (resource, shop, or podcast) is required.',
-            'shop_item_id.required_without_all' => 'At least one item (resource, shop, or podcast) is required.',
-            'podcast_id.required_without_all' => 'At least one item (resource, shop, or podcast) is required.',
+            'resource_item_id.required_without_all' => 'At least one item (resource, shop, podcast or Media Player) is required.',
+            'shop_item_id.required_without_all' => 'At least one item (resource, shop, podcast or Media Player) is required.',
+            'podcast_id.required_without_all' => 'At least one item (resource, shop, podcast or Media Player) is required.',
+            'media_player_item_id.required_without_all' => 'At least one item (resource, shop, podcast or Media Player) is required.',
 
             'resource_item_id.exists' => 'The selected resource does not exist.',
             'shop_item_id.exists' => 'The selected shop item does not exist.',
             'podcast_id.exists' => 'The selected podcast does not exist.',
+            'media_player_item_id.exists' => 'The selected Media Player does not exist.',
         ];
     }
 

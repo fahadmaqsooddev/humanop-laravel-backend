@@ -36,6 +36,7 @@ class PlaylistController extends Controller
                 $mergedResourceItems = [];
                 $mergedShopItems = [];
                 $mergedPodcastItems = [];
+                $mergedMediaPlayerItems = [];
 
                 foreach ($playlist['playlist'] as $playlistLog) {
 
@@ -62,9 +63,17 @@ class PlaylistController extends Controller
                             $mergedPodcastItems[] = $item;
                         }
                     }
+
+                    if (!empty($playlistLog['mediaPlayerItems'])) {
+                        foreach ($playlistLog['mediaPlayerItems'] as $item) {
+                            $item['order'] = $playlistLog['order'];
+                            $item['item_id'] = $playlistLog['id'];
+                            $mergedMediaPlayerItems[] = $item;
+                        }
+                    }
                 }
 
-                $playlistItems = array_merge($mergedResourceItems, $mergedShopItems, $mergedPodcastItems);
+                $playlistItems = array_merge($mergedResourceItems, $mergedShopItems, $mergedPodcastItems, $mergedMediaPlayerItems);
 
                 usort($playlistItems, function ($a, $b) {
                     return $a['order'] <=> $b['order'];
