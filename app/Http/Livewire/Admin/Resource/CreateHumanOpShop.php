@@ -444,7 +444,12 @@ class CreateHumanOpShop extends Component
 
             } elseif (in_array($resourceFile->extension(), ['mp3', 'wav', 'mpeg'])) {
 
-                return Upload::uploadFile($resourceFile, '', '', 'audio');
+//                return Upload::uploadFile($resourceFile, '', '', 'audio');
+
+                $upload = Upload::uploadMp3($resourceFile);
+
+                return $upload['id'];
+
             } elseif (in_array($resourceFile->extension(), ['pdf', 'doc', 'docx'])) {
 
                 return Upload::uploadFile($resourceFile, '', '', 'document'); // Add this block for documents

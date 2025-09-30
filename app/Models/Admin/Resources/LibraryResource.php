@@ -106,7 +106,9 @@ class LibraryResource extends Model
     public function getAudioUrlAttribute()
     {
 
-        return Helpers::getAudio($this->upload_id, 1);
+        return Helpers::getMp3Url($this->upload_id);
+
+//        return Helpers::getAudio($this->upload_id, 1);
     }
 
 

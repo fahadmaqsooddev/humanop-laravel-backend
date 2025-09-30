@@ -102,14 +102,13 @@ class CreateResource extends Component
 
                 $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
 
-            }elseif (!empty($this->link)){
+            } elseif (!empty($this->link)) {
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
                 $resource = LibraryResource::createResource($this->heading, null, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
 
-            }
-            else{
+            } else {
 
                 $resource = LibraryResource::createResource($this->heading, null, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, null);
 
@@ -210,13 +209,11 @@ class CreateResource extends Component
             if (in_array($this->fileType, ['jpeg', 'jpg', 'png', 'gif'])) {
                 $this->showThumbnailUpload = false;
                 $this->typeThumbnail = $this->fileType;
-            }
-            // If file is video/audio
+            } // If file is video/audio
             elseif (in_array($this->fileType, ['mp4', 'mp3', 'mpeg', 'mov'])) {
                 $this->showThumbnailUpload = true;
                 $this->typeThumbnail = false;
-            }
-            // Unsupported type
+            } // Unsupported type
             else {
                 $this->showThumbnailUpload = false;
                 $this->typeThumbnail = false;
@@ -627,7 +624,12 @@ class CreateResource extends Component
 
             } elseif (in_array($resourceFile->extension(), ['mp3', 'wav', 'mpeg'])) {
 
-                return Upload::uploadFile($resourceFile, '', '', 'audio');
+//                return Upload::uploadFile($resourceFile, '', '', 'audio');
+
+                $upload = Upload::uploadMp3($resourceFile);
+
+                return $upload['id'];
+
             } else {
 
                 return Upload::uploadFile($resourceFile, '', '', 'video');

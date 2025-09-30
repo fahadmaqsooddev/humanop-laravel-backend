@@ -58,7 +58,10 @@ class ShopCategoryResource extends Model
 
     public function getAudioUrlAttribute()
     {
-        return Helpers::getAudio($this->audio_id, 1);
+//        return Helpers::getAudio($this->audio_id, 1);
+
+        return Helpers::getMp3Url($this->audio_id);
+
     }
 
     public function getImageUrlAttribute()
