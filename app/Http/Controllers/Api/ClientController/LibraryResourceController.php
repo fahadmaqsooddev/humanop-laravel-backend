@@ -109,7 +109,7 @@ class LibraryResourceController extends Controller
                     'description' => $resource->description,
                     'audio_url' => $resource->audio_url ?? null,
                     'video_url' => $resource->video_url ?? null,
-                    'thumbnail_url' => $resource->thumbnail_url ?? null,
+                    'thumbnail_url' => $resource->thumbnail_url->url ?? null,
                 ];
 
             }
