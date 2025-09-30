@@ -102,6 +102,7 @@ class AssessmentController extends Controller
 
                 return Helpers::successResponse('Reset Assessment', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
                     'assessment_count' => $assessment_count,
                     'assessment_page_number' => $status,
                     'plan_name' => $user['plan_name'],
@@ -121,6 +122,7 @@ class AssessmentController extends Controller
 
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
                     'assessment_count' => $assessment_count,
                     'assessment_page_number' => $checkAssessment['page'],
                     'plan_name' => $user['plan_name'],
@@ -147,6 +149,7 @@ class AssessmentController extends Controller
 
                     return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', [
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                        'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
                         'assessment_count' => $assessment_count,
                         'retake_assessment' => $takeAssessment,
                         'plan_name' => $user['plan_name'],
@@ -163,6 +166,7 @@ class AssessmentController extends Controller
                 } else {
                     return Helpers::successResponse('Assessment Status', [
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                        'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
                         'assessment_count' => $assessment_count,
                         'retake_assessment' => null,
                         'plan_name' => $user['plan_name'],
@@ -180,6 +184,7 @@ class AssessmentController extends Controller
 
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
                     'assessment_count' => $assessment_count,
                     'assessment_page_number' => $status,
                     'plan_name' => $user['plan_name'],

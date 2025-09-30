@@ -530,7 +530,7 @@
                                         </div>
                                     @elseif(!empty($editResourceData['image_id']))
                                         <div class="form-group mt-4">
-                                            <img style="width: 100%;" src="{{ $editResourceData['image_url']['url'] }}">
+                                            <img style="width: 20%;" src="{{ $editResourceData['image_url']['url'] }}">
                                         </div>
                                     @else
                                     @endif
@@ -591,7 +591,7 @@
                                                 </div>
                                                 @if(!empty($editResourceData['thumbnail_id']))
                                                     <div class="form-group mt-4">
-                                                        <img style="width: 100%;"
+                                                        <img style="width: 20%;"
                                                              src="{{ $editResourceData['thumbnail_url']['url'] }}">
                                                     </div>
                                                 @endif
