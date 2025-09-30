@@ -7,6 +7,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\LibraryResourceSuggestionItemRequest;
 use App\Http\Requests\Api\Client\SuggestionItemRequest;
+use App\Models\Admin\MediaPlayer\MediaPlayerCategories;
 use App\Models\Admin\MediaPlayer\MediaPlayerResources;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
 use App\Models\Admin\Resources\LibraryResource;
@@ -78,44 +79,41 @@ class LibraryResourceController extends Controller
 
     }
 
-    public function mediaPlayer()
+    public function mediaPlayerCategories()
     {
         try {
-            $data = MediaPlayerResources::resourceCategoriesForClient();
+            $categories = MediaPlayerCategories::dropDownCategories();
 
-            $transformed = [];
+            return Helpers::successResponse('Media Player Categories', $categories);
 
-            foreach ($data as $item) {
+        }catch (\Exception $exception){
 
-                $playList = PlaylistLog::getSingleResourceItem($item['id']);
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
 
-                // Get base price
-                $basePrice = $item->prices ?? 0;
+    }
 
-                // Apply discount if plan is Core
-                $finalPrice = (Helpers::getUser()['plan_name'] === 'Premium' && !empty($basePrice)) ? $basePrice * 0.75 : $basePrice;
+    public function mediaPlayerResources(Request $request)
+    {
+        try {
 
-                $transformed[] = [
-                    'id' => $item->id,
-                    'heading' => $item->heading,
-                    'my_playlist' => !empty($playList) ? 1 : 0,
-                    'slug' => $item->slug,
-                    'description' => $item->description,
-                    'video_url' => !empty($item->video_url) ? $item->video_url : null,
-                    'audio_url' => !empty($item->audio_url) ? $item->audio_url : null,
-                    'thumbnail_url' => !empty($item->thumbnail_url) ? $item->thumbnail_url['url'] : null,
-                    'resource_category_name' => optional($item->resourceCategory)->name,
-                    'library_permission_name' => match($item->permission) {
-                        1 => 'Freemium',
-                        2 => 'Premium',
-                        default => 'null',
-                    },
-                    'price' => $finalPrice,
-                    'point' => $item->points ?? 0,
+            $resources = MediaPlayerResources::getMediaPlayResources($request['media_player_id']);
+
+            $mediaResources = [];
+
+            foreach ($resources as $resource) {
+                $mediaResources[] = [
+                    'id' => $resource->id,
+                    'heading' => $resource->heading,
+                    'category_name' => $resource->resourceCategory->name,
+                    'description' => $resource->description,
+                    'audio_url' => $resource->audio_url ?? null,
+                    'video_url' => $resource->video_url ?? null,
+                    'thumbnail_url' => $resource->thumbnail_url ?? null,
                 ];
-            }
 
-            return Helpers::successResponse('Library resources', $transformed);
+            }
+            return Helpers::successResponse('Media Player Resource List', $mediaResources);
 
         }catch (\Exception $exception){
 

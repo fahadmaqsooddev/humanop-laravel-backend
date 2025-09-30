@@ -32,7 +32,7 @@ class CreateMediaPlayer extends Component
         'heading' => 'required|unique:library_resources,heading',
         'resource_file' => 'required|file|mimes:mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
         'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
-        'permission' => 'required|array|min:1',
+//        'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:media_player_categories,id',
         'description' => 'nullable|string|max:3000',
     ];
@@ -43,8 +43,8 @@ class CreateMediaPlayer extends Component
         'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
         'resource_file.max' => 'The resource file size must not exceed 200MB.',
         'permission.required' => 'At least one permission is required.',
-        'permission.array' => 'Permissions must be an array.',
-        'permission.min' => 'At least one permission is required.',
+//        'permission.array' => 'Permissions must be an array.',
+//        'permission.min' => 'At least one permission is required.',
         'category_id.required' => 'Category is required.',
         'category_id.exists' => 'The selected category does not exist.',
         'description.max' => 'Description may not exceed 1000 characters.',
@@ -86,17 +86,17 @@ class CreateMediaPlayer extends Component
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, $thumbnail_id, null, $upload_id, $this->permission[0], $this->priceValue, $this->pointValue);
+                MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, $thumbnail_id, null, $upload_id);
 
             } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, $thumbnail_id, $upload_id, null, $this->permission[0], $this->priceValue, $this->pointValue);
+                MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, $thumbnail_id, $upload_id, null);
 
             } else {
 
-                MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, null, null, null, $this->permission[0], $this->priceValue, $this->pointValue);
+                MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, null, null, null);
 
             }
 
@@ -118,6 +118,82 @@ class CreateMediaPlayer extends Component
         }
 
     }
+
+    public function updateResource()
+    {
+
+        DB::beginTransaction();
+
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'update_description' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
+
+        if ($this->resource_file) {
+
+            $extension = $this->resource_file->extension();
+
+            if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
+
+                $this->validate([
+                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800',
+                ]);
+
+            }
+
+        }
+
+        if (!empty($this->resource_file) && in_array($extension, ['mp3', 'wav', 'mpeg'])) {
+
+            $upload_id = $this->uploadFile($this->resource_file);
+
+            $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+            MediaPlayerResources::updateResource($this->resourceId, $this->heading, $this->category_id, $this->update_description, $thumbnail_id, null, $upload_id);
+
+        } elseif (!empty($this->resource_file) && in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
+
+            $upload_id = $this->uploadFile($this->resource_file);
+
+            $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+            MediaPlayerResources::updateResource($this->resourceId, $this->heading, $this->category_id, $this->update_description, $thumbnail_id, $upload_id, null);
+
+        } else {
+
+            if (!empty($this->thumbnail_file)){
+
+                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+                MediaPlayerResources::whereId($this->resourceId)->update([
+                    'heading' => $this->heading,
+                    'slug' => Str::slug($this->heading),
+                    'media_player_category_id' => $this->category_id,
+                    'description' => $this->update_description,
+                    'thumbnail_id' => $thumbnail_id,
+                ]);
+
+            }else{
+
+                MediaPlayerResources::whereId($this->resourceId)->update([
+                    'heading' => $this->heading,
+                    'slug' => Str::slug($this->heading),
+                    'media_player_category_id' => $this->category_id,
+                    'description' => $this->update_description,
+                ]);
+
+            }
+        }
+
+        $this->emit('toggleEditResourceModal');
+
+        $this->resetForm();
+
+        DB::commit();
+
+        session()->flash('success', 'Media Player resource updated successfully.');
+
+        $this->emit('reloadPage');
+
+    }
+
 
     public function getVideoLink()
     {
@@ -230,7 +306,7 @@ class CreateMediaPlayer extends Component
 
         $this->pointValue = $this->editResourceData['points'] ?? null;
 
-        $this->permission = match ($this->editResourceData['permission'] ?? null) {
+        $this->permission = match ((int) ($this->editResourceData['permission'] ?? 0)) {
             1 => 'freemium',
             2 => 'core',
             default => null,
@@ -291,208 +367,6 @@ class CreateMediaPlayer extends Component
     {
 
         $this->update_content = $data;
-    }
-
-    public function updateResource()
-    {
-
-        DB::beginTransaction();
-
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
-
-        if ($this->resource_file) {
-            if ($this->resource_file instanceof UploadedFile) {
-                $ext = strtolower($this->resource_file->getClientOriginalExtension());
-            } else {
-                $ext = strtolower(pathinfo($this->resource_file, PATHINFO_EXTENSION));
-            }
-
-            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
-                $this->validate([
-                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800',
-                ]);
-            }
-        }
-
-        $checkPermission = count($this->permission);
-
-        if ($checkPermission == 2) {
-
-            unset($this->permission[0]);
-
-            $this->permission = array_values($this->permission);
-
-        } elseif ($checkPermission == 3) {
-
-            unset($this->permission[0]);
-
-            unset($this->permission[1]);
-
-            $this->permission = array_values($this->permission);
-
-        }
-
-        $upload_id = null;
-
-        if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
-
-//            $getResource = LibraryResource::singleLibraryResource($this->resourceId);
-
-//            $this->deleteFileToGumlet($getResource['source_id']);
-
-            $upload_id = $this->uploadFile($this->resource_file);
-
-            $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
-
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance, $thumbnail_id);
-
-            tap($updateResource);
-
-//            $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
-
-        } else {
-
-            if ($this->resource_file) {
-
-                $upload_id = $this->uploadFile($this->resource_file);
-
-                $extension = $this->resource_file->extension();
-
-                if (in_array($extension, ['mp4', 'mov', 'avi', 'mkv']) || in_array($extension, ['mp3', 'wav', 'mpeg'])) {
-
-                    $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
-
-                    LibraryResource::whereId($this->resourceId)->update([
-                        'heading' => $this->heading,
-                        'slug' => Str::slug($this->heading),
-                        'upload_id' => $upload_id,
-                        'resource_category_id' => $this->category_id,
-                        'description' => $this->description,
-                        'content' => $this->update_content,
-                        'source_id' => null,
-                        'source_url' => null,
-                        'embed_link' => $this->link,
-                        'relevance' => $this->relevance,
-                        'thumbnail_id' => $thumbnail_id,
-                    ]);
-
-                } else {
-
-                    LibraryResource::whereId($this->resourceId)->update([
-                        'heading' => $this->heading,
-                        'slug' => Str::slug($this->heading),
-                        'upload_id' => $upload_id,
-                        'resource_category_id' => $this->category_id,
-                        'description' => $this->description,
-                        'content' => $this->update_content,
-                        'source_id' => null,
-                        'source_url' => null,
-                        'embed_link' => $this->link,
-                        'relevance' => $this->relevance,
-                        'thumbnail_id' => null,
-                    ]);
-                }
-
-            } else {
-                if (!empty($this->thumbnail_file)) {
-
-                    $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
-
-                    LibraryResource::whereId($this->resourceId)->update([
-                        'heading' => $this->heading,
-                        'slug' => Str::slug($this->heading),
-                        'resource_category_id' => $this->category_id,
-                        'description' => $this->description,
-                        'content' => $this->update_content,
-                        'source_id' => null,
-                        'source_url' => null,
-                        'embed_link' => $this->link,
-                        'relevance' => $this->relevance,
-                        'thumbnail_id' => $thumbnail_id,
-                    ]);
-
-                } else {
-
-                    LibraryResource::whereId($this->resourceId)->update([
-                        'heading' => $this->heading,
-                        'slug' => Str::slug($this->heading),
-                        'resource_category_id' => $this->category_id,
-                        'description' => $this->description,
-                        'content' => $this->update_content,
-                        'source_id' => null,
-                        'source_url' => null,
-                        'embed_link' => $this->link,
-                        'relevance' => $this->relevance
-                    ]);
-
-                }
-
-            }
-
-
-        }
-
-        PermissionResource::createResourcePermission($this->resourceId, $this->permission, $this->priceValue, $this->pointValue);
-
-        $resourceGrids = HumanOpItemsGridActivitiesLog::getResourceGrid($this->resourceId);
-
-        foreach ($resourceGrids as $gird) {
-            $gird->delete();
-        }
-
-//        dd($this->selectedTraits,$this->selectedFeatures,$this->selectedAlchemy,$this->selectedCommunications,$this->selectedPerceptions,$this->selectedEnergyPools);
-
-        foreach ($this->selectedTraits as $traitCode) {
-            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $traitCode);
-        }
-
-        foreach ($this->selectedFeatures as $featureCode) {
-            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $featureCode);
-        }
-
-        foreach ($this->selectedAlchemy as $alchemyCode) {
-            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $alchemyCode);
-        }
-
-        foreach ($this->selectedCommunications as $communicationCode) {
-            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $communicationCode);
-        }
-
-//        $perceptionCodes = [
-//            'Negative' => 'NE',
-//            'Positive' => 'P',
-//            'Neutral' => 'N',
-//        ];
-
-        foreach ($this->selectedPerceptions as $perception) {
-//            if (isset($perceptionCodes[$perception])) {
-            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $perception);
-//            }
-        }
-
-//        $energyPoolCodes = [
-//            'Above Excellent' => 'AE',
-//            'Average' => 'A',
-//            'Excellent' => 'E',
-//            'Fair' => 'F',
-//        ];
-
-        foreach ($this->selectedEnergyPools as $energyPoolCode) {
-//            if (isset($energyPoolCodes[$energyPoolCode])) {
-            HumanOpItemsGridActivitiesLog::storeResourceItemTraits($this->resourceId, $energyPoolCode);
-//            }
-        }
-
-        $this->emit('toggleEditResourceModal');
-
-        $this->resetForm();
-
-        DB::commit();
-
-        session()->flash('success', 'Library resource updated successfully.');
-
-        $this->emit('reloadPage');
-
     }
 
     public function createCategory()

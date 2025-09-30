@@ -56,6 +56,12 @@ class MediaPlayerResources extends Model
         return $this->belongsTo(MediaPlayerCategories::class, 'media_player_category_id', 'id');
     }
 
+    public static function getMediaPlayResources($mediaPlayerId = null)
+    {
+
+        return self::where('media_player_category_id', $mediaPlayerId)->with('resourceCategory')->get();
+    }
+
     public static function deleteResourceOfCategory($id = null)
     {
         return self::where('media_player_category_id', $id)->delete();
@@ -71,7 +77,7 @@ class MediaPlayerResources extends Model
         self::where('media_player_category_id', $current)->update(['media_player_category_id' => $new]);
     }
 
-    public static function createResource($heading = null, $category_id = null, $description = null, $thumbnailId = null, $videoId = null, $audioId = null, $permission = null, $priceValue = null, $pointValue = null)
+    public static function createResource($heading = null, $category_id = null, $description = null, $thumbnailId = null, $videoId = null, $audioId = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -80,13 +86,27 @@ class MediaPlayerResources extends Model
             'description' => $description,
             'thumbnail_id' => $thumbnailId,
             'video_id' => $videoId,
-            'audio_id' => $audioId,
-            'permission' => $permission,
-            'prices' => (int)$priceValue ?? 0,
-            'points' => (int)$pointValue ?? 0,
+            'audio_id' => $audioId
         ]);
 
         return $resource;
+    }
+
+    public static function updateResource($id = null, $heading = null, $category_id = null, $description = null, $thumbnailId = null, $videoId = null, $audioId = null)
+    {
+
+        self::whereId($id)->update([
+            'heading' => $heading,
+            'slug' => Str::slug($heading),
+            'media_player_category_id' => $category_id,
+            'description' => $description,
+            'thumbnail_id' => $thumbnailId,
+            'video_id' => $videoId,
+            'audio_id' => $audioId,
+        ]);
+
+        return self::singleLibraryResource($id);
+
     }
 
     public static function deleteResource($id = null)

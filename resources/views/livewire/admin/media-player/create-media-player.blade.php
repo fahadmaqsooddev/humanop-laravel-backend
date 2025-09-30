@@ -282,40 +282,40 @@
                                                   style="color:#1b3a62"></span>
                                         </div>
                                     @endif
-                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="1"
-                                                       class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="freemium">
-                                                <label class="form-check-label" for="freemium">Freemium</label>
-                                            </div>
-                                        </div>
+{{--                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-4">--}}
+{{--                                            <div class="form-check">--}}
+{{--                                                <input type="checkbox" wire:model.defer="permission" value="1"--}}
+{{--                                                       class="form-check-input option-checkbox"--}}
+{{--                                                       style="border: 2px solid #1b3a62" id="freemium">--}}
+{{--                                                <label class="form-check-label" for="freemium">Freemium</label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
 
-                                        <div class="col-4">
-                                            <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="2"
-                                                       class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="core">
-                                                <label class="form-check-label" for="core">Premium</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-4">
-                                            <div class="col-6">
-                                                <label for="point">Point</label>
-                                                <input type="number" id="point" class="form-control"
-                                                       placeholder="Enter Point" min="0" wire:model.defer="pointValue"
-                                                       style="border: 2px solid #1b3a62;">
-                                            </div>
-                                            <div class="col-6">
-                                                <label for="price">Price</label>
-                                                <input type="number" id="price" class="form-control"
-                                                       placeholder="Enter Price" min="0" wire:model.defer="priceValue"
-                                                       style="border: 2px solid #1b3a62;">
-                                            </div>
-                                        </div>
-                                    </div>
+{{--                                        <div class="col-4">--}}
+{{--                                            <div class="form-check">--}}
+{{--                                                <input type="checkbox" wire:model.defer="permission" value="2"--}}
+{{--                                                       class="form-check-input option-checkbox"--}}
+{{--                                                       style="border: 2px solid #1b3a62" id="core">--}}
+{{--                                                <label class="form-check-label" for="core">Premium</label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="row mt-4">--}}
+{{--                                            <div class="col-6">--}}
+{{--                                                <label for="point">Point</label>--}}
+{{--                                                <input type="number" id="point" class="form-control"--}}
+{{--                                                       placeholder="Enter Point" min="0" wire:model.defer="pointValue"--}}
+{{--                                                       style="border: 2px solid #1b3a62;">--}}
+{{--                                            </div>--}}
+{{--                                            <div class="col-6">--}}
+{{--                                                <label for="price">Price</label>--}}
+{{--                                                <input type="number" id="price" class="form-control"--}}
+{{--                                                       placeholder="Enter Price" min="0" wire:model.defer="priceValue"--}}
+{{--                                                       style="border: 2px solid #1b3a62;">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                 </div>
                             </div>
                             <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create
@@ -482,46 +482,54 @@
                                         @endif
                                     @endif
 
-                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
-                                    <div class="row">
+{{--                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-4">--}}
+{{--                                            <div class="form-check">--}}
+{{--                                                <input type="checkbox"--}}
+{{--                                                       wire:model.defer="permission"--}}
+{{--                                                       value="1"--}}
+{{--                                                       class="form-check-input"--}}
+{{--                                                       style="border: 2px solid #1b3a62"--}}
+{{--                                                       id="freemium"--}}
+{{--                                                    {{ $permission == 'freemium' ? 'checked' : '' }}>--}}
+{{--                                                <label class="form-check-label" for="freemium">Freemium</label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
 
-                                        <div class="col-4">
-                                            <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="1"
-                                                       class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="freemium">
-                                                <label class="form-check-label" for="freemium">Freemium</label>
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-4">--}}
+{{--                                            <div class="form-check">--}}
+{{--                                                <input type="checkbox"--}}
+{{--                                                       wire:model.defer="permission"--}}
+{{--                                                       value="2"--}}
+{{--                                                       class="form-check-input"--}}
+{{--                                                       style="border: 2px solid #1b3a62"--}}
+{{--                                                       id="core"--}}
+{{--                                                    {{ $permission == 'core' ? 'checked' : '' }}>--}}
+{{--                                                <label class="form-check-label" for="core">Premium</label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
 
-                                        <div class="col-4">
-                                            <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="2"
-                                                       class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="core">
-                                                <label class="form-check-label" for="core">Premium</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-4">
-                                            <div class="col-6">
-                                                <label for="point">Point</label>
-                                                <input type="number" id="point" class="form-control"
-                                                       placeholder="Enter Point"
-                                                       min="0"
-                                                       wire:model.defer="pointValue"
-                                                       style="border: 2px solid #1b3a62;">
-                                            </div>
+{{--                                        <div class="row mt-4">--}}
+{{--                                            <div class="col-6">--}}
+{{--                                                <label for="point">Point</label>--}}
+{{--                                                <input type="number" id="point" class="form-control"--}}
+{{--                                                       placeholder="Enter Point"--}}
+{{--                                                       min="0"--}}
+{{--                                                       wire:model.defer="pointValue"--}}
+{{--                                                       style="border: 2px solid #1b3a62;">--}}
+{{--                                            </div>--}}
 
-                                            <div class="col-6">
-                                                <label for="price">Price</label>
-                                                <input type="number" id="price" class="form-control"
-                                                       placeholder="Enter Price"
-                                                       min="0"
-                                                       wire:model.defer="priceValue"
-                                                       style="border: 2px solid #1b3a62;">
-                                            </div>
-                                        </div>
-                                    </div>
+{{--                                            <div class="col-6">--}}
+{{--                                                <label for="price">Price</label>--}}
+{{--                                                <input type="number" id="price" class="form-control"--}}
+{{--                                                       placeholder="Enter Price"--}}
+{{--                                                       min="0"--}}
+{{--                                                       wire:model.defer="priceValue"--}}
+{{--                                                       style="border: 2px solid #1b3a62;">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>

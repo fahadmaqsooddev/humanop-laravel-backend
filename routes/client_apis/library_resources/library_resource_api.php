@@ -20,7 +20,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('library-resource-item-checkout', 'LibraryResourceController@libraryResourceItemCheckout');
 
 
-    Route::get('/media-player', 'LibraryResourceController@mediaPlayer');
+    Route::get('media-player-categories', 'LibraryResourceController@mediaPlayerCategories');
+    Route::get('media-player-resources', 'LibraryResourceController@mediaPlayerResources');
 
 
 });
