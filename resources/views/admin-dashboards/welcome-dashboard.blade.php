@@ -63,7 +63,7 @@
                     </div>
                 </div>
             @endcanany
-            @canany(['organizations', 'recycle-organizations', 'support', 'compatibility-matrix', 'role_template_manage', 'faq',  'invites', 'intro-videos','intro-informations','business-strategies', 'user-intentions','email-templates','activity-logs', 'pricing_plan', 'redemption_code'])
+            @canany(['organizations', 'recycle_organizations', 'support', 'compatibility_matrix', 'role_template_manage', 'faq',  'invites', 'intro_videos','intro_informations','business_strategies', 'user_intentions','email_templates','activity_logs', 'pricing_plan', 'redemption_code'])
                 <div class="row" style="justify-content: center">
                     <div class="col-lg-5 col-sm-5 mt-3">
                         <a href="{{ config('client_url.b2b_admin_dashboard_url') }}/session?email={{ urlencode(session('login_user_email')) }}&password={{ urlencode(session('login_user_password')) }}"
