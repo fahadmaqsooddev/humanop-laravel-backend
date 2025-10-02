@@ -71,7 +71,7 @@
             <div class="row">
                 <h5 class="text-bold">Please assign permissions to Sub Admin for B2B Admin Dashboard:</h5>
                 <div class="col-sm-4 col-6 w-50">
-                    @foreach(['organizations','role_template_manage', 'invites'] as $permissionName)
+                    @foreach(['organizations', 'recycle_organizations', 'support', 'compatibility_matrix', 'role_template_manage', 'faq',  'invites', 'intro_videos'] as $permissionName)
                         <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}">
                         <label class="form-check-label" style="color: #1B3A62">@if($permissionName === 'hai_admin')
                                 HAi Admin
@@ -82,7 +82,7 @@
                     @endforeach
                 </div>
                 <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
-                    @foreach(['pricing_plan', 'b2b_support_admin', 'redemption_code'] as $permissionName)
+                    @foreach(['intro_informations','business_strategies','user_intentions','email_templates','activity_logs', 'pricing_plan', 'redemption_code'] as $permissionName)
                         <input type="checkbox" style="border: 2px solid #1b3a62" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
                         <label class="form-check-label" style="color: #1B3A62">{{ ucwords(str_replace('_', ' ', $permissionName)) }}</label>
                         <br>

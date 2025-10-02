@@ -210,9 +210,10 @@
                                     $defaultFemale = asset('assets/img/default-user-image');
                                 @endphp
 
-                                <img src="{{ $photoUrl ?? ($user->gender === \App\Enums\Admin\Admin::IS_MALE ? $defaultMale : $defaultFemale) }}"
-                                     alt="user_profile"
-                                     class="w-100 border-radius-lg shadow-sm user_profile_image">
+                                <img
+                                    src="{{ $photoUrl ?? ($user->gender === \App\Enums\Admin\Admin::IS_MALE ? $defaultMale : $defaultFemale) }}"
+                                    alt="user_profile"
+                                    class="w-100 border-radius-lg shadow-sm user_profile_image">
 
                             </div>
                         </div>

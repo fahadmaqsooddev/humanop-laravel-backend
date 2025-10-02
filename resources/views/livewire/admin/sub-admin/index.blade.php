@@ -279,26 +279,73 @@
                                             <br>
                                             <input type="checkbox"
                                                    class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.recycle_organizations">
+                                            <label class="form-check-label text-color-dark">Recycle Organizations</label>
+                                            <br>
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.support">
+                                            <label class="form-check-label text-color-dark">B2B Support</label>
+                                            <br>
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.compatibility_matrix">
+                                            <label class="form-check-label text-color-dark">Compatibility Matrix</label>
+                                            <br>
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
                                                    wire:model.defer="permission.role_template_manage">
                                             <label class="form-check-label text-color-dark">Role Template Manage</label>
                                             <br>
                                             <input type="checkbox"
                                                    class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.faq">
+                                            <label class="form-check-label text-color-dark">FAQ</label>
+                                            <br>
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
                                                    wire:model.defer="permission.invites">
                                             <label class="form-check-label text-color-dark">Invites</label>
-
+                                            <br>
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.intro_videos">
+                                            <label class="form-check-label text-color-dark">Intro Videos</label>
+                                            <br>
                                         </div>
                                         <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
+
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.intro_informations">
+                                            <label class="form-check-label text-color-dark">Intro Informations</label>
+                                            <br>
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.business_strategies">
+                                            <label class="form-check-label text-color-dark">Business Strategies</label>
+                                            <br>
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.user_intentions">
+                                            <label class="form-check-label text-color-dark">User Intentions</label>
+                                            <br>
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.email_templates">
+                                            <label class="form-check-label text-color-dark">Email Templates</label>
+                                            <br>
+                                            <input type="checkbox"
+                                                   class="form-check-input" style="border: 2px solid #1b3a62"
+                                                   wire:model.defer="permission.activity_logs">
+                                            <label class="form-check-label text-color-dark">Activity Logs</label>
+                                            <br>
                                             <input type="checkbox"
                                                    class="form-check-input" style="border: 2px solid #1b3a62"
                                                    wire:model.defer="permission.pricing_plan">
                                             <label class="form-check-label text-color-dark">Pricing Plan</label>
                                             <br>
-                                            <input type="checkbox"
-                                                   class="form-check-input" style="border: 2px solid #1b3a62"
-                                                   wire:model.defer="permission.support_admin">
-                                            <label class="form-check-label text-color-dark">Support Admin</label>
-                                            <br>
+
                                             <input type="checkbox"
                                                    class="form-check-input" style="border: 2px solid #1b3a62"
                                                    wire:model.defer="permission.redemption_code">
