@@ -30,6 +30,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('matching-connections', 'HumanNetworkController@matchingConnection');
     Route::get('user-traits', 'HumanNetworkController@userTraits');
     Route::post('set-score-for-matching-connections', 'HumanNetworkController@setScoreForMatchingConnection');
+    Route::get('network-notification', 'HumanNetworkController@networkNotifications');
+
 
 
 });

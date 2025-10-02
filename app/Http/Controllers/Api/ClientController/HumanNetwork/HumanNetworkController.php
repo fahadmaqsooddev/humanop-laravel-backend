@@ -11,6 +11,7 @@ use App\Http\Requests\Api\Client\HumanNetwork\CoreStatsComparisonRequest;
 use App\Http\Requests\Api\Client\HumanNetwork\FollowUnFollowRequest;
 use App\Http\Requests\Api\Client\HumanNetwork\SetScoreForMatchingConnectionRequest;
 use App\Models\Admin\Code\CodeDetail;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Assessment;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
@@ -502,6 +503,20 @@ class HumanNetworkController extends Controller
 
         }
 
+    }
+
+    public function networkNotifications()
+    {
+        try {
+
+            $notifications = Notification::allNetworkNotification();
+
+            return Helpers::successResponse('Network Notification', $notifications);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
 

@@ -37,6 +37,17 @@ class Notification extends Model
             ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority','sender_id']);
     }
 
+    public static function allNetworkNotification()
+    {
+        $user = Helpers::getUser();
+
+        return self::where('user_id', $user['id'])
+            ->where('role', Admin::B2C_NOTIFICATION)
+            ->whereIn('notification_priority', [4,5,6,7,9,10])
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority','sender_id']);
+    }
+
     public static function allB2BNotification()
     {
         $user = Helpers::getUser();
