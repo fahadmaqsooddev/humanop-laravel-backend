@@ -431,6 +431,7 @@ class HumanNetworkController extends Controller
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
 
+                    dd(1);
                     $styleCodes = Assessment::authenticTraits($assessment);
 
                     $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
@@ -448,6 +449,7 @@ class HumanNetworkController extends Controller
 
                 if (!empty($assessmentPermission) && $assessmentPermission->authentic_traits == 1) {
 
+                    dd(2);
                     $styleCodes = Assessment::authenticTraits($assessment);
 
                     $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
