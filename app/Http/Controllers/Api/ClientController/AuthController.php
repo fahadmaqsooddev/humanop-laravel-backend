@@ -752,6 +752,8 @@ class AuthController extends Controller
 
                 $token = $this->auth->attempt($credentials, $remember_me);
 
+                HaiChatHelpers::syncUserRecordWithHAi();
+                
                 $getUser = User::getSingleUser($checkUser['id']);
 
                 $getUser->update(['last_login' => Carbon::now()]);
@@ -759,6 +761,8 @@ class AuthController extends Controller
             } else {
 
                 $token = $this->auth->attempt($credentials);
+
+                HaiChatHelpers::syncUserRecordWithHAi();
 
                 Helpers::createCustomerAndSubscriptionOnStripe($checkUser);
 
@@ -811,8 +815,6 @@ class AuthController extends Controller
                 $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
 
                 $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
-
-                HaiChatHelpers::syncUserRecordWithHAi();
 
                 $data = [
                     'user' => $updateUser,
