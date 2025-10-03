@@ -145,9 +145,9 @@ class AssessmentController extends Controller
 
                 $difference = $userTime->diffInDays($currentTime);
 
-                $takeAssessment = 90 - $difference;
+                if ($difference <= 90) {
 
-                if ($difference <= 90 && $takeAssessment != 0) {
+                    $takeAssessment = 90 - $difference;
 
                     return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', [
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',

@@ -1413,7 +1413,7 @@ class User extends Authenticatable implements JWTSubject
         $users = self::query();
 
         $users->where('profile_status', '!=', 1);
-
+        
         if (!empty($request['search_name'])) {
 
             $search_name = $request['search_name'];
