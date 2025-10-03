@@ -141,6 +141,8 @@ class AssessmentController extends Controller
 
                 $userTime = Carbon::parse($latest_assessment['updated_at'])->addMinutes($minutes)->startOfMinute();
 
+                $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+
 //                $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])->addMinutes($minutes * 60)->toDateTimeString();
 
                 $difference = \Carbon\Carbon::now()->diffInDays($userTime);
@@ -154,6 +156,7 @@ class AssessmentController extends Controller
                         'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
                         'assessment_count' => $assessment_count,
                         'retake_assessment' => $takeAssessment,
+                        'current_time' => $currentTime,
                         'plan_name' => $user['plan_name'],
                         'assessment_page_number' => $status,
                         'assessment_price' => ($assessment_price->amount - 1 ?? 0),
