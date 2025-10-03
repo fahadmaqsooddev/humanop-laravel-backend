@@ -1050,6 +1050,61 @@ class Assessment extends Model
 
     }
 
+    public static function breakerAuthenticTraits($assessment = null)
+    {
+
+        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
+        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+        $second_row_so = 10;
+
+        $third_row = [
+            'sa' => $assessment['sa'] * $second_row_sa,
+            'ma' => $assessment['ma'] * $second_row_ma,
+            'jo' => $assessment['jo'] * $second_row_jo,
+            'lu' => $assessment['lu'] * $second_row_lu,
+            'ven' => $assessment['ven'] * $second_row_ven,
+            'mer' => $assessment['mer'] * $second_row_mer,
+            'so' => $assessment['so'] * $second_row_so
+        ];
+
+        $getResult = AssessmentColorCode::getBreakerHighlightCodeColor($assessment['id']);
+
+        $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
+
+        $getStyle = array_intersect_key($getResult, array_flip($style));
+
+        arsort($getStyle);
+
+        $data = $getStyle;
+
+        uksort($data, function ($a, $b) use ($getStyle, $third_row, $style) {
+            $scoreA = $getStyle[$a] ?? 0;
+            $scoreB = $getStyle[$b] ?? 0;
+
+            if ($scoreA != $scoreB) {
+                return $scoreB <=> $scoreA;
+            }
+
+            $a_third = $third_row[$a] ?? 0;
+            $b_third = $third_row[$b] ?? 0;
+
+            if ($a_third != $b_third) {
+                if ($a_third > 30 && $b_third <= 30) return -1;
+                if ($b_third > 30 && $a_third <= 30) return 1;
+                return $b_third <=> $a_third;
+            }
+
+            return array_search($a, $style) <=> array_search($b, $style);
+        });
+
+        return CodeDetail::getStylePublicNames($data);
+
+    }
+
     public static function getTemporaryStyles($assessment = null)
     {
 

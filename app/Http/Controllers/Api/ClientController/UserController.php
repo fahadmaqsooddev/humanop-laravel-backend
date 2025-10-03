@@ -583,7 +583,15 @@ class UserController extends Controller
 
             $gender = $get_user['gender'] == 0 ? '(M)' : '(F)';
 
-            $allStyles = $assessment != null ? Assessment::getAllAuthenticStyles($assessment) : [];
+            if ($get_user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
+
+                $allStyles = $assessment != null ? Assessment::breakerAuthenticTraits($assessment) : [];
+
+            }else{
+                
+                $allStyles = $assessment != null ? Assessment::getAllAuthenticStyles($assessment) : [];
+
+            }
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
 
