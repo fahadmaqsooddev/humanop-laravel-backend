@@ -403,7 +403,7 @@ class HumanNetworkController extends Controller
 
             }
 
-            if ($planName === 'Breaker' && $planName === 'Freemium') {
+            if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB && $planName === 'Freemium') {
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
 
@@ -425,13 +425,12 @@ class HumanNetworkController extends Controller
 
             }
 
-            if ($planName === 'Breaker' && $planName === 'Premium') {
+            if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB && $planName === 'Premium') {
 
                 $assessmentPermission = User\UserShareAssessment::getSingleRecord($user->id);
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
 
-                    dd(1);
                     $styleCodes = Assessment::authenticTraits($assessment);
 
                     $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
@@ -449,7 +448,6 @@ class HumanNetworkController extends Controller
 
                 if (!empty($assessmentPermission) && $assessmentPermission->authentic_traits == 1) {
 
-                    dd(2);
                     $styleCodes = Assessment::authenticTraits($assessment);
 
                     $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
