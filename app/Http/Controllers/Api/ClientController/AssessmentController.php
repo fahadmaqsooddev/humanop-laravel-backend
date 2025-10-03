@@ -139,7 +139,9 @@ class AssessmentController extends Controller
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
-                $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])->addMinutes($minutes * 60)->toDateTimeString();
+                $userTime = Carbon::parse($latest_assessment['updated_at'])->addMinutes($minutes)->startOfMinute();
+
+//                $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])->addMinutes($minutes * 60)->toDateTimeString();
 
                 $difference = \Carbon\Carbon::now()->diffInDays($userTime);
 
