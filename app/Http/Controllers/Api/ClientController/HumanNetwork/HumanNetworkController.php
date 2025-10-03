@@ -383,17 +383,18 @@ class HumanNetworkController extends Controller
 
             }
 
-            if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+//            if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+//
+//                $planName = "Breaker";
+//
+//            } else {
 
-                $planName = "Breaker";
+            $priceId = optional($user->subscription('main'))->stripe_price ?? null;
 
-            } else {
+            $planName = Plan::where('plan_id', $priceId)->value('name');
 
-                $priceId = optional($user->subscription('main'))->stripe_price ?? null;
-
-                $planName = Plan::where('plan_id', $priceId)->value('name');
-
-            }
+//            }
+            dd($user['beta_breaker_club'], $planName);
 
             $assessment = Assessment::getLatestAssessment($request->user_id);
 
