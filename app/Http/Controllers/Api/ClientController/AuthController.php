@@ -812,6 +812,8 @@ class AuthController extends Controller
 
                 $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
+                HaiChatHelpers::syncUserRecordWithHAi();
+
                 $data = [
                     'user' => $updateUser,
                     'authorization' => [
@@ -947,6 +949,8 @@ class AuthController extends Controller
                 $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
 
                 $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+
+                HaiChatHelpers::syncUserRecordWithHAi();
 
                 $data = [
                     'user' => $updateUser,
