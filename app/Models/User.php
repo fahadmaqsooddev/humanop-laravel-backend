@@ -328,7 +328,7 @@ class User extends Authenticatable implements JWTSubject
 
             return 'Premium';
         }
-        
+
         if (!empty($this->userSubscription) && !empty($this->userSubscription->plan)) {
 
             return $this->userSubscription->plan->name === 'Premium'

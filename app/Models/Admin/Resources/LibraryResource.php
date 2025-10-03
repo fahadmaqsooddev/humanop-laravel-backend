@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Resources;
 
+use App\Enums\Admin\Admin;
 use App\Models\Admin\HumanOpItemsGridActivitiesLog;
 use App\Models\Libraries\HumanOpLibraries;
 use GuzzleHttp\Client;
@@ -202,10 +203,19 @@ class LibraryResource extends Model
 
     public static function latestLibraryResourcses()
     {
-        $plan = Helpers::getUser()['plan_name'] ?? '';
+
+        $user = Helpers::getUser();
+
+        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $plan = 'Premium';
+
+        }else{
+
+            $plan = $user['plan_name'] ?? null;
+        }
 
         $permission = match ($plan) {
-//            'Core' => 2,
             'Premium' => 2,
             default => 1,
         };
@@ -229,30 +239,33 @@ class LibraryResource extends Model
     {
         $user = Helpers::getUser();
         $userId = $user['id'];
-        $userPlan = $user['plan_name'];
 
-        // Get all purchased item IDs
+        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
+
+            $userPlan = 'Premium';
+
+        }else{
+
+            $userPlan = $user['plan_name'];
+
+        }
+
         $purchasedItemIds = HumanOpLibraries::getAllLibraries($userId)->pluck('library_resource_id')->toArray();
 
-        // Build base query
         $query = self::query();
 
-        // Exclude purchased items
         $query->whereNotIn('id', $purchasedItemIds);
 
-        // Filter by relevance
         if (!empty($searchRelevance)) {
             $query->where('relevance', $searchRelevance);
         }
 
-        // Filter by resource category (type)
         if (!empty($searchType)) {
             $query->whereHas('resourceCategory', function ($q) use ($searchType) {
                 $q->where('name', 'LIKE', '%' . $searchType . '%');
             });
         }
 
-        // Filter by access level
         if (!empty($searchAccess)) {
             $query->whereHas('libraryPermissions', function ($q) use ($searchAccess) {
                 if ($searchAccess === 'free') {
@@ -265,21 +278,16 @@ class LibraryResource extends Model
             });
         }
 
-        // Determine permission level based on plan
         $permissionLevels = match ($userPlan) {
-//            'Premium' => [3, 2, 1],
             'Premium' => [2, 1],
-            default => [1], // Freemium or anything else
+            default => [1],
         };
 
-        // Filter by permission levels (plan-based access)
         $query->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
             $q->whereIn('permission', $permissionLevels);
         });
 
-        // Eager load relationships and order
-        $query->with(['resourceCategory', 'libraryPermissions'])
-            ->orderBy('created_at', 'desc');
+        $query->with(['resourceCategory', 'libraryPermissions'])->orderBy('created_at', 'desc');
 
         return $query->get();
     }
