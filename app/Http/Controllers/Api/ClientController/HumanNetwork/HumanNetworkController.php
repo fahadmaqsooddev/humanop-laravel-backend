@@ -78,11 +78,11 @@ class HumanNetworkController extends Controller
 
         try {
 
-        $request['user_id'] = Helpers::getUser()->id;
+            $request['user_id'] = Helpers::getUser()->id;
 
-        Connection::connectUnConnect($request->all());
+            Connection::connectUnConnect($request->all());
 
-        return Helpers::successResponse('User ' . $request->type . 'ed successfully');
+            return Helpers::successResponse('User ' . $request->type . 'ed successfully');
 
         } catch (\Exception $exception) {
 
@@ -311,64 +311,26 @@ class HumanNetworkController extends Controller
 
         try {
 
-        $loginUser = Helpers::getUser();
+            $loginUser = Helpers::getUser();
 
-        if ($loginUser['plan_name'] == 'Premium') {
+            if (Helpers::getUser()['profile_status'] == 1) {
 
-            $users = User::query();
+                return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
-            if (!empty($request['search_name'])) {
+            } else {
 
-                $search_name = $request['search_name'];
+                if ($loginUser['plan_name'] == 'Premium') {
 
-                $users = $users->where(function ($q) use ($search_name) {
+                    $matchingUsers = User::allMatchingClients($request, $loginUser);
 
-                    $q->where('first_name', 'LIKE', "%$search_name%")
-                        ->orWhere('last_name', 'LIKE', "%$search_name%")
-                        ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
-                });
-            }
+                    return Helpers::successResponse('Matching Connections', $matchingUsers);
 
-            $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
+                } else {
 
-            $matchingUsers = [];
-
-            foreach ($users as $user) {
-
-                $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
-
-                $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
-
-                if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
-
-                    // ==================== Trait Compatability Calculator =========================== //
-
-                    $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
-
-                    $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
-
-                    if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
-
-                        $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
-
-                        if ($compatabilityCalculator >= $loginUser['matching_connection_score']) {
-
-                            $matchingUsers[] = $user;
-                        }
-
-                    }
+                    return Helpers::validationResponse('Only for paid users');
 
                 }
             }
-
-            return Helpers::successResponse('Matching Connections', $matchingUsers);
-
-        } else {
-
-            return Helpers::validationResponse('Only for paid users');
-
-        }
-
 
         } catch (\Exception $exception) {
 

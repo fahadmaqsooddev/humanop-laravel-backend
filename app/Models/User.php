@@ -1407,6 +1407,61 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static function allMatchingClients($request = null, $loginUser = null)
+    {
+
+        $users = self::query();
+
+        $users->where('profile_status', '!=', 1);
+        
+        if (!empty($request['search_name'])) {
+
+            $search_name = $request['search_name'];
+
+            $users = $users->where(function ($q) use ($search_name) {
+
+                $q->where('first_name', 'LIKE', "%$search_name%")
+                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+            });
+        }
+
+        $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
+
+        $matchingUsers = [];
+
+        foreach ($users as $user) {
+
+            $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
+
+            $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
+
+            if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
+
+                // ==================== Trait Compatability Calculator =========================== //
+
+                $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
+
+                $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
+
+                if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
+
+                    $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+
+                    if ($compatabilityCalculator >= $loginUser['matching_connection_score']) {
+
+                        $matchingUsers[] = $user;
+                    }
+
+                }
+
+            }
+        }
+
+        return $matchingUsers;
+
+    }
+
     public static function deletedClients($page = null, $per_page = null, $search_name = null, $email = null, $age = null)
     {
         $userId = Helpers::getWebUser()['id'];
