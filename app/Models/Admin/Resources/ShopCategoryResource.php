@@ -29,7 +29,7 @@ class ShopCategoryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['document_url', 'video_url', 'audio_url','image_url', 'thumbnail_url'];
+    protected $appends = ['document_url', 'video_url', 'audio_url', 'image_url', 'thumbnail_url'];
 
     // relation
     public function shopCategory()
@@ -60,17 +60,24 @@ class ShopCategoryResource extends Model
     {
 //        return Helpers::getAudio($this->audio_id, 1);
 
-        return Helpers::getMp3Url($this->audio_id);
+        if (!empty($this->audio_id)) {
+
+            return Helpers::getMp3Url($this->audio_id);
+
+        } else {
+
+            return null;
+        }
 
     }
 
     public function getImageUrlAttribute()
     {
-        if (!empty($this->image_id)){
+        if (!empty($this->image_id)) {
 
             return Helpers::getImage($this->image_id, 1);
 
-        }else{
+        } else {
 
             return null;
         }
@@ -78,11 +85,11 @@ class ShopCategoryResource extends Model
 
     public function getThumbnailUrlAttribute()
     {
-        if (!empty($this->thumbnail_id)){
+        if (!empty($this->thumbnail_id)) {
 
             return Helpers::getImage($this->thumbnail_id);
 
-        }else{
+        } else {
 
             return null;
         }
@@ -105,7 +112,7 @@ class ShopCategoryResource extends Model
 
     }
 
-    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
+    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null, $description = null, $thumbnail_id = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -124,7 +131,7 @@ class ShopCategoryResource extends Model
         return $resource;
     }
 
-    public static function updateResource($heading = null, $id = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
+    public static function updateResource($heading = null, $id = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null, $description = null, $thumbnail_id = null)
     {
 
         self::whereId($id)->update([
@@ -251,19 +258,16 @@ class ShopCategoryResource extends Model
         $highlightedStyles = array_merge($traits, $topTwoDrivers, !empty($alchemy['code_name']) ? [$alchemy['code_name']] : [], array_map('strtoupper', $topCommunication), $perception, $energyPool);
 
         $matchingItems = self::whereNotIn('id', $purchasedItemIds)
-
             ->whereHas('resourceTraits', function ($query) use ($highlightedStyles) {
 
                 $query->whereIn('grid_name', $highlightedStyles);
 
             })
-
             ->with(['resourceTraits' => function ($query) use ($highlightedStyles) {
 
                 $query->whereIn('grid_name', $highlightedStyles);
 
             }])
-
             ->get();
 
         if ($matchingItems->count() >= 3) {
