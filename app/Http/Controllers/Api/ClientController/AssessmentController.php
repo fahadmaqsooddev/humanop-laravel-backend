@@ -137,15 +137,13 @@ class AssessmentController extends Controller
 
             } elseif (!empty($latest_assessment)) {
 
-                $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
+                $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
-                $userTime = Carbon::parse($latest_assessment['updated_at'])->addMinutes($minutes)->startOfMinute();
+                $userTime = Carbon::parse($latest_assessment['updated_at']);
 
                 $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
 
-//                $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])->addMinutes($minutes * 60)->toDateTimeString();
-
-                $difference = \Carbon\Carbon::now()->diffInDays($userTime);
+                $difference = $userTime->diffInDays($currentTime);
 
                 if ($difference <= 90) {
 
@@ -153,10 +151,11 @@ class AssessmentController extends Controller
 
                     return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', [
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
-                        'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
+                        'latest_assessment_at' => $latest_assessment ? $userTime: '',
+                        'current_time' => $currentTime,
+                        'difference_time' => $difference,
                         'assessment_count' => $assessment_count,
                         'retake_assessment' => $takeAssessment,
-                        'current_time' => $currentTime,
                         'plan_name' => $user['plan_name'],
                         'assessment_page_number' => $status,
                         'assessment_price' => ($assessment_price->amount - 1 ?? 0),
