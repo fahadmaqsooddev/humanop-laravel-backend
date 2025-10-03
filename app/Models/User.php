@@ -324,10 +324,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function getPlanNameAttribute()
     {
-        if ($this->beta_breaker_club == Admin::BETA_BREAKER_CLUB){
-
-            return 'Premium';
-        }
 
         if (!empty($this->userSubscription) && !empty($this->userSubscription->plan)) {
 
