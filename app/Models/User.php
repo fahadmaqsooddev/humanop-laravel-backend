@@ -1119,6 +1119,8 @@ class User extends Authenticatable implements JWTSubject
 
         $data['profile_status'] = 1;
 
+        $data['beta_breaker_club'] = Admin::BETA_BREAKER_CLUB;
+
         $data['email_verify_token'] = Str::random(16);
 
         if (!empty($referralCode)) {
@@ -1413,7 +1415,7 @@ class User extends Authenticatable implements JWTSubject
         $users = self::query();
 
         $users->where('profile_status', '!=', 1);
-        
+
         if (!empty($request['search_name'])) {
 
             $search_name = $request['search_name'];
