@@ -69,6 +69,7 @@ class GamificationController extends Controller
     public function completeWatchVideo(CompleteWatchVideoRequest $request)
     {
         try {
+
             $watchVideo = VideoProgress::completeWatchVideo($request['assessment_id'], $request['video_name']);
 
             if (!empty($watchVideo)) {

@@ -383,15 +383,35 @@ class HumanNetworkController extends Controller
 
             }
 
-            $priceId = optional($user->subscription('main'))->stripe_price ?? null;
+            if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
 
-            $planName = Plan::where('plan_id', $priceId)->value('name');
+                $planName = "Breaker";
+
+            } else {
+
+                $priceId = optional($user->subscription('main'))->stripe_price ?? null;
+
+                $planName = Plan::where('plan_id', $priceId)->value('name');
+
+            }
 
             $assessment = Assessment::getLatestAssessment($request->user_id);
 
             if (!$assessment) {
 
                 return Helpers::validationResponse('Assessment Not Found');
+
+            }
+
+            if ($planName === 'Breaker') {
+
+                $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+
+                $data = [
+                    'core_state' => $coreStats,
+                ];
+
+                return Helpers::successResponse('Authentic Traits and Core Stats', $data);
 
             }
 
