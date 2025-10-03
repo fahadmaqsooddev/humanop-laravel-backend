@@ -394,7 +394,6 @@ class HumanNetworkController extends Controller
             $planName = Plan::where('plan_id', $priceId)->value('name');
 
 //            }
-            dd($user['beta_breaker_club'], $planName);
 
             $assessment = Assessment::getLatestAssessment($request->user_id);
 
