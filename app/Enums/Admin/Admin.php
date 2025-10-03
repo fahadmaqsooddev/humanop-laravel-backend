@@ -167,6 +167,8 @@ final class Admin
 
     const FREEMIUM_CREDITS = 25;
 
+    const BREAKER_CREDITS = 50;
+
     const CORE_CREDITS = 150;
 
     const PREMIUM_CREDITS = 250;

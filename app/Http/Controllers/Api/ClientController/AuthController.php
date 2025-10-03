@@ -129,7 +129,16 @@ class AuthController extends Controller
 
                 }
 
-                Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
+                if ($user['beta_breaker_club'] ==Admin::BETA_BREAKER_CLUB){
+
+
+                    Point::addPoints(Admin::BREAKER_CREDITS, $user);
+
+                }else{
+
+                    Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
+
+                }
 
                 Point::addPoints(Admin::CORE_CREDITS, $user, 1);
 
