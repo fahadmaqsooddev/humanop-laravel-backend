@@ -405,13 +405,23 @@ class HumanNetworkController extends Controller
 
             if ($planName === 'Breaker') {
 
-                $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
 
-                $data = [
-                    'core_state' => $coreStats,
-                ];
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
 
-                return Helpers::successResponse('Authentic Traits and Core Stats', $data);
+                    $data = [
+                        'core_state' => $coreStats,
+                    ];
+
+                    return Helpers::successResponse('Core Stats', $data);
+
+                }
+
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 2) {
+
+                    return Helpers::validationResponse('Access denied because this user has denied permission.');
+
+                }
 
             }
 
