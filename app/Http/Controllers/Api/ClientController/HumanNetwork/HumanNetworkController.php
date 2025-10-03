@@ -403,7 +403,7 @@ class HumanNetworkController extends Controller
 
             }
 
-            if ($planName === 'Breaker') {
+            if ($planName === 'Breaker' && $planName === 'Freemium') {
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
 
@@ -418,6 +418,60 @@ class HumanNetworkController extends Controller
                 }
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 2) {
+
+                    return Helpers::validationResponse('Access denied because this user has denied permission.');
+
+                }
+
+            }
+
+            if ($planName === 'Breaker' && $planName === 'Premium') {
+
+                $assessmentPermission = User\UserShareAssessment::getSingleRecord($user->id);
+
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
+
+                    $styleCodes = Assessment::authenticTraits($assessment);
+
+                    $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
+
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+
+                    $data = [
+                        'authentic' => $publicNames,
+                        'core_state' => $coreStats,
+                    ];
+
+                    return Helpers::successResponse('Authentic Traits and Core Stats', $data);
+
+                }
+
+                if (!empty($assessmentPermission) && $assessmentPermission->authentic_traits == 1) {
+
+                    $styleCodes = Assessment::authenticTraits($assessment);
+
+                    $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
+
+                    $data = [
+                        'authentic' => $publicNames,
+                    ];
+
+                    return Helpers::successResponse('Authentic Traits', $data);
+
+                }
+
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1) {
+
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+
+                    $data = [
+                        'core_state' => $coreStats,
+                    ];
+
+                    return Helpers::successResponse('Core Stats', $data);
+                }
+
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 2 && $assessmentPermission->authentic_traits == 2) {
 
                     return Helpers::validationResponse('Access denied because this user has denied permission.');
 
