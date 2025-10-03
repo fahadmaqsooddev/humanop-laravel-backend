@@ -338,7 +338,15 @@ class DashboardController extends Controller
 
         try {
 
-            $userPlan = Helpers::getUser()['plan_name'];
+            if (Helpers::getUser()['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
+
+                $userPlan = "Premium";
+
+            }else{
+
+                $userPlan = Helpers::getUser()['plan_name'];
+
+            }
 
             if ($request->has('assessment_id')) {
 
