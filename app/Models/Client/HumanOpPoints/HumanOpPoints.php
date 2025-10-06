@@ -31,24 +31,17 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteAssessment($user = null)
     {
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+        if ($user['plan_name'] === 'Freemium') {
 
-            $plan = 'Breaker';
+            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
         } else {
 
-            $plan = $user['plan_name'] ?? 'Freemium';
+            $multiplier = 3;
 
         }
 
         $basePoint = Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY;
-
-        $multiplier = match ($plan) {
-            'Freemium' => 1,
-            'Breaker' => 2,
-            'Premium' => 3,
-            default => 5,
-        };
 
         $pointsToAdd = $multiplier * $basePoint;
 
@@ -77,24 +70,17 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteWatchVideo($user = null)
     {
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+        if ($user['plan_name'] === 'Freemium') {
 
-            $plan = 'Breaker';
+            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
         } else {
 
-            $plan = $user['plan_name'] ?? 'Freemium';
+            $multiplier = 3;
 
         }
 
         $basePoint = Admin::COMPLETE_WATCH_VIDEO_POINT_FOR_CLARITY;
-
-        $multiplier = match ($plan) {
-            'Freemium' => 1,
-            'Breaker' => 2,
-            'Premium' => 3,
-            default => 5,
-        };
 
         $pointsToAdd = $multiplier * $basePoint;
 
@@ -112,24 +98,17 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteAllWatchVideos($user = null)
     {
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+        if ($user['plan_name'] === 'Freemium') {
 
-            $plan = 'Breaker';
+            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
         } else {
 
-            $plan = $user['plan_name'] ?? 'Freemium';
+            $multiplier = 3;
 
         }
 
         $basePoint = Admin::COMPLETE_ALL_WATCH_VIDEOS_POINT_FOR_CLARITY;
-
-        $multiplier = match ($plan) {
-            'Freemium' => 1,
-            'Breaker' => 2,
-            'Premium' => 3,
-            default => 5,
-        };
 
         $pointsToAdd = $multiplier * $basePoint;
 
@@ -147,24 +126,17 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteDailyTip($user = null)
     {
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+        if ($user['plan_name'] === 'Freemium') {
 
-            $plan = 'Breaker';
+            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
         } else {
 
-            $plan = $user['plan_name'] ?? 'Freemium';
+            $multiplier = 3;
 
         }
 
         $basePoint = Admin::COMPLETE_DAILY_TIP_POINT_FOR_CLARITY;
-
-        $multiplier = match ($plan) {
-            'Freemium' => 1,
-            'Breaker' => 2,
-            'Premium' => 3,
-            default => 5,
-        };
 
         $pointsToAdd = $multiplier * $basePoint;
 
@@ -182,24 +154,17 @@ class HumanOpPoints extends Model
     public static function createOrUpdateUserPoints($user = null, $currentTime = null)
     {
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+        if ($user['plan_name'] === 'Freemium') {
 
-            $plan = 'Breaker';
+            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
         } else {
 
-            $plan = $user['plan_name'] ?? 'Freemium';
+            $multiplier = 3;
 
         }
 
         $basePoint = Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
-
-        $multiplier = match ($plan) {
-            'Freemium' => 1,
-            'Breaker' => 2,
-            'Premium' => 3,
-            default => 5,
-        };
 
         $pointsToAdd = $multiplier * $basePoint;
 
