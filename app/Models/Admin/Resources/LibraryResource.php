@@ -297,14 +297,21 @@ class LibraryResource extends Model
 
         $user = Helpers::getUser();
 
-        $userPlan = $user['plan_name'];
+        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
+
+            $userPlan = 'Premium';
+
+        }else{
+
+            $userPlan = $user['plan_name'];
+
+        }
 
         $query = self::query();
 
         $permissionLevels = match ($userPlan) {
             'Premium' => [2, 1],
-//            'Core' => [2, 1],
-            default => [1], // Freemium or anything else
+            default => [1],
         };
 
         $query->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
