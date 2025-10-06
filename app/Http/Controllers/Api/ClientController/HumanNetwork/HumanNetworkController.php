@@ -383,17 +383,11 @@ class HumanNetworkController extends Controller
 
             }
 
-//            if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
-//
-//                $planName = "Breaker";
-//
-//            } else {
+            $assessmentPermission = User\UserShareAssessment::getSingleRecord($user->id);
 
             $priceId = optional($user->subscription('main'))->stripe_price ?? null;
 
-            $planName = Plan::where('plan_id', $priceId)->value('name');
-
-//            }
+            $planName = $priceId ?Plan::where('plan_id', $priceId)->value('name') : 'Freemium';
 
             $assessment = Assessment::getLatestAssessment($request->user_id);
 
@@ -405,7 +399,7 @@ class HumanNetworkController extends Controller
 
             if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB && $planName === 'Freemium') {
 
-                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1) {
 
                     $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
 
@@ -426,8 +420,6 @@ class HumanNetworkController extends Controller
             }
 
             if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB && $planName === 'Premium') {
-
-                $assessmentPermission = User\UserShareAssessment::getSingleRecord($user->id);
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
 
@@ -480,8 +472,6 @@ class HumanNetworkController extends Controller
             }
 
             if ($planName === 'Premium') {
-
-                $assessmentPermission = User\UserShareAssessment::getSingleRecord($user->id);
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
 
