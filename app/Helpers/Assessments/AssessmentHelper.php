@@ -361,7 +361,7 @@ class AssessmentHelper
 
         $perception = [
             'public_name' => $coreState['perception']['public_name'],
-            'code_number' => $coreState['perception']['code_number'],
+            'code_number' => $coreState['perception']['pv'],
         ];
 
         return [
