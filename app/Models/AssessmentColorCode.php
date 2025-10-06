@@ -141,7 +141,6 @@ class AssessmentColorCode extends Model
         $style_equal_to_0 = [];
         $style_border_green = [];
 
-        // Separate the styles based on conditions
         foreach ($styles as $key => $style) {
             if ($style > 4) {
                 $style_greater_than_4[$key] = $style;
@@ -150,7 +149,6 @@ class AssessmentColorCode extends Model
             }
         }
 
-        // Check for styles that should have a green border
         foreach ($styles as $key => $style) {
             if ($style < 5) {
                 switch ($key) {
@@ -194,28 +192,20 @@ class AssessmentColorCode extends Model
 
             $remainingStyles = array_diff_key($styles, $hightlight);
 
-            // ✅ Sort by:
-            // 1️⃣ First row DESC
-            // 2️⃣ If same → Third row DESC
-            // 3️⃣ If still same → Left-Right (original order)
             uksort($remainingStyles, function ($a, $b) use ($styles, $third_row) {
 
-                // Step 1️⃣: First row
                 if ($styles[$a] != $styles[$b]) {
                     return $styles[$b] <=> $styles[$a];
                 }
 
-                // Step 2️⃣: Third row
                 if ($third_row[$a] != $third_row[$b]) {
                     return $third_row[$b] <=> $third_row[$a];
                 }
 
-                // Step 3️⃣: Left–Right (original key order)
-                $keys = array_keys($styles); // original order
+                $keys = array_keys($styles);
                 return array_search($a, $keys) <=> array_search($b, $keys);
             });
 
-            // ✅ Pick until highlight has at least 3
             foreach ($remainingStyles as $key => $val) {
                 if (count($hightlight) >= 3) break;
                 $hightlight[$key] = $styles[$key];

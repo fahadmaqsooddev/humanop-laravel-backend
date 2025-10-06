@@ -1101,7 +1101,47 @@ class Assessment extends Model
             return array_search($a, $style) <=> array_search($b, $style);
         });
 
-        return CodeDetail::getStylePublicNames($data);
+        $styleCodes = CodeDetail::getStylePublicNames($data);
+
+        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $data);
+
+        $data = [];
+
+        $getAuthentic = AssessmentColorCode::getAllAuthenticTraitCodeColor($assessment['id']);
+        $getAuthentic = array_change_key_case($getAuthentic, CASE_LOWER);
+
+        foreach ($allStyles as $style) {
+            $codeDetails = $style['codeDetails'][0] ?? null;
+
+            if ($codeDetails) {
+                $video = $codeDetails['video'] ?? [];
+
+                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+                    ? $video['video_upload_url']['path']
+                    : ($video['video_url'] ?? null);
+
+                $progress = VideoProgress::checkVideoProgress($assessment['id'], $codeDetails['name']);
+
+                $codeName = strtolower($codeDetails['code'] ?? '');
+
+                // ✅ only add if authentic match exists
+                if (isset($getAuthentic[$codeName])) {
+                    $data[] = [
+                        'code_number' => $style['code_number'] ?? null,
+                        'code_name' => $codeDetails['code'] ?? null,
+                        'public_name' => $codeDetails['public_name'] ?? null,
+                        'name' => $codeDetails['name'] ?? null,
+                        'description' => $codeDetails['text'] ?? null,
+                        'video_url' => $videoUrl,
+                        'video_progress' => $progress['video_progress'],
+                        'video_time' => $progress['video_time'],
+                        'authentic' => $getAuthentic[$codeName], // always valid here
+                    ];
+                }
+            }
+        }
+
+        return $data;
 
     }
 
