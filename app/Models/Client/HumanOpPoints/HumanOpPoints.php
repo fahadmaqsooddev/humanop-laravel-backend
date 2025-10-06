@@ -9,6 +9,7 @@ use App\Models\Client\Point\Point;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class HumanOpPoints extends Model
 {
@@ -45,6 +46,8 @@ class HumanOpPoints extends Model
 
         $pointsToAdd = $multiplier * $basePoint;
 
+        Log::info(['check point' => $pointsToAdd]);
+
         $getPoint = self::where('user_id', $user['id'])->first();
 
         if (is_null($getPoint)) {
@@ -62,7 +65,11 @@ class HumanOpPoints extends Model
 
         }
 
+        Log::info(['check point' => $getPoint]);
+
         Helpers::checkAndTakePerformanceLevel($user);
+
+        Log::info(['check point' => $getPoint]);
 
         return $getPoint;
     }
