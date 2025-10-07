@@ -656,7 +656,14 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Roadworthy',
                     'name' => 'roadworthy',
                     'public_name' => 'Cycle of Life - Roadworthy (21-29)',
-                    'video_url' => asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4'),
+                    'video_url' => '<div style="position:relative;aspect-ratio:16/9;">
+      <iframe
+            loading="lazy" title="Gumlet video player"
+            src="https://play.gumlet.io/embed/68e4d1cd30d9a408df2226c7?background=false&autoplay=false&loop=false&disableControls=false"
+            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;">
+          </iframe>
+    </div>',
                     'description' => config('intervalLifeCycle.roadworthy_(21-29)'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
@@ -672,7 +679,14 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Power',
                     'name' => 'power',
                     'public_name' => 'Cycle of Life - The Power Interval (30-33)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4'),
+                    'video_url' => '<div style="position:relative;aspect-ratio:16/9;">
+      <iframe
+            loading="lazy" title="Gumlet video player"
+            src="https://play.gumlet.io/embed/68e4d7fcb0bb97fd98109b79?background=false&autoplay=false&loop=false&disableControls=false"
+            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;">
+          </iframe>
+    </div>',
                     'description' => config('intervalLifeCycle.the_power_interval_(30-33)'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
@@ -685,10 +699,17 @@ class User extends Authenticatable implements JWTSubject
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'midLife_transformation');
 
                 $interval = [
-                    'interval' => 'MidLife Transformation',
+                    'interval' => 'Mid Life Transformation',
                     'name' => 'midLife_transformation',
                     'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4'),
+                    'video_url' => '<div style="position:relative;aspect-ratio:16/9;">
+      <iframe
+            loading="lazy" title="Gumlet video player"
+            src="https://play.gumlet.io/embed/68e4d7fc30d9a408df22ad66?background=false&autoplay=false&loop=false&disableControls=false"
+            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;">
+          </iframe>
+    </div>',
                     'description' => config('intervalLifeCycle.mid_life_transformation_(34-42)'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
@@ -704,7 +725,14 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Awareness',
                     'name' => 'awareness',
                     'public_name' => 'Cycle of Life - Awareness (43-51)',
-                    'video_url' => asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4'),
+                    'video_url' => '<div style="position:relative;aspect-ratio:16/9;">
+      <iframe
+            loading="lazy" title="Gumlet video player"
+            src="https://play.gumlet.io/embed/68e4d07db0bb97fd980ff897?background=false&autoplay=false&loop=false&disableControls=false"
+            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;">
+          </iframe>
+    </div>',
                     'description' => config('intervalLifeCycle.awareness_(43-51)'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
@@ -720,7 +748,14 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Pay it Forward',
                     'name' => 'payit_forward',
                     'public_name' => 'Cycle of Life - Pay It Forward (52-65)',
-                    'video_url' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4'),
+                    'video_url' => '<div style="position:relative;aspect-ratio:16/9;">
+      <iframe
+            loading="lazy" title="Gumlet video player"
+            src="https://play.gumlet.io/embed/68e4d1cd30d9a408df2226c4?background=false&autoplay=false&loop=false&disableControls=false"
+            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;">
+          </iframe>
+    </div>',
                     'description' => config('intervalLifeCycle.pay_it_forward_(52-65)'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
@@ -736,7 +771,14 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Liberated',
                     'name' => 'liberated',
                     'public_name' => 'Cycle of Life - Liberated (66-69)',
-                    'video_url' => asset('assets/video/Cycle of Life - Liberated 66-70.mp4'),
+                    'video_url' => '<div style="position:relative;aspect-ratio:16/9;">
+      <iframe
+            loading="lazy" title="Gumlet video player"
+            src="https://play.gumlet.io/embed/68e4d1cdb0bb97fd9810141f?background=false&autoplay=false&loop=false&disableControls=false"
+            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;">
+          </iframe>
+    </div>',
                     'description' => config('intervalLifeCycle.liberated_(66-69)'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
@@ -752,7 +794,14 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Being',
                     'name' => 'being',
                     'public_name' => 'Cycle of Life - Being (70-74)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
+                    'video_url' => '<div style="position:relative;aspect-ratio:16/9;">
+      <iframe
+            loading="lazy" title="Gumlet video player"
+            src="https://play.gumlet.io/embed/68e4d7fc30d9a408df22ad64?background=false&autoplay=false&loop=false&disableControls=false"
+            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;">
+          </iframe>
+    </div>',
                     'description' => config('intervalLifeCycle.being_(70-74)'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
@@ -768,7 +817,14 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Life Review',
                     'name' => 'life_review',
                     'public_name' => 'Cycle of Life - Life Review (75-83)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
+                    'video_url' => '<div style="position:relative;aspect-ratio:16/9;">
+      <iframe
+            loading="lazy" title="Gumlet video player"
+            src="https://play.gumlet.io/embed/68e4d7fcaf70352b0d4723ee?background=false&autoplay=false&loop=false&disableControls=false"
+            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;">
+          </iframe>
+    </div>',
                     'description' => config('intervalLifeCycle.life_review_(75-83)'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
