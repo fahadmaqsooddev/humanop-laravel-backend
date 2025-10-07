@@ -301,7 +301,8 @@ class AssessmentIntro extends Model
             'description' => $result['text'],
             'video' => $videoUrl,
             'p_name' => $result['p_name'],
-            'video_url' => $result['video'] ? $result['video']['video_url'] : null,
+            'video_url' => $videoUrl,
+//            'video_url' => $result['video'] ? $result['video']['video_url'] : null,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
         ];
