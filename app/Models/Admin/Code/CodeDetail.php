@@ -165,9 +165,11 @@ class CodeDetail extends Model
 
                 $video = $result->video;
 
-                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-                    ? $video['video_upload_url']['path']
-                    : ($video['video_url'] ?? null);
+//                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//                    ? $video['video_upload_url']['path']
+//                    : ($video['video_url'] ?? null);
+
+                $videoUrl = $video->video_embed_link;
 
                 $codeDetail[] = [$codeKey, $result->public_name, $result->text, $videoUrl, $result->code, $result->name];
 
@@ -280,9 +282,11 @@ class CodeDetail extends Model
 
                     $video = $record['video'];
 
-                    $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-                        ? $video['video_upload_url']['path']
-                        : ($video['video_url'] ?? null);
+//                    $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//                        ? $video['video_upload_url']['path']
+//                        : ($video['video_url'] ?? null);
+
+                    $videoUrl = $video->video_embed_link;
 
                     $progress = VideoProgress::checkVideoProgress($assessment['id'], $record->name);
 
