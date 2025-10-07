@@ -32,7 +32,7 @@ class CreateResource extends Component
     protected $rules = [
         'heading' => 'required|unique:library_resources,heading',
         'relevance' => 'required|string',
-        'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
+        'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp3,wav|max:204800', // Max file size 200MB
         'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
@@ -45,7 +45,7 @@ class CreateResource extends Component
         'heading.required' => 'Heading is required.',
         'relevance.required' => 'Relevance is required.',
         'heading.unique' => 'The heading must be unique in the library resources.',
-        'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
+        'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp3, wav.',
         'resource_file.max' => 'The resource file size must not exceed 200MB.',
         'permission.required' => 'At least one permission is required.',
         'permission.array' => 'Permissions must be an array.',
