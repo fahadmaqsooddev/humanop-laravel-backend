@@ -47,10 +47,10 @@
             <label class="form-label" style="color: #1b3a62">Result Video</label>
             <div class="input-group w-100">
                 <input
-                    type="file"
-                    accept="video/*"
-                    class="form-control input-form-style"
-                    wire:model="select_video.video_file"> <!-- Remove defer to allow immediate loading trigger -->
+                        type="file"
+                        accept="video/*"
+                        class="form-control input-form-style"
+                        wire:model="select_video.video_file"> <!-- Remove defer to allow immediate loading trigger -->
             </div>
 
             <!-- Uploading Spinner -->
@@ -61,21 +61,22 @@
                 </div>
             </span>
         </div>
-{{--        @if (!empty($select_video['video_embed_link']))--}}
-            <label class="form-label mt-4" style="color: #1b3a62">Preview</label>
+        {{--        @if (!empty($select_video['video_embed_link']))--}}
+        <label class="form-label mt-4" style="color: #1b3a62">Preview</label>
 
-        <span>{{ $select_video['video_embed_link'] }}</span>
-{{--            <div class="col-12 mt-4">--}}
-{{--                <video width="50%" height="350" controls>--}}
-{{--                    <source src="{{ $select_video['video_embed_link'] }}" type="video/mp4">--}}
-{{--                    Your browser does not support the video tag.--}}
-{{--                </video>--}}
-{{--            </div>--}}
-{{--        @endif--}}
+        <span style="width: 50%">{!! $select_video['video_embed_link'] !!}</span>
+        {{--            <div class="col-12 mt-4">--}}
+        {{--                <video width="50%" height="350" controls>--}}
+        {{--                    <source src="{{ $select_video['video_embed_link'] }}" type="video/mp4">--}}
+        {{--                    Your browser does not support the video tag.--}}
+        {{--                </video>--}}
+        {{--            </div>--}}
+        {{--        @endif--}}
 
     </div>
 
-    <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #1b3a62">Update Result Video</button>
+    <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #1b3a62">Update Result Video
+    </button>
 </form>
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
