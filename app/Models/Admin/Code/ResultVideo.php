@@ -24,7 +24,17 @@ class ResultVideo extends Model
 
     public function getVideoUploadUrlAttribute()
     {
-        return Helpers::getVideo($this->video_upload_id, 1, null);
+
+        if (!empty($this->video_embed_link)){
+
+            return $this->video_embed_link;
+
+        }else{
+
+            return null;
+
+        }
+
     }
 
     public function getVideoUrlAttribute()

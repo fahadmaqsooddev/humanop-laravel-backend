@@ -651,7 +651,7 @@ return [
         ],
         'ShopCategoryResource' => [
             'table' => 'humanop_shop_resources',
-            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price','image_id','description','thumbnail_id'],
+            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price','image_id','description','thumbnail_id','video_embed_link'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'HumanOpShopTraits' => [
@@ -716,7 +716,7 @@ return [
         ],
         'ResultVideo' => [
             'table' => 'assessment_result_videos',
-            'fillable' => ['public_name', 'video', 'video_upload_id'],
+            'fillable' => ['public_name', 'video', 'video_upload_id','video_embed_link'],
             'hidden' => ['created_at'],
         ],
         'SuggestedItem' => [
@@ -791,7 +791,7 @@ return [
         ],
         'MediaPlayerResources' => [
             'table' => 'media_player_resources',
-            'fillable' => ['media_player_category_id', 'video_id', 'audio_id', 'thumbnail_id', 'heading', 'slug', 'description', 'permission', 'prices', 'points'],
+            'fillable' => ['media_player_category_id', 'video_id', 'audio_id', 'thumbnail_id', 'heading', 'slug', 'description', 'permission', 'prices', 'points','video_embed_link'],
             'hidden' => ['created_at', 'updated_at']
         ],
     ]
