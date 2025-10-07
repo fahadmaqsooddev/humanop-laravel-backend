@@ -61,15 +61,17 @@
                 </div>
             </span>
         </div>
-        @if (!empty($select_video['video']))
+{{--        @if (!empty($select_video['video_embed_link']))--}}
             <label class="form-label mt-4" style="color: #1b3a62">Preview</label>
-            <div class="col-12 mt-4">
-                <video width="50%" height="350" controls>
-                    <source src="{{ $select_video['video_upload_id'] ? $select_video['video_upload_url']['path'] : asset('assets/video/' . $select_video['video']) }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        @endif
+
+        <span>{{ $select_video['video_embed_link'] }}</span>
+{{--            <div class="col-12 mt-4">--}}
+{{--                <video width="50%" height="350" controls>--}}
+{{--                    <source src="{{ $select_video['video_embed_link'] }}" type="video/mp4">--}}
+{{--                    Your browser does not support the video tag.--}}
+{{--                </video>--}}
+{{--            </div>--}}
+{{--        @endif--}}
 
     </div>
 

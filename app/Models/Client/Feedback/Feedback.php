@@ -22,13 +22,18 @@ class Feedback extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['photo_url'];
+    protected $appends = ['photo_url', 'video_url'];
 
     public function getPhotoUrlAttribute()
     {
 
         return Helpers::getImage($this->image_id, null);
 
+    }
+
+    public function getVideoUrlAttribute()
+    {
+        return Helpers::getVideo($this->video_id, 1, null);
     }
 
     // relation

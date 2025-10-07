@@ -98,9 +98,11 @@ class AssessmentIntro extends Model
 
         $video = $data->video;
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -122,9 +124,11 @@ class AssessmentIntro extends Model
 
         $video = $data->video;
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -145,9 +149,11 @@ class AssessmentIntro extends Model
 
         $video = $data->video;
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -168,9 +174,11 @@ class AssessmentIntro extends Model
 
         $video = $data->video;
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -191,9 +199,11 @@ class AssessmentIntro extends Model
 
         $video = $data->video;
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -214,9 +224,11 @@ class AssessmentIntro extends Model
 
         $video = $data->video;
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -237,9 +249,11 @@ class AssessmentIntro extends Model
 
         $video = $data->video;
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
@@ -272,9 +286,11 @@ class AssessmentIntro extends Model
 
         $video = $result['video'];
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessmentId, $result->name);
 

@@ -426,39 +426,51 @@ class UserController extends Controller
 
             $dataArray['user_id'] = Helpers::getUser()->id;
 
-            if (!empty($request->hasfile('image'))) {
+            if (!empty($request->hasfile('file_upload'))) {
 
-                $upload_id = Upload::uploadFile($request->image, 200, 200, 'base64Image', 'png', true);
+                $extension = $request['file_upload']->extension();
 
-                $dataArray['image_id'] = $upload_id;
+                if (in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
+
+                    $upload_id = Upload::uploadFile($request['file_upload'], 200, 200, 'base64Image', 'png', true);
+
+                    $dataArray['image_id'] = $upload_id;
+
+                }else{
+
+                    $upload_id = Upload::uploadFile($request['file_upload'], '', '', 'video');
+
+                    $dataArray['video_id'] = $upload_id;
+
+                }
+
             }
 
             $result = Feedback::storeClientFeedback($dataArray);
 
-            if (!empty($result['image_id'])) {
-
-                $url = Helpers::getImage($result['image_id']);
-            } else {
-
-                $url = '';
-            }
-
-
-            // $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email']);
-            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email'], $url);
+            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email'], $request['support_category'], $result['photo_url'], $result['video_url']);
 
 
             if (isset($response['errors'])) {
+
                 return Helpers::validationResponse($response['errors']);
+
             } else {
-                //    dd($response['data']['createTodo']); // Output the created record
+
                 DB::commit();
+
                 return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
+
             }
+
         } catch (\Exception $exception) {
+
             DB::rollBack();
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function googleLoginSignup(GoogleLoginSignupRequest $request)
@@ -588,7 +600,7 @@ class UserController extends Controller
                 $allStyles = $assessment != null ? Assessment::breakerAuthenticTraits($assessment) : [];
 
             }else{
-                
+
                 $allStyles = $assessment != null ? Assessment::getAllAuthenticStyles($assessment) : [];
 
             }

@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Http;
 class BlueHelpers
 {
 
-    public static function createBlueRecord($title, $description, $platform, $userEmail, $url=null)
+    public static function createBlueRecord($title = null, $description = null, $platform = null, $userEmail = null, $supportCategory = null, $imageUrl = null, $videoUrl = null)
     {
+
         $description = trim(preg_replace('/\s+/', ' ', $description));
 
         $apiUrl = 'https://api.blue.cc/graphql';
@@ -21,12 +22,19 @@ class BlueHelpers
             'X-Bloo-Project-ID' => 'cm2kkgox801y52lukch5g2yxs',
         ];
 
-        $profileLink = is_array($url) && isset($url['url']) ? $url['url'] : '';
+        if (!empty($imageUrl)){
+
+            $profileLink = $imageUrl['url'] ?? '';
+
+        }elseif (!empty($videoUrl)){
+
+            $profileLink = $videoUrl['path'] ?? '';
+        }
 
         $fullDescription = addslashes($description) . ' from Email Address: ' . addslashes($userEmail);
 
         if (!empty($profileLink)) {
-            $fullDescription .= '<br>image: ' . addslashes($profileLink);
+            $fullDescription .= '<br>Screen Capture: ' . addslashes($profileLink);
         }
 
         $query = '
@@ -42,6 +50,10 @@ class BlueHelpers
                            {
                                customFieldId: "cm3hnhh150fzi1042zm0zcxjs",
                                value: "' . addslashes($platform) . '"
+                             },
+                             {
+                               customFieldId: "cmggk80590ta5ob1erh9h8g4d",
+                               value: "' . addslashes($supportCategory) . '"
                              }
                         ]
                     }

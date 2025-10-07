@@ -569,9 +569,11 @@ class Assessment extends Model
 
         $video = $record['video'];
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
 
@@ -966,9 +968,11 @@ class Assessment extends Model
             if ($codeDetails) {
                 $video = $codeDetails['video'] ?? [];
 
-                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-                    ? $video['video_upload_url']['path']
-                    : ($video['video_url'] ?? null);
+//                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//                    ? $video['video_upload_url']['path']
+//                    : ($video['video_url'] ?? null);
+
+                $videoUrl = $video->video_embed_link;
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], $codeDetails['name']);
 
@@ -1116,9 +1120,11 @@ class Assessment extends Model
             if ($codeDetails) {
                 $video = $codeDetails['video'] ?? [];
 
-                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-                    ? $video['video_upload_url']['path']
-                    : ($video['video_url'] ?? null);
+//                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//                    ? $video['video_upload_url']['path']
+//                    : ($video['video_url'] ?? null);
+
+                $videoUrl = $video->video_embed_link;
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], $codeDetails['name']);
 
@@ -2097,10 +2103,11 @@ class Assessment extends Model
 
             $video = $publicName['video'];
 
-            $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-                ? $video['video_upload_url']['path']
-                : ($video['video_url'] ?? null);
+//            $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//                ? $video['video_upload_url']['path']
+//                : ($video['video_url'] ?? null);
 
+            $videoUrl = $video->video_embed_link;
 
             $progress = VideoProgress::checkVideoProgress($assessment['id'], $publicName['name']);
 
@@ -2165,9 +2172,11 @@ class Assessment extends Model
 
         $video = $record['video'];
 
-        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-            ? $video['video_upload_url']['path']
-            : ($video['video_url'] ?? null);
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
 
