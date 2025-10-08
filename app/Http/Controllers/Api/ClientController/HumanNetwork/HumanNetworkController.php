@@ -387,7 +387,7 @@ class HumanNetworkController extends Controller
 
             $priceId = optional($user->subscription('main'))->stripe_price ?? null;
 
-            $planName = $priceId ?Plan::where('plan_id', $priceId)->value('name') : 'Freemium';
+            $planName = $priceId ? Plan::where('plan_id', $priceId)->value('name') : 'Freemium';
 
             $assessment = Assessment::getLatestAssessment($request->user_id);
 
@@ -548,6 +548,27 @@ class HumanNetworkController extends Controller
             $notifications = Notification::allNetworkNotification();
 
             return Helpers::successResponse('Network Notification', $notifications);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function changeCompatibilityMatrixStatus(Request $request)
+    {
+        try {
+
+            if (!empty($request['compatibility_matrix_status'])) {
+
+                User::changeCompatibilityMatrixStatus($request['compatibility_matrix_status']);
+
+                return Helpers::successResponse('Compatibility Matrix Status Changed');
+
+            } else {
+
+                return Helpers::validationResponse('Compatibility Matrix Status is required');
+            }
 
         } catch (\Exception $exception) {
 
