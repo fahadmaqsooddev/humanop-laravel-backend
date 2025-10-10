@@ -186,7 +186,7 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['parent_referal_plan_name','last_updated_daily_tip','first_name', 'last_name', 'email', 'password', 'phone', 'date_of_birth', 'gender', 'signup_date', 'last_login', 'status', 'stripe_id', 'is_admin', 'payment_method', 'pm_type', 'pm_last_four', 'pm_exp_month', 'pm_exp_year', 'google_id', 'is_feedback', 'password_set', 'is_permanently_deleted', 'image_id', 'apple_id', 'hai_chat', 'referral_code', 'referred_by', 'practitioner_id', 'timezone', 'two_way_auth', 'intro_check', 'reset_password', 'app_intro_check', 'reset_password_token', 'email_verify_token', 'step', 'email_verified_at', 'register_from_app', 'device_token', 'company_name', 'business_sub_stratergy_id', 'business_id', 'work_email', 'b2b_step', 'team_department', 'prompt_notification', 'version_update', 'sms_verify_code', 'phone_verified_at', 'complete_assessment_walkthrough', 'complete_tutorial', 'chat_summary', 'profile_status', 'hai_status', 'credits_log', 'life_alchemist', 'excited_connect', 'note', 'profile_privacy', 'hai_privacy', 'registration_checkout', 'trial_day', 'trial_time', 'set_daily_tip_time','beta_breaker_club','compatability_matrix_status'],
+            'fillable' => ['parent_referal_plan_name', 'last_updated_daily_tip', 'first_name', 'last_name', 'email', 'password', 'phone', 'date_of_birth', 'gender', 'signup_date', 'last_login', 'status', 'stripe_id', 'is_admin', 'payment_method', 'pm_type', 'pm_last_four', 'pm_exp_month', 'pm_exp_year', 'google_id', 'is_feedback', 'password_set', 'is_permanently_deleted', 'image_id', 'apple_id', 'hai_chat', 'referral_code', 'referred_by', 'practitioner_id', 'timezone', 'two_way_auth', 'intro_check', 'reset_password', 'app_intro_check', 'reset_password_token', 'email_verify_token', 'step', 'email_verified_at', 'register_from_app', 'device_token', 'company_name', 'business_sub_stratergy_id', 'business_id', 'work_email', 'b2b_step', 'team_department', 'prompt_notification', 'version_update', 'sms_verify_code', 'phone_verified_at', 'complete_assessment_walkthrough', 'complete_tutorial', 'chat_summary', 'profile_status', 'hai_status', 'credits_log', 'life_alchemist', 'excited_connect', 'note', 'profile_privacy', 'hai_privacy', 'registration_checkout', 'trial_day', 'trial_time', 'set_daily_tip_time', 'beta_breaker_club', 'compatability_matrix_status'],
             'hidden' => ['created_at', 'updated_at', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret']
         ],
         'Page' => [
@@ -298,7 +298,17 @@ return [
         ],
         'MessageThread' => [
             'table' => 'message_threads',
-            'fillable' => ['sender_id', 'receiver_id', 'updated_at'],
+            'fillable' => ['sender_id', 'receiver_id', 'updated_at', 'type', 'name', 'group_icon_id', 'owner_id', 'direct_key'],
+            'hidden' => ['deleted_at', 'created_at']
+        ],
+        'MessageThreadParticipant' => [
+            'table' => 'message_thread_participants',
+            'fillable' => ['message_thread_id', 'user_id', 'role', 'joined_at', 'muted_until'],
+            'hidden' => ['deleted_at', 'created_at']
+        ],
+        'MassageRead' => [
+            'table' => 'message_reads',
+            'fillable' => ['message_id', 'user_id', 'read_at'],
             'hidden' => ['deleted_at', 'created_at']
         ],
         'Message' => [
@@ -308,7 +318,7 @@ return [
         ],
         'Feedback' => [
             'table' => 'feedbacks',
-            'fillable' => ['comment', 'user_id', 'approve', 'rating', 'title', 'platform', 'image_id','video_id'],
+            'fillable' => ['comment', 'user_id', 'approve', 'rating', 'title', 'platform', 'image_id', 'video_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Connection' => [
@@ -338,7 +348,7 @@ return [
         ],
         'Plan' => [
             'table' => 'plans',
-            'fillable' => ['plan_id', 'name', 'billing_method', 'interval_count', 'price', 'currency', 'plan_type', 'no_of_team_members', 'status','plan_detail'],
+            'fillable' => ['plan_id', 'name', 'billing_method', 'interval_count', 'price', 'currency', 'plan_type', 'no_of_team_members', 'status', 'plan_detail'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Point' => [
@@ -353,7 +363,7 @@ return [
         ],
         'LibraryResource' => [
             'table' => 'library_resources',
-            'fillable' => ['heading', 'slug', 'upload_id', 'resource_category_id', 'description', 'content', 'source_id', 'source_url', 'embed_link', 'relevance','thumbnail_id'],
+            'fillable' => ['heading', 'slug', 'upload_id', 'resource_category_id', 'description', 'content', 'source_id', 'source_url', 'embed_link', 'relevance', 'thumbnail_id'],
             'hidden' => ['updated_at'],
         ],
         'PermissionResource' => [
@@ -402,7 +412,7 @@ return [
         ],
         'UserDailyTip' => [
             'table' => 'user_daily_tips',
-            'fillable' => ['user_id', 'daily_tip_id', 'is_read', 'assessment_id', 'favorite_tip','tip_completed_at '],
+            'fillable' => ['user_id', 'daily_tip_id', 'is_read', 'assessment_id', 'favorite_tip', 'tip_completed_at '],
             'hidden' => ['updated_at'],
         ],
         'Version' => [
@@ -532,13 +542,13 @@ return [
         ],
         'AnalyticsModel' => [
             'table' => 'analytics',
-            'fillable' => ['llm_model_id','prompt_token','completion_token','total_token','query'],
-            'hidden' => ['updated_at','deleted_at'],
+            'fillable' => ['llm_model_id', 'prompt_token', 'completion_token', 'total_token', 'query'],
+            'hidden' => ['updated_at', 'deleted_at'],
         ],
-        'B2BNotes'=>[
-            'table'=>'b2b_notes',
-            'fillable'=>['business_id','user_id','note'],
-            'hidden'=>['updated_at','created_at']
+        'B2BNotes' => [
+            'table' => 'b2b_notes',
+            'fillable' => ['business_id', 'user_id', 'note'],
+            'hidden' => ['updated_at', 'created_at']
         ],
         'B2BIntentionOption' => [
             'table' => 'b2b_intention_option',
@@ -601,7 +611,7 @@ return [
         ],
         'UserShareAssessment' => [
             'table' => 'user_share_assessment',
-            'fillable' => ['user_id', 'interval_of_life', 'traits', 'motivational_driver', 'alchemic_boundaries', 'communication_style', 'perception_of_life', 'energy_pool','authentic_traits','core_state'],
+            'fillable' => ['user_id', 'interval_of_life', 'traits', 'motivational_driver', 'alchemic_boundaries', 'communication_style', 'perception_of_life', 'energy_pool', 'authentic_traits', 'core_state'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'UserTagline' => [
@@ -626,7 +636,7 @@ return [
         ],
         'VideoProgress' => [
             'table' => 'video_progress',
-            'fillable' => ['assessment_id', 'video_name', 'video_progress','watch_time'],
+            'fillable' => ['assessment_id', 'video_name', 'video_progress', 'watch_time'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'GamificationBadgesAchievement' => [
@@ -651,7 +661,7 @@ return [
         ],
         'ShopCategoryResource' => [
             'table' => 'humanop_shop_resources',
-            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price','image_id','description','thumbnail_id','video_embed_link'],
+            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price', 'image_id', 'description', 'thumbnail_id', 'video_embed_link'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'HumanOpShopTraits' => [
@@ -701,12 +711,12 @@ return [
         ],
         'Playlist' => [
             'table' => 'playlist',
-            'fillable' => ['user_id', 'audio_id', 'title', 'description','image_id'],
+            'fillable' => ['user_id', 'audio_id', 'title', 'description', 'image_id'],
             'hidden' => ['created_at'],
         ],
         'PlaylistLog' => [
             'table' => 'playlist_log',
-            'fillable' => ['playlist_id', 'resource_item_id', 'shop_item_id', 'user_id', 'podcast_id','order', 'media_player_item_id'],
+            'fillable' => ['playlist_id', 'resource_item_id', 'shop_item_id', 'user_id', 'podcast_id', 'order', 'media_player_item_id'],
             'hidden' => ['created_at'],
         ],
         'PlaylistItemTrack' => [
@@ -716,12 +726,12 @@ return [
         ],
         'ResultVideo' => [
             'table' => 'assessment_result_videos',
-            'fillable' => ['public_name', 'video', 'video_upload_id','video_embed_link'],
+            'fillable' => ['public_name', 'video', 'video_upload_id', 'video_embed_link'],
             'hidden' => ['created_at'],
         ],
         'SuggestedItem' => [
             'table' => 'suggested_items',
-            'fillable' => ['title', 'description', 'image_id', 'video_id', 'audio_id','module_type'],
+            'fillable' => ['title', 'description', 'image_id', 'video_id', 'audio_id', 'module_type'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'HumanOpItemsGridActivitiesLog' => [
@@ -791,7 +801,7 @@ return [
         ],
         'MediaPlayerResources' => [
             'table' => 'media_player_resources',
-            'fillable' => ['media_player_category_id', 'video_id', 'audio_id', 'thumbnail_id', 'heading', 'slug', 'description', 'permission', 'prices', 'points','video_embed_link'],
+            'fillable' => ['media_player_category_id', 'video_id', 'audio_id', 'thumbnail_id', 'heading', 'slug', 'description', 'permission', 'prices', 'points', 'video_embed_link'],
             'hidden' => ['created_at', 'updated_at']
         ],
     ]
