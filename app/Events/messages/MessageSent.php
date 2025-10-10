@@ -3,13 +3,9 @@
 namespace App\Events\messages;
 
 use App\Models\Client\Message\Message;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
@@ -74,7 +70,7 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
             ],
             'message_text' => $this->message->message,
 //            'upload_id' => $this->message->upload_id,
-            'created_at' => $this->message->created_at?->toISOString(),
+            'created_at' => $this->message->created_at,
         ];
     }
 }
