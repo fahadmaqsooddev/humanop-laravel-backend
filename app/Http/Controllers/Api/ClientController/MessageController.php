@@ -153,6 +153,8 @@ class MessageController extends Controller
 
             $message = Message::createMessage($request, $messageThread);
 
+            broadcast(new MessageSent($message))->toOthers();
+
             DB::commit();
 
             return Helpers::successResponse('message', $message);
