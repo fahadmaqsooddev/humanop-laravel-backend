@@ -73,6 +73,7 @@
     @endif
 
     <div class="table-responsive table-header-text w-100 pt-4 table-orange-color">
+        @include('layouts.message')
         <table class="table table-flush">
             <thead class="thead-light">
             <tr class="text-color-blue">
@@ -145,11 +146,12 @@
                     @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                         <td class="text-sm font-weight-normal">
                             <select class="form-control input-form-style"
-                                    style="background-color: #0F1535;border-radius: 12px;">
-                                <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>
+                                    onchange="changeUserPlan({{ $user['id'] }}, this.value)"
+                                    style="background-color: #0F1535; border-radius: 12px;">
+                                <option value="Freemium" {{ $user['plan_name'] === 'Freemium' ? 'selected' : '' }}>
                                     Freemium
                                 </option>
-                                <option value="Freemium" {{$user['plan_name'] === "Premium" ? 'selected' : ""}}>
+                                <option value="Premium" {{ $user['plan_name'] === 'Premium' ? 'selected' : '' }}>
                                     Premium
                                 </option>
                             </select>
@@ -305,6 +307,31 @@
                     window.livewire.emit('logInAdminAsUser', id, identify)
                 }
             })
+        }
+
+        function changeUserPlan(id, plan) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-primary m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: `<span style="color: white;">Do you want to change this user’s plan to <b>${plan}</b>?</span>`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, change it',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.setItem('is_admin', true);
+                    window.livewire.emit('userPlanChange', id, plan);
+                }
+            });
         }
 
         function changeUserToPractitioner(id, name, checkbox, e) {

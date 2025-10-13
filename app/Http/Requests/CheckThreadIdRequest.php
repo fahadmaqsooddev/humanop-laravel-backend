@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Api\Client\Messages;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class SendMessageRequest extends FormRequest
+class CheckThreadIdRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,7 @@ class SendMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'thread_id' => ['required', 'integer', 'exists:message_threads,id',],
-            'message' => ['required', 'string', 'max:1000',],
+            'thread_id' => ['required', 'integer', "exists:message_threads,id",],
         ];
     }
 
@@ -34,11 +34,9 @@ class SendMessageRequest extends FormRequest
         return [
             'thread_id.required' => 'The thread ID is required.',
             'thread_id.integer' => 'The thread ID must be an integer.',
-            'thread_id.exists' => 'The selected thread does not exist.',
-            'message.required' => 'Please enter a message before sending.',
-            'message.string' => 'The message must be a valid text string.',
-            'message.max' => 'The message may not be greater than 1000 characters.',
+            'thread_id.unique' => 'A thread with this ID already exists.',
         ];
     }
+
 
 }

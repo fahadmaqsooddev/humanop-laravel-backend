@@ -325,15 +325,21 @@ class User extends Authenticatable implements JWTSubject
     public function getPlanNameAttribute()
     {
 
-        if (!empty($this->userSubscription) && !empty($this->userSubscription->plan)) {
+        $subscription = $this->userSubscription;
 
-            return $this->userSubscription->plan->name === 'Premium'
-                ? $this->userSubscription->plan->name
-                : 'Freemium';
+        if ($subscription && $subscription->stripe_status !== 'canceled') {
+
+            if (!empty($subscription->plan) && !empty($subscription->plan->name)) {
+
+                return $subscription->plan->name === 'Premium' ? 'Premium' : 'Freemium';
+            }
+
         }
 
         return 'Freemium';
+
     }
+
 
     public function getIsViewedStoriesAttribute()
     {

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Client\MessageThread\MessageThread;
+use App\Policies\MessageThreadPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         User::class => UsersPolicy::class,
+        MessageThread::class => MessageThreadPolicy::class,
     ];
 
     /**
