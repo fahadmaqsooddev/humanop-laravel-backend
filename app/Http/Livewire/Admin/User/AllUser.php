@@ -27,7 +27,7 @@ class AllUser extends Component
     protected $users = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete'];
+    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete', 'userPlanChange'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -63,6 +63,65 @@ class AllUser extends Component
             return redirect('admin/dashboard');
         }
 
+    }
+
+    public function userPlanChange($id = null, $planName = null)
+    {
+        $user = User::getSingleUser($id);
+
+        if ($user->plan_name === $planName) {
+
+            session()->flash('error', "User already has this plan.");
+
+        }
+
+        if ($planName === "Freemium") {
+
+            $getPlan = Plan::getFreemiumPlan($planName);
+
+            if ($user->subscribed('main')) {
+                $user->subscription('main')->cancelNow();
+            }
+
+            $user->update(['plan_name' => 'Freemium']);
+
+            session()->flash('success', "User downgraded to Freemium successfully.");
+
+        }
+
+        if ($planName === "Premium") {
+            $getPlan = Plan::getPremiumPlan($planName);
+
+            $user->createOrGetStripeCustomer();
+
+            if ($user->subscribed('main')) {
+                $subscription = $user->subscription('main');
+                try {
+                    $stripeSub = $subscription->asStripeSubscription();
+                    $subscription->cancelNow();
+                } catch (\Exception $e) {
+                    $subscription->delete();
+                }
+            }
+
+            $trialEndsAt = now()->addMonth();
+
+            $subscription = $user->newSubscription('main', $getPlan['plan_id'])
+                ->trialUntil($trialEndsAt)
+                ->create(null, [
+                    'trial_period_days' => 30,
+                    'proration_behavior' => 'none',
+                    'collection_method' => 'charge_automatically',
+                ]);
+
+            $user->update(['plan_name' => 'Premium']);
+
+            session()->flash('success', "User upgraded to Premium successfully");
+
+
+        }
+
+        return Helpers::validationResponse('Invalid plan name.');
     }
 
     public function changeUserMemberShip($memberShipValue, $user_id)

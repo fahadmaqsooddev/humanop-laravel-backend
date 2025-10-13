@@ -129,6 +129,16 @@ class Plan extends Model
         return self::where('id', $id)->first();
     }
 
+    public static function getPremiumPlan($planName = null)
+    {
+        return self::where('name', $planName)->where('billing_method', 'month')->first();
+    }
+
+    public static function getFreemiumPlan($planName = null)
+    {
+        return self::where('name', $planName)->where('billing_method', 'month')->first();
+    }
+
 //    public static function activeb2BPlans()
 //    {
 //        return self::where('status', Admin::B2B_ACTIVE_PLAN)->count();
