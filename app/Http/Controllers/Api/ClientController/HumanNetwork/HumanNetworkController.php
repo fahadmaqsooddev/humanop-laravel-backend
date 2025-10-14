@@ -413,7 +413,7 @@ class HumanNetworkController extends Controller
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 2) {
 
-                    return Helpers::validationResponse('Access denied because this user has denied permission.');
+                    return Helpers::validationResponse('Access is denied because the user has not allowed sharing of their core stats in their privacy settings.');
 
                 }
 
@@ -465,7 +465,7 @@ class HumanNetworkController extends Controller
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 2 && $assessmentPermission->authentic_traits == 2) {
 
-                    return Helpers::validationResponse('Access denied because this user has denied permission.');
+                    return Helpers::validationResponse('Access is denied because the user has not allowed sharing of their core stats and authentic traits in their privacy settings.');
 
                 }
 
@@ -517,7 +517,7 @@ class HumanNetworkController extends Controller
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 2 && $assessmentPermission->authentic_traits == 2) {
 
-                    return Helpers::validationResponse('Access denied because this user has denied permission.');
+                    return Helpers::validationResponse('Access is denied because the user has not allowed sharing of their core stats and authentic traits in their privacy settings.');
 
                 }
 
