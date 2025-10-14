@@ -10,6 +10,7 @@ use App\Http\Requests\CreateGroupThreadRequest;
 use App\Http\Requests\RemoveUserInGroupRequest;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\Client\MessageThreadParticipant\MessageThreadParticipant;
+use App\Models\Upload\Upload;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -62,6 +63,11 @@ class ThreadController extends Controller
         DB::beginTransaction();
 
         try {
+
+            $upload_id = Upload::uploadFile($request['group_profile_image'], 200, 200, 'base64Image', 'png', true);
+
+            $request['group_icon_id'] = $upload_id;
+
             $loginUser = $request->user();
 
             $group = MessageThread::createGroup($request, $loginUser->id);

@@ -15,7 +15,7 @@ class MessageThread extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['user_data'];
+    protected $appends = ['user_data', 'group_profile_url'];
 
     public function __construct(array $attributes = [])
     {
@@ -34,6 +34,22 @@ class MessageThread extends Model
     public const ROLE_OWNER = 0;
     public const ROLE_ADMIN = 1;
     public const ROLE_MEMBER = 2;
+
+
+    // append
+    public function getGroupProfileUrlAttribute()
+    {
+
+        if (!empty($this->group_icon_id)){
+
+            return Helpers::getImage($this->group_icon_id, 1)['url'];
+
+        }else{
+
+            return null;
+        }
+
+    }
 
     // relations
     public function sender()
@@ -235,8 +251,9 @@ class MessageThread extends Model
     {
 
         $q = self::query()
+            ->with('participants')->count()
             ->forUser($request->user()->id)
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at',]);
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id']);
 
         if ($request->filled('type')) {
             $q->where('type', (int)$request->query('type'));
@@ -253,6 +270,7 @@ class MessageThread extends Model
             'type' => self::TYPE_GROUP,
             'name' => $request->string('name'),
             'owner_id' => $ownerId,
+            'group_icon_id' => $request['group_icon_id'],
         ]);
 
         $ids = collect($request->input('member_ids', []))->unique()->reject(fn($id) => $id == $ownerId);
