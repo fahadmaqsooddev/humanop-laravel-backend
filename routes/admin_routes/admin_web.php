@@ -55,7 +55,7 @@ Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt
 Route::get('/', [SessionController::class, 'create']);
 
 // stripe webhook for update customer subscription
-Route::post('/subscription_update', [\App\Http\Controllers\B2BControllers\B2BApi\B2BSubscriptionController::class,'subscriptionUpdateWebhook']);
+//Route::post('/subscription_update', [\App\Http\Controllers\B2BControllers\B2BApi\B2BSubscriptionController::class,'subscriptionUpdateWebhook']);
 
 $prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
 $prefix = $prefix === 'admin' ? str_contains(request()->url(), '/client.') ? 'practitioner' : $prefix : $prefix;
@@ -189,9 +189,9 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
 
 
-    Route::group(['middleware' => ['permission:practitioner']], function () {
-        Route::get('/practitioners', [PractitionerController::class, 'allPractitioners'])->name('admin_all_practitioners');
-    });
+//    Route::group(['middleware' => ['permission:practitioner']], function () {
+//        Route::get('/practitioners', [PractitionerController::class, 'allPractitioners'])->name('admin_all_practitioners');
+//    });
 
     Route::group(['middleware' => ['permission:projects']], function () {
         Route::get('/admin-projects', [AdminController::class, 'project'])->name('admin_projects');
