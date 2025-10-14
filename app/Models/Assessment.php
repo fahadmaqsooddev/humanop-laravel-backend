@@ -863,7 +863,9 @@ class Assessment extends Model
             return array_search($a, $style) <=> array_search($b, $style);
         });
 
-        if (Helpers::getUser()['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+        $user = Helpers::getUser() ?? Helpers::getWebUser();
+
+        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
 
             $styleCodes = CodeDetail::getStylePublicNames($data);
 
