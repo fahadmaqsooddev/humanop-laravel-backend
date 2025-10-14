@@ -863,21 +863,11 @@ class Assessment extends Model
             return array_search($a, $style) <=> array_search($b, $style);
         });
 
-        if (Helpers::getWebUser()['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
+        $topFour = array_slice($data, 0, 3, true);
 
-            $styleCodes = CodeDetail::getStylePublicNames($data);
+        $styleCodes = CodeDetail::getStylePublicNames($topFour);
 
-            $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $data);
-
-        }else{
-
-            $topFour = array_slice($data, 0, 3, true);
-
-            $styleCodes = CodeDetail::getStylePublicNames($topFour);
-
-            $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $topFour);
-
-        }
+        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $topFour);
 
         $data = [];
 
