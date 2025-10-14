@@ -64,9 +64,17 @@ class ThreadController extends Controller
 
         try {
 
-            $upload_id = Upload::uploadFile($request['group_profile_image'], 200, 200, 'base64Image', 'png', true);
+            if (!empty($request['group_profile_image'])){
 
-            $request['group_icon_id'] = $upload_id;
+                $upload_id = Upload::uploadFile($request['group_profile_image'], 200, 200, 'base64Image', 'png', true);
+
+                $request['group_icon_id'] = $upload_id;
+
+            }else{
+
+                $request['group_icon_id'] = null;
+
+            }
 
             $loginUser = $request->user();
 

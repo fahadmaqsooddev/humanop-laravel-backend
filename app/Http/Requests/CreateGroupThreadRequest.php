@@ -26,7 +26,7 @@ class CreateGroupThreadRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100', 'unique:message_threads,name'],
-            'group_profile_image' => ['required', 'file', 'mimes:jpeg,jpg,png,gif,svg,webp', 'max:204800'], // 200MB
+            'group_profile_image' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif,svg,webp', 'max:204800'], // 200MB
             'member_ids' => ['nullable', 'array'],
             'member_ids.*' => ['integer', 'exists:users,id'],
         ];
