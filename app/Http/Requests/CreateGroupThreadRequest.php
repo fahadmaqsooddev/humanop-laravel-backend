@@ -26,7 +26,7 @@ class CreateGroupThreadRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100', 'unique:message_threads,name'],
-            'group_icon_id' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif,svg,webp', 'max:5120'], // 5MB
+            'group_profile_image' => ['required', 'file', 'mimes:jpeg,jpg,png,gif,svg,webp', 'max:204800'], // 200MB
             'member_ids' => ['nullable', 'array'],
             'member_ids.*' => ['integer', 'exists:users,id'],
         ];
@@ -40,9 +40,9 @@ class CreateGroupThreadRequest extends FormRequest
             'name.max' => 'The group name may not exceed 100 characters.',
             'name.unique' => 'A group with this name already exists.',
 
-            'group_icon_id.file' => 'The group icon must be a valid file.',
-            'group_icon_id.mimes' => 'The group icon must be an image (jpeg, jpg, png, gif, svg, or webp).',
-            'group_icon_id.max' => 'The group icon size must not exceed 5MB.',
+            'group_profile_image.file' => 'The group profile image must be a valid file.',
+            'group_profile_image.mimes' => 'The group profile image must be an image (jpeg, jpg, png, gif, svg, or webp).',
+            'group_profile_image.max' => 'The group profile image size must not exceed 200MB.',
 
             'member_ids.array' => 'Members must be provided as an array.',
             'member_ids.*.integer' => 'Each member ID must be a valid integer.',
