@@ -10,7 +10,7 @@
         "aws/aws-sdk-php": "^3.337",
         "barryvdh/laravel-dompdf": "^2.2",
         "beyondcode/laravel-websockets": "^1.14",
-        "fruitcake/laravel-cors": "^2.0",
+        "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.4",
         "intervention/image": "^2.7",
         "laravel/cashier": "14.0",
