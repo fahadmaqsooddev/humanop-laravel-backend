@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Broadcast;
 use \App\Models\Client\MessageThread\MessageThread;
-use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -16,27 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['checkUser']], function () {
+Broadcast::channel('chat.thread.{id}', function ($user, $id) {
+    $thread = MessageThread::find($id);
+    if (!$thread) return false;
 
-    Broadcast::channel('chat.thread.{id}', function ($user, $id) {
-        \Illuminate\Support\Facades\Log::info('Broadcast auth user:', [$user]);
-        $thread = MessageThread::find($id);
-        if (!$thread) return false;
-
-        $isMember = $thread->participants()->where('user_id', $user->id)->exists();
-        $isDirect = $thread->isDirect() && ($thread->sender_id === $user->id || $thread->receiver_id === $user->id);
-        return $isMember || $isDirect;
-    });
+    $isMember = $thread->participants()->where('user_id',$user->id)->exists();
+    $isDirect = $thread->isDirect() && ($thread->sender_id === $user->id || $thread->receiver_id === $user->id);
+    return $isMember || $isDirect;
 });
 
 Broadcast::channel('presence.chat.thread.{id}', function ($user, $id) {
     $thread = MessageThread::find($id);
     if (!$thread) return false;
 
-    $isMember = $thread->participants()->where('user_id', $user->id)->exists();
+    $isMember = $thread->participants()->where('user_id',$user->id)->exists();
     $isDirect = $thread->isDirect() && ($thread->sender_id === $user->id || $thread->receiver_id === $user->id);
 
-    return ($isMember || $isDirect) ? ['id' => $user->id, 'name' => $user->first_name . ' ' . $user->last_name] : false;
+    return ($isMember || $isDirect) ? ['id'=> $user->id,'name'=> $user->first_name . ' ' . $user->last_name] : false;
 });
 
 Broadcast::channel('push-notification.{id}', function ($user, $id) {
