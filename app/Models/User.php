@@ -2559,6 +2559,9 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-
+    public static function changeGroupChatFIlter($groupChatFilter = null)
+    {
+        return self::whereId(Helpers::getUser()['id'])->update(['group_filter' => $groupChatFilter]);
+    }
 
 }

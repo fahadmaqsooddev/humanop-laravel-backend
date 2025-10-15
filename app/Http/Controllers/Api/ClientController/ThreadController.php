@@ -8,6 +8,7 @@ use App\Http\Requests\AddUserInGroupRequest;
 use App\Http\Requests\ChangeParticipantRoleRequest;
 use App\Http\Requests\CheckThreadIdRequest;
 use App\Http\Requests\CreateGroupThreadRequest;
+use App\Http\Requests\EditGroupRequest;
 use App\Http\Requests\RemoveUserInGroupRequest;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\Client\MessageThreadParticipant\MessageThreadParticipant;
@@ -30,7 +31,15 @@ class ThreadController extends Controller
 
         try {
 
-            $all_chats = MessageThread::getMessageThread($request);
+            if (Helpers::getUser()['group_filter'] == 1){
+
+                $all_chats = MessageThread::getMyMessageThread($request);
+
+            }else{
+
+                $all_chats = MessageThread::getAllMessageThread($request);
+
+            }
 
             return Helpers::successResponse('All Chats', $all_chats, $request->input('pagination'));
 
@@ -84,6 +93,42 @@ class ThreadController extends Controller
             DB::commit();
 
             return Helpers::successResponse('New group created successfully.', $group);
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function editGroup(EditGroupRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if (!empty($request['group_profile_image'])) {
+
+                $upload_id = Upload::uploadFile($request['group_profile_image'], 200, 200, 'base64Image', 'png', true);
+
+                $request['group_icon_id'] = $upload_id;
+
+            } else {
+
+                $request['group_icon_id'] = null;
+
+            }
+
+            $loginUser = $request->user();
+
+            $group = MessageThread::editGroup($request, $loginUser->id);
+
+            DB::commit();
+
+            return Helpers::successResponse('group edited successfully.', $group);
 
         } catch (\Exception $exception) {
 
@@ -180,6 +225,25 @@ class ThreadController extends Controller
             DB::commit();
 
             return Helpers::successResponse('Role changed successfully.', $member);
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function changedGroupFilter(Request $request)
+    {
+
+        try {
+
+            User::changeGroupChatFIlter($request['group_chat_filter']);
+
+            return Helpers::successResponse('Group Chat Filter updated successfully.');
 
         } catch (\Exception $exception) {
 

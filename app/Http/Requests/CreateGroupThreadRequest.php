@@ -29,6 +29,7 @@ class CreateGroupThreadRequest extends FormRequest
             'group_profile_image' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif,svg,webp', 'max:204800'], // 200MB
             'member_ids' => ['nullable', 'array'],
             'member_ids.*' => ['integer', 'exists:users,id'],
+            'thread_privacy' => 'required'
         ];
     }
 
