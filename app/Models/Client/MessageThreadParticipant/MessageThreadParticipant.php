@@ -22,4 +22,14 @@ class MessageThreadParticipant extends Model
     {
         return self::where('user_id', $loginUserId)->where('message_thread_id', $threadId)->first();
     }
+
+    public static function changeRole($request = null)
+    {
+        $participant = self::getSingleUser($request['participant_id'], $request['thread_id']);
+
+        $participant->update(['role' => $request['role']]);
+
+        return $participant;
+
+    }
 }

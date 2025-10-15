@@ -29,8 +29,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('direct-chats', 'DirectController@directChat');
     Route::post('store-messages', 'MessageController@storeMessages');
     Route::get('all-messages', 'MessageController@allMessages');
+    Route::post('change-role', 'ThreadController@setRole');
 
     Route::post('/threads/{messageThread}/read', 'MessageController@markRead');
-    Route::post('/threads/{messageThread}/role/{user}', 'ThreadController@setRole');
 
 });

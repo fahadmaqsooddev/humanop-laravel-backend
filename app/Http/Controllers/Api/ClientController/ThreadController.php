@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\ClientController;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddUserInGroupRequest;
+use App\Http\Requests\ChangeParticipantRoleRequest;
 use App\Http\Requests\CheckThreadIdRequest;
 use App\Http\Requests\CreateGroupThreadRequest;
 use App\Http\Requests\RemoveUserInGroupRequest;
@@ -64,13 +65,13 @@ class ThreadController extends Controller
 
         try {
 
-            if (!empty($request['group_profile_image'])){
+            if (!empty($request['group_profile_image'])) {
 
                 $upload_id = Upload::uploadFile($request['group_profile_image'], 200, 200, 'base64Image', 'png', true);
 
                 $request['group_icon_id'] = $upload_id;
 
-            }else{
+            } else {
 
                 $request['group_icon_id'] = null;
 
@@ -163,13 +164,40 @@ class ThreadController extends Controller
         return response()->json(['ok' => true]);
     }
 
-    public function setRole(Request $request, MessageThread $messageThread, User $user)
+    public function setRole(ChangeParticipantRoleRequest $request)
     {
+
+        $messageThread = MessageThread::findOrFail($request->thread_id);
+
         $this->authorize('manage', $messageThread);
-        $role = (int)$request->input('role'); // 1=admin, 2=member
-        abort_unless(in_array($role, [MessageThread::ROLE_ADMIN, MessageThread::ROLE_MEMBER], true), 422);
-        $messageThread->participants()->updateExistingPivot($user->id, ['role' => $role]);
-        return response()->json(['ok' => true]);
+
+        DB::beginTransaction();
+
+        try {
+
+            $member = MessageThreadParticipant::changeRole($request);
+
+            DB::commit();
+
+            return Helpers::successResponse('Role changed successfully.', $member);
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
     }
+
+//    public function setRole(Request $request, MessageThread $messageThread, User $user)
+//    {
+//        $this->authorize('manage', $messageThread);
+//        $role = (int)$request->input('role'); // 1=admin, 2=member
+//        abort_unless(in_array($role, [MessageThread::ROLE_ADMIN, MessageThread::ROLE_MEMBER], true), 422);
+//        $messageThread->participants()->updateExistingPivot($user->id, ['role' => $role]);
+//        return response()->json(['ok' => true]);
+//    }
 
 }
