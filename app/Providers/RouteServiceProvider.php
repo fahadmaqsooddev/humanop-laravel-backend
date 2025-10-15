@@ -18,7 +18,6 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/login';
-    protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
     protected $GamificationClientController = 'App\Http\Controllers\Api\ClientController\Gamification';
     protected $PlaylistClientController = 'App\Http\Controllers\Api\ClientController\PlayList';
@@ -26,7 +25,6 @@ class RouteServiceProvider extends ServiceProvider
     protected $HumanOpShopController = 'App\Http\Controllers\Api\ClientController\HumanOPShop';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
-    protected $ChatAiNamespace = 'App\Http\Controllers\Api\ClientController\ChatAi';
 
 
     /**
@@ -58,14 +56,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/admin_routes/admin_web.php'));
 
             Route::middleware('web')
-                ->namespace($this->PractitionerNamespace)
-                ->group(base_path('routes/admin_routes/practitioner_web.php'));
-
-            Route::middleware('web')
                 ->prefix('media')
                 ->namespace($this->UploadControllerNamespace)
                 ->group(base_path('routes/file_routes/file_routes.php'));
-
 
             // Api's
 
@@ -112,10 +105,6 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->HumanNetworkNamespace)
                 ->group(base_path('routes/client_apis/human_network/human_network_api.php'));
-
-            Route::prefix('api')->middleware('api')
-                ->namespace($this->ChatAiNamespace)
-                ->group(base_path('routes/client_apis/chat_ai/chat_ai_api.php'));
 
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)

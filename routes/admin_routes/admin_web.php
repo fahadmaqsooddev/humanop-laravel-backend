@@ -54,13 +54,7 @@ Route::post('/data-stripe', [SessionController::class, 'getData'])->name('data-s
 Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt']);
 Route::get('/', [SessionController::class, 'create']);
 
-// stripe webhook for update customer subscription
-//Route::post('/subscription_update', [\App\Http\Controllers\B2BControllers\B2BApi\B2BSubscriptionController::class,'subscriptionUpdateWebhook']);
-
-$prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
-$prefix = $prefix === 'admin' ? str_contains(request()->url(), '/client.') ? 'practitioner' : $prefix : $prefix;
-
-Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
     // ====================================== Admin Dashboard ================================ //
 
@@ -132,13 +126,13 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
         Route::get('/information-icon', [InformationController::class, 'getInfo'])->name('admin_get_info');
         Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
-        Route::get('/create-version-control',[VersionController::class,'createVersion'])->name('create-version');
-        Route::get('/edit-version-control/{id}',[VersionController::class,'EditVersion'])->name('edit-version');
-        Route::get('/result-videos',[ResultVideoController::class,'resultVideo'])->name('admin_result_videos');
-        Route::get('/edit/result-videos/{id}',[ResultVideoController::class,'editResultVideo'])->name('admin_edit_result_videos');
+        Route::get('/create-version-control', [VersionController::class, 'createVersion'])->name('create-version');
+        Route::get('/edit-version-control/{id}', [VersionController::class, 'EditVersion'])->name('edit-version');
+        Route::get('/result-videos', [ResultVideoController::class, 'resultVideo'])->name('admin_result_videos');
+        Route::get('/edit/result-videos/{id}', [ResultVideoController::class, 'editResultVideo'])->name('admin_edit_result_videos');
 
         Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
-        Route::get('/assessment-walkthrough', [App\Http\Controllers\AdminControllers\AssessmentWalkthrough::class,'getWalkThrough'])->name('admin_get_assessment_walkthrough');
+        Route::get('/assessment-walkthrough', [App\Http\Controllers\AdminControllers\AssessmentWalkthrough::class, 'getWalkThrough'])->name('admin_get_assessment_walkthrough');
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
         Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
         Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');
@@ -147,16 +141,16 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/suggested-items', [SuggestedItemsController::class, 'suggestedItems'])->name('admin_suggested_items');
         Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
-        Route::get('/pricing-plans',[PricingPlanController::class,'getPricingPlan'])->name('admin_pricing_plan');
-        Route::get('/create-pricing-plan',[PricingPlanController::class,'createPricingPlan'])->name('admin_create_pricing_plan');
-        Route::get('/edit-pricing-plan/{id}',[PricingPlanController::class,'editPricingPlan'])->name('admin_edit_pricing_plan');
-        Route::get('/onboarding-screens',[OnboardingScreenController::class,'onboardingScreens'])->name('admin_onboarding_screens');
-        Route::get('/network-tutorials',[NetworkTutorialController::class,'networkTutorials'])->name('admin_network_tutorials');
-        Route::get('/announcements-news',[AnnouncementsNewsController::class,'announcementsNews'])->name('admin_announcements_news');
-        Route::get('/faq',[FaqController::class,'FaqQuestions'])->name('admin_faq');
-        Route::get('/b2c-email-template',[EmailTemplateController::class,'b2CTemplates'])->name('admin_b2c_email_template');
+        Route::get('/pricing-plans', [PricingPlanController::class, 'getPricingPlan'])->name('admin_pricing_plan');
+        Route::get('/create-pricing-plan', [PricingPlanController::class, 'createPricingPlan'])->name('admin_create_pricing_plan');
+        Route::get('/edit-pricing-plan/{id}', [PricingPlanController::class, 'editPricingPlan'])->name('admin_edit_pricing_plan');
+        Route::get('/onboarding-screens', [OnboardingScreenController::class, 'onboardingScreens'])->name('admin_onboarding_screens');
+        Route::get('/network-tutorials', [NetworkTutorialController::class, 'networkTutorials'])->name('admin_network_tutorials');
+        Route::get('/announcements-news', [AnnouncementsNewsController::class, 'announcementsNews'])->name('admin_announcements_news');
+        Route::get('/faq', [FaqController::class, 'FaqQuestions'])->name('admin_faq');
+        Route::get('/b2c-email-template', [EmailTemplateController::class, 'b2CTemplates'])->name('admin_b2c_email_template');
 
-        Route::get('/logs-activity',[EmailTemplateController::class,'getLogsActitvity'])->name('get_logs_activity');
+        Route::get('/logs-activity', [EmailTemplateController::class, 'getLogsActitvity'])->name('get_logs_activity');
 
     });
 
@@ -185,13 +179,6 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
     });
 
     Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
-
-
-
-
-//    Route::group(['middleware' => ['permission:practitioner']], function () {
-//        Route::get('/practitioners', [PractitionerController::class, 'allPractitioners'])->name('admin_all_practitioners');
-//    });
 
     Route::group(['middleware' => ['permission:projects']], function () {
         Route::get('/admin-projects', [AdminController::class, 'project'])->name('admin_projects');
