@@ -191,13 +191,4 @@ class ThreadController extends Controller
 
     }
 
-//    public function setRole(Request $request, MessageThread $messageThread, User $user)
-//    {
-//        $this->authorize('manage', $messageThread);
-//        $role = (int)$request->input('role'); // 1=admin, 2=member
-//        abort_unless(in_array($role, [MessageThread::ROLE_ADMIN, MessageThread::ROLE_MEMBER], true), 422);
-//        $messageThread->participants()->updateExistingPivot($user->id, ['role' => $role]);
-//        return response()->json(['ok' => true]);
-//    }
-
 }
