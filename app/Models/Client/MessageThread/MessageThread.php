@@ -83,9 +83,9 @@ class MessageThread extends Model
         return $this->hasMany(Message::class, 'message_thread_id', 'id')->orderByDesc('id');
     }
 
-    public function groupRequests()
+    public function groupChatRequests()
     {
-        return $this->hasMany(MessageThreadRequest::class, 'thread_id', 'id')->orderByDesc('id');
+        return $this->hasMany(MessageThreadRequest::class, 'thread_id', 'id');
     }
 
     public function participants()
@@ -384,7 +384,7 @@ class MessageThread extends Model
         $messageThread->load([
             'participants:id,first_name,last_name,image_id',
             'owner:id,first_name,last_name,image_id',
-            'groupRequests',
+            'groupChatRequests',
         ]);
 
         return $messageThread;
