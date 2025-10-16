@@ -54,7 +54,7 @@ class ThreadController extends Controller
 
     public function showTHreads(CheckThreadIdRequest $request)
     {
-        try {
+//        try {
 
             $messageThread = MessageThread::findOrFail($request->thread_id);
 
@@ -64,10 +64,10 @@ class ThreadController extends Controller
 
             return Helpers::successResponse('Show threads', $show);
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
     }
 
     public function createGroupChat(CreateGroupThreadRequest $request)

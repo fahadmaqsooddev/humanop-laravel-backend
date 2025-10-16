@@ -387,6 +387,10 @@ class MessageThread extends Model
             'groupRequests.member:id,first_name,last_name,image_id',
         ]);
 
+//        if (!$messageThread->relationLoaded('groupRequests') || $messageThread->groupRequests->isEmpty()) {
+//            $messageThread->setRelation('groupRequests', null);
+//        }
+
         return $messageThread;
     }
 
