@@ -13,7 +13,7 @@ use App\Http\Requests\RemoveUserInGroupRequest;
 use App\Http\Requests\SendGroupRequest;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\Client\MessageThreadParticipant\MessageThreadParticipant;
-use App\Models\CLient\MessageThreadRequest;
+use App\Models\Client\MessageThreadRequest;
 use App\Models\Upload\Upload;
 use App\Models\User;
 use Illuminate\Http\Request;
