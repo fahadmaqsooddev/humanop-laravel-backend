@@ -67,4 +67,9 @@ class MessageThreadRequest extends Model
 
     }
 
+    public static function deleteRequest($data = null)
+    {
+        return self::where('thread_id', $data['thread_id'])->where('member_id', $data['member_id'])->delete();
+    }
+
 }

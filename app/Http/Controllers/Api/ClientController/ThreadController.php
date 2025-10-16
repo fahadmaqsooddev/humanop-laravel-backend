@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AcceptOrRejectGroupRequest;
 use App\Http\Requests\AddUserInGroupRequest;
 use App\Http\Requests\ChangeParticipantRoleRequest;
 use App\Http\Requests\CheckThreadIdRequest;
@@ -11,6 +13,7 @@ use App\Http\Requests\CreateGroupThreadRequest;
 use App\Http\Requests\EditGroupRequest;
 use App\Http\Requests\RemoveUserInGroupRequest;
 use App\Http\Requests\SendGroupRequest;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\Client\MessageThreadParticipant\MessageThreadParticipant;
 use App\Models\Client\MessageThreadRequest;
@@ -176,7 +179,7 @@ class ThreadController extends Controller
 
         $user = MessageThreadParticipant::getSingleUser($loginUser['id'], $request->thread_id);
 
-        if (!empty($request['member_id'])){
+        if (!empty($request['member_id'])) {
 
             if (!in_array($user->role, [0, 1])) {
                 return Helpers::validationResponse('You cannot remove Member because you have no permission to remove other users.');
@@ -200,7 +203,7 @@ class ThreadController extends Controller
 
                 return Helpers::successResponse('You have been removed from this group.');
 
-            }elseif (!empty($request['member_id'])){
+            } elseif (!empty($request['member_id'])) {
 
                 MessageThread::removeUser($request, $messageThread);
 
@@ -209,7 +212,7 @@ class ThreadController extends Controller
                 return Helpers::successResponse('Member remove successfully.');
 
 
-            } else{
+            } else {
 
                 return Helpers::validationResponse('User not found');
 
@@ -270,8 +273,6 @@ class ThreadController extends Controller
 
         } catch (\Exception $exception) {
 
-            DB::rollBack();
-
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
@@ -303,6 +304,65 @@ class ThreadController extends Controller
             return Helpers::validationResponse('Request has already been sent.');
 
         } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function acceptGroupRequest(AcceptOrRejectGroupRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $data = $request->only(['thread_id', 'member_id', 'accept_or_reject']);
+
+            $checkOrCreateParticipant = MessageThreadParticipant::createUser($data);
+
+            if ($checkOrCreateParticipant == true) {
+
+                MessageThreadRequest::deleteRequest($data);
+
+                $group = MessageThread::where('id', $data['thread_id'])->first();
+
+                if ($data['accept_or_reject'] == 1) {
+
+                    $msg = "Congratulations! You have been added to the group '{$group->name}'.";
+
+                    Notification::createNotification('Accept Group Request', $msg, '', $data['member_id'], 0, Admin::ACCEPT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                    broadcast(new \App\Events\AcceptOrRejectGroupRequest($data['member_id'], 'Group request accepted ', $msg))->toOthers();
+
+                    DB::commit();
+
+                    return Helpers::successResponse('Group request accepted successfully.');
+
+                } else {
+
+                    $msg = "Your request to join the group '{$group->name}' has been declined by the group owner.";
+
+                    Notification::createNotification('Reject Group Request', $msg, '', $data['member_id'], 0, Admin::REJECT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                    broadcast(new \App\Events\AcceptOrRejectGroupRequest($data['member_id'], 'Group request rejected ', $msg))->toOthers();
+
+                    DB::commit();
+
+                    return Helpers::validationResponse('Group request rejected successfully.');
+                }
+
+            } else {
+
+                DB::rollBack();
+
+                return Helpers::validationResponse('This member already exists in the group.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
 

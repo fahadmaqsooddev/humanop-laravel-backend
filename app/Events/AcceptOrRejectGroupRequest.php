@@ -11,25 +11,27 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SendGroupRequest implements ShouldBroadcast, ShouldQueue
+class AcceptOrRejectGroupRequest implements ShouldBroadcast, ShouldQueue
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $ownerId;
+    public $memberId;
     public $heading;
     public $message;
 
     public string $broadcastQueue = 'broadcasts';
+
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($ownerId = null, $heading = null, $message = null)
+
+    public function __construct($memberId = null, $heading = null, $message = null)
     {
 
-        $this->ownerId = $ownerId;
+        $this->memberId = $memberId;
         $this->heading = $heading;
         $this->message = $message;
 
@@ -40,26 +42,28 @@ class SendGroupRequest implements ShouldBroadcast, ShouldQueue
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
+
     public function broadcastOn()
     {
 
-        return new Channel('push-notification.' . $this->ownerId);
+        return new Channel('push-notification.' . $this->memberId);
     }
 
     public function broadcastAs()
     {
 
-        return 'send.groupRequest';
+        return 'acceptReject.groupRequest';
     }
 
     public function broadcastWith()
     {
 
         return [
-            'owner_id' => $this->ownerId,
+            'member_id' => $this->memberId,
             'heading' => $this->heading,
             'message' => $this->message,
         ];
 
     }
+
 }
