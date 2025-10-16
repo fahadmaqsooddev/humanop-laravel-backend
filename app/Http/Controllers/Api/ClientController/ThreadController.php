@@ -182,11 +182,11 @@ class ThreadController extends Controller
                 return Helpers::validationResponse('You cannot remove Member because you have no permission to remove other users.');
             }
 
+            $messageThread = MessageThread::findOrFail($request->thread_id);
+
+            $this->authorize('manage', $messageThread);
+
         }
-
-        $messageThread = MessageThread::findOrFail($request->thread_id);
-
-        $this->authorize('manage', $messageThread);
 
         DB::beginTransaction();
 
