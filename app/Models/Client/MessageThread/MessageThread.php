@@ -83,16 +83,16 @@ class MessageThread extends Model
         return $this->hasMany(Message::class, 'message_thread_id', 'id')->orderByDesc('id');
     }
 
-    public function groupChatRequests()
-    {
-        return $this->hasMany(MessageThreadRequest::class, 'thread_id', 'id');
-    }
-
     public function participants()
     {
         return $this->belongsToMany(User::class, 'message_thread_participants', 'message_thread_id', 'user_id')
             ->withPivot(['role', 'joined_at', 'muted_until'])
             ->withTimestamps();
+    }
+
+    public function groupChatRequests()
+    {
+        return $this->belongsToMany(User::class, 'message_thread_requests', 'thread_id', 'member_id');
     }
 
     public function scopeForUser($q, $userId)
@@ -384,7 +384,7 @@ class MessageThread extends Model
         $messageThread->load([
             'participants:id,first_name,last_name,image_id',
             'owner:id,first_name,last_name,image_id',
-            
+            'groupChatRequests:id,first_name,last_name,image_id',
         ]);
 
         return $messageThread;
