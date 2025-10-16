@@ -33,11 +33,11 @@ class ThreadController extends Controller
 
         try {
 
-            if (Helpers::getUser()['group_filter'] == 1){
+            if (Helpers::getUser()['group_filter'] == 1) {
 
                 $all_chats = MessageThread::getMyMessageThread($request);
 
-            }else{
+            } else {
 
                 $all_chats = MessageThread::getAllMessageThread($request);
 
@@ -259,26 +259,29 @@ class ThreadController extends Controller
 
     public function sendGroupRequest(SendGroupRequest $request)
     {
-
         try {
 
-            $checkGroup = MessageThread::checkMemberExistInGroup($request);
+            $data = $request->only(['thread_id', 'owner_id', 'member_id']);
 
-//            $checkRequest = MessageThreadRequest::
+            $checkGroup = MessageThread::checkMemberExistInGroup($data);
 
-            if (!empty($checkGroup) && !empty($checkGroup['participants'])){
+            if (!empty($checkGroup) && $checkGroup->participants->isNotEmpty()) {
 
-                return Helpers::validationResponse('this member already exist in group.');
+                return Helpers::validationResponse('This member already exists in the group.');
 
             }
 
+            $checkRequest = MessageThreadRequest::createGroupRequest($data);
 
+            if ($checkRequest === true) {
 
-            return Helpers::successResponse('Group Chat Filter updated successfully.');
+                return Helpers::successResponse('Group request sent successfully.');
+
+            }
+
+            return Helpers::validationResponse('Request has already been sent.');
 
         } catch (\Exception $exception) {
-
-            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
 

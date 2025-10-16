@@ -89,6 +89,7 @@ final class Admin
 
     const REQUEST_ACCESS_DATA_NOTIFICATION = 13;
 
+    const SEND_GROUP_REQUEST_NOTIFICATION = 15;
     const OPTIMAL_TRAIT = 14;
 
     const CREDIT_BONUS = 15;
