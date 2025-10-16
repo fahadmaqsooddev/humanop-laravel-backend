@@ -33,6 +33,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('change-role', 'ThreadController@setRole');
     Route::post('changed-group-filter', 'ThreadController@changedGroupFilter');
 
+    Route::post('send-group-request', 'ThreadController@sendGroupRequest');
+
     Route::post('/threads/{messageThread}/read', 'MessageController@markRead');
 
 });

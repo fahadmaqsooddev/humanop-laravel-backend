@@ -253,7 +253,7 @@ class MessageThread extends Model
         $q = self::query()
             ->with('participants')
 //            ->forUser($request->user()->id)
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id','thread_privacy']);
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
 
         if ($request->filled('type')) {
             $q->where('type', (int)$request->query('type'));
@@ -269,7 +269,7 @@ class MessageThread extends Model
         $q = self::query()
             ->with('participants')
             ->forUser($request->user()->id)
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id','thread_privacy']);
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
 
         if ($request->filled('type')) {
             $q->where('type', (int)$request->query('type'));
@@ -381,6 +381,16 @@ class MessageThread extends Model
         ]);
 
         return $messageThread;
+    }
+
+    public static function checkMemberExistInGroup($data = null)
+    {
+        return self::with(['participants' => function ($q) use ($data) {
+            $q->whereIn('user_id', (array)$data['member_id']);
+        }])
+            ->where('id', $data['thread_id'])
+            ->where('owner_id', $data['owner_id'])
+            ->first();
     }
 
 }

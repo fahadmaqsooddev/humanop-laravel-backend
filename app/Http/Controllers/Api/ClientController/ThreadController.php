@@ -10,8 +10,10 @@ use App\Http\Requests\CheckThreadIdRequest;
 use App\Http\Requests\CreateGroupThreadRequest;
 use App\Http\Requests\EditGroupRequest;
 use App\Http\Requests\RemoveUserInGroupRequest;
+use App\Http\Requests\SendGroupRequest;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\Client\MessageThreadParticipant\MessageThreadParticipant;
+use App\Models\CLient\MessageThreadRequest;
 use App\Models\Upload\Upload;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -242,6 +244,35 @@ class ThreadController extends Controller
         try {
 
             User::changeGroupChatFIlter($request['group_chat_filter']);
+
+            return Helpers::successResponse('Group Chat Filter updated successfully.');
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function sendGroupRequest(SendGroupRequest $request)
+    {
+
+        try {
+
+            $checkGroup = MessageThread::checkMemberExistInGroup($request);
+
+//            $checkRequest = MessageThreadRequest::
+
+            if (!empty($checkGroup) && !empty($checkGroup['participants'])){
+
+                return Helpers::validationResponse('this member already exist in group.');
+
+            }
+
+
 
             return Helpers::successResponse('Group Chat Filter updated successfully.');
 
