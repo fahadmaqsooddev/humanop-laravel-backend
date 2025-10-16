@@ -384,7 +384,7 @@ class MessageThread extends Model
         $messageThread->load([
             'participants:id,first_name,last_name,image_id',
             'owner:id,first_name,last_name,image_id',
-            'groupChatRequests',
+            
         ]);
 
         return $messageThread;
