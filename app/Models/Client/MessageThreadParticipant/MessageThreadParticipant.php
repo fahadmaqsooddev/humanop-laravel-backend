@@ -2,6 +2,7 @@
 
 namespace App\Models\Client\MessageThreadParticipant;
 
+use App\Models\Client\MessageThread\MessageThread;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,4 +33,27 @@ class MessageThreadParticipant extends Model
         return $participant;
 
     }
+
+    public static function removeUser($request = null)
+    {
+        $getUser = self::getSingleUser($request['user_id'], $request['thread_id']);
+
+        if (!$getUser) {
+            return false;
+        }
+
+        if ($getUser->role != 0) {
+            $getUser->delete();
+            return true;
+        }
+
+        $getUser->delete();
+
+        MessageThread::where('id', $request['thread_id'])
+            ->where('owner_id', $request['user_id'])
+            ->update(['owner_id' => null]);
+
+        return true;
+    }
+
 }

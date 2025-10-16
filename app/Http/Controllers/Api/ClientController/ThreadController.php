@@ -177,7 +177,7 @@ class ThreadController extends Controller
         $user = MessageThreadParticipant::getSingleUser($loginUser['id'], $request->thread_id);
 
         if (!in_array($user->role, [0, 1])) {
-            return Helpers::validationResponse('You cannot remove users because you have no permission to remove other users.');
+            return Helpers::validationResponse('You cannot remove Member because you have no permission to remove other users.');
         }
 
         $messageThread = MessageThread::findOrFail($request->thread_id);
@@ -188,11 +188,28 @@ class ThreadController extends Controller
 
         try {
 
-            $member = MessageThread::removeUser($request, $messageThread);
+            if (!empty($request['user_id']) && $request['user_id'] == $loginUser['id']) {
 
-            DB::commit();
+                MessageThreadParticipant::removeUser($request);
 
-            return Helpers::successResponse('Members remove successfully.', $member);
+                DB::commit();
+
+                return Helpers::successResponse('You have been removed from this group.');
+
+            }elseif (!empty($request['member_id'])){
+
+                MessageThread::removeUser($request, $messageThread);
+
+                DB::commit();
+
+                return Helpers::successResponse('Member remove successfully.');
+
+
+            } else{
+
+                return Helpers::validationResponse('User not found');
+
+            }
 
         } catch (\Exception $exception) {
 

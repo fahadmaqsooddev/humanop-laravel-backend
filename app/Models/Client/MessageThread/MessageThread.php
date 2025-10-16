@@ -353,7 +353,7 @@ class MessageThread extends Model
 
     public static function removeUser($request = null, $messageThread = null)
     {
-        $messageThread->participants()->detach($request['user_id']);
+        $messageThread->participants()->detach($request['member_id']);
 
         return true;
     }
