@@ -376,8 +376,8 @@ class MessageThread extends Model
     public static function LoadMessageThreads($messageThread = null)
     {
         $messageThread->load([
-            'participants:id,first_name',
-            'owner:id,first_name',
+            'participants:id,first_name,last_name,image_id',
+            'owner:id,first_name,last_name,image_id',
         ]);
 
         return $messageThread;

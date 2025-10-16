@@ -128,7 +128,7 @@ class MessageController extends Controller
 
         try {
 
-            $messages = $messageThread->messages()->with('sender:id,first_name,last_name')->paginate(50);
+            $messages = $messageThread->messages()->with('sender:id,first_name,last_name,image_id')->paginate(50);
 
             return Helpers::successResponse('All Messages', $messages);
 
