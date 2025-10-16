@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\CLient;
+namespace App\Models\Client;
 
 use App\Enums\Admin\Admin;
 use App\Events\SendGroupRequest;
