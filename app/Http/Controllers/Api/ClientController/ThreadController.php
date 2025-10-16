@@ -175,8 +175,8 @@ class ThreadController extends Controller
         $loginUser = Helpers::getUser();
 
         $user = MessageThreadParticipant::getSingleUser($loginUser['id'], $request->thread_id);
-        
-        if ($request['member_id']){
+
+        if (!empty($request['member_id'])){
 
             if (!in_array($user->role, [0, 1])) {
                 return Helpers::validationResponse('You cannot remove Member because you have no permission to remove other users.');
