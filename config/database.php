@@ -301,6 +301,11 @@ return [
             'fillable' => ['sender_id', 'receiver_id', 'updated_at', 'type', 'name', 'group_icon_id', 'owner_id', 'direct_key','thread_privacy'],
             'hidden' => ['deleted_at', 'created_at']
         ],
+        'MessageThreadRequest' => [
+            'table' => 'message_thread_requests',
+            'fillable' => ['thread_id', 'owner_id', 'member_id'],
+            'hidden' => ['deleted_at', 'created_at']
+        ],
         'MessageThreadParticipant' => [
             'table' => 'message_thread_participants',
             'fillable' => ['message_thread_id', 'user_id', 'role', 'joined_at', 'muted_until'],
