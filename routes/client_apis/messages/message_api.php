@@ -24,13 +24,18 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('all-threads', 'ThreadController@allThreads');
     Route::get('show-threads', 'ThreadController@showTHreads');
     Route::post('create-group-chat', 'ThreadController@createGroupChat');
+    Route::post('edit-group', 'ThreadController@editGroup');
     Route::post('add-users-in-group', 'ThreadController@addUsersInGroup');
     Route::delete('remove-user-in-group', 'ThreadController@removeUserInGroup');
     Route::post('direct-chats', 'DirectController@directChat');
     Route::post('store-messages', 'MessageController@storeMessages');
     Route::get('all-messages', 'MessageController@allMessages');
+    Route::post('change-role', 'ThreadController@setRole');
+    Route::post('changed-group-filter', 'ThreadController@changedGroupFilter');
+
+    Route::post('send-group-request', 'ThreadController@sendGroupRequest');
+    Route::post('accept-reject-group-request', 'ThreadController@acceptGroupRequest');
 
     Route::post('/threads/{messageThread}/read', 'MessageController@markRead');
-    Route::post('/threads/{messageThread}/role/{user}', 'ThreadController@setRole');
 
 });

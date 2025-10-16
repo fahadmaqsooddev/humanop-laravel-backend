@@ -26,21 +26,31 @@ class RemoveUserInGroupRequest extends FormRequest
 
     public function rules()
     {
+        $userRequiredRule = request()->filled('member_id') ? 'nullable' : 'required';
+        $memberRequiredRule = request()->filled('user_id') ? 'nullable' : 'required';
+
         return [
             'thread_id' => ['required', 'integer', 'exists:message_threads,id',],
-            'user_id' => ['required', 'integer', 'exists:users,id',
+
+            'member_id' => [$memberRequiredRule, 'integer', 'exists:users,id',
                 function ($attribute, $value, $fail) {
+                    if (!$value || !request('thread_id')) {
+                        return;
+                    }
+
                     $exists = DB::table('message_thread_participants')
                         ->where('message_thread_id', request('thread_id'))
                         ->where('user_id', $value)
-                        ->where('role', 2)
+                        ->whereIn('role', [1,2])
                         ->exists();
 
                     if (!$exists) {
-                        $fail('The selected user does not exist in this thread or does not have the required role.');
+                        $fail('The selected member does not exist in this thread or does not have the required role.');
                     }
                 },
             ],
+
+            'user_id' => [$userRequiredRule, 'integer', 'exists:users,id',],
         ];
     }
 
@@ -48,14 +58,19 @@ class RemoveUserInGroupRequest extends FormRequest
     public function messages()
     {
         return [
-            'thread_id.required' => 'The thread ID is required.',
-            'thread_id.integer' => 'The thread ID must be an integer.',
+            'thread_id.required' => 'Thread ID is required.',
+            'thread_id.integer' => 'Thread ID must be an integer.',
             'thread_id.exists' => 'The selected thread does not exist.',
-            'user_id.required' => 'Please select a user to add.',
-            'user_id.integer' => 'The user ID must be an integer.',
+
+            'member_id.required' => 'Member ID is required when User ID is not provided.',
+            'member_id.integer' => 'Member ID must be an integer.',
+            'member_id.exists' => 'The selected member does not exist.',
+
+            'user_id.required' => 'User ID is required when Member ID is not provided.',
+            'user_id.integer' => 'User ID must be an integer.',
             'user_id.exists' => 'The selected user does not exist.',
-            'user_id.unique' => 'This user is already part of the thread.',
         ];
     }
+
 
 }

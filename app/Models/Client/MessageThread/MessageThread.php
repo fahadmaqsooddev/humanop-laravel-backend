@@ -4,6 +4,7 @@ namespace App\Models\Client\MessageThread;
 
 use App\Helpers\Helpers;
 use App\Models\Client\Message\Message;
+use App\Models\CLient\MessageThreadRequest;
 use App\Models\User;
 use App\Services\Chat\DirectThread;
 use Carbon\Carbon;
@@ -40,11 +41,11 @@ class MessageThread extends Model
     public function getGroupProfileUrlAttribute()
     {
 
-        if (!empty($this->group_icon_id)){
+        if (!empty($this->group_icon_id)) {
 
             return Helpers::getImage($this->group_icon_id, 1)['url'];
 
-        }else{
+        } else {
 
             return null;
         }
@@ -87,6 +88,11 @@ class MessageThread extends Model
         return $this->belongsToMany(User::class, 'message_thread_participants', 'message_thread_id', 'user_id')
             ->withPivot(['role', 'joined_at', 'muted_until'])
             ->withTimestamps();
+    }
+
+    public function groupChatRequests()
+    {
+        return $this->belongsToMany(User::class, 'message_thread_requests', 'thread_id', 'member_id');
     }
 
     public function scopeForUser($q, $userId)
@@ -247,13 +253,29 @@ class MessageThread extends Model
         self::whereId($thread_id)->delete();
     }
 
-    public static function getMessageThread($request = null)
+    public static function getMyMessageThread($request = null)
+    {
+
+        $q = self::query()
+            ->with('participants')
+//            ->forUser($request->user()->id)
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
+
+        if ($request->filled('type')) {
+            $q->where('type', (int)$request->query('type'));
+        }
+
+        return Helpers::pagination($q->orderByDesc('id'), $request['pagination'], $request['per_page']);
+
+    }
+
+    public static function getAllMessageThread($request = null)
     {
 
         $q = self::query()
             ->with('participants')
             ->forUser($request->user()->id)
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id']);
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
 
         if ($request->filled('type')) {
             $q->where('type', (int)$request->query('type'));
@@ -271,6 +293,7 @@ class MessageThread extends Model
             'name' => $request->string('name'),
             'owner_id' => $ownerId,
             'group_icon_id' => $request['group_icon_id'],
+            'thread_privacy' => $request['thread_privacy']
         ]);
 
         $ids = collect($request->input('member_ids', []))->unique()->reject(fn($id) => $id == $ownerId);
@@ -286,6 +309,21 @@ class MessageThread extends Model
             ]);
 
         }
+
+        return $group->fresh(['participants:id,first_name,last_name']);
+
+    }
+
+    public static function editGroup($request = null, $ownerId = null)
+    {
+
+        $group = self::where('id', $request['thread_id'])->where('owner_id', $ownerId)->first();
+
+        $group->update([
+            'name' => $request->string('name'),
+            'group_icon_id' => $request['group_icon_id'],
+            'thread_privacy' => $request['thread_privacy'],
+        ]);
 
         return $group->fresh(['participants:id,first_name,last_name']);
 
@@ -321,7 +359,7 @@ class MessageThread extends Model
 
     public static function removeUser($request = null, $messageThread = null)
     {
-        $messageThread->participants()->detach($request['user_id']);
+        $messageThread->participants()->detach($request['member_id']);
 
         return true;
     }
@@ -344,11 +382,22 @@ class MessageThread extends Model
     public static function LoadMessageThreads($messageThread = null)
     {
         $messageThread->load([
-            'participants:id,first_name',
-            'owner:id,first_name',
+            'participants:id,first_name,last_name,image_id',
+            'owner:id,first_name,last_name,image_id',
+            'groupChatRequests:id,first_name,last_name,image_id',
         ]);
 
         return $messageThread;
+    }
+
+    public static function checkMemberExistInGroup($data = null)
+    {
+        return self::with(['participants' => function ($q) use ($data) {
+            $q->whereIn('user_id', (array)$data['member_id']);
+        }])
+            ->where('id', $data['thread_id'])
+            ->where('owner_id', $data['owner_id'])
+            ->first();
     }
 
 }

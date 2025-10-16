@@ -1,16 +1,5 @@
 <?php
 
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\SessionController;
-use App\Http\Controllers\AdminControllers\AdminController;
-use App\Http\Controllers\AdminControllers\QuestionController;
-use App\Http\Controllers\AdminControllers\CodeController;
-use App\Http\Controllers\AdminControllers\WebPagesController;
-use App\Http\Controllers\AdminControllers\ResourceController;
-use App\Http\Controllers\AdminControllers\TipController;
-use App\Http\Controllers\AdminControllers\CouponController;
-use App\Http\Controllers\AdminControllers\PaymentController;
-use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
 /*

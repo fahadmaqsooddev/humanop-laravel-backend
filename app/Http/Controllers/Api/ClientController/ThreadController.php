@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AcceptOrRejectGroupRequest;
 use App\Http\Requests\AddUserInGroupRequest;
+use App\Http\Requests\ChangeParticipantRoleRequest;
 use App\Http\Requests\CheckThreadIdRequest;
 use App\Http\Requests\CreateGroupThreadRequest;
+use App\Http\Requests\EditGroupRequest;
 use App\Http\Requests\RemoveUserInGroupRequest;
+use App\Http\Requests\SendGroupRequest;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\Client\MessageThreadParticipant\MessageThreadParticipant;
+use App\Models\Client\MessageThreadRequest;
 use App\Models\Upload\Upload;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,7 +36,15 @@ class ThreadController extends Controller
 
         try {
 
-            $all_chats = MessageThread::getMessageThread($request);
+            if (Helpers::getUser()['group_filter'] == 1) {
+
+                $all_chats = MessageThread::getMyMessageThread($request);
+
+            } else {
+
+                $all_chats = MessageThread::getAllMessageThread($request);
+
+            }
 
             return Helpers::successResponse('All Chats', $all_chats, $request->input('pagination'));
 
@@ -64,13 +79,13 @@ class ThreadController extends Controller
 
         try {
 
-            if (!empty($request['group_profile_image'])){
+            if (!empty($request['group_profile_image'])) {
 
                 $upload_id = Upload::uploadFile($request['group_profile_image'], 200, 200, 'base64Image', 'png', true);
 
                 $request['group_icon_id'] = $upload_id;
 
-            }else{
+            } else {
 
                 $request['group_icon_id'] = null;
 
@@ -83,6 +98,42 @@ class ThreadController extends Controller
             DB::commit();
 
             return Helpers::successResponse('New group created successfully.', $group);
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function editGroup(EditGroupRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if (!empty($request['group_profile_image'])) {
+
+                $upload_id = Upload::uploadFile($request['group_profile_image'], 200, 200, 'base64Image', 'png', true);
+
+                $request['group_icon_id'] = $upload_id;
+
+            } else {
+
+                $request['group_icon_id'] = null;
+
+            }
+
+            $loginUser = $request->user();
+
+            $group = MessageThread::editGroup($request, $loginUser->id);
+
+            DB::commit();
+
+            return Helpers::successResponse('group edited successfully.', $group);
 
         } catch (\Exception $exception) {
 
@@ -128,23 +179,44 @@ class ThreadController extends Controller
 
         $user = MessageThreadParticipant::getSingleUser($loginUser['id'], $request->thread_id);
 
-        if (!in_array($user->role, [0, 1])) {
-            return Helpers::validationResponse('You cannot remove users because you have no permission to remove other users.');
+        if (!empty($request['member_id'])) {
+
+            if (!in_array($user->role, [0, 1])) {
+                return Helpers::validationResponse('You cannot remove Member because you have no permission to remove other users.');
+            }
+
+            $messageThread = MessageThread::findOrFail($request->thread_id);
+
+            $this->authorize('manage', $messageThread);
+
         }
-
-        $messageThread = MessageThread::findOrFail($request->thread_id);
-
-        $this->authorize('manage', $messageThread);
 
         DB::beginTransaction();
 
         try {
 
-            $member = MessageThread::removeUser($request, $messageThread);
+            if (!empty($request['user_id']) && $request['user_id'] == $loginUser['id']) {
 
-            DB::commit();
+                MessageThreadParticipant::removeUser($request);
 
-            return Helpers::successResponse('Members remove successfully.', $member);
+                DB::commit();
+
+                return Helpers::successResponse('You have been removed from this group.');
+
+            } elseif (!empty($request['member_id'])) {
+
+                MessageThread::removeUser($request, $messageThread);
+
+                DB::commit();
+
+                return Helpers::successResponse('Member remove successfully.');
+
+
+            } else {
+
+                return Helpers::validationResponse('User not found');
+
+            }
 
         } catch (\Exception $exception) {
 
@@ -163,13 +235,139 @@ class ThreadController extends Controller
         return response()->json(['ok' => true]);
     }
 
-    public function setRole(Request $request, MessageThread $messageThread, User $user)
+    public function setRole(ChangeParticipantRoleRequest $request)
     {
+
+        $messageThread = MessageThread::findOrFail($request->thread_id);
+
         $this->authorize('manage', $messageThread);
-        $role = (int)$request->input('role'); // 1=admin, 2=member
-        abort_unless(in_array($role, [MessageThread::ROLE_ADMIN, MessageThread::ROLE_MEMBER], true), 422);
-        $messageThread->participants()->updateExistingPivot($user->id, ['role' => $role]);
-        return response()->json(['ok' => true]);
+
+        DB::beginTransaction();
+
+        try {
+
+            $member = MessageThreadParticipant::changeRole($request);
+
+            DB::commit();
+
+            return Helpers::successResponse('Role changed successfully.', $member);
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function changedGroupFilter(Request $request)
+    {
+
+        try {
+
+            User::changeGroupChatFIlter($request['group_chat_filter']);
+
+            return Helpers::successResponse('Group Chat Filter updated successfully.');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function sendGroupRequest(SendGroupRequest $request)
+    {
+        try {
+
+            $data = $request->only(['thread_id', 'owner_id', 'member_id']);
+
+            $checkGroup = MessageThread::checkMemberExistInGroup($data);
+
+            if (!empty($checkGroup) && $checkGroup->participants->isNotEmpty()) {
+
+                return Helpers::validationResponse('This member already exists in the group.');
+
+            }
+
+            $checkRequest = MessageThreadRequest::createGroupRequest($data);
+
+            if ($checkRequest === true) {
+
+                return Helpers::successResponse('Group request sent successfully.');
+
+            }
+
+            return Helpers::validationResponse('Request has already been sent.');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function acceptGroupRequest(AcceptOrRejectGroupRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $data = $request->only(['thread_id', 'member_id', 'accept_or_reject']);
+
+            $checkOrCreateParticipant = MessageThreadParticipant::createUser($data);
+
+            if ($checkOrCreateParticipant == true) {
+
+                MessageThreadRequest::deleteRequest($data);
+
+                $group = MessageThread::where('id', $data['thread_id'])->first();
+
+                if ($data['accept_or_reject'] == 1) {
+
+                    $msg = "Congratulations! You have been added to the group '{$group->name}'.";
+
+                    Notification::createNotification('Accept Group Request', $msg, '', $data['member_id'], 0, Admin::ACCEPT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                    broadcast(new \App\Events\AcceptOrRejectGroupRequest($data['member_id'], 'Group request accepted ', $msg))->toOthers();
+
+                    DB::commit();
+
+                    return Helpers::successResponse('Group request accepted successfully.');
+
+                } else {
+
+                    $msg = "Your request to join the group '{$group->name}' has been declined by the group owner.";
+
+                    Notification::createNotification('Reject Group Request', $msg, '', $data['member_id'], 0, Admin::REJECT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                    broadcast(new \App\Events\AcceptOrRejectGroupRequest($data['member_id'], 'Group request rejected ', $msg))->toOthers();
+
+                    DB::commit();
+
+                    return Helpers::validationResponse('Group request rejected successfully.');
+                }
+
+            } else {
+
+                DB::rollBack();
+
+                return Helpers::validationResponse('This member already exists in the group.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
     }
 
 }
