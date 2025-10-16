@@ -23,6 +23,11 @@ class MessageThreadRequest extends Model
         parent::__construct($attributes);
     }
 
+    public function member()
+    {
+        return $this->belongsTo(User::class, 'member_id');
+    }
+
     public static function getSingleGroupRequest($data = null)
     {
         return self::where('thread_id', $data['thread_id'])

@@ -4,6 +4,7 @@ namespace App\Models\Client\MessageThread;
 
 use App\Helpers\Helpers;
 use App\Models\Client\Message\Message;
+use App\Models\CLient\MessageThreadRequest;
 use App\Models\User;
 use App\Services\Chat\DirectThread;
 use Carbon\Carbon;
@@ -80,6 +81,11 @@ class MessageThread extends Model
     public function messages()
     {
         return $this->hasMany(Message::class, 'message_thread_id', 'id')->orderByDesc('id');
+    }
+
+    public function groupRequests()
+    {
+        return $this->hasMany(MessageThreadRequest::class, 'thread_id', 'id')->orderByDesc('id');
     }
 
     public function participants()
@@ -378,6 +384,7 @@ class MessageThread extends Model
         $messageThread->load([
             'participants:id,first_name,last_name,image_id',
             'owner:id,first_name,last_name,image_id',
+            'groupRequests.member:id,first_name,last_name,image_id',
         ]);
 
         return $messageThread;
