@@ -2593,6 +2593,8 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
+        $user->login_device_with = $request['login_device_with'] ?? 1;
+
         $user->save();
 
     }

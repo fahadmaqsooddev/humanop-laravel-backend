@@ -101,9 +101,12 @@
                 @php
                     if ($user['last_login_with'] == 1){
                         $lastLoginWith = "Email";
+                        $loginDeviceWith = $user['login_device_with'] == 1 ? "Web" : "App";
                     }elseif ($user['last_login_with'] == 2){
+                        $loginDeviceWith = $user['login_device_with'] == 1 ? "Web" : "App";
                         $lastLoginWith = "Google";
                     }else{
+                        $loginDeviceWith = $user['login_device_with'] == 1 ? "Web" : "App";
                         $lastLoginWith = "Apple";
                     }
                 @endphp
@@ -167,7 +170,7 @@
                                 </option>
                             </select>
                         </td>
-                        <td class="text-sm font-weight-normal text-center"><strong>{{ $lastLoginWith }}</strong></td>
+                        <td class="text-sm font-weight-normal text-center"><strong>{{ $loginDeviceWith . "/" . $lastLoginWith }}</strong></td>
                         <td class="text-center"><input type="checkbox" wire:model="selectedItems"
                                                        value="{{ $user->id }}"
                                                        style="width: 20px; height: 20px; cursor: pointer; accent-color: #1B3A62; border-radius: 50%;">

@@ -36,7 +36,7 @@ class ThreadController extends Controller
 
         try {
 
-            if (Helpers::getUser()['group_filter'] == 1) {
+            if (Helpers::getUser()['group_filter'] === 0) {
 
                 $all_chats = MessageThread::getMyMessageThread($request);
 
