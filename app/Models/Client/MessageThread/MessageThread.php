@@ -258,6 +258,7 @@ class MessageThread extends Model
 
         $q = self::query()
             ->with('participants')
+            ->where('owner_id', Helpers::getUser()['id'])
 //            ->forUser($request->user()->id)
             ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
 
@@ -319,11 +320,22 @@ class MessageThread extends Model
 
         $group = self::where('id', $request['thread_id'])->where('owner_id', $ownerId)->first();
 
-        $group->update([
-            'name' => $request->string('name'),
-            'group_icon_id' => $request['group_icon_id'],
-            'thread_privacy' => $request['thread_privacy'],
-        ]);
+        if (!empty($request['group_icon_id'])){
+
+            $group->update([
+                'name' => $request->string('name'),
+                'group_icon_id' => $request['group_icon_id'],
+                'thread_privacy' => $request['thread_privacy'],
+            ]);
+
+        }else{
+
+            $group->update([
+                'name' => $request->string('name'),
+                'thread_privacy' => $request['thread_privacy'],
+            ]);
+        }
+
 
         return $group->fresh(['participants:id,first_name,last_name']);
 
