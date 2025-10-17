@@ -73,6 +73,7 @@
     @endif
 
     <div class="table-responsive table-header-text w-100 pt-4 table-orange-color">
+
         @include('layouts.message')
         <table class="table table-flush">
             <thead class="thead-light">
@@ -88,7 +89,7 @@
                 @endif
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                     <th>Membership</th>
-                    <th>Practitioner</th>
+                    <th>Google/Apple Last Login</th>
                     <th>Bulk Delete</th>
                     <th>Delete Client</th>
                 @endif
@@ -96,6 +97,16 @@
             </thead>
             <tbody>
             @foreach($users as $user)
+
+                @php
+                    if (!empty($user['google_apple_last_login_at'])) {
+                        $googleAppleLastLoginAt = \Carbon\Carbon::parse($user['google_apple_last_login_at'])
+                            ->format('m/d/Y h:i A');
+                    } else {
+                        $googleAppleLastLoginAt = '-';
+                    }
+                @endphp
+
                 <tr class="text-color-blue">
                     <td class="text-sm font-weight-normal text-center">{{$user['first_name'].' '.$user['last_name'] }} </td>
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
@@ -127,7 +138,6 @@
                             @endif
                         </div>
                     </td>
-
                     @if(Auth::user()->hasRole('super admin'))
                         <td class="text-sm font-weight-normal">
                             <div class="form-check form-switch mb-0 d-flex justify-content-center">
@@ -156,20 +166,7 @@
                                 </option>
                             </select>
                         </td>
-                        <td class="text-sm font-weight-normal">
-                            <div class="form-check form-switch mb-0 d-flex justify-content-center">
-                                @php
-                                    if($user->is_admin == 4)
-                                        $practitionerStatus = true;
-                                    else
-                                        $practitionerStatus = false;
-                                @endphp
-                                <input class="form-check-input" disabled
-                                       name="practitioner"
-                                       type="checkbox"
-                                    @checked($practitionerStatus)>
-                            </div>
-                        </td>
+                        <td class="text-sm font-weight-normal text-center"><strong>{{ $googleAppleLastLoginAt }}</strong></td>
                         <td class="text-center"><input type="checkbox" wire:model="selectedItems"
                                                        value="{{ $user->id }}"
                                                        style="width: 20px; height: 20px; cursor: pointer; accent-color: #1B3A62; border-radius: 50%;">

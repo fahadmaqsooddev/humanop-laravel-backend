@@ -2564,4 +2564,18 @@ class User extends Authenticatable implements JWTSubject
         return self::whereId(Helpers::getUser()['id'])->update(['group_filter' => $groupChatFilter]);
     }
 
+    public static function GoogleAppleLastLoginAt()
+    {
+        $user = Helpers::getUser();
+
+        $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
+
+        $googleAppleLastLoginAt = Carbon::parse($user['google_apple_last_login_at'])->addMinutes($minutes)->startOfMinute();
+
+        $user->google_apple_last_login_at = $googleAppleLastLoginAt;
+
+        $user->save();
+
+    }
+
 }
