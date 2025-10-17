@@ -25,7 +25,7 @@ class EditGroupRequest extends FormRequest
     {
         return [
             'thread_id' => 'required|exists:message_threads,id',
-            'name' => 'nullable|unique:message_threads,name|string|max:255',
+            'name' => 'nullable|string|max:255',
             'group_profile_image' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif,svg,webp', 'max:204800',],
             'thread_privacy' => 'nullable|in:0,1',  // 0 => PUBLIC, 1 => PRIVATE
         ];

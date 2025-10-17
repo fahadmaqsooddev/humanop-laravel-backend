@@ -139,10 +139,6 @@ class ThreadController extends Controller
 
                 $request['group_icon_id'] = $upload_id;
 
-            } else {
-
-                $request['group_icon_id'] = null;
-
             }
 
             $loginUser = $request->user();

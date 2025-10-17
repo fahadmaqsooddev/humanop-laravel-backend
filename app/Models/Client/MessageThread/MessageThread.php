@@ -320,11 +320,22 @@ class MessageThread extends Model
 
         $group = self::where('id', $request['thread_id'])->where('owner_id', $ownerId)->first();
 
-        $group->update([
-            'name' => $request->string('name'),
-            'group_icon_id' => $request['group_icon_id'],
-            'thread_privacy' => $request['thread_privacy'],
-        ]);
+        if (!empty($request['group_icon_id'])){
+
+            $group->update([
+                'name' => $request->string('name'),
+                'group_icon_id' => $request['group_icon_id'],
+                'thread_privacy' => $request['thread_privacy'],
+            ]);
+
+        }else{
+
+            $group->update([
+                'name' => $request->string('name'),
+                'thread_privacy' => $request['thread_privacy'],
+            ]);
+        }
+
 
         return $group->fresh(['participants:id,first_name,last_name']);
 
