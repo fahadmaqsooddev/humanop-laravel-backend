@@ -12,6 +12,7 @@ use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Hai\HaiThread;
+use App\Models\Client\MessageThread\MessageThread;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
@@ -44,7 +45,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission','my_groups'];
 
     public function __construct(array $attributes = array())
     {
@@ -226,6 +227,15 @@ class User extends Authenticatable implements JWTSubject
             ];
 
         }
+
+    }
+
+    public function getMyGroupsAttribute()
+    {
+
+        $myGroups = MessageThread::where('owner_id', $this->id)->get();
+
+        return count($myGroups);
 
     }
 
