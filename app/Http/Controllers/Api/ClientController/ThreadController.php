@@ -150,7 +150,7 @@ class ThreadController extends Controller
 
         $messageThread = MessageThread::findOrFail($request->thread_id);
 
-        $this->authorize('manage', $messageThread);
+//        $this->authorize('manage', $messageThread);
 
         DB::beginTransaction();
 

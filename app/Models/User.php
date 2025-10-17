@@ -2564,7 +2564,7 @@ class User extends Authenticatable implements JWTSubject
         return self::whereId(Helpers::getUser()['id'])->update(['group_filter' => $groupChatFilter]);
     }
 
-    public static function GoogleAppleLastLoginAt()
+    public static function LastLoginAt()
     {
         $user = Helpers::getUser();
 

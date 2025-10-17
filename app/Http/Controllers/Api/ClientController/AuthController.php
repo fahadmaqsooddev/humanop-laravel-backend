@@ -816,6 +816,10 @@ class AuthController extends Controller
 
                 $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
+                HaiChatHelpers::syncUserRecordWithHAi();
+
+                User::LastLoginAt();
+
                 $data = [
                     'user' => $updateUser,
                     'authorization' => [
@@ -954,7 +958,7 @@ class AuthController extends Controller
 
                 HaiChatHelpers::syncUserRecordWithHAi();
 
-                User::GoogleAppleLastLoginAt();
+                User::LastLoginAt();
 
                 $data = [
                     'user' => $updateUser,

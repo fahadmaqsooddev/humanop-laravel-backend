@@ -89,7 +89,7 @@
                 @endif
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                     <th>Membership</th>
-                    <th>Google/Apple Last Login</th>
+                    <th>Last Login</th>
                     <th>Bulk Delete</th>
                     <th>Delete Client</th>
                 @endif
