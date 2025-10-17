@@ -814,6 +814,8 @@ class AuthController extends Controller
 
                 HaiChatHelpers::syncUserRecordWithHAi();
 
+                User::LastLoginAt();
+
                 $data = [
                     'user' => $updateUser,
                     'authorization' => [
@@ -952,7 +954,7 @@ class AuthController extends Controller
 
                 HaiChatHelpers::syncUserRecordWithHAi();
 
-                User::GoogleAppleLastLoginAt();
+                User::LastLoginAt();
 
                 $data = [
                     'user' => $updateUser,
