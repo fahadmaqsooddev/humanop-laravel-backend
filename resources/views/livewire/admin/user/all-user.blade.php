@@ -89,7 +89,7 @@
                 @endif
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                     <th>Membership</th>
-                    <th>Last Login</th>
+                    <th>Last Login With</th>
                     <th>Bulk Delete</th>
                     <th>Delete Client</th>
                 @endif
@@ -99,11 +99,12 @@
             @foreach($users as $user)
 
                 @php
-                    if (!empty($user['google_apple_last_login_at'])) {
-                        $googleAppleLastLoginAt = \Carbon\Carbon::parse($user['google_apple_last_login_at'])
-                            ->format('m/d/Y h:i A');
-                    } else {
-                        $googleAppleLastLoginAt = '-';
+                    if ($user['last_login_with'] == 1){
+                        $lastLoginWith = "Email";
+                    }elseif ($user['last_login_with'] == 2){
+                        $lastLoginWith = "Google";
+                    }else{
+                        $lastLoginWith = "Apple";
                     }
                 @endphp
 
@@ -166,7 +167,7 @@
                                 </option>
                             </select>
                         </td>
-                        <td class="text-sm font-weight-normal text-center"><strong>{{ $googleAppleLastLoginAt }}</strong></td>
+                        <td class="text-sm font-weight-normal text-center"><strong>{{ $lastLoginWith }}</strong></td>
                         <td class="text-center"><input type="checkbox" wire:model="selectedItems"
                                                        value="{{ $user->id }}"
                                                        style="width: 20px; height: 20px; cursor: pointer; accent-color: #1B3A62; border-radius: 50%;">

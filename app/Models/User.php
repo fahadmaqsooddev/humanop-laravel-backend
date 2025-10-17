@@ -45,7 +45,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission','my_groups'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups'];
 
     public function __construct(array $attributes = array())
     {
@@ -103,7 +103,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status','group_filter']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter']);
     }
 
     // appends
@@ -557,7 +557,7 @@ class User extends Authenticatable implements JWTSubject
 
         $usersCount = [
             'clarity' => 0,
-            'focus'   => 0,
+            'focus' => 0,
         ];
 
         foreach ($referralUsers as $user) {
@@ -2574,15 +2574,24 @@ class User extends Authenticatable implements JWTSubject
         return self::whereId(Helpers::getUser()['id'])->update(['group_filter' => $groupChatFilter]);
     }
 
-    public static function LastLoginAt()
+    public static function LastLoginWith($request = null)
     {
+
         $user = Helpers::getUser();
 
-        $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
+        if (!empty($request['google_id'])) {
 
-        $googleAppleLastLoginAt = Carbon::parse($user['google_apple_last_login_at'])->addMinutes($minutes)->startOfMinute();
+            $user->last_login_with = 2;
 
-        $user->google_apple_last_login_at = $googleAppleLastLoginAt;
+        } elseif (!empty($request['apple_id'])) {
+
+            $user->last_login_with = 3;
+
+        } else {
+
+            $user->last_login_with = 1;
+
+        }
 
         $user->save();
 
