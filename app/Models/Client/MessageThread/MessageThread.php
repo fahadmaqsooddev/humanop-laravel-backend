@@ -400,4 +400,9 @@ class MessageThread extends Model
             ->first();
     }
 
+    public static function allGroups($user = null)
+    {
+        return self::where('owner_id', $user['id'])->where('type', 1)->get();
+    }
+
 }

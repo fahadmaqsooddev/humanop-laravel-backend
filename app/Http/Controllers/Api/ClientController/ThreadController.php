@@ -79,6 +79,24 @@ class ThreadController extends Controller
 
         try {
 
+            $user = Helpers::getUser();
+
+            if (($user['plan_name'] == "Freemium") && ($user['beta_breaker_club'] != Admin::BETA_BREAKER_CLUB)) {
+
+                return Helpers::validationResponse('You cannot create a group because your current Freemium plan does not include this feature.');
+
+            }
+
+            if (($user['plan_name'] == "Freemium") && ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB)) {
+
+                $groups = MessageThread::allGroups($user);
+
+                if (count($groups) >= 3) {
+
+                    return Helpers::validationResponse('You have already created 3 groups. Please upgrade your plan to create more groups.');
+                }
+            }
+
             if (!empty($request['group_profile_image'])) {
 
                 $upload_id = Upload::uploadFile($request['group_profile_image'], 200, 200, 'base64Image', 'png', true);
