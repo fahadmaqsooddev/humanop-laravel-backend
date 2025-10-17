@@ -258,6 +258,7 @@ class MessageThread extends Model
 
         $q = self::query()
             ->with('participants')
+            ->where('owner_id', Helpers::getUser()['id'])
 //            ->forUser($request->user()->id)
             ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
 
