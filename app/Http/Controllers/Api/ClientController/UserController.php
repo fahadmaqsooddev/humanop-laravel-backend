@@ -644,6 +644,8 @@ class UserController extends Controller
                 $energyPool['name'],
             ];
 
+            dd($allStyles);
+            
             VideoProgress::createVideoProgress($assessment['id'], $resultIntroInfoName, $allStyles, $topTwoFeatures, $topCommunication);
 
             $style_position = AssessmentColorCode::getStylePosition($assessment->id);
