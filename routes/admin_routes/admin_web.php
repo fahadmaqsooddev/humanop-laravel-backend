@@ -136,6 +136,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
         Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
         Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');
+        Route::get('/ninty-days-optimization-plan', [OptimizationPlanController::class, 'nintyDaysOptimizationPlan'])->name('admin_ninty_days_optimization_plan');
+        Route::get('/fourteen-days-optimization-plan', [OptimizationPlanController::class, 'fourteenDaysOptimizationPlan'])->name('admin_fourteen_days_optimization_plan');
         Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
         Route::get('/media-player', [ResourceController::class, 'mediaPlayer'])->name('admin_media_player');
         Route::get('/suggested-items', [SuggestedItemsController::class, 'suggestedItems'])->name('admin_suggested_items');

@@ -283,7 +283,7 @@
                                                         'admin/resources',
                                                         'admin/media-player',
                                                         'admin/dashboard-cms',
-                                                        'admin/all-coupons','admin/cms','admin/all-optimization-plan',
+                                                        'admin/all-coupons','admin/cms','admin/all-optimization-plan','admin/all-optimization-plan','admin/ninty-days-optimization-plan', 'admin/fourteen-days-optimization-plan',
                                                         'admin/all-intention-plans',
                                                         'admin/admin_resources','admin/podcast','admin/create-podcast','admin/edit-podcast/*','admin/version-control',
                                                         'admin/information-icon','admin/payment-history',
@@ -436,15 +436,15 @@
                                                                         class="sidenav-normal"> Daily Tip Management </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/all-optimization-plan') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/all-optimization-plan') ? 'active-itt-all' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/all-optimization-plan','admin/ninty-days-optimization-plan', 'admin/fourteen-days-optimization-plan') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/all-optimization-plan','admin/ninty-days-optimization-plan', 'admin/fourteen-days-optimization-plan') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_all_optimization_plan') }}">
                                                                     <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/all-optimization-plan') ? asset('assets/new-blue-icons/optimization-plan.png') : asset('assets/new-white-icons/optimization-plan.png') }}"></span>
+                                                                            src="{{ Request::is('admin/all-optimization-plan','admin/ninty-days-optimization-plan', 'admin/fourteen-days-optimization-plan') ? asset('assets/new-blue-icons/optimization-plan.png') : asset('assets/new-white-icons/optimization-plan.png') }}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{ Request::is('admin/all-optimization-plan') ? asset('assets/new-blue-icons/optimization-plan.png') : asset('assets/new-white-icons/optimization-plan.png') }}"></span>
+                                                                            src="{{ Request::is('admin/all-optimization-plan','admin/ninty-days-optimization-plan', 'admin/fourteen-days-optimization-plan') ? asset('assets/new-blue-icons/optimization-plan.png') : asset('assets/new-white-icons/optimization-plan.png') }}"></span>
                                                                     <span
                                                                         class="sidenav-normal"> Optimization Plan Management </span>
                                                                 </a>

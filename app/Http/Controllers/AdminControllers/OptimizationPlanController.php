@@ -20,4 +20,30 @@ class OptimizationPlanController extends Controller
         }
     }
 
+    public function nintyDaysOptimizationPlan()
+    {
+        try {
+
+            return view('admin-dashboards.optimization-plan.ninty-days-optimization-plan');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
+    public function fourteenDaysOptimizationPlan()
+    {
+        try {
+
+            return view('admin-dashboards.optimization-plan.fourteen-days-optimization-plan');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
 }
