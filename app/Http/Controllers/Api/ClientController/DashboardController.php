@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\AnnouncementNews\AnnouncementNews;
+use App\Models\Admin\Plan\OptimizationPlan;
 use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\Admin\SuggestedItem\SuggestedItem;
 use App\Models\B2B\B2BBusinessCandidates;
@@ -368,25 +369,31 @@ class DashboardController extends Controller
 
                 }
 
-                if ($userPlan == "Premium") {
+                $actionPlan = OptimizationPlan::getSinglePlan($actionPlan['priority'], $userPlan);
 
-                    $planText = json_decode($actionPlan['plan_text'], true);
+                if ($userPlan == "Premium") {
 
                     $actionPlan = [
                         'id' => $actionPlan['id'],
                         'priority' => $actionPlan['priority'],
                         'plan_text' => [
-                            'intro' => $planText['intro'],
-                            'day1_30' => $planText['day1_30'],
-                            'day31_60' => $planText['day31_60'],
-                            'day61_90' => $planText['day61_90']
+                            'intro' => $actionPlan['ninty_days_plan'],
+                            'day1_30' => $actionPlan['day1_30'],
+                            'day31_60' => $actionPlan['day31_60'],
+                            'day61_90' => $actionPlan['day61_90']
                         ],
+                        'type' => $actionPlan['type'],
                         'text' => $actionPlan['text'],
                     ];
 
                 } else {
 
-                    $actionPlan = $actionPlan;
+                    $actionPlan = [
+                        'id' => $actionPlan['id'],
+                        'priority' => $actionPlan['fourteen_days_plan'],
+                        'text' => $actionPlan['text'],
+                        'type' => $actionPlan['type'],
+                    ];
 
                 }
 

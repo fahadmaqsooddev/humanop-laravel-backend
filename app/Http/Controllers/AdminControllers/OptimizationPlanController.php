@@ -24,7 +24,7 @@ class OptimizationPlanController extends Controller
     {
         try {
 
-            return view('admin-dashboards.optimization-plan.index');
+            return view('admin-dashboards.optimization-plan.ninty-days-optimization-plan');
 
         } catch (\Exception $exception) {
 

@@ -45,7 +45,7 @@
                     <h5 class="mb-0">All Optimization Plan</h5>
                 </div>
 
-                @livewire('admin.optimization-plan.optimization-plan')
+                @livewire('admin.optimization-plan.ninty-days-optimization-plan')
             </div>
         </div>
     </div>
