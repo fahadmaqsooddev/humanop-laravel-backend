@@ -427,7 +427,7 @@ return [
         ],
         'OptimizationPlan' => [
             'table' => 'optimization_plan',
-            'fillable' => ['priority', 'condition', 'content'],
+            'fillable' => ['priority', 'condition', 'fourteen_days_plan','ninty_days_plan','day1_30','day31_60','day61_90'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'Chatbot' => [

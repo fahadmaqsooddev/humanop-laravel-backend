@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Plan;
 
+use App\Enums\Admin\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,9 +24,14 @@ class OptimizationPlan extends Model
         return self::orderBy('created_at', 'desc');
     }
 
-    public static function updateOptimizationPlan($priority = null, $content = null)
+    public static function fourteenDaysOptimizationPlans()
     {
-        return self::where('priority', $priority)->update(['content' => $content]);
+        return self::where('type', Admin::FOURTEEN_DAYS_ACTION_PLAN)->orderBy('created_at', 'desc');
+    }
+
+    public static function updateOptimizationPlan($priority = null, $fourteen_days_plan = null)
+    {
+        return self::where('priority', $priority)->update(['fourteen_days_plan' => $fourteen_days_plan]);
     }
 
 }
