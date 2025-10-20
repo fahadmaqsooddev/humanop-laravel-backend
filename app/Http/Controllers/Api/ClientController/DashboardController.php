@@ -337,7 +337,7 @@ class DashboardController extends Controller
     public function actionPlan(Request $request)
     {
 
-        try {
+//        try {
 
             if (Helpers::getUser()['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
 
@@ -383,15 +383,14 @@ class DashboardController extends Controller
                             'day61_90' => $actionPlan['day61_90']
                         ],
                         'type' => $actionPlan['type'],
-                        'text' => $actionPlan['text'],
                     ];
 
                 } else {
 
                     $actionPlan = [
                         'id' => $actionPlan['id'],
-                        'priority' => $actionPlan['fourteen_days_plan'],
-                        'text' => $actionPlan['text'],
+                        'priority' => $actionPlan['priority'],
+                        'plan_text' => $actionPlan['fourteen_days_plan'],
                         'type' => $actionPlan['type'],
                     ];
 
@@ -403,10 +402,10 @@ class DashboardController extends Controller
 
             return Helpers::validationResponse('Assessment not found');
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
     }
 
     public function informationIcon()
