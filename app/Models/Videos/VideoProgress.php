@@ -73,6 +73,8 @@ class VideoProgress extends Model
             }
         }
 
+        dd($traits);
+
         // Add traits
         if (is_array($traits)) {
             foreach ($traits as $trait) {
