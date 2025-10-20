@@ -21,9 +21,11 @@ class OptimizationPlan extends Model
 
     public static function getSinglePlan($priority = null, $userPlan = null)
     {
-        $plan = $userPlan != "premium" ? 1 : 2;
+        $plan = $userPlan != "Premium" ? 1 : 2;
 
-        return self::where('priority', $priority)->where('type', $plan)->latest()->first();
+        $priority = str_replace(' ', '_', $priority);
+
+        return self::where('priority', $priority)->where('type', $plan)->first();
     }
 
     public static function allOptimizationPlans()
