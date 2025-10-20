@@ -54,13 +54,6 @@ class VideoProgress extends Model
 
     public static function createVideoProgress($assessmentId = null, $resultNames = null, $traits = null, $topTwoFeatures = null, $topCommunications = null)
     {
-
-        $records = self::getRecords($assessmentId)->toArray();
-
-        if (!empty($records)) {
-            return;
-        }
-
         $itemsToInsert = [];
 
         // Add result names
@@ -109,13 +102,16 @@ class VideoProgress extends Model
             }
         }
 
-        // Create all records
+        // Insert only new records
         foreach ($itemsToInsert as $data) {
+            $exists = self::where('assessment_id', $data['assessment_id'])
+                ->where('video_name', $data['video_name'])
+                ->exists();
 
-            self::create($data);
-
+            if (!$exists) {
+                self::create($data);
+            }
         }
-
     }
 
     public static function getLatestWatchVideo($assessmentId = null)
