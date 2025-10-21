@@ -190,6 +190,8 @@ class UserController extends Controller
 
             }
 
+            HaiChatHelpers::syncUserRecordWithHAi();
+
             DB::commit();
 
             return Helpers::successResponse('Personal Information updated successfully');
