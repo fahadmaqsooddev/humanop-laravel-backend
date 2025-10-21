@@ -15,16 +15,15 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'broadcasting/*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
-//
-//    'allowed_origins' => ['https://dev.humanop.com','http://localhost:3000'],
+
     'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['Content-Type', 'X-Requested-With', 'Authorization'],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 
