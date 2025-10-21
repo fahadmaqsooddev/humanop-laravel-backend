@@ -15,40 +15,10 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
 
     public string $broadcastQueue = 'broadcasts';
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-//    public $friendId;
-//    public $message;
-//    public $time;
-//    public $heading;
-
-//    public function __construct($friendId = null, $message = null, $time = null, $heading = null)
-//    {
-//
-//        $this->friendId=$friendId;
-//        $this->message=$message;
-//        $this->time=$time;
-//        $this->heading = $heading;
-//    }
-
     public function __construct(public Message $message)
     {
 
     }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-
-//    public function broadcastOn()
-//    {
-//        return new Channel('push-notification.' . $this->friendId);
-//    }
 
     public function broadcastOn()
     {
