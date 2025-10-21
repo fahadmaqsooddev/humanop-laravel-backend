@@ -557,28 +557,48 @@ class User extends Authenticatable implements JWTSubject
 
         $usersCount = [
             'clarity' => 0,
+            'pending' => 0,
             'focus' => 0,
+            'referral_credit_earned' => 0,
         ];
 
         foreach ($referralUsers as $user) {
 
-            $priceId = optional($user->subscription('main'))->stripe_price;
+            $subscription = $user->subscription('main');
+
+            if (!$subscription) {
+                $usersCount['clarity'] += 1;
+                continue;
+            }
+
+            $priceId = $subscription->stripe_price;
 
             $planName = Plan::where('plan_id', $priceId)->value('name');
 
             if ($planName == "Freemium" || empty($planName)) {
-
                 $usersCount['clarity'] += 1;
-
-            } elseif ($planName == "Premium") {
-
-                $usersCount['focus'] += 1;
-
+                continue;
             }
 
-        }
+            if ($planName == "Premium" && $subscription->active()) {
 
-        $usersCount['referral_credit_earned'] = ($usersCount['clarity'] * 1) + ($usersCount['focus'] * 2);
+                $startedAt = $subscription->created_at;
+
+                $daysSinceStart = now()->diffInDays($startedAt);
+
+                if ($daysSinceStart < 60) {
+
+                    $usersCount['pending'] += 1;
+
+                } else {
+
+                    $usersCount['referral_credit_earned'] += 1;
+
+                }
+
+                $usersCount['focus'] += 1;
+            }
+        }
 
         return $usersCount;
 
