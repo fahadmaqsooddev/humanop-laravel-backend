@@ -23,10 +23,12 @@ class SendMessageRequest extends FormRequest
      */
     public function rules()
     {
+        $messageRule = $this->hasFile('upload_file') ? 'nullable' : 'required';
+
         return [
-            'thread_id' => ['required', 'integer', 'exists:message_threads,id',],
-            'message' => ['required', 'string', 'max:1000',],
-            'upload_file' => 'nullable|file|mimes:jpeg,jpg,png,gif|max:204800',
+            'thread_id' => ['required', 'integer', 'exists:message_threads,id'],
+            'message' => [$messageRule, 'string', 'max:1000'],
+            'upload_file' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif', 'max:204800'],
         ];
     }
 
