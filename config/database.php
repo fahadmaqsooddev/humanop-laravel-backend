@@ -368,7 +368,7 @@ return [
         ],
         'LibraryResource' => [
             'table' => 'library_resources',
-            'fillable' => ['heading', 'slug', 'upload_id', 'resource_category_id', 'description', 'content', 'source_id', 'source_url', 'embed_link', 'relevance', 'thumbnail_id'],
+            'fillable' => ['heading', 'slug', 'upload_id', 'resource_category_id', 'description', 'content', 'source_id', 'source_url', 'embed_link', 'relevance', 'thumbnail_id','document_id'],
             'hidden' => ['updated_at'],
         ],
         'PermissionResource' => [

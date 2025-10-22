@@ -410,6 +410,7 @@ class Helpers
 
             $upload = Upload::find($documentId);
 
+
             if ($upload->extension != 'pdf') {
                 return [];
             }

@@ -57,6 +57,7 @@ class LibraryResourceController extends Controller
                     'video_url' => !empty($item->video_url) ? $item->video_url : null,
                     'audio_url' => !empty($item->audio_url) ? $item->audio_url : null,
                     'thumbnail_url' => !empty($item->thumbnail_url) ? $item->thumbnail_url['url'] : null,
+                    'document_url' => !empty($item->document_url) ? $item->document_url['path'] : null,
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => match(optional($item->libraryPermissions)->permission) {
                         1 => 'Freemium',
