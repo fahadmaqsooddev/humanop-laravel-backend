@@ -724,11 +724,16 @@
                                         @if(!empty($editResourceData['document_url']))
                                             <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
                                             <div class="form-group mt-2">
-                                                <a style="background-color: #1b3a62;padding: 10px 20px;border-radius: 5px;color: white;font-size: medium;font-weight: bold;"
-                                                   href="{{ $editResourceData['document_url']['path'] }}"
-                                                   target="_blank" rel="noopener noreferrer">View Document</a>
+                                                <a href="{{ $editResourceData['document_url']['path'] }}"
+                                                   target="_blank"
+                                                   rel="noopener noreferrer"
+                                                   style="background-color: #1b3a62;padding: 10px 20px;border-radius: 5px;color: white;font-size: medium;font-weight: bold;"
+                                                   onclick="window.open(this.href, '_blank'); return false;">
+                                                    View Document
+                                                </a>
                                             </div>
                                         @endif
+
                                     @endif
 
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
