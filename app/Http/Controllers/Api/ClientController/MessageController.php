@@ -13,6 +13,7 @@ use App\Models\Client\Connection\Connection;
 use App\Models\Client\Message\Message;
 use App\Models\Client\MessageRead\MassageRead;
 use App\Models\Client\MessageThread\MessageThread;
+use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Events\messages\MessageSent;
@@ -62,6 +63,12 @@ class MessageController extends Controller
                 $dataArray['message_thread_id'] = $thread->id ?? null;
 
                 $dataArray['sender_id'] = Helpers::getUser()->id;
+
+                if ($dataArray['upload_file']) {
+
+                    $dataArray['upload_id'] = Upload::uploadFile($dataArray['upload_file'], 200, 200, 'base64Image', 'png', true);
+
+                }
 
                 $senderUserName = Helpers::getUser()['first_name'] . ' ' . Helpers::getUser()['last_name'];
 
@@ -150,6 +157,12 @@ class MessageController extends Controller
         DB::beginTransaction();
 
         try {
+
+            if ($request['upload_file']) {
+
+                $request['upload_id'] = Upload::uploadFile($request['upload_file'], 200, 200, 'base64Image', 'png', true);
+
+            }
 
             $message = Message::createMessage($request, $messageThread);
 
