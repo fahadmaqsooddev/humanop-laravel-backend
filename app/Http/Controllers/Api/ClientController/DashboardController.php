@@ -141,7 +141,7 @@ class DashboardController extends Controller
 
                             $getLatestTip = UserDailyTip::where('user_id', $user['id'])->latest()->first();
 
-                            if($getLatestTip['updated_at']->startOfMinute() != Carbon::now()->startOfMinute()){
+                            if (empty($getLatestTip)) {
 
                                 UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
@@ -149,13 +149,30 @@ class DashboardController extends Controller
 
                                 event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-//                                Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
+                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                                HaiChatHelpers::syncUserRecordWithHAi();
+
+                            }elseif($getLatestTip['updated_at']->startOfMinute() != Carbon::now()->startOfMinute()){
+
+                                UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+
+                                $message = 'Your New Daily Tip';
+
+                                event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
                                 Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
+                                HaiChatHelpers::syncUserRecordWithHAi();
+
                             }
 
+                            $userDailyTip = UserDailyTip::getLatestTip();
+
+                            $isRead = $userDailyTip['is_read'];
+
                             if ($user['plan_name'] == 'Freemium') {
+
 
                                 $data = [
                                     'daily_tip_id' => $userDailyTip['daily_tip_id'],
