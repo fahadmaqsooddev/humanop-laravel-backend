@@ -31,6 +31,7 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
     }
 
     public function broadcastWith(): array {
+
         return [
             'id' => $this->message->id,
             'thread_id' => $this->message->message_thread_id,
