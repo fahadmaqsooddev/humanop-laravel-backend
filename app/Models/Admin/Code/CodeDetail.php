@@ -197,7 +197,7 @@ class CodeDetail extends Model
         return $codeDetail;
     }
 
-    public static function getOptionalTraitDetail($trait = null)
+    public static function getOptimalTraitDetail($trait = null)
     {
 
         $result = self::where('public_name', $trait)->where('number', 1)->first();

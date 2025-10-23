@@ -31,15 +31,17 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
     }
 
     public function broadcastWith(): array {
+
         return [
             'id' => $this->message->id,
             'thread_id' => $this->message->message_thread_id,
             'sender' => [
                 'id' => $this->message->sender->id,
                 'name' => $this->message->sender->first_name . ' ' .$this->message->sender->last_name,
+                'photo_url' => $this->message->sender->photo_url
             ],
             'message_text' => $this->message->message,
-//            'upload_id' => $this->message->upload_id,
+            'upload_url' => $this->message->upload_url,
             'created_at' => $this->message->created_at,
         ];
     }

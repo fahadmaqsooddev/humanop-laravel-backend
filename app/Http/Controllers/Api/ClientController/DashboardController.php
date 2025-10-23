@@ -460,7 +460,7 @@ class DashboardController extends Controller
 
                 $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
 
-                $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait['trait']);
+                $optionalTraitDetail = CodeDetail::getOptimalTraitDetail($optionalTrait['trait']);
 
                 UserOptimalTrait::createUserOptimalTrait($optionalTraitDetail[0], $user['id'], $optionalTrait['status']);
 

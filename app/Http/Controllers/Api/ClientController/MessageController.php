@@ -76,7 +76,7 @@ class MessageController extends Controller
 
                 $heading = $senderUserName . " send you a message";
 
-                event(new MessageSent($request->input('receiver_id'), $request->input('message'), $message->created_at, $heading));
+//                event(new MessageSent($request->input('receiver_id'), $request->input('message'), $message->created_at, $heading));
 
 //                Helpers::OneSignalApiUsed($request->input('receiver_id'), $heading, $request->input('message'));
 

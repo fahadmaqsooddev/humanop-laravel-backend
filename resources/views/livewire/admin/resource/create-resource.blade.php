@@ -289,13 +289,13 @@
                                          x-on:livewire-upload-finish="progress = 0"
                                          x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label fs-4" style="color: #1b3a62">
-                                            Resource (Image, Video, or Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])
+                                            Resource (Image or Audio [PNG, JPG, GIF, P3, MPEG, MOV])
                                         </label>
                                         <input wire:model="resource_file"
                                                id="resource_file"
                                                class="form-control input-form-style resource_file"
                                                type="file"
-                                               accept="image/*,video/*,audio/*">
+                                               accept="image/*,audio/*">
                                         {{-- Progress bar --}}
                                         <div class="progress mt-2" x-show="progress > 0">
                                             <div class="progress-bar" role="progressbar"
@@ -372,18 +372,6 @@
                                                 <label class="form-check-label" for="core">Premium</label>
                                             </div>
                                         </div>
-
-
-                                        {{--                                        <div class="col-4">--}}
-                                        {{--                                            <div class="form-check">--}}
-                                        {{--                                                <input type="checkbox" wire:model.defer="permission" value="3"--}}
-                                        {{--                                                       class="form-check-input option-checkbox"--}}
-                                        {{--                                                       style="border: 2px solid #1b3a62" id="premium">--}}
-                                        {{--                                                <label class="form-check-label" for="premium">Elevate Tier--}}
-                                        {{--                                                    (premium)</label>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-
                                         <div class="row mt-4">
                                             <div class="col-6">
                                                 <label for="point">Point</label>
@@ -393,7 +381,6 @@
                                                        wire:model.defer="pointValue"
                                                        style="border: 2px solid #1b3a62;">
                                             </div>
-
                                             <div class="col-6">
                                                 <label for="price">Price</label>
                                                 <input type="number" id="price" class="form-control"
@@ -600,12 +587,12 @@
                                          x-on:livewire-upload-progress="progress = $event.detail.progress"
                                          x-on:livewire-upload-finish="progress = 0"
                                          x-on:livewire-upload-error="progress = 0">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
-                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image or
+                                            Audio [PNG, JPG, GIF, MP3, MPEG, MOV])</label>
                                         <input wire:model="resource_file"
                                                id="resource_file"
                                                class="form-control input-form-style resource_file1" type="file"
-                                               accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
+                                               accept="image/^,,audio/*" onchange="logSelectedFile(event)">
                                     </div>
                                     {{-- Progress bar --}}
                                     <div class="progress mt-2" x-show="progress > 0">

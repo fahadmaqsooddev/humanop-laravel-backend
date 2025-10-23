@@ -160,7 +160,7 @@ class User extends Authenticatable implements JWTSubject
 
             $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
 
-            $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait['trait']);
+            $optionalTraitDetail = CodeDetail::getOptimalTraitDetail($optionalTrait['trait']);
 
             return $optionalTraitDetail;
         }
