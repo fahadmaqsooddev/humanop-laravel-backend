@@ -37,13 +37,15 @@ class EditResultVideoForm extends Component
 
             $resultVideo->public_name = $this->select_video['public_name'] ?? $resultVideo->public_name;
 
-            if (!empty($this->select_video['video_file'])) {
+            $resultVideo->video_embed_link = $this->select_video['video_embed_link'];
 
-                $upload_id = Upload::uploadFile($this->select_video['video_file'], '', '', 'video');
-
-                $resultVideo->video_upload_id = $upload_id;
-
-            }
+//            if (!empty($this->select_video['video_file'])) {
+//
+//                $upload_id = Upload::uploadFile($this->select_video['video_file'], '', '', 'video');
+//
+//                $resultVideo->video_upload_id = $upload_id;
+//
+//            }
 
             $resultVideo->save();
 

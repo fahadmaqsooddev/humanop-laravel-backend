@@ -44,24 +44,29 @@
         </div>
 
         <div class="col-12 mt-4">
-            <label class="form-label" style="color: #1b3a62">Result Video</label>
-            <div class="input-group w-100">
-                <input
-                        type="file"
-                        accept="video/*"
-                        class="form-control input-form-style"
-                        wire:model="select_video.video_file"> <!-- Remove defer to allow immediate loading trigger -->
+{{--            <label class="form-label" style="color: #1b3a62">Result Video</label>--}}
+{{--            <div class="input-group w-100">--}}
+{{--                <input--}}
+{{--                        type="file"--}}
+{{--                        accept="video/*"--}}
+{{--                        class="form-control input-form-style"--}}
+{{--                        wire:model="select_video.video_file"> <!-- Remove defer to allow immediate loading trigger -->--}}
+{{--            </div>--}}
+{{--            <!-- Uploading Spinner -->--}}
+{{--            <span wire:loading.flex wire:target="select_video.video_file">--}}
+{{--                <div class="d-flex align-items-center mt-2">--}}
+{{--                    <div class="spinner-border" role="status" style="color: #1b3a62 !important;"></div>--}}
+{{--                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>--}}
+{{--                </div>--}}
+{{--            </span>--}}
+            <div class="form-group mt-4 ">
+                <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
+                <input class="form-control input-form-style"
+                       wire:model.debounce.500ms="select_video.video_embed_link" placeholder="Link" type="text"
+                       id="embedlink">
             </div>
-
-            <!-- Uploading Spinner -->
-            <span wire:loading.flex wire:target="select_video.video_file">
-                <div class="d-flex align-items-center mt-2">
-                    <div class="spinner-border" role="status" style="color: #1b3a62 !important;"></div>
-                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
-                </div>
-            </span>
         </div>
-        @if (!empty($select_video['video_embed_link']))
+{{--        @if (!empty($select_video['video_embed_link']))--}}
             <label class="form-label mt-4" style="color: #1b3a62">Preview</label>
 {{--            <span style="width: 50%">{!! $select_video['video_embed_link'] !!}</span>--}}
 
@@ -71,7 +76,7 @@
                     Your browser does not support the video tag.
                 </video>
             </div>
-        @endif
+{{--        @endif--}}
 
     </div>
 
