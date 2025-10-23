@@ -81,7 +81,7 @@ class Message extends Model
 
         $messageThread->touch();
 
-        return $msg;
+        return $msg->load('sender');
 
     }
 
