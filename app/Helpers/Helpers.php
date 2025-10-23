@@ -976,9 +976,9 @@ class Helpers
     {
         $stylesAndDrivers = array_merge($traits, $features);
 
-        $minutes = Helpers::explodeTimezoneWithHours($timezone);
+        $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($timezone);
 
-        $currentTime = Carbon::now()->addMinutes($minutes * 60);
+        $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
 
         $morningStart = Carbon::createFromTimeString('05:00 AM');
 
@@ -994,19 +994,19 @@ class Helpers
 
                 $status = Admin::MORNING_STATUS;
 
-                $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
+                $optimalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
 
             } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
                 $status = Admin::AFTERNOON_STATUS;
 
-                $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
+                $optimalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
             } else {
 
                 $status = Admin::NIGHT_STATUS;
 
-                $optionalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
+                $optimalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
 
             }
 
@@ -1016,25 +1016,25 @@ class Helpers
 
                 $status = Admin::MORNING_STATUS;
 
-                $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
+                $optimalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
 
             } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
                 $status = Admin::AFTERNOON_STATUS;
 
-                $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
+                $optimalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
             } else {
 
                 $status = Admin::NIGHT_STATUS;
 
-                $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
+                $optimalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
             }
         }
 
         return [
-            'trait' => $optionalTrait,
+            'trait' => $optimalTrait,
             'status' => $status,
         ];
 

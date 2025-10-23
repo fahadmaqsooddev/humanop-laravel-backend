@@ -51,9 +51,9 @@ class optimalTraitPushNotification extends Command
 
                     $timezone = $user['timezone'];
 
-                    $minutes = Helpers::explodeTimezoneWithHours($timezone);
+                    $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($timezone);
 
-                    $currentTime = Carbon::now()->addMinutes($minutes * 60);
+                    $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
 
                     $morningStart = Carbon::createFromTimeString('05:00 AM');
 
@@ -79,27 +79,27 @@ class optimalTraitPushNotification extends Command
 
                             $status = Admin::MORNING_STATUS;
 
-                            $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
+                            $optimalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
 
                         } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
                             $status = Admin::AFTERNOON_STATUS;
 
-                            $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
+                            $optimalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
                         } else {
 
                             $status = Admin::NIGHT_STATUS;
 
-                            $optionalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
+                            $optimalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
 
                         }
 
-                        $message = 'Your ' . $optionalTrait . ' Optimal Trait';
+                        $message = 'Your ' . $optimalTrait . ' Optimal Trait';
 
                         if (empty($userOptimalTrait)) {
 
-                            UserOptimalTrait::createUserOptimalTrait($optionalTrait, $user['id'], $status);
+                            UserOptimalTrait::createUserOptimalTrait($optimalTrait, $user['id'], $status);
 
                             HaiChatHelpers::syncUserRecordWithHAi($user);
 
@@ -109,7 +109,7 @@ class optimalTraitPushNotification extends Command
 
                         } elseif ($userOptimalTrait['status'] != $status) {
 
-                            UserOptimalTrait::updateUserOptimalTrait($optionalTrait, $user['id'], $status);
+                            UserOptimalTrait::updateUserOptimalTrait($optimalTrait, $user['id'], $status);
 
                             HaiChatHelpers::syncUserRecordWithHAi($user);
 
