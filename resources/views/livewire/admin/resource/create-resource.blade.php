@@ -296,17 +296,14 @@
                                                class="form-control input-form-style resource_file"
                                                type="file"
                                                accept="image/*,video/*,audio/*">
-
                                         {{-- Progress bar --}}
-                                        <div class="progress mt-2" x-show="progress > 0" >
+                                        <div class="progress mt-2" x-show="progress > 0">
                                             <div class="progress-bar" role="progressbar"
                                                  :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
                                                  x-text="`${progress}%`">
                                             </div>
                                         </div>
-
                                         <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
-
                                     </div>
 
                                     {{-- Show only if file is audio or video --}}
@@ -323,19 +320,36 @@
                                                    class="form-control input-form-style thumbnail_file"
                                                    type="file"
                                                    accept="image/*">
-
                                             {{-- Progress bar --}}
-                                            <div class="progress mt-2" x-show="progress > 0"
-                                                 >
+                                            <div class="progress mt-2" x-show="progress > 0">
                                                 <div class="progress-bar" role="progressbar"
                                                      :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
                                                      x-text="`${progress}%`">
                                                 </div>
                                             </div>
-
                                             <span wire:loading.flex wire:target="audio_file"
                                                   style="color:#1b3a62"></span>
+                                        </div>
 
+                                        <div class="form-group" x-data="{ progress: 0 }"
+                                             x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                             x-on:livewire-upload-finish="progress = 0"
+                                             x-on:livewire-upload-error="progress = 0">
+                                            <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                            <input wire:model="document_file"
+                                                   id="resource_file"
+                                                   class="form-control input-form-style document_file"
+                                                   type="file"
+                                                   accept="document/*">
+                                            {{-- Progress bar --}}
+                                            <div class="progress mt-2" x-show="progress > 0">
+                                                <div class="progress-bar" role="progressbar"
+                                                     :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                     x-text="`${progress}%`">
+                                                </div>
+                                            </div>
+                                            <span wire:loading.flex wire:target="audio_file"
+                                                  style="color:#1b3a62"></span>
                                         </div>
                                     @endif
 
@@ -594,7 +608,7 @@
                                                accept="image/,video/,audio/*" onchange="logSelectedFile(event)">
                                     </div>
                                     {{-- Progress bar --}}
-                                    <div class="progress mt-2" x-show="progress > 0" >
+                                    <div class="progress mt-2" x-show="progress > 0">
                                         <div class="progress-bar" role="progressbar"
                                              :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
                                              x-text="`${progress}%`">
@@ -639,17 +653,36 @@
                                                    accept="image/*">
 
                                             {{-- Progress bar --}}
-                                            <div class="progress mt-2" x-show="progress > 0"
-                                                 >
+                                            <div class="progress mt-2" x-show="progress > 0">
                                                 <div class="progress-bar" role="progressbar"
                                                      :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
                                                      x-text="`${progress}%`">
                                                 </div>
                                             </div>
 
-                                            <span wire:loading.flex wire:target="audio_file"
+                                            <span wire:loading.flex wire:target="thumbnail_file"
                                                   style="color:#1b3a62"></span>
 
+                                        </div>
+                                        <div class="form-group" x-data="{ progress: 0 }"
+                                             x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                             x-on:livewire-upload-finish="progress = 0"
+                                             x-on:livewire-upload-error="progress = 0">
+                                            <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                            <input wire:model="document_file"
+                                                   id="resource_file"
+                                                   class="form-control input-form-style document_file"
+                                                   type="file"
+                                                   accept="document/*">
+                                            {{-- Progress bar --}}
+                                            <div class="progress mt-2" x-show="progress > 0">
+                                                <div class="progress-bar" role="progressbar"
+                                                     :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                     x-text="`${progress}%`">
+                                                </div>
+                                            </div>
+                                            <span wire:loading.flex wire:target="document_file"
+                                                  style="color:#1b3a62"></span>
                                         </div>
                                     @else
                                         @if(!in_array($typeThumbnail, ['jpeg', 'png', 'jpg', 'gif']))
@@ -669,7 +702,7 @@
 
                                                     {{-- Progress bar --}}
                                                     <div class="progress mt-2" x-show="progress > 0"
-                                                         >
+                                                    >
                                                         <div class="progress-bar" role="progressbar"
                                                              :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
                                                              x-text="`${progress}%`">
@@ -687,8 +720,20 @@
                                                     </div>
                                                 @endif
                                             @endif
-
                                         @endif
+                                        @if(!empty($editResourceData['document_url']))
+                                            <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                            <div class="form-group mt-2">
+                                                <a href="{{ $editResourceData['document_url']['path'] }}"
+                                                   target="_blank"
+                                                   rel="noopener noreferrer"
+                                                   style="background-color: #1b3a62;padding: 10px 20px;border-radius: 5px;color: white;font-size: medium;font-weight: bold;"
+                                                   onclick="window.open(this.href, '_blank'); return false;">
+                                                    View Document
+                                                </a>
+                                            </div>
+                                        @endif
+
                                     @endif
 
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>

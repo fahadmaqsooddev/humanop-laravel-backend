@@ -25,7 +25,7 @@ class LibraryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['photo_url', 'video_url', 'audio_url', 'thumbnail_url'];
+    protected $appends = ['photo_url', 'video_url', 'audio_url', 'thumbnail_url', 'document_url'];
 
     // relation
     public function libraryPermissions()
@@ -104,14 +104,36 @@ class LibraryResource extends Model
 
     }
 
+    public function getDocumentUrlAttribute()
+    {
+
+        if ($this->document_id) {
+
+            $document = Helpers::getDocument($this->document_id, 1);
+
+            if (!empty($document)) {
+
+                return $document;
+
+            } else {
+
+                return null;
+            }
+
+        }
+
+        return null;
+
+    }
+
     public function getAudioUrlAttribute()
     {
 
-        if (!empty($this->upload_id)){
+        if (!empty($this->upload_id)) {
 
             return Helpers::getMp3Url($this->upload_id);
 
-        }else{
+        } else {
 
             return null;
 
@@ -210,7 +232,7 @@ class LibraryResource extends Model
 
             $plan = 'Premium';
 
-        }else{
+        } else {
 
             $plan = $user['plan_name'] ?? null;
         }
@@ -240,11 +262,11 @@ class LibraryResource extends Model
         $user = Helpers::getUser();
         $userId = $user['id'];
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
+        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
 
             $userPlan = 'Premium';
 
-        }else{
+        } else {
 
             $userPlan = $user['plan_name'];
 
@@ -297,11 +319,11 @@ class LibraryResource extends Model
 
         $user = Helpers::getUser();
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
+        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
 
             $userPlan = 'Premium';
 
-        }else{
+        } else {
 
             $userPlan = $user['plan_name'];
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Client\Message;
 
+use App\Helpers\Helpers;
 use App\Models\Client\MessageRead\MassageRead;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\User;
@@ -14,6 +15,8 @@ class Message extends Model
 {
     use HasFactory;
 
+    protected $appends = ['upload_url'];
+
     protected $casts = [
         'is_read' => 'boolean',
     ];
@@ -25,6 +28,19 @@ class Message extends Model
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
+    }
+
+    public function getUploadUrlAttribute()
+    {
+        if (!empty($this->upload_id)) {
+
+            return Helpers::getImage($this->upload_id, 'humanop_default_image.png')['url'];
+
+        } else {
+
+            return null;
+        }
+
     }
 
     //relation
@@ -60,6 +76,7 @@ class Message extends Model
             'sender_id' => $request->user()->id,
             'message' => $request->input('message'),
             'is_read' => false,
+            'upload_id' => $request['upload_id'],
         ]);
 
         $messageThread->touch();

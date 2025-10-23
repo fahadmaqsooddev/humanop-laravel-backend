@@ -227,6 +227,7 @@ class HumanOpShopController extends Controller
                     'video_url' => $libraryItem['libraryItems']->video_url ?? null,
                     'audio_url' => $libraryItem['libraryItems']->audio_url ?? null,
                     'thumbnail_url' => $libraryItem['libraryItems']->thumbnail_url ?? null,
+                    'document_url' => $libraryItem['libraryItems']->document_url ?? null,
                     'resource_category_name' => optional($libraryItem['libraryItems']->resourceCategory)->name,
                     'library_permission_name' => match(optional($libraryItem['libraryItems']->libraryPermissions)->permission) {
                         1 => 'Freemium',
