@@ -37,7 +37,7 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
             'thread_id' => $this->message->message_thread_id,
             'sender' => [
                 'id' => $this->message->sender->id,
-                'name' => $this->message->sender->first_name . ' ' .$this->message->sender->last_name,
+//                'name' => $this->message->sender->first_name . ' ' .$this->message->sender->last_name,
                 'photo_url' => $this->message->sender->photo_url->url
             ],
             'message_text' => $this->message->message,
