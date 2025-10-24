@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class SubmitAssessment implements ShouldBroadcast
 {
@@ -27,6 +28,8 @@ class SubmitAssessment implements ShouldBroadcast
     {
         $this->userId = $userId;
         $this->currentPage = $currentPage;
+
+        Log::info(['pusher current page', $currentPage]);
     }
 
     /**
