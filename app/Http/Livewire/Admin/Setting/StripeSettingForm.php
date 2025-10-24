@@ -4,12 +4,15 @@ namespace App\Http\Livewire\Admin\Setting;
 
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Http\Requests\Admin\Setting\StripeAccountSettingRequest;
+use App\Support\StripeConfig;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Traits\HandlesValidationErrors;
+
 class StripeSettingForm extends Component
 {
     use HandlesValidationErrors;
+
     public $account;
 
 
@@ -18,22 +21,30 @@ class StripeSettingForm extends Component
         $this->account = $account->toArray();
     }
 
-    public function submitForm(){
+    public function submitForm()
+    {
 
-        if($this->customValidation(new StripeAccountSettingRequest($this->account),$this->account)){return;};
+        if ($this->customValidation(new StripeAccountSettingRequest($this->account), $this->account)) {
+            return;
+        };
 
-        try
-        {
+        try {
 
             StripeSetting::updateStripeAccount($this->account, $this->account['id']);
-             $this->emit('updateAmount');
+
+            $this->emit('updateAmount');
+
+            StripeConfig::refreshSettingsCache();
+
             session()->flash('success', 'Stripe Account Update Successfully.');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
+
             session()->flash('error', $exception->getMessage());
         }
+
     }
+
     public function render()
     {
         return view('livewire.admin.setting.stripe-setting-form');

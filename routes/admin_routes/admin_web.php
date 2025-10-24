@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminControllers\FaqController;
 use App\Http\Controllers\Email\EmailTemplateController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\QuestionController;
@@ -53,6 +54,8 @@ Route::get('/stripe-checkout', [SessionController::class, 'checkout']);
 Route::post('/data-stripe', [SessionController::class, 'getData'])->name('data-stripe');
 Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt']);
 Route::get('/', [SessionController::class, 'create']);
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])->name('stripe.webhook');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
