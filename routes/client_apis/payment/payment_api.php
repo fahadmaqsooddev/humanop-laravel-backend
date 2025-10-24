@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\StripePublicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,26 +23,29 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('checkout-subscription', 'PaymentController@checkoutSubscription');
     Route::post('process-subscription', 'PaymentController@processSubscription');
     Route::get('plans', 'PaymentController@plans');
-
-
     Route::post('hai-credit-checkout', 'PaymentController@haiCreditCheckout');
-    Route::get('hai-credit-plans','PaymentController@haiCreditPlans');
-
+    Route::get('hai-credit-plans', 'PaymentController@haiCreditPlans');
     Route::get('b2c-invoice', 'PaymentController@invoice');
 
 
 
 
+    // Create premium subscription draft (monthly/yearly)
+    Route::post('/billing/subscriptions/init', 'BillingController@initSubscription');
 
-    Route::post('/billing/subscriptions/init', [\App\Http\Controllers\Api\ClientController\Billing\B2CController::class, 'initSubscription']);
-    Route::post('/billing/subscriptions/swap', [\App\Http\Controllers\Api\ClientController\Billing\B2CController::class, 'swapPlan']);     // Option A
-    Route::post('/billing/subscriptions/cancel', [\App\Http\Controllers\Api\ClientController\Billing\B2CController::class, 'cancelAtPeriodEnd']);
-    Route::post('/billing/subscriptions/resume', [\App\Http\Controllers\Api\ClientController\Billing\B2CController::class, 'resume']);
-    Route::get('/billing/subscriptions/{stripeSubscriptionId}/status', [\App\Http\Controllers\Api\ClientController\Billing\B2CController::class, 'status']); // optional
+    // Swap recurring plan (premium_monthly <-> premium_yearly)
+    Route::post('/billing/subscriptions/swap', 'BillingController@swapPlan');
 
-    // One-time (Payment Element)
-    Route::post('/billing/lifetime/init', [\App\Http\Controllers\Api\ClientController\Billing\B2CController::class, 'initLifetime']);     // client_secret
-    Route::post('/billing/bb-onetime/init', [\App\Http\Controllers\Api\ClientController\Billing\B2CController::class, 'initBBOneTime']);  // client_secret
+    // Cancel / resume
+    Route::post('/billing/subscriptions/cancel', 'BillingController@cancelAtPeriodEnd');
+    Route::post('/billing/subscriptions/resume', 'BillingController@resume');
 
+    // Poll status by Stripe sub ID
+    Route::get('/billing/subscriptions/{stripeSubscriptionId}/status', 'BillingController@status');
 
+    // Lifetime purchase (one-time)
+    Route::post('/billing/lifetime/init', 'BillingController@initLifetime');
+
+    // BB-onetime / add-on (one-time)
+    Route::post('/billing/bb-onetime/init', 'BillingController@initBBOneTime');
 });

@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
-            $table->string('plan')->default("Freemium")->comment("Freemium, Premium, Premium Lifetime");
-            $table->boolean('is_lifetime')->default(false);
-            $table->boolean('has_bb_onetime')->default(false);
-
+            $table->string('plan')->nullable()->index()
+                ->comment('freemium|premium_monthly|premium_yearly|premium_lifetime|bb_lifetime');
+            $table->boolean('is_lifetime')->default(false)->index();
+            $table->boolean('has_bb_onetime')->default(false)->index();
+            $table->string('billing_context', 10)->nullable()->index()
+                ->comment('b2c|b2b');
         });
     }
 
@@ -34,6 +36,7 @@ return new class extends Migration
             $table->dropColumn('plan');
             $table->dropColumn('is_lifetime');
             $table->dropColumn('has_bb_onetime');
+            $table->dropColumn('billing_context');
 
         });
     }

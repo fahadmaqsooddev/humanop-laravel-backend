@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::table('plans', function (Blueprint $table) {
 
-            $table->string('key')->nullable();
-            $table->string('kind')->nullable();
-            $table->tinyInteger('active')->default(1)->comment('1 => active, 2 => inactive');
-
+            $table->string('key')->index();
+            $table->enum('kind', ['recurring','one_time']);
+            $table->string('product_name')->nullable();
+            $table->boolean('active')->default(true)->index();
+            $table->string('context', 10)->default('b2c')->index();
         });
     }
 
@@ -34,6 +35,8 @@ return new class extends Migration
             $table->dropColumn('key');
             $table->dropColumn('kind');
             $table->dropColumn('active');
+            $table->dropColumn('product_name');
+            $table->dropColumn('context');
         });
     }
 };

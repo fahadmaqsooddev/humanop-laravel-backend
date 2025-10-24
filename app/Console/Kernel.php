@@ -25,11 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (env('IS_DEMO')){
-            $schedule->command('migrate:fresh --seed')->everyFifteenMinutes();
-            $schedule->command('image:seed')->everyFifteenMinutes();
-            $schedule->command('tips:dispatch-due')->everyMinute()->withoutOverlapping();
-        }
+        $schedule->command('billing:cancel-stale-incomplete')->daily();
     }
 
     /**

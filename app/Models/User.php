@@ -55,6 +55,27 @@ class User extends Authenticatable implements JWTSubject
         parent::__construct($attributes);
     }
 
+    // Helper flags used by app
+    public function onFreemium(): bool
+    {
+        return $this->plan === 'freemium' && !$this->is_lifetime;
+    }
+
+    public function onPremium(): bool
+    {
+        return str_starts_with((string)$this->plan, 'premium_') && !$this->is_lifetime;
+    }
+
+    public function onLifetime(): bool
+    {
+        return $this->is_lifetime === true;
+    }
+
+    public function hasBBOnetime(): bool
+    {
+        return $this->has_bb_onetime === true;
+    }
+
     protected static function boot()
     {
 
@@ -1065,7 +1086,7 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Life Review',
                     'name' => 'life_review',
                     'public_name' => 'Cycle of Life - Life Review (75-83)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
+                    'video_url' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4'),
                     'description' => config('intervalLifeCycle.life_review_(75-83)'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
@@ -2621,7 +2642,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function haiChatSound($user = null)
     {
-        if ($user['hai_chat_sound_mute'] == Admin::HAI_CHAT_MUTE){
+        if ($user['hai_chat_sound_mute'] == Admin::HAI_CHAT_MUTE) {
 
             $user->hai_chat_sound_mute = Admin::HAI_CHAT_UNMUTE;
 
@@ -2629,7 +2650,7 @@ class User extends Authenticatable implements JWTSubject
 
             return Admin::HAI_CHAT_UNMUTE;
 
-        }else{
+        } else {
 
             $user->hai_chat_sound_mute = Admin::HAI_CHAT_MUTE;
 
