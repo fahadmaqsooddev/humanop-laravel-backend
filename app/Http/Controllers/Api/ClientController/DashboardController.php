@@ -1111,11 +1111,38 @@ class DashboardController extends Controller
 
     }
 
+    public function haiChatSound()
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $status = User::haiChatSound($user);
+
+            if ($status == Admin::HAI_CHAT_MUTE){
+
+                return Helpers::successResponse('HAi chat mute successfully');
+
+            }else{
+
+                return Helpers::successResponse('HAi chat unmute successfully');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
     public static function allCompanies()
     {
         try {
 
-            $companies = User::allCompanies();
+            $user = Helpers::getUser();
+
+            $companies = User::allCompanies($user);
 
             return Helpers::successResponse("All Companies Information", $companies);
 

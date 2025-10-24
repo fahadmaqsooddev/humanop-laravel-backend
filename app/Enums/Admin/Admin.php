@@ -242,4 +242,8 @@ final class Admin
 
     const BETA_BREAKER_CLUB = 1;
 
+    const HAI_CHAT_MUTE = 2;
+
+    const HAI_CHAT_UNMUTE = 1;
+
 }
