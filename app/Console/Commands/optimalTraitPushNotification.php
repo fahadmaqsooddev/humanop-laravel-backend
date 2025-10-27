@@ -43,7 +43,7 @@ class optimalTraitPushNotification extends Command
 
             $notification = PushNotification::getSingleNotification($user['id']);
 
-            if ($notification['optimal_trait'] == 1) {
+            if (!empty($notification) && $notification['optimal_trait'] == 1) {
 
                 $assessment = Assessment::getLatestAssessment($user['id']);
 
@@ -63,7 +63,7 @@ class optimalTraitPushNotification extends Command
 
                     $eveningStart = Carbon::createFromTimeString('05:00 PM');
 
-                    $topThreeStyles = Assessment::getAllStyles($assessment);
+                    $topThreeStyles = Assessment::getAllStyles($assessment, $user);
 
                     $topFeatures = Assessment::getFeatures($assessment);
 

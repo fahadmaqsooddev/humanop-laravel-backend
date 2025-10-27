@@ -53,20 +53,28 @@ class ShopCategoryResource extends Model
 
     public function getVideoUrlAttribute()
     {
-        return Helpers::getVideo($this->video_id, 1, null);
+        if (!empty($this->video_embed_link)){
+
+            return $this->video_embed_link;
+
+        }else{
+
+            return null;
+
+        }
     }
 
     public function getAudioUrlAttribute()
     {
-//        return Helpers::getAudio($this->audio_id, 1);
 
-        if (!empty($this->audio_id)) {
+        if (!empty($this->audio_id)){
 
             return Helpers::getMp3Url($this->audio_id);
 
-        } else {
+        }else{
 
             return null;
+
         }
 
     }
@@ -112,7 +120,7 @@ class ShopCategoryResource extends Model
 
     }
 
-    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null, $description = null, $thumbnail_id = null)
+    public static function createShopResource($heading = null, $category_id = null, $price = null, $link = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -120,7 +128,7 @@ class ShopCategoryResource extends Model
             'slug' => Str::slug($heading),
             'humanop_shop_category_id' => $category_id,
             'price' => $price,
-            'video_id' => $video_id,
+            'video_embed_link' => $link,
             'audio_id' => $audio_id,
             'document_id' => $document_id,
             'image_id' => $image_id,
@@ -258,16 +266,19 @@ class ShopCategoryResource extends Model
         $highlightedStyles = array_merge($traits, $topTwoDrivers, !empty($alchemy['code_name']) ? [$alchemy['code_name']] : [], array_map('strtoupper', $topCommunication), $perception, $energyPool);
 
         $matchingItems = self::whereNotIn('id', $purchasedItemIds)
+
             ->whereHas('resourceTraits', function ($query) use ($highlightedStyles) {
 
                 $query->whereIn('grid_name', $highlightedStyles);
 
             })
+
             ->with(['resourceTraits' => function ($query) use ($highlightedStyles) {
 
                 $query->whereIn('grid_name', $highlightedStyles);
 
             }])
+
             ->get();
 
         if ($matchingItems->count() >= 3) {
