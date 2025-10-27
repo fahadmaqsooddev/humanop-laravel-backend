@@ -26,9 +26,9 @@ class StoreUserFeedback extends FormRequest
         return [
             'title' => 'required|max:100',
             'comment' => 'required|max:1000',
-            'rating' => 'required|numeric', // Ensure rating is a number
+            'rating' => 'nullable|numeric',
             'support_category' => 'required',
-            'file_upload' => 'mimes:jpeg,jpg,png,gif,mp4,mov|required|max:204800',
+            'file_upload' => 'mimes:jpeg,jpg,png,gif,mp4,mov|nullable|max:204800',
         ];
     }
 
