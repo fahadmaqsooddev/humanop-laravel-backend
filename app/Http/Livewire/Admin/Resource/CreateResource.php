@@ -32,21 +32,21 @@ class CreateResource extends Component
     protected $rules = [
         'heading' => 'required|unique:library_resources,heading',
         'relevance' => 'required|string',
-        'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
+        'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp3,wav|max:204800', // Max file size 200MB
         'document_file' => 'nullable|file|mimes:doc,docx,xls,xlsx,pdf|max:204800',
         'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
         'content' => 'nullable|string',
-        'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9_-]+\.(mp4)$/'],
+        'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9_-]+\.(m3u8)$/'],
     ];
 
     protected $messages = [
         'heading.required' => 'Heading is required.',
         'relevance.required' => 'Relevance is required.',
         'heading.unique' => 'The heading must be unique in the library resources.',
-        'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
+        'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp3, wav.',
         'resource_file.max' => 'The resource file size must not exceed 200MB.',
         'document_file.file' => 'The uploaded document must be a valid file.',
         'document_file.mimes' => 'The document must be a file of type: doc, docx, xls, xlsx, or png.',
@@ -404,7 +404,7 @@ class CreateResource extends Component
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
 
         if ($this->resource_file) {
             if ($this->resource_file instanceof UploadedFile) {
