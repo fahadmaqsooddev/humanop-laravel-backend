@@ -2642,11 +2642,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function haiChatSound($user = null)
     {
-<<<<<<< HEAD
-        if ($user['hai_chat_sound_mute'] == Admin::HAI_CHAT_MUTE){
-=======
         if ($user['hai_chat_sound_mute'] == Admin::HAI_CHAT_MUTE) {
->>>>>>> b2c-dev
 
             $user->hai_chat_sound_mute = Admin::HAI_CHAT_UNMUTE;
 
@@ -2654,11 +2650,7 @@ class User extends Authenticatable implements JWTSubject
 
             return Admin::HAI_CHAT_UNMUTE;
 
-<<<<<<< HEAD
-        }else{
-=======
         } else {
->>>>>>> b2c-dev
 
             $user->hai_chat_sound_mute = Admin::HAI_CHAT_MUTE;
 
