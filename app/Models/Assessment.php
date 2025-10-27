@@ -1133,7 +1133,8 @@ class Assessment extends Model
 
         $data = [];
 
-        $getAuthentic = AssessmentColorCode::getAllAuthenticTraitCodeColor($assessment['id']);
+        $getAuthentic = AssessmentColorCode::getBreakerHighlightCodeColor($assessment['id']);
+//        $getAuthentic = AssessmentColorCode::getAllAuthenticTraitCodeColor($assessment['id']);
         $getAuthentic = array_change_key_case($getAuthentic, CASE_LOWER);
 
         foreach ($allStyles as $style) {
