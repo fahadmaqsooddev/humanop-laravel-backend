@@ -189,9 +189,9 @@ class AuthController extends Controller
 
                 }
 
-//                Helpers::createCustomerAndSubscriptionOnStripe($user);
+                Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                FreemiumEnrollmentService::enroll($user);
+//                FreemiumEnrollmentService::enroll($user);
 
 //                Helpers::createClientsOnOneSignal($user['id']);
 
@@ -756,7 +756,7 @@ class AuthController extends Controller
                 $token = $this->auth->attempt($credentials, $remember_me);
 
                 HaiChatHelpers::syncUserRecordWithHAi();
-                
+
                 $getUser = User::getSingleUser($checkUser['id']);
 
                 $getUser->update(['last_login' => Carbon::now()]);
