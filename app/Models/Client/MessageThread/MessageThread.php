@@ -259,18 +259,27 @@ class MessageThread extends Model
 
         $q = self::query()
             ->with('participants')
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy'])
-            ->where(function ($query) use ($userId) {
-                $query->where('sender_id', $userId)
-                    ->orWhere('receiver_id', $userId);
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy',
+                ])
+            ->where(function ($query) use ($userId, $request) {
+                $query->where(function ($sub) use ($userId) {
+                    $sub->where('sender_id', $userId)
+                        ->orWhere('receiver_id', $userId);
+                });
+
+                // Apply type condition inside same grouped scope
+                if (!empty($request) && $request->filled('type')) {
+                    $query->where('type', (int) $request->query('type'));
+                }
             });
 
-        if (!empty($request) && $request->filled('type')) {
-            $q->where('type', (int)$request->query('type'));
-        }
-
-        return Helpers::pagination($q->orderByDesc('id'), $request['pagination'] ?? null, $request['per_page'] ?? null);
+        return Helpers::pagination(
+            $q->orderByDesc('id'),
+            $request['pagination'] ?? null,
+            $request['per_page'] ?? null
+        );
     }
+
 
     public static function getAllMessageThread($request = null)
     {
