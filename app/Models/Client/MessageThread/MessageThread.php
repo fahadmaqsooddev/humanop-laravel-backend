@@ -253,14 +253,47 @@ class MessageThread extends Model
         self::whereId($thread_id)->delete();
     }
 
+    public static function getAllMessageThread($request = null)
+    {
+
+        $q = self::query()
+            ->with('participants')
+//            ->forUser($request->user()->id)
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
+
+        if ($request->filled('type')) {
+            $q->where('type', (int)$request->query('type'));
+        }
+
+        return Helpers::pagination($q->orderByDesc('id'), $request['pagination'], $request['per_page']);
+
+    }
+
     public static function getMyMessageThread($request = null)
+    {
+
+        $q = self::query()
+            ->with('participants')
+            ->where('owner_id', Helpers::getUser()['id'])
+//            ->forUser($request->user()->id)
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
+
+        if ($request->filled('type')) {
+            $q->where('type', (int)$request->query('type'));
+        }
+
+        return Helpers::pagination($q->orderByDesc('id'), $request['pagination'], $request['per_page']);
+
+    }
+
+    public static function getAllDirectMessageThread($request = null)
     {
         $userId = Helpers::getUser()['id'];
 
         $q = self::query()
             ->with('participants')
             ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy',
-                ])
+            ])
             ->where(function ($query) use ($userId, $request) {
                 $query->where(function ($sub) use ($userId) {
                     $sub->where('sender_id', $userId)
@@ -279,24 +312,6 @@ class MessageThread extends Model
             $request['per_page'] ?? null
         );
     }
-
-
-    public static function getAllMessageThread($request = null)
-    {
-
-        $q = self::query()
-            ->with('participants')
-//            ->forUser($request->user()->id)
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
-
-        if ($request->filled('type')) {
-            $q->where('type', (int)$request->query('type'));
-        }
-
-        return Helpers::pagination($q->orderByDesc('id'), $request['pagination'], $request['per_page']);
-
-    }
-
     public static function createGroup($request = null, $ownerId = null)
     {
 
