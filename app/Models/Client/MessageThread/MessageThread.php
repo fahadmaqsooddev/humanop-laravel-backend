@@ -260,7 +260,7 @@ class MessageThread extends Model
 
         $q = self::query()
             ->with('participants')
-            ->where('type', self::TYPE_DIRECT)
+            ->where('type', (int)$request->query('type'))
             ->where(function ($query) use ($userId) {
                 $query->where('sender_id', $userId)
                     ->orWhere('receiver_id', $userId);
