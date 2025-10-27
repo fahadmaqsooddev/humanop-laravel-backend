@@ -268,6 +268,8 @@ class CreateHumanOpShop extends Component
 
         $this->priceValue = $this->editResourceData['price'] ?? null;
 
+        $this->link = $this->editResourceData['video_embed_link'] ?? null;
+
         $this->selectedTraits = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
         $this->selectedFeatures = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
         $this->selectedAlchemy = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();

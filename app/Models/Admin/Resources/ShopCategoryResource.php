@@ -53,7 +53,15 @@ class ShopCategoryResource extends Model
 
     public function getVideoUrlAttribute()
     {
-        return Helpers::getVideo($this->video_id, 1, null);
+        if (!empty($this->video_embed_link)){
+
+            return $this->video_embed_link;
+
+        }else{
+
+            return null;
+
+        }
     }
 
     public function getAudioUrlAttribute()

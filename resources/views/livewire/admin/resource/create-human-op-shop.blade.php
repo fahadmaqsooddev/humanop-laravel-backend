@@ -245,7 +245,6 @@
                                                   placeholder="Enter description" rows="3"></textarea>
                                     </div>
 
-
                                     <div class="form-group mt-4 ">
                                         <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
                                         <input class="form-control input-form-style"
@@ -492,6 +491,14 @@
                                         <input class="form-control input-form-style"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
+
+                                    <div class="form-group mt-4 ">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
+                                        <input class="form-control input-form-style"
+                                               wire:model.debounce.500ms="link" placeholder="Link" type="text"
+                                               id="embedlink" wire:change="getVideoLink">
+                                    </div>
+                                    <label class="form-label fs-4" style="color: #1b3a62">OR</label>
                                     <div class="form-group mt-4" x-data="{ progress: 0 }"
                                          x-on:livewire-upload-progress="progress = $event.detail.progress"
                                          x-on:livewire-upload-finish="progress = 0"
@@ -523,9 +530,9 @@
                                                     PDF</a>
                                             </iframe>
                                         </div>
-                                    @elseif(!empty($editResourceData['video_id']))
+                                    @elseif(!empty($editResourceData['video_embed_link']))
                                         <div class="form-group mt-4">
-                                            <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
+                                            <video controls src="{{$editResourceData['video_embed_link'] ?? null}}"
                                                    style="height: 200px;"></video>
                                         </div>
                                     @elseif(!empty($editResourceData['audio_id']))
@@ -571,7 +578,7 @@
                                         </div>
                                     @else
                                         @if(!in_array($typeThumbnail, ['jpeg', 'png', 'jpg', 'gif']))
-                                            @if(!empty($editResourceData['video_id']) || !empty($editResourceData['audio_id']))
+                                            @if(!empty($editResourceData['video_embed_link']) || !empty($editResourceData['audio_id']))
                                                 <div class="form-group" x-data="{ progress: 0 }"
                                                      x-on:livewire-upload-progress="progress = $event.detail.progress"
                                                      x-on:livewire-upload-finish="progress = 0"
