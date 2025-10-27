@@ -71,16 +71,6 @@
                                     </div>
                                 @endforeach
                             </div>
-                            {{-- <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExampleControls1" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExampleControls1" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button> --}}
                         </div>
                     </div>
                 </div>
@@ -164,16 +154,6 @@
                                     </div>
                                 @endforeach
                             </div>
-                            {{-- <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExampleControls2" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExampleControls2" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button> --}}
                         </div>
                     </div>
                 </div>
@@ -235,7 +215,7 @@
                 <tr class="text-color-blue">
                     <td class="text-md font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
                     <td class="text-md font-weight-normal">
-                           {{ $assessment['updated_at'] }} (GMT)
+                           {{ $assessment['reset_assessment'] == 1 ? $assessment['after_reset_assessment_updated_at'] : $assessment['updated_at'] }} (GMT)
                     </td>
                     <td class="text-md font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
                     <td class="text-md font-weight-normal">
