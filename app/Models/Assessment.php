@@ -811,7 +811,7 @@ class Assessment extends Model
 
     }
 
-    public static function getAllStyles($assessment = null)
+    public static function getAllStyles($assessment = null, $loginUser = null)
     {
 
         $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
@@ -864,9 +864,18 @@ class Assessment extends Model
             return array_search($a, $style) <=> array_search($b, $style);
         });
 
-        $user = Helpers::getUser() ?? Helpers::getWebUser();
+        if (!empty($loginUser)){
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+            $user = $loginUser;
+
+        }else{
+
+            $user = Helpers::getUser() ?? Helpers::getWebUser();
+
+        }
+
+
+        if (!empty($user['beta_breaker_club']) && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
 
             $styleCodes = CodeDetail::getStylePublicNames($data);
 
