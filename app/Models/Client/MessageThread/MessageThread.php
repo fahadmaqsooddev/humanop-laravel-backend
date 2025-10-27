@@ -267,9 +267,9 @@ class MessageThread extends Model
             })
             ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
 
-        if ($request->filled('type')) {
-            $q->where('type', (int)$request->query('type'));
-        }
+//        if ($request->filled('type')) {
+//            $q->where('type', (int)$request->query('type'));
+//        }
 
         return Helpers::pagination($q->orderByDesc('id'), $request['pagination'], $request['per_page']);
 
