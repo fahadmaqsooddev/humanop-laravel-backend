@@ -255,25 +255,25 @@ class MessageThread extends Model
 
     public static function getMyMessageThread($request = null)
     {
-
         $userId = Helpers::getUser()['id'];
 
         $q = self::query()
             ->with('participants')
-            ->where('type', (int)$request->query('type'))
             ->where(function ($query) use ($userId) {
                 $query->where('sender_id', $userId)
                     ->orWhere('receiver_id', $userId);
             })
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy',]);
 
-//        if ($request->filled('type')) {
-//            $q->where('type', (int)$request->query('type'));
-//        }
+        if (!empty($request) && $request->filled('type')) {
+            $q->where('type', (int)$request->query('type'));
+        }
 
-        return Helpers::pagination($q->orderByDesc('id'), $request['pagination'], $request['per_page']);
-
+        return Helpers::pagination(
+            $q->orderByDesc('id'), $request['pagination'] ?? null, $request['per_page'] ?? null
+        );
     }
+
 
     public static function getAllMessageThread($request = null)
     {
