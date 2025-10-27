@@ -145,7 +145,9 @@ class MessageController extends Controller
                         'id' => '001',
                         'first_name' => 'HAi',
                         'last_name' => 'Chat',
-                        'image_id' => null,
+                        'photo_url' => (object)[
+                            'url' => config('client_url.client_dashboard_url') . '/media/files/b02ojvwqbkazzdfyvpzt/zNzaCv2gBT.png',
+                        ],
                     ];
                 }
 
