@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminControllers\FaqController;
 use App\Http\Controllers\Email\EmailTemplateController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\QuestionController;
@@ -29,7 +30,6 @@ use App\Http\Controllers\AdminControllers\AssessmentIntroController;
 use App\Http\Controllers\AdminControllers\SummaryReportController;
 use App\Http\Controllers\AdminControllers\AnnouncementsNewsController;
 use App\Http\Controllers\AdminControllers\ResultVideoController;
-
 /*
 |--------------------------------------------------------------------------
 | Admin Web Routes
@@ -54,6 +54,9 @@ Route::post('/data-stripe', [SessionController::class, 'getData'])->name('data-s
 Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt']);
 Route::get('/', [SessionController::class, 'create']);
 
+
+// Stripe webhooks (Stripe calls this; no auth)
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])->name('stripe.webhook');
 Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
     // ====================================== Admin Dashboard ================================ //

@@ -51,6 +51,7 @@ use App\Models\User;
 use App\Models\UserInvite\UserInvite;
 use App\Models\UserInvite\UserInviteLog;
 use App\Services\AwsSnsServices\SnsServices;
+use App\Services\FreemiumEnrollmentService;
 use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
@@ -188,7 +189,9 @@ class AuthController extends Controller
 
                 }
 
-                Helpers::createCustomerAndSubscriptionOnStripe($user);
+//                Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                FreemiumEnrollmentService::enroll($user);
 
 //                Helpers::createClientsOnOneSignal($user['id']);
 

@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Alchemy\AlchemyCode;
+use Illuminate\Support\Facades\Log;
 
 class Assessment extends Model
 {
@@ -1883,6 +1884,7 @@ class Assessment extends Model
 
         $existingAssessment = Assessment::where('user_id', $userId)->latest()->first();
 
+
         if ($existingAssessment) {
 
             $oldResult = $existingAssessment->toArray();
@@ -1908,6 +1910,12 @@ class Assessment extends Model
             $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])->where('active', 1)->count() / 3) ?? 0;
 
             $current_page = $existingAssessment->page + 1;
+
+            Log::info(['assessment id' => $existingAssessment['id']]);
+
+            Log::info(['current Page' => $current_page]);
+
+            Log::info(['total Page' => $totalPages]);
 
             if ($totalPages == $current_page) {
 

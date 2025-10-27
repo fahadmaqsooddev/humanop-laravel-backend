@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\StripePublicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +23,29 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('checkout-subscription', 'PaymentController@checkoutSubscription');
     Route::post('process-subscription', 'PaymentController@processSubscription');
     Route::get('plans', 'PaymentController@plans');
-
-
     Route::post('hai-credit-checkout', 'PaymentController@haiCreditCheckout');
-    Route::get('hai-credit-plans','PaymentController@haiCreditPlans');
-
+    Route::get('hai-credit-plans', 'PaymentController@haiCreditPlans');
     Route::get('b2c-invoice', 'PaymentController@invoice');
 
 
+
+
+    // Create premium subscription draft (monthly/yearly)
+    Route::post('/billing/subscriptions/init', 'BillingController@initSubscription');
+
+    // Swap recurring plan (premium_monthly <-> premium_yearly)
+    Route::post('/billing/subscriptions/swap', 'BillingController@swapPlan');
+
+    // Cancel / resume
+    Route::post('/billing/subscriptions/cancel', 'BillingController@cancelAtPeriodEnd');
+    Route::post('/billing/subscriptions/resume', 'BillingController@resume');
+
+    // Poll status by Stripe sub ID
+    Route::get('/billing/subscriptions/{stripeSubscriptionId}/status', 'BillingController@status');
+
+    // Lifetime purchase (one-time)
+    Route::post('/billing/lifetime/init', 'BillingController@initLifetime');
+
+    // BB-onetime / add-on (one-time)
+    Route::post('/billing/bb-onetime/init', 'BillingController@initBBOneTime');
 });

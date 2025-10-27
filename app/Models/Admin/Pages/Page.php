@@ -18,6 +18,11 @@ class Page extends Model
         parent::__construct($attributes);
     }
 
+    public function scopeActive($q)
+    {
+        return $q->where('active', true);
+    }
+
     public static function allPages()
     {
         return self::all();

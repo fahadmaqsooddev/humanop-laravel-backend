@@ -10,6 +10,16 @@ class Plan extends Model
 {
     use HasFactory;
 
+    public function scopeActive($q)
+    {
+        return $q->where('active', true);
+    }
+
+    public function scopeForContext($q, string $context)
+    {
+        return $q->where('context', $context);
+    }
+
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
