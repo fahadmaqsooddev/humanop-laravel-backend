@@ -36,15 +36,15 @@ class ThreadController extends Controller
 
         try {
 
-//            if (Helpers::getUser()['group_filter'] === 0) {
+            if (Helpers::getUser()['group_filter'] == 1) {
+
+                $all_chats = MessageThread::getAllMessageThread($request);
+
+            } else {
 
                 $all_chats = MessageThread::getMyMessageThread($request);
 
-//            } else {
-//
-//                $all_chats = MessageThread::getAllMessageThread($request);
-//
-//            }
+            }
 
             return Helpers::successResponse('All Chats', $all_chats, $request->input('pagination'));
 
