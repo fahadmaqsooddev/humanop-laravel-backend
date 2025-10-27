@@ -40,10 +40,6 @@ class ThreadController extends Controller
 
                 $all_chats = MessageThread::getMyMessageThread($request);
 
-            } else {
-
-                $all_chats = MessageThread::getAllMessageThread($request);
-
             }
 
             return Helpers::successResponse('All Chats', $all_chats, $request->input('pagination'));
