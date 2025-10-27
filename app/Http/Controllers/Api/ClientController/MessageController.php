@@ -126,23 +126,38 @@ class MessageController extends Controller
         }
     }
 
+
     public function allMessages(Request $request)
     {
-
         $messageThread = MessageThread::findOrFail($request->thread_id);
-
         $this->authorize('view', $messageThread);
 
         try {
+            $messages = $messageThread->messages()
+                ->with(['sender:id,first_name,last_name,image_id'])
+                ->paginate(50);
 
-            $messages = $messageThread->messages()->with('sender:id,first_name,last_name,image_id')->paginate(50);
+            // Modify messages: set default sender if missing
+            $messages->getCollection()->transform(function ($message) {
+                if (empty($message->sender_id) || !$message->sender) {
+                    $message->sender_id = '001';
+                    $message->sender = (object)[
+                        'id' => '001',
+                        'first_name' => 'HAi',
+                        'last_name' => 'Chat',
+                        'image_id' => null,
+                    ];
+                }
+
+                // Ensure the sender is included when converting to JSON
+                $message->setRelation('sender', collect($message->sender));
+
+                return $message;
+            });
 
             return Helpers::successResponse('All Messages', $messages);
-
         } catch (\Exception $exception) {
-
             DB::rollBack();
-
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
