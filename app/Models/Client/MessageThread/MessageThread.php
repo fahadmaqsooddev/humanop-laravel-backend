@@ -256,10 +256,15 @@ class MessageThread extends Model
     public static function getMyMessageThread($request = null)
     {
 
+        $userId = Helpers::getUser()['id'];
+
         $q = self::query()
             ->with('participants')
-//            ->where('sender_id', Helpers::getUser()['id'])
-            ->forUser($request->user()->id)
+            ->where('type', self::TYPE_DIRECT)
+            ->where(function ($query) use ($userId) {
+                $query->where('sender_id', $userId)
+                    ->orWhere('receiver_id', $userId);
+            })
             ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
 
         if ($request->filled('type')) {
@@ -320,7 +325,7 @@ class MessageThread extends Model
 
         $group = self::where('id', $request['thread_id'])->where('owner_id', $ownerId)->first();
 
-        if (!empty($request['group_icon_id'])){
+        if (!empty($request['group_icon_id'])) {
 
             $group->update([
                 'name' => $request->string('name'),
@@ -328,7 +333,7 @@ class MessageThread extends Model
                 'thread_privacy' => $request['thread_privacy'],
             ]);
 
-        }else{
+        } else {
 
             $group->update([
                 'name' => $request->string('name'),
