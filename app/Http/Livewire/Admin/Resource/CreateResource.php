@@ -58,7 +58,7 @@ class CreateResource extends Component
         'category_id.exists' => 'The selected category does not exist.',
         'description.max' => 'Description may not exceed 1000 characters.',
         'link.max' => 'Video URL may not exceed 90 characters.',
-        'link.regex' => 'The video URL must match the required format (e.g., https://video.gumlet.io/xyz/abc.mp4).',
+        'link.regex' => 'The video URL must match the required format (e.g., https://video.gumlet.io/xyz/abc.m3u8).',
     ];
 
     public function fileChanged($value)

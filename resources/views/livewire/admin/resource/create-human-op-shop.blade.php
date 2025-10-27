@@ -245,19 +245,27 @@
                                                   placeholder="Enter description" rows="3"></textarea>
                                     </div>
 
+
+                                    <div class="form-group mt-4 ">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
+                                        <input class="form-control input-form-style"
+                                               wire:model.debounce.500ms="link" placeholder="Link" type="text"
+                                               id="embedlink" wire:change="getVideoLink">
+                                    </div>
+                                    <label class="form-label fs-4" style="color: #1b3a62">OR</label>
                                     <div class="form-group"
                                          x-data="{ progress: 0 }"
                                          x-on:livewire-upload-progress="progress = $event.detail.progress"
                                          x-on:livewire-upload-finish="progress = 0"
                                          x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label fs-4" style="color: #1b3a62">
-                                            Resource (Image, Video, or Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])
+                                            Resource (Image or Audio [PNG, JPG, GIF, MP3])
                                         </label>
                                         <input wire:model="resource_file"
                                                id="resource_file"
                                                class="form-control input-form-style resource_file"
                                                type="file"
-                                               accept="image/*,video/*,audio/*">
+                                               accept="image/*,audio/*">
 
                                         {{-- Progress bar --}}
                                         <div class="progress mt-2" x-show="progress > 0">

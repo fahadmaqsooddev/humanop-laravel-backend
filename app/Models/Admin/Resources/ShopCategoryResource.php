@@ -58,9 +58,16 @@ class ShopCategoryResource extends Model
 
     public function getAudioUrlAttribute()
     {
-//        return Helpers::getAudio($this->audio_id, 1);
 
-        return Helpers::getMp3Url($this->audio_id);
+        if (!empty($this->audio_id)){
+
+            return Helpers::getMp3Url($this->audio_id);
+
+        }else{
+
+            return null;
+
+        }
 
     }
 
@@ -105,7 +112,7 @@ class ShopCategoryResource extends Model
 
     }
 
-    public static function createShopResource($heading = null, $category_id = null, $price = null, $video_id = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
+    public static function createShopResource($heading = null, $category_id = null, $price = null, $link = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -113,7 +120,7 @@ class ShopCategoryResource extends Model
             'slug' => Str::slug($heading),
             'humanop_shop_category_id' => $category_id,
             'price' => $price,
-            'video_id' => $video_id,
+            'video_embed_link' => $link,
             'audio_id' => $audio_id,
             'document_id' => $document_id,
             'image_id' => $image_id,
