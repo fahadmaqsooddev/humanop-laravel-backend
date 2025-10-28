@@ -354,7 +354,7 @@ class DashboardController extends Controller
     public function actionPlan(Request $request)
     {
 
-//        try {
+        try {
 
             if (Helpers::getUser()['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
 
@@ -388,16 +388,29 @@ class DashboardController extends Controller
 
                 $actionPlan = OptimizationPlan::getSinglePlan($actionPlan['priority'], $userPlan);
 
+
                 if ($userPlan == "Premium") {
+
+                    if ($assessment['reset_assessment'] == 1){
+
+                        $assessmentTime = $assessment['after_reset_assessment_updated_at'];
+
+                    }else{
+
+                        $assessmentTime = $assessment['updated_at'];
+
+                    }
+
+                    $difference = Carbon::now()->diffInDays($assessmentTime);
 
                     $actionPlan = [
                         'id' => $actionPlan['id'],
                         'priority' => $actionPlan['priority'],
                         'plan_text' => [
                             'intro' => $actionPlan['ninty_days_plan'],
-                            'day1_30' => $actionPlan['day1_30'],
-                            'day31_60' => $actionPlan['day31_60'],
-                            'day61_90' => $actionPlan['day61_90']
+                            'day1_30' => $difference <= 30 ? $actionPlan['day1_30'] : null,
+                            'day31_60' => $difference > 30 && $difference <= 60 ? $actionPlan['day31_60'] : null,
+                            'day61_90' => $difference > 60 ?  $actionPlan['day61_90'] : null,
                         ],
                         'type' => $actionPlan['type'],
                     ];
@@ -419,10 +432,10 @@ class DashboardController extends Controller
 
             return Helpers::validationResponse('Assessment not found');
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
     public function informationIcon()
