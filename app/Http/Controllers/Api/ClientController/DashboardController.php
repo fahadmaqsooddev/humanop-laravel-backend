@@ -1256,4 +1256,9 @@ class DashboardController extends Controller
 
     }
 
+    public static function feedbackStatus()
+    {
+        return helpers::successResponse('Webhook fine');
+    }
+
 }

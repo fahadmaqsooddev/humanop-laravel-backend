@@ -47,4 +47,6 @@ Route::group(['middleware' => ['checkUser']], function () {
 
    Route::get('hai-chat-status', 'DashboardController@haiChatStatus');
    Route::post('hai-chat-sound', 'DashboardController@haiChatSound');
+
+   Route::get('feedback-status', 'DashboardController@feedbackStatus');
 });
