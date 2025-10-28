@@ -13,9 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::group(['middleware' => ['checkUser']], function () {
-
-    Route::post('/blue/webhook/ticket-updated', 'BlueWebhookController@ticketUpdated');
-
-//});
+Route::post('/blue/webhook/ticket-updated', 'BlueWebhookController@ticketUpdated');
 
