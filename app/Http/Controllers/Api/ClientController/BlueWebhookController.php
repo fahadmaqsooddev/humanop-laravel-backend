@@ -20,7 +20,7 @@ class BlueWebhookController extends Controller
 
         // --- 1. Verify signature ---
 
-        $signatureHeader = $request->header('X-Blue-Signature');
+        $signatureHeader = $request->header('x-signature');
 
         $secret = config('services.blue.webhook_secret');
 
