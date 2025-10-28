@@ -27,9 +27,9 @@ class BlueWebhookController extends Controller
         $toSign = $raw;
         if (str_starts_with(strtolower($request->header('content-type') ?? ''), 'application/json')) {
             try {
-                $decoded = json_decode($raw, true, 512, JSON_THROW_ON_ERROR);
-                // Minified JSON (like JSON.stringify): no spaces/newlines, UTF-8
-                $toSign = json_encode($decoded, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+                $toSign = preg_replace('/\s+/', '', $raw);
+
             } catch (\Throwable $e) {
                 // If parsing fails, fallback to raw (but JSON should parse)
             }
