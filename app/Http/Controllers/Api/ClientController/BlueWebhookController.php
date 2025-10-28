@@ -12,35 +12,19 @@ class BlueWebhookController extends Controller
 {
     public function ticketUpdated(Request $request)
     {
-        $raw    = file_get_contents('php://input');
-        $sig    = $request->header('x-signature') ?? '';
-        $secret = config('services.blue.webhook_secret');
+
+        // 1) Read raw body and header
+        $raw    = file_get_contents('php://input');                 // exact bytes as received
+        $sig    = strtolower(trim($request->header('x-signature') ?? '')); // Blue sends this
+        $secret = (string) config('services.blue.webhook_secret');  // from .env
 
         Log::info(print_r($raw, true));
         Log::info(print_r($sig, true));
         Log::info(print_r($secret, true));
-//
-//        // Build JSON.stringify-equivalent string
-//        $toSign = $raw;
-//        if (str_starts_with(strtolower($request->header('content-type') ?? ''), 'application/json')) {
-//            try {
-//                $toSign = json_encode(json_decode($raw, true, 512, JSON_THROW_ON_ERROR), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-//            } catch (\Throwable $e) {}
-//        }
-//
-//        if (! $this->verifyBlueSignature($sig, $toSign, $secret)) {
-//            Log::warning('Blue webhook invalid signature', ['header' => $sig, 'len_raw' => strlen($raw)]);
-//            return response()->json(['error' => 'invalid signature'], 403);
-//        }
-    }
+        // 2) Make body look exactly like sender’s JSON string (JSON.stringify)
+        $minified = $this->minifyJson($raw) ?? $raw;
 
-    protected function verifyBlueSignature(string $sigHeader, string $toSign, string $secret): bool
-    {
-        if ($sigHeader === '' || $secret === '') return false;
-
-        $provided = strtolower(trim($sigHeader, " \t\n\r\0\x0B\"'"));
-        $hex      = bin2hex(hash_hmac('sha256', $toSign, $secret, true));
-        return hash_equals($hex, $provided);
+        Log::info(print_r($minified, true));
     }
 
 
