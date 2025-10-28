@@ -15,13 +15,6 @@ class BlueWebhookController extends Controller
     public function ticketUpdated(Request $request)
     {
 
-
-        Log::info(print_r($request->header('x-signature'), true));
-
-        Log::info(print_r($request->all(), true));
-
-
-
         // --- 1. Verify signature ---
 
         $signatureHeader = $request->header('x-signature');
@@ -80,13 +73,22 @@ class BlueWebhookController extends Controller
 
     protected function isValidSignature(string $payload, ?string $headerSig, string $secret): bool
     {
-        if (!$headerSig) {
+        if (! $headerSig || $secret === '') {
             return false;
         }
 
-        $expected = hash_hmac('sha256', $payload, $secret);
+        // Normalize header (strip prefix, quotes, spaces, lowercase)
+        $provided = trim($headerSig, " \t\n\r\0\x0B\"'");
+        if (str_starts_with(strtolower($provided), 'sha256=')) {
+            $provided = substr($provided, 7);
+        }
+        $provided = strtolower($provided);
 
-        return hash_equals($expected, $headerSig);
+        // Our expected hex (hash_hmac returns lowercase hex by default)
+        $expected = hash_hmac('sha256', $payload, $secret); // hex lowercase
+
+        // Timing-safe compare
+        return hash_equals($expected, $provided);
     }
 
 }
