@@ -12,83 +12,92 @@ class BlueWebhookController extends Controller
 {
     public function ticketUpdated(Request $request)
     {
-        $raw      = file_get_contents('php://input');                    // exact wire bytes
-        $sig      = strtolower(trim($request->header('x-signature') ?? ''));
-        $secret   = (string) config('services.blue.webhook_secret');     // plain string
-        $method   = $request->getMethod();
-        $path     = '/'.$request->path();
-        $ctype    = strtolower($request->header('content-type') ?? '');
+        $raw    = file_get_contents('php://input');
+        $sig    = strtolower(trim($request->header('x-signature') ?? ''));
+        $secret = (string) config('services.blue.webhook_secret');
+        $method = $request->getMethod();
+        $path   = '/'.$request->path();
 
-        // Prepare minified JSON (JSON.stringify-like)
         $min = $raw;
-        if (str_starts_with($ctype, 'application/json')) {
-            try {
-                $min = json_encode(json_decode($raw, true, 512, JSON_THROW_ON_ERROR), JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
-            } catch (\Throwable $e) {
-                // keep $min = $raw
-            }
-        }
+        try { $min = json_encode(json_decode($raw, true, 512, JSON_THROW_ON_ERROR), JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE); } catch (\Throwable $e) {}
         $normRaw = str_replace("\r\n", "\n", $raw);
         $normMin = str_replace("\r\n", "\n", $min);
 
-        // All candidate strings Blue might be signing
-        $candidates = [
-            ['name' => 'raw',                   'str' => $raw],
-            ['name' => 'minified',              'str' => $min],
-            ['name' => 'raw_nl_normalized',     'str' => $normRaw],
-            ['name' => 'minified_nl_normalized','str' => $normMin],
-            ['name' => 'path+raw',              'str' => $path."\n".$raw],
-            ['name' => 'path+minified',         'str' => $path."\n".$min],
-            ['name' => 'method+path+raw',       'str' => $method."\n".$path."\n".$raw],
-            ['name' => 'method+path+minified',  'str' => $method."\n".$path."\n".$min],
-            ['name' => '[object Object]',       'str' => '[object Object]'], // bad sender update(obj)
+// build candidate strings Blue might sign
+        $cands = [
+            ['name'=>'raw',                   's'=>$raw],
+            ['name'=>'minified',              's'=>$min],
+            ['name'=>'raw_nl',                's'=>$normRaw],
+            ['name'=>'min_nl',                's'=>$normMin],
+            ['name'=>'path+raw',              's'=>$path."\n".$raw],
+            ['name'=>'path+min',              's'=>$path."\n".$min],
+            ['name'=>'method+path+raw',       's'=>$method."\n".$path."\n".$raw],
+            ['name'=>'method+path+min',       's'=>$method."\n".$path."\n".$min],
+            ['name'=>'[object Object]',       's'=>'[object Object]'],
         ];
 
-        $matched = null;
-        $matchedHex = null;
+// possible keys (string & hex-decoded)
+        $keys = [$secret];
+        if (ctype_xdigit($secret) && strlen($secret) % 2 === 0) {
+            $keys[] = hex2bin($secret);
+        }
+        $keys[] = ''; // try empty key (in case Blue has no secret applied)
 
-        foreach ($candidates as $cand) {
-            $hex = bin2hex(hash_hmac('sha256', $cand['str'], $secret, true)); // full HMAC-SHA256 hex
-            if (hash_equals($hex, $sig)) {
-                $matched = $cand['name'];
-                $matchedHex = $hex;
-                break;
+// helpers
+        $match = null; $mode = null; $exp = null;
+        $eq = function($a,$b){ return hash_equals($a,$b); };
+
+// Try HMAC-SHA256 full hex 64 chars
+        foreach ($cands as $c) {
+            foreach ($keys as $k) {
+                $hex = bin2hex(hash_hmac('sha256', $c['s'], $k, true));
+                if ($eq($hex, $sig)) { $match = $c['name']; $mode='hmac-sha256'; $exp=$hex; break 2; }
+            }
+        }
+// Try HMAC-SHA256 truncated to 16 bytes (32 hex)
+        if (!$match && strlen($sig) === 32) {
+            foreach ($cands as $c) {
+                foreach ($keys as $k) {
+                    $hex = bin2hex(hash_hmac('sha256', $c['s'], $k, true));
+                    if ($eq(substr($hex,0,32), $sig)) { $match = $c['name']; $mode='hmac-sha256-trunc16'; $exp=substr($hex,0,32); break 2; }
+                }
+            }
+        }
+// Try HMAC-MD5 (32 hex)
+        if (!$match && strlen($sig) === 32) {
+            foreach ($cands as $c) {
+                foreach ($keys as $k) {
+                    $hex = hash_hmac('md5', $c['s'], $k);
+                    if ($eq($hex, $sig)) { $match = $c['name']; $mode='hmac-md5'; $exp=$hex; break 2; }
+                }
+            }
+        }
+// Try plain SHA256 (no HMAC) full or trunc16
+        if (!$match) {
+            foreach ($cands as $c) {
+                $hex = hash('sha256', $c['s']);
+                if ($eq($hex, $sig)) { $match = $c['name']; $mode='sha256'; $exp=$hex; break; }
+                if (strlen($sig)===32 && $eq(substr($hex,0,32), $sig)) { $match = $c['name']; $mode='sha256-trunc16'; $exp=substr($hex,0,32); break; }
+            }
+        }
+// Try plain MD5 (no HMAC)
+        if (!$match && strlen($sig)===32) {
+            foreach ($cands as $c) {
+                $hex = md5($c['s']);
+                if ($eq($hex, $sig)) { $match = $c['name']; $mode='md5'; $exp=$hex; break; }
             }
         }
 
-        if (!$matched) {
-            Log::warning('Blue webhook invalid signature', [
-                'received'    => $sig,
-                'len_payload' => strlen($raw),
-                'tried'       => array_column($candidates, 'name'),
-                // DEBUG: print first 16 hex chars per candidate to compare quickly
-                'debug_first16' => collect($candidates)->mapWithKeys(function($c) use ($secret) {
-                    $hex = bin2hex(hash_hmac('sha256', $c['str'], $secret, true));
-                    return [$c['name'] => substr($hex, 0, 16)];
-                }),
+        if (!$match) {
+            Log::warning('Webhook sig unmatched', [
+                'received'=>$sig,
+                'len_payload'=>strlen($raw),
+                'secret_len'=>strlen($secret),
             ]);
             return response()->json(['error'=>'invalid signature'], 403);
         }
 
-        Log::info('Blue webhook signature matched', [
-            'mode' => $matched,
-            // 'hex' => $matchedHex, // optional
-        ]);
+        Log::info('Webhook signature matched', ['mode'=>$mode, 'signed'=>$match]);
 
-        // SAFE: process payload
-        $blueTicketId = $request->input('ticket_id');
-        if (!$blueTicketId) {
-            return response()->json(['error'=>'missing ticket_id'], 400);
-        }
-
-//        if ($ticket = SupportTicket::where('blue_ticket_id', $blueTicketId)->first()) {
-//            $ticket->update([
-//                'blue_status'         => $request->input('status'),
-//                'blue_last_update'    => $request->input('last_update'),
-//                'blue_last_synced_at' => now(),
-//            ]);
-//        }
-
-        return response()->json(['ok'=>true], 200);
     }
 }
