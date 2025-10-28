@@ -29,7 +29,7 @@ class BlueWebhookController extends Controller
             return response()->json(['error' => 'invalid signature'], 403);
         }
 
-        // ... handle payload ...
+        Log::info('Blue webhook ticket updated');
     }
 
     protected function verifyBlueSignature(string $sigHeader, string $toSign, string $secret): bool
