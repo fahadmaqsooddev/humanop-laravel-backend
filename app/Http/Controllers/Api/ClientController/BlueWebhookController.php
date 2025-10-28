@@ -28,6 +28,8 @@ class BlueWebhookController extends Controller
     public function ticketUpdated(Request $request)
     {
 
+        Log::info('check webhook');
+
         // --- 1. Verify signature ---
 
 //        $signatureHeader = $request->header('X-Blue-Signature');
@@ -79,7 +81,7 @@ class BlueWebhookController extends Controller
 //
 //        return Helpers::successResponse('blue ticket status updated');
 
-        dd("check webhook");
+
 
         return response()->json(['ok' => true], Response::HTTP_OK);
 
