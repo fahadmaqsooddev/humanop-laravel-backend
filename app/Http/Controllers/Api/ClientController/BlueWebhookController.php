@@ -10,99 +10,73 @@ use Illuminate\Support\Facades\Log;
 
 class BlueWebhookController extends Controller
 {
-    // In your controller method:
+    // app/Http/Controllers/Api/BlueWebhookController.php
+
     public function ticketUpdated(Request $request)
     {
-        // raw bytes exactly as received
+        // 1) raw body (as received over HTTP)
         $raw = file_get_contents('php://input');
 
-        // Build a "minified" JSON version (like JSON.stringify) if body is JSON
-        $minified = $raw;
+        // 2) header name used by Blue
+        $sigHeader = $request->header('x-signature') ?? '';
+
+        // 3) your shared secret (use as plain UTF-8 string, do NOT hex2bin)
+        $secret = config('services.blue.webhook_secret');
+
+        // 4) Build the exact JSON string Blue is expected to sign: JSON.stringify(payload)
+        $toSign = $raw;
         if (str_starts_with(strtolower($request->header('content-type') ?? ''), 'application/json')) {
             try {
                 $decoded = json_decode($raw, true, 512, JSON_THROW_ON_ERROR);
-                // json_encode without pretty-print → compact/minified
-                $minified = json_encode($decoded, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                // Minified JSON (like JSON.stringify): no spaces/newlines, UTF-8
+                $toSign = json_encode($decoded, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
             } catch (\Throwable $e) {
-                // if parsing fails, keep $minified = $raw
+                // If parsing fails, fallback to raw (but JSON should parse)
             }
         }
 
-        $sigHeader = $request->header('x-signature') ?? '';
-        $secretEnv = config('services.blue.webhook_secret');
-        $method    = $request->getMethod();                 // e.g. POST
-        $path      = '/'.$request->path();                  // e.g. /api/blue/webhook/ticket-updated
-
-        if (! $this->isValidSignatureEx($sigHeader, $secretEnv, [
-            $raw,                  // 1) exact raw body
-            $minified,             // 2) minified JSON body
-            $method."\n".$path."\n".$raw,        // 3) method + path + raw
-            $method."\n".$path."\n".$minified,   // 4) method + path + minified
-            $path."\n".$raw,                      // 5) path + raw
-            $path."\n".$minified,                 // 6) path + minified
-            str_replace("\r\n", "\n", $raw),      // 7) normalized newlines
-            str_replace("\r\n", "\n", $minified), // 8) normalized newlines (minified)
-        ])) {
+        if (! $this->verifyBlueSignature($sigHeader, $toSign, $secret)) {
             Log::warning('Blue webhook invalid signature', [
                 'header'      => $sigHeader,
                 'len_raw'     => strlen($raw),
-                'len_min'     => strlen($minified ?? ''),
-                'method'      => $method,
-                'path'        => $path,
+                'len_toSign'  => strlen($toSign),
             ]);
             return response()->json(['error' => 'invalid signature'], 403);
         }
 
-        // ... proceed to parse JSON & update ticket ...
+        // --- proceed: parse JSON & update ticket ---
+        $blueTicketId = $request->input('ticket_id');
+        $newStatus    = $request->input('status');
+        $lastUpdate   = $request->input('last_update');
+
+        if (! $blueTicketId) {
+            return response()->json(['error' => 'missing ticket_id'], 400);
+        }
+
+//        $ticket = \App\Models\SupportTicket::where('blue_ticket_id', $blueTicketId)->first();
+//        if ($ticket) {
+//            $ticket->update([
+//                'blue_status'         => $newStatus,
+//                'blue_last_update'    => $lastUpdate,
+//                'blue_last_synced_at' => now(),
+//            ]);
+//        }
+
+        return response()->json(['ok' => true], 200);
     }
 
-    /**
-     * Try multiple candidate strings-to-sign, accept hex/base64 signatures,
-     * and try both ASCII and HEX-decoded forms of the secret.
-     */
-    protected function isValidSignatureEx(string $sigHeader, string $secretEnv, array $candidates): bool
+    protected function verifyBlueSignature(string $sigHeader, string $toSign, string $secret): bool
     {
-        if ($sigHeader === '' || $secretEnv === '') return false;
+        if ($sigHeader === '' || $secret === '') return false;
 
-        // Normalize provided signature (strip quotes, spaces; allow "sha256=<hex>")
-        $provided = trim($sigHeader, " \t\n\r\0\x0B\"'");
-        if (str_starts_with(strtolower($provided), 'sha256=')) {
-            $provided = substr($provided, 7);
-        }
-        $providedLower = strtolower($provided);
+        // Blue sends lowercase hex (per your example)
+        $provided = strtolower(trim($sigHeader, " \t\n\r\0\x0B\"'"));
 
-        // Build candidate keys
-        $keys = [$secretEnv];
-        if (ctype_xdigit($secretEnv) && (strlen($secretEnv) % 2 === 0)) {
-            $keys[] = hex2bin($secretEnv); // raw bytes from hex
-        }
+        // HMAC-SHA256 over the minified JSON, using secret as UTF-8 string
+        $raw = hash_hmac('sha256', $toSign, $secret, true);
+        $hex = bin2hex($raw);
 
-        foreach ($candidates as $toSign) {
-            if (!is_string($toSign)) continue;
-
-            foreach ($keys as $key) {
-                // HMAC-SHA256 (raw)
-                $rawMac = hash_hmac('sha256', $toSign, $key, true);
-                $hexMac = bin2hex($rawMac);
-                $b64Mac = base64_encode($rawMac);
-
-                if (hash_equals($hexMac, $providedLower) || hash_equals($b64Mac, $provided)) {
-                    return true;
-                }
-            }
-
-            // Last-resort fallback (rare providers): SHA256(secret + payload) hex
-            // (Concatenate bytes: secret-as-is then payload)
-            foreach ($keys as $key) {
-                $concat = (is_string($key) ? $key : '') . $toSign;
-                $hexSha = hash('sha256', $concat);
-                if (hash_equals($hexSha, $providedLower)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return hash_equals($hex, $provided);
     }
 
 }
