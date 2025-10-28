@@ -12,10 +12,13 @@ class BlueWebhookController extends Controller
 {
     public function ticketUpdated(Request $request)
     {
-        Log::info('e');
-//        $raw    = file_get_contents('php://input');
-//        $sig    = $request->header('x-signature') ?? '';
-//        $secret = config('services.blue.webhook_secret');
+        $raw    = file_get_contents('php://input');
+        $sig    = $request->header('x-signature') ?? '';
+        $secret = config('services.blue.webhook_secret');
+
+        Log::info(print_r($raw, true));
+        Log::info(print_r($sig, true));
+        Log::info(print_r($secret, true));
 //
 //        // Build JSON.stringify-equivalent string
 //        $toSign = $raw;
