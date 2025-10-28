@@ -12,6 +12,7 @@ class BlueWebhookController extends Controller
 {
     public function ticketUpdated(Request $request)
     {
+        Log::info('e');
         $raw    = file_get_contents('php://input');
         $sig    = $request->header('x-signature') ?? '';
         $secret = config('services.blue.webhook_secret');
@@ -28,8 +29,6 @@ class BlueWebhookController extends Controller
             Log::warning('Blue webhook invalid signature', ['header' => $sig, 'len_raw' => strlen($raw)]);
             return response()->json(['error' => 'invalid signature'], 403);
         }
-
-        Log::info('Blue webhook ticket updated');
     }
 
     protected function verifyBlueSignature(string $sigHeader, string $toSign, string $secret): bool
