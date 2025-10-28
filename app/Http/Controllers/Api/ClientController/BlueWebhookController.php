@@ -16,7 +16,7 @@ class BlueWebhookController extends Controller
     {
 
 
-        Log::info(print_r($request->all(), true));
+        Log::info(print_r($request->header(), true));
 
         // --- 1. Verify signature ---
 
