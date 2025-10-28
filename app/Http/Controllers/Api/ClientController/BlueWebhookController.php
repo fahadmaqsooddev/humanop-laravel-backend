@@ -17,11 +17,11 @@ class BlueWebhookController extends Controller
 
         // --- 1. Verify signature ---
 
+        Log::info(print_r($request->all(), true));
+
         $signatureHeader = $request->header('x-signature');
 
         $secret = config('services.blue.webhook_secret');
-
-        Log::info('SECRET_ENV' . $secret);
 
         if (!$this->isValidSignature($request->getContent(), $signatureHeader, $secret)) {
 
