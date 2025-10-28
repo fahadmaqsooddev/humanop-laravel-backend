@@ -79,6 +79,8 @@ class BlueWebhookController extends Controller
 //
 //        return Helpers::successResponse('blue ticket status updated');
 
+        dd("check webhook");
+
         return response()->json(['ok' => true], Response::HTTP_OK);
 
     }

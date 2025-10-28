@@ -121,7 +121,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->PlaylistClientController)
                 ->group(base_path('routes/client_apis/playlist/playlist_api.php'));
 
-            Route::prefix('api')
+            Route::prefix('api') 
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/webhook/blue_webhook_api.php'));
 
