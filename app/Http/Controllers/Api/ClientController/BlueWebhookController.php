@@ -33,6 +33,7 @@ class BlueWebhookController extends Controller
         Log::debug('Expected Signature (with \n): ' . $expected_with_lf);
         Log::debug('Expected Signature (with \r\n): ' . $expected_with_crlf);
         Log::debug('Received Signature: ' . $sig);
+        Log::debug('Raw Body: ' . $raw);
 // --- END NEW DEBUGGING ---
 
 // Check against all possibilities
