@@ -27,5 +27,16 @@ class BlueWebhookController extends Controller
         Log::info(print_r($minified, true));
     }
 
+    private function minifyJson(string $raw): ?string
+    {
+        try {
+            $arr = json_decode($raw, true, 512, JSON_THROW_ON_ERROR);
+            // JSON.stringify-like (no spaces/newlines; keep slashes & unicode)
+            return json_encode($arr, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $e) {
+            return null; // not valid JSON; let caller use $raw fallback
+        }
+    }
+
 
 }
