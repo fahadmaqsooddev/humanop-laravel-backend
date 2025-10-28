@@ -13,38 +13,33 @@ class BlueWebhookController extends Controller
 
     public function ticketUpdated(Request $request)
     {
-        // Use Laravel's method to get the raw body
+        // ... inside your controller method
+
         $raw = $request->getContent();
-
-        // Get the signature header
         $sig = strtolower(trim($request->header('x-signature') ?? ''));
+        $secret = trim((string)config('services.blue.webhook_secret'));
 
-        // Get the secret
-        $secret = (string)config('services.blue.webhook_secret');
-
-        // Calculate expected signature
+// 1. Calculate Expected Signature (standard)
         $expected = bin2hex(hash_hmac('sha256', $raw, $secret, true));
 
-        // --- TEMPORARY DEBUGGING ---
-        // This will write to storage/logs/laravel.log
-        Log::debug('--- Blue Webhook Check ---');
-        Log::debug('Received Signature: ' . $sig);
-        Log::debug('Expected Signature: ' . $expected);
-        Log::debug('Secret Loaded: ' . (empty($secret) ? 'NO' : 'YES - Last 4: ' . substr($secret, -4)));
-        Log::debug('Signatures Match: ' . ($sig === $expected ? 'YES' : 'NO'));
-        Log::debug('Raw Body: ' . $raw); // Uncomment this if you need to see the body, but be careful if it contains sensitive data.
-        // --- END DEBUGGING ---
+// 2. Calculate Expected Signature with trailing NEWLINE (\n)
+        $expected_with_lf = bin2hex(hash_hmac('sha256', $raw . "\n", $secret, true));
 
-        // Use hash_equals for secure, timing-attack-safe comparison
-        if ($sig === '' || $secret === '' || !hash_equals($expected, $sig)) {
+// 3. Calculate Expected Signature with trailing CARRIAGE RETURN LINE FEED (\r\n)
+        $expected_with_crlf = bin2hex(hash_hmac('sha256', $raw . "\r\n", $secret, true));
+
+// --- NEW DEBUGGING ---
+        Log::debug('Expected Signature (Standard): ' . $expected);
+        Log::debug('Expected Signature (with \n): ' . $expected_with_lf);
+        Log::debug('Expected Signature (with \r\n): ' . $expected_with_crlf);
+        Log::debug('Received Signature: ' . $sig);
+// --- END NEW DEBUGGING ---
+
+// Check against all possibilities
+        if ($sig === '' || $secret === '' || (!hash_equals($expected, $sig) && !hash_equals($expected_with_lf, $sig) && !hash_equals($expected_with_crlf, $sig))) {
             return response()->json(['error' => 'invalid signature'], 403);
         }
 
-        // If it gets here, the signature is valid!
-        Log::info('Blue Webhook Signature Validated Successfully.');
-
-        // ... process your valid webhook ...
-
-        return response()->json(['status' => 'success'], 200);
+// ... success code
     }
 }
