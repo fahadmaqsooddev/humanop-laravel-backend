@@ -18,13 +18,10 @@ class BlueWebhookController extends Controller
         $sig    = strtolower(trim($request->header('x-signature') ?? '')); // Blue sends this
         $secret = (string) config('services.blue.webhook_secret');  // from .env
 
-        Log::info(print_r($raw, true));
-        Log::info(print_r($sig, true));
-        Log::info(print_r($secret, true));
         // 2) Make body look exactly like sender’s JSON string (JSON.stringify)
         $minified = $this->minifyJson($raw) ?? $raw;
-
-        Log::info(print_r($minified, true));
+        // 3) Compute HMAC-SHA256(minified, secret) as lowercase hex
+        $expected = bin2hex(hash_hmac('sha256', $minified, $secret, true));
     }
 
     private function minifyJson(string $raw): ?string
