@@ -25,6 +25,14 @@ class BlueWebhookController extends Controller
         // 3) your .env secret (hex-looking)
         $secretEnv = config('services.blue.webhook_secret'); // e.g. 6760d8bb...
 
+        Log::debug('Blue sig debug', [
+            'header' => $sigHeader,
+            'ascii_hex' => hash_hmac('sha256', $payload, $secretEnv),
+            'hexkey_hex' => (ctype_xdigit($secretEnv) && strlen($secretEnv)%2===0)
+                ? hash_hmac('sha256', $payload, hex2bin($secretEnv))
+                : null,
+        ]);
+
         if (! $this->isValidSignature($payload, $sigHeader, $secretEnv)) {
             Log::warning('Blue webhook invalid signature', [
                 'header'      => $sigHeader,
