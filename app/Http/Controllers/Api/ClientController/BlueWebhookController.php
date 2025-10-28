@@ -21,7 +21,7 @@ class BlueWebhookController extends Controller
         // 2) Make body look exactly like sender’s JSON string (JSON.stringify)
         $minified = $this->minifyJson($raw) ?? $raw;
         // 3) Compute HMAC-SHA256(minified, secret) as lowercase hex
-        $expected = bin2hex(hash_hmac('sha256', $minified, $secret, true));
+        $expected = bin2hex(hash_hmac('sha256', $raw, $secret, true));
 
         // 4) Compare timing-safely; block if mismatch
         if ($sig === '' || $secret === '' || !hash_equals($expected, $sig)) {
