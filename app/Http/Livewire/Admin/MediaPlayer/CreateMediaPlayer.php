@@ -30,17 +30,19 @@ class CreateMediaPlayer extends Component
 
     protected $rules = [
         'heading' => 'required|unique:library_resources,heading',
-        'resource_file' => 'required|file|mimes:mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
+        'resource_file' => 'nullable|file|mimes:mp3,wav|max:204800', // Max file size 200MB
         'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
 //        'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:media_player_categories,id',
         'description' => 'nullable|string|max:3000',
+        'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9_-]+\.(m3u8)$/'],
+
     ];
 
     protected $messages = [
         'heading.required' => 'Heading is required.',
         'heading.unique' => 'The heading must be unique in the library resources.',
-        'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
+        'resource_file.mimes' => 'The resource must be a valid file of type: mp3, wav.',
         'resource_file.max' => 'The resource file size must not exceed 200MB.',
         'permission.required' => 'At least one permission is required.',
 //        'permission.array' => 'Permissions must be an array.',
@@ -48,6 +50,8 @@ class CreateMediaPlayer extends Component
         'category_id.required' => 'Category is required.',
         'category_id.exists' => 'The selected category does not exist.',
         'description.max' => 'Description may not exceed 1000 characters.',
+        'link.max' => 'Video URL may not exceed 90 characters.',
+        'link.regex' => 'The video URL must match the required format (e.g., https://video.gumlet.io/xyz/abc.m3u8).',
     ];
 
     public function fileChanged($value)
@@ -70,9 +74,10 @@ class CreateMediaPlayer extends Component
 
             $this->validate();
 
-            $extension = $this->resource_file->extension();
 
-            if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
+//            $extension = $this->link->extension();
+
+            if (!empty($this->link)) {
 
                 $this->validate([
                     'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800',
@@ -82,21 +87,17 @@ class CreateMediaPlayer extends Component
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            if (in_array($extension, ['mp3', 'wav', 'mpeg'])) {
+            if (empty($this->link)) {
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
                 MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, $thumbnail_id, null, $upload_id);
 
-            } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
+            } else {
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, $thumbnail_id, $upload_id, null);
-
-            } else {
-
-                MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, null, null, null);
+                MediaPlayerResources::createResource($this->heading, $this->category_id, $this->description, $thumbnail_id, $this->link, null);
 
             }
 
@@ -124,62 +125,54 @@ class CreateMediaPlayer extends Component
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'update_description' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'update_description' => 'nullable', 'resource_file' => 'nullable|file|mimes:mp3,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
 
-        if ($this->resource_file) {
+        if (!empty($this->link)) {
 
-            $extension = $this->resource_file->extension();
-
-            if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
-
-                $this->validate([
-                    'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800',
-                ]);
-
-            }
+            $this->validate([
+                'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:204800',
+            ]);
 
         }
 
-        if (!empty($this->resource_file) && in_array($extension, ['mp3', 'wav', 'mpeg'])) {
+        if (empty($this->link)) {
 
-            $upload_id = $this->uploadFile($this->resource_file);
-
-            $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
-
-            MediaPlayerResources::updateResource($this->resourceId, $this->heading, $this->category_id, $this->update_description, $thumbnail_id, null, $upload_id);
-
-        } elseif (!empty($this->resource_file) && in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
-
-            $upload_id = $this->uploadFile($this->resource_file);
-
-            $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
-
-            MediaPlayerResources::updateResource($this->resourceId, $this->heading, $this->category_id, $this->update_description, $thumbnail_id, $upload_id, null);
+            $resource = MediaPlayerResources::updateResource($this->resourceId, $this->heading, $this->category_id, $this->update_description);
 
         } else {
 
-            if (!empty($this->thumbnail_file)){
+            $resource = MediaPlayerResources::updateResource($this->resourceId, $this->heading, $this->category_id, $this->update_description);
 
-                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+        }
 
-                MediaPlayerResources::whereId($this->resourceId)->update([
-                    'heading' => $this->heading,
-                    'slug' => Str::slug($this->heading),
-                    'media_player_category_id' => $this->category_id,
-                    'description' => $this->update_description,
-                    'thumbnail_id' => $thumbnail_id,
-                ]);
+        if (!empty($this->link)) {
 
-            }else{
+            $resource->video_embed_link = $this->link;
+            $resource->audio_id = null;
 
-                MediaPlayerResources::whereId($this->resourceId)->update([
-                    'heading' => $this->heading,
-                    'slug' => Str::slug($this->heading),
-                    'media_player_category_id' => $this->category_id,
-                    'description' => $this->update_description,
-                ]);
+            $resource->save();
 
-            }
+        }
+
+        if (!empty($this->thumbnail_file)) {
+
+            $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
+
+            $resource->thumbnail_id = $thumbnail_id;
+
+            $resource->save();
+
+        }
+
+        if (!empty($this->resource_file)){
+
+            $upload_id = $this->uploadFile($this->resource_file);
+
+            $resource->audio_id = $upload_id;
+            $resource->video_embed_link = null;
+
+            $resource->save();
+
         }
 
         $this->emit('toggleEditResourceModal');
@@ -225,7 +218,7 @@ class CreateMediaPlayer extends Component
             }
         } else {
             $this->showThumbnailUpload = false;
-            $this->typeThumbnail = false;
+            $this->typeThumbnail = true;
         }
     }
 
@@ -306,7 +299,7 @@ class CreateMediaPlayer extends Component
 
         $this->pointValue = $this->editResourceData['points'] ?? null;
 
-        $this->permission = match ((int) ($this->editResourceData['permission'] ?? 0)) {
+        $this->permission = match ((int)($this->editResourceData['permission'] ?? 0)) {
             1 => 'freemium',
             2 => 'core',
             default => null,
