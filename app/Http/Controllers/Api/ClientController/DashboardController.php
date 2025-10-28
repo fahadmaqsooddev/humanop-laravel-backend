@@ -408,9 +408,10 @@ class DashboardController extends Controller
                         'priority' => $actionPlan['priority'],
                         'plan_text' => [
                             'intro' => $actionPlan['ninty_days_plan'],
-                            'day1_30' => $difference <= 30 ? $actionPlan['day1_30'] : null,
-                            'day31_60' => $difference > 30 && $difference <= 60 ? $actionPlan['day31_60'] : null,
-                            'day61_90' => $difference > 60 ?  $actionPlan['day61_90'] : null,
+                            'day1_30' => $actionPlan['day1_30'],
+                            'day31_60' => $actionPlan['day31_60'],
+                            'day61_90' => $actionPlan['day61_90'],
+                            'current_assessment_days' => $difference
                         ],
                         'type' => $actionPlan['type'],
                     ];
