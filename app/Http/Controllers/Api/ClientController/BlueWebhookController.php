@@ -14,6 +14,7 @@ class BlueWebhookController extends Controller
 
     public function ticketUpdated(Request $request)
     {
+        dd($request->all());
 
         Log::info('check webhook');
 
