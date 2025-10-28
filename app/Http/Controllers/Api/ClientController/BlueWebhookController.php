@@ -32,7 +32,7 @@ class BlueWebhookController extends Controller
         Log::debug('Expected Signature: ' . $expected);
         Log::debug('Secret Loaded: ' . (empty($secret) ? 'NO' : 'YES - Last 4: ' . substr($secret, -4)));
         Log::debug('Signatures Match: ' . ($sig === $expected ? 'YES' : 'NO'));
-        // \Log::debug('Raw Body: ' . $raw); // Uncomment this if you need to see the body, but be careful if it contains sensitive data.
+        Log::debug('Raw Body: ' . $raw); // Uncomment this if you need to see the body, but be careful if it contains sensitive data.
         // --- END DEBUGGING ---
 
         // Use hash_equals for secure, timing-attack-safe comparison
