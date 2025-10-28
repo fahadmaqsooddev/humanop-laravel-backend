@@ -28,6 +28,8 @@ class BlueWebhookController extends Controller
 
         $secret = config('services.blue.webhook_secret');
 
+        Log::info('SECRET_ENV' . $secret);
+
         if (!$this->isValidSignature($request->getContent(), $signatureHeader, $secret)) {
 
             Log::warning('Blue webhook invalid signature', ['sig' => $signatureHeader,]);
