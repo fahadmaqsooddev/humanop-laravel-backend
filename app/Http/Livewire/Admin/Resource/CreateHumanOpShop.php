@@ -70,7 +70,7 @@ class CreateHumanOpShop extends Component
 
                 $extension = $this->resource_file->extension();
 
-                if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
+                if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif', 'pdf', 'doc', 'docx'])) {
 
                     $this->validate([
                         'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800',
@@ -89,6 +89,10 @@ class CreateHumanOpShop extends Component
                 } elseif (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
 
                     $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, null, $upload_id, $this->pointValue, $this->description);
+
+                } else{
+
+                    $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, $upload_id, null, $this->pointValue, $this->description);
 
                 }
 
@@ -343,7 +347,7 @@ class CreateHumanOpShop extends Component
                 $ext = strtolower(pathinfo($this->resource_file, PATHINFO_EXTENSION));
             }
 
-            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif'])) {
+            if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif', 'pdf', 'doc', 'docx'])) {
                 $this->validate([
                     'thumbnail_file' => 'required|file|mimes:jpeg,png,jpg,gif|max:204800',
                 ]);
@@ -365,12 +369,6 @@ class CreateHumanOpShop extends Component
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
                 $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue, $this->description, $thumbnail_id);
-
-            } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv'])) {
-
-                $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
-
-                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, $upload_id, null, null, null, $this->pointValue, $this->description, $thumbnail_id);
 
             } elseif (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
 
@@ -395,8 +393,11 @@ class CreateHumanOpShop extends Component
                     'humanop_shop_category_id' => $this->category_id,
                     'price' => $this->priceValue,
                     'point' => $this->pointValue,
-                    'thumbnail_id' => $thumbnail_id
-
+                    'thumbnail_id' => $thumbnail_id,
+                    'video_embed_link' => $this->link,
+                    'audio_id' => null,
+                    'document_id' => null,
+                    'image_id' => null,
                 ]);
 
             } else {
@@ -408,7 +409,10 @@ class CreateHumanOpShop extends Component
                     'humanop_shop_category_id' => $this->category_id,
                     'price' => $this->priceValue,
                     'point' => $this->pointValue,
-
+                    'video_embed_link' => $this->link,
+                    'audio_id' => null,
+                    'document_id' => null,
+                    'image_id' => null,
                 ]);
 
             }

@@ -258,7 +258,7 @@
                                          x-on:livewire-upload-finish="progress = 0"
                                          x-on:livewire-upload-error="progress = 0">
                                         <label class="form-label fs-4" style="color: #1b3a62">
-                                            Resource (Image or Audio [PNG, JPG, GIF, MP3])
+                                            Resource (Document, Image or Audio [PNG, JPG, GIF, MP3, PDF, DOC, DOCX])
                                         </label>
                                         <input wire:model="resource_file"
                                                id="resource_file"
@@ -503,12 +503,12 @@
                                          x-on:livewire-upload-progress="progress = $event.detail.progress"
                                          x-on:livewire-upload-finish="progress = 0"
                                          x-on:livewire-upload-error="progress = 0">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Pdf, Video, or
-                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Document, Image or
+                                            Audio [PNG, JPG, GIF, MP3, PDF, DOC, DOCX])</label>
                                         <input wire:model="resource_file"
                                                id="resource_file"
                                                class="form-control input-form-style resource_file1" type="file"
-                                               accept="image/,video/,audio/*" >
+                                               accept="image/*,audio/*,document/*">
                                     </div>
                                     {{-- Progress bar --}}
                                     <div class="progress mt-2" x-show="progress > 0">
@@ -522,13 +522,15 @@
 
 
                                     @if(!empty($editResourceData['document_id']))
-                                        <div class="form-group mt-4">
-                                            <iframe src="{{ $editResourceData['document_url']['path']??null }}"
-                                                    width="100%" height="500px">
-                                                This browser does not support PDFs. Please download the PDF to view it:
-                                                <a href="{{ $editResourceData['document_url']['path'] ?? null }}">Download
-                                                    PDF</a>
-                                            </iframe>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                        <div class="form-group mt-2">
+                                            <a href="{{ $editResourceData['document_url']['path'] }}"
+                                               target="_blank"
+                                               rel="noopener noreferrer"
+                                               style="background-color: #1b3a62;padding: 10px 20px;border-radius: 5px;color: white;font-size: medium;font-weight: bold;"
+                                               onclick="window.open(this.href, '_blank'); return false;">
+                                                View Document
+                                            </a>
                                         </div>
                                     @elseif(!empty($editResourceData['video_embed_link']))
                                         <div class="form-group mt-4">
