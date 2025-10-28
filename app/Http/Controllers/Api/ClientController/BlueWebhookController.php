@@ -12,65 +12,27 @@ use Symfony\Component\HttpFoundation\Response;
 class BlueWebhookController extends Controller
 {
 
+// Controller method
     public function ticketUpdated(Request $request)
     {
+        $payload   = $request->getContent(); // RAW body, do not json_encode()
+        $signature = $request->header('x-signature') ?? '';
+        $secret    = config('services.blue.webhook_secret');
 
-        // --- 1. Verify signature ---
-
-        Log::info(print_r($request->all(), true));
-
-        $signatureHeader = $request->header('x-signature');
-
-        $secret = config('services.blue.webhook_secret');
-
-        if (!$this->isValidSignature($request->getContent(), $signatureHeader, $secret)) {
-
-            Log::warning('Blue webhook invalid signature', ['sig' => $signatureHeader,]);
-
-            return response()->json(['error' => 'invalid signature'], Response::HTTP_FORBIDDEN);
-
+        if (! $this->isValidSignature($payload, $signature, $secret)) {
+            Log::warning('Blue webhook invalid signature', [
+                'header'       => $signature,
+                'computed_hex' => hash_hmac('sha256', $payload, $secret), // for comparison
+                'has_secret'   => $secret !== '',
+                'len_payload'  => strlen($payload),
+            ]);
+            return response()->json(['error' => 'invalid signature'], 403);
         }
 
-
-        // --- 2. Extract payload ---
-        $blueTicketId = $request->input('ticket_id');
-
-        $newStatus = $request->input('status');
-
-        $lastUpdate = $request->input('last_update');
-
-        if (!$blueTicketId) {
-
-            return response()->json(['error' => 'missing ticket_id'], Response::HTTP_BAD_REQUEST);
-
-        }
-
-        // --- 3. Find local ticket ---
-
-        $ticket = Feedback::where('blue_ticket_id', $blueTicketId)->first();
-
-        if (!$ticket) {
-            // We don't want Blue to retry forever if user deleted ticket locally.
-            Log::info('Webhook for unknown ticket', ['blue_ticket_id' => $blueTicketId,]);
-
-            return response()->json(['ok' => true], Response::HTTP_OK);
-        }
-
-        // --- 4. Update local cache ---
-        $ticket->update([
-            'blue_status' => $newStatus,
-            'blue_last_update' => $lastUpdate,
-            'blue_last_synced_at' => now(),
-        ]);
-
-        return Helpers::successResponse('blue ticket status updated');
-
+        // ... proceed with reading inputs and updating the ticket
     }
 
-    /**
-     * HMAC SHA256 validation: timing-safe compare.
-     */
-
+// Verifier
     protected function isValidSignature(string $payload, ?string $headerSig, string $secret): bool
     {
         if (! $headerSig || $secret === '') {
@@ -90,5 +52,6 @@ class BlueWebhookController extends Controller
         // Timing-safe compare
         return hash_equals($expected, $provided);
     }
+
 
 }
