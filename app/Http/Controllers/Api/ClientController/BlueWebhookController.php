@@ -22,6 +22,13 @@ class BlueWebhookController extends Controller
         $minified = $this->minifyJson($raw) ?? $raw;
         // 3) Compute HMAC-SHA256(minified, secret) as lowercase hex
         $expected = bin2hex(hash_hmac('sha256', $minified, $secret, true));
+
+        // 4) Compare timing-safely; block if mismatch
+        if ($sig === '' || $secret === '' || !hash_equals($expected, $sig)) {
+            return response()->json(['error' => 'invalid signature'], 403);
+        }
+
+        Log::info('Success');
     }
 
     private function minifyJson(string $raw): ?string
