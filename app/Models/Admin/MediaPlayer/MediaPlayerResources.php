@@ -93,7 +93,7 @@ class MediaPlayerResources extends Model
         self::where('media_player_category_id', $current)->update(['media_player_category_id' => $new]);
     }
 
-    public static function createResource($heading = null, $category_id = null, $description = null, $thumbnailId = null, $videoId = null, $audioId = null)
+    public static function createResource($heading = null, $category_id = null, $description = null, $thumbnailId = null, $embed_link = null, $audioId = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -101,14 +101,14 @@ class MediaPlayerResources extends Model
             'media_player_category_id' => $category_id,
             'description' => $description,
             'thumbnail_id' => $thumbnailId,
-            'video_id' => $videoId,
+            'video_embed_link' => $embed_link,
             'audio_id' => $audioId
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($id = null, $heading = null, $category_id = null, $description = null, $thumbnailId = null, $videoId = null, $audioId = null)
+    public static function updateResource($id = null, $heading = null, $category_id = null, $description = null)
     {
 
         self::whereId($id)->update([
@@ -116,9 +116,6 @@ class MediaPlayerResources extends Model
             'slug' => Str::slug($heading),
             'media_player_category_id' => $category_id,
             'description' => $description,
-            'thumbnail_id' => $thumbnailId,
-            'video_id' => $videoId,
-            'audio_id' => $audioId,
         ]);
 
         return self::singleLibraryResource($id);

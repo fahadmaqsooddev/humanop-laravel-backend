@@ -244,12 +244,19 @@
                                         <textarea class="form-control input-form-style" id="editor"
                                                   name="description" wire:model="description" rows="30" cols="30"></textarea>
                                     </div>
+                                    <div class="form-group mt-4 ">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
+                                        <input class="form-control input-form-style"
+                                               wire:model.debounce.500ms="link" placeholder="Link" type="text"
+                                               id="embedlink" wire:change="getVideoLink">
+                                    </div>
+                                    <label class="form-label fs-4" style="color: #1b3a62">OR</label>
                                     <div class="form-group" x-data="{ progress: 0 }"
                                          x-on:livewire-upload-progress="progress = $event.detail.progress"
                                          x-on:livewire-upload-finish="progress = 0"
                                          x-on:livewire-upload-error="progress = 0">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Video, or Audio
-                                            [MP4, MP3, MPEG, MOV])</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Audio
+                                            [MP3, MAV])</label>
                                         <input wire:model="resource_file" id="resource_file"
                                                class="form-control input-form-style resource_file" type="file"
                                                accept="image/*,video/*,audio/*">
@@ -282,40 +289,6 @@
                                                   style="color:#1b3a62"></span>
                                         </div>
                                     @endif
-{{--                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>--}}
-{{--                                    <div class="row">--}}
-{{--                                        <div class="col-4">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input type="checkbox" wire:model.defer="permission" value="1"--}}
-{{--                                                       class="form-check-input option-checkbox"--}}
-{{--                                                       style="border: 2px solid #1b3a62" id="freemium">--}}
-{{--                                                <label class="form-check-label" for="freemium">Freemium</label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-
-{{--                                        <div class="col-4">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input type="checkbox" wire:model.defer="permission" value="2"--}}
-{{--                                                       class="form-check-input option-checkbox"--}}
-{{--                                                       style="border: 2px solid #1b3a62" id="core">--}}
-{{--                                                <label class="form-check-label" for="core">Premium</label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="row mt-4">--}}
-{{--                                            <div class="col-6">--}}
-{{--                                                <label for="point">Point</label>--}}
-{{--                                                <input type="number" id="point" class="form-control"--}}
-{{--                                                       placeholder="Enter Point" min="0" wire:model.defer="pointValue"--}}
-{{--                                                       style="border: 2px solid #1b3a62;">--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-6">--}}
-{{--                                                <label for="price">Price</label>--}}
-{{--                                                <input type="number" id="price" class="form-control"--}}
-{{--                                                       placeholder="Enter Price" min="0" wire:model.defer="priceValue"--}}
-{{--                                                       style="border: 2px solid #1b3a62;">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
                                 </div>
                             </div>
                             <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create
@@ -372,13 +345,19 @@
                                         <input class="form-control input-form-style"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
+                                    <div class="form-group mt-4 ">
+                                        <label class="form-label fs-4" style="color: #1b3a62">Gumlet Video Url</label>
+                                        <input class="form-control input-form-style"
+                                               wire:model.debounce.500ms="link" placeholder="Link" type="text"
+                                               id="embedlink" wire:change="getVideoLink">
+                                    </div>
+                                    <label class="form-label fs-4" style="color: #1b3a62">OR</label>
                                     <div class="form-group mt-4 "
                                          x-data="{ progress: 0 }"
                                          x-on:livewire-upload-progress="progress = $event.detail.progress"
                                          x-on:livewire-upload-finish="progress = 0"
                                          x-on:livewire-upload-error="progress = 0">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Image, Video, or
-                                            Audio [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource ( Audio [MP3, MAV])</label>
                                         <input wire:model="resource_file"
                                                id="resource_file"
                                                class="form-control input-form-style resource_file1" type="file"
@@ -399,9 +378,9 @@
                                             <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
                                                  width="200">
                                         </div>
-                                    @elseif(!empty($editResourceData['video_url']))
+                                    @elseif(!empty($editResourceData['video_embed_link']))
                                         <div class="form-group mt-4">
-                                            <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
+                                            <video controls src="{{$editResourceData['video_embed_link'] ?? null}}"
                                                    style="height: 200px;"></video>
                                         </div>
                                     @elseif(!empty($editResourceData['audio_url']))
@@ -444,7 +423,7 @@
                                         </div>
                                     @else
                                         @if(!in_array($typeThumbnail, ['jpeg', 'png', 'jpg', 'gif']))
-                                            @if(!empty($editResourceData['video_url']) || !empty($editResourceData['audio_url']))
+                                            @if(!empty($editResourceData['video_embed_link']) || !empty($editResourceData['audio_url']))
                                                 <div class="form-group" x-data="{ progress: 0 }"
                                                      x-on:livewire-upload-progress="progress = $event.detail.progress"
                                                      x-on:livewire-upload-finish="progress = 0"
@@ -482,54 +461,6 @@
                                         @endif
                                     @endif
 
-{{--                                    <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>--}}
-{{--                                    <div class="row">--}}
-{{--                                        <div class="col-4">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input type="checkbox"--}}
-{{--                                                       wire:model.defer="permission"--}}
-{{--                                                       value="1"--}}
-{{--                                                       class="form-check-input"--}}
-{{--                                                       style="border: 2px solid #1b3a62"--}}
-{{--                                                       id="freemium"--}}
-{{--                                                    {{ $permission == 'freemium' ? 'checked' : '' }}>--}}
-{{--                                                <label class="form-check-label" for="freemium">Freemium</label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-
-{{--                                        <div class="col-4">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input type="checkbox"--}}
-{{--                                                       wire:model.defer="permission"--}}
-{{--                                                       value="2"--}}
-{{--                                                       class="form-check-input"--}}
-{{--                                                       style="border: 2px solid #1b3a62"--}}
-{{--                                                       id="core"--}}
-{{--                                                    {{ $permission == 'core' ? 'checked' : '' }}>--}}
-{{--                                                <label class="form-check-label" for="core">Premium</label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-
-{{--                                        <div class="row mt-4">--}}
-{{--                                            <div class="col-6">--}}
-{{--                                                <label for="point">Point</label>--}}
-{{--                                                <input type="number" id="point" class="form-control"--}}
-{{--                                                       placeholder="Enter Point"--}}
-{{--                                                       min="0"--}}
-{{--                                                       wire:model.defer="pointValue"--}}
-{{--                                                       style="border: 2px solid #1b3a62;">--}}
-{{--                                            </div>--}}
-
-{{--                                            <div class="col-6">--}}
-{{--                                                <label for="price">Price</label>--}}
-{{--                                                <input type="number" id="price" class="form-control"--}}
-{{--                                                       placeholder="Enter Price"--}}
-{{--                                                       min="0"--}}
-{{--                                                       wire:model.defer="priceValue"--}}
-{{--                                                       style="border: 2px solid #1b3a62;">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>
