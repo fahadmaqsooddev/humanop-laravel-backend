@@ -45,6 +45,9 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::delete('delete-email-phone', 'UserProfile\SettingController@removeEmailPhone');
     Route::post('set-default-email-phone', 'UserProfile\SettingController@setDefaultEmailPhone');
 
+    Route::post('/blue/webhook/ticket-updated', 'BlueWebhookController@ticketUpdated');
+
+
 });
 
 Route::get('timezone', 'UserController@getTimezone');

@@ -38,6 +38,20 @@ class Feedback extends Model
 
     // relation
 
+    protected $casts = [
+        'blue_last_synced_at' => 'datetime',
+    ];
+
+    public function getDisplayStatusAttribute(): string
+    {
+        return $this->blue_status ?? 'pending';
+    }
+
+    public function getDisplayLastUpdateAttribute(): ?string
+    {
+        return $this->blue_last_update;
+    }
+
     public function user()
     {
 

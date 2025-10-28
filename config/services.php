@@ -36,4 +36,8 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    'blue' => [
+        'webhook_secret' => env('WEBHOOK_SECRET'),
+    ],
+
 ];
