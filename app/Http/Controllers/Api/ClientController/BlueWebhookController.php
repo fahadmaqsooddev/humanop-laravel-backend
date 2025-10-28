@@ -12,46 +12,47 @@ use Symfony\Component\HttpFoundation\Response;
 class BlueWebhookController extends Controller
 {
 
-// Controller method
+    // Controller
     public function ticketUpdated(Request $request)
     {
-        $payload   = $request->getContent(); // RAW body, do not json_encode()
-        $signature = $request->header('x-signature') ?? '';
-        $secret    = config('services.blue.webhook_secret');
+        $payload   = file_get_contents('php://input'); // raw body
+        $sigHeader = $request->header('x-signature') ?? '';
+        $secret    = config('services.blue.webhook_secret');    // "6760d8bb..."
 
-        if (! $this->isValidSignature($payload, $signature, $secret)) {
+        if (! $this->isValidSignature($payload, $sigHeader, $secret)) {
             Log::warning('Blue webhook invalid signature', [
-                'header'       => $signature,
-                'computed_hex' => hash_hmac('sha256', $payload, $secret), // for comparison
-                'has_secret'   => $secret !== '',
+                'header'       => $sigHeader,
                 'len_payload'  => strlen($payload),
             ]);
             return response()->json(['error' => 'invalid signature'], 403);
         }
 
-        // ... proceed with reading inputs and updating the ticket
+        // ... proceed to parse and update ticket
     }
 
-// Verifier
+// Verifier supports: hex signature (plain or "sha256=<hex>") and hex-encoded secret
     protected function isValidSignature(string $payload, ?string $headerSig, string $secret): bool
     {
-        if (! $headerSig || $secret === '') {
-            return false;
-        }
+        if (! $headerSig || $secret === '') return false;
 
-        // Normalize header (strip prefix, quotes, spaces, lowercase)
+        // normalize header
         $provided = trim($headerSig, " \t\n\r\0\x0B\"'");
         if (str_starts_with(strtolower($provided), 'sha256=')) {
             $provided = substr($provided, 7);
         }
-        $provided = strtolower($provided);
+        $provided = strtolower($provided); // hex compare
 
-        // Our expected hex (hash_hmac returns lowercase hex by default)
-        $expected = hash_hmac('sha256', $payload, $secret); // hex lowercase
+        // if secret looks like hex, decode to raw bytes
+        $key = (ctype_xdigit($secret) && (strlen($secret) % 2 === 0))
+            ? hex2bin($secret)
+            : $secret;
 
-        // Timing-safe compare
+        // compute expected hex
+        $expected = bin2hex(hash_hmac('sha256', $payload, $key, true));
+
         return hash_equals($expected, $provided);
     }
+
 
 
 }
