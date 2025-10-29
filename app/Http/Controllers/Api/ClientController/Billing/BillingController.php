@@ -101,6 +101,7 @@ class BillingController extends Controller
                 'expand' => ['payment_intent'],
             ])
             : null;
+        Log::info("Invoice:\n" . json_encode($invoice, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         $pi = $invoice?->payment_intent ?? null;
 
