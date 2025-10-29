@@ -189,7 +189,7 @@ class AuthController extends Controller
 
                 }
 
-                Helpers::createCustomerAndSubscriptionOnStripe($user);
+//                Helpers::createCustomerAndSubscriptionOnStripe($user);
 
                 FreemiumEnrollmentService::enroll($user);
 
