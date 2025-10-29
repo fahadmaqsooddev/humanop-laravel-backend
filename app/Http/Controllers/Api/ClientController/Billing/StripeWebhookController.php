@@ -19,7 +19,6 @@ class StripeWebhookController extends Controller
     {
         $payload = $request->getContent();
         $sig = $request->header('stripe-signature');
-        Log::info($sig);
 
         // Signature verification using DB webhook secret
         StripeWebhook::constructEvent(
@@ -27,13 +26,16 @@ class StripeWebhookController extends Controller
             $sig,
             StripeConfig::webhookSecret()
         );
-Log::info('Signature verification done');
-dd('1');
+
         // Let Cashier do its default sync first
         $response = app(CashierWebhook::class)->handleWebhook($request);
 
         $event = json_decode($payload, true);
         $type = $event['type'] ?? '';
+
+        Log::info("Event payload:\n" . json_encode($event, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        dd('1');
 
         try {
             $stripe = app(StripeClient::class);
