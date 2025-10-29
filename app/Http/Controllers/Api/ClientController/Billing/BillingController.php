@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\ClientController\Billing;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Support\StripeConfig;
+use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Subscription;
 use Stripe\StripeClient;
 
@@ -33,6 +34,8 @@ class BillingController extends Controller
 
         /** @var \App\Models\User $user */
         $user = $request->user();
+
+        Log::info("User:\n" . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         // make sure user is a Stripe customer
         $user->createOrGetStripeCustomer();
