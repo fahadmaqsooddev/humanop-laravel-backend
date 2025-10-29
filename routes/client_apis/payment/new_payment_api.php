@@ -16,6 +16,9 @@ use App\Http\Controllers\Api\StripePublicController;
 
 Route::group(['middleware' => ['checkUser']], function () {
 
+    Route::post('/billing/payment-method/init', 'BillingController@initPaymentMethod');
+
+
     // Create premium subscription draft (monthly/yearly)
     Route::post('/billing/subscriptions/init', 'BillingController@initSubscription');
 

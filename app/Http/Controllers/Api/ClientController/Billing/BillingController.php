@@ -17,6 +17,33 @@ class BillingController extends Controller
     {
     }
 
+    public function initPaymentMethod(Request $request)
+    {
+        $user = Helpers::getUser();
+
+        // make sure user has stripe customer
+        $user->createOrGetStripeCustomer();
+
+        // create SetupIntent for collecting a reusable payment method
+        $setupIntent = $this->stripe->setupIntents->create([
+            'customer' => $user->stripe_id,
+            'automatic_payment_methods' => ['enabled' => true],
+            'usage' => 'off_session', // we want to be able to charge later automatically
+            'metadata' => [
+                'user_id' => (string) $user->getKey(),
+                'family'  => 'b2c',
+                'purpose' => 'collect_default_payment_method',
+            ],
+        ]);
+
+        return response()->json([
+            'setup_intent_id' => $setupIntent->id,
+            'client_secret'   => $setupIntent->client_secret,
+            'publishable_key' => StripeConfig::publishableKey(),
+        ]);
+    }
+
+
 
     public function initSubscription(Request $request)
     {
