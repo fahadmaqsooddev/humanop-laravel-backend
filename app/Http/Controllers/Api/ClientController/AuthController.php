@@ -65,10 +65,10 @@ class AuthController extends Controller
     protected $auth;
     protected $sns;
 
-    public function __construct(SnsServices $sns)
+    public function __construct(SnsServices $sns, private FreemiumEnrollmentService $freemiumService)
     {
-        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens', 'storeUserDataFromOtherDb', 'betaBreakerClubUsers', 'haiChatHistory','createThreadIds']);
-
+        $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens', 'storeUserDataFromOtherDb', 'betaBreakerClubUsers', 'haiChatHistory', 'createThreadIds']);
+        +
         $this->auth = Auth::guard('api');
 
         $this->sns = $sns;
@@ -130,12 +130,12 @@ class AuthController extends Controller
 
                 }
 
-                if ($user['beta_breaker_club'] ==Admin::BETA_BREAKER_CLUB){
+                if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
 
 
                     Point::addPoints(Admin::BREAKER_CREDITS, $user);
 
-                }else{
+                } else {
 
                     Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
 
@@ -191,7 +191,7 @@ class AuthController extends Controller
 
 //                Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                FreemiumEnrollmentService::enroll($user);
+                $this->freemiumService->enroll($user);
 
 //                Helpers::createClientsOnOneSignal($user['id']);
 
@@ -389,7 +389,7 @@ class AuthController extends Controller
 
                     $userInvite = UserInvite::getSingleInvite($getUser['email']);
 
-                    if (!empty($userInvite)){
+                    if (!empty($userInvite)) {
 
                         UserInviteLog::deleteInvite($userInvite['id']);
 
@@ -422,7 +422,7 @@ class AuthController extends Controller
 
                     $userInvite = UserInvite::getSingleInvite($getUser['email']);
 
-                    if(!empty($userInvite)){
+                    if (!empty($userInvite)) {
 
                         UserInviteLog::deleteInvite($userInvite['id']);
 
@@ -676,170 +676,170 @@ class AuthController extends Controller
 
         try {
 
-        DB::beginTransaction();
+            DB::beginTransaction();
 
-        $credentials = $request->only(['email', 'password']);
+            $credentials = $request->only(['email', 'password']);
 
-        $checkDeletedUser = User::checkDeleteEmail($credentials['email']);
+            $checkDeletedUser = User::checkDeleteEmail($credentials['email']);
 
-        if (!empty($checkDeletedUser)) {
+            if (!empty($checkDeletedUser)) {
 
-            return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
-        }
-
-        $checkUser = User::checkEmail($credentials['email']);
-
-        if (empty($checkUser)) {
-
-            return Helpers::validationResponse("These credentials do not match our records.");
-
-        } else if ($checkUser && $checkUser['email_verified_at'] == null) {
-
-            $userInvite = UserInvite::getSingleInvite($checkUser['email']);
-
-            $userData = [
-                'user_id' => $checkUser['id'],
-                'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
-                'email' => $checkUser['email'],
-                'registration_step' => $checkUser['step'],
-                'user_invite' => $userInvite['link']
-
-            ];
-
-            return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
-
-        } else if ($checkUser && $checkUser['step'] != 3) {
-
-            $userInvite = UserInvite::getSingleInvite($checkUser['email']);
-
-            $userData = [
-                'user_id' => $checkUser['id'],
-                'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
-                'email' => $checkUser['email'],
-                'registration_step' => $checkUser['step'],
-                'user_invite' => $userInvite['link']
-
-            ];
-
-            return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
-
-        } else if ($checkUser and $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
-
-            $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
-
-            $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
-
-            $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
-
-            $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE, $template->name);
-
-            $checkUser->update(['sms_verify_code' => $otpNumber]);
-
-            DB::commit();
-
-            $userData = [
-                'user_id' => $checkUser['id'],
-                'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
-                'email' => $checkUser['email'],
-                'two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? true : false,
-            ];
-
-            return Helpers::successResponse('Otp sent Successfully', $userData);
-
-
-        } else {
-
-            $remember_me = $request['remember'] == 'true' ? true : false;
-
-            if ($remember_me == true) {
-
-                $token = $this->auth->attempt($credentials, $remember_me);
-
-                $getUser = User::getSingleUser($checkUser['id']);
-
-                $getUser->update(['last_login' => Carbon::now()]);
-
-            } else {
-
-                $token = $this->auth->attempt($credentials);
-
-                Helpers::createCustomerAndSubscriptionOnStripe($checkUser);
-
-                $minutes = Helpers::explodeTimezoneWithHours($checkUser['timezone']);
-
-                $currentTime = Carbon::now()->addMinutes($minutes * 60);
-
-                Helpers::checkAndAddBonusCredits($checkUser, $currentTime);
-
-                Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
-
-                if ($checkUser['last_login'] == null) {
-                    $checkUser['last_login'] = $currentTime;
-                }
-
-                $checkUser->save();
-
+                return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
             }
 
-            if ($token) {
+            $checkUser = User::checkEmail($credentials['email']);
 
-                $user = Helpers::getUser();
+            if (empty($checkUser)) {
 
-                if ($request['company_name']) {
+                return Helpers::validationResponse("These credentials do not match our records.");
 
-                    $data = User::getSingleUserFromCompanyName($request['company_name']);
+            } else if ($checkUser && $checkUser['email_verified_at'] == null) {
 
-                    if (!empty($data)) {
+                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
 
-                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+                $userData = [
+                    'user_id' => $checkUser['id'],
+                    'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
+                    'email' => $checkUser['email'],
+                    'registration_step' => $checkUser['step'],
+                    'user_invite' => $userInvite['link']
 
-                        $getInvite = UserInvite::getSingleInvite($user['email']);
-
-                        if ($getInvite) {
-
-                            $memberCandidateInvite = UserCandidateInvite::where('invite_link_id', $getInvite->id)->where('company_id', $data['id'])->first();
-
-                            if ($memberCandidateInvite) {
-
-                                $memberCandidateInvite->delete();
-                            }
-                        }
-                    }
-                }
-
-//                Helpers::createClientsOnOneSignal($user['id']);
-
-                $updateUser = User::updateUserIsFeedback();
-
-                $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
-
-                $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
-
-                HaiChatHelpers::syncUserRecordWithHAi();
-
-                User::LastLoginWith($request);
-
-                $data = [
-                    'user' => $updateUser,
-                    'authorization' => [
-                        'token' => $token,
-                        'type' => 'bearer',
-                    ]
                 ];
+
+                return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
+
+            } else if ($checkUser && $checkUser['step'] != 3) {
+
+                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
+
+                $userData = [
+                    'user_id' => $checkUser['id'],
+                    'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
+                    'email' => $checkUser['email'],
+                    'registration_step' => $checkUser['step'],
+                    'user_invite' => $userInvite['link']
+
+                ];
+
+                return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
+
+            } else if ($checkUser and $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE) {
+
+                $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+                $template = EmailTemplate::getEmailTemplateByTag(Admin::FA_VERIFICATION_CODE);
+
+                $emailData = $this->prepareEmailData($checkUser, null, $otpNumber, $template->body, $template->subject);
+
+                $this->sendEmailVerification($emailData, $checkUser['email'], Admin::FA_VERIFICATION_CODE, $template->name);
+
+                $checkUser->update(['sms_verify_code' => $otpNumber]);
 
                 DB::commit();
 
-                return Helpers::successResponse('User loggedIn successfully', $data);
+                $userData = [
+                    'user_id' => $checkUser['id'],
+                    'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
+                    'email' => $checkUser['email'],
+                    'two_way_auth' => $checkUser['two_way_auth'] == Admin::TWO_WAY_AUTH_ACTIVE ? true : false,
+                ];
+
+                return Helpers::successResponse('Otp sent Successfully', $userData);
+
 
             } else {
 
-                DB::rollBack();
+                $remember_me = $request['remember'] == 'true' ? true : false;
 
-                return Helpers::unauthResponse('Wrong Password');
+                if ($remember_me == true) {
+
+                    $token = $this->auth->attempt($credentials, $remember_me);
+
+                    $getUser = User::getSingleUser($checkUser['id']);
+
+                    $getUser->update(['last_login' => Carbon::now()]);
+
+                } else {
+
+                    $token = $this->auth->attempt($credentials);
+
+                    Helpers::createCustomerAndSubscriptionOnStripe($checkUser);
+
+                    $minutes = Helpers::explodeTimezoneWithHours($checkUser['timezone']);
+
+                    $currentTime = Carbon::now()->addMinutes($minutes * 60);
+
+                    Helpers::checkAndAddBonusCredits($checkUser, $currentTime);
+
+                    Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
+
+                    if ($checkUser['last_login'] == null) {
+                        $checkUser['last_login'] = $currentTime;
+                    }
+
+                    $checkUser->save();
+
+                }
+
+                if ($token) {
+
+                    $user = Helpers::getUser();
+
+                    if ($request['company_name']) {
+
+                        $data = User::getSingleUserFromCompanyName($request['company_name']);
+
+                        if (!empty($data)) {
+
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+
+                            $getInvite = UserInvite::getSingleInvite($user['email']);
+
+                            if ($getInvite) {
+
+                                $memberCandidateInvite = UserCandidateInvite::where('invite_link_id', $getInvite->id)->where('company_id', $data['id'])->first();
+
+                                if ($memberCandidateInvite) {
+
+                                    $memberCandidateInvite->delete();
+                                }
+                            }
+                        }
+                    }
+
+//                Helpers::createClientsOnOneSignal($user['id']);
+
+                    $updateUser = User::updateUserIsFeedback();
+
+                    $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+
+                    $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+
+                    HaiChatHelpers::syncUserRecordWithHAi();
+
+                    User::LastLoginWith($request);
+
+                    $data = [
+                        'user' => $updateUser,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ]
+                    ];
+
+                    DB::commit();
+
+                    return Helpers::successResponse('User loggedIn successfully', $data);
+
+                } else {
+
+                    DB::rollBack();
+
+                    return Helpers::unauthResponse('Wrong Password');
+
+                }
 
             }
-
-        }
 
         } catch (\Exception $exception) {
 
@@ -1475,9 +1475,9 @@ class AuthController extends Controller
                 if (count($userChats) > 0) {
                     $data[] = [
                         'user_id' => $user->id,
-                        'chats'   => $userChats->map(function ($chat) {
+                        'chats' => $userChats->map(function ($chat) {
                             return [
-                                'query'  => $chat->query,
+                                'query' => $chat->query,
                                 'answer' => $chat->answer
                             ];
                         })->values(),
@@ -1504,9 +1504,9 @@ class AuthController extends Controller
 
             foreach ($threads as $thread) {
 
-               $new_thread = HaiThread::createThreadIds($thread);
+                $new_thread = HaiThread::createThreadIds($thread);
 
-               HaiChat::createChatThreadId($thread, $new_thread['id']);
+                HaiChat::createChatThreadId($thread, $new_thread['id']);
 
             }
 
