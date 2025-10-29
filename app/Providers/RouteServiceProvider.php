@@ -19,6 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/login';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
+    protected $PaymentClientController = 'App\Http\Controllers\Api\ClientController\Billing';
     protected $GamificationClientController = 'App\Http\Controllers\Api\ClientController\Gamification';
     protected $PlaylistClientController = 'App\Http\Controllers\Api\ClientController\PlayList';
     protected $HumanOpShopController = 'App\Http\Controllers\Api\ClientController\HumanOPShop';
@@ -67,7 +68,11 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)
-                ->group(base_path('routes/client_apis/payment/payment_api.php'));
+                ->group(base_path('routes/client_apis/payment/old_payment_api.php'));
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->PaymentClientController)
+                ->group(base_path('routes/client_apis/payment/new_payment_api.php'));
 
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)
