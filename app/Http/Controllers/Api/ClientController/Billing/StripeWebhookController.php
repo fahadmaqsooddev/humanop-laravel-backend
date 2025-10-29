@@ -19,7 +19,7 @@ class StripeWebhookController extends Controller
     {
         $payload = $request->getContent();
         $sig = $request->header('stripe-signature');
-        Log::info(print_r($request->header('stripe-signature'), true));
+        Log::info(print_r($request->header(), true));
 dd('1');
         // Signature verification using DB webhook secret
         StripeWebhook::constructEvent(
