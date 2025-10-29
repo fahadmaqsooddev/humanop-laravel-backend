@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController\Billing;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Support\StripeConfig;
@@ -32,8 +33,7 @@ class BillingController extends Controller
         StripeConfig::ensureRecurring($validated['plan'], 'b2c');
         $priceId = StripeConfig::priceId($validated['plan'], 'b2c');
 
-        /** @var \App\Models\User $user */
-        $user = $request->user();
+        $user = Helpers::getUser();
 
         Log::info("User:\n" . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
