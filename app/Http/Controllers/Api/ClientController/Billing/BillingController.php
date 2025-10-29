@@ -104,6 +104,8 @@ class BillingController extends Controller
 
         $pi = $invoice?->payment_intent ?? null;
 
+        Log::info("Payment Intent:\n" . json_encode($pi, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
         // 7. Decide what frontend has to do
         $requiresAction = false;
         $clientSecret   = null;
