@@ -17,11 +17,10 @@ class StripeWebhookController extends Controller
 
     public function handle(Request $request): Response
     {
-        Log::info(print_r($request->header(), true));
-        dd('d');
         $payload = $request->getContent();
-        $sig = $request->header('Stripe-Signature');
-
+        $sig = $request->header('stripe-signature');
+        Log::info(print_r($sig, true));
+dd('1');
         // Signature verification using DB webhook secret
         StripeWebhook::constructEvent(
             $payload,
