@@ -176,7 +176,7 @@ return [
         ],
         'StripeSetting' => [
             'table' => 'stripe_settings',
-            'fillable' => ['api_key', 'public_key', 'account_name', 'account_email', 'amount', 'type','webhook_secret'],
+            'fillable' => ['api_key', 'public_key', 'account_name', 'account_email', 'amount', 'type', 'webhook_secret'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'Subscription' => [
@@ -186,7 +186,7 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['parent_referal_plan_name', 'last_updated_daily_tip', 'first_name', 'last_name', 'email', 'password', 'phone', 'date_of_birth', 'gender', 'signup_date', 'last_login', 'status', 'stripe_id', 'is_admin', 'payment_method', 'pm_type', 'pm_last_four', 'pm_exp_month', 'pm_exp_year', 'google_id', 'is_feedback', 'password_set', 'is_permanently_deleted', 'image_id', 'apple_id', 'hai_chat', 'referral_code', 'referred_by', 'practitioner_id', 'timezone', 'two_way_auth', 'intro_check', 'reset_password', 'app_intro_check', 'reset_password_token', 'email_verify_token', 'step', 'email_verified_at', 'register_from_app', 'device_token', 'company_name', 'business_sub_stratergy_id', 'business_id', 'work_email', 'b2b_step', 'team_department', 'prompt_notification', 'version_update', 'sms_verify_code', 'phone_verified_at', 'complete_assessment_walkthrough', 'complete_tutorial', 'chat_summary', 'profile_status', 'hai_status', 'credits_log', 'life_alchemist', 'excited_connect', 'note', 'profile_privacy', 'hai_privacy', 'registration_checkout', 'trial_day', 'trial_time', 'set_daily_tip_time', 'beta_breaker_club', 'compatability_matrix_status','group_filter','google_apple_last_login_at','last_login_with','login_device_with','plan','has_bb_onetime','is_lifetime','hai_chat_sound_mute','billing_context'],
+            'fillable' => ['parent_referal_plan_name', 'last_updated_daily_tip', 'first_name', 'last_name', 'email', 'password', 'phone', 'date_of_birth', 'gender', 'signup_date', 'last_login', 'status', 'stripe_id', 'is_admin', 'payment_method', 'pm_type', 'pm_last_four', 'pm_exp_month', 'pm_exp_year', 'google_id', 'is_feedback', 'password_set', 'is_permanently_deleted', 'image_id', 'apple_id', 'hai_chat', 'referral_code', 'referred_by', 'practitioner_id', 'timezone', 'two_way_auth', 'intro_check', 'reset_password', 'app_intro_check', 'reset_password_token', 'email_verify_token', 'step', 'email_verified_at', 'register_from_app', 'device_token', 'company_name', 'business_sub_stratergy_id', 'business_id', 'work_email', 'b2b_step', 'team_department', 'prompt_notification', 'version_update', 'sms_verify_code', 'phone_verified_at', 'complete_assessment_walkthrough', 'complete_tutorial', 'chat_summary', 'profile_status', 'hai_status', 'credits_log', 'life_alchemist', 'excited_connect', 'note', 'profile_privacy', 'hai_privacy', 'registration_checkout', 'trial_day', 'trial_time', 'set_daily_tip_time', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'google_apple_last_login_at', 'last_login_with', 'login_device_with', 'plan', 'has_bb_onetime', 'is_lifetime', 'hai_chat_sound_mute', 'billing_context'],
             'hidden' => ['created_at', 'updated_at', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret']
         ],
         'Page' => [
@@ -298,7 +298,7 @@ return [
         ],
         'MessageThread' => [
             'table' => 'message_threads',
-            'fillable' => ['sender_id', 'receiver_id', 'updated_at', 'type', 'name', 'group_icon_id', 'owner_id', 'direct_key','thread_privacy'],
+            'fillable' => ['sender_id', 'receiver_id', 'updated_at', 'type', 'name', 'group_icon_id', 'owner_id', 'direct_key', 'thread_privacy'],
             'hidden' => ['deleted_at', 'created_at']
         ],
         'MessageThreadRequest' => [
@@ -353,12 +353,12 @@ return [
         ],
         'Plan' => [
             'table' => 'plans',
-            'fillable' => ['plan_id', 'name', 'billing_method', 'interval_count', 'price', 'currency', 'plan_type', 'no_of_team_members', 'status', 'plan_detail','key','kind','active','product_name','context'],
+            'fillable' => ['plan_id', 'name', 'billing_method', 'interval_count', 'price', 'currency', 'plan_type', 'no_of_team_members', 'status', 'plan_detail', 'key', 'kind', 'active', 'product_name', 'context'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Point' => [
             'table' => 'hai_points',
-            'fillable' => ['user_id', 'point', 'is_b2b','purchased_points'],
+            'fillable' => ['user_id', 'point', 'is_b2b', 'purchased_points'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'PointLog' => [
@@ -368,7 +368,7 @@ return [
         ],
         'LibraryResource' => [
             'table' => 'library_resources',
-            'fillable' => ['heading', 'slug', 'upload_id', 'resource_category_id', 'description', 'content', 'source_id', 'source_url', 'embed_link', 'relevance', 'thumbnail_id','document_id'],
+            'fillable' => ['heading', 'slug', 'upload_id', 'resource_category_id', 'description', 'content', 'source_id', 'source_url', 'embed_link', 'relevance', 'thumbnail_id', 'document_id'],
             'hidden' => ['updated_at'],
         ],
         'PermissionResource' => [
@@ -427,7 +427,7 @@ return [
         ],
         'OptimizationPlan' => [
             'table' => 'optimization_plan',
-            'fillable' => ['priority', 'condition', 'fourteen_days_plan','ninty_days_plan','day1_30','day31_60','day61_90'],
+            'fillable' => ['priority', 'condition', 'fourteen_days_plan', 'ninty_days_plan', 'day1_30', 'day31_60', 'day61_90'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'Chatbot' => [
@@ -809,5 +809,10 @@ return [
             'fillable' => ['media_player_category_id', 'video_id', 'audio_id', 'thumbnail_id', 'heading', 'slug', 'description', 'permission', 'prices', 'points', 'video_embed_link'],
             'hidden' => ['created_at', 'updated_at']
         ],
+        'HotSpotsPlan' => [
+            'table' => 'user_hot_spots',
+            'fillable' => ['hot_spots_text', 'user_id', 'updated_at', 'assessment_id', 'priority'],
+            'hidden' => ['created_at'],
+        ]
     ]
 ];

@@ -12,6 +12,7 @@ use App\Models\Admin\Plan\OptimizationPlan;
 use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\Admin\SuggestedItem\SuggestedItem;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\Client\HotSpot\HotSpotsPlan;
 use App\Models\Client\MultiMedia\MultiMediaStats;
 use App\Models\Client\Suggestion\SuggestionForYou;
 use App\Models\HAIChai\HaiChat;
@@ -1260,5 +1261,43 @@ class DashboardController extends Controller
     {
         return helpers::successResponse('Webhook fine');
     }
+
+    public function hotSpots(Request $request)
+    {
+
+        try {
+
+            if ($request->has('assessment_id')) {
+
+                $assessment = Assessment::getSingleAssessment($request->input('assessment_id'));
+
+            } else {
+
+                $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
+
+            }
+
+            if (!empty($assessment)) {
+
+                $hotSpots = HotSpotsPlan::getActionPlanByAssessmentId($assessment);
+
+                if (empty($hotSpots)) {
+
+                    $hotSpots = HotSpotsPlan::storeUserActionPlan($assessment);
+
+                }
+
+                return Helpers::successResponse('90 Days Hot Spots', $hotSpots);
+
+            }
+
+            return Helpers::validationResponse('Assessment not found');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
 
 }
