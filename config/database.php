@@ -358,7 +358,7 @@ return [
         ],
         'Point' => [
             'table' => 'hai_points',
-            'fillable' => ['user_id', 'point', 'is_b2b'],
+            'fillable' => ['user_id', 'point', 'is_b2b','purchased_points'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'PointLog' => [

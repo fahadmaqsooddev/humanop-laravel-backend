@@ -2,6 +2,7 @@
 
 namespace App\Models\Client\Point;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Customization\Customization;
 use Carbon\Carbon;
@@ -59,7 +60,7 @@ class Point extends Model
 
             $used_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 0)->sum('point');
 
-            $remaining_tokens = $points['point'];
+            $remaining_tokens = $points['point'] + $points['purchased_points'];
 
             $rollover_tokens = (
                 (clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 1)->sum('point')
@@ -101,6 +102,30 @@ class Point extends Model
 
     }
 
+    public static function addPurchasedPoints($points, $user = null, $is_b2b = 0)
+    {
+
+        $user = ($user ?? Helpers::getUser());
+
+        $record = self::where('user_id', $user->id)->where('is_b2b', $is_b2b)->first();
+
+        if ($record) {
+
+            $record->increment('purchased_points', $points);
+
+        } else {
+
+            self::create([
+                'user_id' => $user->id,
+                'purchased_points' => $points,
+                'is_b2b' => $is_b2b
+            ]);
+        }
+
+        PointLog::createPointLog($points, 1, $user, $is_b2b, Admin::PURCHASED_HAI_CREDITS);
+
+    }
+
     public static function updatePointOnPlanUpdate($points, $user = null)
     {
 
@@ -134,7 +159,8 @@ class Point extends Model
 
             $credits = ($hp / $one_credit);
 
-            self::addPoints($credits);
+//            self::addPoints($credits);
+            self::addPurchasedPoints($credits);
 
         }
 
