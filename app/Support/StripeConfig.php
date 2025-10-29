@@ -2,9 +2,8 @@
 
 namespace App\Support;
 
-use App\Enums\Admin\Admin;
 use App\Models\Admin\StripeSetting\StripeSetting;
-use App\Models\Plan;
+use App\Models\Client\Plan\Plan;
 use Illuminate\Support\Facades\Cache;
 use RuntimeException;
 
