@@ -214,7 +214,8 @@ class PaymentController extends Controller
 
                 if ($credits > 0) {
 
-                    Point::addPoints($credits);
+//                    Point::addPoints($credits);
+                    Point::addPurchasedPoints($credits);
                 }
 
                 $name = "You have purchased Hai item";

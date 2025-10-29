@@ -22,6 +22,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('core-stats', 'DashboardController@coreStats');
     Route::post('daily-tip-read', 'DashboardController@dailyTipRead');
     Route::get('action-plan', 'DashboardController@actionPlan');
+    Route::get('hot-spots', 'DashboardController@hotSpots');
     Route::get('information-icon', 'DashboardController@informationIcon');
     Route::get('optimal-trait', 'DashboardController@optimalTrait');
     Route::get('assessment-walkthrough','DashboardController@getWalkThrough');
@@ -47,4 +48,6 @@ Route::group(['middleware' => ['checkUser']], function () {
 
    Route::get('hai-chat-status', 'DashboardController@haiChatStatus');
    Route::post('hai-chat-sound', 'DashboardController@haiChatSound');
+
+   Route::get('feedback-status', 'DashboardController@feedbackStatus');
 });

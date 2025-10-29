@@ -246,4 +246,6 @@ final class Admin
 
     const HAI_CHAT_UNMUTE = 1;
 
+    const PURCHASED_HAI_CREDITS = 4;
+
 }

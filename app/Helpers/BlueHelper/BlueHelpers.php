@@ -66,9 +66,21 @@ class BlueHelpers
         ';
 
         $response = Http::withHeaders($headers)->post($apiUrl, ['query' => $query]);
+        $responseData = $response->json();
 
+        if (isset($responseData['data']['createTodo'])) {
+            $ticket = $responseData['data']['createTodo'];
+            return [
+                'blue_ticket_id' => $ticket['id'] ?? null,
+                'blue_ticket_status' => $ticket['status'] ?? null,
+                'blue_last_synced_at' => $ticket['lastSyncedAt'] ?? null,
+            ];
+        }
 
-        return $response->json();
+        return [
+            'error' => $responseData['errors'][0]['message'] ?? 'Unknown error',
+            'raw' => $responseData,
+        ];
     }
 
 }

@@ -15,5 +15,7 @@ class TrimStrings extends Middleware
         'current_password',
         'password',
         'password_confirmation',
+        'blue/webhook/ticket-updated',
+        'api/blue/webhook/ticket-updated'
     ];
 }

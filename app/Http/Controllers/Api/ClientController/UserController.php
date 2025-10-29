@@ -114,7 +114,7 @@ class UserController extends Controller
 
             if ($request) {
 
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone','set_daily_tip_time']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone', 'set_daily_tip_time']);
 
                 if (!empty($request['set_daily_tip_time'])) {
 
@@ -135,7 +135,7 @@ class UserController extends Controller
                             return Helpers::validationResponse('You can set daily tip again tomorrow.');
                         }
 
-                    }else{
+                    } else {
 
                         $dataArray['set_daily_tip_time'] = $setDailyTipTime;
 
@@ -178,7 +178,7 @@ class UserController extends Controller
 
             if (Helpers::getUser()['plan_name'] == 'Premium' || $authUser['beta_breaker_club'] == Admin::B2C_PURCHASED_ITEM) {
 
-                $shareAssessment = $request->only(['core_state','authentic_traits']);
+                $shareAssessment = $request->only(['core_state', 'authentic_traits']);
 
                 User\UserShareAssessment::createOrUpdateShareAssessment($shareAssessment);
 
@@ -385,7 +385,7 @@ class UserController extends Controller
 
             if (!empty($companies)) {
 
-                foreach ($companies as $company){
+                foreach ($companies as $company) {
 
                     $company->future_consideration = 1;
 
@@ -438,7 +438,7 @@ class UserController extends Controller
 
                     $dataArray['image_id'] = $upload_id;
 
-                }else{
+                } else {
 
                     $upload_id = Upload::uploadFile($request['file_upload'], '', '', 'video');
 
@@ -452,12 +452,17 @@ class UserController extends Controller
 
             $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email'], $request['support_category'], $result['photo_url'], $result['video_url']);
 
-
             if (isset($response['errors'])) {
 
                 return Helpers::validationResponse($response['errors']);
 
             } else {
+
+                $result->blue_ticket_id = $response['blue_ticket_id'];
+
+                $result->blue_status = "pending";
+
+                $result->save();
 
                 DB::commit();
 
@@ -597,11 +602,11 @@ class UserController extends Controller
 
             $gender = $get_user['gender'] == 0 ? '(M)' : '(F)';
 
-            if ($get_user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
+            if ($get_user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
 
                 $allStyles = $assessment != null ? Assessment::breakerAuthenticTraits($assessment) : [];
 
-            }else{
+            } else {
 
                 $allStyles = $assessment != null ? Assessment::getAllAuthenticStyles($assessment) : [];
 
