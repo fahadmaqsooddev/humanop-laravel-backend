@@ -1,18 +1,27 @@
-echo "Deploy script started"
-php artisan config:clear
-php artisan cache:clear
-php artisan view:clear
-php artisan clear-compiled
-php artisan event:clear
-php artisan optimize:clear
-php artisan optimize
-php artisan view:cache
-php artisan event:cache
-php artisan config:cache
-composer -n dump-autoload -o
-php artisan inspire
-php artisan migrate
-composer -n install
-php artisan route:clear
-echo "Deploy script finished execution"
-#php artisan db:seed --class=CreditPlanSeeder
+echo "Deploy (staging) started"
+
+# 1) Vendors first (optimized autoloader)
+sudo -u www-data composer -n install --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
+# 2) Clear any stale state
+sudo -u www-data php artisan optimize:clear
+sudo -u www-data php artisan cache:clear
+sudo -u www-data php artisan config:clear
+sudo -u www-data php artisan route:clear
+sudo -u www-data php artisan view:clear
+sudo -u www-data php artisan event:clear
+sudo -u www-data php artisan clear-compiled
+
+# 3) DB changes (non-interactive)
+sudo -u www-data php artisan migrate --force
+
+# 4) Warm caches to mirror production behavior
+sudo -u www-data php artisan config:cache
+sudo -u www-data php artisan route:cache
+sudo -u www-data php artisan view:cache
+sudo -u www-data php artisan event:cache
+
+# 5) Optional: restart workers if you use queues
+sudo -u www-data php artisan queue:restart
+
+echo "Deploy (staging) finished"
