@@ -90,228 +90,500 @@ class AuthController extends Controller
 
     }
 
-    public function registerFirstStep(RegisterFirstStepRequest $request)
-    {
-        DB::beginTransaction();
-
-        try {
-
-            $user = new User();
-
-            $dataArray = $request->only($user->getFillable());
-
-            $parts = explode(' ', $request->input('full_name'));
-            $dataArray['first_name'] = $parts[0] ?? '';
-            $dataArray['last_name'] = $parts[1] ?? '';
-
-//            $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
+//    public function registerFirstStep(RegisterFirstStepRequest $request)
+//    {
+//        DB::beginTransaction();
 //
-//            if (!empty($authorizedUser)) {
-
-            $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
-
-            if (!empty($checkDeleteAccount)) {
-
-                return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
-
-            }
-
-            $checkUser = $user->checkEmail($dataArray['email']);
-
-            if (empty($checkUser)) {
-
-                if ($request['b2b_invite'] == 1) {
-
-                    $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], true);
-
-                } else {
-
-                    $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], false, $request['ref']);
-
-                }
-
-                if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
-
-
-                    Point::addPoints(Admin::BREAKER_CREDITS, $user);
-
-                } else {
-
-                    Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
-
-                }
-
-                Point::addPoints(Admin::CORE_CREDITS, $user, 1);
-
-                HaiChatHelpers::syncUserRecordWithHAi($user);
-
-                if (!empty($request['company_name'])) {
-
-                    $data = User::getSingleUserFromCompanyName($request['company_name']);
-
-                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
-
-                    $role = $request['prefer'] == 1 ? 'team member' : 'candidate';
-
-                    $message = "{$user['first_name']} has been added to your company as a {$role}.";
-
-                    RecentActivity::createAccountActivity($user['id'], $message, $request['prefer']);
-
-                    if (!empty($request['team_name']) && !empty($request['department_name'])) {
-
-                        $getDepartment = TeamDepartmentModel::getTeamRecord($request['team_name'], $data['id']);
-
-                        TeamDepartmentMembers::createTeamMember($getDepartment['id'], $user['id']);
-
-                    }
-
-                }
-
-                if (!empty($request['register_from_app'])) {
-
-                    $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
-
-                } else {
-
-                    $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
-
-                }
-
-                $user->setAppends([]);
-
-                if (empty($request['google_id']) && empty($request['apple_id'])) {
-
-                    $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
-
-                    $emailData = $this->prepareEmailData($user, $url, null, $template->body, $template->subject);
-
-                    $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL, "Verify Your Email Address");
-
-                }
-
-                $user->refresh();
-
-                $this->freemiumService->enroll($user);
-
-                DB::commit();
-
-                return Helpers::successResponse('Verification Email Send successfully', [
-                    'authorization' => [
-                        'user' => $user,
-                        'status' => true,
-                        'type' => 'bearer',
-                    ],
-                ]);
-
-            } else {
-
-                $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
-
-//                    $checkPhoneVerified = User::checkPhoneVerified($checkUser['phone']);
-
-                if (empty($checkEmailVerified)) {
-
-                    if (!empty($request['register_from_app'])) {
-
-                        $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'];
-
-                    } else {
-
-                        $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'] . '&app=azklmwosdf';
-
-                    }
-
-                    $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
-
-                    $emailData = $this->prepareEmailData($checkUser, $url, null, $template->body, $template->subject);
-
-                    $this->sendEmailVerification($emailData, $checkUser['email'], Admin::VERIFIED_EMAIL, null);
-
-                    $checkUser->setAppends([]);
-
-                    return Helpers::successResponse('Your email is not verified. Verification email sent.', [
-                        'authorization' => [
-                            'user' => $checkUser,
-                            'email' => 'not verified',
-                            'status' => true,
-                            'type' => 'bearer',
-                        ],
-                    ]);
-
-                }
-//                    elseif (empty($checkPhoneVerified) && !empty($checkUser['phone'])) {
+//        try {
 //
-//                        $code = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+//            $user = new User();
 //
-//                        $message = "Hi {$checkUser['first_name']} {$checkUser['last_name']}, your code is: {$code} for verifying your phone number.";
+//            $dataArray = $request->only($user->getFillable());
 //
-//                        $checkUser->update(['phone' => $request['phone'], 'sms_verify_code' => $code]);
+//            $parts = explode(' ', $request->input('full_name'));
+//            $dataArray['first_name'] = $parts[0] ?? '';
+//            $dataArray['last_name'] = $parts[1] ?? '';
 //
-//                        $checkUser->setAppends([]);
+////            $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
+////
+////            if (!empty($authorizedUser)) {
 //
-//                        $this->sns->sendSms($request['phone'], $message);
+//            $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
 //
-//                        return Helpers::successResponse('Your phone number is not verified. Verification otp code sent.', [
+//            if (!empty($checkDeleteAccount)) {
+//
+//                return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+//
+//            }
+//
+//            $checkUser = $user->checkEmail($dataArray['email']);
+//
+//            if (empty($checkUser)) {
+//
+//                if ($request['b2b_invite'] == 1) {
+//
+//                    $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], true);
+//
+//                } else {
+//
+//                    $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], false, $request['ref']);
+//
+//                }
+//
+//                if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+//
+//
+//                    Point::addPoints(Admin::BREAKER_CREDITS, $user);
+//
+//                } else {
+//
+//                    Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
+//
+//                }
+//
+//                Point::addPoints(Admin::CORE_CREDITS, $user, 1);
+//
+//                HaiChatHelpers::syncUserRecordWithHAi($user);
+//
+//                if (!empty($request['company_name'])) {
+//
+//                    $data = User::getSingleUserFromCompanyName($request['company_name']);
+//
+//                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+//
+//                    $role = $request['prefer'] == 1 ? 'team member' : 'candidate';
+//
+//                    $message = "{$user['first_name']} has been added to your company as a {$role}.";
+//
+//                    RecentActivity::createAccountActivity($user['id'], $message, $request['prefer']);
+//
+//                    if (!empty($request['team_name']) && !empty($request['department_name'])) {
+//
+//                        $getDepartment = TeamDepartmentModel::getTeamRecord($request['team_name'], $data['id']);
+//
+//                        TeamDepartmentMembers::createTeamMember($getDepartment['id'], $user['id']);
+//
+//                    }
+//
+//                }
+//
+//                if (!empty($request['register_from_app'])) {
+//
+//                    $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
+//
+//                } else {
+//
+//                    $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
+//
+//                }
+//
+//                $user->setAppends([]);
+//
+//                if (empty($request['google_id']) && empty($request['apple_id'])) {
+//
+//                    $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
+//
+//                    $emailData = $this->prepareEmailData($user, $url, null, $template->body, $template->subject);
+//
+//                    $this->sendEmailVerification($emailData, $user['email'], Admin::VERIFIED_EMAIL, "Verify Your Email Address");
+//
+//                }
+//
+//                $user->refresh();
+//
+//                $this->freemiumService->enroll($user);
+//
+//                DB::commit();
+//
+//                return Helpers::successResponse('Verification Email Send successfully', [
+//                    'authorization' => [
+//                        'user' => $user,
+//                        'status' => true,
+//                        'type' => 'bearer',
+//                    ],
+//                ]);
+//
+//            } else {
+//
+//                $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
+//
+////                    $checkPhoneVerified = User::checkPhoneVerified($checkUser['phone']);
+//
+//                if (empty($checkEmailVerified)) {
+//
+//                    if (!empty($request['register_from_app'])) {
+//
+//                        $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'];
+//
+//                    } else {
+//
+//                        $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'] . '&app=azklmwosdf';
+//
+//                    }
+//
+//                    $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
+//
+//                    $emailData = $this->prepareEmailData($checkUser, $url, null, $template->body, $template->subject);
+//
+//                    $this->sendEmailVerification($emailData, $checkUser['email'], Admin::VERIFIED_EMAIL, null);
+//
+//                    $checkUser->setAppends([]);
+//
+//                    return Helpers::successResponse('Your email is not verified. Verification email sent.', [
+//                        'authorization' => [
+//                            'user' => $checkUser,
+//                            'email' => 'not verified',
+//                            'status' => true,
+//                            'type' => 'bearer',
+//                        ],
+//                    ]);
+//
+//                }
+////                    elseif (empty($checkPhoneVerified) && !empty($checkUser['phone'])) {
+////
+////                        $code = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+////
+////                        $message = "Hi {$checkUser['first_name']} {$checkUser['last_name']}, your code is: {$code} for verifying your phone number.";
+////
+////                        $checkUser->update(['phone' => $request['phone'], 'sms_verify_code' => $code]);
+////
+////                        $checkUser->setAppends([]);
+////
+////                        $this->sns->sendSms($request['phone'], $message);
+////
+////                        return Helpers::successResponse('Your phone number is not verified. Verification otp code sent.', [
+////                            'authorization' => [
+////                                'user' => $checkUser,
+////                                'phone_number' => 'not verified',
+////                                'status' => true,
+////                                'type' => 'bearer',
+////                            ],
+////                        ]);
+////
+////                    }
+//                else {
+//
+//                    $checkLastStep = User::checkLastStep($checkUser['email']);
+//
+//                    if ($checkLastStep && $checkLastStep['step'] == 3) {
+//
+//                        if (!empty($request['company_name'])) {
+//
+//                            $data = User::getSingleUserFromCompanyName($request['company_name']);
+//
+//                            B2BBusinessCandidates::registerCandidate($data['id'], $checkUser['id'], $request['prefer'], Admin::DECLINED_DATA);
+//
+//                        }
+//
+//                        DB::commit();
+//
+//                        return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
+//
+//                    } else {
+//
+//                        $checkLastStep->setAppends([]);
+//
+//                        return Helpers::successResponse('kindly complete your last step', [
+//
 //                            'authorization' => [
-//                                'user' => $checkUser,
-//                                'phone_number' => 'not verified',
+//                                'user' => $checkLastStep,
 //                                'status' => true,
 //                                'type' => 'bearer',
 //                            ],
 //                        ]);
 //
 //                    }
-                else {
-
-                    $checkLastStep = User::checkLastStep($checkUser['email']);
-
-                    if ($checkLastStep && $checkLastStep['step'] == 3) {
-
-                        if (!empty($request['company_name'])) {
-
-                            $data = User::getSingleUserFromCompanyName($request['company_name']);
-
-                            B2BBusinessCandidates::registerCandidate($data['id'], $checkUser['id'], $request['prefer'], Admin::DECLINED_DATA);
-
-                        }
-
-                        DB::commit();
-
-                        return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
-
-                    } else {
-
-                        $checkLastStep->setAppends([]);
-
-                        return Helpers::successResponse('kindly complete your last step', [
-
-                            'authorization' => [
-                                'user' => $checkLastStep,
-                                'status' => true,
-                                'type' => 'bearer',
-                            ],
-                        ]);
-
-                    }
-
-                }
-
-            }
-
-//            } else {
 //
-//                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+//                }
 //
 //            }
+//
+////            } else {
+////
+////                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+////
+////            }
+//
+//        } catch (\Exception $exception) {
+//
+//            DB::rollBack();
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//
+//        }
+//
+//    }
+
+    public function registerFirstStep(RegisterFirstStepRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            // We'll use this only to access instance methods like checkEmail()
+            $userModel = new User();
+
+            // Take only fillable fields from request
+            $dataArray = $request->only($userModel->getFillable());
+
+            // Split full_name into first_name / last_name
+            $parts = explode(' ', $request->input('full_name'));
+            $dataArray['first_name'] = $parts[0] ?? '';
+            $dataArray['last_name']  = $parts[1] ?? '';
+
+            // Check if this email is frozen / soft-deleted
+            $checkDeleteAccount = $userModel->checkDeleteEmail($dataArray['email']);
+            if (!empty($checkDeleteAccount)) {
+                DB::rollBack();
+                return Helpers::validationResponse(
+                    'Your account associated with this email has been frozen. Please contact our technical support team for assistance.'
+                );
+            }
+
+            // Check if a user with this email already exists
+            $checkUser = $userModel->checkEmail($dataArray['email']);
+
+            /*
+             |---------------------------------------------------------
+             | CASE 1: NEW USER (email not found in system)
+             |---------------------------------------------------------
+             */
+            if (empty($checkUser)) {
+
+                // Create the user via your existing flow
+                if ($request['b2b_invite'] == 1) {
+                    $user = $userModel->createFirstStep(
+                        $dataArray,
+                        $request['google_id'],
+                        $request['apple_id'],
+                        true // invited to b2b
+                    );
+                } else {
+                    $user = $userModel->createFirstStep(
+                        $dataArray,
+                        $request['google_id'],
+                        $request['apple_id'],
+                        false,           // not a b2b invite
+                        $request['ref']  // referral code / source
+                    );
+                }
+
+                // Safety: make sure createFirstStep actually returned a persisted Eloquent model
+                if (!($user instanceof User) || empty($user->id)) {
+                    DB::rollBack();
+                    return Helpers::serverErrorResponse('User creation failed: user was not persisted.');
+                }
+
+                // Award initial credits / points
+                if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+                    Point::addPoints(Admin::BREAKER_CREDITS, $user);
+                } else {
+                    Point::addPoints(Admin::FREEMIUM_CREDITS, $user);
+                }
+                Point::addPoints(Admin::CORE_CREDITS, $user, 1);
+
+                // Sync to HAi downstream system
+                HaiChatHelpers::syncUserRecordWithHAi($user);
+
+                // If they provided a company_name, wire B2B candidate / activity
+                if (!empty($request['company_name'])) {
+
+                    $companyOwner = User::getSingleUserFromCompanyName($request['company_name']);
+
+                    B2BBusinessCandidates::registerCandidate(
+                        $companyOwner['id'],
+                        $user['id'],
+                        $request['prefer'],
+                        Admin::DECLINED_DATA
+                    );
+
+                    $role = $request['prefer'] == 1 ? 'team member' : 'candidate';
+
+                    $message = "{$user['first_name']} has been added to your company as a {$role}.";
+                    RecentActivity::createAccountActivity(
+                        $user['id'],
+                        $message,
+                        $request['prefer']
+                    );
+
+                    if (!empty($request['team_name']) && !empty($request['department_name'])) {
+                        $getDepartment = TeamDepartmentModel::getTeamRecord(
+                            $request['team_name'],
+                            $companyOwner['id']
+                        );
+
+                        TeamDepartmentMembers::createTeamMember(
+                            $getDepartment['id'],
+                            $user['id']
+                        );
+                    }
+                }
+
+                // Build email verification URL
+                if (!empty($request['register_from_app'])) {
+                    $verifyUrl = config('client_url.client_dashboard_url') .
+                        '/email-verified?token=' . $user['email_verify_token'];
+                } else {
+                    $verifyUrl = config('client_url.client_dashboard_url') .
+                        '/email-verified?token=' . $user['email_verify_token'] .
+                        '&app=azklmwosdf';
+                }
+
+                // Strip any appended accessors so we don't leak internals
+                $user->setAppends([]);
+
+                // Send verification email ONLY if not social login
+                if (empty($request['google_id']) && empty($request['apple_id'])) {
+                    $template  = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
+                    $emailData = $this->prepareEmailData(
+                        $user,
+                        $verifyUrl,
+                        null,
+                        $template->body,
+                        $template->subject
+                    );
+
+                    $this->sendEmailVerification(
+                        $emailData,
+                        $user['email'],
+                        Admin::VERIFIED_EMAIL,
+                        "Verify Your Email Address"
+                    );
+                }
+
+                /*
+                 |---------------------------------------------------------
+                 | Attach Freemium Stripe subscription
+                 |---------------------------------------------------------
+                 |
+                 | VERY IMPORTANT:
+                 | - The user is now persisted and has an ID.
+                 | - We call freemium enrollment AFTER user creation,
+                 |   inside this same transaction but AFTER we know
+                 |   $user is a real Eloquent model.
+                 */
+
+                // Refresh the model so we have latest DB state
+                $user->refresh();
+
+                // Enroll the user into freemium (creates Stripe customer if missing,
+                // creates $0 freemium subscription in Stripe, mirrors to subscriptions table,
+                // sets user->plan='freemium', etc.)
+                $this->freemiumService->enroll($user);
+
+                DB::commit();
+
+                // Return success payload
+                return Helpers::successResponse('Verification Email Send successfully', [
+                    'authorization' => [
+                        'user'   => $user,
+                        'status' => true,
+                        'type'   => 'bearer',
+                    ],
+                ]);
+            }
+
+            /*
+             |---------------------------------------------------------
+             | CASE 2: USER ALREADY EXISTS
+             |---------------------------------------------------------
+             |
+             | We do NOT enroll freemium again here.
+             | We just handle:
+             |   - Email verification resend
+             |   - "finish last step" logic
+             */
+
+            $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
+
+            if (empty($checkEmailVerified)) {
+
+                // build verification URL again for existing user
+                if (!empty($request['register_from_app'])) {
+                    $verifyUrl = config('client_url.client_dashboard_url') .
+                        '/email-verified?token=' . $checkUser['email_verify_token'];
+                } else {
+                    $verifyUrl = config('client_url.client_dashboard_url') .
+                        '/email-verified?token=' . $checkUser['email_verify_token'] .
+                        '&app=azklmwosdf';
+                }
+
+                $template  = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
+                $emailData = $this->prepareEmailData(
+                    $checkUser,
+                    $verifyUrl,
+                    null,
+                    $template->body,
+                    $template->subject
+                );
+
+                $this->sendEmailVerification(
+                    $emailData,
+                    $checkUser['email'],
+                    Admin::VERIFIED_EMAIL,
+                    null
+                );
+
+                $checkUser->setAppends([]);
+
+                DB::commit();
+
+                return Helpers::successResponse(
+                    'Your email is not verified. Verification email sent.',
+                    [
+                        'authorization' => [
+                            'user'   => $checkUser,
+                            'email'  => 'not verified',
+                            'status' => true,
+                            'type'   => 'bearer',
+                        ],
+                    ]
+                );
+            } else {
+
+                $checkLastStep = User::checkLastStep($checkUser['email']);
+
+                if ($checkLastStep && $checkLastStep['step'] == 3) {
+
+                    if (!empty($request['company_name'])) {
+                        $companyOwner = User::getSingleUserFromCompanyName($request['company_name']);
+
+                        B2BBusinessCandidates::registerCandidate(
+                            $companyOwner['id'],
+                            $checkUser['id'],
+                            $request['prefer'],
+                            Admin::DECLINED_DATA
+                        );
+                    }
+
+                    DB::commit();
+
+                    return Helpers::validationResponse(
+                        'An account with this email already exists. Please log in to continue.'
+                    );
+
+                } else {
+
+                    $checkLastStep->setAppends([]);
+
+                    DB::commit();
+
+                    return Helpers::successResponse('kindly complete your last step', [
+                        'authorization' => [
+                            'user'   => $checkLastStep,
+                            'status' => true,
+                            'type'   => 'bearer',
+                        ],
+                    ]);
+                }
+            }
 
         } catch (\Exception $exception) {
 
             DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
     public function checkEmailVerification(Request $request)
