@@ -17,40 +17,35 @@ class BillingController extends Controller
     {
     }
 
-    /**
-     * Start a recurring subscription (premium_monthly / premium_yearly).
-     * Returns client_secret for Payment Element.
-     */
+
     public function initSubscription(Request $request)
     {
         $validated = $request->validate([
-            'plan' => 'required|string', // e.g. 'premium_monthly'
-            'name' => 'nullable|string',
+            'plan'  => 'required|string', // e.g. 'premium_monthly'
+            'name'  => 'nullable|string',
             'email' => 'nullable|email',
         ]);
 
-        // Ensure it's a recurring (paid) plan in b2c
+        // 1. Safety: must be a recurring plan in b2c context
         StripeConfig::ensureRecurring($validated['plan'], 'b2c');
         $priceId = StripeConfig::priceId($validated['plan'], 'b2c');
 
+        /** @var \App\Models\User $user */
         $user = Helpers::getUser();
 
-        Log::info("User:\n" . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-        // make sure user is a Stripe customer
+        // 2. Make sure user is a Stripe customer
         $user->createOrGetStripeCustomer();
 
-        // Keep their Stripe profile tidy (for invoices)
+        // 3. Keep Stripe customer record synced with latest name/email
         $this->stripe->customers->update($user->stripe_id, array_filter([
-            'name' => $validated['name'] ?? null,
+            'name'  => $validated['name']  ?? null,
             'email' => $validated['email'] ?? $user->email,
         ]));
 
-        // Create an "incomplete" subscription draft so Stripe
-        // gives us a PaymentIntent that we can confirm client-side.
+        // 4. Create the incomplete paid subscription
         $subscription = $this->stripe->subscriptions->create([
             'customer' => $user->stripe_id,
-            'items' => [
+            'items'    => [
                 ['price' => $priceId],
             ],
             'payment_behavior' => 'default_incomplete',
@@ -58,32 +53,55 @@ class BillingController extends Controller
                 'save_default_payment_method' => 'on_subscription',
             ],
             'proration_behavior' => 'none',
-            'expand' => [
-                'latest_invoice.payment_intent',
-                'items.data.price.product',
-            ],
             'metadata' => [
-                'user_id' => (string)$user->getKey(),
-                'family' => 'b2c', // ready for b2b later
+                'user_id' => (string) $user->getKey(),
+                'family'  => 'b2c',
             ],
         ]);
 
-        // optimistic marking; webhook will finalize truth
-        $user->plan = $validated['plan']; // like 'premium_monthly'
-        $user->is_lifetime = false;
+        // 5. Store optimistic local state (webhook is truth later)
+        $user->plan            = $validated['plan']; // "premium_monthly"
+        $user->is_lifetime     = false;
         $user->billing_context = 'b2c';
         $user->save();
-        Log::info("Subscription Data:\n" . json_encode($subscription, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-        $pi = $subscription->latest_invoice->payment_intent;
-        Log::info("Payment Intent:\n" . json_encode($pi, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        // 6. Retrieve the first invoice WITH its payment_intent expanded
+        $latestInvoiceId = $subscription->latest_invoice ?? null;
 
+        if (!$latestInvoiceId) {
+            // this would be weird; bail in a controlled way rather than 500
+            return response()->json([
+                'message'         => 'No invoice was generated for this subscription.',
+                'subscription_id' => $subscription->id,
+            ], 422);
+        }
+
+        $invoice = $this->stripe->invoices->retrieve($latestInvoiceId, [
+            'expand' => ['payment_intent'],
+        ]);
+
+        $paymentIntent = $invoice->payment_intent ?? null;
+
+        if (!$paymentIntent || empty($paymentIntent->client_secret)) {
+            // Still no PI? Then the account is configured in a way that requires
+            // collecting payment method separately. Surface that clearly.
+            return response()->json([
+                'message'         => 'Stripe did not attach a PaymentIntent. Collect a payment method first.',
+                'subscription_id' => $subscription->id,
+                'invoice_id'      => $invoice->id,
+                'invoice_status'  => $invoice->status,
+                'amount_due'      => $invoice->amount_due,
+            ], 422);
+        }
+
+        // 7. Happy path: return exactly what you expect for Postman
         return response()->json([
             'subscription_id' => $subscription->id,
-            'client_secret' => $pi->client_secret,
+            'client_secret'   => $paymentIntent->client_secret,
             'publishable_key' => StripeConfig::publishableKey(),
-        ]);
+        ], 200);
     }
+
 
     /**
      * One-time payment for premium_lifetime.
