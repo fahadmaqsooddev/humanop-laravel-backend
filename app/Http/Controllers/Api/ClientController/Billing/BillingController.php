@@ -46,37 +46,41 @@ class BillingController extends Controller
     public function initSubscription(Request $request)
     {
         $validated = $request->validate([
-            'plan'  => 'required|string', // e.g. 'premium_monthly'
+            'plan'  => 'required|string', // 'premium_monthly' etc.
             'name'  => 'nullable|string',
             'email' => 'nullable|email',
         ]);
 
-        // 1. Ensure it's a valid recurring B2C plan
         StripeConfig::ensureRecurring($validated['plan'], 'b2c');
 
         $priceId = StripeConfig::priceId($validated['plan'], 'b2c');
 
         $user = Helpers::getUser();
 
-        // 2. Ensure Stripe customer
+        // Ensure Stripe customer exists
         $user->createOrGetStripeCustomer();
 
-        // 3. Sync basic info to Stripe
+        // Sync basic info
         $this->stripe->customers->update($user->stripe_id, array_filter([
             'name'  => $validated['name']  ?? null,
             'email' => $validated['email'] ?? $user->email,
         ]));
 
-        // 4. Create the paid subscription. Because the customer should now
-        // have a default payment method (from SetupIntent), Stripe will either:
-        // - charge immediately and activate, OR
-        // - create a PI that needs SCA.
-        $subscription = $this->stripe->subscriptions->create([
+        // OPTIONAL BUT SMART:
+        // Fetch default_payment_method from the customer in case we need to send it explicitly
+        $stripeCustomer = $this->stripe->customers->retrieve($user->stripe_id, [
+            'expand' => ['invoice_settings.default_payment_method'],
+        ]);
+
+        $defaultPmId = $stripeCustomer->invoice_settings->default_payment_method->id ?? null;
+
+        // Create subscription in incomplete state
+        $subscriptionParams = [
             'customer' => $user->stripe_id,
             'items'    => [
                 ['price' => $priceId],
             ],
-            'payment_behavior' => 'default_incomplete', // don't mark active until paid
+            'payment_behavior' => 'default_incomplete',
             'payment_settings' => [
                 'save_default_payment_method' => 'on_subscription',
             ],
@@ -85,47 +89,93 @@ class BillingController extends Controller
                 'user_id' => (string) $user->getKey(),
                 'family'  => 'b2c',
             ],
-        ]);
+        ];
 
-        // 5. Optimistic local state
-        $user->plan            = $validated['plan']; // "premium_monthly"
+        // If we know the default PM, tell Stripe explicitly so there's no ambiguity
+        if ($defaultPmId) {
+            $subscriptionParams['default_payment_method'] = $defaultPmId;
+        }
+
+        $subscription = $this->stripe->subscriptions->create($subscriptionParams);
+
+        // Sync optimistic local state
+        $user->plan            = $validated['plan'];
         $user->is_lifetime     = false;
         $user->billing_context = 'b2c';
         $user->save();
 
-        // 6. Pull the first invoice WITH payment_intent expanded
         $latestInvoiceId = $subscription->latest_invoice ?? null;
 
-        $invoice = $latestInvoiceId
-            ? $this->stripe->invoices->retrieve($latestInvoiceId, [
-                'expand' => ['payment_intent'],
-            ])
-            : null;
-        Log::info("Invoice:\n" . json_encode($invoice, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-        $pi = $invoice?->payment_intent ?? null;
-
-        Log::info("Payment Intent:\n" . json_encode($pi, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-        // 7. Decide what frontend has to do
-        $requiresAction = false;
-        $clientSecret   = null;
-
-        // If Stripe says "I need user auth (3DS)", we'll give frontend the PI secret.
-        if ($pi && in_array($pi->status, ['requires_action', 'requires_confirmation', 'requires_payment_method'])) {
-            $requiresAction = true;
-            $clientSecret   = $pi->client_secret;
+        if (!$latestInvoiceId) {
+            return response()->json([
+                'subscription_id' => $subscription->id,
+                'status'          => $subscription->status,
+                'requires_action' => false,
+                'message'         => 'No invoice generated for this subscription.',
+            ], 200);
         }
 
+        // 1. Finalize the invoice (if not already finalized).
+        // Stripe will throw if already finalized, so we wrap in try.
+        try {
+            $this->stripe->invoices->finalizeInvoice($latestInvoiceId, []);
+        } catch (\Throwable $e) {
+            // ignore if already finalized
+        }
+
+        // 2. Attempt to pay the invoice using the customer's default payment method.
+        // This is the step your account is NOT doing automatically.
+        $paidInvoice = $this->stripe->invoices->pay($latestInvoiceId, [
+            // Force automatic payment with the default PM.
+            // We don't pass payment_method here because default is already set.
+            'off_session' => true,
+        ]);
+
+        // 3. Get the invoice again, with payment_intent expanded,
+        //    so we can see if Stripe needs user action (3DS).
+        $invoice = $this->stripe->invoices->retrieve($latestInvoiceId, [
+            'expand' => ['payment_intent'],
+        ]);
+
+        Log::info("Invoice:\n" . json_encode($event, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        $pi = $invoice->payment_intent ?? null;
+
+        // Case A: Invoice is fully paid, no action needed.
+        // paidInvoice.status could be "paid"
+        if ($invoice->status === 'paid' || $paidInvoice->status === 'paid') {
+            return response()->json([
+                'subscription_id' => $subscription->id,
+                'status'          => 'active', // effectively active now
+                'requires_action' => false,
+                'client_secret'   => null,
+                'publishable_key' => StripeConfig::publishableKey(),
+            ], 200);
+        }
+
+        // Case B: Stripe needs SCA / 3DS challenge.
+        if ($pi && !empty($pi->client_secret)) {
+            // PI will typically be in requires_action / requires_confirmation
+            return response()->json([
+                'subscription_id' => $subscription->id,
+                'status'          => $subscription->status, // likely "incomplete"
+                'requires_action' => true,
+                'client_secret'   => $pi->client_secret,
+                'publishable_key' => StripeConfig::publishableKey(),
+            ], 200);
+        }
+
+        // Case C: Still no PI after forcing pay. Edge case.
         return response()->json([
             'subscription_id' => $subscription->id,
-            'status'          => $subscription->status,   // "incomplete", "active", etc
-            'requires_action' => $requiresAction,
-            'client_secret'   => $clientSecret,
+            'status'          => $subscription->status,
+            'requires_action' => false,
+            'client_secret'   => null,
+            'invoice_status'  => $invoice->status,
+            'message'         => 'Invoice created but no PaymentIntent attached even after pay(); may already be covered by saved mandate or payment method type.',
             'publishable_key' => StripeConfig::publishableKey(),
-        ]);
+        ], 200);
     }
-
 
 
     /**
