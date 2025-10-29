@@ -17,6 +17,8 @@ class StripeWebhookController extends Controller
 
     public function handle(Request $request): Response
     {
+        Log::info(print_r($request->header(), true));
+        dd('d');
         $payload = $request->getContent();
         $sig = $request->header('Stripe-Signature');
 
@@ -158,11 +160,11 @@ class StripeWebhookController extends Controller
                         $user->plan = $planKey;
                         $user->is_lifetime = true;
 
-                        if ($type === 'payment_intent.succeeded') {
-                            $user->stripe_lifetime_payment_intent_id = $obj['id'] ?? null;
-                        } else {
-                            $user->stripe_lifetime_charge_id = $obj['id'] ?? null;
-                        }
+//                        if ($type === 'payment_intent.succeeded') {
+//                            $user->stripe_lifetime_payment_intent_id = $obj['id'] ?? null;
+//                        } else {
+//                            $user->stripe_lifetime_charge_id = $obj['id'] ?? null;
+//                        }
 
                         $user->save();
 
