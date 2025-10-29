@@ -28,14 +28,6 @@ class FreemiumEnrollmentService
         // Make sure they're a Stripe customer
         $user->createOrGetStripeCustomer();
 
-        if (empty($user->stripe_id)) {
-            // This should NEVER happen if Billable is working.
-            throw new \RuntimeException(
-                'Stripe customer not created: $user->stripe_id is empty. ' .
-                'Is the User model using Billable? Is stripe_id column migrated?'
-            );
-        }
-
         // Get Freemium price from plans table
         $freemiumPriceId = StripeConfig::priceId('Freemium', 'b2c');
 
@@ -46,7 +38,6 @@ class FreemiumEnrollmentService
                 ['price' => $freemiumPriceId],
             ],
             'proration_behavior' => 'none',
-            'billing_cycle_anchor' => 'now',
             'metadata' => [
                 'user_id' => (string)$user->getKey(),
                 'purpose' => 'Freemium',

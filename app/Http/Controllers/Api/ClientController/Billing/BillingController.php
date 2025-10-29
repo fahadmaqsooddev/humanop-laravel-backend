@@ -54,7 +54,6 @@ class BillingController extends Controller
             'payment_settings' => [
                 'save_default_payment_method' => 'on_subscription',
             ],
-            'billing_cycle_anchor' => 'now',
             'proration_behavior' => 'none',
             'expand' => [
                 'latest_invoice.payment_intent',
