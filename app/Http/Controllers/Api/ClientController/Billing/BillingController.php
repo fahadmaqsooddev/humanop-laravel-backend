@@ -73,8 +73,10 @@ class BillingController extends Controller
         $user->is_lifetime = false;
         $user->billing_context = 'b2c';
         $user->save();
+        Log::info("Subscription Data:\n" . json_encode($subscription, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         $pi = $subscription->latest_invoice->payment_intent;
+        Log::info("Payment Intent:\n" . json_encode($pi, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         return response()->json([
             'subscription_id' => $subscription->id,
