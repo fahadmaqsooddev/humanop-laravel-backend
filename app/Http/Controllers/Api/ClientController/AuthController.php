@@ -68,7 +68,7 @@ class AuthController extends Controller
     public function __construct(SnsServices $sns, private FreemiumEnrollmentService $freemiumService)
     {
         $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens', 'storeUserDataFromOtherDb', 'betaBreakerClubUsers', 'haiChatHistory', 'createThreadIds']);
-        +
+        
         $this->auth = Auth::guard('api');
 
         $this->sns = $sns;
