@@ -3,7 +3,6 @@
 use App\Http\Controllers\AdminControllers\FaqController;
 use App\Http\Controllers\Email\EmailTemplateController;
 use App\Http\Controllers\SessionController;
-use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\QuestionController;
@@ -30,6 +29,7 @@ use App\Http\Controllers\AdminControllers\AssessmentIntroController;
 use App\Http\Controllers\AdminControllers\SummaryReportController;
 use App\Http\Controllers\AdminControllers\AnnouncementsNewsController;
 use App\Http\Controllers\AdminControllers\ResultVideoController;
+use \App\Http\Controllers\Api\ClientController\Billing\StripeWebhookController;
 /*
 |--------------------------------------------------------------------------
 | Admin Web Routes
