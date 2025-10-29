@@ -35,8 +35,6 @@ class StripeWebhookController extends Controller
 
         Log::info("Event payload:\n" . json_encode($event, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-        dd('1');
-
         try {
             $stripe = app(StripeClient::class);
 
@@ -48,7 +46,7 @@ class StripeWebhookController extends Controller
                     // so we just log for analytics.
                     $sub = $event['data']['object'] ?? [];
                     $purpose = $sub['metadata']['purpose'] ?? null;
-                    if ($purpose === 'freemium') {
+                    if ($purpose === 'freemium' || $purpose === 'Freemium') {
                         Log::info('Freemium subscription created', [
                             'stripe_subscription' => $sub['id'] ?? null,
                             'customer' => $sub['customer'] ?? null,
