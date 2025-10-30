@@ -50,9 +50,9 @@ class BlueWebhookController extends Controller
         Log::info("Blue Payload:\n" . json_encode($request->all(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
 
-        $signature = $request->header('X-Blue-Signature');
-        $secret = config('services.blue.webhook_secret');
-
+//        $signature = $request->header('X-Blue-Signature');
+//        $secret = config('services.blue.webhook_secret');
+//
 //        if (!$this->isValidSignature($request->getContent(), $signature, $secret)) {
 //            Log::warning('Blue webhook invalid signature', ['sig' => $signature]);
 //            return response()->json(['error' => 'invalid signature'], Response::HTTP_FORBIDDEN);
@@ -63,6 +63,10 @@ class BlueWebhookController extends Controller
 //        $lastUpdate = $request->input('last_update');
 //
 //        if (!$blueTicketId) {
+//
+//            Log::info("missing ticket_id:\n" . json_encode($blueTicketId, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+//
+//
 //            return response()->json(['error' => 'missing ticket_id'], Response::HTTP_BAD_REQUEST);
 //        }
 //
@@ -81,8 +85,8 @@ class BlueWebhookController extends Controller
 //            'blue_last_update' => $lastUpdate,
 //            'blue_last_synced_at' => now(),
 //        ]);
-
-        return response()->json(['ok' => true], Response::HTTP_OK);
+//
+//        return response()->json(['ok' => true], Response::HTTP_OK);
     }
 
     protected function isValidSignature(string $payload, ?string $headerSig, string $secret): bool
