@@ -65,6 +65,8 @@ class BlueWebhookController extends Controller
             return response()->json(['error' => 'missing ticket_id'], Response::HTTP_BAD_REQUEST);
         }
 
+        Log::info("Blue Ticket ID: " . $blueTicketId);
+
         $ticket = Feedback::where('blue_ticket_id', $blueTicketId)->first();
 
         if (!$ticket) {
