@@ -47,12 +47,26 @@ class BlueWebhookController extends Controller
             return response()->json(['ok' => true], Response::HTTP_OK);
 
         }
+        
+        $statusMap = [
+            'cm8t4dqaf12k7sf2l7sldqzfl' => 'User feedback',
+            'pbs0tgcttploiho8btqedd4j' => 'Backlog',
+            'dfx3tycxzx09o9xer0d9yxl3' => 'In Progress',
+            'cm3gddo3y2gf3r08u9ykpfxl0' => 'QA Feedback',
+            'cm394w4uz2w9tjmxal80nhmp1' => 'On Hold',
+            'cm2klw9lk1l8vyid5hn7uwchg' => 'Ready for Review',
+            'z1x6cnmocs77j8asys1wvaei' => 'Under Review',
+            'nyytmgbfakxmjc9o4nixnsdk' => 'Done',
+        ];
+
+        $status = $statusMap[$newStatus] ?? 'Unknown';
 
         $ticket->update([
-            'blue_status' => $newStatus,
+            'blue_status' => $status,
             'blue_last_update' => $lastUpdate,
             'blue_last_synced_at' => now(),
         ]);
+
 
         return Helpers::successResponse('Ticket Updated');
 
