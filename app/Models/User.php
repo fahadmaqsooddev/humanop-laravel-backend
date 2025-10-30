@@ -2661,4 +2661,37 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
+    public function syncDefaultPmFromStripe(\Stripe\StripeClient $stripe, ?string $pmId = null): void
+    {
+        if (!$this->stripe_id) return;
+
+        if (!$pmId) {
+            $cust = $stripe->customers->retrieve($this->stripe_id, [
+                'expand' => ['invoice_settings.default_payment_method'],
+            ]);
+            $pmId = $cust->invoice_settings->default_payment_method->id ?? null;
+            if (!$pmId) return;
+        }
+
+        $pm = $stripe->paymentMethods->retrieve($pmId, []);
+        $type = $pm->type; // 'card', 'us_bank_account', etc.
+
+        $this->payment_method = $pm->id;
+        $this->pm_type = $type;
+
+        // Default to nulls first
+        $this->pm_last_four = null;
+        $this->pm_exp_month = null;
+        $this->pm_exp_year  = null;
+
+        if ($type === 'card' && isset($pm->card)) {
+            $this->pm_last_four = $pm->card->last4 ?? null;
+            $this->pm_exp_month = $pm->card->exp_month ?? null;
+            $this->pm_exp_year  = $pm->card->exp_year ?? null;
+        }
+
+        $this->save();
+    }
+
+
 }
