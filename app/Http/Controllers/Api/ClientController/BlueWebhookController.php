@@ -49,17 +49,17 @@ class BlueWebhookController extends Controller
         }
 
         $statusMap = [
-            'cm8t4dqaf12k7sf2l7sldqzfl' => 'User feedback',
-            'pbs0tgcttploiho8btqedd4j' => 'Backlog',
+            'cm8t4dqaf12k7sf2l7sldqzfl' => 'Pending',
+            'pbs0tgcttploiho8btqedd4j' => 'Pending',
             'dfx3tycxzx09o9xer0d9yxl3' => 'In Progress',
-            'cm3gddo3y2gf3r08u9ykpfxl0' => 'QA Feedback',
-            'cm394w4uz2w9tjmxal80nhmp1' => 'On Hold',
-            'cm2klw9lk1l8vyid5hn7uwchg' => 'Ready for Review',
-            'z1x6cnmocs77j8asys1wvaei' => 'Under Review',
+            'cm3gddo3y2gf3r08u9ykpfxl0' => 'Pending',
+            'cm394w4uz2w9tjmxal80nhmp1' => 'Pending',
+            'cm2klw9lk1l8vyid5hn7uwchg' => 'Pending',
+            'z1x6cnmocs77j8asys1wvaei' => 'Pending',
             'nyytmgbfakxmjc9o4nixnsdk' => 'Resolved',
         ];
 
-        $status = $statusMap[$newStatus] ?? 'Unknown';
+        $status = $statusMap[$newStatus] ?? 'Pending';
 
         $ticket->update([
             'blue_status' => $status,

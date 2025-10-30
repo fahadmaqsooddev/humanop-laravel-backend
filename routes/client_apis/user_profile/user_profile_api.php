@@ -27,6 +27,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('complete-intro-guide', 'UserController@completeIntro');
     Route::delete('delete-profile', 'UserController@deleteProfile');
     Route::post('user-feedback', 'UserController@userFeedback');
+    Route::get('user-feedback-status', 'UserController@userFeedbackStatus');
     Route::post('/google/login/signup', 'UserController@googleLoginSignup');
     Route::get('profile-overview-result', 'UserController@profileOverviewResult');
     Route::get('summary-report', 'UserController@summaryReport');

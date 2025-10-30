@@ -480,6 +480,23 @@ class UserController extends Controller
 
     }
 
+    public function userFeedbackStatus()
+    {
+
+        try {
+
+            $feedbacks = Feedback::userFeedbackStatus();
+
+            return Helpers::successResponse('All Feedbacks Users List', $feedbacks);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
     public function googleLoginSignup(GoogleLoginSignupRequest $request)
     {
 
