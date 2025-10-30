@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController\Billing;
 
 use App\Http\Controllers\Controller;
+use App\Mail\InvoicePaidMail;
 use App\Models\User;
 use App\Support\StripeConfig;
 use Illuminate\Http\Request;
@@ -110,7 +111,8 @@ class StripeWebhookController extends Controller
 
                     // --- Queue email (use your mailable) ---
                     // Make sure you have: app/Mail/InvoicePaidMail.php and a Blade view.
-                    Mail::to($user->email)->queue(new \App\Mail\InvoicePaidMail($user, $payload));
+                    Mail::to($user->email)->queue((new InvoicePaidMail($user, $payload))->onQueue('billing'));
+
 
                     Log::info('Invoice paid email queued', ['invoice' => $inv->id, 'user_id' => $user->id]);
 
