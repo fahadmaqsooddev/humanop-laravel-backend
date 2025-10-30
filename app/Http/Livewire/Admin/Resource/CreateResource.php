@@ -544,7 +544,7 @@ class CreateResource extends Component
             $document_id = Upload::uploadFile($this->document_file, '', '', 'document');
 
             LibraryResource::whereId($this->resourceId)->update([
-                'upload_id' => $document_id,
+                'document_id' => $document_id,
             ]);
 
         }
