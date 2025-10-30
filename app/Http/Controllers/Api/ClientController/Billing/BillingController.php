@@ -43,6 +43,44 @@ class BillingController extends Controller
         ]);
     }
 
+    public function finalizePaymentMethod(Request $request)
+    {
+        $validated = $request->validate([
+            'setup_intent_id' => 'required|string',
+        ]);
+
+        $user = Helpers::getUser();
+
+        $user->createOrGetStripeCustomer();
+
+        $si = $this->stripe->setupIntents->retrieve($validated['setup_intent_id'], []);
+
+        if ($si->status !== 'succeeded') {
+            return response()->json([
+                'status' => false,
+                'message' => 'SetupIntent is not succeeded. Please try again.',
+            ], 422);
+        }
+
+        $pmId = $si->payment_method;
+
+        // Ensure PM is attached to this customer
+        $this->stripe->paymentMethods->attach($pmId, ['customer' => $user->stripe_id]);
+
+        // Set as default for future invoices/subscriptions
+
+        $this->stripe->customers->update($user->stripe_id, [
+            'invoice_settings' => ['default_payment_method' => $pmId],
+        ]);
+
+//         $user->stripe_default_pm = $pmId;
+//
+//         $user->save();
+
+        return response()->json(['status' => true]);
+    }
+
+
     public function initSubscription(Request $request)
     {
         $validated = $request->validate([
