@@ -18,8 +18,6 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('billing/payment-method/init', 'BillingController@initPaymentMethod');
 
-
-    // routes/api.php
     Route::post('/billing/payment-method/finalize', 'BillingController@finalizePaymentMethod');
 
     // Create premium subscription draft (monthly/yearly)
