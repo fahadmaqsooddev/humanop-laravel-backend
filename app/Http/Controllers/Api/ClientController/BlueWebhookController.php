@@ -58,35 +58,35 @@ class BlueWebhookController extends Controller
 //            return response()->json(['error' => 'invalid signature'], Response::HTTP_FORBIDDEN);
 //        }
 
-        $blueTicketId = $request->input('ticket_id');
-        $newStatus = $request->input('status');
-        $lastUpdate = $request->input('last_update');
-
-        if (!$blueTicketId) {
-
-            Log::info("missing ticket_id:\n" . json_encode($blueTicketId, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-
-            return response()->json(['error' => 'missing ticket_id'], Response::HTTP_BAD_REQUEST);
-        }
-
-        Log::info("Blue Ticket ID: " . $blueTicketId);
-
-        $ticket = Feedback::where('blue_ticket_id', $blueTicketId)->first();
-
-        if (!$ticket) {
-            // Could log and still 200 so Blue doesn't retry forever
-            Log::info('Webhook for unknown ticket', ['blue_ticket_id' => $blueTicketId]);
-            return response()->json(['ok' => true], Response::HTTP_OK);
-        }
-
-        $ticket->update([
-            'blue_status' => $newStatus,
-            'blue_last_update' => $lastUpdate,
-            'blue_last_synced_at' => now(),
-        ]);
-
-        return response()->json(['ok' => true], Response::HTTP_OK);
+//        $blueTicketId = $request->input('ticket_id');
+//        $newStatus = $request->input('status');
+//        $lastUpdate = $request->input('last_update');
+//
+//        if (!$blueTicketId) {
+//
+//            Log::info("missing ticket_id:\n" . json_encode($blueTicketId, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+//
+//
+//            return response()->json(['error' => 'missing ticket_id'], Response::HTTP_BAD_REQUEST);
+//        }
+//
+//        Log::info("Blue Ticket ID: " . $blueTicketId);
+//
+//        $ticket = Feedback::where('blue_ticket_id', $blueTicketId)->first();
+//
+//        if (!$ticket) {
+//            // Could log and still 200 so Blue doesn't retry forever
+//            Log::info('Webhook for unknown ticket', ['blue_ticket_id' => $blueTicketId]);
+//            return response()->json(['ok' => true], Response::HTTP_OK);
+//        }
+//
+//        $ticket->update([
+//            'blue_status' => $newStatus,
+//            'blue_last_update' => $lastUpdate,
+//            'blue_last_synced_at' => now(),
+//        ]);
+//
+//        return response()->json(['ok' => true], Response::HTTP_OK);
     }
 
     protected function isValidSignature(string $payload, ?string $headerSig, string $secret): bool
