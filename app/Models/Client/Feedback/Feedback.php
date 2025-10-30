@@ -120,7 +120,7 @@ class Feedback extends Model
     public static function userFeedbackStatus()
     {
 
-        return self::where('user_id', Helpers::getUser()['id'])->orderBy('created_at', 'desc')->get(['title', 'comment', 'blue_status']);
+        return self::where('user_id', Helpers::getUser()['id'])->orderBy('created_at', 'desc')->get(['title', 'category', 'comment', 'blue_status']);
 
     }
 
