@@ -47,7 +47,7 @@ class BlueWebhookController extends Controller
 
     public function ticketUpdated(Request $request)
     {
-//        Log::info("Blue Payload:\n" . json_encode($request->all(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        Log::info("Blue Payload:\n" . json_encode($request->all(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
 
 //        $signature = $request->header('X-Blue-Signature');
