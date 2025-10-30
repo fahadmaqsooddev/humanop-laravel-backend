@@ -149,8 +149,6 @@ class HaiChatHelpers
         $body = ["user_id" => $user['id'], "connected_users_data" => $data];
 
         $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post',"NewHaiApi/users", $body);
-
-//        Log::info(['hai chat sync res' => $response]);
     }
 
     public static function createThreadIds(){

@@ -28,8 +28,6 @@ class SubmitAssessment implements ShouldBroadcast
     {
         $this->userId = $userId;
         $this->currentPage = $currentPage;
-
-        Log::info(['pusher current page', $currentPage]);
     }
 
     /**
