@@ -5,6 +5,7 @@ namespace App\Support;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 class StripeConfig
@@ -90,6 +91,7 @@ class StripeConfig
     public static function ensureOneTime(string $slug, string $context = 'b2c'): void
     {
         $plan = self::planBySlug($slug, $context);
+        Log::info(print_r($plan, true));
         if (!$plan || $plan->kind !== 'one_time') {
             throw new RuntimeException("Plan [$slug] in [$context] is not one_time.");
         }
