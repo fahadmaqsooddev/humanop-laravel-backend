@@ -323,7 +323,7 @@ return [
         ],
         'Feedback' => [
             'table' => 'feedbacks',
-            'fillable' => ['comment', 'user_id', 'approve', 'rating', 'title', 'platform', 'image_id', 'video_id', 'blue_ticket_id', 'blue_status', 'blue_last_update', 'blue_last_synced_at'],
+            'fillable' => ['comment', 'user_id', 'approve', 'rating', 'title', 'platform', 'image_id', 'video_id', 'blue_ticket_id', 'blue_status', 'blue_last_update', 'blue_last_synced_at','category'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Connection' => [

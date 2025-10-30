@@ -70,6 +70,7 @@ class BlueHelpers
 
         if (isset($responseData['data']['createTodo'])) {
             $ticket = $responseData['data']['createTodo'];
+
             return [
                 'blue_ticket_id' => $ticket['id'] ?? null,
                 'blue_ticket_status' => $ticket['status'] ?? null,
