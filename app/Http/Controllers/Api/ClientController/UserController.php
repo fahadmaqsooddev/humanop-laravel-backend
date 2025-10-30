@@ -458,14 +458,24 @@ class UserController extends Controller
 
             } else {
 
+                $categoryMap = [
+                    'cmggk8b0g0r3use1eyfp3w2sr' => 'Account & Billing',
+                    'cmggk8o360tdyob1eqjgonkoe' => 'Technical Issue',
+                    'cmggk946b0r6rse1e06btq2tt' => 'Feedback',
+                ];
+
+                $category = $categoryMap[$request['support_category']] ?? 'Feature Request';
+
                 $result->blue_ticket_id = $response['blue_ticket_id'];
 
-                $result->blue_status = "pending";
+                $result->blue_status = 'pending';
+
+                $result->category = $category;
 
                 $result->save();
 
                 DB::commit();
-
+                
                 return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 
             }
