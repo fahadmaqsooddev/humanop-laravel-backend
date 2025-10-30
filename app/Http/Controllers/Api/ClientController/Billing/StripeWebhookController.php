@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Support\StripeConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierWebhook;
 use Stripe\StripeClient;
 use Stripe\Webhook as StripeWebhook;
@@ -57,43 +58,71 @@ class StripeWebhookController extends Controller
 
                 case 'invoice.payment_succeeded':
                 {
-                    $invoice = $event['data']['object'] ?? [];
-                    $customerId = $invoice['customer'] ?? null;
 
-                    if ($customerId) {
-                        $user = User::where('stripe_id', $customerId)->first();
-                        if ($user) {
-                            // Expand invoice to get product names for logging
-                            $inv = $stripe->invoices->retrieve(
-                                $invoice['id'],
-                                ['expand' => ['lines.data.price.product']]
-                            );
+                    $invoiceObj = $event['data']['object'] ?? [];
+                    $customerId = $invoiceObj['customer'] ?? null;
 
-                            foreach ($inv->lines->data as $line) {
-                                $productName = $line->price->product->name ?? null;
-                                if ($productName) {
-                                    Log::info('Invoice line product', [
-                                        'user_id' => $user->id,
-                                        'invoice' => $inv->id,
-                                        'product' => $productName,
-                                        'price' => $line->price->id,
-                                    ]);
-                                }
-                            }
+                    if (!$customerId) break;
 
-                            // If this invoice is for an active subscription payment,
-                            // mark user as premium (non-lifetime).
-                            if (!empty($invoice['subscription'])) {
-                                $user->is_lifetime = false;
-                                $user->billing_context = 'b2c';
-                                // keep current plan (we set plan optimistically in initSubscription),
-                                // but if it's empty, set a fallback:
-                                if (!$user->plan || $user->plan === 'free') {
-                                    $user->plan = 'active_recurring';
-                                }
-                                $user->save();
-                            }
+                    $user = User::where('stripe_id', $customerId)->first();
+                    if (!$user) break;
+
+                    // Re-retrieve invoice with useful expansions
+                    $inv = $stripe->invoices->retrieve($invoiceObj['id'], [
+                        'expand' => ['lines.data.price.product', 'payment_intent', 'charge'],
+                    ]);
+
+                    // --- Idempotency guard: prevent duplicate emails on webhook retries ---
+                    // Use Cache or DB; Cache::add returns true only if key didn't exist
+
+                    $cacheKey = 'invoice_email_sent:'.$inv->id;
+
+                    if (!\Illuminate\Support\Facades\Cache::add($cacheKey, true, now()->addDays(7))) {
+                        // Already processed this invoice email; skip
+                        Log::info('Invoice email already sent; skipping', ['invoice' => $inv->id, 'user_id' => $user->id]);
+                        break;
+                    }
+
+                    // --- Prepare email payload ---
+                    $lines = collect($inv->lines->data)->map(function ($l) use ($inv) {
+                        return [
+                            'description' => $l->description,
+                            'amount'      => $l->amount, // cents
+                            'currency'    => strtoupper($inv->currency),
+                            'product'     => $l->price->product->name ?? null,
+                            'quantity'    => $l->quantity ?? 1,
+                        ];
+                    })->all();
+
+                    $payload = [
+                        'invoice_id'     => $inv->id,
+                        'number'         => $inv->number,
+                        'hosted_url'     => $inv->hosted_invoice_url,
+                        'pdf_url'        => $inv->invoice_pdf,
+                        'total'          => $inv->total, // cents
+                        'currency'       => strtoupper($inv->currency),
+                        'status'         => $inv->status, // "paid"
+                        'created'        => $inv->created,
+                        'lines'          => $lines,
+                        'customer_email' => $inv->customer_email ?? $user->email,
+                        'customer_name'  => $inv->customer_name ?? trim($user->first_name.' '.$user->last_name),
+                    ];
+
+                    // --- Queue email (use your mailable) ---
+                    // Make sure you have: app/Mail/InvoicePaidMail.php and a Blade view.
+                    Mail::to($user->email)->queue(new \App\Mail\InvoicePaidMail($user, $payload));
+
+                    Log::info('Invoice paid email queued', ['invoice' => $inv->id, 'user_id' => $user->id]);
+
+                    // --- Keep user state aligned for recurring subs (non-lifetime) ---
+                    if (!empty($inv->subscription)) {
+                        $user->is_lifetime     = false;
+                        $user->billing_context = 'b2c';
+                        if (!$user->plan || $user->plan === 'free') {
+                            // Fallback label if your optimistic set didn't run
+                            $user->plan = 'active_recurring';
                         }
+                        $user->save();
                     }
 
                     break;
