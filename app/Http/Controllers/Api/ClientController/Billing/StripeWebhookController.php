@@ -35,7 +35,11 @@ class StripeWebhookController extends Controller
         }
 
         // 2) Let Cashier do its sync first (customers, subs, invoices tables, etc.)
-        $response = app(CashierWebhook::class)->handleWebhook($request);
+        $cashier = app(\Laravel\Cashier\Http\Controllers\WebhookController::class);
+        $response = $cashier->handleWebhook($request);
+        if (!$response instanceof \Symfony\Component\HttpFoundation\Response) {
+            $response = response('OK', 200);
+        }
 
         // 3) Parse and branch on type (post-processing)
         $event = json_decode($payload, true);
