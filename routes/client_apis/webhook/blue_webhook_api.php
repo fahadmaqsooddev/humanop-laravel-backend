@@ -13,5 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/blue/webhook/ticket-updated', 'BlueWebhookController@ticketUpdated');
+Route::post('blue/webhook/ticket-updated', 'BlueWebhookController@ticketUpdated');
 
