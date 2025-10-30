@@ -23,7 +23,7 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $document_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false;
+    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $document_file, $category_id, $permission = [], $permission_privacy = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false;
 
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
@@ -36,6 +36,7 @@ class CreateResource extends Component
         'document_file' => 'nullable|file|mimes:doc,docx,xls,xlsx,pdf|max:204800',
         'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
+        'permission_privacy' => 'nullable|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
         'content' => 'nullable|string',
@@ -54,6 +55,7 @@ class CreateResource extends Component
         'permission.required' => 'At least one permission is required.',
         'permission.array' => 'Permissions must be an array.',
         'permission.min' => 'At least one permission is required.',
+        'permission_privacy.min' => 'At least one permission privacy is required.',
         'category_id.required' => 'Category is required.',
         'category_id.exists' => 'The selected category does not exist.',
         'description.max' => 'Description may not exceed 1000 characters.',
@@ -127,7 +129,7 @@ class CreateResource extends Component
                 $resource->save();
             }
 
-            PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
+            PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue, $this->permission_privacy);
 
             if (!empty($resource)) {
 
@@ -292,7 +294,7 @@ class CreateResource extends Component
     {
         $this->booleanValue = false;
 
-        $this->reset(['heading', 'resource_file', 'permission', 'resource_file', 'link', 'description', 'content', 'priceValue', 'pointValue']);
+        $this->reset(['heading', 'resource_file', 'permission', 'permission_privacy', 'resource_file', 'link', 'description', 'content', 'priceValue', 'pointValue']);
     }
 
     public function handleRefreshQuery()
@@ -326,6 +328,8 @@ class CreateResource extends Component
         $this->pointValue = $this->editResourceData['libraryPermissions']['point'] ?? null;
 
         $this->permission[] = $this->editResourceData['libraryPermissions']['permission'] ?? null;
+
+        $this->permission_privacy[] = $this->editResourceData['libraryPermissions']['permission'] ?? null;
 
         // Define your code groups
         $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
@@ -391,6 +395,7 @@ class CreateResource extends Component
         $this->priceValue = '';
         $this->pointValue = '';
         $this->permission = [];
+        $this->permission_privacy = [];
     }
 
     public function updateContent($editorId, $data)
@@ -549,7 +554,7 @@ class CreateResource extends Component
 
         }
 
-        PermissionResource::createResourcePermission($this->resourceId, $this->permission, $this->priceValue, $this->pointValue);
+        PermissionResource::createResourcePermission($this->resourceId, $this->permission, $this->priceValue, $this->pointValue, $this->permission_privacy);
 
         $resourceGrids = HumanOpItemsGridActivitiesLog::getResourceGrid($this->resourceId);
 

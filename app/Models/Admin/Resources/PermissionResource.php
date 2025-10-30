@@ -21,16 +21,16 @@ class PermissionResource extends Model
 
     public function resource()
     {
-        return $this->belongsTo(LibraryResource::class,'resource_id', 'id');
+        return $this->belongsTo(LibraryResource::class, 'resource_id', 'id');
     }
 
     public static function getPermission($planName = null)
     {
         if ($planName == 'Freemium') {
 
-            $permission = self::has('resource')->with('resource')->whereIn('permission', [1,4])->get();
+            $permission = self::has('resource')->with('resource')->whereIn('permission', [1, 4])->get();
 
-        }elseif ($planName == 'Premium') {
+        } elseif ($planName == 'Premium') {
 
             $permission = self::has('resource')->with('resource')->whereIn('permission', [2, 4])->get();
 
@@ -43,18 +43,18 @@ class PermissionResource extends Model
         return $permission ?? [];
     }
 
-    public static function createResourcePermission($resourceId = null, $permissions = null,$priceValue=null,$pointValue=null)
+    public static function createResourcePermission($resourceId = null, $permissions = null, $priceValue = null, $pointValue = null, $permission_privacy = null)
     {
 
-        if ($permissions && !empty($permissions)){
+        if ($permissions && !empty($permissions)) {
 
             self::where('resource_id', $resourceId)->delete();
 
-            foreach ($permissions as $permission)
-            {
+            foreach ($permissions as $permission) {
                 self::create([
                     'resource_id' => $resourceId,
                     'permission' => $permission,
+                    'permission_privacy' => $permission_privacy,
                     'price' => $priceValue,
                     'point' => $pointValue,
                 ]);
