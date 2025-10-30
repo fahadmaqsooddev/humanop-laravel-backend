@@ -381,7 +381,7 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission_privacy" value="1"
+                                                <input type="checkbox" wire:model.defer="permission" value="4"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="freemium">
                                                 <label class="form-check-label" for="freemium">Freemium Only</label>
@@ -389,7 +389,7 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission_privacy" value="2"
+                                                <input type="checkbox" wire:model.defer="permission" value="5"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="beta_breaker">
                                                 <label class="form-check-label" for="beta_breaker">Beta Breaker Only</label>
@@ -397,7 +397,7 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission_privacy" value="3"
+                                                <input type="checkbox" wire:model.defer="permission" value="6"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="premium">
                                                 <label class="form-check-label" for="premium">Premium Only</label>
@@ -778,6 +778,30 @@
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="premium">
                                                 <label class="form-check-label" for="premium">Premium</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="4"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="freemium">
+                                                <label class="form-check-label" for="freemium">Freemium Only</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="5"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="beta_breaker">
+                                                <label class="form-check-label" for="beta_breaker">Beta Breaker Only</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="6"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="premium">
+                                                <label class="form-check-label" for="premium">Premium Only</label>
                                             </div>
                                         </div>
                                     </div>
