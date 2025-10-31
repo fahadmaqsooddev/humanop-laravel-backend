@@ -530,7 +530,7 @@ class BillingController extends Controller
 
             'proration_behavior' => 'none',
 
-            'billing_cycle_anchor' => 'unchanged',
+            'billing_cycle_anchor' => 'now',
         ]);
 
         $user->plan = in_array($validated['to'], [PlanRules::PREMIUM_MONTHLY, PlanRules::PREMIUM_YEARLY], true)
