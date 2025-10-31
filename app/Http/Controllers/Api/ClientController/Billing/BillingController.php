@@ -582,7 +582,7 @@ class BillingController extends Controller
                     'plan_id' => $plan->plan_id,
                     'name' => $plan->name,
                     'billing_method' => $plan->billing_method,
-                    'price' => Helpers::getUser()['plan_key'] == "bb_onetime"  && $plan->key == "bb_onetime" ? 100 : $plan->price,
+                    'price' => Helpers::getUser()['plan_key'] == "bb_onetime"  && $plan->key == "premium_lifetime" ? 100 : $plan->price,
                     'currency' => $plan->currency,
                     'status' => $plan->status,
                     'key' => $plan->key,
