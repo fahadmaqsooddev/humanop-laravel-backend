@@ -59,7 +59,7 @@ class FreemiumEnrollmentService
         );
 
         // Mark app-level access flags
-        $user->plan = 'Freemium';
+        $user->plan = 'freemium';
         $user->is_lifetime = false;
         $user->has_bb_onetime = $user->has_bb_onetime ?? false;
         $user->billing_context = 'b2c';

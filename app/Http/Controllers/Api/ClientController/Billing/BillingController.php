@@ -515,7 +515,7 @@ class BillingController extends Controller
 
         // locally, you may choose to instantly downgrade UI:
         if (!$user->is_lifetime) {
-            $user->plan = 'free';
+            $user->plan = 'freemium';
         }
         $user->save();
 
@@ -537,7 +537,7 @@ class BillingController extends Controller
         $sub->resume();
 
         if (!$user->is_lifetime) {
-            if ($user->plan === 'free' || !$user->plan) {
+            if ($user->plan === 'freemium' || !$user->plan) {
                 $user->plan = 'resumed';
             }
             $user->billing_context = 'b2c';

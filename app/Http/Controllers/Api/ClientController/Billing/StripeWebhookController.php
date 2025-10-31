@@ -134,7 +134,7 @@ class StripeWebhookController extends Controller
                     if (!empty($inv->subscription) && !$user->is_lifetime) {
                         $user->billing_context = 'b2c';
                         // If you didn’t set a specific plan label elsewhere, keep a generic active marker
-                        if (!$user->plan || $user->plan === 'free') {
+                        if (!$user->plan || $user->plan === 'freemium') {
                             $user->plan = 'active_recurring';
                         }
                         $user->save();
@@ -166,7 +166,7 @@ class StripeWebhookController extends Controller
                     if (in_array($status, ['canceled', 'unpaid', 'incomplete_expired'], true)) {
                         $user = $customerId ? User::where('stripe_id', $customerId)->first() : null;
                         if ($user && !$user->is_lifetime) {
-                            $user->plan = 'free';
+                            $user->plan = 'freemium';
                             $user->billing_context = 'b2c';
                             $user->save();
                             Log::info('User downgraded to free due to subscription status', [
