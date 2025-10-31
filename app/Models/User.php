@@ -45,7 +45,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key','optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups'];
 
     public function __construct(array $attributes = array())
     {
@@ -371,6 +371,19 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public function getPlanKeyAttribute()
+    {
+
+        if (!empty($this->plan)){
+
+            return $this->plan;
+            
+        }else{
+
+            return "Freemium";
+        }
+
+    }
 
     public function getIsViewedStoriesAttribute()
     {
