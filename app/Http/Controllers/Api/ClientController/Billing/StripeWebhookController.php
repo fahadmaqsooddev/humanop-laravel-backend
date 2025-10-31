@@ -207,6 +207,8 @@ class StripeWebhookController extends Controller
                     }
 
                     if ($purpose === 'bb_onetime') {
+                        $planKey = $metadata['plan'] ?? 'bb_onetime';
+                        $user->plan        = $planKey;
                         $user->has_bb_onetime = true;
                         $user->save();
 
