@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController\Billing;
 
+use App\Domain\Billing\PlanRules;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -118,6 +119,8 @@ class BillingController extends Controller
         $priceId = StripeConfig::priceId($validated['plan'], 'b2c');
 
         $user = Helpers::getUser();
+
+        PlanRules::assertCanStartRecurring($user, $validated['plan']);
 
         // Ensure Stripe customer exists
         $user->createOrGetStripeCustomer();
@@ -248,37 +251,60 @@ class BillingController extends Controller
             'email' => $validated['email'] ?? $user->email,
         ]));
 
-        // Get price
+        // Get price (full lifetime list price)
         $price = $this->stripe->prices->retrieve($priceId, ['expand' => ['product']]);
         if ($price->type !== 'one_time') {
             abort(422, 'Selected plan is not a one-time price.');
+        }
+
+        // Determine actual amount to charge based on user state:
+        // - If user currently has bb_onetime (BB Lifetime) → $100 top-up
+        // - Else → full lifetime price
+        $fullLifetimeCents = (int) $price->unit_amount;
+
+        try {
+            $amountCents = PlanRules::lifetimeChargeCents($user, $fullLifetimeCents);
+        } catch (\RuntimeException $e) {
+            // e.g., already on Premium Lifetime
+            return response()->json(['status' => false, 'message' => $e->getMessage()], 422);
+        }
+
+        // 📦 Build metadata (mark top-up if applicable)
+        $metadata = [
+            'user_id'      => (string) $user->getKey(),
+            'family'       => 'b2c',
+            'purpose'      => 'lifetime',
+            'plan'         => $validated['plan'], // 'premium_lifetime'
+            'product_name' => $price->product->name ?? '',
+            'price_id'     => $priceId,
+        ];
+        $isTopUp = ($amountCents !== $fullLifetimeCents);
+        if ($isTopUp) {
+            $metadata['bb_to_premium_topup'] = 'true';
+            $metadata['topup_amount_cents']  = (string) $amountCents;
         }
 
         // Resolve default PM on the customer
         $cust = $this->stripe->customers->retrieve($user->stripe_id, [
             'expand' => ['invoice_settings.default_payment_method'],
         ]);
+
         $defaultPmId = $cust->invoice_settings->default_payment_method->id ?? null;
 
         // If we have a saved card, first try to charge it off-session (no UI)
         if ($defaultPmId) {
             try {
                 $pi = $this->stripe->paymentIntents->create([
-                    'amount'         => $price->unit_amount,
+                    'amount'         => $amountCents,
                     'currency'       => $price->currency,
                     'customer'       => $user->stripe_id,
                     'payment_method' => $defaultPmId,
                     'confirm'        => true,     // attempt immediately
                     'off_session'    => true,     // no UI; bank may still require SCA
-                    'description'    => $price->product->name ?? 'Lifetime Access',
-                    'metadata'       => [
-                        'user_id'      => (string) $user->getKey(),
-                        'family'       => 'b2c',
-                        'purpose'      => 'lifetime',
-                        'plan'         => $validated['plan'], // 'premium_lifetime'
-                        'product_name' => $price->product->name ?? '',
-                        'price_id'     => $priceId,
-                    ],
+                    'description'    => $isTopUp
+                        ? 'Premium Lifetime (BB upgrade top-up)'
+                        : ($price->product->name ?? 'Premium Lifetime Access'),
+                    'metadata'       => $metadata,
                 ]);
 
                 // Succeeded without SCA → no client_secret needed
@@ -325,19 +351,14 @@ class BillingController extends Controller
 
         // No saved card (or you want AME fallback): return a PI client_secret for Payment Element
         $pi = $this->stripe->paymentIntents->create([
-            'amount'                     => $price->unit_amount,
-            'currency'                   => $price->currency,
-            'customer'                   => $user->stripe_id,
-            'automatic_payment_methods'  => ['enabled' => true],
-            'description'                => $price->product->name ?? 'Lifetime Access',
-            'metadata'                   => [
-                'user_id'      => (string) $user->getKey(),
-                'family'       => 'b2c',
-                'purpose'      => 'lifetime',
-                'plan'         => $validated['plan'],
-                'product_name' => $price->product->name ?? '',
-                'price_id'     => $priceId,
-            ],
+            'amount'                    => $amountCents,
+            'currency'                  => $price->currency,
+            'customer'                  => $user->stripe_id,
+            'automatic_payment_methods' => ['enabled' => true],
+            'description'               => $isTopUp
+                ? 'Premium Lifetime (BB upgrade top-up)'
+                : ($price->product->name ?? 'Premium Lifetime Access'),
+            'metadata'                  => $metadata,
         ]);
 
         return response()->json([
@@ -348,6 +369,7 @@ class BillingController extends Controller
             'publishable_key'    => StripeConfig::publishableKey(),
         ]);
     }
+
 
     public function initBBOneTime(Request $request)
     {
@@ -362,6 +384,9 @@ class BillingController extends Controller
         $priceId = StripeConfig::priceId($validated['plan'], 'b2c');
 
         $user = Helpers::getUser();
+
+        PlanRules::assertCanBuyBBLifetime($user);
+
         $user->createOrGetStripeCustomer();
 
         // Keep Stripe customer profile fresh
@@ -479,22 +504,37 @@ class BillingController extends Controller
             'to' => 'required|string', // 'premium_monthly' | 'premium_yearly'
         ]);
 
+        $user = Helpers::getUser();
+
+        try {
+
+            PlanRules::assertSwapAllowed($user, $validated['to']);
+
+        } catch (\RuntimeException $e) {
+
+            return response()->json(['status' => false, 'message' => $e->getMessage()], 422);
+        }
+
         StripeConfig::ensureRecurring($validated['to'], 'b2c');
         $toPriceId = StripeConfig::priceId($validated['to'], 'b2c');
 
-        $user = $request->user();
         $sub = $user->subscription('default');
 
         if (!$sub || !$sub->valid()) {
+
             abort(422, 'No active subscription to swap.');
         }
 
         $sub->swap($toPriceId, [
+
             'proration_behavior' => 'none',
+
             'billing_cycle_anchor' => 'unchanged',
         ]);
 
-        $user->plan = $validated['to'];
+        $user->plan = in_array($validated['to'], [PlanRules::PREMIUM_MONTHLY, PlanRules::PREMIUM_YEARLY], true)
+            ? $validated['to']
+            : 'active_recurring';
         $user->is_lifetime = false;
         $user->billing_context = 'b2c';
         $user->save();

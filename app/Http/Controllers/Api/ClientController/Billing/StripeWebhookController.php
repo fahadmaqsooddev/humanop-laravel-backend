@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Laravel\Cashier\Http\Controllers\WebhookController as CashierWebhook;
+use Laravel\Cashier\Http\Controllers\WebhookController;
 use Stripe\StripeClient;
 use Stripe\Webhook as StripeWebhook;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +35,7 @@ class StripeWebhookController extends Controller
         }
 
         // 2) Let Cashier do its sync first (customers, subs, invoices tables, etc.)
-        $cashier = app(\Laravel\Cashier\Http\Controllers\WebhookController::class);
+        $cashier = app(WebhookController::class);
         $response = $cashier->handleWebhook($request);
         if (!$response instanceof \Symfony\Component\HttpFoundation\Response) {
             $response = response('OK', 200);
