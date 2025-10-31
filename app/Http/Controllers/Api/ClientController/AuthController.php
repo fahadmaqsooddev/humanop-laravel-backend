@@ -383,7 +383,7 @@ class AuthController extends Controller
                 Point::addPoints(Admin::CORE_CREDITS, $user, 1);
 
                 // Sync to HAi downstream system
-                HaiChatHelpers::syncUserRecordWithHAi($user);
+//                HaiChatHelpers::syncUserRecordWithHAi($user);
 
                 // If they provided a company_name, wire B2B candidate / activity
                 if (!empty($request['company_name'])) {
