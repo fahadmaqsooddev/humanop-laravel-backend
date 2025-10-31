@@ -120,7 +120,7 @@ class HaiChatHelpers
 
         $userCurrentTraits = User::userDailyTraits($user->id);
 
-        $userPlan = $authUser['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB ? 'Premium' : $authUser['plan_name'];
+        $userPlan = $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB ? 'Premium' : $user['plan_name'];
 
         $actionPlan = null;
 
