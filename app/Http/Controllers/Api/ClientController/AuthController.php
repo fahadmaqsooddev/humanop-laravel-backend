@@ -319,7 +319,7 @@ class AuthController extends Controller
     {
         DB::beginTransaction();
 
-        try {
+//        try {
 
             // We'll use this only to access instance methods like checkEmail()
             $userModel = new User();
@@ -580,12 +580,12 @@ class AuthController extends Controller
                 }
             }
 
-        } catch (\Exception $exception) {
-
-            DB::rollBack();
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        } catch (\Exception $exception) {
+//
+//            DB::rollBack();
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
     }
 
     public function checkEmailVerification(Request $request)
