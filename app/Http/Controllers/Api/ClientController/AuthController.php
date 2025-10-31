@@ -58,6 +58,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
@@ -382,8 +383,9 @@ class AuthController extends Controller
                 }
                 Point::addPoints(Admin::CORE_CREDITS, $user, 1);
 
+                Log::info(print_r($user, true));
                 // Sync to HAi downstream system
-//                HaiChatHelpers::syncUserRecordWithHAi($user);
+                HaiChatHelpers::syncUserRecordWithHAi($user);
 
                 // If they provided a company_name, wire B2B candidate / activity
                 if (!empty($request['company_name'])) {
