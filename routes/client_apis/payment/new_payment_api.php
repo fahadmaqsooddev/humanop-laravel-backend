@@ -42,4 +42,6 @@ Route::group(['middleware' => ['checkUser']], function () {
     // BB-onetime / add-on (one-time)
     Route::post('billing/bb-onetime/init', 'BillingController@initBBOneTime');
 
+    Route::get('plans', 'BillingController@plans');
+
 });

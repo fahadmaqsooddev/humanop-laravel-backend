@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\ClientController\Billing;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Client\Plan\Plan;
 use Illuminate\Http\Request;
 use App\Support\StripeConfig;
 use Laravel\Cashier\Subscription;
@@ -564,4 +565,42 @@ class BillingController extends Controller
             'ends_at' => optional($sub->ends_at)?->toIso8601String(),
         ]);
     }
+
+
+    public static function plans()
+    {
+
+        try {
+
+            $getPlans = Plan::getB2CPlans();
+
+            $plans = [];
+
+            foreach ($getPlans as $plan) {
+                $plans[] = [
+                    'id' => $plan->id,
+                    'plan_id' => $plan->plan_id,
+                    'name' => $plan->name,
+                    'billing_method' => $plan->billing_method,
+                    'price' => Helpers::getUser()['plan_key'] == "premium_lifetime" ? 100 : $plan->price,
+                    'currency' => $plan->currency,
+                    'status' => $plan->status,
+                    'key' => $plan->key,
+                    'kind' => $plan->kind,
+                    'product_name' => $plan->product_name,
+                    'active' => $plan->active,
+                    'context' => $plan->context,
+                    'plan_details' => $plan->plan_details,
+                ];
+            }
+
+            return Helpers::successResponse('All plans', $plans);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
 }

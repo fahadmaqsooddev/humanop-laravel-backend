@@ -263,22 +263,6 @@ class PaymentController extends Controller
 
     }
 
-    public static function plans()
-    {
-
-        try {
-
-            $plans = Plan::getB2CPlans();
-
-            return Helpers::successResponse('All plans', $plans);
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
-    }
-
     public function haiCreditPlans()
     {
         try {
