@@ -475,7 +475,7 @@ class UserController extends Controller
                 $result->save();
 
                 DB::commit();
-                
+
                 return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 
             }
