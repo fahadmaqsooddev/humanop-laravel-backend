@@ -651,7 +651,7 @@ class UserController extends Controller
 
             }else{
 
-                $allDrivers = array_merge($topTwoFeatures, $tertiaryFeatures);
+                $allDrivers = $topTwoFeatures;
 
             }
 
