@@ -199,13 +199,39 @@ class AllUser extends Component
     public function updateEmail($id, $newEmail)
     {
         $user = User::find($id);
-        if ($user) {
-            $user->email = $newEmail;
-            $user->save();
 
-            session()->flash('success', "Email updated successfully!");
-
+        if (!$user) {
+            session()->flash('error', "User not found!");
+            return;
         }
+
+        // Basic email format validation
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            session()->flash('error', "Please enter a valid email address!");
+            return;
+        }
+
+        // Only allow letters, numbers, dots, hyphens, underscores, and @
+        if (!preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $newEmail)) {
+            session()->flash('error', "Email contains invalid characters!");
+            return;
+        }
+
+        // Check if email already exists for another user
+        $checkEmail = User::where('email', $newEmail)
+            ->where('id', '!=', $id)
+            ->first();
+
+        if ($checkEmail) {
+            session()->flash('error', "This email already exists!");
+            return;
+        }
+
+        // Update the email
+        $user->email = $newEmail;
+        $user->save();
+
+        session()->flash('success', "Email updated successfully!");
     }
 
     public function render()
