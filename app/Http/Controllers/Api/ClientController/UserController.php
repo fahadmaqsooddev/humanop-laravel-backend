@@ -616,6 +616,8 @@ class UserController extends Controller
 
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
 
+            $tertiaryFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['next_two_keys'], $assessment) : [];
+
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
@@ -676,7 +678,7 @@ class UserController extends Controller
                 'traits_intro' => $trait_intro,
                 'all_styles' => $allStyles,
                 'motivation_introduction' => $motivation_intro,
-                'top_features' => $topTwoFeatures,
+                'top_features' => array_merge($topTwoFeatures, $tertiaryFeatures),
                 'intro_boundaries' => $intro_boundaries,
                 'boundary' => $boundary,
                 'intro_perception' => $perception_life,
