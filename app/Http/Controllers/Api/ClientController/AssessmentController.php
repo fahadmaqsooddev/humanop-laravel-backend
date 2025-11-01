@@ -49,6 +49,8 @@ class AssessmentController extends Controller
 
         } catch (\Exception $exception) {
 
+            Log::error('Error fetching assessments: ' . $exception->getMessage());
+
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 

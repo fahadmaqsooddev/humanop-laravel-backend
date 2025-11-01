@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Alchemy\AlchemyCode;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class Assessment extends Model
@@ -1750,7 +1751,7 @@ class Assessment extends Model
         return $topKeys;
     }
 
-    public static function assessmentsPaginated($request = null)
+    public static function assessmentsPaginated(Request $request)
     {
 
         $order_by = isset($request['order_by']) ? $request['order_by'] : "created_at";
