@@ -1227,27 +1227,13 @@ class DashboardController extends Controller
 
     }
 
-    public function futureConsiderationNotShareData(ShareDataRequest $request)
+    public function premiumLifetimeWelcome(Request $request)
     {
         try {
 
-            $data = B2BBusinessCandidates::AllCompaniesCheckShareDataDetail($request['company_name'], $request['candidate_id']);
+            User::changedPremiumLifetime();
 
-            if (!empty($data)) {
-
-                foreach ($data as $shared) {
-
-                    B2BBusinessCandidates::futureConsiderationNotShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
-
-                }
-
-                return Helpers::successResponse('Data Not Shared');
-
-            } else {
-
-                return Helpers::validationResponse('Data not found.');
-
-            }
+            return Helpers::successResponse('status changed');
 
         } catch (\Exception $exception) {
 

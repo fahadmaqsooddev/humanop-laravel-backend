@@ -81,7 +81,8 @@ class AllUser extends Component
                 'is_lifetime' => 1,
                 'has_bb_onetime' => 0,
                 'plan' => 'premium_lifetime',
-                'billing_context' =>'b2c'
+                'billing_context' =>'b2c',
+                'premium_lifetime_welcome' => 1
             ]);
 
             session()->flash('success', "User downgraded to Premium Lifetime successfully.");
