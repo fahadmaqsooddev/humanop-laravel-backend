@@ -200,6 +200,7 @@ class HumanOpShopController extends Controller
                     'category_name' => $item['shopItems']->shopCategory->name ?? null,
                     'my_playlist' => !empty($playList) ? 1 : 0,
                     'heading' => $item['shopItems']->heading,
+                    'description' => $item['shopItems']->description,
                     'created_at' => $item['shopItems']->created_at,
                     'updated_at' => $item['shopItems']->updated_at,
                     'points' => 0,
