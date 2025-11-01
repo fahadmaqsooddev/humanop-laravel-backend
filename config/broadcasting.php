@@ -17,9 +17,9 @@ switch (env('APP_ENV')) {
         break;
 
     case 'production':
-        $pusher_app_id = 2054324;
-        $pusher_app_key = 'a784653c21fbfff4364b';
-        $pusher_app_secret = '8ec8323cc9e28627cf21';
+        $pusher_app_id = 2068266;
+        $pusher_app_key = '5bec1447998f5a160c43';
+        $pusher_app_secret = '72d4729599d2d5a5f96a';
         $pusher_app_cluster = 'ap2';
         break;
 

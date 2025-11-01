@@ -645,6 +645,16 @@ class UserController extends Controller
 
             $tertiaryFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['next_two_keys'], $assessment) : [];
 
+            if ($get_user['plan'] == "premium_monthly" or $get_user['plan'] == "premium_yearly" or $get_user['plan'] == "premium_lifetime") {
+
+                $allDrivers = array_merge($topTwoFeatures, $tertiaryFeatures);
+
+            }else{
+
+                $allDrivers = array_merge($topTwoFeatures, $tertiaryFeatures);
+
+            }
+
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
@@ -705,7 +715,7 @@ class UserController extends Controller
                 'traits_intro' => $trait_intro,
                 'all_styles' => $allStyles,
                 'motivation_introduction' => $motivation_intro,
-                'top_features' => array_merge($topTwoFeatures, $tertiaryFeatures),
+                'top_features' => $allDrivers,
                 'intro_boundaries' => $intro_boundaries,
                 'boundary' => $boundary,
                 'intro_perception' => $perception_life,
