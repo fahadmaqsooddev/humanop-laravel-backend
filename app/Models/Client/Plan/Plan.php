@@ -116,7 +116,7 @@ class Plan extends Model
 
     public static function getB2CPlans()
     {
-        return self::where('plan_type', Admin::B2C_PLAN)->get();
+        return self::where('plan_type', Admin::B2C_PLAN)->where('active', 1)->get();
     }
 
     public static function getB2BActivePlans()
