@@ -179,7 +179,7 @@
                                     value="premium_lifetime" {{ $user['plan'] === 'premium_lifetime' ? 'selected' : '' }}>
                                     Premium Lifetime
                                 </option>
-                                <option value="bb_onetime" {{ $user['plan'] === 'bb_onetime' ? 'selected' : '' }}>
+                                <option value="bb_onetime" {{ $user['plan'] === 'bb_onetime' || $user['beta_breaker_club'] === \App\Enums\Admin\Admin::BETA_BREAKER_CLUB ? 'selected' : '' }}>
                                     Beta Breaker OneTime
                                 </option>
                             </select>
