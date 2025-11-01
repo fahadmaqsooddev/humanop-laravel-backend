@@ -75,49 +75,29 @@ class AllUser extends Component
 
         }
 
-        if ($planName === "Freemium") {
+        if ($planName === "premium_lifetime") {
 
-            $getPlan = Plan::getFreemiumPlan($planName);
+            $user->update([
+                'is_lifetime' => 1,
+                'has_bb_onetime' => 0,
+                'plan' => 'premium_lifetime',
+                'billing_context' =>'b2c'
+            ]);
 
-            if ($user->subscribed('main')) {
-                $user->subscription('main')->cancelNow();
-            }
-
-            $user->update(['plan_name' => 'Freemium']);
-
-            session()->flash('success', "User downgraded to Freemium successfully.");
+            session()->flash('success', "User downgraded to Premium Lifetime successfully.");
 
         }
 
-        if ($planName === "Premium") {
-            $getPlan = Plan::getPremiumPlan($planName);
+        if ($planName === "bb_onetime") {
 
-            $user->createOrGetStripeCustomer();
+            $user->update([
+                'is_lifetime' => 0,
+                'has_bb_onetime' => 1,
+                'plan' => 'bb_onetime',
+                'billing_context' =>'b2c'
+            ]);
 
-            if ($user->subscribed('main')) {
-                $subscription = $user->subscription('main');
-                try {
-                    $stripeSub = $subscription->asStripeSubscription();
-                    $subscription->cancelNow();
-                } catch (\Exception $e) {
-                    $subscription->delete();
-                }
-            }
-
-            $trialEndsAt = now()->addMonth();
-
-            $subscription = $user->newSubscription('main', $getPlan['plan_id'])
-                ->trialUntil($trialEndsAt)
-                ->create(null, [
-                    'trial_period_days' => 30,
-                    'proration_behavior' => 'none',
-                    'collection_method' => 'charge_automatically',
-                ]);
-
-            $user->update(['plan_name' => 'Premium']);
-
-            session()->flash('success', "User upgraded to Premium successfully");
-
+            session()->flash('success', "User downgraded to Beta Breaker Lifetime successfully.");
 
         }
 
@@ -223,7 +203,7 @@ class AllUser extends Component
             $user->save();
 
             session()->flash('success', "Email updated successfully!");
-            
+
         }
     }
 

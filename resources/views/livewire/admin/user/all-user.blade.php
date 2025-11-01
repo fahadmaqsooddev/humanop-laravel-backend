@@ -170,15 +170,6 @@
                             <select class="form-control input-form-style"
                                     onchange="changeUserPlan({{ $user['id'] }}, this.value)"
                                     style="background-color: #0F1535; border-radius: 12px;">
-                                <option value="freemium" {{ $user['plan'] === 'freemium' ? 'selected' : '' }}>
-                                    Freemium
-                                </option>
-                                <option value="premium_monthly" {{ $user['plan'] === 'premium_monthly' ? 'selected' : '' }}>
-                                    Premium Monthly
-                                </option>
-                                <option value="premium_yearly" {{ $user['plan'] === 'premium_yearly' ? 'selected' : '' }}>
-                                    Premium Yearly
-                                </option>
                                 <option value="premium_lifetime" {{ $user['plan'] === 'premium_lifetime' ? 'selected' : '' }}>
                                     Premium Lifetime
                                 </option>
