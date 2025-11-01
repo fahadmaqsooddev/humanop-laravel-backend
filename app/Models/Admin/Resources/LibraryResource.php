@@ -262,13 +262,17 @@ class LibraryResource extends Model
         $user = Helpers::getUser();
         $userId = $user['id'];
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB && $user['plan_name'] == "Premium") {
 
             $userPlan = 'Premium';
 
+        } elseif ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB && $user['plan_name'] != "Freemium") {
+
+            $userPlan = 'Beta Breaker';
+
         } else {
 
-            $userPlan = $user['plan_name'];
+            $userPlan = 'Freemium';
 
         }
 
@@ -301,8 +305,9 @@ class LibraryResource extends Model
         }
 
         $permissionLevels = match ($userPlan) {
-            'Premium' => [2, 1],
-            default => [1],
+            'Premium' => [6, 3, 2, 1],
+            'Beta Breaker' => [5, 2, 1],
+            default => [4, 1],
         };
 
         $query->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {

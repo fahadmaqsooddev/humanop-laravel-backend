@@ -45,7 +45,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups'];
 
     public function __construct(array $attributes = array())
     {
@@ -124,7 +124,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute','plan','is_lifetime','has_bb_onetime','billing_context','premium_lifetime_welcome']);
     }
 
     // appends
@@ -356,21 +356,43 @@ class User extends Authenticatable implements JWTSubject
     public function getPlanNameAttribute()
     {
 
-        $subscription = $this->userSubscription;
+        if (!empty($this->plan)) {
 
-        if ($subscription && $subscription->stripe_status !== 'canceled') {
+            if (($this->plan == "premium_monthly") || ($this->plan == "premium_yearly") || ($this->plan == "premium_lifetime")) {
 
-            if (!empty($subscription->plan) && !empty($subscription->plan->name)) {
+                return "Premium";
 
-                return $subscription->plan->name === 'Premium' ? 'Premium' : 'Freemium';
+            }elseif ($this->plan == "bb_onetime"){
+
+                return "Beta Breaker";
+
+            }else{
+
+                return "Freemium";
+
             }
+
+        } else {
+
+            return "Freemium";
 
         }
 
-        return 'Freemium';
-
     }
 
+    public function getPlanKeyAttribute()
+    {
+
+        if (!empty($this->plan)) {
+
+            return $this->plan;
+
+        } else {
+
+            return "Freemium";
+        }
+
+    }
 
     public function getIsViewedStoriesAttribute()
     {
@@ -2660,5 +2682,50 @@ class User extends Authenticatable implements JWTSubject
 
         }
     }
+
+    public function syncDefaultPmFromStripe(\Stripe\StripeClient $stripe, ?string $pmId = null): void
+    {
+        if (!$this->stripe_id) return;
+
+        if (!$pmId) {
+            $cust = $stripe->customers->retrieve($this->stripe_id, [
+                'expand' => ['invoice_settings.default_payment_method'],
+            ]);
+            $pmId = $cust->invoice_settings->default_payment_method->id ?? null;
+            if (!$pmId) return;
+        }
+
+        $pm = $stripe->paymentMethods->retrieve($pmId, []);
+        $type = $pm->type; // 'card', 'us_bank_account', etc.
+
+        $this->payment_method = $pm->id;
+        $this->pm_type = $type;
+
+        // Default to nulls first
+        $this->pm_last_four = null;
+        $this->pm_exp_month = null;
+        $this->pm_exp_year = null;
+
+        if ($type === 'card' && isset($pm->card)) {
+            $this->pm_last_four = $pm->card->last4 ?? null;
+            $this->pm_exp_month = $pm->card->exp_month ?? null;
+            $this->pm_exp_year = $pm->card->exp_year ?? null;
+        }
+
+        $this->save();
+    }
+
+    public static function changedPremiumLifetime()
+    {
+        $user = self::find(Helpers::getUser()['id']);
+
+        if ($user) {
+            $user->premium_lifetime_welcome = 0;
+            return $user->save(); // returns true/false
+        }
+
+        return false; // user not found
+    }
+
 
 }

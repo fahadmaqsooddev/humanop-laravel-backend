@@ -27,7 +27,7 @@ class AllUser extends Component
     protected $users = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete', 'userPlanChange'];
+    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete', 'userPlanChange','updateEmail'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -75,49 +75,30 @@ class AllUser extends Component
 
         }
 
-        if ($planName === "Freemium") {
+        if ($planName === "premium_lifetime") {
 
-            $getPlan = Plan::getFreemiumPlan($planName);
+            $user->update([
+                'is_lifetime' => 1,
+                'has_bb_onetime' => 0,
+                'plan' => 'premium_lifetime',
+                'billing_context' =>'b2c',
+                'premium_lifetime_welcome' => 1
+            ]);
 
-            if ($user->subscribed('main')) {
-                $user->subscription('main')->cancelNow();
-            }
-
-            $user->update(['plan_name' => 'Freemium']);
-
-            session()->flash('success', "User downgraded to Freemium successfully.");
+            session()->flash('success', "User downgraded to Premium Lifetime successfully.");
 
         }
 
-        if ($planName === "Premium") {
-            $getPlan = Plan::getPremiumPlan($planName);
+        if ($planName === "bb_onetime") {
 
-            $user->createOrGetStripeCustomer();
+            $user->update([
+                'is_lifetime' => 0,
+                'has_bb_onetime' => 1,
+                'plan' => 'bb_onetime',
+                'billing_context' =>'b2c'
+            ]);
 
-            if ($user->subscribed('main')) {
-                $subscription = $user->subscription('main');
-                try {
-                    $stripeSub = $subscription->asStripeSubscription();
-                    $subscription->cancelNow();
-                } catch (\Exception $e) {
-                    $subscription->delete();
-                }
-            }
-
-            $trialEndsAt = now()->addMonth();
-
-            $subscription = $user->newSubscription('main', $getPlan['plan_id'])
-                ->trialUntil($trialEndsAt)
-                ->create(null, [
-                    'trial_period_days' => 30,
-                    'proration_behavior' => 'none',
-                    'collection_method' => 'charge_automatically',
-                ]);
-
-            $user->update(['plan_name' => 'Premium']);
-
-            session()->flash('success', "User upgraded to Premium successfully");
-
+            session()->flash('success', "User downgraded to Beta Breaker Lifetime successfully.");
 
         }
 
@@ -215,6 +196,43 @@ class AllUser extends Component
         $this->users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER]);
     }
 
+    public function updateEmail($id, $newEmail)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            session()->flash('error', "User not found!");
+            return;
+        }
+
+        // Basic email format validation
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            session()->flash('error', "Please enter a valid email address!");
+            return;
+        }
+
+        // Only allow letters, numbers, dots, hyphens, underscores, and @
+        if (!preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $newEmail)) {
+            session()->flash('error', "Email contains invalid characters!");
+            return;
+        }
+
+        // Check if email already exists for another user
+        $checkEmail = User::where('email', $newEmail)
+            ->where('id', '!=', $id)
+            ->first();
+
+        if ($checkEmail) {
+            session()->flash('error', "This email already exists!");
+            return;
+        }
+
+        // Update the email
+        $user->email = $newEmail;
+        $user->save();
+
+        session()->flash('success', "Email updated successfully!");
+    }
 
     public function render()
     {

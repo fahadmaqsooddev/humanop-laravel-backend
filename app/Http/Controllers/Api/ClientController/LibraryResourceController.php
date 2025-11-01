@@ -43,7 +43,7 @@ class LibraryResourceController extends Controller
                 $basePrice = (int)optional($item->libraryPermissions)->price ?? 0;
 
                 // Apply discount if plan is Core
-                $finalPrice = (Helpers::getUser()['plan_name'] === 'Premium' && !empty($basePrice)) ? $basePrice * 0.75 : $basePrice;
+                $finalPrice = (Helpers::getUser()['plan_name'] === 'Premium' && !empty($basePrice)) ? $basePrice * 0.50 : $basePrice;
 
                 $transformed[] = [
                     'id' => $item->id,
@@ -61,9 +61,11 @@ class LibraryResourceController extends Controller
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => match(optional($item->libraryPermissions)->permission) {
                         1 => 'Freemium',
-                        2 => 'Premium',
-//                        3 => 'Premium',
-                        4 => 'HP Look', // or whatever label you want for permission 4
+                        2 => 'Beta Breaker',
+                        3 => 'Premium',
+                        4 => 'Freemium Only',
+                        5 => 'Beta Breaker Only',
+                        6 => 'Premium Only',
                         default => 'null',
                     },
                     'price' => $finalPrice,

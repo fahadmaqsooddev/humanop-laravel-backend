@@ -38,11 +38,10 @@ class FreemiumEnrollmentService
                 ['price' => $freemiumPriceId],
             ],
             'proration_behavior' => 'none',
-            'billing_cycle_anchor' => 'now',
             'metadata' => [
                 'user_id' => (string)$user->getKey(),
                 'purpose' => 'Freemium',
-                'family' => 'b2c', // <- future proof tag
+                'family' => 'b2c',
             ],
         ]);
 
@@ -51,7 +50,7 @@ class FreemiumEnrollmentService
             ['name' => 'default'],
             [
                 'stripe_id' => $stripeSub->id,
-                'stripe_status' => $stripeSub->status,       // 'active'
+                'stripe_status' => $stripeSub->status,
                 'stripe_price' => $freemiumPriceId,
                 'quantity' => 1,
                 'trial_ends_at' => null,
@@ -60,7 +59,7 @@ class FreemiumEnrollmentService
         );
 
         // Mark app-level access flags
-        $user->plan = 'Freemium';
+        $user->plan = 'freemium';
         $user->is_lifetime = false;
         $user->has_bb_onetime = $user->has_bb_onetime ?? false;
         $user->billing_context = 'b2c';

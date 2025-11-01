@@ -111,8 +111,6 @@ class Notification extends Model
 
         } catch (\Exception $e) {
 
-            \Log::error('FCM Error: ' . $e->getMessage());
-
             return false;
         }
     }

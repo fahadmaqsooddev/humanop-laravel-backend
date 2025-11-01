@@ -363,13 +363,44 @@
                                                 <label class="form-check-label" for="freemium">Freemium</label>
                                             </div>
                                         </div>
-
                                         <div class="col-4">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
                                                        class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="core">
-                                                <label class="form-check-label" for="core">Premium</label>
+                                                       style="border: 2px solid #1b3a62" id="beta_breaker">
+                                                <label class="form-check-label" for="beta_breaker">Beta Breaker</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="3"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="premium">
+                                                <label class="form-check-label" for="premium">Premium</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="4"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="freemium_only">
+                                                <label class="form-check-label" for="freemium_only">Freemium Only</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="5"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="beta_breaker_only">
+                                                <label class="form-check-label" for="beta_breaker_only">Beta Breaker Only</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="6"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="premium_only">
+                                                <label class="form-check-label" for="premium_only">Premium Only</label>
                                             </div>
                                         </div>
                                         <div class="row mt-4">
@@ -725,7 +756,6 @@
 
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
-
                                         <div class="col-4">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="1"
@@ -734,161 +764,175 @@
                                                 <label class="form-check-label" for="freemium">Freemium</label>
                                             </div>
                                         </div>
-
                                         <div class="col-4">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
                                                        class="form-check-input option-checkbox"
-                                                       style="border: 2px solid #1b3a62" id="core">
-                                                <label class="form-check-label" for="core">Premium</label>
+                                                       style="border: 2px solid #1b3a62" id="beta_breaker">
+                                                <label class="form-check-label" for="beta_breaker">Beta Breaker</label>
                                             </div>
                                         </div>
-
-
-                                        {{--                                        <div class="col-4">--}}
-                                        {{--                                            <div class="form-check">--}}
-                                        {{--                                                <input type="checkbox" wire:model.defer="permission" value="3"--}}
-                                        {{--                                                       class="form-check-input option-checkbox"--}}
-                                        {{--                                                       style="border: 2px solid #1b3a62" id="premium">--}}
-                                        {{--                                                <label class="form-check-label" for="premium">Elevate Tier--}}
-                                        {{--                                                    (premium)</label>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-
-                                        <div class="row mt-4">
-                                            <div class="col-6">
-                                                <label for="point">Point</label>
-                                                <input type="number" id="point" class="form-control"
-                                                       placeholder="Enter Point"
-                                                       min="0"
-                                                       wire:model.defer="pointValue"
-                                                       style="border: 2px solid #1b3a62;">
-                                            </div>
-
-                                            <div class="col-6">
-                                                <label for="price">Price</label>
-                                                <input type="number" id="price" class="form-control"
-                                                       placeholder="Enter Price"
-                                                       min="0"
-                                                       wire:model.defer="priceValue"
-                                                       style="border: 2px solid #1b3a62;">
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="3"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="premium">
+                                                <label class="form-check-label" for="premium">Premium</label>
                                             </div>
                                         </div>
-                                        <div class="row mt-4">
-                                            @php
-                                                $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
-                                            @endphp
-                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT TRAITS</label>
-                                            <div class="row">
-                                                @foreach($traits as $key=>$trait)
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:key="trait-{{$key}}" type="checkbox"
-                                                                   wire:model.defer="selectedTraits"
-                                                                   value="{{ $trait }}" class="form-check-input"
-                                                                   id="day_{{ $trait }}">
-                                                            <label class="form-check-label"
-                                                                   for="day_{{ $trait }}">{{ $trait }}</label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="4"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="freemium_only">
+                                                <label class="form-check-label" for="freemium_only">Freemium Only</label>
                                             </div>
-                                            @php
-                                                $features = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
-                                            @endphp
-                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT MOTIVATIONAL
-                                                DRIVERS</label>
-                                            <div class="row">
-                                                @foreach($features as $key=>$feature)
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:key="feature-{{$key}}" type="checkbox"
-                                                                   wire:model.defer="selectedFeatures"
-                                                                   value="{{ $feature }}" class="form-check-input"
-                                                                   id="day_{{ $feature }}">
-                                                            <label class="form-check-label"
-                                                                   for="day_{{ $feature }}">{{ $feature }}</label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            @php
-                                                $alchemies = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
-                                            @endphp
-                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT ALCHEMY</label>
-                                            <div class="row">
-                                                @foreach($alchemies as $key=>$alchemy)
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:key="alchemy-{{$key}}" type="checkbox"
-                                                                   wire:model.defer="selectedAlchemy"
-                                                                   value="{{ $alchemy }}" class="form-check-input"
-                                                                   id="day_{{ $alchemy }}">
-                                                            <label class="form-check-label"
-                                                                   for="day_{{ $alchemy }}">{{ $alchemy }}</label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            @php
-                                                $communications = ['EM', 'INS', 'INT', 'MOV'];
-                                            @endphp
-                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT COMMUNICATION
-                                                STYLE</label>
-                                            <div class="row">
-                                                @foreach($communications as $key=>$communication)
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:key="communication-{{$key}}" type="checkbox"
-                                                                   wire:model.defer="selectedCommunications"
-                                                                   value="{{ $communication }}" class="form-check-input"
-                                                                   id="day_{{ $communication }}">
-                                                            <label class="form-check-label"
-                                                                   for="day_{{ $communication }}">{{ $communication }}</label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-
-                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT PERCEPTION OF
-                                                LIFE</label>
-                                            <div class="row">
-                                                @foreach($perceptionCodes as $code => $label)
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:key="perception-{{$code}}" type="checkbox"
-                                                                   wire:model.defer="selectedPerceptions"
-                                                                   value="{{ $code }}"
-                                                                   class="form-check-input"
-                                                                   id="day_{{ $code }}">
-                                                            <label class="form-check-label" for="day_{{ $code }}">
-                                                                {{ $label }}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-
-                                            <label class="form-label fs-4" style="color: #1b3a62">SELECT ENERGY
-                                                POOL</label>
-                                            <div class="row">
-                                                @foreach($energyPoolCodes as $code => $label)
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:key="energypool-{{$code}}" type="checkbox"
-                                                                   wire:model.defer="selectedEnergyPools"
-                                                                   value="{{ $code }}"
-                                                                   class="form-check-input"
-                                                                   id="day_{{ $code }}">
-                                                            <label class="form-check-label" for="day_{{ $code }}">
-                                                                {{ $label }}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-
                                         </div>
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="5"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="beta_breaker_only">
+                                                <label class="form-check-label" for="beta_breaker_only">Beta Breaker Only</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="6"
+                                                       class="form-check-input option-checkbox"
+                                                       style="border: 2px solid #1b3a62" id="premium_only">
+                                                <label class="form-check-label" for="premium_only">Premium Only</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-6">
+                                            <label for="point">Point</label>
+                                            <input type="number" id="point" class="form-control"
+                                                   placeholder="Enter Point" min="0" wire:model.defer="pointValue"
+                                                   style="border: 2px solid #1b3a62;">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="price">Price</label>
+                                            <input type="number" id="price" class="form-control"
+                                                   placeholder="Enter Price" min="0" wire:model.defer="priceValue"
+                                                   style="border: 2px solid #1b3a62;">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        @php
+                                            $traits = ['VEN', 'MER', 'SO', 'SA', 'MA', 'JO', 'LU'];
+                                        @endphp
+                                        <label class="form-label fs-4" style="color: #1b3a62">SELECT TRAITS</label>
+                                        <div class="row">
+                                            @foreach($traits as $key=>$trait)
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <input wire:key="trait-{{$key}}" type="checkbox"
+                                                               wire:model.defer="selectedTraits"
+                                                               value="{{ $trait }}" class="form-check-input"
+                                                               id="day_{{ $trait }}">
+                                                        <label class="form-check-label"
+                                                               for="day_{{ $trait }}">{{ $trait }}</label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        @php
+                                            $features = ['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'];
+                                        @endphp
+                                        <label class="form-label fs-4" style="color: #1b3a62">SELECT MOTIVATIONAL
+                                            DRIVERS</label>
+                                        <div class="row">
+                                            @foreach($features as $key=>$feature)
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <input wire:key="feature-{{$key}}" type="checkbox"
+                                                               wire:model.defer="selectedFeatures"
+                                                               value="{{ $feature }}" class="form-check-input"
+                                                               id="day_{{ $feature }}">
+                                                        <label class="form-check-label"
+                                                               for="day_{{ $feature }}">{{ $feature }}</label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        @php
+                                            $alchemies = ['G', 'S', 'C', 'CS', 'GS', 'SC', 'SG'];
+                                        @endphp
+                                        <label class="form-label fs-4" style="color: #1b3a62">SELECT ALCHEMY</label>
+                                        <div class="row">
+                                            @foreach($alchemies as $key=>$alchemy)
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <input wire:key="alchemy-{{$key}}" type="checkbox"
+                                                               wire:model.defer="selectedAlchemy"
+                                                               value="{{ $alchemy }}" class="form-check-input"
+                                                               id="day_{{ $alchemy }}">
+                                                        <label class="form-check-label"
+                                                               for="day_{{ $alchemy }}">{{ $alchemy }}</label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        @php
+                                            $communications = ['EM', 'INS', 'INT', 'MOV'];
+                                        @endphp
+                                        <label class="form-label fs-4" style="color: #1b3a62">SELECT COMMUNICATION
+                                            STYLE</label>
+                                        <div class="row">
+                                            @foreach($communications as $key=>$communication)
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <input wire:key="communication-{{$key}}" type="checkbox"
+                                                               wire:model.defer="selectedCommunications"
+                                                               value="{{ $communication }}" class="form-check-input"
+                                                               id="day_{{ $communication }}">
+                                                        <label class="form-check-label"
+                                                               for="day_{{ $communication }}">{{ $communication }}</label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <label class="form-label fs-4" style="color: #1b3a62">SELECT PERCEPTION OF
+                                            LIFE</label>
+                                        <div class="row">
+                                            @foreach($perceptionCodes as $code => $label)
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <input wire:key="perception-{{$code}}" type="checkbox"
+                                                               wire:model.defer="selectedPerceptions"
+                                                               value="{{ $code }}"
+                                                               class="form-check-input"
+                                                               id="day_{{ $code }}">
+                                                        <label class="form-check-label" for="day_{{ $code }}">
+                                                            {{ $label }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <label class="form-label fs-4" style="color: #1b3a62">SELECT ENERGY
+                                            POOL</label>
+                                        <div class="row">
+                                            @foreach($energyPoolCodes as $code => $label)
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <input wire:key="energypool-{{$code}}" type="checkbox"
+                                                               wire:model.defer="selectedEnergyPools"
+                                                               value="{{ $code }}"
+                                                               class="form-check-input"
+                                                               id="day_{{ $code }}">
+                                                        <label class="form-check-label" for="day_{{ $code }}">
+                                                            {{ $label }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -897,7 +941,6 @@
                             <span wire:loading wire:target="updateResource" class="swal2-loader"
                                   style="font-size: 8px;"></span>
                         </button>
-
                     </form>
                 </div>
             </div>

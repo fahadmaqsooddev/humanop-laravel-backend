@@ -16,23 +16,32 @@ use App\Http\Controllers\Api\StripePublicController;
 
 Route::group(['middleware' => ['checkUser']], function () {
 
+    Route::get('billing/payment-method/init','BillingController@initPaymentMethod');
+
+    Route::post('/billing/payment-method/finalize','BillingController@finalizePaymentMethod');
+
+    Route::get ('/billing/payment-method','BillingController@getDefaultPaymentMethod');
+
+
     // Create premium subscription draft (monthly/yearly)
-    Route::post('/billing/subscriptions/init', 'BillingController@initSubscription');
+    Route::post('billing/subscriptions/init', 'BillingController@initSubscription');
 
     // Swap recurring plan (premium_monthly <-> premium_yearly)
-    Route::post('/billing/subscriptions/swap', 'BillingController@swapPlan');
+    Route::post('billing/subscriptions/swap', 'BillingController@swapPlan');
 
     // Cancel / resume
-    Route::post('/billing/subscriptions/cancel', 'BillingController@cancelAtPeriodEnd');
-    Route::post('/billing/subscriptions/resume', 'BillingController@resume');
+    Route::post('billing/subscriptions/cancel', 'BillingController@cancelAtPeriodEnd');
+    Route::post('billing/subscriptions/resume', 'BillingController@resume');
 
     // Poll status by Stripe sub ID
-    Route::get('/billing/subscriptions/{stripeSubscriptionId}/status', 'BillingController@status');
+    Route::get('billing/subscriptions/{stripeSubscriptionId}/status', 'BillingController@status');
 
     // Lifetime purchase (one-time)
-    Route::post('/billing/lifetime/init', 'BillingController@initLifetime');
+    Route::post('billing/lifetime/init', 'BillingController@initLifetime');
 
     // BB-onetime / add-on (one-time)
-    Route::post('/billing/bb-onetime/init', 'BillingController@initBBOneTime');
+    Route::post('billing/bb-onetime/init', 'BillingController@initBBOneTime');
+
+    Route::get('plans', 'BillingController@plans');
 
 });

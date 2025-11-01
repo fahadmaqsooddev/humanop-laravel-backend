@@ -26,29 +26,19 @@ class dailyTipPushNotification extends Command
     public function handle()
     {
 
-//        Log::info('command start');
-
         $users = User::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->get();
 
         foreach ($users as $user) {
-
-//            Log::info('get user');
 
             $assessment = Assessment::where('user_id', $user['id'])->where('page', 0)->latest()->first();
 
             if (!empty($assessment)) {
 
-//                Log::info('get assessment');
-
                 $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
-
-//                Log::info('get tip');
 
                 $canUpdate = false;
 
                 if (!empty($userDailyTip) && $user['plan_name'] == 'Premium' && !empty($user['set_daily_tip_time']) && $userDailyTip['is_read'] == 1) {
-
-//                    Log::info('daily tip update');
 
                     $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
 
@@ -66,8 +56,6 @@ class dailyTipPushNotification extends Command
 
                     do {
 
-                        Log::info('daily tip find');
-
                         $randomCode = DailyTip::randomCode($assessment);
 
                         $newDailyTip = DailyTip::getSameCodeTips($randomCode);
@@ -83,8 +71,6 @@ class dailyTipPushNotification extends Command
                                 if ($getLatestTip['updated_at']->startOfMinute() != Carbon::now()->startOfMinute()) {
 
                                     UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
-
-                                    Log::info('Your New Daily Tip');
 
                                     $message = 'Your New Daily Tip';
 

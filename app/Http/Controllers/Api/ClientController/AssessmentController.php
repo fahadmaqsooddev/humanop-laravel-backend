@@ -23,9 +23,11 @@ use App\Models\Client\PurchasedItems;
 use App\Models\Question;
 use App\Models\User;
 use App\Models\Videos\VideoProgress;
+use App\Services\Assessment\AssessmentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -238,11 +240,13 @@ class AssessmentController extends Controller
 
         try {
 
-            $message = Assessment::submitQuestionAnswers($request->input('answer_ids'));
+            $message = AssessmentService::submitAnswers($request->input('answer_ids'));
 
             return Helpers::successResponse($message);
 
         } catch (\Exception $exception) {
+
+            Log::error('Assessment Submission Error: ' . $exception->getMessage());
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
