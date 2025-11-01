@@ -42,25 +42,43 @@ class AssessmentService
 
     private static function calculateAnswerScores(array $answerIds): array
     {
+        $flatIds = collect($answerIds)->flatten()->unique()->toArray();
+
+        $answerCodes = AnswerCode::whereIn('answer_id', $flatIds)->get()->groupBy('answer_id');
+
         $singleScores = [];
+
         $multiScores = [];
 
         foreach ($answerIds as $answer) {
+
             if (is_array($answer)) {
+
                 $i = 3;
+
                 foreach ($answer as $ansId) {
-                    $code = AnswerCode::where('answer_id', $ansId)->select(['code', 'number'])->first();
+
+                    $code = $answerCodes[$ansId]->first() ?? null;
+
                     if ($code) {
+
                         $number = (int)$code->number + $i;
+
                         $key = strtolower($code->code);
+
                         $multiScores[$key] = ($multiScores[$key] ?? 0) + $number;
+
                         $i--;
                     }
                 }
             } else {
-                $codes = AnswerCode::where('answer_id', $answer)->get();
-                foreach ($codes as $code) {
+
+                if (!isset($answerCodes[$answer])) continue;
+
+                foreach ($answerCodes[$answer] as $code) {
+
                     $singleScores[$code->code] = ($singleScores[$code->code] ?? 0) + $code->number;
+
                 }
             }
         }
@@ -145,16 +163,26 @@ class AssessmentService
 
     private static function storeAssessmentDetails(array $answerIds, $assessment, $userId): void
     {
+        $flatIds = collect($answerIds)->flatten()->unique()->toArray();
+
+        $answers = Answer::with('question')->whereIn('id', $flatIds)->orWhereIn('answer_id', $flatIds)->get()->keyBy('id');
+
         foreach ($answerIds as $answer) {
+
             $data = ['user_id' => $userId, 'assessment_id' => $assessment->id];
 
             $ids = is_array($answer) ? $answer : [$answer];
 
             foreach ($ids as $id) {
-                $ans = Answer::where('id', $id)->orWhere('answer_id', $id)->first();
+
+                $ans = $answers[$id] ?? null;
+
                 if ($ans) {
+
                     $data['answer'] = $ans->answer;
+
                     $data['question'] = optional($ans->question)->question;
+
                     AssessmentDetail::createAssessmentDetail($data);
                 }
             }
