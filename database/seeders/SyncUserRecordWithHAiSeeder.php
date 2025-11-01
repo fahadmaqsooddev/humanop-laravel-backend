@@ -25,7 +25,7 @@ class SyncUserRecordWithHAiSeeder extends Seeder
 
             if (!empty($assessment)){
 
-                HaiChatHelpers::syncUserRecordWithHAi($user);
+//                HaiChatHelpers::syncUserRecordWithHAi($user);
 
             }
 
