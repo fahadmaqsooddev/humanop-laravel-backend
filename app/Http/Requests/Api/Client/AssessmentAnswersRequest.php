@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\Client;
 
 use App\Helpers\Helpers;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AssessmentAnswersRequest extends FormRequest
 {
@@ -25,15 +26,18 @@ class AssessmentAnswersRequest extends FormRequest
     public function rules()
     {
         return [
-            'assessment_id' => 'required|exists:assessments,id,user_id,' . Helpers::getUser()->id
+            'assessment_id' => [
+                'required',
+                Rule::exists('assessments', 'id')->where('user_id', Helpers::getUser()->id),
+            ],
         ];
     }
 
     public function messages()
     {
         return [
-            'assessment_id.required' => 'Assessment id is required',
-            'assessment_id.exists' => 'Assessment id does not exists',
+            'assessment_id.required' => 'Assessment ID is required.',
+            'assessment_id.exists' => 'Assessment ID does not exist or does not belong to you.',
         ];
     }
 }
