@@ -113,7 +113,15 @@
 
                 <tr class="text-color-blue">
                     <td class="text-sm font-weight-normal text-center">{{$user['first_name'].' '.$user['last_name'] }} </td>
-                    <td class="text-sm font-weight-normal">{{$user['email']}}</td>
+                    <td class="text-sm font-weight-normal">
+                        <input type="text"
+                               oninput="delayedEmailUpdate({{ $user['id'] }}, this)"
+                               onkeydown="handleEmailEnter(event, {{ $user['id'] }}, this)"
+                               name="email_{{ $user['id'] }}"
+                               value="{{ $user['email'] }}"
+                               class="form-control input-form-style"
+                               placeholder="Enter email">
+                    </td>
                     <td class="text-sm font-weight-normal text-center">{{$user['gender'] != null ? $user['gender'] == 1 ? 'Female' : 'Male' : '-'}}</td>
                     <td class="text-sm font-weight-normal">
                         <div class="form-check form-switch mb-0 d-flex justify-content-center">
@@ -162,11 +170,20 @@
                             <select class="form-control input-form-style"
                                     onchange="changeUserPlan({{ $user['id'] }}, this.value)"
                                     style="background-color: #0F1535; border-radius: 12px;">
-                                <option value="Freemium" {{ $user['plan_name'] === 'Freemium' ? 'selected' : '' }}>
+                                <option value="freemium" {{ $user['plan'] === 'freemium' ? 'selected' : '' }}>
                                     Freemium
                                 </option>
-                                <option value="Premium" {{ $user['plan_name'] === 'Premium' ? 'selected' : '' }}>
-                                    Premium
+                                <option value="premium_monthly" {{ $user['plan'] === 'premium_monthly' ? 'selected' : '' }}>
+                                    Premium Monthly
+                                </option>
+                                <option value="premium_yearly" {{ $user['plan'] === 'premium_yearly' ? 'selected' : '' }}>
+                                    Premium Yearly
+                                </option>
+                                <option value="premium_lifetime" {{ $user['plan'] === 'premium_lifetime' ? 'selected' : '' }}>
+                                    Premium Lifetime
+                                </option>
+                                <option value="bb_onetime" {{ $user['plan'] === 'bb_onetime' ? 'selected' : '' }}>
+                                    Beta Breaker OneTime
                                 </option>
                             </select>
                         </td>
@@ -194,6 +211,56 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script>
+        let emailTimers = {}; // store timers per user
+
+        // Trigger SweetAlert popup
+        function showEmailChangePopup(id, newEmail) {
+            if (newEmail.trim() === "") return;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-primary m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html:
+                    "<span style='color: white;'>You want to change this user’s email to:</span><br>" +
+                    "<strong style='color: #00ffcc;'>" + newEmail + "</strong>",
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Trigger Livewire event
+                    window.livewire.emit('updateEmail', id, newEmail);
+                }
+            });
+        }
+
+        // Delayed popup after user stops typing for 5s
+        function delayedEmailUpdate(id, inputElement) {
+            clearTimeout(emailTimers[id]); // reset old timer
+            emailTimers[id] = setTimeout(() => {
+                showEmailChangePopup(id, inputElement.value);
+            }, 5000);
+        }
+
+        // Immediate popup on pressing Enter
+        function handleEmailEnter(event, id, inputElement) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                clearTimeout(emailTimers[id]); // cancel any running timer
+                showEmailChangePopup(id, inputElement.value);
+            }
+        }
+    </script>
+    <script>
+
         function updateUserHaiChatStatus(id, name, checkbox, e) {
             e.preventDefault();
 

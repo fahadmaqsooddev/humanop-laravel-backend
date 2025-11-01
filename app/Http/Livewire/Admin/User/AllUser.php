@@ -27,7 +27,7 @@ class AllUser extends Component
     protected $users = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete', 'userPlanChange'];
+    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete', 'userPlanChange','updateEmail'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -215,6 +215,17 @@ class AllUser extends Component
         $this->users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER]);
     }
 
+    public function updateEmail($id, $newEmail)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->email = $newEmail;
+            $user->save();
+
+            session()->flash('success', "Email updated successfully!");
+            
+        }
+    }
 
     public function render()
     {
