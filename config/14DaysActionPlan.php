@@ -2,7 +2,8 @@
 
 return [
 
-    'priority_1' => "<h3 style='color: #1b3a62'>14-Day Kickstart Plan Intention:</h3>
+    'priority_1' => "
+<h3 style='color: #1b3a62'>14-Day Kickstart Plan Intention:</h3>
         <p class='text-color-blue'> To cultivate a deeper connection with yourself bygenerating an awareness that you are uniquely designed, significant, and worthy.  </p>
         <h3 style='color: #1b3a62'>14-Day Kickstart Plan:</h3>
         <p class='text-color-blue'>Each morning for the next 14 days, 'open the doors' to all four ofyour Energy Centers in your uniquely ordered configuration. For example:</p>
@@ -194,7 +195,7 @@ the strong states of your specific drivers.  </p>
     ",
 
     'priority_13' => "<h3 style=\"color: #1b3a62;\">Context:</h3>
-    <p class='text-color-blue'> You are experiencing a lot of 'mind chatter,' which compromises your ability to
+    <p class='text-color-blue'> You are experiencing a lot of 'mind chatter', which compromises your ability to
 focus.  </p>
 
     <h3 style=\"color: #1b3a62;\">14-Day Kickstart Plan:</h3>
