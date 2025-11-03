@@ -135,7 +135,7 @@ class optimalTraitPushNotification extends Command
 
     private function processUser($user)
     {
-        $notification = PushNotification::getLatestNotification($user->id);
+        $notification = PushNotification::getSingleNotification($user->id);
 
         if (empty($notification) || $notification['optimal_trait'] != 1) {
 
