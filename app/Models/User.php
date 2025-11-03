@@ -124,7 +124,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute','plan','is_lifetime','has_bb_onetime','billing_context','premium_lifetime_welcome']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute', 'plan', 'is_lifetime', 'has_bb_onetime', 'billing_context', 'premium_lifetime_welcome']);
     }
 
     // appends
@@ -356,42 +356,38 @@ class User extends Authenticatable implements JWTSubject
     public function getPlanNameAttribute()
     {
 
-        if (!empty($this->plan)) {
+        if (!empty($this->plan) && in_array($this->plan, ['premium_monthly', 'premium_yearly', 'premium_lifetime'])) {
 
-            if (($this->plan == "premium_monthly") || ($this->plan == "premium_yearly") || ($this->plan == "premium_lifetime")) {
-
-                return "Premium";
-
-            }elseif ($this->plan == "bb_onetime"){
-
-                return "Beta Breaker";
-
-            }else{
-
-                return "Freemium";
-
-            }
-
-        } else {
-
-            return "Freemium";
+            return 'Premium';
 
         }
 
+        if ((!empty($this->plan) && $this->plan === 'bb_onetime') || $this->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
+
+            return 'Beta Breaker';
+
+        }
+
+        return 'Freemium';
+
     }
+
 
     public function getPlanKeyAttribute()
     {
-
         if (!empty($this->plan)) {
 
             return $this->plan;
 
-        } else {
-
-            return "Freemium";
         }
 
+        if ($this->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
+
+            return 'Beta Breaker';
+
+        }
+
+        return 'freemium';
     }
 
     public function getIsViewedStoriesAttribute()
