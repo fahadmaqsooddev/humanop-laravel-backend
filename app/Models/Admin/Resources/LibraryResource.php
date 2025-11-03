@@ -228,24 +228,31 @@ class LibraryResource extends Model
 
         $user = Helpers::getUser();
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
-
-            $plan = 'Premium';
-
+        if (
+            $user['beta_breaker_club'] != Admin::BETA_BREAKER_CLUB
+            && in_array($user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime'])
+        ) {
+            $userPlan = 'Premium';
+        } elseif (
+            $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB
+            || $user['plan'] == 'bb_onetime'
+        ) {
+            $userPlan = 'Beta Breaker';
         } else {
-
-            $plan = $user['plan_name'] ?? null;
+            $userPlan = 'Freemium';
         }
 
-        $permission = match ($plan) {
-            'Premium' => 2,
-            default => 1,
+        $permissionLevels = match ($userPlan) {
+            'Premium' => [6, 3, 2, 1],
+            'Beta Breaker' => [5, 2, 1],
+            default => [4, 1],
         };
+
 
         $purchasedItemIds = HumanOpLibraries::getAllLibraries(Helpers::getUser()['id'])->pluck('library_resource_id')->toArray();
 
-        $resource = self::whereHas('libraryPermissions', function ($q) use ($permission) {
-            $q->where('permission', $permission);
+        $resource = self::whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
+            $q->whereIn('permission', $permissionLevels);
         })
             ->with(['resourceCategory', 'libraryPermissions'])
             ->whereNotIn('id', $purchasedItemIds)
@@ -262,19 +269,25 @@ class LibraryResource extends Model
         $user = Helpers::getUser();
         $userId = $user['id'];
 
-        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB && $user['plan_name'] == "Premium") {
-
+        if (
+            $user['beta_breaker_club'] != Admin::BETA_BREAKER_CLUB
+            && in_array($user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime'])
+        ) {
             $userPlan = 'Premium';
-
-        } elseif ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB && $user['plan_name'] != "Freemium") {
-
+        } elseif (
+            $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB
+            || $user['plan'] == 'bb_onetime'
+        ) {
             $userPlan = 'Beta Breaker';
-
         } else {
-
             $userPlan = 'Freemium';
-
         }
+
+        $permissionLevels = match ($userPlan) {
+            'Premium' => [6, 3, 2, 1],
+            'Beta Breaker' => [5, 2, 1],
+            default => [4, 1],
+        };
 
         $purchasedItemIds = HumanOpLibraries::getAllLibraries($userId)->pluck('library_resource_id')->toArray();
 
