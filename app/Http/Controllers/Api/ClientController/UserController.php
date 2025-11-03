@@ -144,7 +144,7 @@ class UserController extends Controller
 
                 $updated_user = User::updatePersonalInformation($dataArray);
 
-                HaiChatHelpers::syncUserRecordWithHAi($updated_user);
+//                HaiChatHelpers::syncUserRecordWithHAi($updated_user);
 
                 return Helpers::successResponse('Personal Information updated successfully', $updated_user);
 
@@ -190,7 +190,7 @@ class UserController extends Controller
 
             }
 
-            HaiChatHelpers::syncUserRecordWithHAi();
+//            HaiChatHelpers::syncUserRecordWithHAi();
 
             DB::commit();
 
@@ -598,7 +598,7 @@ class UserController extends Controller
 
             IntentionPlan::updateIntentionPlan($user['id'], $request->ninety_day_intention);
 
-            HaiChatHelpers::syncUserRecordWithHAi();
+//            HaiChatHelpers::syncUserRecordWithHAi();
 
             return Helpers::successResponse('updated successfully.', $request->ninety_day_intention);
         } catch (\Exception $exception) {
@@ -826,7 +826,7 @@ class UserController extends Controller
 
             User::changeProfileAccess($request['change_profile_access']);
 
-            HaiChatHelpers::syncUserRecordWithHAi();
+//            HaiChatHelpers::syncUserRecordWithHAi();
 
             DB::commit();
 

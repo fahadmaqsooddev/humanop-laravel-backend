@@ -161,7 +161,7 @@ class AuthController extends Controller
 
                 Log::info(print_r($user, true));
                 // Sync to HAi downstream system
-                HaiChatHelpers::syncUserRecordWithHAi($user);
+//                HaiChatHelpers::syncUserRecordWithHAi($user);
 
                 // If they provided a company_name, wire B2B candidate / activity
                 if (!empty($request['company_name'])) {
@@ -449,7 +449,7 @@ class AuthController extends Controller
 
                     $getUser->update(['last_login' => $signupTime->format('Y-m-d H:i:s')]);
 
-                    HaiChatHelpers::syncUserRecordWithHAi();
+//                    HaiChatHelpers::syncUserRecordWithHAi();
 
                     $data = [
                         'user' => $getUser,
@@ -482,7 +482,7 @@ class AuthController extends Controller
 
                     $getUser->update(['last_login' => $signupTime->format('Y-m-d H:i:s')]);
 
-                    HaiChatHelpers::syncUserRecordWithHAi();
+//                    HaiChatHelpers::syncUserRecordWithHAi();
 
                     $data = [
                         'user' => $getUser,
@@ -863,7 +863,7 @@ class AuthController extends Controller
 
                     $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
-                    HaiChatHelpers::syncUserRecordWithHAi();
+//                    HaiChatHelpers::syncUserRecordWithHAi();
 
                     User::LastLoginWith($request);
 
@@ -1003,7 +1003,7 @@ class AuthController extends Controller
 
                 $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
-                HaiChatHelpers::syncUserRecordWithHAi();
+//                HaiChatHelpers::syncUserRecordWithHAi();
 
                 User::LastLoginWith($request);
 
@@ -1443,7 +1443,7 @@ class AuthController extends Controller
                     PointLog::createUserFetchPointLog($user['id'], $fetchUserData['point_log']);
                 }
 
-                HaiChatHelpers::syncUserRecordWithHAi($user);
+//                HaiChatHelpers::syncUserRecordWithHAi($user);
 
                 DB::commit();
 
