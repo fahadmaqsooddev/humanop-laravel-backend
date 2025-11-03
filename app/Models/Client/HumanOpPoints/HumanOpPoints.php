@@ -36,6 +36,10 @@ class HumanOpPoints extends Model
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
+        } elseif ($user['plan_name'] === 'Beta Breaker') {
+
+            $multiplier = 2;
+
         } else {
 
             $multiplier = 3;
@@ -81,6 +85,10 @@ class HumanOpPoints extends Model
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
+        } elseif ($user['plan_name'] === 'Beta Breaker') {
+
+            $multiplier = 2;
+
         } else {
 
             $multiplier = 3;
@@ -108,6 +116,10 @@ class HumanOpPoints extends Model
         if ($user['plan_name'] === 'Freemium') {
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
+
+        } elseif ($user['plan_name'] === 'Beta Breaker') {
+
+            $multiplier = 2;
 
         } else {
 
@@ -137,6 +149,10 @@ class HumanOpPoints extends Model
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
+        } elseif ($user['plan_name'] === 'Beta Breaker') {
+
+            $multiplier = 2;
+
         } else {
 
             $multiplier = 3;
@@ -164,6 +180,10 @@ class HumanOpPoints extends Model
         if ($user['plan_name'] === 'Freemium') {
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
+
+        } elseif ($user['plan_name'] === 'Beta Breaker') {
+
+            $multiplier = 2;
 
         } else {
 
