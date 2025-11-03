@@ -171,11 +171,11 @@
                                     onchange="changeUserPlan({{ $user['id'] }}, this.value)"
                                     style="background-color: #0F1535; border-radius: 12px;">
                                 @if($user['plan'] == null or $user['plan'] == 'freemium' or $user['plan'] == 'Freemium')
-                                    <option value="premium_lifetime" selected>Freemium</option>
+                                    <option value="freemium" selected>Freemium</option>
                                 @elseif($user['plan'] == 'premium_monthly')
-                                    <option value="premium_lifetime" selected>Premium Monthly</option>
+                                    <option value="premium_monthly" selected>Premium Monthly</option>
                                 @elseif($user['plan'] == 'premium_yearly')
-                                    <option value="premium_lifetime" selected>Premium yearly</option>
+                                    <option value="premium_yearly" selected>Premium yearly</option>
                                 @endif
                                 <option
                                     value="premium_lifetime" {{ $user['plan'] === 'premium_lifetime' ? 'selected' : '' }}>
