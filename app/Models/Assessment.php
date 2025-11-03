@@ -2004,7 +2004,7 @@ class Assessment extends Model
                     }
                 }
 
-//                HaiChatHelpers::syncUserRecordWithHAi();
+                HaiChatHelpers::syncUserRecordWithHAi();
 
                 HumanOpPoints::addPointsAfterCompleteAssessment($user);
 

@@ -192,7 +192,7 @@ class AssessmentService
 
     private static function triggerGamification($user): void
     {
-//        HaiChatHelpers::syncUserRecordWithHAi();
+        HaiChatHelpers::syncUserRecordWithHAi();
         HumanOpPoints::addPointsAfterCompleteAssessment($user);
         GamificationBadgesAchievement::addBadgeAfterCompleteAssessment($user->id);
     }
