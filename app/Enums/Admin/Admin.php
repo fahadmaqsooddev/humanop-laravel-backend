@@ -170,7 +170,7 @@ final class Admin
 
     const B2B_ACTIVE_PLAN = 1;
 
-    const FREEMIUM_CREDITS = 25;
+    const FREEMIUM_CREDITS = 15;
 
     const BREAKER_CREDITS = 50;
 
