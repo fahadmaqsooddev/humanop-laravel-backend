@@ -1460,7 +1460,7 @@ class User extends Authenticatable implements JWTSubject
 
         $data['profile_status'] = 1;
 
-        $data['beta_breaker_club'] = Admin::BETA_BREAKER_CLUB;
+        $data['beta_breaker_club'] = Admin::BETA_BREAKER_CLUB_NOT;
 
         $data['email_verify_token'] = Str::random(16);
 
