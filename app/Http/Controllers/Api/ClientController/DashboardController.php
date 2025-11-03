@@ -96,7 +96,7 @@ class DashboardController extends Controller
 
                     if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay == false)) {
 
-//                        HaiChatHelpers::syncUserRecordWithHAi();
+                        HaiChatHelpers::syncUserRecordWithHAi();
 
                         if ($user['plan_name'] == 'Freemium') {
 
@@ -152,7 +152,7 @@ class DashboardController extends Controller
 
                                 Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
-//                                HaiChatHelpers::syncUserRecordWithHAi();
+                                HaiChatHelpers::syncUserRecordWithHAi();
 
                             }elseif($getLatestTip['updated_at']->startOfMinute() != Carbon::now()->startOfMinute()){
 
@@ -164,7 +164,7 @@ class DashboardController extends Controller
 
                                 Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
-//                                HaiChatHelpers::syncUserRecordWithHAi();
+                                HaiChatHelpers::syncUserRecordWithHAi();
 
                             }
 
