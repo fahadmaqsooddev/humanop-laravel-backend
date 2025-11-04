@@ -111,6 +111,7 @@ class AssessmentController extends Controller
                     'assessment_page_number' => $status,
                     'plan_name' => $user['plan_name'],
                     'retake_assessment' => null,
+                    'reset_assessment' => true,
                     'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                     'user' => [
                         'last_four_digits' => $user['pm_last_four'],
@@ -130,6 +131,7 @@ class AssessmentController extends Controller
                     'assessment_count' => $assessment_count,
                     'assessment_page_number' => $checkAssessment['page'],
                     'plan_name' => $user['plan_name'],
+                    'reset_assessment' => false,
                     'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                     'user' => [
                         'last_four_digits' => $user['pm_last_four'],
@@ -161,6 +163,7 @@ class AssessmentController extends Controller
                         'assessment_count' => $assessment_count,
                         'retake_assessment' => $takeAssessment,
                         'plan_name' => $user['plan_name'],
+                        'reset_assessment' => false,
                         'assessment_page_number' => $status,
                         'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                         'user' => [
@@ -179,6 +182,7 @@ class AssessmentController extends Controller
                         'retake_assessment' => null,
                         'plan_name' => $user['plan_name'],
                         'assessment_page_number' => $status,
+                        'reset_assessment' => true,
                         'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                         'user' => [
                             'last_four_digits' => $user['pm_last_four'],
@@ -196,6 +200,7 @@ class AssessmentController extends Controller
                     'assessment_count' => $assessment_count,
                     'assessment_page_number' => $status,
                     'plan_name' => $user['plan_name'],
+                    'reset_assessment' => false,
                     'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                     'user' => [
                         'last_four_digits' => $user['pm_last_four'],
