@@ -356,14 +356,15 @@ class DashboardController extends Controller
     {
 
         try {
+            $user = Helpers::getUser();
 
-            if (Helpers::getUser()['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB){
+            if ($user['plan_name'] == "Freemium"){
 
-                $userPlan = "Premium";
+                $userPlan = "Freemium";
 
             }else{
 
-                $userPlan = Helpers::getUser()['plan_name'];
+                $userPlan = "Premium";
 
             }
 
