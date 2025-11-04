@@ -176,6 +176,8 @@ final class Admin
 
     const CORE_CREDITS = 150;
 
+    const PREMIUM_LIFETIME_CREDITS = 1000;
+
     const PREMIUM_CREDITS = 250;
 
     const SHARE_ASSESSMENT = 1;
