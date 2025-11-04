@@ -108,7 +108,7 @@ class AssessmentController extends Controller
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
                     'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
                     'assessment_count' => $assessment_count,
-                    'assessment_page_number' => $status,
+                    'assessment_page_number' => true,
                     'plan_name' => $user['plan_name'],
                     'retake_assessment' => null,
                     'reset_assessment' => true,
