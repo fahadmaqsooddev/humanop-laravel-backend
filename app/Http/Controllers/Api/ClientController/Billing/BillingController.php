@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\ClientController\Billing;
 
 use App\Domain\Billing\PlanRules;
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Client\Plan\Plan;
+use App\Models\Client\Point\Point;
 use Illuminate\Http\Request;
 use App\Support\StripeConfig;
 use Laravel\Cashier\Subscription;
@@ -32,14 +34,14 @@ class BillingController extends Controller
             'automatic_payment_methods' => ['enabled' => true],
             'usage' => 'off_session', // we want to be able to charge later automatically
             'metadata' => [
-                'user_id' => (string) $user->getKey(),
-                'family'  => 'b2c'
+                'user_id' => (string)$user->getKey(),
+                'family' => 'b2c'
             ],
         ]);
 
         return response()->json([
             'setup_intent_id' => $setupIntent->id,
-            'client_secret'   => $setupIntent->client_secret,
+            'client_secret' => $setupIntent->client_secret,
             'publishable_key' => StripeConfig::publishableKey(),
         ]);
     }
@@ -95,11 +97,11 @@ class BillingController extends Controller
         }
 
         $masked = [
-            'id'       => $pm->id,
-            'type'     => $pm->type,
-            'brand'    => $pm->card->brand ?? null,
-            'last4'    => $pm->card->last4 ?? null,
-            'exp_month'=> $pm->card->exp_month ?? null,
+            'id' => $pm->id,
+            'type' => $pm->type,
+            'brand' => $pm->card->brand ?? null,
+            'last4' => $pm->card->last4 ?? null,
+            'exp_month' => $pm->card->exp_month ?? null,
             'exp_year' => $pm->card->exp_year ?? null,
         ];
 
@@ -109,8 +111,8 @@ class BillingController extends Controller
     public function initSubscription(Request $request)
     {
         $validated = $request->validate([
-            'plan'  => 'required|string', // 'premium_monthly' etc.
-            'name'  => 'nullable|string',
+            'plan' => 'required|string', // 'premium_monthly' etc.
+            'name' => 'nullable|string',
             'email' => 'nullable|email',
             'payment_method' => 'nullable|string',
         ]);
@@ -128,7 +130,7 @@ class BillingController extends Controller
 
         // Sync basic info
         $this->stripe->customers->update($user->stripe_id, array_filter([
-            'name'  => $validated['name']  ?? null,
+            'name' => $validated['name'] ?? null,
             'email' => $validated['email'] ?? $user->email,
         ]));
 
@@ -145,23 +147,23 @@ class BillingController extends Controller
 
         }
         if (!$pmId) {
-            return response()->json(['status'  => false, 'message' => 'No default payment method. Please add a card first.', 'code'    => 'card_required',], 422);
+            return response()->json(['status' => false, 'message' => 'No default payment method. Please add a card first.', 'code' => 'card_required',], 422);
         }
 
         // Create incomplete sub with explicit default PM
         $subscription = $this->stripe->subscriptions->create([
             'customer' => $user->stripe_id,
-            'items'    => [['price' => $priceId]],
+            'items' => [['price' => $priceId]],
             'default_payment_method' => $pmId,
-            'payment_behavior'       => 'default_incomplete',
-            'payment_settings'       => ['save_default_payment_method' => 'on_subscription'],
-            'proration_behavior'     => 'none',
+            'payment_behavior' => 'default_incomplete',
+            'payment_settings' => ['save_default_payment_method' => 'on_subscription'],
+            'proration_behavior' => 'none',
             'metadata' => ['user_id' => (string)$user->getKey(), 'family' => 'b2c'],
         ]);
 
         // optimistic local flags
-        $user->plan            = $validated['plan']; // e.g., premium_monthly
-        $user->is_lifetime     = false;
+        $user->plan = $validated['plan']; // e.g., premium_monthly
+        $user->is_lifetime = false;
         $user->billing_context = 'b2c';
         $user->save();
 
@@ -169,9 +171,9 @@ class BillingController extends Controller
         if (!$latestInvoiceId) {
             return response()->json([
                 'subscription_id' => $subscription->id,
-                'status'          => $subscription->status,
+                'status' => $subscription->status,
                 'requires_action' => false,
-                'message'         => 'No invoice generated.',
+                'message' => 'No invoice generated.',
             ], 200);
         }
 
@@ -180,7 +182,8 @@ class BillingController extends Controller
 
             $this->stripe->invoices->finalizeInvoice($latestInvoiceId, []);
 
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
 
         $paidInvoice = $this->stripe->invoices->pay($latestInvoiceId, ['off_session' => true]);
 
@@ -196,37 +199,37 @@ class BillingController extends Controller
 
             return response()->json([
                 'subscription_id' => $subscription->id,
-                'status'          => 'active',
+                'status' => 'active',
                 'requires_action' => false,
-                'client_secret'   => null,
+                'client_secret' => null,
                 'publishable_key' => StripeConfig::publishableKey(),
-                'invoice_id'      => $invoice->id,
+                'invoice_id' => $invoice->id,
                 'payment_intent_id' => $invoice->payment_intent->id ?? ($invoice->charge ? $this->stripe->charges->retrieve($invoice->charge)->payment_intent : null),
             ]);
         }
 
         // If SCA required, return PI client_secret so frontend can confirm
         $pi = $invoice->payment_intent ?? null;
-        if ($pi && in_array($pi->status, ['requires_action','requires_confirmation','requires_payment_method'])) {
+        if ($pi && in_array($pi->status, ['requires_action', 'requires_confirmation', 'requires_payment_method'])) {
             return response()->json([
                 'subscription_id' => $subscription->id,
-                'status'          => $subscription->status, // likely "incomplete"
+                'status' => $subscription->status, // likely "incomplete"
                 'requires_action' => true,
-                'client_secret'   => $pi->client_secret,
+                'client_secret' => $pi->client_secret,
                 'publishable_key' => StripeConfig::publishableKey(),
-                'invoice_id'      => $invoice->id,
+                'invoice_id' => $invoice->id,
             ]);
         }
 
         // Fallback
         return response()->json([
             'subscription_id' => $subscription->id,
-            'status'          => $subscription->status,
+            'status' => $subscription->status,
             'requires_action' => false,
-            'client_secret'   => null,
+            'client_secret' => null,
             'publishable_key' => StripeConfig::publishableKey(),
-            'invoice_id'      => $invoice->id,
-            'invoice_status'  => $invoice->status,
+            'invoice_id' => $invoice->id,
+            'invoice_status' => $invoice->status,
         ]);
 
     }
@@ -234,8 +237,8 @@ class BillingController extends Controller
     public function initLifetime(Request $request)
     {
         $validated = $request->validate([
-            'plan'  => 'required|string', // e.g. 'premium_lifetime'
-            'name'  => 'nullable|string',
+            'plan' => 'required|string', // e.g. 'premium_lifetime'
+            'name' => 'nullable|string',
             'email' => 'nullable|email',
         ]);
 
@@ -248,7 +251,7 @@ class BillingController extends Controller
 
         // Keep Stripe customer profile fresh
         $this->stripe->customers->update($user->stripe_id, array_filter([
-            'name'  => $validated['name']  ?? null,
+            'name' => $validated['name'] ?? null,
             'email' => $validated['email'] ?? $user->email,
         ]));
 
@@ -261,7 +264,7 @@ class BillingController extends Controller
         // Determine actual amount to charge based on user state:
         // - If user currently has bb_onetime (BB Lifetime) → $100 top-up
         // - Else → full lifetime price
-        $fullLifetimeCents = (int) $price->unit_amount;
+        $fullLifetimeCents = (int)$price->unit_amount;
 
         try {
             $amountCents = PlanRules::lifetimeChargeCents($user, $fullLifetimeCents);
@@ -272,17 +275,17 @@ class BillingController extends Controller
 
         // 📦 Build metadata (mark top-up if applicable)
         $metadata = [
-            'user_id'      => (string) $user->getKey(),
-            'family'       => 'b2c',
-            'purpose'      => 'lifetime',
-            'plan'         => $validated['plan'], // 'premium_lifetime'
+            'user_id' => (string)$user->getKey(),
+            'family' => 'b2c',
+            'purpose' => 'lifetime',
+            'plan' => $validated['plan'], // 'premium_lifetime'
             'product_name' => $price->product->name ?? '',
-            'price_id'     => $priceId,
+            'price_id' => $priceId,
         ];
         $isTopUp = ($amountCents !== $fullLifetimeCents);
         if ($isTopUp) {
             $metadata['bb_to_premium_topup'] = 'true';
-            $metadata['topup_amount_cents']  = (string) $amountCents;
+            $metadata['topup_amount_cents'] = (string)$amountCents;
         }
 
         // Resolve default PM on the customer
@@ -296,78 +299,80 @@ class BillingController extends Controller
         if ($defaultPmId) {
             try {
                 $pi = $this->stripe->paymentIntents->create([
-                    'amount'         => $amountCents,
-                    'currency'       => $price->currency,
-                    'customer'       => $user->stripe_id,
+                    'amount' => $amountCents,
+                    'currency' => $price->currency,
+                    'customer' => $user->stripe_id,
                     'payment_method' => $defaultPmId,
-                    'confirm'        => true,     // attempt immediately
-                    'off_session'    => true,     // no UI; bank may still require SCA
-                    'description'    => $isTopUp
+                    'confirm' => true,     // attempt immediately
+                    'off_session' => true,     // no UI; bank may still require SCA
+                    'description' => $isTopUp
                         ? 'Premium Lifetime (BB upgrade top-up)'
                         : ($price->product->name ?? 'Premium Lifetime Access'),
-                    'metadata'       => $metadata,
+                    'metadata' => $metadata,
                 ]);
 
                 // Succeeded without SCA → no client_secret needed
                 if ($pi->status === 'succeeded') {
                     return response()->json([
-                        'status'             => 'succeeded',
-                        'requires_action'    => false,
-                        'payment_intent_id'  => $pi->id,
+                        'status' => 'succeeded',
+                        'requires_action' => false,
+                        'payment_intent_id' => $pi->id,
                     ]);
                 }
 
                 // Needs SCA → return client_secret so frontend can confirm on-session
                 if (in_array($pi->status, ['requires_action', 'requires_confirmation', 'requires_payment_method'], true)) {
                     return response()->json([
-                        'status'           => 'requires_action',
-                        'requires_action'  => true,
-                        'payment_intent_id'=> $pi->id,
-                        'client_secret'    => $pi->client_secret,
-                        'publishable_key'  => StripeConfig::publishableKey(),
+                        'status' => 'requires_action',
+                        'requires_action' => true,
+                        'payment_intent_id' => $pi->id,
+                        'client_secret' => $pi->client_secret,
+                        'publishable_key' => StripeConfig::publishableKey(),
                     ]);
                 }
             } catch (\Stripe\Exception\CardException $e) {
                 // Typical SCA edge: authentication_required → return PI secret
                 $err = $e->getError();
-                $pi  = $err->payment_intent ?? null;
+                $pi = $err->payment_intent ?? null;
                 if (($err->code ?? null) === 'authentication_required' || ($pi?->status ?? null) === 'requires_action') {
                     return response()->json([
-                        'status'           => 'requires_action',
-                        'requires_action'  => true,
-                        'payment_intent_id'=> $pi?->id,
-                        'client_secret'    => $pi?->client_secret,
-                        'publishable_key'  => StripeConfig::publishableKey(),
+                        'status' => 'requires_action',
+                        'requires_action' => true,
+                        'payment_intent_id' => $pi?->id,
+                        'client_secret' => $pi?->client_secret,
+                        'publishable_key' => StripeConfig::publishableKey(),
                     ]);
                 }
 
                 // Hard decline or other card error
                 return response()->json([
-                    'status'  => 'failed',
+                    'status' => 'failed',
                     'message' => $e->getMessage(),
-                    'code'    => $err->code ?? null,
+                    'code' => $err->code ?? null,
                 ], 402);
             }
         }
 
         // No saved card (or you want AME fallback): return a PI client_secret for Payment Element
         $pi = $this->stripe->paymentIntents->create([
-            'amount'                    => $amountCents,
-            'currency'                  => $price->currency,
-            'customer'                  => $user->stripe_id,
+            'amount' => $amountCents,
+            'currency' => $price->currency,
+            'customer' => $user->stripe_id,
             'automatic_payment_methods' => ['enabled' => true],
-            'description'               => $isTopUp
+            'description' => $isTopUp
                 ? 'Premium Lifetime (BB upgrade top-up)'
                 : ($price->product->name ?? 'Premium Lifetime Access'),
-            'metadata'                  => $metadata,
+            'metadata' => $metadata,
         ]);
 
+        Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+
         return response()->json([
-            'status'             => 'requires_payment_method',  // frontend should render Payment Element
-            'requires_action'    => true,
-            'payment_intent_id'  => $pi->id,
-            'client_secret'      => $pi->client_secret,
-            'publishable_key'    => StripeConfig::publishableKey(),
+            'status' => 'requires_payment_method',  // frontend should render Payment Element
+            'requires_action' => true,
+            'payment_intent_id' => $pi->id,
+            'client_secret' => $pi->client_secret,
+            'publishable_key' => StripeConfig::publishableKey(),
         ]);
     }
 
@@ -375,8 +380,8 @@ class BillingController extends Controller
     public function initBBOneTime(Request $request)
     {
         $validated = $request->validate([
-            'plan'  => 'required|string', // e.g. 'bb_onetime'
-            'name'  => 'nullable|string',
+            'plan' => 'required|string', // e.g. 'bb_onetime'
+            'name' => 'nullable|string',
             'email' => 'nullable|email',
         ]);
 
@@ -392,7 +397,7 @@ class BillingController extends Controller
 
         // Keep Stripe customer profile fresh
         $this->stripe->customers->update($user->stripe_id, array_filter([
-            'name'  => $validated['name']  ?? null,
+            'name' => $validated['name'] ?? null,
             'email' => $validated['email'] ?? $user->email,
         ]));
 
@@ -412,89 +417,91 @@ class BillingController extends Controller
         if ($defaultPmId) {
             try {
                 $pi = $this->stripe->paymentIntents->create([
-                    'amount'         => $price->unit_amount,
-                    'currency'       => $price->currency,
-                    'customer'       => $user->stripe_id,
+                    'amount' => $price->unit_amount,
+                    'currency' => $price->currency,
+                    'customer' => $user->stripe_id,
                     'payment_method' => $defaultPmId,
-                    'confirm'        => true,     // attempt immediately
-                    'off_session'    => true,     // no UI; bank may still require SCA
-                    'description'    => $price->product->name ?? 'BB Onetime',
-                    'metadata'       => [
-                        'user_id'      => (string) $user->getKey(),
-                        'family'       => 'b2c',
-                        'purpose'      => 'bb_onetime',
-                        'plan'         => $validated['plan'], // 'bb_onetime'
+                    'confirm' => true,     // attempt immediately
+                    'off_session' => true,     // no UI; bank may still require SCA
+                    'description' => $price->product->name ?? 'BB Onetime',
+                    'metadata' => [
+                        'user_id' => (string)$user->getKey(),
+                        'family' => 'b2c',
+                        'purpose' => 'bb_onetime',
+                        'plan' => $validated['plan'], // 'bb_onetime'
                         'product_name' => $price->product->name ?? '',
-                        'price_id'     => $priceId,
+                        'price_id' => $priceId,
                     ],
                 ]);
 
                 // Succeeded without SCA → no client_secret needed
                 if ($pi->status === 'succeeded') {
                     return response()->json([
-                        'status'             => 'succeeded',
-                        'requires_action'    => false,
-                        'payment_intent_id'  => $pi->id,
+                        'status' => 'succeeded',
+                        'requires_action' => false,
+                        'payment_intent_id' => $pi->id,
                     ]);
                 }
 
                 // Needs SCA → return client_secret so frontend can confirm on-session
                 if (in_array($pi->status, ['requires_action', 'requires_confirmation', 'requires_payment_method'], true)) {
                     return response()->json([
-                        'status'             => 'requires_action',
-                        'requires_action'    => true,
-                        'payment_intent_id'  => $pi->id,
-                        'client_secret'      => $pi->client_secret,
-                        'publishable_key'    => StripeConfig::publishableKey(),
+                        'status' => 'requires_action',
+                        'requires_action' => true,
+                        'payment_intent_id' => $pi->id,
+                        'client_secret' => $pi->client_secret,
+                        'publishable_key' => StripeConfig::publishableKey(),
                     ]);
                 }
             } catch (\Stripe\Exception\CardException $e) {
                 // Typical SCA edge: authentication_required → return PI secret
                 $err = $e->getError();
-                $pi  = $err->payment_intent ?? null;
+                $pi = $err->payment_intent ?? null;
 
                 if (($err->code ?? null) === 'authentication_required' || ($pi?->status ?? null) === 'requires_action') {
                     return response()->json([
-                        'status'             => 'requires_action',
-                        'requires_action'    => true,
-                        'payment_intent_id'  => $pi?->id,
-                        'client_secret'      => $pi?->client_secret,
-                        'publishable_key'    => StripeConfig::publishableKey(),
+                        'status' => 'requires_action',
+                        'requires_action' => true,
+                        'payment_intent_id' => $pi?->id,
+                        'client_secret' => $pi?->client_secret,
+                        'publishable_key' => StripeConfig::publishableKey(),
                     ]);
                 }
 
                 // Hard decline or other card error
                 return response()->json([
-                    'status'  => 'failed',
+                    'status' => 'failed',
                     'message' => $e->getMessage(),
-                    'code'    => $err->code ?? null,
+                    'code' => $err->code ?? null,
                 ], 402);
             }
         }
 
         // AME fallback: no saved card → return PI client_secret for Payment Element
         $pi = $this->stripe->paymentIntents->create([
-            'amount'                    => $price->unit_amount,
-            'currency'                  => $price->currency,
-            'customer'                  => $user->stripe_id,
+            'amount' => $price->unit_amount,
+            'currency' => $price->currency,
+            'customer' => $user->stripe_id,
             'automatic_payment_methods' => ['enabled' => true],
-            'description'               => $price->product->name ?? 'BB Onetime',
-            'metadata'                  => [
-                'user_id'      => (string) $user->getKey(),
-                'family'       => 'b2c',
-                'purpose'      => 'bb_onetime',
-                'plan'         => $validated['plan'],
+            'description' => $price->product->name ?? 'BB Onetime',
+            'metadata' => [
+                'user_id' => (string)$user->getKey(),
+                'family' => 'b2c',
+                'purpose' => 'bb_onetime',
+                'plan' => $validated['plan'],
                 'product_name' => $price->product->name ?? '',
-                'price_id'     => $priceId,
+                'price_id' => $priceId,
             ],
         ]);
 
+        Point::updatePointOnPlanUpdate(Admin::BREAKER_CREDITS, $user);
+
         return response()->json([
-            'status'             => 'requires_payment_method',  // frontend should render Payment Element
-            'requires_action'    => true,
-            'payment_intent_id'  => $pi->id,
-            'client_secret'      => $pi->client_secret,
-            'publishable_key'    => StripeConfig::publishableKey(),
+            'status' => 'requires_payment_method',  // frontend should render Payment Element
+            'requires_action' => true,
+            'payment_intent_id' => $pi->id,
+            'client_secret' => $pi->client_secret,
+            'publishable_key' => StripeConfig::publishableKey(),
         ]);
     }
 
@@ -622,7 +629,7 @@ class BillingController extends Controller
                     'plan_id' => $plan->plan_id,
                     'name' => $plan->name,
                     'billing_method' => $plan->billing_method,
-                    'price' => Helpers::getUser()['plan_key'] == "bb_onetime"  && $plan->key == "premium_lifetime" ? 100 : $plan->price,
+                    'price' => Helpers::getUser()['plan_key'] == "bb_onetime" && $plan->key == "premium_lifetime" ? 100 : $plan->price,
                     'currency' => $plan->currency,
                     'status' => $plan->status,
                     'key' => $plan->key,
