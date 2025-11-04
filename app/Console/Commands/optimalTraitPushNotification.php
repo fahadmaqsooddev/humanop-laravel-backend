@@ -35,94 +35,186 @@ class optimalTraitPushNotification extends Command
      *
      * @return int
      */
+//    public function handle()
+//    {
+//        $users = User::getAllClientUser();
+//
+//        foreach ($users as $user) {
+//
+//            $notification = PushNotification::getSingleNotification($user['id']);
+//
+//            if (!empty($notification) && $notification['optimal_trait'] == 1) {
+//
+//                $assessment = Assessment::getLatestAssessment($user['id']);
+//
+//                if (!empty($assessment)) {
+//
+//                    $timezone = $user['timezone'];
+//
+//                    $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($timezone);
+//
+//                    $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+//
+//                    $morningStart = Carbon::createFromTimeString('05:00 AM');
+//
+//                    $morningEnd = Carbon::createFromTimeString('12:00 PM');
+//
+//                    $afternoonStart = Carbon::createFromTimeString('12:00 PM');
+//
+//                    $eveningStart = Carbon::createFromTimeString('05:00 PM');
+//
+//                    $topThreeStyles = Assessment::getAllStyles($assessment, $user);
+//
+//                    $topFeatures = Assessment::getFeatures($assessment);
+//
+//                    $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
+//
+//                    $stylesAndDrivers = array_merge($topThreeStyles, $topTwoFeatures);
+//
+//                    $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user['id']);
+//
+//                    if (count($stylesAndDrivers) > 2) {
+//
+//                        if ($currentTime->between($morningStart, $morningEnd)) {
+//
+//                            $status = Admin::MORNING_STATUS;
+//
+//                            $optimalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
+//
+//                        } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
+//
+//                            $status = Admin::AFTERNOON_STATUS;
+//
+//                            $optimalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
+//
+//                        } else {
+//
+//                            $status = Admin::NIGHT_STATUS;
+//
+//                            $optimalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
+//
+//                        }
+//
+//                        $message = 'Your ' . $optimalTrait . ' Optimal Trait';
+//
+//                        if (empty($userOptimalTrait)) {
+//
+//                            UserOptimalTrait::createUserOptimalTrait($optimalTrait, $user['id'], $status);
+//
+//                            HaiChatHelpers::syncUserRecordWithHAi($user);
+//
+////                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
+//
+//                            Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
+//
+//                        } elseif ($userOptimalTrait['status'] != $status) {
+//
+//                            UserOptimalTrait::updateUserOptimalTrait($optimalTrait, $user['id'], $status);
+//
+//                            HaiChatHelpers::syncUserRecordWithHAi($user);
+//
+////                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
+//
+//                            Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
+//
+//                        }
+//
+//                    }
+//                }
+//
+//            }
+//        }
+//    }
+
     public function handle()
     {
-        $users = User::getAllClientUser();
-
-        foreach ($users as $user) {
-
-            $notification = PushNotification::getSingleNotification($user['id']);
-
-            if (!empty($notification) && $notification['optimal_trait'] == 1) {
-
-                $assessment = Assessment::getLatestAssessment($user['id']);
-
-                if (!empty($assessment)) {
-
-                    $timezone = $user['timezone'];
-
-                    $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($timezone);
-
-                    $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
-
-                    $morningStart = Carbon::createFromTimeString('05:00 AM');
-
-                    $morningEnd = Carbon::createFromTimeString('12:00 PM');
-
-                    $afternoonStart = Carbon::createFromTimeString('12:00 PM');
-
-                    $eveningStart = Carbon::createFromTimeString('05:00 PM');
-
-                    $topThreeStyles = Assessment::getAllStyles($assessment, $user);
-
-                    $topFeatures = Assessment::getFeatures($assessment);
-
-                    $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
-
-                    $stylesAndDrivers = array_merge($topThreeStyles, $topTwoFeatures);
-
-                    $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user['id']);
-
-                    if (count($stylesAndDrivers) > 2) {
-
-                        if ($currentTime->between($morningStart, $morningEnd)) {
-
-                            $status = Admin::MORNING_STATUS;
-
-                            $optimalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
-
-                        } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
-
-                            $status = Admin::AFTERNOON_STATUS;
-
-                            $optimalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
-
-                        } else {
-
-                            $status = Admin::NIGHT_STATUS;
-
-                            $optimalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
-
-                        }
-
-                        $message = 'Your ' . $optimalTrait . ' Optimal Trait';
-
-                        if (empty($userOptimalTrait)) {
-
-                            UserOptimalTrait::createUserOptimalTrait($optimalTrait, $user['id'], $status);
-
-                            HaiChatHelpers::syncUserRecordWithHAi($user);
-
-//                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
-
-                            Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
-
-                        } elseif ($userOptimalTrait['status'] != $status) {
-
-                            UserOptimalTrait::updateUserOptimalTrait($optimalTrait, $user['id'], $status);
-
-                            HaiChatHelpers::syncUserRecordWithHAi($user);
-
-//                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
-
-                            Notification::createNotification('Optimal Trait', $message, $user['device_token'], $user['id'], 1, Admin::OPTIMAL_TRAIT,Admin::B2C_NOTIFICATION);
-
-                        }
-
-                    }
-                }
-
-            }
+        foreach (User::getAllClientUserQuery()->cursor() as $user) {
+            $this->processUser($user);
         }
+    }
+
+    private function processUser($user)
+    {
+        $notification = PushNotification::getSingleNotification($user->id);
+
+        if (empty($notification) || $notification['optimal_trait'] != 1) {
+
+            return;
+        }
+
+        $assessment = Assessment::getLatestAssessment($user->id);
+
+        if (empty($assessment)) {
+
+            return;
+        }
+
+        $userTime = now()->setTimezone($this->extractUserTimezone($user->timezone))->startOfMinute();
+
+        $topStyles = Assessment::getAllStyles($assessment, $user);
+
+        $topFeatures = Assessment::getTopTwoFeatures(Assessment::getFeatures($assessment)['top_two_keys'], $assessment);
+
+        $traits = array_merge($topStyles, $topFeatures);
+
+        if (count($traits) <= 2) {
+
+            return;
+        }
+
+        [$status, $optimalTrait] = $this->determineTraitAndStatus($userTime, $traits);
+
+        $message = "Your {$optimalTrait} Optimal Trait";
+
+        $existingTrait = UserOptimalTrait::getOptimalTrait($user->id);
+
+        if (empty($existingTrait)) {
+
+            UserOptimalTrait::createUserOptimalTrait($optimalTrait, $user->id, $status);
+
+        } elseif ($existingTrait['status'] !== $status) {
+
+            UserOptimalTrait::updateUserOptimalTrait($optimalTrait, $user->id, $status);
+
+        } else {
+
+            return; // No update needed
+        }
+
+        HaiChatHelpers::syncUserRecordWithHAi($user);
+
+//        Helpers::OneSignalApiUsed($user->id, 'Current Optimal Trait', $message);
+
+        Notification::createNotification('Optimal Trait', $message, $user->device_token, $user->id, 1, Admin::OPTIMAL_TRAIT, Admin::B2C_NOTIFICATION);
+
+        Log::info("Updated optimal trait for user {$user->id}: {$optimalTrait} ({$status})");
+    }
+
+    private function determineTraitAndStatus(Carbon $userTime, array $traits): array
+    {
+        if ($userTime->between(
+            Carbon::createFromTimeString('05:00 AM', $userTime->timezone),
+            Carbon::createFromTimeString('12:00 PM', $userTime->timezone)
+        )) {
+
+            return [Admin::MORNING_STATUS, $traits[0]['public_name'] ?? null];
+        }
+
+        if ($userTime->between(
+            Carbon::createFromTimeString('12:00 PM', $userTime->timezone),
+            Carbon::createFromTimeString('05:00 PM', $userTime->timezone)
+        )) {
+
+            return [Admin::AFTERNOON_STATUS, $traits[1]['public_name'] ?? null];
+        }
+
+        return [Admin::NIGHT_STATUS, $traits[2]['public_name'] ?? null];
+    }
+
+    private function extractUserTimezone($formattedTimezone)
+    {
+        $parts = explode('-', $formattedTimezone);
+
+        return trim(end($parts)); // e.g., "Asia/Karachi"
     }
 }

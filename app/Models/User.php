@@ -2145,11 +2145,15 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
+    public static function getAllClientUserQuery()
+    {
+        return self::where('is_admin', 2);
+    }
+
     public static function getAllClientUser()
     {
         return self::where('is_admin', 2)->get();
     }
-
 
     public static function createB2BSignup($data = null)
     {
