@@ -31,7 +31,7 @@ class ResetAssessment implements ShouldBroadcast
     }
 
     /**
-     * Get the channels the event should broadcast on.
+     * Get the channels the event should broadcast on. jfja
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
