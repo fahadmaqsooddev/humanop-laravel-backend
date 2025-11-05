@@ -16,11 +16,13 @@ use Illuminate\Support\Facades\Log;
 class dailyTipPushNotification extends Command
 {
     protected $signature = 'tips:dispatch-due';
-    
+
     protected $description = 'Dispatch daily tips for schedules that are due';
 
     public function handle()
     {
+        Log::info("Scheduler working");
+
         foreach (User::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->cursor() as $user) {
 
             $this->processUser($user);
