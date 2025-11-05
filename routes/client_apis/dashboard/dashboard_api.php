@@ -52,4 +52,5 @@ Route::group(['middleware' => ['checkUser']], function () {
    Route::post('premium-lifetime-welcome', 'DashboardController@premiumLifetimeWelcome');
 
    Route::get('feedback-status', 'DashboardController@feedbackStatus');
+   Route::get('premium-lifetime-banner', 'DashboardController@premiumLifetimeBanner');
 });
