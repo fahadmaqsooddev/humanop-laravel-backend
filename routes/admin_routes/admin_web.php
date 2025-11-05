@@ -17,6 +17,7 @@ use App\Http\Controllers\AdminControllers\PaymentController;
 use App\Http\Controllers\AdminControllers\ClientController;
 use App\Http\Controllers\AdminControllers\PodcastController;
 use App\Http\Controllers\AdminControllers\SuggestedItemsController;
+use App\Http\Controllers\AdminControllers\BannerController;
 use App\Http\Controllers\AdminControllers\InformationController;
 use App\Http\Controllers\AdminControllers\VersionController;
 use App\Http\Controllers\HAIChat\ClientQueryController;
@@ -156,6 +157,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
         Route::get('/b2c-email-template', [EmailTemplateController::class, 'b2CTemplates'])->name('admin_b2c_email_template');
 
         Route::get('/logs-activity', [EmailTemplateController::class, 'getLogsActitvity'])->name('get_logs_activity');
+        Route::get('/lifetime-deal-banner', [BannerController::class, 'lifetimeDealBanner'])->name('admin_lifetime_deal_banner');
 
     });
 
