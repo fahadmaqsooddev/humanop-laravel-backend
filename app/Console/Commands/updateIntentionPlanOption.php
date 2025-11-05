@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Helpers\Helpers;
-use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;

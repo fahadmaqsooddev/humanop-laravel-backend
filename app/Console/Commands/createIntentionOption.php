@@ -2,10 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Helpers\Helpers;
-use App\Models\IntentionPlan\Intention;
 use App\Models\IntentionPlan\IntentionOption;
-use http\Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 

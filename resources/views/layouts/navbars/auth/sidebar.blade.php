@@ -295,6 +295,7 @@
                                                         'admin/create-version-control',
                                                         'admin/edit-version-control/*',
                                                         'admin/edit-code/*',
+                                                        'admin/lifetime-deal-banner',
                                                        'admin/admin_get_client_invite',
                                                        'admin/pricing-plans',
                                                        'admin/faq',
@@ -512,8 +513,6 @@
                                                                         class="sidenav-normal"> Version Pop-Up Management </span>
                                                                 </a>
                                                             </li>
-
-
                                                             <li class="nav-item {{ (Request::is('admin/codes','admin/edit-code/*') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/codes','admin/edit-code/*') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_manage_code') }}">
@@ -524,6 +523,18 @@
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{ Request::is('admin/codes','admin/edit-code/*') ? asset('assets/new-blue-icons/code-management.png') : asset('assets/new-white-icons/code-management.png') }}"></span>
                                                                     <span class="sidenav-normal"> Codes Manage </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/lifetime-deal-banner') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/lifetime-deal-banner') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_lifetime_deal_banner') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/lifetime-deal-banner') ? asset('assets/new-blue-icons/code-management.png') : asset('assets/new-white-icons/code-management.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/lifetime-deal-banner') ? asset('assets/new-blue-icons/code-management.png') : asset('assets/new-white-icons/code-management.png') }}"></span>
+                                                                    <span class="sidenav-normal"> Lifetime Deal Banner </span>
                                                                 </a>
                                                             </li>
                                                             @if(env("APP_ENV") === 'production')

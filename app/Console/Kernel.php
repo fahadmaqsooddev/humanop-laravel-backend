@@ -4,8 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Console\Scheduling\ManagesFrequencies;
-
 class Kernel extends ConsoleKernel
 {
     /**
@@ -26,6 +24,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('billing:cancel-stale-incomplete')->daily();
+
+        $schedule->command('tips:dispatch-due')->everyMinute()->withoutOverlapping();
+
+        $schedule->command('make:optimalTrait')->everyFiveMinutes()->withoutOverlapping();
     }
 
     /**

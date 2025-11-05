@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\AnnouncementNews\AnnouncementNews;
+use App\Models\Admin\LifeTimeDeal\LifetimeDealBanner;
 use App\Models\Admin\Plan\OptimizationPlan;
 use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\Admin\SuggestedItem\SuggestedItem;
@@ -1235,6 +1236,38 @@ class DashboardController extends Controller
             User::changedPremiumLifetime();
 
             return Helpers::successResponse('status changed');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function premiumLifetimeBanner()
+    {
+        try {
+
+            $banner = LifetimeDealBanner::latest()->first();
+
+            return Helpers::successResponse('Premium Lifetime Deal Banner', $banner);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function skipPremiumLifetimeBanner()
+    {
+        try {
+
+            $banner = User::skipBanner();
+
+            return Helpers::successResponse('Skip Premium Lifetime Deal Banner');
 
         } catch (\Exception $exception) {
 
