@@ -53,8 +53,8 @@ class LifetimeDealBanner extends Component
             'banner.description_for_beta_breaker' => 'required|string',
             'banner.title_for_freemium' => 'required|string|max:255',
             'banner.description_for_freemium' => 'required|string',
-            'banner.start_date' => 'required|date',
-            'banner.end_date' => 'required|date|after_or_equal:banner.start_date',
+            'banner.start_date' => 'nullable|date',
+            'banner.end_date' => 'nullable|date|after_or_equal:banner.start_date',
             'banner.is_active' => 'boolean',
         ]);
 
