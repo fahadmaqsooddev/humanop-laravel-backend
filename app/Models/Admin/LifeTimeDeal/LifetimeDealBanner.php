@@ -46,4 +46,5 @@ class LifetimeDealBanner extends Model
     }
 
 
+
 }

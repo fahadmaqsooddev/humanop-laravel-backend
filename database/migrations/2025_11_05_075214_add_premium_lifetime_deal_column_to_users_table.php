@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
-            $table->tinyInteger('premium_lifetime_deal')->default(1)->comment('1 => enable, 0 => disable');
+            $table->dateTime('skip_premium_lifetime_deal')->nullable();
 
         });
     }
@@ -29,7 +29,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
-            $table->dropColumn('premium_lifetime_deal');
+            $table->dropColumn('skip_premium_lifetime_deal');
 
         });
     }

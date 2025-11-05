@@ -1261,6 +1261,22 @@ class DashboardController extends Controller
 
     }
 
+    public function skipPremiumLifetimeBanner()
+    {
+        try {
+
+            $banner = User::skipBanner();
+
+            return Helpers::successResponse('Skip Premium Lifetime Deal Banner');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
     public static function feedbackStatus()
     {
         return helpers::successResponse('Webhook fine');

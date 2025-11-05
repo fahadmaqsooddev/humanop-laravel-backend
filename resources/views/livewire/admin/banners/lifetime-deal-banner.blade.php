@@ -95,25 +95,25 @@
         </div>
 
         <!-- Start & End Date -->
-        <div class="col-12 d-flex justify-content-between mt-4">
-            <div class="col-5">
-                <label class="form-label">Start Date</label>
-                <div class="input-group">
-                    <input class="form-control input-form-style"
-                           type="date"
-                           wire:model.defer="banner.start_date">
-                </div>
-            </div>
+{{--        <div class="col-12 d-flex justify-content-between mt-4">--}}
+{{--            <div class="col-5">--}}
+{{--                <label class="form-label">Start Date</label>--}}
+{{--                <div class="input-group">--}}
+{{--                    <input class="form-control input-form-style"--}}
+{{--                           type="date"--}}
+{{--                           wire:model.defer="banner.start_date">--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-            <div class="col-5">
-                <label class="form-label">End Date</label>
-                <div class="input-group">
-                    <input class="form-control input-form-style"
-                           type="date"
-                           wire:model.defer="banner.end_date">
-                </div>
-            </div>
-        </div>
+{{--            <div class="col-5">--}}
+{{--                <label class="form-label">End Date</label>--}}
+{{--                <div class="input-group">--}}
+{{--                    <input class="form-control input-form-style"--}}
+{{--                           type="date"--}}
+{{--                           wire:model.defer="banner.end_date">--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         <!-- Enable/Disable Toggle -->
         <div class="col-12 mt-4">

@@ -2727,5 +2727,41 @@ class User extends Authenticatable implements JWTSubject
         return false; // user not found
     }
 
+    public static function skipBanner()
+    {
+        $user = Helpers::getUser();
+
+        $user->skip_premium_lifetime_deal = 0;
+
+        $user->save();
+
+        return true;
+    }
+
+    public static function checkBanner()
+    {
+        $user = Helpers::getUser();
+
+        if (!$user || empty($user->skip_premium_lifetime_deal)) {
+            return false;
+        }
+
+        $skipTime = Carbon::parse($user->skip_premium_lifetime_deal);
+
+        $hoursPassed = $skipTime->diffInHours(Carbon::now());
+
+        if ($hoursPassed >= 24) {
+
+            $user->skip_premium_lifetime_deal = 1;
+
+            $user->save();
+
+            return true;
+
+        }
+
+        return false;
+    }
+
 
 }
