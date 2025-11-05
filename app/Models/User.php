@@ -2720,11 +2720,14 @@ class User extends Authenticatable implements JWTSubject
         $user = self::find(Helpers::getUser()['id']);
 
         if ($user) {
+
             $user->premium_lifetime_welcome = 0;
-            return $user->save(); // returns true/false
+
+            return $user->save();
+
         }
 
-        return false; // user not found
+        return false;
     }
 
     public static function skipBanner()
