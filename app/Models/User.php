@@ -2743,7 +2743,9 @@ class User extends Authenticatable implements JWTSubject
         $user = Helpers::getUser();
 
         if (!$user || empty($user->skip_premium_lifetime_deal)) {
+
             return false;
+
         }
 
         $skipTime = Carbon::parse($user->skip_premium_lifetime_deal);
