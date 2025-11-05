@@ -21,8 +21,6 @@ class dailyTipPushNotification extends Command
 
     public function handle()
     {
-        Log::info("Scheduler working");
-
         foreach (User::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->cursor() as $user) {
 
             $this->processUser($user);
