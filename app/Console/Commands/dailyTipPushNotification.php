@@ -72,6 +72,7 @@ class dailyTipPushNotification extends Command
 
         if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
             if ($user->id === 2891){
+                Log::info(print_r($currentTime, true));
 Log::info($user->set_daily_tip_time);
 Log::info($currentTime->timezone);
             }
@@ -82,6 +83,8 @@ Log::info($currentTime->timezone);
                 ->setDateFrom($currentTime)
 
                 ->startOfMinute();
+
+            Log::info($setTipTimeToday);
 
             $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
 
