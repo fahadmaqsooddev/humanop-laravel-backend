@@ -60,7 +60,7 @@ class dailyTipPushNotification extends Command
 
             }
         if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
-
+Log::info('E1');
             $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
 
                 ->setTimezone($currentTime->timezone)
@@ -68,8 +68,11 @@ class dailyTipPushNotification extends Command
                 ->setDateFrom($currentTime)
 
                 ->startOfMinute();
+            Log::info('E2');
+
 
             $nextAllowedTime = $setTipTimeToday->copy()->addDay();
+            Log::info('E3');
 
             return $currentTime->greaterThanOrEqualTo($nextAllowedTime);
         }
