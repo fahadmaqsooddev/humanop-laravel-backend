@@ -46,21 +46,32 @@ Log::info(print_r($this->canReceiveNewTip($user, $latestTip,$currentTime), true)
 
     }
 
+//    private function canReceiveNewTip($user, $latestTip, Carbon $currentTime): bool
+//    {
+//
+//        if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
+//
+//            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
+//
+//                ->setTimezone($currentTime->timezone)
+//
+//                ->setDateFrom($currentTime)
+//
+//                ->startOfMinute();
+//
+//            $nextAllowedTime = $setTipTimeToday->copy()->addDay();
+//
+//            return $currentTime->greaterThanOrEqualTo($nextAllowedTime);
+//        }
+//
+//        return false;
+//    }
+
     private function canReceiveNewTip($user, $latestTip, Carbon $currentTime): bool
     {
-        if ($user->id === 2891){
-        Log::info('Start canReceiveNewTip');
-        Log::info($user->id);
-        Log::info($user->plan_name);
-        Log::info(!empty($user->set_daily_tip_time));
-        Log::info(!empty($latestTip));
-        Log::info(!empty($latestTip->is_read === 1));
-            Log::info('End canReceiveNewTip');
 
-
-            }
         if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
-Log::info('E1');
+
             $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
 
                 ->setTimezone($currentTime->timezone)
@@ -68,16 +79,14 @@ Log::info('E1');
                 ->setDateFrom($currentTime)
 
                 ->startOfMinute();
-            Log::info('E2');
 
-
-            $nextAllowedTime = $setTipTimeToday->copy()->addDay();
-            Log::info('E3');
+            $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
 
             return $currentTime->greaterThanOrEqualTo($nextAllowedTime);
         }
 
         return false;
+
     }
 
     private function assignNewTip($user, $assessment)
