@@ -34,17 +34,23 @@ class dailyTipPushNotification extends Command
         Log::info('Enter in proccess user');
 
         $assessment = Assessment::getLatestAssessment($user->id);
-
+ Log::info('1');
         if (!$assessment) return;
+        Log::info('2');
 
         $latestTip = UserDailyTip::where('user_id', $user->id)->latest()->first();
+        Log::info('3');
 
         $currentTime = now()->setTimezone($this->extractUserTimezone($user->timezone))->startOfMinute();
+        Log::info('4');
 
         if ($this->canReceiveNewTip($user, $latestTip, $currentTime)) {
+            Log::info('5');
 
             $this->assignNewTip($user, $assessment);
         }
+        Log::info('6');
+
     }
 
     private function canReceiveNewTip($user, $latestTip, Carbon $currentTime): bool
