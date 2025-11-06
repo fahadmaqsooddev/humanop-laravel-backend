@@ -21,8 +21,6 @@ class dailyTipPushNotification extends Command
 
     public function handle()
     {
-        Log::info('Enter in handle');
-
         foreach (User::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->cursor() as $user) {
 
             $this->processUser($user);
@@ -31,37 +29,36 @@ class dailyTipPushNotification extends Command
 
     private function processUser($user)
     {
-        Log::info('Enter in proccess user');
 
         $assessment = Assessment::getLatestAssessment($user->id);
- Log::info('1');
+
         if (!$assessment) return;
-        Log::info('2');
 
         $latestTip = UserDailyTip::where('user_id', $user->id)->latest()->first();
-        Log::info('3');
 
         $currentTime = now()->setTimezone($this->extractUserTimezone($user->timezone))->startOfMinute();
-        Log::info('4');
 
         if ($this->canReceiveNewTip($user, $latestTip, $currentTime)) {
             Log::info('5');
 
             $this->assignNewTip($user, $assessment);
         }
-        Log::info('6');
 
     }
 
     private function canReceiveNewTip($user, $latestTip, Carbon $currentTime): bool
     {
+        if ($user->id === 2891){
         Log::info('Start canReceiveNewTip');
         Log::info($user->id);
         Log::info($user->plan_name);
         Log::info(!empty($user->set_daily_tip_time));
         Log::info(!empty($latestTip));
-//        Log::info(!empty($latestTip->is_read === 1));
-        Log::info('End canReceiveNewTip');
+        Log::info(!empty($latestTip->is_read === 1));
+            Log::info('End canReceiveNewTip');
+
+
+            }
         if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
 
             $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
