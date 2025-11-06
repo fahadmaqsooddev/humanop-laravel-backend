@@ -39,7 +39,6 @@ class dailyTipPushNotification extends Command
         $currentTime = now()->setTimezone($this->extractUserTimezone($user->timezone))->startOfMinute();
 
         if ($this->canReceiveNewTip($user, $latestTip, $currentTime)) {
-            Log::info('5');
 
             $this->assignNewTip($user, $assessment);
         }
@@ -48,21 +47,14 @@ class dailyTipPushNotification extends Command
 
     private function canReceiveNewTip($user, $latestTip, Carbon $currentTime): bool
     {
-        if (
-            $user->plan_name === 'Premium' &&
-            !empty($user->set_daily_tip_time) &&
-            !empty($latestTip) &&
-            $latestTip->is_read === 1
-        ) {
-            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time, $currentTime->timezone)
-                ->setDateFrom($currentTime)
-                ->startOfMinute();
+        if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
 
-            $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday)
-                ? $setTipTimeToday->copy()->addDay()
-                : $setTipTimeToday->copy();
+            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time, $currentTime->timezone)->setDateFrom($currentTime)->startOfMinute();
+
+            $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday->copy();
 
             $nextAllowedTime->setTimezone($currentTime->timezone); // Just in case
+
             Log::info('Comparison result: ' . var_export($currentTime->greaterThanOrEqualTo($nextAllowedTime), true));
 
             return $currentTime->greaterThanOrEqualTo($nextAllowedTime);
@@ -74,8 +66,8 @@ class dailyTipPushNotification extends Command
 
     private function assignNewTip($user, $assessment)
     {
-        Log::info('Enter assign new tip');
         $maxAttempts = 10;
+
         $attempts = 0;
 
         while ($attempts++ < $maxAttempts) {
@@ -85,6 +77,7 @@ class dailyTipPushNotification extends Command
             $newTip = DailyTip::getSameCodeTips($randomCode);
 
             if (!$newTip) {
+
                 continue;
             }
 
@@ -96,11 +89,13 @@ class dailyTipPushNotification extends Command
                 ->exists();
 
             if ($alreadySeen) {
+
                 continue;
             }
 
             // Safe to assign tip
             UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
+
             Log::info('Created tip');
 
             $message = 'Your New Daily Tip';
