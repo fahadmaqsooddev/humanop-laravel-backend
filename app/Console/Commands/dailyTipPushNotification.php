@@ -76,7 +76,7 @@ class dailyTipPushNotification extends Command
 Log::info($user->set_daily_tip_time);
 Log::info($currentTime->timezone);
             }
-            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time, $user->timezone)
+            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
 
                 ->setDateFrom($currentTime)
 
