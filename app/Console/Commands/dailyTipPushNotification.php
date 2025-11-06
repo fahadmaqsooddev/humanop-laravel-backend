@@ -46,58 +46,31 @@ class dailyTipPushNotification extends Command
 
     }
 
-//    private function canReceiveNewTip($user, $latestTip, Carbon $currentTime): bool
-//    {
-//
-//        if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
-//
-//            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
-//
-//                ->setTimezone($currentTime->timezone)
-//
-//                ->setDateFrom($currentTime)
-//
-//                ->startOfMinute();
-//
-//            $nextAllowedTime = $setTipTimeToday->copy()->addDay();
-//
-//            return $currentTime->greaterThanOrEqualTo($nextAllowedTime);
-//        }
-//
-//        return false;
-//    }
-
     private function canReceiveNewTip($user, $latestTip, Carbon $currentTime): bool
     {
-
-        if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
-            if ($user->id === 2891){
-                Log::info(print_r($currentTime, true));
-Log::info($user->set_daily_tip_time);
-Log::info($currentTime->timezone);
-            }
-            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
-
+        if (
+            $user->plan_name === 'Premium' &&
+            !empty($user->set_daily_tip_time) &&
+            !empty($latestTip) &&
+            $latestTip->is_read === 1
+        ) {
+            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time, $currentTime->timezone)
                 ->setDateFrom($currentTime)
-
                 ->startOfMinute();
 
-            Log::info($setTipTimeToday);
+            $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday)
+                ? $setTipTimeToday->copy()->addDay()
+                : $setTipTimeToday->copy();
 
-            $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday->copy()->startOfMinute();
-Log::info($nextAllowedTime);
-            Log::info('Timestamps equal? ' . var_export($currentTime->equalTo($nextAllowedTime), true));
-
+            $nextAllowedTime->setTimezone($currentTime->timezone); // Just in case
             Log::info('Comparison result: ' . var_export($currentTime->greaterThanOrEqualTo($nextAllowedTime), true));
-
-            $currentTime->greaterThanOrEqualTo($nextAllowedTime);
 
             return $currentTime->greaterThanOrEqualTo($nextAllowedTime);
         }
 
         return false;
-
     }
+
 
     private function assignNewTip($user, $assessment)
     {
