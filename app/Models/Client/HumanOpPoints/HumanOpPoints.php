@@ -312,27 +312,20 @@ class HumanOpPoints extends Model
 
     public static function purchaseHAiCreditsFromHp($hp)
     {
-
         $user = Helpers::getUser();
 
         $points = self::getUserPoints($user)?->points;
 
-        if ($points > $hp || $points == $hp) {
+        if ($points >= $hp) {
 
             self::deductPoint($user->id, $hp);
 
             Point::purchaseHAiCreditsFromHp($hp);
 
-            DB::commit();
-
             return Helpers::successResponse("Credit purchased.");
-
-        } else {
-
-            DB::rollBack();
-
-            return Helpers::validationResponse("You have no enough HP. To make this purchase.");
         }
 
+        throw new \Exception("You do not have enough HP to make this purchase.");
     }
+
 }

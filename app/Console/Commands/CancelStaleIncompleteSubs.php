@@ -12,7 +12,7 @@ class CancelStaleIncompleteSubs extends Command
      *
      * @var string
      */
-    protected $signature = 'billing:cancel-stale-incomplete';
+    protected $signature = 'billing:cancel-stale-incomplete {--hours=24}';
 
 //     {--hours=24}
     /**

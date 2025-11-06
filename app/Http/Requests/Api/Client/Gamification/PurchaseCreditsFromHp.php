@@ -26,7 +26,7 @@ class PurchaseCreditsFromHp extends FormRequest
     public function rules()
     {
         return [
-            'hp' => 'required|integer',
+            'hp' => 'required|integer|min:1',
         ];
     }
 
