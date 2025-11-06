@@ -97,7 +97,9 @@ class AllUser extends Component
                 'has_bb_onetime' => 1,
                 'plan' => 'bb_onetime',
                 'billing_context' =>'b2c',
-                'beta_breaker_club' => 0
+                'beta_breaker_club' => 0,
+                'premium_lifetime_welcome' => 1,
+
             ]);
 
             session()->flash('success', "User downgraded to Beta Breaker Lifetime successfully.");
