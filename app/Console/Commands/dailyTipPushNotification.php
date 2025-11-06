@@ -37,7 +37,7 @@ class dailyTipPushNotification extends Command
         $latestTip = UserDailyTip::where('user_id', $user->id)->latest()->first();
 
         $currentTime = now()->setTimezone($this->extractUserTimezone($user->timezone))->startOfMinute();
-
+Log::info(print_r($this->canReceiveNewTip($user, $latestTip,$currentTime)), true);
         if ($this->canReceiveNewTip($user, $latestTip, $currentTime)) {
             Log::info('5');
 
