@@ -73,6 +73,7 @@ class dailyTipPushNotification extends Command
         if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
             if ($user->id === 2891){
 Log::info($user->set_daily_tip_time);
+Log::info($currentTime->timezone);
             }
             $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
 
