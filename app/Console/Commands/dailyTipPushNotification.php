@@ -86,6 +86,8 @@ Log::info($currentTime->timezone);
 
             $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday->copy()->startOfMinute();
 Log::info($nextAllowedTime);
+            Log::info('Timestamps equal? ' . var_export($currentTime->equalTo($nextAllowedTime), true));
+
             Log::info('Comparison result: ' . var_export($currentTime->greaterThanOrEqualTo($nextAllowedTime), true));
 
             $currentTime->greaterThanOrEqualTo($nextAllowedTime);
