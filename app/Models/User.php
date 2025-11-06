@@ -2696,14 +2696,18 @@ class User extends Authenticatable implements JWTSubject
         }
 
         $pm = $stripe->paymentMethods->retrieve($pmId, []);
-        $type = $pm->type; // 'card', 'us_bank_account', etc.
+
+        $type = $pm->type;
 
         $this->payment_method = $pm->id;
+
         $this->pm_type = $type;
 
         // Default to nulls first
         $this->pm_last_four = null;
+
         $this->pm_exp_month = null;
+
         $this->pm_exp_year = null;
 
         if ($type === 'card' && isset($pm->card)) {

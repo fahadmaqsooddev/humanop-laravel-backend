@@ -29,6 +29,7 @@ class dailyTipPushNotification extends Command
 
     private function processUser($user)
     {
+
         $assessment = Assessment::getLatestAssessment($user->id);
 
         if (!$assessment) return;
@@ -41,21 +42,20 @@ class dailyTipPushNotification extends Command
 
             $this->assignNewTip($user, $assessment);
         }
+
     }
 
     private function canReceiveNewTip($user, $latestTip, Carbon $currentTime): bool
     {
         if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
 
-            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
+            $setTipTimeToday = Carbon::parse($user->set_daily_tip_time, $currentTime->timezone)->setDateFrom($currentTime)->startOfMinute();
 
-                ->setTimezone($currentTime->timezone)
+            $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday->copy();
 
-                ->setDateFrom($currentTime)
+            $nextAllowedTime->setTimezone($currentTime->timezone); // Just in case
 
-                ->startOfMinute();
-
-            $nextAllowedTime = $setTipTimeToday->copy()->addDay();
+            Log::info('Comparison result: ' . var_export($currentTime->greaterThanOrEqualTo($nextAllowedTime), true));
 
             return $currentTime->greaterThanOrEqualTo($nextAllowedTime);
         }
@@ -63,9 +63,11 @@ class dailyTipPushNotification extends Command
         return false;
     }
 
+
     private function assignNewTip($user, $assessment)
     {
         $maxAttempts = 10;
+
         $attempts = 0;
 
         while ($attempts++ < $maxAttempts) {
@@ -75,6 +77,7 @@ class dailyTipPushNotification extends Command
             $newTip = DailyTip::getSameCodeTips($randomCode);
 
             if (!$newTip) {
+
                 continue;
             }
 
@@ -86,11 +89,14 @@ class dailyTipPushNotification extends Command
                 ->exists();
 
             if ($alreadySeen) {
+
                 continue;
             }
 
             // Safe to assign tip
             UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
+
+            Log::info('Created tip');
 
             $message = 'Your New Daily Tip';
 

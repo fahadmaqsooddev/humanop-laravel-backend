@@ -30,51 +30,56 @@ class GamificationController extends Controller
     public static function loginStreaks()
     {
         try {
-
             $user = Helpers::getUser() ?? Helpers::getWebUser();
+
+            if (!$user) {
+                return Helpers::unauthResponse("User not authenticated");
+            }
 
             $streak = LoginStreaks::getStreak($user);
 
-            $loginStreak['steaks'] = $streak['login_days'];
-
-            return Helpers::successResponse("Your Login Streak", $loginStreak);
+            return Helpers::successResponse("Your Login Streak", ['streaks' => $streak['login_days']]);
 
         } catch (\Exception $exception) {
-
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
+
 
     public function getHp()
     {
         try {
-
             $user = Helpers::getWebUser() ?? Helpers::getUser();
+
+            if (!$user) {
+
+                return Helpers::unauthResponse('User not authenticated');
+            }
 
             $points = HumanOpPoints::getUserPoints($user);
 
-            $hp['points'] = $points['points'];
-
-            return Helpers::successResponse('Your HumanOp Points', $hp);
+            return Helpers::successResponse('Your HumanOp Points', ['points' => $points['points']]);
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
+
 
     public function completeWatchVideo(CompleteWatchVideoRequest $request)
     {
         try {
 
-            $watchVideo = VideoProgress::completeWatchVideo($request['assessment_id'], $request['video_name']);
+            $data = $request->validated();
+
+            $watchVideo = VideoProgress::completeWatchVideo($data['assessment_id'], $data['video_name']);
 
             if (!empty($watchVideo)) {
 
-                return Helpers::successResponse("Congratulations! You completed watching the video: " . ucwords(str_replace('_', ' ', $watchVideo['video_name'])) . ".");
+                $videoTitle = ucwords(str_replace('_', ' ', $watchVideo['video_name']));
+
+                return Helpers::successResponse("Congratulations! You completed watching the video: {$videoTitle}.");
 
             } else {
 
@@ -92,24 +97,35 @@ class GamificationController extends Controller
     public function currentChallenges()
     {
         try {
-
             $user = Helpers::getUser() ?? Helpers::getWebUser();
 
-            $userDailyTips = UserDailyTip::getUserCompletedDailyTip();
+            if (!$user) {
 
-            $getAssessmentId =Assessment::getLatestAssessment($user['id'])['id'];
+                return Helpers::unauthResponse("User not authenticated");
+            }
 
-            $totalVideos = VideoProgress::getRecords($getAssessmentId);
+            $completedTips = UserDailyTip::getUserCompletedDailyTip();
 
-            $watchVideos = VideoProgress::checkAllWatchVideos($getAssessmentId);
+            $latestAssessment = Assessment::getLatestAssessment($user['id']);
 
-            $haiConversation = HaiChat::getUserChats();
+            if (!$latestAssessment) {
+
+                return Helpers::validationResponse("No assessment found for this user.");
+            }
+
+            $assessmentId = $latestAssessment['id'];
+
+            $allVideos = VideoProgress::getRecords($assessmentId);
+
+            $watchedVideos = VideoProgress::checkAllWatchVideos($assessmentId);
+
+            $haiConversations = HaiChat::getUserChats();
 
             $challenges = [
-                'daily_tips' => count($userDailyTips),
-                'total_videos' => count($totalVideos),
-                'watch_videos' => count($watchVideos),
-                'hai_conversation' => min(count($haiConversation), 3),
+                'daily_tips' => count($completedTips),
+                'total_videos' => count($allVideos),
+                'watch_videos' => count($watchedVideos),
+                'hai_conversation' => min(count($haiConversations), 3),
             ];
 
             return Helpers::successResponse('Current Challenges', $challenges);
@@ -118,8 +134,8 @@ class GamificationController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
+
 
     public function unfinishedChallenges()
     {
@@ -127,26 +143,35 @@ class GamificationController extends Controller
 
             $user = Helpers::getUser() ?? Helpers::getWebUser();
 
-            $userDailyTips = UserDailyTip::getLatestTip();
+            if (!$user) {
 
-            $getAssessmentId =Assessment::getLatestAssessment($user['id'])['id'];
-
-            $totalVideos = VideoProgress::getRecords($getAssessmentId);
-
-            $watchVideos = VideoProgress::checkAllWatchVideos($getAssessmentId);
-
-            $haiConversation = HaiChat::getUserChats();
-
-            if (count($totalVideos) > 0) {
-                $progress = (count($watchVideos) < count($totalVideos)) ? 'unfinished' : 'finished';
-            } else {
-                $progress = 'unfinished';
+                return Helpers::unauthResponse("User not authenticated");
             }
 
+            $latestAssessment = Assessment::getLatestAssessment($user['id']);
+
+            if (!$latestAssessment) {
+                return Helpers::validationResponse("No assessment found for this user.");
+            }
+
+            $assessmentId = $latestAssessment['id'];
+
+            $dailyTip = UserDailyTip::getLatestTip();
+
+            $dailyTipStatus = (!empty($dailyTip) && $dailyTip['is_read'] == 1) ? 'finished' : 'unfinished';
+
+            $allVideos = VideoProgress::getRecords($assessmentId);
+
+            $watchedVideos = VideoProgress::checkAllWatchVideos($assessmentId);
+
+            $videoStatus = (count($allVideos) > 0 && count($watchedVideos) < count($allVideos)) ? 'unfinished' : 'finished';
+
+            $haiConversationStatus = count(HaiChat::getUserChats()) > 2 ? 'finished' : 'unfinished';
+
             $challenges = [
-                'daily_tips' => $userDailyTips['is_read'] == 1 ? 'finished' : 'unfinished',
-                'watch_videos' => $progress,
-                'hai_conversation' => count($haiConversation) > 2 ? 'finished' : 'unfinished',
+                'daily_tips' => $dailyTipStatus,
+                'watch_videos' => $videoStatus,
+                'hai_conversation' => $haiConversationStatus,
             ];
 
             return Helpers::successResponse('Current Challenges', $challenges);
@@ -158,81 +183,88 @@ class GamificationController extends Controller
 
     }
 
-    public static function currentUserBadge()
+    public function currentUserBadge()
     {
         try {
-
             $user = Helpers::getUser() ?? Helpers::getWebUser();
+
+            if (!$user) {
+
+                return Helpers::unauthResponse("User not authenticated");
+            }
 
             $currentBadge = GamificationBadgesAchievement::currentBadge($user['id']);
 
-            $badge['current_badge'] = $currentBadge['badges'] ?? null;
-
-            return Helpers::successResponse("Your current badge", $badge);
+            return Helpers::successResponse("Your current badge", ['current_badge' => $currentBadge['badges'] ?? null]);
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
 
-    public static function currentUserMedal()
+
+    public function currentUserMedal()
     {
         try {
-
             $user = Helpers::getUser() ?? Helpers::getWebUser();
+
+            if (!$user) {
+
+                return Helpers::unauthResponse("User not authenticated");
+            }
 
             $currentMedal = GamificationMedalRewards::currentMedal($user['id']);
 
-            $medal['current_medal'] = $currentMedal['medals'] ?? null;
-
-            return Helpers::successResponse("Your current Medal", $medal);
+            return Helpers::successResponse("Your current Medal", [
+                'current_medal' => $currentMedal['medals'] ?? null,
+            ]);
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
-    public static function getBadgesAndMedals()
+
+    public function getBadgesAndMedals()
     {
         try {
 
             $user = Helpers::getUser() ?? Helpers::getWebUser();
 
-            $medals = GamificationMedalRewards::allMedalRewards($user['id']);
+            if (!$user) {
 
-            $badges = GamificationBadgesAchievement::getBadgeAchievements($user['id']);
+                return Helpers::unauthResponse("User not authenticated");
+            }
 
-            $data = [
-                'medals' => $medals,
-                'badges' => $badges
-            ];
-
-            return Helpers::successResponse("Your Medals and Badges", $data);
+            return Helpers::successResponse("Your Medals and Badges", [
+                'medals' => GamificationMedalRewards::allMedalRewards($user['id']),
+                'badges' => GamificationBadgesAchievement::getBadgeAchievements($user['id']),
+            ]);
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
 
 
-    public static function getPerformanceLevel()
+
+    public function getPerformanceLevel()
     {
         try {
 
             $user = Helpers::getUser() ?? Helpers::getWebUser();
 
-            $data=GamificationPerformanceLevel::getSinglePerformanceLevel($user);
+            if (!$user) {
+
+                return Helpers::unauthResponse("User not authenticated");
+            }
+
+            $data = GamificationPerformanceLevel::getSinglePerformanceLevel($user);
 
             return Helpers::successResponse("Your Performance Level", $data);
 
@@ -244,25 +276,20 @@ class GamificationController extends Controller
 
     }
 
-    public static function purchaseHaiCreditsFromHp(PurchaseCreditsFromHp $request){
-
-        DB::beginTransaction();
-
+    public static function purchaseHaiCreditsFromHp(PurchaseCreditsFromHp $request)
+    {
         try {
 
-            $response = HumanOpPoints::purchaseHAiCreditsFromHp($request->integer('hp'));
+            return DB::transaction(function () use ($request) {
 
-            DB::commit();
+                return HumanOpPoints::purchaseHAiCreditsFromHp($request->integer('hp'));
 
-            return $response;
-
-        }catch (\Exception $exception){
-
-            DB::rollBack();
+            });
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
+
 
 }

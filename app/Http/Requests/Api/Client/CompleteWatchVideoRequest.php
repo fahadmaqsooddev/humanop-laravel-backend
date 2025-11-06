@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CompleteWatchVideoRequest extends FormRequest
 {
@@ -24,7 +25,14 @@ class CompleteWatchVideoRequest extends FormRequest
     public function rules()
     {
         return [
-            'assessment_id' => 'required|exists:assessments,id',
+
+            'assessment_id' => [
+                'bail', 'required', Rule::exists('assessments', 'id')->where(function ($query) {
+
+                    $query->where('user_id', auth()->id());
+                }),
+                ],
+
             'video_name' => 'required|string|max:255',
         ];
     }
@@ -33,10 +41,13 @@ class CompleteWatchVideoRequest extends FormRequest
     {
         return [
             'assessment_id.required' => 'The assessment ID is required.',
+
             'assessment_id.exists' => 'The selected assessment does not exist.',
 
             'video_name.required' => 'The video name is required.',
+
             'video_name.string' => 'The video name must be a valid string.',
+
             'video_name.max' => 'The video name must not exceed 255 characters.',
         ];
     }
