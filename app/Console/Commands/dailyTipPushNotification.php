@@ -85,7 +85,8 @@ Log::info($currentTime->timezone);
             Log::info($setTipTimeToday);
 
             $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
-
+Log::info($nextAllowedTime);
+Log::info($currentTime->greaterThanOrEqualTo($nextAllowedTime));
             return $currentTime->greaterThanOrEqualTo($nextAllowedTime);
         }
 
