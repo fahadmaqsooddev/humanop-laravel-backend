@@ -82,6 +82,7 @@ class dailyTipPushNotification extends Command
 
             $nextAllowedTime = $currentTime->greaterThan($setTipTimeToday) ? $setTipTimeToday->copy()->addDay() : $setTipTimeToday;
             if ($user->id === 2891){
+                Log::info($setTipTimeToday);
 Log::info('qwerty');
             Log::info($currentTime);
             Log::info($nextAllowedTime);
