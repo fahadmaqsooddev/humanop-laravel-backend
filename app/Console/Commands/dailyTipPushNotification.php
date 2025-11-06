@@ -55,6 +55,12 @@ class dailyTipPushNotification extends Command
 
     private function canReceiveNewTip($user, $latestTip, Carbon $currentTime): bool
     {
+        Log::info('Start canReceiveNewTip');
+        Log::info($user->plan_name);
+        Log::info(!empty($user->set_daily_tip_time));
+        Log::info(!empty($latestTip));
+        Log::info(!empty($latestTip->is_read === 1));
+        Log::info('End canReceiveNewTip');
         if ($user->plan_name === 'Premium' && !empty($user->set_daily_tip_time) && !empty($latestTip) && $latestTip->is_read === 1) {
 
             $setTipTimeToday = Carbon::parse($user->set_daily_tip_time)
