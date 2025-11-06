@@ -21,6 +21,8 @@ class dailyTipPushNotification extends Command
 
     public function handle()
     {
+        Log::info('Enter in handle');
+
         foreach (User::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->cursor() as $user) {
 
             $this->processUser($user);
@@ -29,6 +31,8 @@ class dailyTipPushNotification extends Command
 
     private function processUser($user)
     {
+        Log::info('Enter in proccess user');
+
         $assessment = Assessment::getLatestAssessment($user->id);
 
         if (!$assessment) return;
@@ -65,6 +69,7 @@ class dailyTipPushNotification extends Command
 
     private function assignNewTip($user, $assessment)
     {
+        Log::info('Enter assign new tip');
         $maxAttempts = 10;
         $attempts = 0;
 
@@ -91,6 +96,7 @@ class dailyTipPushNotification extends Command
 
             // Safe to assign tip
             UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
+            Log::info('Created tip');
 
             $message = 'Your New Daily Tip';
 
