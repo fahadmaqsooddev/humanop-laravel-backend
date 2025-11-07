@@ -73,7 +73,7 @@ class Assessment extends Model
 
         $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'] ?? '';
 
-        $minutes = Helpers::explodeTimezoneWithHours($timezone);
+        $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($timezone);
 
         return Carbon::parse($formattedTimestamp)->addMinutes($minutes * 60)->format('m/d/Y h:i A');
     }
@@ -865,11 +865,11 @@ class Assessment extends Model
             return array_search($a, $style) <=> array_search($b, $style);
         });
 
-        if (!empty($loginUser)){
+        if (!empty($loginUser)) {
 
             $user = $loginUser;
 
-        }else{
+        } else {
 
             $user = Helpers::getUser() ?? Helpers::getWebUser();
 
