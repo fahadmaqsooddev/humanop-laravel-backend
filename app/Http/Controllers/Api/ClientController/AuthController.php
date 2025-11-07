@@ -722,9 +722,9 @@ class AuthController extends Controller
     public function loginClient(LoginRequest $request)
     {
 
-        try {
-
-            DB::beginTransaction();
+//        try {
+//
+//            DB::beginTransaction();
 
             $credentials = $request->only(['email', 'password']);
 
@@ -881,13 +881,13 @@ class AuthController extends Controller
 
                     return Helpers::successResponse('User loggedIn successfully', $data);
 
-                } else {
-
-                    DB::rollBack();
-
-                    return Helpers::unauthResponse('Wrong Password');
-
-                }
+//                } else {
+//
+//                    DB::rollBack();
+//
+//                    return Helpers::unauthResponse('Wrong Password');
+//
+//                }
 
             }
 
