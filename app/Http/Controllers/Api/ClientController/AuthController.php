@@ -750,7 +750,7 @@ class AuthController extends Controller
                     'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
                     'email' => $checkUser['email'],
                     'registration_step' => $checkUser['step'],
-                    'user_invite' => $userInvite['link']
+                    'user_invite' => $userInvite['link'] ?? null
 
                 ];
 
