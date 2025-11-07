@@ -54,28 +54,57 @@ class Assessment extends Model
 
     public function getUpdatedAtAttribute($value)
     {
+
+        if ($webUser = Helpers::getWebUser()) {
+
+            $timezone = $webUser['timezone'] ?? 'UTC';
+
+        } elseif ($appUser = Helpers::getUser()) {
+
+            $timezone = $appUser['timezone'] ?? 'UTC';
+
+        } else {
+
+            $user = User::getSingleUser($this->id);
+            $timezone = $user->timezone ?? 'UTC';
+        }
+
         $formattedTimestamp = str_replace('T', ' ', $value);
 
         $formattedTimestamp = explode('.', $formattedTimestamp)[0];
-
-        $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'] ?? '';
-
-        $minutes = Helpers::explodeTimezoneWithHours($timezone);
-
-        return Carbon::parse($formattedTimestamp)->addMinutes($minutes * 60)->format('m/d/Y h:i A');
-    }
-
-    public function getAfterResetAssessmentUpdatedAtAttribute($value)
-    {
-        $formattedTimestamp = str_replace('T', ' ', $value);
-
-        $formattedTimestamp = explode('.', $formattedTimestamp)[0];
-
-        $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'] ?? '';
 
         $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($timezone);
 
-        return Carbon::parse($formattedTimestamp)->addMinutes($minutes * 60)->format('m/d/Y h:i A');
+        return Carbon::parse($formattedTimestamp)->addMinutes($minutes)->format('m/d/Y h:i A');
+    }
+
+
+    public function getAfterResetAssessmentUpdatedAtAttribute($value)
+    {
+
+        if ($webUser = Helpers::getWebUser()) {
+
+            $timezone = $webUser['timezone'] ?? 'UTC';
+
+        } elseif ($appUser = Helpers::getUser()) {
+
+            $timezone = $appUser['timezone'] ?? 'UTC';
+
+        } else {
+
+            $user = User::getSingleUser($this->id);
+            $timezone = $user->timezone ?? 'UTC';
+
+        }
+
+        $formattedTimestamp = str_replace('T', ' ', $value);
+
+        $formattedTimestamp = explode('.', $formattedTimestamp)[0];
+
+        $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($timezone);
+
+        return Carbon::parse($formattedTimestamp)->addMinutes($minutes)->format('m/d/Y h:i A');
+
     }
 
     public function scopeSelection($query)
