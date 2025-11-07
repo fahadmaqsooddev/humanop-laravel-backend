@@ -881,23 +881,23 @@ class AuthController extends Controller
 
                     return Helpers::successResponse('User loggedIn successfully', $data);
 
-//                } else {
-//
-//                    DB::rollBack();
-//
-//                    return Helpers::unauthResponse('Wrong Password');
-//
-//                }
+                } else {
+
+                    DB::rollBack();
+
+                    return Helpers::unauthResponse('Wrong Password');
+
+                }
 
             }
 
-        } catch (\Exception $exception) {
-
-            DB::rollBack();
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
+//        } catch (\Exception $exception) {
+//
+//            DB::rollBack();
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//
+//        }
 
     }
 
