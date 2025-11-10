@@ -2761,7 +2761,7 @@ class User extends Authenticatable implements JWTSubject
 
         if ($hoursPassed >= 24) {
 
-            $user->skip_premium_lifetime_deal = 1;
+            $user->skip_premium_lifetime_deal = Carbon::now();;
 
             $user->save();
 

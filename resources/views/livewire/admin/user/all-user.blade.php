@@ -72,7 +72,7 @@
         @endif
     @endif
 
-    <div class="table-responsive table-header-text w-100 pt-4 table-orange-color">
+    <div class="table-responsive table-header-text w-100 pt-4 table-orange-color" style="margin-bottom: 15px">
 
         @include('layouts.message')
         <table class="table table-flush">
@@ -89,6 +89,7 @@
                 @endif
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                     <th>Membership</th>
+                    <th>Beta Breaker Club</th>
                     <th>Last Login With</th>
                     <th>Date & Time</th>
                     <th>Bulk Delete</th>
@@ -119,7 +120,7 @@
                 <tr class="text-color-blue">
                     <td class="text-sm font-weight-normal text-center">{{$user['first_name'].' '.$user['last_name'] }} </td>
                     <td class="text-sm font-weight-normal">
-                        <input type="text"
+                        <input type="text" style="width: 250px !important;"
                                oninput="delayedEmailUpdate({{ $user['id'] }}, this)"
                                onkeydown="handleEmailEnter(event, {{ $user['id'] }}, this)"
                                name="email_{{ $user['id'] }}"
@@ -174,23 +175,55 @@
                         <td class="text-sm font-weight-normal">
                             <select class="form-control input-form-style"
                                     onchange="changeUserPlan({{ $user['id'] }}, this.value)"
-                                    style="background-color: #0F1535; border-radius: 12px;">
-                                @if($user['plan'] == null or $user['plan'] == 'freemium' or $user['plan'] == 'Freemium')
-                                    <option value="freemium" selected>Freemium</option>
-                                @elseif($user['plan'] == 'premium_monthly')
-                                    <option value="premium_monthly" selected>Premium Monthly</option>
-                                @elseif($user['plan'] == 'premium_yearly')
-                                    <option value="premium_yearly" selected>Premium yearly</option>
-                                @endif
-                                <option
-                                    value="premium_lifetime" {{ $user['plan'] === 'premium_lifetime' ? 'selected' : '' }}>
-                                    Premium Lifetime
-                                </option>
-                                <option
-                                    value="bb_onetime" {{ $user['plan'] === 'bb_onetime' || $user['beta_breaker_club'] === \App\Enums\Admin\Admin::BETA_BREAKER_CLUB ? 'selected' : '' }}>
-                                    Beta Breaker OneTime
-                                </option>
+                                    style="background-color: #0F1535; border-radius: 12px; width: 180px !important;">
+                                    <option
+                                        value="freemium" {{ $user['plan'] === 'freemium' ? 'selected' : '' }}>
+                                        Freemium
+                                    </option>
+                                    <option
+                                        value="premium_monthly" {{ $user['plan'] === 'premium_monthly' ? 'selected' : '' }}>
+                                        Premium Monthly
+                                    </option>
+                                    <option
+                                        value="premium_yearly" {{ $user['plan'] === 'premium_yearly' ? 'selected' : '' }}>
+                                        Premium Yearly
+                                    </option>
+                                    <option
+                                        value="premium_lifetime" {{ $user['plan'] === 'premium_lifetime' || $user['is_lifetime'] === 1 ? 'selected' : '' }}>
+                                        Premium Lifetime
+                                    </option>
+{{--                                    <option--}}
+{{--                                        value="bb_onetime" {{ $user['plan'] === 'bb_onetime' || $user['has_bb_onetime'] === 1 ? 'selected' : '' }}>--}}
+{{--                                        Beta Breaker OneTime--}}
+{{--                                    </option>--}}
                             </select>
+                        </td>
+                        <td class="text-sm font-weight-normal">
+                            <div class="form-check form-switch mb-0 d-flex justify-content-center">
+                                @php
+                                    if($user['beta_breaker_club'] == \App\Enums\Admin\Admin::BETA_BREAKER_CLUB)
+                                        $status = true;
+                                    else
+                                        $status = false;
+                                @endphp
+
+                                @if($is_beta_breaker_club || $status)
+
+                                    <input class="form-check-input"
+                                           onchange="updateUserBetaBreakerStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
+                                           name="status"
+                                           type="checkbox"
+                                        @checked($status)>
+
+                                @else
+
+                                    <input class="form-check-input"
+                                           onchange="updateUserBetaBreakerStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
+                                           name="status"
+                                           type="checkbox">
+
+                                @endif
+                            </div>
                         </td>
                         <td class="text-sm font-weight-normal text-center">
                             <strong>{{ $loginDeviceWith . '/' . $lastLoginWith }}</strong></td>
@@ -209,9 +242,8 @@
             @endforeach
             </tbody>
         </table>
-        {{ $users->links() }}
-
     </div>
+    {{ $users->links() }}
 </div>
 
 @push('js')
@@ -297,6 +329,42 @@
                     checkbox.checked = isChecked;
                     // Trigger Livewire event
                     window.livewire.emit('updateHaiChatVisibility', id);
+                } else {
+                    // If not confirmed, reset the checkbox to its original state
+                    checkbox.checked = !isChecked;
+                }
+            });
+        }
+
+        function updateUserBetaBreakerStatus(id, name, checkbox, e) {
+            e.preventDefault();
+
+            // Store the current state of the checkbox
+            const isChecked = checkbox.checked;
+
+            // Reset checkbox to its original state temporarily
+            checkbox.checked = !isChecked;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-primary m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to change Beta Breaker Club for " + name + ".</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, re-check the checkbox
+                    checkbox.checked = isChecked;
+                    // Trigger Livewire event
+                    window.livewire.emit('updateUserBetaBreaker', id);
                 } else {
                     // If not confirmed, reset the checkbox to its original state
                     checkbox.checked = !isChecked;
