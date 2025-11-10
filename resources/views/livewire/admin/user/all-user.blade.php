@@ -201,7 +201,7 @@
                         <td class="text-sm font-weight-normal">
                             <div class="form-check form-switch mb-0 d-flex justify-content-center">
                                 @php
-                                    if($user->beta_breaker_club == \App\Enums\Admin\Admin::BETA_BREAKER_CLUB)
+                                    if($user['beta_breaker_club'] == \App\Enums\Admin\Admin::BETA_BREAKER_CLUB)
                                         $status = true;
                                     else
                                         $status = false;
