@@ -652,47 +652,47 @@ class Assessment extends Model
         return $data;
     }
 
-    public static function getStyles($assessment = null)
-    {
-
-        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
-        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
-        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
-        $second_row_so = 10;
-
-        $third_row_sa = $assessment['sa'] * $second_row_sa;
-        $third_row_ma = $assessment['ma'] * $second_row_ma;
-        $third_row_jo = $assessment['jo'] * $second_row_jo;
-        $third_row_lu = $assessment['lu'] * $second_row_lu;
-        $third_row_ven = $assessment['ven'] * $second_row_ven;
-        $third_row_mer = $assessment['mer'] * $second_row_mer;
-        $third_row_so = $assessment['so'] * $second_row_so;
-
-        $third_row_style = [
-            'sa' => $third_row_sa,
-            'ma' => $third_row_ma,
-            'jo' => $third_row_jo,
-            'lu' => $third_row_lu,
-            'ven' => $third_row_ven,
-            'mer' => $third_row_mer,
-            'so' => $third_row_so,
-        ];
-
-        arsort($third_row_style);
-
-        $top_two = array_slice($third_row_style, 0, 2, true);
-
-        $topKeysStyle = [
-
-            'top_two_keys' => array_keys($top_two),
-
-        ];
-
-        return $topKeysStyle;
-    }
+//    public static function getStyles($assessment = null)
+//    {
+//
+//        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+//        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+//        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+//        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+//        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
+//        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+//        $second_row_so = 10;
+//
+//        $third_row_sa = $assessment['sa'] * $second_row_sa;
+//        $third_row_ma = $assessment['ma'] * $second_row_ma;
+//        $third_row_jo = $assessment['jo'] * $second_row_jo;
+//        $third_row_lu = $assessment['lu'] * $second_row_lu;
+//        $third_row_ven = $assessment['ven'] * $second_row_ven;
+//        $third_row_mer = $assessment['mer'] * $second_row_mer;
+//        $third_row_so = $assessment['so'] * $second_row_so;
+//
+//        $third_row_style = [
+//            'sa' => $third_row_sa,
+//            'ma' => $third_row_ma,
+//            'jo' => $third_row_jo,
+//            'lu' => $third_row_lu,
+//            'ven' => $third_row_ven,
+//            'mer' => $third_row_mer,
+//            'so' => $third_row_so,
+//        ];
+//
+//        arsort($third_row_style);
+//
+//        $top_two = array_slice($third_row_style, 0, 2, true);
+//
+//        $topKeysStyle = [
+//
+//            'top_two_keys' => array_keys($top_two),
+//
+//        ];
+//
+//        return $topKeysStyle;
+//    }
 
     public static function highLightStyle($assessment = null)
     {
@@ -904,22 +904,11 @@ class Assessment extends Model
 
         }
 
+        $styleCodes = CodeDetail::getStylePublicNames($data);
 
-        if (!empty($user['beta_breaker_club']) && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+        $getStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $data);
 
-            $styleCodes = CodeDetail::getStylePublicNames($data);
-
-            $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $data);
-
-        } else {
-
-            $topFour = array_slice($data, 0, 3, true);
-
-            $styleCodes = CodeDetail::getStylePublicNames($topFour);
-
-            $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $topFour);
-
-        }
+        $allStyles = $getStyles->take(3);
 
         $data = [];
 
@@ -930,9 +919,11 @@ class Assessment extends Model
             if ($codeDetails) {
                 $video = $codeDetails['video'] ?? [];
 
-                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-                    ? $video['video_upload_url']['path']
-                    : ($video['video_url'] ?? null);
+//                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//                    ? $video['video_upload_url']['path']
+//                    : ($video['video_url'] ?? null);
+
+                $videoUrl = $video->video_embed_link;
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], $codeDetails['name']);
 
