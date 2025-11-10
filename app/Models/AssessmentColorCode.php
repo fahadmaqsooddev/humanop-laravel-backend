@@ -90,7 +90,7 @@ class AssessmentColorCode extends Model
 
     public static function getAllAuthenticTraitCodeColor($assessmentId = null)
     {
-        $assessmentCodeColors = self::where('assessment_id', $assessmentId)->where('code_color', 'green')->get();
+        $assessmentCodeColors = self::where('assessment_id', $assessmentId)->whereIn('code_color', ['green', 'border-red'])->get();
 
         $code_color = [];
         foreach ($assessmentCodeColors as $assessment) {
