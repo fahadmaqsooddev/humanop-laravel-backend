@@ -90,6 +90,7 @@
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                     <th>Membership</th>
                     <th>Last Login With</th>
+                    <th>Date & Time</th>
                     <th>Bulk Delete</th>
                     <th>Delete Client</th>
                 @endif
@@ -109,6 +110,10 @@
                         $loginDeviceWith = $user['login_device_with'] == 1 ? "Web" : "App";
                         $lastLoginWith = "Apple";
                     }
+
+                    $minutes = \App\Helpers\Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
+
+                    $lastLogin = \Carbon\Carbon::parse($user['last_login'])->addMinutes($minutes)->format('m/d/Y h:i A');
                 @endphp
 
                 <tr class="text-color-blue">
@@ -181,12 +186,15 @@
                                     value="premium_lifetime" {{ $user['plan'] === 'premium_lifetime' ? 'selected' : '' }}>
                                     Premium Lifetime
                                 </option>
-                                <option value="bb_onetime" {{ $user['plan'] === 'bb_onetime' || $user['beta_breaker_club'] === \App\Enums\Admin\Admin::BETA_BREAKER_CLUB ? 'selected' : '' }}>
+                                <option
+                                    value="bb_onetime" {{ $user['plan'] === 'bb_onetime' || $user['beta_breaker_club'] === \App\Enums\Admin\Admin::BETA_BREAKER_CLUB ? 'selected' : '' }}>
                                     Beta Breaker OneTime
                                 </option>
                             </select>
                         </td>
-                        <td class="text-sm font-weight-normal text-center"><strong>{{ $loginDeviceWith . "/" . $lastLoginWith }}</strong></td>
+                        <td class="text-sm font-weight-normal text-center">
+                            <strong>{{ $loginDeviceWith . '/' . $lastLoginWith }}</strong></td>
+                        <td class="text-md font-weight-normal">{{ $lastLogin }} (GMT)</td>
                         <td class="text-center"><input type="checkbox" wire:model="selectedItems"
                                                        value="{{ $user->id }}"
                                                        style="width: 20px; height: 20px; cursor: pointer; accent-color: #1B3A62; border-radius: 50%;">
