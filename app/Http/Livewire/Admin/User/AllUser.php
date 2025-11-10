@@ -188,14 +188,16 @@ class AllUser extends Component
 
             if ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
 
-                $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB_NOT;
+                $user->has_bb_onetime = 1;
                 $user->save();
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully removed from the Beta Breaker Club.");
 
             } else {
 
-                $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB;
+                $user->is_lifetime = 0;
+                $user->has_bb_onetime = 1;
+                $user->plan = 'bb_onetime';
                 $user->save();
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully added to the Beta Breaker Club.");
