@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\User;
 use App\Helpers\Helpers;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\Plan\Plan;
+use App\Models\Client\Point\Point;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Subscription;
 use App\Models\User;
@@ -86,6 +87,8 @@ class AllUser extends Component
                 'beta_breaker_club' => 0
             ]);
 
+            Point::updatePointOnPlanUpdate(Admin::BREAKER_CREDITS, $user);
+
             session()->flash('success', "User downgraded to Premium Lifetime successfully.");
 
         }
@@ -101,6 +104,8 @@ class AllUser extends Component
                 'premium_lifetime_welcome' => 1,
 
             ]);
+
+            Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
             session()->flash('success', "User downgraded to Beta Breaker Lifetime successfully.");
 

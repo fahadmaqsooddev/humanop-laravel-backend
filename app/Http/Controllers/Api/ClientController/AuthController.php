@@ -106,7 +106,7 @@ class AuthController extends Controller
             // Split full_name into first_name / last_name
             $parts = explode(' ', $request->input('full_name'));
             $dataArray['first_name'] = $parts[0] ?? '';
-            $dataArray['last_name']  = $parts[1] ?? '';
+            $dataArray['last_name'] = $parts[1] ?? '';
 
             // Check if this email is frozen / soft-deleted
             $checkDeleteAccount = $userModel->checkDeleteEmail($dataArray['email']);
@@ -212,7 +212,7 @@ class AuthController extends Controller
 
                 // Send verification email ONLY if not social login
                 if (empty($request['google_id']) && empty($request['apple_id'])) {
-                    $template  = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
+                    $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
                     $emailData = $this->prepareEmailData(
                         $user,
                         $verifyUrl,
@@ -254,9 +254,9 @@ class AuthController extends Controller
                 // Return success payload
                 return Helpers::successResponse('Verification Email Send successfully', [
                     'authorization' => [
-                        'user'   => $user,
+                        'user' => $user,
                         'status' => true,
-                        'type'   => 'bearer',
+                        'type' => 'bearer',
                     ],
                 ]);
             }
@@ -286,7 +286,7 @@ class AuthController extends Controller
                         '&app=azklmwosdf';
                 }
 
-                $template  = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
+                $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
                 $emailData = $this->prepareEmailData(
                     $checkUser,
                     $verifyUrl,
@@ -310,10 +310,10 @@ class AuthController extends Controller
                     'Your email is not verified. Verification email sent.',
                     [
                         'authorization' => [
-                            'user'   => $checkUser,
-                            'email'  => 'not verified',
+                            'user' => $checkUser,
+                            'email' => 'not verified',
                             'status' => true,
-                            'type'   => 'bearer',
+                            'type' => 'bearer',
                         ],
                     ]
                 );
@@ -348,9 +348,9 @@ class AuthController extends Controller
 
                     return Helpers::successResponse('kindly complete your last step', [
                         'authorization' => [
-                            'user'   => $checkLastStep,
+                            'user' => $checkLastStep,
                             'status' => true,
-                            'type'   => 'bearer',
+                            'type' => 'bearer',
                         ],
                     ]);
                 }
@@ -803,13 +803,13 @@ class AuthController extends Controller
 
                     $token = $this->auth->attempt($credentials, $remember_me);
 
-                    $getUser = User::getSingleUser($checkUser['id']);
-
-                    $getUser->update(['last_login' => Carbon::now()]);
-
                 } else {
 
                     $token = $this->auth->attempt($credentials);
+
+                }
+
+                if ($token) {
 
                     Helpers::createCustomerAndSubscriptionOnStripe($checkUser);
 
@@ -821,17 +821,7 @@ class AuthController extends Controller
 
                     Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
 
-                    if ($checkUser['last_login'] == null) {
-                        $checkUser['last_login'] = $currentTime;
-                    }
-
-                    $checkUser->save();
-
-                }
-
-                if ($token) {
-
-                    $user = Helpers::getUser();
+                    $checkUser->update(['last_login' => Carbon::now()]);
 
                     if ($request['company_name']) {
 
@@ -839,9 +829,9 @@ class AuthController extends Controller
 
                         if (!empty($data)) {
 
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::DECLINED_DATA);
+                            B2BBusinessCandidates::registerCandidate($data['id'], $checkUser['id'], $request['prefer'], Admin::DECLINED_DATA);
 
-                            $getInvite = UserInvite::getSingleInvite($user['email']);
+                            $getInvite = UserInvite::getSingleInvite($checkUser['email']);
 
                             if ($getInvite) {
 
@@ -855,13 +845,7 @@ class AuthController extends Controller
                         }
                     }
 
-//                Helpers::createClientsOnOneSignal($user['id']);
-
-                    $updateUser = User::updateUserIsFeedback();
-
-                    $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
-
-                    $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+                    User::updateUserIsFeedback();
 
                     HaiChatHelpers::syncUserRecordWithHAi();
 
@@ -869,8 +853,12 @@ class AuthController extends Controller
 
                     User::LastLoginWith($request);
 
+                    $checkUser['two_way_auth'] = ($checkUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+
+                    $checkUser['app_intro_check'] = ($checkUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+
                     $data = [
-                        'user' => $updateUser,
+                        'user' => $checkUser,
                         'authorization' => [
                             'token' => $token,
                             'type' => 'bearer',
