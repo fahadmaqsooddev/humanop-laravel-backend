@@ -23,12 +23,12 @@ class AllUser extends Component
 {
     use WithPagination;
 
-    public $name = '', $email = '', $age = '', $selectedItems = [], $is_chatBot_published;
+    public $name = '', $email = '', $age = '', $selectedItems = [], $is_chatBot_published, $is_beta_breaker_club;
 
     protected $users = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete', 'userPlanChange','updateEmail'];
+    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner', 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete', 'userPlanChange', 'updateEmail', 'updateUserBetaBreaker'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -82,7 +82,7 @@ class AllUser extends Component
                 'is_lifetime' => 1,
                 'has_bb_onetime' => 0,
                 'plan' => 'premium_lifetime',
-                'billing_context' =>'b2c',
+                'billing_context' => 'b2c',
                 'premium_lifetime_welcome' => 1,
                 'beta_breaker_club' => 0
             ]);
@@ -91,15 +91,13 @@ class AllUser extends Component
 
             session()->flash('success', "User downgraded to Premium Lifetime successfully.");
 
-        }
-
-        if ($planName === "bb_onetime") {
+        } elseif ($planName === "bb_onetime") {
 
             $user->update([
                 'is_lifetime' => 0,
                 'has_bb_onetime' => 1,
                 'plan' => 'bb_onetime',
-                'billing_context' =>'b2c',
+                'billing_context' => 'b2c',
                 'beta_breaker_club' => 0,
                 'premium_lifetime_welcome' => 1,
 
@@ -108,6 +106,45 @@ class AllUser extends Component
             Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
             session()->flash('success', "User downgraded to Beta Breaker Lifetime successfully.");
+
+        } elseif ($planName === "premium_monthly") {
+
+            $user->update([
+                'is_lifetime' => 0,
+                'has_bb_onetime' => 0,
+                'plan' => 'premium_monthly',
+                'billing_context' => 'b2c',
+                'premium_lifetime_welcome' => 0,
+
+            ]);
+
+            session()->flash('success', "User downgraded to Premium Monthly successfully.");
+
+        } elseif ($planName === "premium_yearly") {
+
+            $user->update([
+                'is_lifetime' => 0,
+                'has_bb_onetime' => 0,
+                'plan' => 'premium_yearly',
+                'billing_context' => 'b2c',
+                'premium_lifetime_welcome' => 0,
+
+            ]);
+
+            session()->flash('success', "User downgraded to Premium Yearly successfully.");
+
+        }else{
+
+            $user->update([
+                'is_lifetime' => 0,
+                'has_bb_onetime' => 0,
+                'plan' => 'freemium',
+                'billing_context' => 'b2c',
+                'premium_lifetime_welcome' => 0,
+
+            ]);
+
+            session()->flash('success', "User downgraded to Freemium successfully.");
 
         }
 
@@ -142,6 +179,30 @@ class AllUser extends Component
             }
         }
     }
+
+    public function updateUserBetaBreaker($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+
+            if ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
+
+                $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB_NOT;
+                $user->save();
+
+                session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully removed from the Beta Breaker Club.");
+
+            } else {
+
+                $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB;
+                $user->save();
+
+                session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully added to the Beta Breaker Club.");
+            }
+        }
+    }
+
 
     public function updateEmailVerified($id)
     {
