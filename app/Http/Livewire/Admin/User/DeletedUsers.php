@@ -23,7 +23,7 @@ class DeletedUsers extends Component
     public function updated($field)
         {
             if (in_array($field, ['name', 'email'])) {
-                $this->resetPage(); 
+                $this->resetPage();
             }
         }
 
@@ -36,7 +36,7 @@ class DeletedUsers extends Component
         return view('livewire.admin.user.deleted-users', ['users' => $users]);
     }
 
-      
+
 
     public function restoreUser($id)
     {
@@ -45,15 +45,24 @@ class DeletedUsers extends Component
 
     public function deleteUserPermanently($id)
     {
-        User::onlyTrashed()->whereId($id)->forceDelete();
+        $user = User::onlyTrashed()->find($id);
+
+        if ($user) {
+
+            $user->messages()->delete();
+
+            $user->forceDelete();
+
+        }
+
     }
 
     public function bulkDelete()
     {
-        
+
         User::onlyTrashed()->whereIn('id', $this->selectedItems)->forceDelete();
 
-        
+
         $this->selectedItems = [];
     }
 }
