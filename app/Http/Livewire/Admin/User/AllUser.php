@@ -87,7 +87,7 @@ class AllUser extends Component
                 'beta_breaker_club' => Admin::BETA_BREAKER_CLUB_NOT
             ]);
 
-            Point::updatePointOnPlanUpdate(Admin::BREAKER_CREDITS, $user);
+            Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
             session()->flash('success', "User downgraded to Premium Lifetime successfully.");
 
@@ -103,7 +103,7 @@ class AllUser extends Component
 
             ]);
 
-            Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+            Point::updatePointOnPlanUpdate(Admin::BREAKER_CREDITS, $user);
 
             session()->flash('success', "User downgraded to Beta Breaker Lifetime successfully.");
 
@@ -118,6 +118,8 @@ class AllUser extends Component
 
             ]);
 
+            Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+
             session()->flash('success', "User downgraded to Premium Monthly successfully.");
 
         } elseif ($planName === "premium_yearly") {
@@ -130,6 +132,8 @@ class AllUser extends Component
                 'premium_lifetime_welcome' => 0,
 
             ]);
+
+            Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
             session()->flash('success', "User downgraded to Premium Yearly successfully.");
 
