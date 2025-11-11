@@ -251,4 +251,12 @@ final class Admin
 
     const PURCHASED_HAI_CREDITS = 4;
 
+    const BB_ONETIME = 1;
+
+    const BB_ONETIME_NOT = 0;
+
+    const PREMIUM_LIFETIME_NOT = 0;
+
+    const PREMIUM_LIFETIME = 1;
+
 }

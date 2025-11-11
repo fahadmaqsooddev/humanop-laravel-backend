@@ -79,12 +79,12 @@ class AllUser extends Component
         if ($planName === "premium_lifetime") {
 
             $user->update([
-                'is_lifetime' => 1,
-                'has_bb_onetime' => 0,
+                'is_lifetime' => Admin::PREMIUM_LIFETIME,
+                'has_bb_onetime' => Admin::BB_ONETIME_NOT,
                 'plan' => 'premium_lifetime',
                 'billing_context' => 'b2c',
                 'premium_lifetime_welcome' => 1,
-                'beta_breaker_club' => 0
+                'beta_breaker_club' => Admin::BETA_BREAKER_CLUB_NOT
             ]);
 
             Point::updatePointOnPlanUpdate(Admin::BREAKER_CREDITS, $user);
@@ -94,11 +94,11 @@ class AllUser extends Component
         } elseif ($planName === "bb_onetime") {
 
             $user->update([
-                'is_lifetime' => 0,
-                'has_bb_onetime' => 1,
+                'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
+                'has_bb_onetime' => Admin::BB_ONETIME,
                 'plan' => 'bb_onetime',
                 'billing_context' => 'b2c',
-                'beta_breaker_club' => 0,
+                'beta_breaker_club' => Admin::BETA_BREAKER_CLUB_NOT,
                 'premium_lifetime_welcome' => 1,
 
             ]);
@@ -110,8 +110,8 @@ class AllUser extends Component
         } elseif ($planName === "premium_monthly") {
 
             $user->update([
-                'is_lifetime' => 0,
-                'has_bb_onetime' => 0,
+                'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
+                'has_bb_onetime' => Admin::BB_ONETIME_NOT,
                 'plan' => 'premium_monthly',
                 'billing_context' => 'b2c',
                 'premium_lifetime_welcome' => 0,
@@ -123,8 +123,8 @@ class AllUser extends Component
         } elseif ($planName === "premium_yearly") {
 
             $user->update([
-                'is_lifetime' => 0,
-                'has_bb_onetime' => 0,
+                'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
+                'has_bb_onetime' => Admin::BB_ONETIME_NOT,
                 'plan' => 'premium_yearly',
                 'billing_context' => 'b2c',
                 'premium_lifetime_welcome' => 0,
@@ -136,8 +136,8 @@ class AllUser extends Component
         }else{
 
             $user->update([
-                'is_lifetime' => 0,
-                'has_bb_onetime' => 0,
+                'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
+                'has_bb_onetime' => Admin::BB_ONETIME_NOT,
                 'plan' => 'freemium',
                 'billing_context' => 'b2c',
                 'premium_lifetime_welcome' => 0,
@@ -188,15 +188,15 @@ class AllUser extends Component
 
             if ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
 
-                $user->has_bb_onetime = 1;
+                $user->has_bb_onetime = Admin::BB_ONETIME;
                 $user->save();
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully removed from the Beta Breaker Club.");
 
             } else {
 
-                $user->is_lifetime = 0;
-                $user->has_bb_onetime = 1;
+                $user->is_lifetime = Admin::PREMIUM_LIFETIME_NOT;
+                $user->has_bb_onetime = Admin::BB_ONETIME;
                 $user->plan = 'bb_onetime';
                 $user->save();
 
