@@ -176,11 +176,11 @@
                             <select class="form-control input-form-style"
                                     onchange="changeUserPlan({{ $user['id'] }}, this.value)"
                                     style="background-color: #0F1535; border-radius: 12px; width: 180px !important;">
-                                @if($user['plan'] == 'bb_onetime' || $user['has_bb_onetime'] == 1)
-                                    <option value="bb_onetime" selected>Beta Breaker Club</option>
-                                @endif
+{{--                                @if($user['plan'] == 'bb_onetime' || $user['has_bb_onetime'] == \App\Enums\Admin\Admin::BB_ONETIME)--}}
+{{--                                    <option value="bb_onetime" selected>Beta Breaker Club</option>--}}
+{{--                                @endif--}}
                                 <option
-                                    value="freemium" {{ $user['plan'] === 'freemium' ? 'selected' : '' }}>
+                                    value="freemium" {{ $user['plan'] === 'freemium' || $user['plan'] == null ? 'selected' : '' }}>
                                     Freemium
                                 </option>
                                 <option
@@ -204,7 +204,7 @@
                         <td class="text-sm font-weight-normal">
                             <div class="form-check form-switch mb-0 d-flex justify-content-center">
                                 @php
-                                    if($user['beta_breaker_club'] == \App\Enums\Admin\Admin::BETA_BREAKER_CLUB || $user['plan'] == "bb_onetime")
+                                    if($user['beta_breaker_club'] == \App\Enums\Admin\Admin::BETA_BREAKER_CLUB || $user['has_bb_onetime'] == \App\Enums\Admin\Admin::BB_ONETIME)
                                         $status = true;
                                     else
                                         $status = false;
