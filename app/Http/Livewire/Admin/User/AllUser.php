@@ -190,9 +190,12 @@ class AllUser extends Component
 
         if ($user) {
 
-            if ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
+            if ($user->has_bb_onetime == Admin::BB_ONETIME || $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
 
-                $user->has_bb_onetime = Admin::BB_ONETIME;
+                $user->has_bb_onetime = Admin::BB_ONETIME_NOT;
+
+                $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB_NOT;
+
                 $user->save();
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully removed from the Beta Breaker Club.");
@@ -203,6 +206,8 @@ class AllUser extends Component
                 $user->has_bb_onetime = Admin::BB_ONETIME;
                 $user->plan = 'bb_onetime';
                 $user->save();
+
+                Point::updatePointOnPlanUpdate(Admin::BREAKER_CREDITS, $user);
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully added to the Beta Breaker Club.");
             }
