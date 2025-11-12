@@ -40,6 +40,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -631,6 +632,8 @@ class UserController extends Controller
 
             $isPremiumUser = $get_user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB ||
                 in_array($get_user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime', 'bb_onetime']);
+
+            Log::info(['check user plan' => $isPremiumUser]);
 
             $allStyles = $assessment != null ? ($isPremiumUser ? Assessment::getAllAuthenticStyles($assessment) : Assessment::getAllStyles($assessment)) : [];
 

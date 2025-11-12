@@ -844,6 +844,8 @@ class Assessment extends Model
     public static function getAllStyles($assessment = null, $loginUser = null)
     {
 
+        Log::info("All Styles");
+
         $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
         $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
         $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
@@ -947,6 +949,8 @@ class Assessment extends Model
     public static function getAllAuthenticStyles($assessment = null)
     {
 
+        Log::info("All Authentic Styles");
+
         $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
         $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
         $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
@@ -1010,10 +1014,6 @@ class Assessment extends Model
 
             if ($codeDetails) {
                 $video = $codeDetails['video'] ?? [];
-
-//                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-//                    ? $video['video_upload_url']['path']
-//                    : ($video['video_url'] ?? null);
 
                 $videoUrl = $video->video_embed_link;
 
