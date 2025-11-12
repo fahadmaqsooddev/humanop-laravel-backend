@@ -24,6 +24,10 @@ final class Admin
 
     const IS_BOTH = 2;
 
+    const IS_PERMANENTLY_DELETED = 1;
+
+    const IS_NOT_PERMANENTLY_DELETED = 0;
+
     const HAI_CHAT_HIDE = 2;
 
     const NINETY_DAYS_ACTION_PLAN = 2;

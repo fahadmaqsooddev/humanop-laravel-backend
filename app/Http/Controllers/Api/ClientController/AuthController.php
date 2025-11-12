@@ -110,6 +110,7 @@ class AuthController extends Controller
 
             // Check if this email is frozen / soft-deleted
             $checkDeleteAccount = $userModel->checkDeleteEmail($dataArray['email']);
+
             if (!empty($checkDeleteAccount)) {
                 DB::rollBack();
                 return Helpers::validationResponse(
