@@ -23,21 +23,24 @@ class RegisterFirstStepRequest extends FormRequest
      */
     public function rules()
     {
-        $required = (request()->input('google_id', null) || request()->input('apple_id', null)) ? 'nullable' : 'required';
+        $required = (request()->input('google_id') || request()->input('apple_id')) ? 'nullable' : 'required';
 
         return [
             'password' => $required . '|string|min:6',
+            'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL'
         ];
     }
 
     public function messages()
     {
         return [
-            'email.required' => 'Email is required',
-            'email.email' => 'Email must be an valid email',
-            'email.unique' => 'Email is already been taken',
             'password.required' => 'Password is required.',
-            'password.min' => 'Password must be at least 6 characters long.',
+            'password.string' => 'Password must be a string.',
+            'password.min' => 'Password must be at least 6 characters.',
+
+            'email.required' => 'Email is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'This email is already registered.',
         ];
     }
 }

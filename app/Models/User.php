@@ -2063,7 +2063,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkDeleteEmail($userEmail = null)
     {
-        return self::where('email', $userEmail)->onlyTrashed()->first();
+        return self::where('email', $userEmail)->onlyTrashed()->where('is_permanently_deleted', Admin::IS_NOT_PERMANENTLY_DELETED)->first();
     }
 
     public static function updateUserTimezone($timezone = null)

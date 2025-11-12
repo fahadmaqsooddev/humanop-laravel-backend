@@ -221,6 +221,8 @@ class BillingController extends Controller
             ]);
         }
 
+        Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+
         // Fallback
         return response()->json([
             'subscription_id' => $subscription->id,
@@ -546,6 +548,8 @@ class BillingController extends Controller
         $user->is_lifetime = false;
         $user->billing_context = 'b2c';
         $user->save();
+
+        Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
         return response()->json(['ok' => true]);
     }
