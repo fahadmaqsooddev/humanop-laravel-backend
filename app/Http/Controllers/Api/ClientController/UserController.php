@@ -629,31 +629,14 @@ class UserController extends Controller
 
             $gender = $get_user['gender'] == 0 ? '(M)' : '(F)';
 
-            if ($get_user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB_NOT or $get_user['plan_name'] == "Freemium") {
+            $isPremiumUser = $get_user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB ||
+                in_array($get_user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime', 'bb_onetime']);
 
-                $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
-
-            } else {
-
-                $allStyles = $assessment != null ? Assessment::getAllAuthenticStyles($assessment) : [];
-
-            }
+            $allStyles = $assessment != null ? ($isPremiumUser ? Assessment::getAllAuthenticStyles($assessment) : Assessment::getAllStyles($assessment)) : [];
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
 
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
-
-            $tertiaryFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['next_two_keys'], $assessment) : [];
-
-            if ($get_user['plan'] == "premium_monthly" or $get_user['plan'] == "premium_yearly" or $get_user['plan'] == "premium_lifetime") {
-
-                $allDrivers = array_merge($topTwoFeatures, $tertiaryFeatures);
-
-            }else{
-
-                $allDrivers = $topTwoFeatures;
-
-            }
 
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
 
@@ -715,7 +698,7 @@ class UserController extends Controller
                 'traits_intro' => $trait_intro,
                 'all_styles' => $allStyles,
                 'motivation_introduction' => $motivation_intro,
-                'top_features' => $allDrivers,
+                'top_features' => $topTwoFeatures,
                 'intro_boundaries' => $intro_boundaries,
                 'boundary' => $boundary,
                 'intro_perception' => $perception_life,
