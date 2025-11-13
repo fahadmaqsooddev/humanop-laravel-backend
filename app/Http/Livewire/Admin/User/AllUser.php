@@ -87,7 +87,7 @@ class AllUser extends Component
                 'beta_breaker_club' => Admin::BETA_BREAKER_CLUB_NOT
             ]);
 
-            Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+            $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
             session()->flash('success', "User downgraded to Premium Lifetime successfully.");
 
@@ -103,7 +103,7 @@ class AllUser extends Component
 
             ]);
 
-            Point::updatePointOnPlanUpdate(Admin::BREAKER_CREDITS, $user);
+            $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
 
             session()->flash('success', "User downgraded to Beta Breaker Lifetime successfully.");
 
@@ -118,7 +118,7 @@ class AllUser extends Component
 
             ]);
 
-            Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+            $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
             session()->flash('success', "User downgraded to Premium Monthly successfully.");
 
@@ -133,7 +133,7 @@ class AllUser extends Component
 
             ]);
 
-            Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+            $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
             session()->flash('success', "User downgraded to Premium Yearly successfully.");
 
@@ -207,7 +207,7 @@ class AllUser extends Component
                 $user->plan = 'bb_onetime';
                 $user->save();
 
-                Point::updatePointOnPlanUpdate(Admin::BREAKER_CREDITS, $user);
+                $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully added to the Beta Breaker Club.");
             }
@@ -313,6 +313,16 @@ class AllUser extends Component
         $user->save();
 
         session()->flash('success', "Email updated successfully!");
+    }
+
+    private function HAiCreditsUpdated($points, $user)
+    {
+        $existingPoints = Point::userExists($user->id);
+
+        $existingPoints->point = $points;
+
+        $existingPoints->save();
+
     }
 
     public function render()
