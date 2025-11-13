@@ -741,9 +741,9 @@ class AuthController extends Controller
             if (!empty($request['login_from_beta']) && ($request['login_from_beta'] === true || $request['login_from_beta'] === 'true')) {
 
                 if (
-                    $checkUser['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB_NOT &&
-                    $checkUser['plan'] !== 'bb_onetime' &&
-                    $checkUser['has_bb_onetime'] != Admin::BB_ONETIME
+                    $checkUser->beta_breaker_club == Admin::BETA_BREAKER_CLUB_NOT &&
+                    $checkUser->plan !== 'bb_onetime' &&
+                    $checkUser->has_bb_onetime != Admin::BB_ONETIME
                 ) {
                     return Helpers::validationResponse('You cannot login because you are not a member of the Beta Breaker Club.');
                 }
@@ -934,9 +934,9 @@ class AuthController extends Controller
                 if (!empty($request['login_from_beta']) && ($request['login_from_beta'] === true || $request['login_from_beta'] === 'true')) {
 
                     if (
-                        $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB_NOT &&
-                        $user['plan'] !== 'bb_onetime' &&
-                        $user['has_bb_onetime'] != Admin::BB_ONETIME
+                        $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB_NOT &&
+                        $user->plan !== 'bb_onetime' &&
+                        $user->has_bb_onetime != Admin::BB_ONETIME
                     ) {
                         return Helpers::validationResponse('You cannot login because you are not a member of the Beta Breaker Club.');
                     }
