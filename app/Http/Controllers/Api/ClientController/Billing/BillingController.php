@@ -21,6 +21,16 @@ class BillingController extends Controller
 
     }
 
+    private function HAiCreditsUpdated($points, $user)
+    {
+        $existingPoints = Point::userExists($user->id);
+
+        $existingPoints->point = $points;
+
+        $existingPoints->save();
+
+    }
+
     public function initPaymentMethod(Request $request)
     {
         $user = Helpers::getUser();
@@ -221,7 +231,8 @@ class BillingController extends Controller
             ]);
         }
 
-        Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+        $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+
 
         // Fallback
         return response()->json([
@@ -367,7 +378,8 @@ class BillingController extends Controller
             'metadata' => $metadata,
         ]);
 
-        Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+        $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+
 
         return response()->json([
             'status' => 'requires_payment_method',  // frontend should render Payment Element
@@ -496,7 +508,8 @@ class BillingController extends Controller
             ],
         ]);
 
-        Point::updatePointOnPlanUpdate(Admin::BREAKER_CREDITS, $user);
+        $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
+
 
         return response()->json([
             'status' => 'requires_payment_method',  // frontend should render Payment Element
@@ -549,7 +562,7 @@ class BillingController extends Controller
         $user->billing_context = 'b2c';
         $user->save();
 
-        Point::updatePointOnPlanUpdate(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+        $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
         return response()->json(['ok' => true]);
     }
