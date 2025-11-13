@@ -37,7 +37,7 @@ class Point extends Model
     {
         $userCredits = self::where('user_id', $user_id)->first();
 
-//        $userCredits->update(['point' => $userCredits['point'] + $point]);
+        $userCredits->update(['point' => $point]);
 
         return $userCredits;
 
