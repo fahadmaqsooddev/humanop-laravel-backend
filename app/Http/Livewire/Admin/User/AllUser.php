@@ -148,6 +148,8 @@ class AllUser extends Component
 
             ]);
 
+            $this->HAiCreditsUpdated(0, $user);
+
             session()->flash('success', "User downgraded to Freemium successfully.");
 
         }
@@ -197,6 +199,8 @@ class AllUser extends Component
                 $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB_NOT;
 
                 $user->save();
+
+                $this->HAiCreditsUpdated(0, $user);
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully removed from the Beta Breaker Club.");
 
