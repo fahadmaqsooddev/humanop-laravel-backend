@@ -193,7 +193,7 @@ class AllUser extends Component
             if ($user->has_bb_onetime == Admin::BB_ONETIME || $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
 
                 $user->has_bb_onetime = Admin::BB_ONETIME_NOT;
-
+                $user->plan = 'freemium';
                 $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB_NOT;
 
                 $user->save();
