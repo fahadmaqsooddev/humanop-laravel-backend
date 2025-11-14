@@ -128,7 +128,7 @@
                                class="form-control input-form-style"
                                placeholder="Enter email">
                     </td>
-                    <td class="text-sm font-weight-normal text-center">{{$user['gender'] != null ? $user['gender'] == 1 ? 'Female' : 'Male' : '-'}}</td>
+                    <td class="text-sm font-weight-normal text-center">{{$user['gender'] != null ? $user['gender'] == 1 || $user['female'] ? 'Female' : 'Male' : '-'}}</td>
                     <td class="text-sm font-weight-normal">
                         <div class="form-check form-switch mb-0 d-flex justify-content-center">
                             @php
