@@ -2658,7 +2658,11 @@ class User extends Authenticatable implements JWTSubject
 
         $user->login_device_with = $request['login_device_with'] ?? 1;
 
-        $user->premium_banner_hide = $request['premium_banner_hide'] ?? false;
+        if ($request->has('premium_banner_hide') && filter_var($request->premium_banner_hide, FILTER_VALIDATE_BOOLEAN)) {
+
+            $user->premium_banner_hide = 1;
+
+        }
 
         $user->save();
 
