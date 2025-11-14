@@ -96,7 +96,9 @@ class AssessmentService
             $result[strtolower($code)] = ($old[strtolower($code)] ?? 0) + $value;
         }
 
-        $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [$user->gender, 2])->where('active', 1)->count() / 3);
+        $userGender = ($user->gender == 0 || strtolower($user->gender) == 'male') ? 0 : 1;
+
+        $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [$userGender, 2])->where('active', 1)->count() / 3);
         $currentPage = $assessment->page + 1;
 
         $message = '';
