@@ -209,6 +209,7 @@ class AllUser extends Component
                 $user->is_lifetime = Admin::PREMIUM_LIFETIME_NOT;
                 $user->has_bb_onetime = Admin::BB_ONETIME;
                 $user->plan = 'bb_onetime';
+                $user->premium_lifetime_welcome = Admin::PREMIUM_LIFETIME;
                 $user->save();
 
                 $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
