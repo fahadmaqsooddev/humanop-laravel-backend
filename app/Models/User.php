@@ -263,18 +263,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getHaiInitiatorAttribute()
     {
-
-        $haiMedal = GamificationMedalRewards::getHaiMedal($this->id);
-
-        if (!empty($haiMedal)){
-
-            return true;
-
-        }else{
-
-            return null;
-
-        }
+        return GamificationMedalRewards::getHaiMedal($this->id) ? true : false;
     }
 
     public function getUserTaglineAttribute()
