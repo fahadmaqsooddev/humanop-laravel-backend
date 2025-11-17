@@ -1460,6 +1460,8 @@ class User extends Authenticatable implements JWTSubject
 
         $data['email_verify_token'] = Str::random(16);
 
+        $data['premium_banner_hide'] = 1;
+
         if (!empty($referralCode)) {
 
             $referralBy = self::getReferralByUser($referralCode);
