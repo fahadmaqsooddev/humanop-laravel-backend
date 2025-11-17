@@ -11,6 +11,7 @@ use App\Models\B2B\B2BIntentionOption;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
+use App\Models\Client\Gamification\GamificationMedalRewards;
 use App\Models\Client\Hai\HaiThread;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\Client\Plan\Plan;
@@ -45,7 +46,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator'];
 
     public function __construct(array $attributes = array())
     {
@@ -258,6 +259,22 @@ class User extends Authenticatable implements JWTSubject
 
         return count($myGroups);
 
+    }
+
+    public function getHaiInitiatorAttribute()
+    {
+
+        $haiMedal = GamificationMedalRewards::getHaiMedal($this->id);
+
+        if (!empty($haiMedal)){
+
+            return true;
+
+        }else{
+
+            return null;
+
+        }
     }
 
     public function getUserTaglineAttribute()
