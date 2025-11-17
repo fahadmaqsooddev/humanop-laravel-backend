@@ -479,6 +479,8 @@ class DashboardController extends Controller
 
                 $optionalTraitDetail = CodeDetail::getOptimalTraitDetail($optionalTrait['trait']);
 
+                dd($optionalTraitDetail, $user, $optionalTrait);
+
                 UserOptimalTrait::createUserOptimalTrait($optionalTraitDetail[0], $user['id'], $optionalTrait['status']);
 
                 return Helpers::successResponse('optional trait', $optionalTraitDetail);
