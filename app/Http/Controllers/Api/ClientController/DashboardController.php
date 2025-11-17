@@ -459,7 +459,7 @@ class DashboardController extends Controller
 
     public function optimalTrait()
     {
-        try {
+//        try {
 
             $user = Helpers::getUser();
 
@@ -489,10 +489,10 @@ class DashboardController extends Controller
 
             }
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
 
     }
 
