@@ -459,7 +459,7 @@ class DashboardController extends Controller
 
     public function optimalTrait()
     {
-//        try {
+        try {
 
             $user = Helpers::getUser();
 
@@ -477,11 +477,7 @@ class DashboardController extends Controller
 
                 $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
 
-                dd($optionalTrait);
-                
                 $optionalTraitDetail = CodeDetail::getOptimalTraitDetail($optionalTrait['trait']);
-
-                dd($optionalTraitDetail, $user, $optionalTrait);
 
                 UserOptimalTrait::createUserOptimalTrait($optionalTraitDetail[0], $user['id'], $optionalTrait['status']);
 
@@ -493,10 +489,10 @@ class DashboardController extends Controller
 
             }
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
 
     }
 
