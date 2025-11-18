@@ -177,7 +177,7 @@ class UserController extends Controller
 
             $authUser->update($dataArray);
 
-            if (Helpers::getUser()['plan_name'] == 'Premium' || $authUser['beta_breaker_club'] == Admin::B2C_PURCHASED_ITEM) {
+            if (Helpers::getUser()['plan_name'] == 'Premium' || Helpers::getUser()['plan_name'] == 'Beta Breaker') {
 
                 $shareAssessment = $request->only(['core_state', 'authentic_traits']);
 
