@@ -181,9 +181,11 @@ class ThreadController extends Controller
 
             $member = MessageThread::addUsers($request);
 
+            $memberName = $member['participants']['first_name'] . ' ' . $member['participants']['last_name'];
+
             DB::commit();
 
-//            ActivityLogger::addLog('Member added in Group', "{$member->first_name . ' ' . $member->last_name} member added in {$member->name} this group.");
+            ActivityLogger::addLog('Member Added to Group', "Member {$memberName} added to group {$member->name}.");
 
             return Helpers::successResponse('Members added successfully.', $member);
 
@@ -209,8 +211,6 @@ class ThreadController extends Controller
             if (!in_array($user->role, [0, 1])) {
                 return Helpers::validationResponse('You cannot remove Member because you have no permission to remove other users.');
             }
-
-//            ActivityLogger::addLog('Member added in Group', "{$member->first_name . ' ' . $member->last_name} member added in {$member->name} this group.");
 
             $messageThread = MessageThread::findOrFail($request->thread_id);
 
