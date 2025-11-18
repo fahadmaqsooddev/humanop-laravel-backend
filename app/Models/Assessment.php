@@ -113,6 +113,30 @@ class Assessment extends Model
         return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type', 'created_at', 'updated_at']);
     }
 
+    private static function calculateSecondRow($assessment): array
+    {
+        return [
+            'sa' => $assessment->sa + $assessment->ma + $assessment->mer,
+            'ma' => $assessment->sa + $assessment->ma + $assessment->jo,
+            'jo' => $assessment->ma + $assessment->jo + $assessment->lu,
+            'lu' => $assessment->jo + $assessment->lu + $assessment->ven,
+            'ven' => $assessment->lu + $assessment->ven + $assessment->mer,
+            'mer' => $assessment->ven + $assessment->mer + $assessment->sa,
+            'so' => 10
+        ];
+    }
+
+    private static function calculateThirdRow($assessment, $secondRow): array
+    {
+        $thirdRow = [];
+
+        foreach ($secondRow as $key => $value) {
+            $thirdRow[$key] = $assessment[$key] * $value;
+        }
+
+        return $thirdRow;
+    }
+
     public static function createAssessmentData($userId = null, $type = 0)
     {
 
@@ -652,48 +676,6 @@ class Assessment extends Model
         return $data;
     }
 
-//    public static function getStyles($assessment = null)
-//    {
-//
-//        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-//        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-//        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-//        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
-//        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
-//        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
-//        $second_row_so = 10;
-//
-//        $third_row_sa = $assessment['sa'] * $second_row_sa;
-//        $third_row_ma = $assessment['ma'] * $second_row_ma;
-//        $third_row_jo = $assessment['jo'] * $second_row_jo;
-//        $third_row_lu = $assessment['lu'] * $second_row_lu;
-//        $third_row_ven = $assessment['ven'] * $second_row_ven;
-//        $third_row_mer = $assessment['mer'] * $second_row_mer;
-//        $third_row_so = $assessment['so'] * $second_row_so;
-//
-//        $third_row_style = [
-//            'sa' => $third_row_sa,
-//            'ma' => $third_row_ma,
-//            'jo' => $third_row_jo,
-//            'lu' => $third_row_lu,
-//            'ven' => $third_row_ven,
-//            'mer' => $third_row_mer,
-//            'so' => $third_row_so,
-//        ];
-//
-//        arsort($third_row_style);
-//
-//        $top_two = array_slice($third_row_style, 0, 2, true);
-//
-//        $topKeysStyle = [
-//
-//            'top_two_keys' => array_keys($top_two),
-//
-//        ];
-//
-//        return $topKeysStyle;
-//    }
-
     public static function highLightStyle($assessment = null)
     {
         $allStyles = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'dom', 'fe', 'de', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'int', 'mov', 'ins', 'em'];
@@ -721,22 +703,9 @@ class Assessment extends Model
     public static function topThreeTraits($assessment = null)
     {
 
-        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
-        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
-        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+        $secondRow = self::calculateSecondRow($assessment);
 
-        $third_row = [
-            'sa' => $assessment['sa'] * $second_row_sa,
-            'ma' => $assessment['ma'] * $second_row_ma,
-            'jo' => $assessment['jo'] * $second_row_jo,
-            'lu' => $assessment['lu'] * $second_row_lu,
-            'ven' => $assessment['ven'] * $second_row_ven,
-            'mer' => $assessment['mer'] * $second_row_mer,
-            'so' => 10 * $assessment['so']
-        ];
+        $third_row = self::calculateThirdRow($assessment, $secondRow);
 
         $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
 
@@ -846,23 +815,9 @@ class Assessment extends Model
 
         Log::info("All Styles");
 
-        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
-        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
-        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
-        $second_row_so = 10;
+        $secondRow = self::calculateSecondRow($assessment);
 
-        $third_row = [
-            'sa' => $assessment['sa'] * $second_row_sa,
-            'ma' => $assessment['ma'] * $second_row_ma,
-            'jo' => $assessment['jo'] * $second_row_jo,
-            'lu' => $assessment['lu'] * $second_row_lu,
-            'ven' => $assessment['ven'] * $second_row_ven,
-            'mer' => $assessment['mer'] * $second_row_mer,
-            'so' => $assessment['so'] * $second_row_so
-        ];
+        $third_row = self::calculateThirdRow($assessment, $secondRow);
 
         $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
 
@@ -951,23 +906,9 @@ class Assessment extends Model
 
         Log::info("All Authentic Styles");
 
-        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
-        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
-        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
-        $second_row_so = 10;
+        $secondRow = self::calculateSecondRow($assessment);
 
-        $third_row = [
-            'sa' => $assessment['sa'] * $second_row_sa,
-            'ma' => $assessment['ma'] * $second_row_ma,
-            'jo' => $assessment['jo'] * $second_row_jo,
-            'lu' => $assessment['lu'] * $second_row_lu,
-            'ven' => $assessment['ven'] * $second_row_ven,
-            'mer' => $assessment['mer'] * $second_row_mer,
-            'so' => $assessment['so'] * $second_row_so
-        ];
+        $third_row = self::calculateThirdRow($assessment, $secondRow);
 
         $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
 
@@ -1006,8 +947,19 @@ class Assessment extends Model
 
         $data = [];
 
-        $getAuthentic = AssessmentColorCode::getAllAuthenticTraitCodeColor($assessment['id']);
-        $getAuthentic = array_change_key_case($getAuthentic, CASE_LOWER);
+        $authenticTraits = AssessmentColorCode::getAllAuthenticTraitCodeColor($assessment['id']);
+
+        $authenticTraits = array_intersect_key($authenticTraits, array_flip($style));
+
+        if (count($authenticTraits) < 3) {
+
+            $highlightTraits = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
+
+            $authenticTraits = array_intersect_key($highlightTraits, array_flip($style));
+
+        }
+
+        $getAuthentic = array_change_key_case($authenticTraits, CASE_LOWER);
 
         foreach ($allStyles as $style) {
             $codeDetails = $style['codeDetails'][0] ?? null;
@@ -1045,23 +997,9 @@ class Assessment extends Model
     public static function authenticTraits($assessment = null)
     {
 
-        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
-        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
-        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
-        $second_row_so = 10;
+        $secondRow = self::calculateSecondRow($assessment);
 
-        $third_row = [
-            'sa' => $assessment['sa'] * $second_row_sa,
-            'ma' => $assessment['ma'] * $second_row_ma,
-            'jo' => $assessment['jo'] * $second_row_jo,
-            'lu' => $assessment['lu'] * $second_row_lu,
-            'ven' => $assessment['ven'] * $second_row_ven,
-            'mer' => $assessment['mer'] * $second_row_mer,
-            'so' => $assessment['so'] * $second_row_so
-        ];
+        $third_row = self::calculateThirdRow($assessment, $secondRow);
 
         $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
 
@@ -1096,104 +1034,6 @@ class Assessment extends Model
         return CodeDetail::getStylePublicNames($data);
 
     }
-
-//    public static function breakerAuthenticTraits($assessment = null)
-//    {
-//
-//        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-//        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-//        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-//        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
-//        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
-//        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
-//        $second_row_so = 10;
-//
-//        $third_row = [
-//            'sa' => $assessment['sa'] * $second_row_sa,
-//            'ma' => $assessment['ma'] * $second_row_ma,
-//            'jo' => $assessment['jo'] * $second_row_jo,
-//            'lu' => $assessment['lu'] * $second_row_lu,
-//            'ven' => $assessment['ven'] * $second_row_ven,
-//            'mer' => $assessment['mer'] * $second_row_mer,
-//            'so' => $assessment['so'] * $second_row_so
-//        ];
-//
-//        $getResult = AssessmentColorCode::getBreakerHighlightCodeColor($assessment['id']);
-//
-//        $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
-//
-//        $getStyle = array_intersect_key($getResult, array_flip($style));
-//
-//        arsort($getStyle);
-//
-//        $data = $getStyle;
-//
-//        uksort($data, function ($a, $b) use ($getStyle, $third_row, $style) {
-//            $scoreA = $getStyle[$a] ?? 0;
-//            $scoreB = $getStyle[$b] ?? 0;
-//
-//            if ($scoreA != $scoreB) {
-//                return $scoreB <=> $scoreA;
-//            }
-//
-//            $a_third = $third_row[$a] ?? 0;
-//            $b_third = $third_row[$b] ?? 0;
-//
-//            if ($a_third != $b_third) {
-//                if ($a_third > 30 && $b_third <= 30) return -1;
-//                if ($b_third > 30 && $a_third <= 30) return 1;
-//                return $b_third <=> $a_third;
-//            }
-//
-//            return array_search($a, $style) <=> array_search($b, $style);
-//        });
-//
-//        $styleCodes = CodeDetail::getStylePublicNames($data);
-//
-//        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $styleCodes, $data);
-//
-//        $data = [];
-//
-//        $getAuthentic = AssessmentColorCode::getBreakerHighlightCodeColor($assessment['id']);
-////        $getAuthentic = AssessmentColorCode::getAllAuthenticTraitCodeColor($assessment['id']);
-//        $getAuthentic = array_change_key_case($getAuthentic, CASE_LOWER);
-//
-//        foreach ($allStyles as $style) {
-//            $codeDetails = $style['codeDetails'][0] ?? null;
-//
-//            if ($codeDetails) {
-//                $video = $codeDetails['video'] ?? [];
-//
-////                $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-////                    ? $video['video_upload_url']['path']
-////                    : ($video['video_url'] ?? null);
-//
-//                $videoUrl = $video->video_embed_link;
-//
-//                $progress = VideoProgress::checkVideoProgress($assessment['id'], $codeDetails['name']);
-//
-//                $codeName = strtolower($codeDetails['code'] ?? '');
-//
-//                // ✅ only add if authentic match exists
-//                if (isset($getAuthentic[$codeName])) {
-//                    $data[] = [
-//                        'code_number' => $style['code_number'] ?? null,
-//                        'code_name' => $codeDetails['code'] ?? null,
-//                        'public_name' => $codeDetails['public_name'] ?? null,
-//                        'name' => $codeDetails['name'] ?? null,
-//                        'description' => $codeDetails['text'] ?? null,
-//                        'video_url' => $videoUrl,
-//                        'video_progress' => $progress['video_progress'],
-//                        'video_time' => $progress['video_time'],
-//                        'authentic' => $getAuthentic[$codeName], // always valid here
-//                    ];
-//                }
-//            }
-//        }
-//
-//        return $data;
-//
-//    }
 
     public static function getTemporaryStyles($assessment = null)
     {

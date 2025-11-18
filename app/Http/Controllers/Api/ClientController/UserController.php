@@ -633,8 +633,6 @@ class UserController extends Controller
             $isPremiumUser = $get_user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB ||
                 in_array($get_user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime', 'bb_onetime']);
 
-            Log::info(['check user plan' => $isPremiumUser]);
-
             $allStyles = $assessment != null ? ($isPremiumUser ? Assessment::getAllAuthenticStyles($assessment) : Assessment::getAllStyles($assessment)) : [];
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
