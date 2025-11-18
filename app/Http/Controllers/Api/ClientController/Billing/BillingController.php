@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\ClientController\Billing;
 
 use App\Domain\Billing\PlanRules;
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Client\Plan\Plan;
@@ -233,6 +234,7 @@ class BillingController extends Controller
 
         $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
+        ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the {$validated['plan']} plan.");
 
         // Fallback
         return response()->json([
@@ -380,6 +382,7 @@ class BillingController extends Controller
 
         $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
+        ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the Premium Life-Time plan.");
 
         return response()->json([
             'status' => 'requires_payment_method',  // frontend should render Payment Element
@@ -511,6 +514,8 @@ class BillingController extends Controller
         $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
 
 
+        ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the Beta Breaker plan.");
+
         return response()->json([
             'status' => 'requires_payment_method',  // frontend should render Payment Element
             'requires_action' => true,
@@ -564,6 +569,8 @@ class BillingController extends Controller
 
         $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
 
+        ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the {$validated['to']} plan.");
+
         return response()->json(['ok' => true]);
     }
 
@@ -583,6 +590,8 @@ class BillingController extends Controller
             $user->plan = 'freemium';
         }
         $user->save();
+
+        ActivityLogger::addLog('Subscription Cancelled', "Your subscription has been successfully cancelled.");
 
         return response()->json([
             'ok' => true,

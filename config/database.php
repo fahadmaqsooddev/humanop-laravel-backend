@@ -818,6 +818,11 @@ return [
             'table' => 'lifetime_deal_banners',
             'fillable' => ['title_for_beta_breaker', 'title_for_freemium', 'description_for_beta_breaker', 'description_for_freemium', 'status','start_date','end_date'],
             'hidden' => ['created_at'],
+        ],
+        'Activity' => [
+            'table' => 'activity_log',
+            'fillable' => ['log_name', 'description', 'subject_type', 'event', 'subject_id','causer_type','causer_id','properties','batch_uuid','action_title','action_description','url'],
+            'hidden' => ['created_at'],
         ]
     ]
 ];

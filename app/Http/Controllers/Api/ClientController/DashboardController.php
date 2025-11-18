@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Http\Requests\Api\Client\AddRecentPlayerRequest;
 use App\Http\Requests\Api\Client\ShareDataRequest;
@@ -51,7 +52,7 @@ class DashboardController extends Controller
 
     public function dailyTip()
     {
-//        try {
+        try {
 
             $user = Helpers::getWebUser() ?? Helpers::getUser();
 
@@ -153,6 +154,8 @@ class DashboardController extends Controller
 
                                 Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
+                                ActivityLogger::addLog('new daily tip', "$message");
+
                                 HaiChatHelpers::syncUserRecordWithHAi();
 
                             }elseif($getLatestTip['updated_at']->startOfMinute() != Carbon::now()->startOfMinute()){
@@ -164,6 +167,8 @@ class DashboardController extends Controller
                                 event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
                                 Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                                ActivityLogger::addLog('new daily tip', "$message");
 
                                 HaiChatHelpers::syncUserRecordWithHAi();
 
@@ -219,11 +224,11 @@ class DashboardController extends Controller
 
             }
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
 
     }
 
@@ -234,6 +239,8 @@ class DashboardController extends Controller
             $favoriteTip = UserDailyTip::userFavoriteDailyTip($request['daily_tip_id']);
 
             $message = 'Your daily tip has been ' . ($favoriteTip['favorite_tip'] == 2 ? 'favorited' : 'not favorited') . '.';
+
+            ActivityLogger::addLog('Favorite Daily Tip', $message);
 
             return Helpers::successResponse($message);
 
@@ -339,6 +346,8 @@ class DashboardController extends Controller
 
 //                $point = PointHelper::addPointsOnDailyTipRead();
             }
+
+            ActivityLogger::addLog('Read Daily Tip', "Read Daily Tip");
 
             DB::commit();
 

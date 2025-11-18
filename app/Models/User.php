@@ -37,14 +37,13 @@ use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes, LogsActivity;
+    use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
     protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator'];
 

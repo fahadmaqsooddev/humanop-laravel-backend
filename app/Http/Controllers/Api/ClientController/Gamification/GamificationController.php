@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController\Gamification;
 
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\CompleteWatchVideoRequest;
@@ -78,6 +79,8 @@ class GamificationController extends Controller
             if (!empty($watchVideo)) {
 
                 $videoTitle = ucwords(str_replace('_', ' ', $watchVideo['video_name']));
+
+                ActivityLogger::addLog('Assessment watch video', "Congratulations! You completed watching the video: {$videoTitle}.");
 
                 return Helpers::successResponse("Congratulations! You completed watching the video: {$videoTitle}.");
 

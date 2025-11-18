@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AcceptOrRejectGroupRequest;
@@ -119,6 +120,8 @@ class ThreadController extends Controller
 
             DB::commit();
 
+            ActivityLogger::addLog('Group Created', "{$group->name} New group created successfully.");
+
             return Helpers::successResponse('New group created successfully.', $group);
 
         } catch (\Exception $exception) {
@@ -149,6 +152,8 @@ class ThreadController extends Controller
 
             $group = MessageThread::editGroup($request, $loginUser->id);
 
+            ActivityLogger::addLog('Group Edited', "{$group->name} Group edited successfully.");
+
             DB::commit();
 
             return Helpers::successResponse('group edited successfully.', $group);
@@ -178,6 +183,8 @@ class ThreadController extends Controller
 
             DB::commit();
 
+//            ActivityLogger::addLog('Member added in Group', "{$member->first_name . ' ' . $member->last_name} member added in {$member->name} this group.");
+
             return Helpers::successResponse('Members added successfully.', $member);
 
         } catch (\Exception $exception) {
@@ -202,6 +209,8 @@ class ThreadController extends Controller
             if (!in_array($user->role, [0, 1])) {
                 return Helpers::validationResponse('You cannot remove Member because you have no permission to remove other users.');
             }
+
+//            ActivityLogger::addLog('Member added in Group', "{$member->first_name . ' ' . $member->last_name} member added in {$member->name} this group.");
 
             $messageThread = MessageThread::findOrFail($request->thread_id);
 
