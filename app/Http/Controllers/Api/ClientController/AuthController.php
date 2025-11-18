@@ -876,7 +876,7 @@ class AuthController extends Controller
 
                     $signupMethod = $checkUser->google_id ? 'Google' : ($checkUser->apple_id ? 'Apple' : 'Email');
 
-                    ActivityLogger::addLog('Signup', "User Signup by {$signupMethod}");
+                    ActivityLogger::addLog('Signup', "User Signup by Email");
 
                     $data = [
                         'user' => $checkUser,
