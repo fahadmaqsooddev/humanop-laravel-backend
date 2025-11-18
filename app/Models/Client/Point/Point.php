@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Spatie\Activitylog\ActivityLogger;
 
 class Point extends Model
 {
@@ -159,7 +160,8 @@ class Point extends Model
 
             $credits = ($hp / $one_credit);
 
-//            self::addPoints($credits);
+            ActivityLogger::addLog('Purchased Credits', "You have purchased {$credits}  for using Humanop Points.");
+
             self::addPurchasedPoints($credits);
 
         }

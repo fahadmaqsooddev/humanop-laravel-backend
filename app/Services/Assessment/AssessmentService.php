@@ -4,6 +4,7 @@ namespace App\Services\Assessment;
 
 use App\Events\Assessment\SubmitAssessment;
 use App\Events\DailyTip\NewDailyTip;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -109,6 +110,17 @@ class AssessmentService
             event(new SubmitAssessment($user->id, 0));
             $message = self::handleDailyTipIfFinalPage($assessment, $user);
             self::triggerGamification($user);
+
+            if (Assessment::where('user_id', $user->id)->count() == 1) {
+
+                ActivityLogger::addLog('Assessment Completed', "Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free.");
+
+            } else {
+
+                ActivityLogger::addLog('Assessment Completed', "Congratulations on finishing your assessment!");
+
+            }
+
         } else {
             $result['page'] = $currentPage;
             $assessment->update($result);
@@ -120,7 +132,11 @@ class AssessmentService
         AssessmentColorCode::createFeaturesCodeAndColor($assessment);
 
         if ($assessment->page == 0) {
+
             ActionPlan::storeUserActionPlan($assessment);
+
+            ActivityLogger::addLog('New Action Plan', "Your New 14 Days Action Plan");
+
         }
 
         return $message;
@@ -153,8 +169,12 @@ class AssessmentService
                 $alreadyExists = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
 
                 if (!$alreadyExists) {
+
                     UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
                     event(new NewDailyTip($user->id, 'new daily tip', 'Your New Daily Tip'));
+
+                    ActivityLogger::addLog('new daily tip', "Your New Daily Tip");
+
                 }
             }
         }

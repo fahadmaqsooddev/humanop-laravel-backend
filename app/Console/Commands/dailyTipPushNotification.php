@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\Admin\Admin;
 use App\Events\DailyTip\NewDailyTip;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
@@ -103,6 +104,8 @@ class dailyTipPushNotification extends Command
             event(new NewDailyTip($user->id, 'new daily tip', $message));
 
             Notification::createNotification('Daily Tip', $message, $user->device_token, $user->id, 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+            ActivityLogger::addLog('Daily Tip', $message);
 
             Log::info("Sent new daily tip to user {$user->id}: tip #{$newTip->id}");
 

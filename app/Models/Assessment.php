@@ -78,7 +78,6 @@ class Assessment extends Model
         return Carbon::parse($formattedTimestamp)->addMinutes($minutes)->format('m/d/Y h:i A');
     }
 
-
     public function getAfterResetAssessmentUpdatedAtAttribute($value)
     {
 

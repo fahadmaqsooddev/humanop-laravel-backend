@@ -91,7 +91,7 @@
                     <th>Membership</th>
                     <th>Beta Breaker Club</th>
                     <th>Last Login With</th>
-                    <th>Date & Time</th>
+                    <th>All Activity logs</th>
                     <th>Bulk Delete</th>
                     <th>Delete Client</th>
                 @endif
@@ -231,6 +231,11 @@
                         <td class="text-sm font-weight-normal text-center">
                             <strong>{{ $loginDeviceWith . '/' . $lastLoginWith }}</strong></td>
                         <td class="text-md font-weight-normal">{{ $lastLogin }} (GMT)</td>
+                        <td class="text-sm font-weight-normal">
+                            <a href="{{route('admin_activity_logs', $user['id'])}}"
+                               style="border: 1px solid #1b3a62; color: white; background-color: #1b3a62;"
+                               class="btn btn-sm float-end mt-2 mb-0">View Activities</a>
+                        </td>
                         <td class="text-center"><input type="checkbox" wire:model="selectedItems"
                                                        value="{{ $user->id }}"
                                                        style="width: 20px; height: 20px; cursor: pointer; accent-color: #1B3A62; border-radius: 50%;">
