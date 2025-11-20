@@ -84,6 +84,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
         Route::get('/assessments', [AdminController::class, 'assessments'])->name('assessments');
         Route::get('/user-profile-overview/{id?}', [AdminController::class, 'profileOverview'])->name('admin_profile_overview');
         Route::get('/user-grid/{id}', [AdminController::class, 'grid'])->name('admin_user_grid');
+        Route::get('/activity-logs/{id}', [AdminController::class, 'activityLogs'])->name('admin_activity_logs');
         Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('admin_generate_grid_pdf');
         Route::get('/user-answers/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
         Route::get('/download-user-report/{id}', [AdminController::class, 'downloadUserReport'])->name('download_user_report');

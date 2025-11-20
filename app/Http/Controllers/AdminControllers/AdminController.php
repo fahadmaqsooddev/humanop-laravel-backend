@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
@@ -174,6 +175,21 @@ class AdminController extends Controller
             $gridCodeColor = AssessmentColorCode::getCodeColor($grid['id']);
 
             return view('admin-dashboards.user.user_grid', compact('grid', 'gridCodeColor'));
+
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+
+    }
+
+    public function activityLogs($id)
+    {
+        try {
+
+            return view('admin-dashboards.user.activity_logs', compact('id'));
 
 
         } catch (\Exception $exception) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AssessmentAnswersRequest;
@@ -461,6 +462,8 @@ class AssessmentController extends Controller
                     PurchasedItems::createItem($user['id'], $name, 499, Admin::B2C_PURCHASED_ITEM);
 
                     DB::commit();
+
+                    ActivityLogger::addLog('Assessment Checkout', "You have paid {$request['amount']}$  for retaking assessment.");
 
                     return Helpers::successResponse("Payment completed successfully! You can now retake assessment.");
 

@@ -3,6 +3,7 @@
 namespace App\Models\Client\Dashboard;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\Plan\OptimizationPlan;
@@ -159,6 +160,7 @@ class ActionPlan extends Model
             'assessment_id' => $assessment['id'],
             'type' => $userPlan == null || $userPlan == 'Freemium' ? Admin::FOURTEEN_DAYS_ACTION_PLAN : Admin::NINETY_DAYS_ACTION_PLAN,
         ]);
+
 
         return $plan;
 

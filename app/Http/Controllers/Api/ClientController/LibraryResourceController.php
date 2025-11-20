@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\LibraryResourceSuggestionItemRequest;
@@ -151,6 +152,8 @@ class LibraryResourceController extends Controller
 
             $itemId = $request['item_id'];
 
+            $resourceName = LibraryResource::singleLibraryResource($itemId)['heading'];
+
             $buyFrom = $request['buy_from']; // 1 = money, 2 = points
 
             $type=2;
@@ -178,11 +181,11 @@ class LibraryResourceController extends Controller
 
                     HumanOpLibraries::addItem($user['id'], $itemId,$type);
 
-                    $resourceName = LibraryResource::singleLibraryResource($itemId)['heading'];
-
                     $name = "You have purchased Tool & Training item {$resourceName}";
 
                     PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
+
+                    ActivityLogger::addLog('Tool & Training Purchased', "You have purchased the tool & training item '{$resourceName}' for \${$request['price']}.");
 
                     DB::commit();
 
@@ -203,6 +206,8 @@ class LibraryResourceController extends Controller
                     HumanOpPoints::deductPoint($user['id'], $request['points']);
 
                     HumanOpLibraries::addItem($user['id'], $itemId,$type);
+
+                    ActivityLogger::addLog('Tool & Training Purchased', "You have purchased the tool & training item '{$resourceName}' for {$request['points']} Humanop Points.");
 
                     DB::commit();
 

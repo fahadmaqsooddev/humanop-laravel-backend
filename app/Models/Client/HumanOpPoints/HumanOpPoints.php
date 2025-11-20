@@ -3,6 +3,7 @@
 namespace App\Models\Client\HumanOpPoints;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\Client\Point\Point;
@@ -69,6 +70,8 @@ class HumanOpPoints extends Model
 
         }
 
+        ActivityLogger::addLog('Assessment Point', "You have earned {$pointsToAdd} Humanop Points for assessment completion.");
+
         Log::info(['check point' => $getPoint]);
 
         Helpers::checkAndTakePerformanceLevel($user);
@@ -105,6 +108,8 @@ class HumanOpPoints extends Model
 
         $getPoint->save();
 
+        ActivityLogger::addLog('Humanop Point', "You have earned {$pointsToAdd} Humanop Points for watching this video.");
+
         Helpers::checkAndTakePerformanceLevel($user);
 
         return $getPoint;
@@ -137,6 +142,8 @@ class HumanOpPoints extends Model
 
         $getPoint->save();
 
+        ActivityLogger::addLog('Humanop Point', "You have earned {$pointsToAdd} Humanop Points for watching all videos.");
+
         Helpers::checkAndTakePerformanceLevel($user);
 
         return $getPoint;
@@ -168,6 +175,8 @@ class HumanOpPoints extends Model
         $getPoint->points += $pointsToAdd;
 
         $getPoint->save();
+
+        ActivityLogger::addLog('Humanop Point', "You have earned {$pointsToAdd} Humanop Points for completing the daily tips.");
 
         Helpers::checkAndTakePerformanceLevel($user);
 
@@ -321,6 +330,8 @@ class HumanOpPoints extends Model
             self::deductPoint($user->id, $hp);
 
             Point::purchaseHAiCreditsFromHp($hp);
+
+            ActivityLogger::addLog('Deduct Point', "Deducted {$hp} Humanop Points to purchase HAi credits.");
 
             return Helpers::successResponse("Credit purchased.");
         }

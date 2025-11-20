@@ -3,6 +3,7 @@
 namespace App\Models\Client\Gamification;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,11 +40,16 @@ class GamificationBadgesAchievement extends Model
 
         $getBadge = self::getBadge($userId, Admin::ASSESSMENT_BADGES);
 
+        $badge = Admin::ASSESSMENT_BADGES;
+
         if (empty($getBadge))
         {
+
+            ActivityLogger::addLog('Humanop Badge', "You have achieved {$badge} Humanop Assessment Badge for completing the assessment.");
+
            return self::create([
                 'user_id' => $userId,
-                'badges' => Admin::ASSESSMENT_BADGES,
+                'badges' => $badge,
             ]);
         }
 
@@ -55,11 +61,16 @@ class GamificationBadgesAchievement extends Model
 
         $getBadge = self::getBadge($userId, Admin::WATCH_VIDEO_BADGES);
 
+        $badge = Admin::WATCH_VIDEO_BADGES;
+
         if (empty($getBadge))
         {
+
+            ActivityLogger::addLog('Humanop Badge', "You have achieved {$badge} Humanop Video Badge for watching all videos.");
+
             return self::create([
                 'user_id' => $userId,
-                'badges' => Admin::WATCH_VIDEO_BADGES,
+                'badges' => $badge,
             ]);
         }
 

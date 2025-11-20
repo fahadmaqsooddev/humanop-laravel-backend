@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
 use App\Events\DailyTip\NewDailyTip;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\BlueHelper\BlueHelpers;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
@@ -147,6 +148,8 @@ class UserController extends Controller
 
                 HaiChatHelpers::syncUserRecordWithHAi($updated_user);
 
+                ActivityLogger::addLog('Personal Information Updated', "Personal information has been successfully updated.");
+
                 return Helpers::successResponse('Personal Information updated successfully', $updated_user);
 
             } else {
@@ -177,7 +180,7 @@ class UserController extends Controller
 
             $authUser->update($dataArray);
 
-            if (Helpers::getUser()['plan_name'] == 'Premium' || $authUser['beta_breaker_club'] == Admin::B2C_PURCHASED_ITEM) {
+            if (Helpers::getUser()['plan_name'] == 'Premium' || Helpers::getUser()['plan_name'] == 'Beta Breaker') {
 
                 $shareAssessment = $request->only(['core_state', 'authentic_traits']);
 
@@ -192,6 +195,8 @@ class UserController extends Controller
             }
 
             HaiChatHelpers::syncUserRecordWithHAi();
+
+            ActivityLogger::addLog('Update Profile', "Personal Information updated successfully");
 
             DB::commit();
 
@@ -256,21 +261,27 @@ class UserController extends Controller
                 User::updateUserPassword($request->input('new_password'));
 
                 return Helpers::successResponse('Password successfully updated');
+
             } else if (Hash::check($request->input('current_password'), Helpers::getUser()->password)) {
 
                 if (!Hash::check($request->input('new_password'), Helpers::getUser()->password)) {
 
                     User::updateUserPassword($request->input('new_password'));
 
+                    ActivityLogger::addLog('Password Changed', "Your password has been successfully updated.");
+
                     return Helpers::successResponse('Password successfully updated');
+
                 } else {
 
                     return Helpers::validationResponse('The current and new passwords cannot be the same.');
                 }
+
             } else {
 
                 return Helpers::validationResponse('Current Password is incorrect');
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -477,6 +488,8 @@ class UserController extends Controller
 
                 DB::commit();
 
+                ActivityLogger::addLog('Feedback', "Thank you for your feedback! We have given you a point as a token of our appreciation!");
+
                 return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 
             }
@@ -632,8 +645,6 @@ class UserController extends Controller
 
             $isPremiumUser = $get_user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB ||
                 in_array($get_user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime', 'bb_onetime']);
-
-            Log::info(['check user plan' => $isPremiumUser]);
 
             $allStyles = $assessment != null ? ($isPremiumUser ? Assessment::getAllAuthenticStyles($assessment) : Assessment::getAllStyles($assessment)) : [];
 

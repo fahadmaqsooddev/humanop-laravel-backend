@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController\HumanOPShop;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\SuggestionItemRequest;
@@ -138,6 +139,8 @@ class HumanOpShopController extends Controller
                     $name = "You have purchased Suggested item {$resourceName}";
 
                     PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
+
+                    ActivityLogger::addLog('Shop Item purchased', "You have purchased {$request['price']}$  in HumanOp Shop item {$resourceName}");
 
                     DB::commit();
 

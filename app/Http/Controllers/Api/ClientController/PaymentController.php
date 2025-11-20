@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\CheckoutPaymentRequest;
@@ -223,6 +224,8 @@ class PaymentController extends Controller
                 PurchasedItems::createItem(Helpers::getUser()['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
 
                 DB::commit();
+
+                ActivityLogger::addLog('Hai Credits purchased', "You have purchased {$credits} HAi Credits");
 
                 return Helpers::successResponse("You've successfully received {$credits} credits based on your plan!");
 

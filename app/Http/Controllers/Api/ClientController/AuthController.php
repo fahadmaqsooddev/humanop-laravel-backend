@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -485,6 +486,10 @@ class AuthController extends Controller
 
                     HaiChatHelpers::syncUserRecordWithHAi();
 
+                    $signupMethod = $getUser->google_id ? 'Google' : ($getUser->apple_id ? 'Apple' : 'Email');
+
+                    ActivityLogger::addLog('Signup', "User Signup by {$signupMethod}");
+
                     $data = [
                         'user' => $getUser,
                         'authorization' => [
@@ -672,6 +677,8 @@ class AuthController extends Controller
         try {
 
             $this->auth->logout();
+
+            ActivityLogger::addLog('Logout', "User logged out successfully");
 
             return Helpers::successResponse('User logged out successfully');
 
@@ -869,6 +876,10 @@ class AuthController extends Controller
 
                     $checkUser['app_intro_check'] = ($checkUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
+                    $signupMethod = $checkUser->google_id ? 'Google' : ($checkUser->apple_id ? 'Apple' : 'Email');
+
+                    ActivityLogger::addLog('Signup', "User Signup by Email");
+
                     $data = [
                         'user' => $checkUser,
                         'authorization' => [
@@ -1021,6 +1032,10 @@ class AuthController extends Controller
                 User::checkBanner();
 
                 User::LastLoginWith($request);
+
+                $signupMethod = $updateUser->google_id ? 'Google' : ($updateUser->apple_id ? 'Apple' : 'Email');
+
+                ActivityLogger::addLog('Signup', "User Signup by {$signupMethod}");
 
                 $data = [
                     'user' => $updateUser,

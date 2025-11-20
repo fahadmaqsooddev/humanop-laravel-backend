@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Assessment;
@@ -80,9 +81,13 @@ class optimalTraitPushNotification extends Command
 
             UserOptimalTrait::createUserOptimalTrait($optimalTrait, $user->id, $status);
 
+            ActivityLogger::addLog('Optimal Trait', "Your Current Optimal Trait is {$optimalTrait}");
+
         } elseif ($existingTrait['status'] !== $status) {
 
             UserOptimalTrait::updateUserOptimalTrait($optimalTrait, $user->id, $status);
+
+            ActivityLogger::addLog('Optimal Trait', "Your Current Optimal Trait is {$optimalTrait}");
 
         } else {
 
