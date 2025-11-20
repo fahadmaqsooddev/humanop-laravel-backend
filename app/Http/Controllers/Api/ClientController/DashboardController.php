@@ -695,6 +695,8 @@ class DashboardController extends Controller
 
             if ($user['complete_assessment_walkthrough'] == 1) {
 
+                ActivityLogger::addLog('Assessment Walkthrough', "Assessment walkthrough completed.");
+
                 return Helpers::successResponse('Assessment walkthrough completed');
 
             } else {
