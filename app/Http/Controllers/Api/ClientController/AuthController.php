@@ -678,6 +678,8 @@ class AuthController extends Controller
 
             $this->auth->logout();
 
+            ActivityLogger::addLog('Logout', "User logged out successfully");
+
             return Helpers::successResponse('User logged out successfully');
 
         } catch (\Exception $exception) {

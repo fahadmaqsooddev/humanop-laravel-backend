@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
 use App\Events\DailyTip\NewDailyTip;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\BlueHelper\BlueHelpers;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
@@ -147,6 +148,8 @@ class UserController extends Controller
 
                 HaiChatHelpers::syncUserRecordWithHAi($updated_user);
 
+                ActivityLogger::addLog('Personal Information Updated', "Personal information has been successfully updated.");
+
                 return Helpers::successResponse('Personal Information updated successfully', $updated_user);
 
             } else {
@@ -192,6 +195,8 @@ class UserController extends Controller
             }
 
             HaiChatHelpers::syncUserRecordWithHAi();
+
+            ActivityLogger::addLog('Update Profile', "Personal Information updated successfully");
 
             DB::commit();
 
@@ -256,21 +261,27 @@ class UserController extends Controller
                 User::updateUserPassword($request->input('new_password'));
 
                 return Helpers::successResponse('Password successfully updated');
+
             } else if (Hash::check($request->input('current_password'), Helpers::getUser()->password)) {
 
                 if (!Hash::check($request->input('new_password'), Helpers::getUser()->password)) {
 
                     User::updateUserPassword($request->input('new_password'));
 
+                    ActivityLogger::addLog('Password Changed', "Your password has been successfully updated.");
+
                     return Helpers::successResponse('Password successfully updated');
+
                 } else {
 
                     return Helpers::validationResponse('The current and new passwords cannot be the same.');
                 }
+
             } else {
 
                 return Helpers::validationResponse('Current Password is incorrect');
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -476,6 +487,8 @@ class UserController extends Controller
                 $result->save();
 
                 DB::commit();
+
+                ActivityLogger::addLog('Feedback', "Thank you for your feedback! We have given you a point as a token of our appreciation!");
 
                 return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 
