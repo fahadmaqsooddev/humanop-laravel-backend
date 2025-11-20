@@ -140,7 +140,7 @@ class HumanOpShopController extends Controller
 
                     PurchasedItems::createItem($user['id'], $name, $request['price'], Admin::B2C_PURCHASED_ITEM);
 
-                    ActivityLogger::addLog('Shop Item purchased', "You have purchased {$request['price']}$  in HumanOp Shop item {$resourceName}");
+                    ActivityLogger::addLog('Shop Item purchased', "You have purchased \${$request['price']}  in HumanOp Shop item {$resourceName}");
 
                     DB::commit();
 

@@ -5,11 +5,9 @@ namespace App\Models\Client\HumanOpPoints;
 use App\Enums\Admin\Admin;
 use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
-use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\Client\Point\Point;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class HumanOpPoints extends Model
@@ -81,7 +79,7 @@ class HumanOpPoints extends Model
         return $getPoint;
     }
 
-    public static function addPointsAfterCompleteWatchVideo($user = null)
+    public static function addPointsAfterCompleteWatchVideo($user = null, $videoName = null)
     {
 
         if ($user['plan_name'] === 'Freemium') {
@@ -108,7 +106,7 @@ class HumanOpPoints extends Model
 
         $getPoint->save();
 
-        ActivityLogger::addLog('Humanop Point', "You have earned {$pointsToAdd} Humanop Points for watching this video.");
+        ActivityLogger::addLog('Humanop Point', "You have earned {$pointsToAdd} Humanop Points for watching the '{$videoName}' video.");
 
         Helpers::checkAndTakePerformanceLevel($user);
 

@@ -878,7 +878,7 @@ class AuthController extends Controller
 
                     $signupMethod = $checkUser->google_id ? 'Google' : ($checkUser->apple_id ? 'Apple' : 'Email');
 
-                    ActivityLogger::addLog('Signup', "User Signup by Email");
+                    ActivityLogger::addLog('Login', "User loggedIn by Email");
 
                     $data = [
                         'user' => $checkUser,
@@ -1035,7 +1035,7 @@ class AuthController extends Controller
 
                 $signupMethod = $updateUser->google_id ? 'Google' : ($updateUser->apple_id ? 'Apple' : 'Email');
 
-                ActivityLogger::addLog('Signup', "User Signup by {$signupMethod}");
+                ActivityLogger::addLog('Login', "User loggedIn by {$signupMethod}");
 
                 $data = [
                     'user' => $updateUser,
