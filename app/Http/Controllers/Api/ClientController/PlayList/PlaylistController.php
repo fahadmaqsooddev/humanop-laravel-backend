@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController\PlayList;
 
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\Playlist\EditPlayListRequest;
@@ -123,6 +124,8 @@ class PlaylistController extends Controller
 
                     Playlist::newPlaylist($dataArray);
 
+                    ActivityLogger::addLog('Playlist', "Your new playlist '{$dataArray['title']}' has been added.");
+
                     return Helpers::successResponse("Add your playlist");
 
                 }else{
@@ -140,7 +143,10 @@ class PlaylistController extends Controller
                     $dataArray['image_id']= $upload_id;
 
                 }
+
                 Playlist::newPlaylist($dataArray);
+
+                ActivityLogger::addLog('Playlist', "Your new playlist '{$dataArray['title']}' has been added.");
 
                 return Helpers::successResponse("Add your playlist");
 
@@ -175,6 +181,8 @@ class PlaylistController extends Controller
                 $playlistUpdated = Playlist::editPlaylist($request->all());
 
                 if ($playlistUpdated) {
+
+                    ActivityLogger::addLog('Playlist', "Playlist has been updated");
 
                     DB::commit();
 

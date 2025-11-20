@@ -37,11 +37,11 @@ class ThreadController extends Controller
 
         try {
 
-            if (Helpers::getUser()['group_filter'] === 1 && (int) $request->query('type') === 1) {
+            if (Helpers::getUser()['group_filter'] === 1 && (int)$request->query('type') === 1) {
 
                 $all_chats = MessageThread::getAllMessageThread($request);
 
-            } elseif (Helpers::getUser()['group_filter'] === 0 && (int) $request->query('type') === 1) {
+            } elseif (Helpers::getUser()['group_filter'] === 0 && (int)$request->query('type') === 1) {
 
                 $all_chats = MessageThread::getMyMessageThread($request);
 
@@ -181,11 +181,7 @@ class ThreadController extends Controller
 
             $member = MessageThread::addUsers($request);
 
-            $memberName = $member['participants']['first_name'] . ' ' . $member['participants']['last_name'];
-
             DB::commit();
-
-            ActivityLogger::addLog('Member Added to Group', "Member {$memberName} added to group {$member->name}.");
 
             return Helpers::successResponse('Members added successfully.', $member);
 
@@ -226,6 +222,12 @@ class ThreadController extends Controller
 
                 MessageThreadParticipant::removeUser($request);
 
+                $user = User::getSingleUser($request['user_id']);
+
+                $fullName = "{$user->first_name} {$user->last_name}";
+
+                ActivityLogger::addLog('Member Added to Group', "User {$fullName} has been removed to the group {$messageThread->name}.");
+
                 DB::commit();
 
                 return Helpers::successResponse('You have been removed from this group.');
@@ -233,6 +235,12 @@ class ThreadController extends Controller
             } elseif (!empty($request['member_id'])) {
 
                 MessageThread::removeUser($request, $messageThread);
+
+                $user = User::getSingleUser($request['member_id']);
+
+                $fullName = "{$user->first_name} {$user->last_name}";
+
+                ActivityLogger::addLog('Member Added to Group', "Member {$fullName} has been removed to the group {$messageThread->name}.");
 
                 DB::commit();
 
@@ -360,6 +368,8 @@ class ThreadController extends Controller
 
                     Notification::createNotification('Accept Group Request', $msg, '', $data['member_id'], 0, Admin::ACCEPT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
+                    ActivityLogger::addLog('Accept Group Request', "{$msg}");
+
                     broadcast(new \App\Events\AcceptOrRejectGroupRequest($data['member_id'], 'Group request accepted ', $msg))->toOthers();
 
                     DB::commit();
@@ -371,6 +381,8 @@ class ThreadController extends Controller
                     $msg = "Your request to join the group '{$group->name}' has been declined by the group owner.";
 
                     Notification::createNotification('Reject Group Request', $msg, '', $data['member_id'], 0, Admin::REJECT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                    ActivityLogger::addLog('Reject Group Request', "{$msg}");
 
                     broadcast(new \App\Events\AcceptOrRejectGroupRequest($data['member_id'], 'Group request rejected ', $msg))->toOthers();
 

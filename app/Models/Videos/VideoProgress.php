@@ -132,7 +132,7 @@ class VideoProgress extends Model
 
             $user = Helpers::getUser();
 
-            HumanOpPoints::addPointsAfterCompleteWatchVideo($user);
+            HumanOpPoints::addPointsAfterCompleteWatchVideo($user, $progress->video_name);
 
             $recordCount = self::getRecords($assessmentId)->count();
 
