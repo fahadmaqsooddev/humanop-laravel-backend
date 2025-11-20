@@ -4,6 +4,7 @@ namespace App\Models\Client;
 
 use App\Enums\Admin\Admin;
 use App\Events\SendGroupRequest;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\User;
@@ -55,6 +56,8 @@ class MessageThreadRequest extends Model
             $msg = "{$member['first_name']} {$member['last_name']} wants to join the {$group->name} group. He has sent a request. Would you like to add him to the group?";
 
             broadcast(new SendGroupRequest($data['owner_id'], 'Send Group Request', $msg))->toOthers();
+
+            ActivityLogger::addLog('Send Group Request', "{$msg}");
 
             Notification::createNotification('Send Group Request', $msg, '', $data['owner_id'], 0, Admin::SEND_GROUP_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
 

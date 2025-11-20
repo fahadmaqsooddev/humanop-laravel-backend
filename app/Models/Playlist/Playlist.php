@@ -2,6 +2,7 @@
 
 namespace App\Models\Playlist;
 
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Models\PlaylistLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,6 +43,11 @@ class Playlist extends Model
         return $this->hasMany(PlaylistLog::class, 'playlist_id', 'id');
     }
 
+    public static function getSinglePlaylist($playlistId = null)
+    {
+        return self::where('id', $playlistId)->first();
+    }
+
     public static function myPlaylists()
     {
         $user = Helpers::getUser();
@@ -72,6 +78,8 @@ class Playlist extends Model
         $playlist = self::whereId($playlistId)->first();
 
         if (!empty($playlistId)) {
+
+            ActivityLogger::addLog('Playlist', "The playlist '{$playlist['title']}' has been successfully deleted.");
 
             PlaylistLog::deleteMyPlaylist($playlistId);
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Client\MessageThread;
 
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Models\Client\Message\Message;
 use App\Models\CLient\MessageThreadRequest;
@@ -382,6 +383,7 @@ class MessageThread extends Model
         }
 
         $payload = $ids->mapWithKeys(function ($id) {
+
             return [
                 $id => [
                     'role' => self::ROLE_MEMBER,
@@ -391,6 +393,15 @@ class MessageThread extends Model
         })->all();
 
         $messageThread->participants()->syncWithoutDetaching($payload);
+
+        $addedMembers = User::whereIn('id', $ids)->get();
+
+        foreach ($addedMembers as $member) {
+
+            $fullName = "{$member->first_name} {$member->last_name}";
+
+            ActivityLogger::addLog('Member Added to Group', "Member {$fullName} has been added to the group {$messageThread->name}.");
+        }
 
         return $messageThread->load('participants:id,first_name,last_name');
     }
