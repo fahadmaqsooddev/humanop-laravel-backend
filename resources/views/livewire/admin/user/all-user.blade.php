@@ -91,6 +91,7 @@
                     <th>Membership</th>
                     <th>Beta Breaker Club</th>
                     <th>Last Login With</th>
+                    <th>Last Login Date</th>
                     <th>All Activity logs</th>
                     <th>Bulk Delete</th>
                     <th>Delete Client</th>
