@@ -364,7 +364,7 @@ class ThreadController extends Controller
 
                 if ($data['accept_or_reject'] == 1) {
 
-                    $msg = "Congratulations! You have been added to the group '{$group->name}'.";
+                    $msg = "Congratulations! You've been added to the group '{$group->name}'.";
 
                     Notification::createNotification('Accept Group Request', $msg, '', $data['member_id'], 0, Admin::ACCEPT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
