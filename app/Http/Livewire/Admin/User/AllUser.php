@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\User;
 
+use App\Events\UserLogout;
 use App\Helpers\Helpers;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\Plan\Plan;
@@ -15,6 +16,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Enums\Admin\Admin;
 use Carbon\Carbon;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 
 class AllUser extends Component
@@ -199,6 +201,8 @@ class AllUser extends Component
                 $user->save();
 
                 $this->HAiCreditsUpdated(0, $user);
+
+                event(new UserLogout($user->id));
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully removed from the Beta Breaker Club.");
 

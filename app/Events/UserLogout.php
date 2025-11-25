@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SubAdminLogout implements ShouldBroadcast
+class UserLogout implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,6 +24,7 @@ class SubAdminLogout implements ShouldBroadcast
     {
 
         $this->user_id=$userId;
+
     }
 
     /**
@@ -31,6 +32,7 @@ class SubAdminLogout implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
+
     public function broadcastOn()
     {
 
@@ -39,7 +41,7 @@ class SubAdminLogout implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'subAdmin-logout.' . $this->user_id;
+        return 'user-logout';
     }
 
 
