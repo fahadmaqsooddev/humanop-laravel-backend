@@ -55,7 +55,7 @@ class ShopCategoryResource extends Model
     {
         if (!empty($this->video_embed_link)){
 
-            return $this->video_embed_link;
+            return Helpers::getVideo($this->upload_id, 1, null, $this->video_embed_link);
 
         }else{
 
