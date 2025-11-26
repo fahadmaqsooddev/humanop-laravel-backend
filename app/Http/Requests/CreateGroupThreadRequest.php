@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\Helpers;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use PHPUnit\TextUI\Help;
 
 class CreateGroupThreadRequest extends FormRequest
 {
@@ -25,7 +28,11 @@ class CreateGroupThreadRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:100', 'unique:message_threads,name'],
+            'name' => ['required', 'string', 'max:100',
+                Rule::unique('message_threads', 'name')->where(function ($query) {
+                    return $query->where('owner_id', Helpers::getUser()->id);
+                })
+            ],
             'group_profile_image' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif,svg,webp', 'max:204800'], // 200MB
             'member_ids' => ['nullable', 'array'],
             'member_ids.*' => ['integer', 'exists:users,id'],
