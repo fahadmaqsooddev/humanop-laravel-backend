@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Models\Client\Point\Point;
+use http\Client\Curl\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -23,6 +24,33 @@ class HumanOpPoints extends Model
         parent::__construct($attributes);
     }
 
+    protected static function getHumanOpPointMultiplier($user = null)
+    {
+
+        if ($user['plan_name'] === 'Premium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            return 5;
+
+        } elseif ($user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            return 3;
+
+        } elseif ($user['plan_name'] === 'Freemium') {
+
+            return ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
+
+        } elseif ($user['plan_name'] === 'Beta Breaker') {
+
+            return 2;
+
+        } else {
+
+            return 3;
+
+        }
+
+    }
+
     public static function getUserPoints($user = null)
     {
         return self::where('user_id', $user['id'])->first();
@@ -31,19 +59,7 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteAssessment($user = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
-
-            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
-
-        } elseif ($user['plan_name'] === 'Beta Breaker') {
-
-            $multiplier = 2;
-
-        } else {
-
-            $multiplier = 3;
-
-        }
+        $multiplier = self::getHumanOpPointMultiplier($user);
 
         $basePoint = Admin::COMPLETE_ASSESSMENT_POINT_FOR_CLARITY;
 
@@ -82,19 +98,7 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteWatchVideo($user = null, $videoName = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
-
-            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
-
-        } elseif ($user['plan_name'] === 'Beta Breaker') {
-
-            $multiplier = 2;
-
-        } else {
-
-            $multiplier = 3;
-
-        }
+        $multiplier = self::getHumanOpPointMultiplier($user);
 
         $basePoint = Admin::COMPLETE_WATCH_VIDEO_POINT_FOR_CLARITY;
 
@@ -116,19 +120,7 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteAllWatchVideos($user = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
-
-            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
-
-        } elseif ($user['plan_name'] === 'Beta Breaker') {
-
-            $multiplier = 2;
-
-        } else {
-
-            $multiplier = 3;
-
-        }
+        $multiplier = self::getHumanOpPointMultiplier($user);
 
         $basePoint = Admin::COMPLETE_ALL_WATCH_VIDEOS_POINT_FOR_CLARITY;
 
@@ -150,19 +142,7 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteDailyTip($user = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
-
-            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
-
-        } elseif ($user['plan_name'] === 'Beta Breaker') {
-
-            $multiplier = 2;
-
-        } else {
-
-            $multiplier = 3;
-
-        }
+        $multiplier = self::getHumanOpPointMultiplier($user);
 
         $basePoint = Admin::COMPLETE_DAILY_TIP_POINT_FOR_CLARITY;
 
@@ -184,19 +164,7 @@ class HumanOpPoints extends Model
     public static function createOrUpdateUserPoints($user = null, $currentTime = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
-
-            $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
-
-        } elseif ($user['plan_name'] === 'Beta Breaker') {
-
-            $multiplier = 2;
-
-        } else {
-
-            $multiplier = 3;
-
-        }
+        $multiplier = self::getHumanOpPointMultiplier($user);
 
         $basePoint = Admin::DAILY_LOGIN_POINT_FOR_CLARITY;
 
