@@ -37,6 +37,22 @@ class AllUser extends Component
 
     ];
 
+    protected function HAiCreditsAdd($user = null)
+    {
+
+        if ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $credits = Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS;
+
+        } else {
+
+            $credits = Admin::PREMIUM_LIFETIME_CREDITS;
+
+        }
+
+        return $credits;
+    }
+
     public function updated($field)
     {
         if (in_array($field, ['name', 'email', 'age'])) {
@@ -87,25 +103,11 @@ class AllUser extends Component
 //                'beta_breaker_club' => Admin::BETA_BREAKER_CLUB_NOT
             ]);
 
-            $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+            $credits = self::HAiCreditsAdd($user);
+
+            $this->HAiCreditsUpdated($credits, $user);
 
             session()->flash('success', "User downgraded to Premium Lifetime successfully.");
-
-        } elseif ($planName === "bb_onetime") {
-
-            $user->update([
-                'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
-                'has_bb_onetime' => Admin::BB_ONETIME,
-                'plan' => 'bb_onetime',
-                'billing_context' => 'b2c',
-                'beta_breaker_club' => Admin::BETA_BREAKER_CLUB_NOT,
-                'premium_lifetime_welcome' => 1,
-
-            ]);
-
-            $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
-
-            session()->flash('success', "User downgraded to Beta Breaker Lifetime successfully.");
 
         } elseif ($planName === "premium_monthly") {
 
@@ -118,7 +120,9 @@ class AllUser extends Component
 
             ]);
 
-            $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+            $credits = self::HAiCreditsAdd($user);
+
+            $this->HAiCreditsUpdated($credits, $user);
 
             session()->flash('success', "User downgraded to Premium Monthly successfully.");
 
@@ -133,11 +137,13 @@ class AllUser extends Component
 
             ]);
 
-            $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+            $credits = self::HAiCreditsAdd($user);
+
+            $this->HAiCreditsUpdated($credits, $user);
 
             session()->flash('success', "User downgraded to Premium Yearly successfully.");
 
-        }else{
+        } else {
 
             $user->update([
                 'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
@@ -148,7 +154,9 @@ class AllUser extends Component
 
             ]);
 
-            $this->HAiCreditsUpdated(0, $user);
+            $credits = $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB ? Admin::BREAKER_CREDITS : Admin::FREEMIUM_CREDITS;
+
+            $this->HAiCreditsUpdated($credits, $user);
 
             session()->flash('success', "User downgraded to Freemium successfully.");
 
@@ -200,7 +208,9 @@ class AllUser extends Component
 
                 $user->save();
 
-                $this->HAiCreditsUpdated(0, $user);
+                $credits = $user->plan_name == "Premium" ? Admin::PREMIUM_LIFETIME_CREDITS : Admin::FREEMIUM_CREDITS;
+
+                $this->HAiCreditsUpdated($credits, $user);
 
                 event(new UserLogout($user->id));
 
@@ -215,7 +225,20 @@ class AllUser extends Component
                 $user->premium_lifetime_welcome = Admin::PREMIUM_LIFETIME;
                 $user->save();
 
-                $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
+                if ($user->plan_name == "Premium") {
+
+                    $credits = Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS;
+
+                } elseif ($user->plan_name == "Freemium") {
+
+                    $credits = Admin::FREEMIUM_CREDITS + Admin::BREAKER_CREDITS;
+
+                } else {
+                    $credits = Admin::BREAKER_CREDITS;
+
+                }
+
+                $this->HAiCreditsUpdated($credits, $user);
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully added to the Beta Breaker Club.");
             }
