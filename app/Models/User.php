@@ -367,11 +367,11 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-//        if ((!empty($this->plan) && $this->plan === 'bb_onetime') || $this->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
-//
-//            return 'Beta Breaker';
-//
-//        }
+        if ((!empty($this->plan) && $this->plan === 'bb_onetime') || $this->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
+
+            return 'Beta Breaker';
+
+        }
 
         return 'Freemium';
 
