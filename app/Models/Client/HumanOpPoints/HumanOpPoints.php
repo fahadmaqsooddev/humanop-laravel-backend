@@ -31,7 +31,15 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteAssessment($user = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
+        if ($user['plan_name'] === 'Premium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 5;
+
+        } elseif ($user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 3;
+
+        } elseif ($user['plan_name'] === 'Freemium') {
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
@@ -82,7 +90,15 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteWatchVideo($user = null, $videoName = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
+        if ($user['plan_name'] === 'Premium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 5;
+
+        } elseif ($user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 3;
+
+        } elseif ($user['plan_name'] === 'Freemium') {
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
@@ -116,7 +132,15 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteAllWatchVideos($user = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
+        if ($user['plan_name'] === 'Premium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 5;
+
+        } elseif ($user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 3;
+
+        } elseif ($user['plan_name'] === 'Freemium') {
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
@@ -150,7 +174,15 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteDailyTip($user = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
+        if ($user['plan_name'] === 'Premium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 5;
+
+        } elseif ($user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 3;
+
+        } elseif ($user['plan_name'] === 'Freemium') {
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
@@ -184,7 +216,15 @@ class HumanOpPoints extends Model
     public static function createOrUpdateUserPoints($user = null, $currentTime = null)
     {
 
-        if ($user['plan_name'] === 'Freemium') {
+        if ($user['plan_name'] === 'Premium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 5;
+
+        } elseif ($user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
+
+            $multiplier = 3;
+
+        } elseif ($user['plan_name'] === 'Freemium') {
 
             $multiplier = ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
 
