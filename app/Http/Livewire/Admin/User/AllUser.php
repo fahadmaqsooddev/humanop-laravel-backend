@@ -37,6 +37,22 @@ class AllUser extends Component
 
     ];
 
+    protected function HAiCreditsAdd($user = null)
+    {
+
+        if ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
+
+            $credits = Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS;
+
+        } else {
+
+            $credits = Admin::PREMIUM_LIFETIME_CREDITS;
+
+        }
+
+        return $credits;
+    }
+
     public function updated($field)
     {
         if (in_array($field, ['name', 'email', 'age'])) {
@@ -70,91 +86,74 @@ class AllUser extends Component
     {
         $user = User::getSingleUser($id);
 
-        if ($user->plan_name === $planName) {
+        $previousPlan = $user->plan;
+        $newPlan = $planName;
 
+        $planRank = [
+            'freemium' => 1,
+            'premium_monthly' => 2,
+            'premium_yearly' => 3,
+            'premium_lifetime' => 4,
+        ];
+
+        if ($previousPlan === $newPlan) {
             session()->flash('error', "User already has this plan.");
-
+            return back();
         }
 
-        if ($planName === "premium_lifetime") {
+        $movement = ($planRank[$newPlan] > $planRank[$previousPlan]) ? 'upgraded' : 'downgraded';
+
+        if ($newPlan === "premium_lifetime") {
 
             $user->update([
                 'is_lifetime' => Admin::PREMIUM_LIFETIME,
-                'has_bb_onetime' => Admin::BB_ONETIME_NOT,
                 'plan' => 'premium_lifetime',
                 'billing_context' => 'b2c',
                 'premium_lifetime_welcome' => 1,
-                'beta_breaker_club' => Admin::BETA_BREAKER_CLUB_NOT
             ]);
 
-            $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
-
-            session()->flash('success', "User downgraded to Premium Lifetime successfully.");
-
-        } elseif ($planName === "bb_onetime") {
+        } elseif ($newPlan === "premium_monthly") {
 
             $user->update([
                 'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
-                'has_bb_onetime' => Admin::BB_ONETIME,
-                'plan' => 'bb_onetime',
-                'billing_context' => 'b2c',
-                'beta_breaker_club' => Admin::BETA_BREAKER_CLUB_NOT,
-                'premium_lifetime_welcome' => 1,
-
-            ]);
-
-            $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
-
-            session()->flash('success', "User downgraded to Beta Breaker Lifetime successfully.");
-
-        } elseif ($planName === "premium_monthly") {
-
-            $user->update([
-                'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
-                'has_bb_onetime' => Admin::BB_ONETIME_NOT,
                 'plan' => 'premium_monthly',
                 'billing_context' => 'b2c',
                 'premium_lifetime_welcome' => 0,
-
             ]);
 
-            $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
-
-            session()->flash('success', "User downgraded to Premium Monthly successfully.");
-
-        } elseif ($planName === "premium_yearly") {
+        } elseif ($newPlan === "premium_yearly") {
 
             $user->update([
                 'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
-                'has_bb_onetime' => Admin::BB_ONETIME_NOT,
                 'plan' => 'premium_yearly',
                 'billing_context' => 'b2c',
-                'premium_lifetime_welcome' => 0,
-
             ]);
 
-            $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
-
-            session()->flash('success', "User downgraded to Premium Yearly successfully.");
-
-        }else{
+        } else {
 
             $user->update([
                 'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
-                'has_bb_onetime' => Admin::BB_ONETIME_NOT,
                 'plan' => 'freemium',
                 'billing_context' => 'b2c',
                 'premium_lifetime_welcome' => 0,
-
             ]);
+        }
 
-            $this->HAiCreditsUpdated(0, $user);
+        if ($newPlan === "freemium") {
 
-            session()->flash('success', "User downgraded to Freemium successfully.");
+            $credits = $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB ? Admin::BREAKER_CREDITS : Admin::FREEMIUM_CREDITS;
+
+        } else {
+
+            $credits = self::HAiCreditsAdd($user);
 
         }
 
-        return Helpers::validationResponse('Invalid plan name.');
+        $this->HAiCreditsUpdated($credits, $user);
+
+        session()->flash('success', "User {$movement} to " . ucfirst(str_replace('_', ' ', $newPlan)) . " successfully.");
+
+        return back();
     }
 
     public function changeUserMemberShip($memberShipValue, $user_id)
@@ -195,12 +194,14 @@ class AllUser extends Component
             if ($user->has_bb_onetime == Admin::BB_ONETIME || $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
 
                 $user->has_bb_onetime = Admin::BB_ONETIME_NOT;
-                $user->plan = 'freemium';
+//                $user->plan = 'freemium';
                 $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB_NOT;
 
                 $user->save();
 
-                $this->HAiCreditsUpdated(0, $user);
+                $credits = $user->plan_name == "Premium" ? Admin::PREMIUM_LIFETIME_CREDITS : Admin::FREEMIUM_CREDITS;
+
+                $this->HAiCreditsUpdated($credits, $user);
 
                 event(new UserLogout($user->id));
 
@@ -209,12 +210,26 @@ class AllUser extends Component
             } else {
 
                 $user->is_lifetime = Admin::PREMIUM_LIFETIME_NOT;
-                $user->has_bb_onetime = Admin::BB_ONETIME;
-                $user->plan = 'bb_onetime';
+//                $user->has_bb_onetime = Admin::BB_ONETIME;
+//                $user->plan = 'bb_onetime';
+                $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB;
                 $user->premium_lifetime_welcome = Admin::PREMIUM_LIFETIME;
                 $user->save();
 
-                $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
+                if ($user->plan_name == "Premium") {
+
+                    $credits = Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS;
+
+                } elseif ($user->plan_name == "Freemium") {
+
+                    $credits = Admin::FREEMIUM_CREDITS + Admin::BREAKER_CREDITS;
+
+                } else {
+                    $credits = Admin::BREAKER_CREDITS;
+
+                }
+
+                $this->HAiCreditsUpdated($credits, $user);
 
                 session()->flash('success', "Congratulations, {$user->first_name} {$user->last_name}! You have been successfully added to the Beta Breaker Club.");
             }

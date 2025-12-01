@@ -232,7 +232,9 @@ class BillingController extends Controller
             ]);
         }
 
-        $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+        $credits = $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB ? Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS : Admin::PREMIUM_LIFETIME_CREDITS;
+
+        $this->HAiCreditsUpdated($credits, $user);
 
         ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the {$validated['plan']} plan.");
 
@@ -380,7 +382,9 @@ class BillingController extends Controller
             'metadata' => $metadata,
         ]);
 
-        $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+        $credits = $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB ? Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS : Admin::PREMIUM_LIFETIME_CREDITS;
+
+        $this->HAiCreditsUpdated($credits, $user);
 
         ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the Premium Life-Time plan.");
 
@@ -511,8 +515,9 @@ class BillingController extends Controller
             ],
         ]);
 
-        $this->HAiCreditsUpdated(Admin::BREAKER_CREDITS, $user);
+        $credits = $user->plan == "Premium" ? Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS : Admin::PREMIUM_LIFETIME_CREDITS;
 
+        $this->HAiCreditsUpdated($credits, $user);
 
         ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the Beta Breaker plan.");
 
@@ -567,7 +572,9 @@ class BillingController extends Controller
         $user->billing_context = 'b2c';
         $user->save();
 
-        $this->HAiCreditsUpdated(Admin::PREMIUM_LIFETIME_CREDITS, $user);
+        $credits = $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB ? Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS : Admin::PREMIUM_LIFETIME_CREDITS;
+
+        $this->HAiCreditsUpdated($credits, $user);
 
         ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the {$validated['to']} plan.");
 

@@ -395,8 +395,6 @@ class CreateHumanOpShop extends Component
                     'point' => $this->pointValue,
                     'thumbnail_id' => $thumbnail_id,
                     'video_embed_link' => $this->link,
-                    'audio_id' => null,
-                    'document_id' => null,
                     'image_id' => null,
                 ]);
 
@@ -410,9 +408,6 @@ class CreateHumanOpShop extends Component
                     'price' => $this->priceValue,
                     'point' => $this->pointValue,
                     'video_embed_link' => $this->link,
-                    'audio_id' => null,
-                    'document_id' => null,
-                    'image_id' => null,
                 ]);
 
             }
