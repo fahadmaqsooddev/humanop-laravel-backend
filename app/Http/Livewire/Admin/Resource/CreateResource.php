@@ -23,7 +23,7 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $document_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false;
+    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $document_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false, $download_document;
 
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
 
@@ -39,6 +39,7 @@ class CreateResource extends Component
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
         'content' => 'nullable|string',
+        'download_document' => 'nullable',
         'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9_-]+\.(m3u8)$/'],
     ];
 
@@ -104,17 +105,17 @@ class CreateResource extends Component
                     $thumbnail_id = null;
                 }
 
-                $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
+                $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id, $this->download_document);
 
             } elseif (!empty($this->link)) {
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                $resource = LibraryResource::createResource($this->heading, null, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id);
+                $resource = LibraryResource::createResource($this->heading, null, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, $thumbnail_id, $this->download_document);
 
             } else {
 
-                $resource = LibraryResource::createResource($this->heading, null, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, null);
+                $resource = LibraryResource::createResource($this->heading, null, $this->category_id, $this->description, $this->content, $this->link, $this->relevance, null, $this->download_document);
 
             }
 
@@ -161,29 +162,12 @@ class CreateResource extends Component
                 HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $communicationCode);
             }
 
-//            $perceptionCodes = [
-//                'Negative' => 'NE',
-//                'Positive' => 'P',
-//                'Neutral' => 'N',
-//            ];
-
             foreach ($this->selectedPerceptions as $perception) {
-//                if (isset($perceptionCodes[$perception])) {
                 HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $perception);
-//                }
             }
 
-//            $energyPoolCodes = [
-//                'Above Excellent' => 'AE',
-//                'Average' => 'A',
-//                'Excellent' => 'E',
-//                'Fair' => 'F',
-//            ];
-
             foreach ($this->selectedEnergyPools as $energyPoolCode) {
-//                if (isset($energyPoolCodes[$energyPoolCode])) {
                 HumanOpItemsGridActivitiesLog::storeResourceItemTraits($resource['id'], $energyPoolCode);
-//                }
             }
 
             $this->resetForm();
@@ -321,6 +305,8 @@ class CreateResource extends Component
 
         $this->update_content = $this->editResourceData['content'] ?? null;
 
+        $this->download_document = $this->editResourceData['download_document'] ?? null;
+
         $this->priceValue = $this->editResourceData['libraryPermissions']['price'] ?? null;
 
         $this->pointValue = $this->editResourceData['libraryPermissions']['point'] ?? null;
@@ -450,7 +436,7 @@ class CreateResource extends Component
 
             $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance, $thumbnail_id);
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link, $this->relevance, $thumbnail_id, $this->download_document);
 
             tap($updateResource);
 
@@ -480,6 +466,7 @@ class CreateResource extends Component
                         'embed_link' => $this->link,
                         'relevance' => $this->relevance,
                         'thumbnail_id' => $thumbnail_id,
+                        'download_document' => $this->download_document ? 1 : 0
                     ]);
 
                 } else {
@@ -496,6 +483,7 @@ class CreateResource extends Component
                         'embed_link' => $this->link,
                         'relevance' => $this->relevance,
                         'thumbnail_id' => null,
+                        'download_document' => $this->download_document ? 1 : 0
                     ]);
                 }
 
@@ -515,6 +503,7 @@ class CreateResource extends Component
                         'embed_link' => $this->link,
                         'relevance' => $this->relevance,
                         'thumbnail_id' => $thumbnail_id,
+                        'download_document' => $this->download_document ? 1 : 0
                     ]);
 
                 } else {
@@ -528,7 +517,8 @@ class CreateResource extends Component
                         'source_id' => null,
                         'source_url' => null,
                         'embed_link' => $this->link,
-                        'relevance' => $this->relevance
+                        'relevance' => $this->relevance,
+                        'download_document' => $this->download_document ? 1 : 0
                     ]);
 
                 }
