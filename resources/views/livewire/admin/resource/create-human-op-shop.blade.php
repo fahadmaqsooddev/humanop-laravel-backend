@@ -536,22 +536,24 @@
 
 
                                     @if(!empty($editResourceData['document_id']))
-                                        <div class="d-flex justify-content-between">
-                                            <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
-                                            <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input" type="checkbox"
-                                                       wire:model.defer="download_document"
-                                                       name="document_download"{{ $download_document ? 'checked' : '' }}>
+                                        <div class="mt-4">
+                                            <div class="d-flex justify-content-between">
+                                                <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                                <div class="form-check form-switch mb-0">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           wire:model.defer="download_document"
+                                                           name="document_download"{{ $download_document ? 'checked' : '' }}>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <a href="{{ $editResourceData['document_url']['path'] }}"
-                                               target="_blank"
-                                               rel="noopener noreferrer"
-                                               style="background-color: #1b3a62;padding: 10px 20px;border-radius: 5px;color: white;font-size: medium;font-weight: bold;"
-                                               onclick="window.open(this.href, '_blank'); return false;">
-                                                View Document
-                                            </a>
+                                            <div class="form-group mt-2">
+                                                <a href="{{ $editResourceData['document_url']['path'] }}"
+                                                   target="_blank"
+                                                   rel="noopener noreferrer"
+                                                   style="background-color: #1b3a62;padding: 10px 20px;border-radius: 5px;color: white;font-size: medium;font-weight: bold;"
+                                                   onclick="window.open(this.href, '_blank'); return false;">
+                                                    View Document
+                                                </a>
+                                            </div>
                                         </div>
                                     @elseif(!empty($editResourceData['video_embed_link']))
                                         <div class="form-group mt-4">

@@ -279,6 +279,8 @@ class CreateHumanOpShop extends Component
 
         $this->link = $this->editResourceData['video_embed_link'] ?? null;
 
+        $this->download_document = $this->editResourceData['download_document'] ?? null;
+
         $this->selectedTraits = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
         $this->selectedFeatures = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
         $this->selectedAlchemy = $this->editResourceData['resourceTraits']->pluck('grid_name')->toArray();
@@ -385,15 +387,15 @@ class CreateHumanOpShop extends Component
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue, $this->description, $thumbnail_id);
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue, $this->description, $thumbnail_id, $this->download_document);
 
             } elseif (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
 
-                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, null, null, $upload_id, $this->pointValue, $this->description);
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, null, null, $upload_id, $this->pointValue, $this->description, null, $this->download_document);
 
             } else {
 
-                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, null, $upload_id, null, $this->pointValue, $this->description);
+                $updateResource = ShopCategoryResource::updateResource($this->heading, $this->resourceId, $this->category_id, $this->priceValue, null, null, $upload_id, null, $this->pointValue, $this->description, null, $this->download_document);
 
             }
 
@@ -413,6 +415,7 @@ class CreateHumanOpShop extends Component
                     'thumbnail_id' => $thumbnail_id,
                     'video_embed_link' => $this->link,
                     'image_id' => null,
+                    'download_document' => $this->download_document ? 1 : 0,
                 ]);
 
             } else {
@@ -425,6 +428,7 @@ class CreateHumanOpShop extends Component
                     'price' => $this->priceValue,
                     'point' => $this->pointValue,
                     'video_embed_link' => $this->link,
+                    'download_document' => $this->download_document ? 1 : 0,
                 ]);
 
             }
