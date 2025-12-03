@@ -368,7 +368,7 @@ return [
         ],
         'LibraryResource' => [
             'table' => 'library_resources',
-            'fillable' => ['heading', 'slug', 'upload_id', 'resource_category_id', 'description', 'content', 'source_id', 'source_url', 'embed_link', 'relevance', 'thumbnail_id', 'document_id'],
+            'fillable' => ['heading', 'slug', 'upload_id', 'resource_category_id', 'description', 'content', 'source_id', 'source_url', 'embed_link', 'relevance', 'thumbnail_id', 'document_id', 'download_document'],
             'hidden' => ['updated_at'],
         ],
         'PermissionResource' => [
@@ -666,7 +666,7 @@ return [
         ],
         'ShopCategoryResource' => [
             'table' => 'humanop_shop_resources',
-            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price', 'image_id', 'description', 'thumbnail_id', 'video_embed_link'],
+            'fillable' => ['heading', 'slug', 'humanop_shop_category_id', 'point', 'video_id', 'audio_id', 'document_id', 'price', 'image_id', 'description', 'thumbnail_id', 'video_embed_link', 'download_document'],
             'hidden' => ['created_at', 'updated_at'],
         ],
         'HumanOpShopTraits' => [

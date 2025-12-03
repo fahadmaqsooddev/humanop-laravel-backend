@@ -21,7 +21,7 @@ class CreateHumanOpShop extends Component
 
     public $booleanValue = false;
 
-    public $description, $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $update_content, $resource_file, $category_id, $editResourceData, $category_name, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false;
+    public $description, $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $update_content, $resource_file, $category_id, $editResourceData, $category_name, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false, $download_document, $isDocument = false;
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [], $link, $getVideoLink;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
@@ -68,6 +68,7 @@ class CreateHumanOpShop extends Component
 
             if ($this->resource_file) {
 
+
                 $extension = $this->resource_file->extension();
 
                 if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif', 'pdf', 'doc', 'docx'])) {
@@ -84,23 +85,22 @@ class CreateHumanOpShop extends Component
 
                     $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                    $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue, $this->description, $thumbnail_id);
+                    $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, $upload_id, null, null, $this->pointValue, $this->description, $thumbnail_id, $this->download_document);
 
                 } elseif (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
 
-                    $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, null, $upload_id, $this->pointValue, $this->description);
+                    $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, null, $upload_id, $this->pointValue, $this->description, null, $this->download_document);
 
                 } else{
 
-                    $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, $upload_id, null, $this->pointValue, $this->description);
-
+                    $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, null, null, $upload_id, null, $this->pointValue, $this->description, null, $this->download_document);
                 }
 
             } else {
 
                 $thumbnail_id = Upload::uploadFile($this->thumbnail_file, 200, 200, 'base64Image', 'png', true);
 
-                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $this->link, null, null, null, $this->pointValue, $this->description, $thumbnail_id);
+                $resource = ShopCategoryResource::createShopResource($this->heading, $this->category_id, $this->priceValue, $this->link, null, null, null, $this->pointValue, $this->description, $thumbnail_id, $this->download_document);
 
             }
 
@@ -186,11 +186,16 @@ class CreateHumanOpShop extends Component
 
             }
 
+            // Call checkDocumentType after file is uploaded
+            $this->checkDocumentType();
+
         } else {
 
             $this->showThumbnailUpload = false;
 
             $this->typeThumbnail = false;
+
+            $this->isDocument = false;
 
         }
     }
@@ -294,6 +299,18 @@ class CreateHumanOpShop extends Component
         $this->booleanValue = true;
         $this->resource_file = null;
 
+    }
+
+    public function checkDocumentType()
+    {
+        if ($this->resource_file) {
+            $extension = strtolower($this->resource_file->getClientOriginalExtension());
+            $documentExtensions = ['pdf', 'doc', 'docx'];
+            $this->isDocument = in_array($extension, $documentExtensions);
+
+        } else {
+            $this->isDocument = false;
+        }
     }
 
 

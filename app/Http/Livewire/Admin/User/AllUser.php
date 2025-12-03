@@ -86,7 +86,7 @@ class AllUser extends Component
     {
         $user = User::getSingleUser($id);
 
-        $previousPlan = $user->plan;
+        $previousPlan = $user->plan == null ? 'freemium' : $user->plan;
         $newPlan = $planName;
 
         $planRank = [

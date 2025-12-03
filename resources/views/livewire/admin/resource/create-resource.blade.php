@@ -335,7 +335,15 @@
                                              x-on:livewire-upload-progress="progress = $event.detail.progress"
                                              x-on:livewire-upload-finish="progress = 0"
                                              x-on:livewire-upload-error="progress = 0">
-                                            <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                            <div class="d-flex justify-content-between">
+                                                <label class="form-label fs-4" style="color: #1b3a62">Document
+                                                    File</label>
+                                                <div class="form-check form-switch mb-0">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           wire:model.defer="download_document"
+                                                           name="document_download">
+                                                </div>
+                                            </div>
                                             <input wire:model="document_file"
                                                    id="resource_file"
                                                    class="form-control input-form-style document_file"
@@ -384,7 +392,8 @@
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="freemium_only">
-                                                <label class="form-check-label" for="freemium_only">Freemium Only</label>
+                                                <label class="form-check-label" for="freemium_only">Freemium
+                                                    Only</label>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -392,7 +401,8 @@
                                                 <input type="checkbox" wire:model.defer="permission" value="5"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="beta_breaker_only">
-                                                <label class="form-check-label" for="beta_breaker_only">Beta Breaker Only</label>
+                                                <label class="form-check-label" for="beta_breaker_only">Beta Breaker
+                                                    Only</label>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -686,7 +696,15 @@
                                              x-on:livewire-upload-progress="progress = $event.detail.progress"
                                              x-on:livewire-upload-finish="progress = 0"
                                              x-on:livewire-upload-error="progress = 0">
-                                            <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                            <div class="d-flex justify-content-between">
+                                                <label class="form-label fs-4" style="color: #1b3a62">Document
+                                                    File</label>
+                                                <div class="form-check form-switch mb-0">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           wire:model.defer="download_document"
+                                                           name="document_download">
+                                                </div>
+                                            </div>
                                             <input wire:model="document_file"
                                                    id="resource_file"
                                                    class="form-control input-form-style document_file"
@@ -740,7 +758,15 @@
                                             @endif
                                         @endif
                                         @if(!empty($editResourceData['document_url']))
-                                            <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                            <div class="d-flex justify-content-between">
+                                                <label class="form-label fs-4" style="color: #1b3a62">Document
+                                                    File</label>
+                                                <div class="form-check form-switch mb-0">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           wire:model.defer="download_document"
+                                                           name="document_download"{{ $download_document ? 'checked' : '' }}>
+                                                </div>
+                                            </div>
                                             <div class="form-group mt-2">
                                                 <a href="{{ $editResourceData['document_url']['path'] }}"
                                                    target="_blank"
@@ -785,7 +811,8 @@
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="freemium_only">
-                                                <label class="form-check-label" for="freemium_only">Freemium Only</label>
+                                                <label class="form-check-label" for="freemium_only">Freemium
+                                                    Only</label>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -793,7 +820,8 @@
                                                 <input type="checkbox" wire:model.defer="permission" value="5"
                                                        class="form-check-input option-checkbox"
                                                        style="border: 2px solid #1b3a62" id="beta_breaker_only">
-                                                <label class="form-check-label" for="beta_breaker_only">Beta Breaker Only</label>
+                                                <label class="form-check-label" for="beta_breaker_only">Beta Breaker
+                                                    Only</label>
                                             </div>
                                         </div>
                                         <div class="col-4">

@@ -257,26 +257,39 @@
                                          x-on:livewire-upload-progress="progress = $event.detail.progress"
                                          x-on:livewire-upload-finish="progress = 0"
                                          x-on:livewire-upload-error="progress = 0">
+
                                         <label class="form-label fs-4" style="color: #1b3a62">
                                             Resource (Document, Image or Audio [PNG, JPG, GIF, MP3, PDF, DOC, DOCX])
                                         </label>
+
                                         <input wire:model="resource_file"
                                                id="resource_file"
                                                class="form-control input-form-style resource_file"
                                                type="file"
-                                               accept="image/*,audio/*">
+                                               accept="image/*,audio/*,.pdf,.doc,.docx">
 
-                                        {{-- Progress bar --}}
+                                        <!-- Progress Bar -->
                                         <div class="progress mt-2" x-show="progress > 0">
-                                            <div class="progress-bar" role="progressbar"
+                                            <div class="progress-bar"
+                                                 role="progressbar"
                                                  :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
                                                  x-text="`${progress}%`">
                                             </div>
                                         </div>
-
-                                        <span wire:loading.flex wire:target="audio_file" style="color:#1b3a62"></span>
-
                                     </div>
+
+                                    @if($isDocument == true)
+                                        <div class="form-group">
+                                            <label class="form-label fs-4" style="color: #1b3a62">Download Document
+                                                File</label>
+                                            <div class="form-check form-switch mb-0">
+                                                <input class="form-check-input" type="checkbox"
+                                                       wire:model.defer="download_document"
+                                                       name="document_download">
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <!-- SHOW ONLY IF DOCUMENT -->
 
                                     {{-- Show only if file is audio or video --}}
                                     @if($showThumbnailUpload)
@@ -503,7 +516,8 @@
                                          x-on:livewire-upload-progress="progress = $event.detail.progress"
                                          x-on:livewire-upload-finish="progress = 0"
                                          x-on:livewire-upload-error="progress = 0">
-                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Document, Image or
+                                        <label class="form-label fs-4" style="color: #1b3a62">Resource (Document, Image
+                                            or
                                             Audio [PNG, JPG, GIF, MP3, PDF, DOC, DOCX])</label>
                                         <input wire:model="resource_file"
                                                id="resource_file"
@@ -522,7 +536,14 @@
 
 
                                     @if(!empty($editResourceData['document_id']))
-                                        <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                        <div class="d-flex justify-content-between">
+                                            <label class="form-label fs-4" style="color: #1b3a62">Document File</label>
+                                            <div class="form-check form-switch mb-0">
+                                                <input class="form-check-input" type="checkbox"
+                                                       wire:model.defer="download_document"
+                                                       name="document_download"{{ $download_document ? 'checked' : '' }}>
+                                            </div>
+                                        </div>
                                         <div class="form-group mt-2">
                                             <a href="{{ $editResourceData['document_url']['path'] }}"
                                                target="_blank"
