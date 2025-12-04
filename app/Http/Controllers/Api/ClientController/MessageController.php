@@ -185,6 +185,12 @@ class MessageController extends Controller
 
             broadcast(new MessageSent($message))->toOthers();
 
+            $senderUserName = Helpers::getUser()['first_name'] . ' ' . Helpers::getUser()['last_name'];
+
+            $heading = $senderUserName . " send you a message";
+
+            Notification::createNotification('message sent', $heading, null, $messageThread->id, 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION, Helpers::getUser()['id']);
+
             DB::commit();
 
             return Helpers::successResponse('message', $message);
