@@ -112,6 +112,8 @@ class HaiChatHelpers
 
         $userTrait = $getAssessment ? Assessment::UserTraits($user['id']) : [];
 
+        $styleCodes = Assessment::authenticTraits($getAssessment);
+
         $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
 
         $intention = IntentionPlan::getUserIntentionPlan($user['id']);
@@ -169,15 +171,17 @@ class HaiChatHelpers
             ],
             'interval_of_life' => $coreState['interval_of_life'] ?? null,
             'intention_option' => $intention ?? null,
-            'assessment' => $coreState['assessment'] ?? null,
             'all_traits' => $userTrait ?? null,
-            'top_three_traits' => $coreState['topThreeStyles'] ?? null,
-            'top_two_features' => $coreState['topTwoFeatures'] ?? null,
-            'tertiary_features' => $coreState['tertiaryFeatures'] ?? null,
-            'alchemy' => $coreState['boundary'] ?? null,
-            'energy_center' => $coreState['topCommunication'] ?? null,
-            'energy_pool' => $coreState['energyPool'] ?? null,
-            'perception' => $coreState['perception'] ?? null,
+            'core_state' => $coreState ?? null,
+            'authentic_traits' => $userTrait ?? null,
+            'top_three_traits' => collect($styleCodes)->pluck('public_name')->toArray() ?? null,
+//            'assessment' => $coreState['assessment'] ?? null,
+//            'top_two_features' => $coreState['topTwoFeatures'] ?? null,
+//            'tertiary_features' => $coreState['tertiaryFeatures'] ?? null,
+//            'alchemy' => $coreState['boundary'] ?? null,
+//            'energy_center' => $coreState['topCommunication'] ?? null,
+//            'energy_pool' => $coreState['energyPool'] ?? null,
+//            'perception' => $coreState['perception'] ?? null,
             'optimization_plan' => $actionPlan['plan_text'] ?? null,
             'daily_tip' => $userDailyTip['dailyTip'] ?? null,
             'b2b_intentions' => $b2bIntentions ?? null,
