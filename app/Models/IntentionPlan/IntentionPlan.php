@@ -72,4 +72,9 @@ class IntentionPlan extends Model
         return $intentionOption;
     }
 
+    public static function deleteIntentionPlan($id = null)
+    {
+
+        self::where('intention_option_id', $id)->delete();
+    }
 }
