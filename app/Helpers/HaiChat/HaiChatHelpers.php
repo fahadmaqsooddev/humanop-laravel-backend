@@ -191,7 +191,6 @@ class HaiChatHelpers
                 'timezone' => $user['timezone'] ?? $user->timezone ?? '',
                 'plan_name' => $user['plan_name'] ?? $user->plan_name ?? '',
             ],
-            'interval_of_life' => $coreState['interval_of_life'] ?? null,
             'intention_option' => $intention,
             'all_traits' => $userTrait ?: null,
             'core_state' => $coreState,

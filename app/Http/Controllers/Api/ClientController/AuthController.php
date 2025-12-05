@@ -1237,51 +1237,13 @@ class AuthController extends Controller
 
         $userData = User::getUserDataForHai();
 
-        $result = [];
-
         foreach ($userData as $data) {
 
-            $getAssessment = Assessment::getLatestAssessment($data['id']);
-
-            $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($data['id']) : null;
-
-            $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $data['date_of_birth']) : null;
-
-            $userTrait = Assessment::UserTraits($data['id']);
-
-            $userDailyTip = UserDailyTip::where('user_id', $data['id'])->with('dailyTip')->latest()->first();
-
-            $intention = IntentionPlan::getUserIntentionPlan($data['id']);
-
-            $result[] = [
-                'user_detail' => [
-                    'name' => ($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''),
-                    'email' => $data['email'] ?? '',
-                    'phone' => $data['phone'] ?? '',
-                    'date_of_birth' => $data['date_of_birth'] ?? '',
-                    'gender' => $data['gender'] ?? '',
-                    'timezone' => $data['timezone'] ?? '',
-                    'plan_name' => $data['plan_name'] ?? ''
-                ],
-                'interval_of_life' => $coreState['interval_of_life'],
-                'intention_option' => $intention,
-                'assessment' => $coreState['assessment'],
-                'all_traits' => $userTrait,
-                'top_three_traits' => $coreState['topThreeStyles'],
-                'top_two_features' => $coreState['topTwoFeatures'],
-                'tertiary_features' => $coreState['tertiaryFeatures'],
-                'alchemy' => $coreState['boundary'],
-                'energy_center' => $coreState['topCommunication'],
-                'energy_pool' => $coreState['energyPool'],
-                'perception' => $coreState['perception'],
-                'optimization_plan' => $optimizationPlan,
-                'daily_tip' => $userDailyTip['dailyTip'] ?? '',
-
-            ];
+            HaiChatHelpers::syncUserRecordWithHAi($data);
 
         }
 
-        return Helpers::successResponse('Users Complete Data', $result);
+        return Helpers::successResponse('All Users data sync',);
     }
 
     private function prepareEmailData($user = null, $url = null, $codeNumber = null, $body = null, $subject = null)

@@ -62,7 +62,7 @@
                 confirmButtonText: 'Delete',
             }).then((result) => {
                 if(result.isConfirmed){
-                    window.livewire.emit('deleteIntention', [intention_id])
+                    window.livewire.emit('deleteIntention', intention_id)
                 }
             })
         }
