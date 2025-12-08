@@ -22,6 +22,11 @@ class IntentionOption extends Model
         return self::select(['id', 'description'])->get();
     }
 
+    public static function getSingleIntentionOption($id = null)
+    {
+        return self::findOrFail($id);
+    }
+
     public static function allOptions()
     {
         return self::orderBy('created_at', 'desc');
@@ -35,7 +40,7 @@ class IntentionOption extends Model
     public static function updateIntentionPlan($data = null, $id = null)
     {
 
-        $intention_plan = self::find($id);
+        $intention_plan = self::getSingleIntentionOption($id);
 
         $intention_plan->update($data);
 
@@ -45,7 +50,7 @@ class IntentionOption extends Model
     public static function deleteIntentionPlan($id = null)
     {
 
-        $intention = self::where('id', $id)->first();
+        $intention = self::getSingleIntentionOption($id);
 
         if (!empty($intention)) {
 
@@ -56,7 +61,7 @@ class IntentionOption extends Model
             return true;
 
         }else{
-            
+
             return false;
         }
     }

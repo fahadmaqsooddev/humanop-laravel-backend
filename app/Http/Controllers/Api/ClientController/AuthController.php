@@ -1250,7 +1250,7 @@ class AuthController extends Controller
             }
 
         }
-        
+
         return Helpers::successResponse('All Users data sync', ['failed_users' => $failedUsers]);
     }
 
