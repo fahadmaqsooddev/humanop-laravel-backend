@@ -40,9 +40,9 @@ class MediaPlayerResources extends Model
     public function getVideoUrlAttribute()
     {
 
-        if (!empty($this->video_id)){
+        if (!empty($this->video_embed_link || $this->video_id)){
 
-            return Helpers::getVideo($this->video_id, 1, null);
+            return Helpers::getVideo($this->video_id, 1, null, $this->video_embed_link);
 
         }else{
 

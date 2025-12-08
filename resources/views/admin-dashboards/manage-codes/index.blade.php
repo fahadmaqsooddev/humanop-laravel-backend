@@ -43,7 +43,8 @@
                                 <td class="text-md font-weight-normal">{{$code['public_name']}}</td>
                                 <td class="text-md font-weight-normal">{{$code['code']}}</td>
                                 <td class="text-md font-weight-normal">{{$code['number']}}</td>
-                                <td class="text-md font-weight-normal"><a href="{{ route('admin_edit_manage_code',['id' => $code['id'] ]) }}" type="submit" style="background-color: #1B3A62 ; color: white" class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>
+                                <td class="text-md font-weight-normal">
+                                    <a href="{{ route('admin_edit_manage_code',['id' => $code['id'] ]) }}" type="submit" style="background-color: #1B3A62 ; color: white" class="btn btn-sm float-end mt-2 mb-0">Edit</a></td>
                             </tr>
                         @endforeach
 
