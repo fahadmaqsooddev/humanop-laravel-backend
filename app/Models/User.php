@@ -2507,7 +2507,7 @@ class User extends Authenticatable implements JWTSubject
         $users = self::where('is_admin', 2)->whereHas('haiAssessments', function ($query) {
             $query->where('page', 0);
 
-        })->limit(3)->get();
+        })->get();
 
         foreach ($users as $user) {
 
