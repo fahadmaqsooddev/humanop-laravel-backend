@@ -1699,12 +1699,12 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function allPaginatedClients($request = null)
+    public static function allPaginatedClients($request = null, $loginUser = null)
     {
 
         $users = self::query();
 
-        $users->where('profile_status', '!=', 1);
+        $users->where('profile_privacy', '!=', 1);
 
         $users = $users->when($request->input('name'), function ($q, $search_name) {
 

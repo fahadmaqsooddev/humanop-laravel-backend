@@ -149,7 +149,7 @@ class LibraryResource extends Model
         return self::get();
     }
 
-    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null, $thumbnailId = null)
+    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null, $thumbnailId = null, $downloadDocument = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -160,13 +160,14 @@ class LibraryResource extends Model
             'content' => $content,
             'embed_link' => $link,
             'relevance' => $relevance,
-            'thumbnail_id' => $thumbnailId
+            'thumbnail_id' => $thumbnailId,
+            'download_document' => $downloadDocument ? 1 : 0,
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null, $thumbnail_id = null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $link = null, $relevance = null, $thumbnail_id = null, $downloadDocument = null)
     {
 
         self::whereId($id)->update([
@@ -180,7 +181,8 @@ class LibraryResource extends Model
             'source_url' => null,
             'embed_link' => $link,
             'relevance' => $relevance,
-            'thumbnail_id' => $thumbnail_id
+            'thumbnail_id' => $thumbnail_id,
+            'download_document' => $downloadDocument ? 1 : 0,
         ]);
 
         return self::singleLibraryResource($id);

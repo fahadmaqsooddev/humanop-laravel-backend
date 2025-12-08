@@ -120,7 +120,7 @@ class ShopCategoryResource extends Model
 
     }
 
-    public static function createShopResource($heading = null, $category_id = null, $price = null, $link = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
+    public static function createShopResource($heading = null, $category_id = null, $price = null, $link = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null, $downloadDocument = null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -133,13 +133,14 @@ class ShopCategoryResource extends Model
             'document_id' => $document_id,
             'image_id' => $image_id,
             'point' => $point,
-            'thumbnail_id' => $thumbnail_id
+            'thumbnail_id' => $thumbnail_id,
+            'download_document' => $downloadDocument ? 1 : 0,
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($heading = null, $id = null, $category_id = null, $price = null, $embed_link = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null)
+    public static function updateResource($heading = null, $id = null, $category_id = null, $price = null, $embed_link = null, $audio_id = null, $document_id = null, $image_id = null, $point = null,$description = null, $thumbnail_id = null, $downloadDocument = null)
     {
 
         self::whereId($id)->update([
@@ -153,7 +154,8 @@ class ShopCategoryResource extends Model
             'document_id' => $document_id,
             'image_id' => $image_id,
             'point' => $point,
-            'thumbnail_id' => $thumbnail_id
+            'thumbnail_id' => $thumbnail_id,
+            'download_document' => $downloadDocument ? 1 : 0,
 
         ]);
 

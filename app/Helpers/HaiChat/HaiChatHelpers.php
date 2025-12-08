@@ -102,29 +102,39 @@ class HaiChatHelpers
 
     public static function syncUserRecordWithHAi($user = null)
     {
-        $authUser = Helpers::getUser();
 
-        $user = $user ?? User::user($authUser->id);
+        if ($user === null) {
 
-        $getAssessment = Assessment::getLatestAssessment($user['id']);
+            $authUser = Helpers::getUser();
 
-        $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $user['date_of_birth']) : null;
+            $user = User::user($authUser->id);
 
-        $userTrait = $getAssessment ? Assessment::UserTraits($user['id']) : [];
+        }
 
-        $userDailyTip = UserDailyTip::where('user_id', $user['id'])->with('dailyTip')->latest()->first();
+        $userId = $user['id'] ?? $user->id ?? null;
 
-        $intention = IntentionPlan::getUserIntentionPlan($user['id']);
+        if (!$userId) {
 
-        $b2bIntentions = SelectIntentionOption::selectB2BIntentionOption($user['id']);
+            return null;
 
-        $userCurrentTraits = User::userDailyTraits($user->id);
+        }
 
-        $userPlan = $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB ? 'Premium' : $user['plan_name'];
+        $getAssessment = Assessment::getLatestAssessment($userId);
 
+        $userPlan = in_array($user['plan_name'], ['Freemium', 'Premium']) ? $user['plan_name'] : 'Beta Breaker Club';
+
+        $coreState = null;
+        $userTrait = [];
+        $styleCodes = [];
         $actionPlan = null;
 
         if (!empty($getAssessment)) {
+
+            $coreState = Assessment::getCoreState($getAssessment, $user['date_of_birth'] ?? $user->date_of_birth ?? null);
+
+            $userTrait = Assessment::UserTraits($userId);
+
+            $styleCodes = Assessment::authenticTraits($getAssessment);
 
             $plan = ActionPlan::getActionPlanByAssessmentId($getAssessment, $userPlan);
 
@@ -134,60 +144,72 @@ class HaiChatHelpers
 
             }
 
-            $planData = OptimizationPlan::getSinglePlan($plan['priority'], $userPlan);
+            if (!empty($plan)) {
 
-            if ($userPlan === 'Premium') {
+                $planData = OptimizationPlan::getSinglePlan($plan['priority'], $userPlan);
 
-                $actionPlan = [
-                    'plan_text' => [
-                        'intro' => $planData['ninty_days_plan'],
-                        'day1_30' => $planData['day1_30'],
-                        'day31_60' => $planData['day31_60'],
-                        'day61_90' => $planData['day61_90'],
-                    ],
+                if ($userPlan === 'Premium') {
 
-                ];
-            } else {
+                    $actionPlan = [
+                        'plan_text' => [
+                            'intro' => $planData['ninty_days_plan'] ?? null,
+                            'day1_30' => $planData['day1_30'] ?? null,
+                            'day31_60' => $planData['day31_60'] ?? null,
+                            'day61_90' => $planData['day61_90'] ?? null,
+                        ],
 
-                $actionPlan = [
-                    'plan_text' => $planData['fourteen_days_plan']
-                ];
+                    ];
 
+                } else {
+
+                    $actionPlan = [
+                        'plan_text' => $planData['fourteen_days_plan'] ?? null
+                    ];
+                }
             }
-
         }
+
+        $userDailyTip = UserDailyTip::where('user_id', $userId)->with('dailyTip')->latest()->first();
+
+        $intention = IntentionPlan::getUserIntentionPlan($userId);
+
+        $b2bIntentions = SelectIntentionOption::selectB2BIntentionOption($userId);
+
+        $userCurrentTraits = User::userDailyTraits($userId);
+
+        $firstName = $user['first_name'] ?? $user->first_name ?? '';
+
+        $lastName = $user['last_name'] ?? $user->last_name ?? '';
 
         $data = [
             'user_detail' => [
-                'name' => trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? '')),
-                'email' => $user['email'] ?? '',
-                'phone' => $user['phone'] ?? '',
-                'date_of_birth' => $user['date_of_birth'] ?? '',
-                'gender' => $user['gender'] ?? '',
-                'timezone' => $user['timezone'] ?? '',
-                'plan_name' => $user['plan_name'] ?? '',
+                'name' => trim("{$firstName} {$lastName}"),
+                'email' => $user['email'] ?? $user->email ?? '',
+                'phone' => $user['phone'] ?? $user->phone ?? '',
+                'date_of_birth' => $user['date_of_birth'] ?? $user->date_of_birth ?? '',
+                'gender' => $user['gender'] ?? $user->gender ?? '',
+                'timezone' => $user['timezone'] ?? $user->timezone ?? '',
+                'plan_name' => $user['plan_name'] ?? $user->plan_name ?? '',
             ],
             'interval_of_life' => $coreState['interval_of_life'] ?? null,
-            'intention_option' => $intention ?? null,
-            'assessment' => $coreState['assessment'] ?? null,
-            'all_traits' => $userTrait ?? null,
-            'top_three_traits' => $coreState['topThreeStyles'] ?? null,
-            'top_two_features' => $coreState['topTwoFeatures'] ?? null,
-            'tertiary_features' => $coreState['tertiaryFeatures'] ?? null,
-            'alchemy' => $coreState['boundary'] ?? null,
-            'energy_center' => $coreState['topCommunication'] ?? null,
-            'energy_pool' => $coreState['energyPool'] ?? null,
-            'perception' => $coreState['perception'] ?? null,
+            'intention_option' => $intention,
+            'all_traits' => $userTrait ?: null,
+            'core_state' => $coreState,
+            'authentic_traits' => $userTrait ?: null,
+            'top_three_traits' => !empty($styleCodes) ? collect($styleCodes)->pluck('public_name')->toArray() : null,
+            'permission' => $coreState['assessment']['users']['assessment_permission'] ?? null,
             'optimization_plan' => $actionPlan['plan_text'] ?? null,
-            'daily_tip' => $userDailyTip['dailyTip'] ?? null,
-            'b2b_intentions' => $b2bIntentions ?? null,
-            'current_trait' => $userCurrentTraits ?? null,
+            'daily_tip' => $userDailyTip->dailyTip ?? $userDailyTip['dailyTip'] ?? null,
+            'b2b_intentions' => $b2bIntentions,
+            'current_trait' => $userCurrentTraits,
         ];
 
-        $body = ["user_id" => $user['id'], "connected_users_data" => $data];
+        $body = [
+            "user_id" => $userId,
+            "connected_users_data" => $data
+        ];
 
         return GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', "NewHaiApi/users", $body);
-
     }
 
     public static function createThreadIds(){
