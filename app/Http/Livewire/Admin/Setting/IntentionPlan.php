@@ -17,7 +17,7 @@ class IntentionPlan extends Component
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $queryString = ['search'];
-    protected $listeners = ['refreshIntentionPlanOption'];
+    protected $listeners = ['refreshIntentionPlanOption','deleteIntention'];
 
     public function refreshIntentionPlanOption(){
         $this->getOption();
@@ -28,13 +28,20 @@ class IntentionPlan extends Component
         $this->options = IntentionOption::allOptions()->paginate($this->perPage);
     }
 
-//    public function deleteCoupon($coupon_id){
-//
-//        Coupon::deleteCoupon($coupon_id);
-//
-//        toastr()->success('Coupon deleted');
-//
-//    }
+    public function deleteIntention($id){
+
+        $response = IntentionOption::deleteIntentionPlan($id);
+
+        if ($response) {
+
+            session()->flash('success', 'Intention deleted');
+
+        }else{
+
+            session()->flash('error', 'Something went wrong');
+        }
+
+    }
 
 //    public function render()
 //    {

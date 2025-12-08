@@ -26,7 +26,7 @@ class UpdatePersonalInformationRequets extends FormRequest
     {
         $rules = [
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|min:2|max:255',
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
             'phone' => 'nullable|max:25',

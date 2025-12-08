@@ -19,7 +19,7 @@
                                     <label class="form-label text-white">Plan Description</label>
                                     <div class="form-group">
                                         <input style="background-color: #eaf3ff;" class="form-control input-form-style" type="text" name="limit" wire:model="description"
-                                               placeholder="limit">
+                                               placeholder="name of intention">
                                     </div>
                                 </div>
                             </div>

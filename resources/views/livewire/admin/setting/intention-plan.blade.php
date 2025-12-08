@@ -18,6 +18,9 @@
                                 data-bs-target="#intentionPlan{{$option['id']}}" >
                             update
                         </button>
+                        <button class="btn btn-sm text-white" style="background-color: red;" onclick="deleteIntention({{ $option['id'] }})" >
+                            delete
+                        </button>
                     </td>
                 </tr>
 
@@ -42,7 +45,7 @@
     <script>
 
 
-        function confirmBoxForPermanentDelete(coupon_id){
+        function deleteIntention(intention_id){
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -54,12 +57,12 @@
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to delete coupon!</span>",
+                html: "<span style='color: white;'>Want to delete intention!</span>",
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
             }).then((result) => {
                 if(result.isConfirmed){
-                    window.livewire.emit('deleteCoupon', [coupon_id])
+                    window.livewire.emit('deleteIntention', intention_id)
                 }
             })
         }
