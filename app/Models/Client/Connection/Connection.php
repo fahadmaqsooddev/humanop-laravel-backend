@@ -7,6 +7,7 @@ use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
+use App\Models\Assessment;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -210,6 +211,34 @@ class Connection extends Model
             ->latest();
 
         return Helpers::pagination($connection_requests, $request->input('pagination'), $request->input('per_page'));
+    }
+
+    public static function allMatchingConnections($request = null, $loginUser = null)
+    {
+
+        $connectionRequests = self::query()
+            ->has('user')
+            ->with('user')
+            ->where('friend_id', Helpers::getUser()->id)
+            ->where('status', 0)
+            ->when($request->input('search_name'), function ($q, $name) {
+                $q->whereHas('user', function ($q) use ($name) {
+                    $q->where('first_name', 'LIKE', "%$name%")
+                        ->orWhere('last_name', 'LIKE', "%$name%")
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
+                });
+            })
+            ->latest()
+            ->get();
+
+        $users = $connectionRequests->pluck('user')->filter(function ($user) {
+            return in_array($user->is_admin, [Admin::IS_CUSTOMER, Admin::IS_B2B])
+//                && $user->profile_privacy == 2
+                && is_null($user->b2b_deleted_at);
+        });
+
+       return Helpers::matchingUsers($users, $loginUser);
+
     }
 
     public static function userConnectionIdsForHAi()
