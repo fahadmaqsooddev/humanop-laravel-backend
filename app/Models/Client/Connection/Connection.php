@@ -187,7 +187,7 @@ class Connection extends Model
                     ->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
                     ->whereNull('b2b_deleted_at');
             })
-            ->with('friend:id,first_name,last_name,image_id,profile_privacy,is_admin,b2b_deleted_at')
+            ->with('friend')
             ->where('user_id', Helpers::getUser()->id)
             ->where('status', 1)
             ->when($request->input('name'), function ($q, $name) {
@@ -199,8 +199,16 @@ class Connection extends Model
             })
             ->latest();
 
-        return Helpers::pagination($connections, $request->input('pagination'), $request->input('per_page'));
+        $connections =  Helpers::pagination($connections, $request->input('pagination'), $request->input('per_page'));
 
+        $users = [];
+
+        foreach ($connections as $connection) {
+
+            $users[] = $connection->friend;
+        }
+
+        return $users;
     }
 
     public static function connectionExists($friend_id = null)
