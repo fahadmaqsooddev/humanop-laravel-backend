@@ -192,7 +192,7 @@ class Connection extends Model
         $connectionRequests = self::query()
             ->has('user')
             ->whereHas('user', function ($q) {
-                $q->where('profile_privacy', 2)
+                $q->whereIn('profile_privacy', [1,2])
                     ->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
                     ->whereNull('b2b_deleted_at');
             })
@@ -231,7 +231,7 @@ class Connection extends Model
 
         $users = $connectionRequests->pluck('user')->filter(function ($user) {
             return in_array($user->is_admin, [Admin::IS_CUSTOMER, Admin::IS_B2B])
-//                && $user->profile_privacy == 2
+                && ($user->profile_privacy == 2 || $user->profile_privacy == 1)
                 && is_null($user->b2b_deleted_at);
         });
 
