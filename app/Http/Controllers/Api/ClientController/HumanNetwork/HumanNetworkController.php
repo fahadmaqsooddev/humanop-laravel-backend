@@ -105,7 +105,7 @@ class HumanNetworkController extends Controller
 
             } elseif ($loginUser['profile_privacy'] == 2) {
 
-                $users = Connection::paginatedConnectionRequests($request);
+                $users = Connection::userSearchConnections($request);
 
                 return Helpers::successResponse('All users', $users, $request->input('pagination'));
 
