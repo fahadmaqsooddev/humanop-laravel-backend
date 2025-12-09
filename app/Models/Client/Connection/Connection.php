@@ -189,28 +189,26 @@ class Connection extends Model
 
     public static function paginatedConnectionRequests($request = null)
     {
-
-        $connection_requests = self::query();
-
-        $connection_requests = $connection_requests->when($request->input('name'), function ($q, $name) {
-
-            $q->whereHas('user', function ($q) use ($name) {
-
-                $q->where('first_name', 'LIKE', "%$name%")
-                    ->orWhere('last_name', 'LIKE', "%$name%")
-                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$name%' ");
-
-            });
-
-        });
-
-        $connection_requests = $connection_requests->has('user')
-            ->with('user:id,first_name,last_name,image_id')
+        $connectionRequests = self::query()
+            ->has('user')
+            ->whereHas('user', function ($q) {
+                $q->where('profile_privacy', 2)
+                    ->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
+                    ->whereNull('b2b_deleted_at');
+            })
+            ->with('user:id,first_name,last_name,image_id,profile_privacy,is_admin,b2b_deleted_at')
             ->where('friend_id', Helpers::getUser()->id)
             ->where('status', 0)
+            ->when($request->input('name'), function ($q, $name) {
+                $q->whereHas('user', function ($q) use ($name) {
+                    $q->where('first_name', 'LIKE', "%{$name}%")
+                        ->orWhere('last_name', 'LIKE', "%{$name}%")
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$name}%"]);
+                });
+            })
             ->latest();
 
-        return Helpers::pagination($connection_requests, $request->input('pagination'), $request->input('per_page'));
+        return Helpers::pagination($connectionRequests, $request->input('pagination'), $request->input('per_page'));
     }
 
     public static function allMatchingConnections($request = null, $loginUser = null)
