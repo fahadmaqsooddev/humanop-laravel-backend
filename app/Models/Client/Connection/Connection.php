@@ -208,7 +208,7 @@ class Connection extends Model
             $users[] = $connection->friend;
         }
 
-        return $users;
+        return array('data' => $users);
     }
 
     public static function connectionExists($friend_id = null)
