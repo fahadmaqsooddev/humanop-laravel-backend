@@ -1267,6 +1267,43 @@ class Helpers
 
     }
 
+    public static function matchingUsers($users = null, $loginUser = null)
+    {
+
+        $matchingUsers = [];
+
+        foreach ($users as $user) {
+
+            $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
+
+            $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
+
+            if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
+
+                // ==================== Trait Compatability Calculator =========================== //
+
+                $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
+
+                $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
+
+                if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
+
+                    $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+
+                    if ($compatabilityCalculator >= $loginUser['matching_connection_score']) {
+
+                        $matchingUsers[] = $user;
+                    }
+
+                }
+
+            }
+        }
+
+        return $matchingUsers;
+
+    }
+
     public static function getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight = null, $getSecondUserTraitWeight = null, $getFirstUserAssessment = null, $getSecondUserAssessment = null)
     {
 

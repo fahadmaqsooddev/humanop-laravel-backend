@@ -98,23 +98,66 @@ class HumanNetworkController extends Controller
 
             $loginUser = Helpers::getUser();
 
+
             if ($loginUser['profile_privacy'] == 3) {
 
                 return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
-            }elseif ($loginUser['profile_privacy'] == 2){
+            } elseif ($loginUser['profile_privacy'] == 2) {
 
-                $users = Connection::paginatedConnectionRequests($request);
+                $users = Connection::userSearchConnections($request);
 
                 return Helpers::successResponse('All users', $users, $request->input('pagination'));
 
-            }
-            else {
+            } else {
 
                 $users = User::allPaginatedClients($request, $loginUser);
 
                 return Helpers::successResponse('All users', $users, $request->input('pagination'));
 
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function matchingConnection(Request $request)
+    {
+
+        try {
+
+            $loginUser = Helpers::getUser();
+
+            if (Helpers::getUser()['profile_privacy'] == 3) {
+
+                return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
+
+            } else {
+
+                if ($loginUser['plan_name'] == 'Premium') {
+
+                    if ($loginUser['profile_privacy'] == 2) {
+
+                        $matchingUsers = Connection::allMatchingConnections($request, $loginUser);
+
+                        return Helpers::successResponse('Matching Connections', $matchingUsers);
+
+                    } else {
+
+                        $matchingUsers = User::allMatchingClients($request, $loginUser);
+
+                        return Helpers::successResponse('Matching Connections', $matchingUsers);
+
+                    }
+
+                } else {
+
+                    return Helpers::validationResponse('Only for paid users');
+
+                }
             }
 
         } catch (\Exception $exception) {
@@ -262,7 +305,6 @@ class HumanNetworkController extends Controller
         }
     }
 
-
     public function insightsOfConnection()
     {
         try {
@@ -313,39 +355,6 @@ class HumanNetworkController extends Controller
         } catch (\Exception $e) {
             return Helpers::serverErrorResponse($e->getMessage());
         }
-    }
-
-    public function matchingConnection(Request $request)
-    {
-
-        try {
-
-            $loginUser = Helpers::getUser();
-
-            if (Helpers::getUser()['profile_status'] == 1) {
-
-                return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
-
-            } else {
-
-                if ($loginUser['plan_name'] == 'Premium') {
-
-                    $matchingUsers = User::allMatchingClients($request, $loginUser);
-
-                    return Helpers::successResponse('Matching Connections', $matchingUsers);
-
-                } else {
-
-                    return Helpers::validationResponse('Only for paid users');
-
-                }
-            }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
     }
 
     public function setScoreForMatchingConnection(SetScoreForMatchingConnectionRequest $request)
@@ -432,7 +441,7 @@ class HumanNetworkController extends Controller
                 ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB &&
                     in_array($user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime'])
                 ) || $user['plan'] == 'bb_onetime'
-            )  {
+            ) {
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
 

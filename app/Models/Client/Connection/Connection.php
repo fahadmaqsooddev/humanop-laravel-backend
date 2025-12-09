@@ -7,6 +7,7 @@ use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
+use App\Models\Assessment;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -154,26 +155,60 @@ class Connection extends Model
     public static function userPaginatedConnections($request = null)
     {
 
-        $name = $request->query('name');
-
-        $user_id = Helpers::getUser()->id;
-
-        $connections = self::whereHas('friend', function ($q) use ($name) {
-
-            $q->where(function ($query) use ($name) {
-
-                $query->where('first_name', 'LIKE', "%$name%")
-                    ->orWhere('last_name', 'LIKE', "%$name%")
-                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$name%' ");
-
-            });
-        })
-            ->with('friend:id,first_name,last_name,image_id')
-            ->where('user_id', $user_id)
-            ->where('status', 1);
+        $connections = self::query()
+            ->has('user')
+            ->whereHas('friend', function ($q) {
+                $q->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
+                    ->whereNull('b2b_deleted_at');
+            })
+            ->with('friend:id,first_name,last_name,image_id,profile_privacy,is_admin,b2b_deleted_at')
+            ->where('user_id', Helpers::getUser()->id)
+            ->where('status', 1)
+            ->when($request->input('name'), function ($q, $name) {
+                $q->whereHas('user', function ($q) use ($name) {
+                    $q->where('first_name', 'LIKE', "%{$name}%")
+                        ->orWhere('last_name', 'LIKE', "%{$name}%")
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$name}%"]);
+                });
+            })
+            ->latest();
 
         return Helpers::pagination($connections, $request->input('pagination'), $request->input('per_page'));
 
+    }
+
+    public static function userSearchConnections($request = null)
+    {
+
+        $connections = self::query()
+            ->has('user')
+            ->whereHas('friend', function ($q) {
+                $q->whereIn('profile_privacy', [1,2])
+                    ->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
+                    ->whereNull('b2b_deleted_at');
+            })
+            ->with('friend')
+            ->where('user_id', Helpers::getUser()->id)
+            ->where('status', 1)
+            ->when($request->input('name'), function ($q, $name) {
+                $q->whereHas('user', function ($q) use ($name) {
+                    $q->where('first_name', 'LIKE', "%{$name}%")
+                        ->orWhere('last_name', 'LIKE', "%{$name}%")
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$name}%"]);
+                });
+            })
+            ->latest();
+
+        $connections =  Helpers::pagination($connections, $request->input('pagination'), $request->input('per_page'));
+
+        $users = [];
+
+        foreach ($connections as $connection) {
+
+            $users[] = $connection->friend;
+        }
+
+        return array('data' => $users);
     }
 
     public static function connectionExists($friend_id = null)
@@ -188,28 +223,53 @@ class Connection extends Model
 
     public static function paginatedConnectionRequests($request = null)
     {
-
-        $connection_requests = self::query();
-
-        $connection_requests = $connection_requests->when($request->input('name'), function ($q, $name) {
-
-            $q->whereHas('user', function ($q) use ($name) {
-
-                $q->where('first_name', 'LIKE', "%$name%")
-                    ->orWhere('last_name', 'LIKE', "%$name%")
-                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$name%' ");
-
-            });
-
-        });
-
-        $connection_requests = $connection_requests->has('user')
-            ->with('user:id,first_name,last_name,image_id')
+        $connectionRequests = self::query()
+            ->has('user')
+            ->whereHas('user', function ($q) {
+                $q->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
+                    ->whereNull('b2b_deleted_at');
+            })
+            ->with('user:id,first_name,last_name,image_id,profile_privacy,is_admin,b2b_deleted_at')
             ->where('friend_id', Helpers::getUser()->id)
             ->where('status', 0)
+            ->when($request->input('name'), function ($q, $name) {
+                $q->whereHas('user', function ($q) use ($name) {
+                    $q->where('first_name', 'LIKE', "%{$name}%")
+                        ->orWhere('last_name', 'LIKE', "%{$name}%")
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$name}%"]);
+                });
+            })
             ->latest();
 
-        return Helpers::pagination($connection_requests, $request->input('pagination'), $request->input('per_page'));
+        return Helpers::pagination($connectionRequests, $request->input('pagination'), $request->input('per_page'));
+    }
+
+    public static function allMatchingConnections($request = null, $loginUser = null)
+    {
+
+        $connectionRequests = self::query()
+            ->has('user')
+            ->with('user')
+            ->where('friend_id', Helpers::getUser()->id)
+            ->where('status', 0)
+            ->when($request->input('search_name'), function ($q, $name) {
+                $q->whereHas('user', function ($q) use ($name) {
+                    $q->where('first_name', 'LIKE', "%$name%")
+                        ->orWhere('last_name', 'LIKE', "%$name%")
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
+                });
+            })
+            ->latest()
+            ->get();
+
+        $users = $connectionRequests->pluck('user')->filter(function ($user) {
+            return in_array($user->is_admin, [Admin::IS_CUSTOMER, Admin::IS_B2B])
+                && ($user->profile_privacy == 2 || $user->profile_privacy == 1)
+                && is_null($user->b2b_deleted_at);
+        });
+
+       return Helpers::matchingUsers($users, $loginUser);
+
     }
 
     public static function userConnectionIdsForHAi()

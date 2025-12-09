@@ -1704,7 +1704,7 @@ class User extends Authenticatable implements JWTSubject
 
         $users = self::query();
 
-        $users->where('profile_privacy', '!=', 1);
+        $users->where('profile_privacy',1);
 
         $users = $users->when($request->input('name'), function ($q, $search_name) {
 
@@ -1758,7 +1758,7 @@ class User extends Authenticatable implements JWTSubject
 
         $users = self::query();
 
-        $users->where('profile_status', '!=', 1);
+        $users->where('profile_privacy',1);
 
         if (!empty($request['search_name'])) {
 
@@ -1774,37 +1774,7 @@ class User extends Authenticatable implements JWTSubject
 
         $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
 
-        $matchingUsers = [];
-
-        foreach ($users as $user) {
-
-            $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
-
-            $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
-
-            if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
-
-                // ==================== Trait Compatability Calculator =========================== //
-
-                $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
-
-                $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
-
-                if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
-
-                    $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
-
-                    if ($compatabilityCalculator >= $loginUser['matching_connection_score']) {
-
-                        $matchingUsers[] = $user;
-                    }
-
-                }
-
-            }
-        }
-
-        return $matchingUsers;
+        return Helpers::matchingUsers($users, $loginUser);
 
     }
 
