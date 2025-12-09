@@ -205,7 +205,7 @@ class Connection extends Model
 
         foreach ($connections as $connection) {
 
-            $users['data'] = $connection->friend;
+            $users[] = $connection->friend;
         }
 
         return $users;
