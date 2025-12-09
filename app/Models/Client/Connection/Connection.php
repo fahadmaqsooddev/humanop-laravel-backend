@@ -162,7 +162,7 @@ class Connection extends Model
                     ->whereNull('b2b_deleted_at');
             })
             ->with('user:id,first_name,last_name,image_id,profile_privacy,is_admin,b2b_deleted_at')
-            ->where('user_id', Helpers::getUser()->id)
+            ->where('friend_id', Helpers::getUser()->id)
             ->where('status', 1)
             ->when($request->input('name'), function ($q, $name) {
                 $q->whereHas('user', function ($q) use ($name) {
