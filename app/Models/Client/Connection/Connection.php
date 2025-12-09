@@ -155,23 +155,24 @@ class Connection extends Model
     public static function userPaginatedConnections($request = null)
     {
 
-        $name = $request->query('name');
-
-        $user_id = Helpers::getUser()->id;
-
-        $connections = self::whereHas('friend', function ($q) use ($name) {
-
-            $q->where(function ($query) use ($name) {
-
-                $query->where('first_name', 'LIKE', "%$name%")
-                    ->orWhere('last_name', 'LIKE', "%$name%")
-                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$name%' ");
-
-            });
-        })
-            ->with('friend:id,first_name,last_name,image_id')
-            ->where('user_id', $user_id)
-            ->where('status', 1);
+        $connections = self::query()
+            ->has('user')
+            ->whereHas('user', function ($q) {
+                $q->whereIn('profile_privacy', [1,2])
+                    ->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
+                    ->whereNull('b2b_deleted_at');
+            })
+            ->with('user:id,first_name,last_name,image_id,profile_privacy,is_admin,b2b_deleted_at')
+            ->where('user_id', Helpers::getUser()->id)
+            ->where('status', 1)
+            ->when($request->input('name'), function ($q, $name) {
+                $q->whereHas('user', function ($q) use ($name) {
+                    $q->where('first_name', 'LIKE', "%{$name}%")
+                        ->orWhere('last_name', 'LIKE', "%{$name}%")
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$name}%"]);
+                });
+            })
+            ->latest();
 
         return Helpers::pagination($connections, $request->input('pagination'), $request->input('per_page'));
 
@@ -192,8 +193,7 @@ class Connection extends Model
         $connectionRequests = self::query()
             ->has('user')
             ->whereHas('user', function ($q) {
-                $q->whereIn('profile_privacy', [1,2])
-                    ->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
+                $q->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
                     ->whereNull('b2b_deleted_at');
             })
             ->with('user:id,first_name,last_name,image_id,profile_privacy,is_admin,b2b_deleted_at')
