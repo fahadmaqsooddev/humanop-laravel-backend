@@ -34,7 +34,7 @@ class Notification extends Model
         return self::where('user_id', $user['id'])
             ->where('role', Admin::B2C_NOTIFICATION)
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority','sender_id']);
+            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority', 'sender_id']);
     }
 
     public static function allNetworkNotification()
@@ -43,9 +43,9 @@ class Notification extends Model
 
         return self::where('user_id', $user['id'])
             ->where('role', Admin::B2C_NOTIFICATION)
-            ->whereIn('notification_priority', [4,5,6,7,9,10])
+            ->whereIn('notification_priority', [4, 5, 6, 7, 9, 10])
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority','sender_id']);
+            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority', 'sender_id']);
     }
 
     public static function allB2BNotification()
@@ -59,7 +59,7 @@ class Notification extends Model
     }
 
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null,$senderId=null)
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null, $senderId = null)
     {
         self::create([
             'user_id' => $userId,
@@ -155,7 +155,7 @@ class Notification extends Model
     public static function createUserFetchNotification($userId = null, $notifications = null)
     {
 
-        foreach ($notifications as $notification){
+        foreach ($notifications as $notification) {
 
             $notification['user_id'] = $userId;
 

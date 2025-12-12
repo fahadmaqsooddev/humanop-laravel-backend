@@ -20,7 +20,7 @@ return [
     path of performance and allow you to rise to your full potential naturally.
     </p>",
 
-        'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+        'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8",
     ],
 
 
@@ -43,7 +43,7 @@ return [
     path of performance and allow you to rise to your full potential naturally.
     </p>",
 
-        'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+        'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8",
 
     ],
 
@@ -67,7 +67,7 @@ return [
     path of performance and allow you to rise to your full potential naturally.
     </p>",
 
-        'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+        'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8",
 
     ],
 
@@ -302,7 +302,7 @@ return [
     Physical changes may continue, but emotional clarity and acceptance often increase. In this stage, the soul shines through more brightly.
 </p>",
 
-    'video_url' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')
+    'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8"
 
 ],
 

@@ -134,17 +134,17 @@ class HumanNetworkController extends Controller
                 if ($loginUser['plan_name'] == 'Premium') {
 
 //                    if ($loginUser['profile_privacy'] == 2) {
-
-                        $matchingUsers = Connection::allMatchingConnections($request, $loginUser);
-
-                        return Helpers::successResponse('Matching Connections', $matchingUsers);
-
-//                    } else {
 //
-//                        $matchingUsers = User::allMatchingClients($request, $loginUser);
+//                        $matchingUsers = Connection::allMatchingConnections($request, $loginUser);
 //
 //                        return Helpers::successResponse('Matching Connections', $matchingUsers);
 //
+//                    } else {
+
+                        $matchingUsers = User::allMatchingClients($request, $loginUser);
+
+                        return Helpers::successResponse('Matching Connections', $matchingUsers);
+
 //                    }
 
                 } else {
