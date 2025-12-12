@@ -99,17 +99,11 @@ class HumanNetworkController extends Controller
             $loginUser = Helpers::getUser();
 
 
-            if ($loginUser['profile_privacy'] == 3) {
+            if ($loginUser['hai_status'] == 1) {
 
                 return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
-            } elseif ($loginUser['profile_privacy'] == 2) {
-
-                $users = Connection::userSearchConnections($request);
-
-                return Helpers::successResponse('All users', $users, $request->input('pagination'));
-
-            } else {
+            }else {
 
                 $users = User::allPaginatedClients($request, $loginUser);
 
@@ -131,7 +125,7 @@ class HumanNetworkController extends Controller
 
             $loginUser = Helpers::getUser();
 
-            if (Helpers::getUser()['profile_privacy'] == 3) {
+            if (Helpers::getUser()['hai_status'] == 1) {
 
                 return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
@@ -139,19 +133,19 @@ class HumanNetworkController extends Controller
 
                 if ($loginUser['plan_name'] == 'Premium') {
 
-                    if ($loginUser['profile_privacy'] == 2) {
-
-                        $matchingUsers = Connection::allMatchingConnections($request, $loginUser);
-
-                        return Helpers::successResponse('Matching Connections', $matchingUsers);
-
-                    } else {
+//                    if ($loginUser['profile_privacy'] == 2) {
+//
+//                        $matchingUsers = Connection::allMatchingConnections($request, $loginUser);
+//
+//                        return Helpers::successResponse('Matching Connections', $matchingUsers);
+//
+//                    } else {
 
                         $matchingUsers = User::allMatchingClients($request, $loginUser);
 
                         return Helpers::successResponse('Matching Connections', $matchingUsers);
 
-                    }
+//                    }
 
                 } else {
 

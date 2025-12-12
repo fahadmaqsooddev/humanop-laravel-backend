@@ -270,13 +270,14 @@ class MessageThread extends Model
 
     }
 
-    public static function getMyMessageThread($request = null)
+    public static function getMyMessageThread($request = null, $userId = null)
     {
 
         $q = self::query()
-            ->with('participants')
-            ->where('owner_id', Helpers::getUser()['id'])
-//            ->forUser($request->user()->id)
+            ->where('owner_id', $userId)
+            ->orWhereHas('participants', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
             ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
 
         if ($request->filled('type')) {
@@ -287,9 +288,8 @@ class MessageThread extends Model
 
     }
 
-    public static function getAllDirectMessageThread($request = null)
+    public static function getAllDirectMessageThread($request = null, $userId = null)
     {
-        $userId = Helpers::getUser()['id'];
 
         $q = self::query()
             ->with('participants')

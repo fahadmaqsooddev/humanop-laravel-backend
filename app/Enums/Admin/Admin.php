@@ -263,4 +263,10 @@ final class Admin
 
     const PREMIUM_LIFETIME = 1;
 
+    const PREMIUM_PLAN = 3;
+
+    const BETA_BREAKER_PLAN = 2;
+
+    const FREEMIUM_PLAN = 1;
+
 }
