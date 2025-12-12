@@ -1704,7 +1704,7 @@ class User extends Authenticatable implements JWTSubject
 
         $users = self::query();
 
-        $users->where('profile_privacy',1);
+        $users->where('hai_status',0);
 
         $users = $users->when($request->input('name'), function ($q, $search_name) {
 
