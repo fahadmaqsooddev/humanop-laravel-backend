@@ -2,7 +2,30 @@
 
 return [
 
-    'connecting_Communicating_(7-11)' => "
+    'connecting_Communicating_(7-11)' => [
+        'text' => "<p class=\"text-sm mt-3 fs-12px\" >
+    Your current interval of life between 16 and 20 is the time of life when you're essentially test
+    driving the many different motivating forces (also known as drivers) that every human being
+    has access to. These drivers are like passengers in your “vehicle of self.” Those “voices in your
+    head” that align you with certain things, direct you towards certain activities, nudge you to do
+    certain things a certain way, and reveal what your natural talents are. And because this
+    interval is all about test driving these drivers, the many different drivers can have a
+    tendency to compete for the driver's seat during this time of your life, and because of this,
+    these “voices in your head” can often be a bit louder. This can make one feel less focused or
+    even overwhelmed at times. Paying attention to feeding or fueling your two most prominent
+    drivers is the key to reducing any extra volume you may be experiencing in your head and
+    ensuring greater clarity and energy as you focus on what needs to be fed and honored to reach
+    your goals. You will learn the details around your two most prominent drivers in a following
+    video and applying the understanding you gain about your two drivers can set you on a healthy
+    path of performance and allow you to rise to your full potential naturally.
+    </p>",
+
+        'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+    ],
+
+
+    'alchemical_revelation_(12-15)' => [
+        'text' => "
     <p class=\"text-sm mt-3 fs-12px\" >
     Your current interval of life between 16 and 20 is the time of life when you're essentially test
     driving the many different motivating forces (also known as drivers) that every human being
@@ -20,7 +43,13 @@ return [
     path of performance and allow you to rise to your full potential naturally.
     </p>",
 
-    'alchemical_revelation_(12-15)' => "
+        'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+
+    ],
+
+
+    'motivation_(16-20)' => [
+        'text' => "
     <p class=\"text-sm mt-3 fs-12px\" >
     Your current interval of life between 16 and 20 is the time of life when you're essentially test
     driving the many different motivating forces (also known as drivers) that every human being
@@ -38,25 +67,13 @@ return [
     path of performance and allow you to rise to your full potential naturally.
     </p>",
 
-    'motivation_(16-20)' => "
-    <p class=\"text-sm mt-3 fs-12px\" >
-    Your current interval of life between 16 and 20 is the time of life when you're essentially test
-    driving the many different motivating forces (also known as drivers) that every human being
-    has access to. These drivers are like passengers in your “vehicle of self.” Those “voices in your
-    head” that align you with certain things, direct you towards certain activities, nudge you to do
-    certain things a certain way, and reveal what your natural talents are. And because this
-    interval is all about test driving these drivers, the many different drivers can have a
-    tendency to compete for the driver's seat during this time of your life, and because of this,
-    these “voices in your head” can often be a bit louder. This can make one feel less focused or
-    even overwhelmed at times. Paying attention to feeding or fueling your two most prominent
-    drivers is the key to reducing any extra volume you may be experiencing in your head and
-    ensuring greater clarity and energy as you focus on what needs to be fed and honored to reach
-    your goals. You will learn the details around your two most prominent drivers in a following
-    video and applying the understanding you gain about your two drivers can set you on a healthy
-    path of performance and allow you to rise to your full potential naturally.
-    </p>",
+        'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
 
-    'roadworthy_(21-29)' => "
+    ],
+
+
+    'roadworthy_(21-29)' => [
+        'text' => "
     <p class=\"text-sm mt-3 fs-12px\" style=\"text-align: justify; font-size:1rem;\">
         Your current interval of life between 21 and 29 is what we call “The Road Worthy Interval”. Now,
         if you were to consider your body as the vehicle that's transporting your thoughts around in this
@@ -106,7 +123,13 @@ return [
         of all the intervals of life.
     </p>",
 
-    'the_power_interval_(30-33)' => '
+        'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cd30d9a408df2226c7/main.m3u8"
+    ],
+
+
+    'the_power_interval_(30-33)' => [
+
+       'text' => '
     <p class="text-sm mt-3 fs-12px"
        style=" text-align: justify; font-size:1rem;">
         Your current interval of life between 30 and 33 is “The Power Interval”.
@@ -130,7 +153,13 @@ return [
         of your life beginning at age 34.
     </p>',
 
-    'mid_life_transformation_(34-42)' => '
+        'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcb0bb97fd98109b79/main.m3u8"
+
+    ],
+
+    'mid_life_transformation_(34-42)' => [
+
+       'text' =>  '
     <p class="text-sm mt-3 fs-12px"
        style=" text-align: justify; font-size:1rem">
         <span style="color: #1b3a62;font-size:1rem;font-weight:bold;">
@@ -178,19 +207,38 @@ return [
         make sure that you remain energized and optimized as you experience this transformative time of life.
     </p>',
 
+        'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fc30d9a408df22ad66/main.m3u8"
 
-    'awareness_(43-51)' => '
+    ],
+
+
+
+    'awareness_(43-51)' => [
+
+        'text' => '
     <p class="text-sm mt-3 fs-12px" style=" text-align: justify; font-size:1rem;">
         Your current interval begins at age 43 and it ends at 52. This interval is called “The Interval of Awareness”, and it marks the beginning of adulthood. It\'s interesting because even though society embraces a 21 year old as an adult, by nature, age 21 simply highlights a physically mature individual. Adulthood is something that requires a history of experience in making life choices. So consider this… throughout the past ten years you have experienced the metamorphosis of what\'s called the midlife transformation. And you have weathered the storm, and you have emerged as an adult. It\'s not until age 43 that one is officially an adult by nature. You are now awake, and you have an innate knowingness that a completely different life lies ahead for you. An opportunity to pursue a whole new outlook on life presents itself to you during this interval. And your perception of reality, purpose and love holds an even greater significance. Reasonability and a recognition of your mortality become the focus of this interval. It\'s really the first wake up call for you that life is short. Depending on how deep into this interval you are, notice for yourself this new, more awareness-filled desire to gather more information, indulge in meaningful experiences, and even take better care of your body. The awareness that you have this one body, and in order to sustain it, you have to maintain it. All of these dynamics take priority for you in this interval. It\'s important to recognize that you are essentially reinventing yourself in this interval, and this is great. You simply want to use your awareness to ensure that you\'re not getting too distracted with the reinvention process. The workshop junkie syndrome comes into play for some people during this interval. And, of course, there\'s nothing wrong with gathering more information or aligning with meaningful experiences, just remind yourself to notice what really resonates for you and what\'s just adding more to your life. And really enjoy this interval! It\'s like a rest vacation after the more tumultuous dynamic of the previous interval that you just experienced.
     </p>',
 
-    'pay_it_forward_(52-65)' => '
+        'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d07db0bb97fd980ff897/main.m3u8"
+
+        ],
+
+        'pay_it_forward_(52-65)' =>[
+           'text' => '
     <p class="text-sm mt-3 fs-12px" style=" text-align: justify; font-size:1rem;">
         Your current interval begins at age 52 and it ends at 66. This interval is called “The Pay It Forward Interval”. All that you\'ve collected over the past many years becomes fuel for the gifts you are to leave behind in this life as you pay it forward. You\'ve become more altruistic. You\'re done competing. You no longer are territorial and you\'re well versed in your views and your expertise. It becomes “beyond you”. You become aware of your purpose and want to give back and contribute to causes that are important to you. With this interval comes personal forgiveness and understanding. You become comfortable in your own skin and you feel worthy of your age and the respect that it commands. There\'s actually a proud survival that shines through in your smile. You do want to make sure that you continue to pay attention to your physical health in this interval, because just like a vehicle, the longer it\'s driven, it continues to rack up more miles. So you\'re continuing to rack up more miles on your “vehicle of self”. And as you pay it forward, also pay attention to self care to ensure that you\'re remaining energized and optimized.
     </p>',
 
+        'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cd30d9a408df2226c4/main.m3u8"
 
-    'liberated_(66-69)' => "
+    ],
+
+
+
+    'liberated_(66-69)' => [
+
+        'text' =>  "
 <p class=\"text-sm mt-3 fs-12px\" style=\" text-align: justify; font-size:1rem; \">
     Your current interval begins at age 66 and ends at 70, and even for some, it can go on up to 75.
     It's the interval where you experience “Liberation”...a freedom from responsibility in this life.
@@ -202,7 +250,14 @@ return [
     and keep taking care of your physical body to ensure that you remain energized and optimized.
 </p>",
 
-    'being_(70-74)' => "
+        'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cdb0bb97fd9810141f/main.m3u8"
+
+    ],
+
+
+    'being_(70-74)' => [
+
+        'text' =>  "
 <p class=\"text-sm mt-3 fs-12px\" style=\" text-align: justify; font-size:1rem; \">
     Your current interval begins at age 70 and ends at 75. And we call this interval “The Interval of Being”.
     So much has been archived in the files of your physicality by this time and nature will actually begin to delete that which is most current.
@@ -216,7 +271,13 @@ return [
     and get plenty of exercise to ensure that you remain energized and optimized.
 </p>",
 
-    'life_review_(75-83)' => "
+    'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fc30d9a408df22ad64/main.m3u8"
+
+],
+
+
+    'life_review_(75-83)' => [
+        "text" =>  "
 <p class=\"text-sm mt-3 fs-12px\" style=\" text-align: justify; font-size:1rem; \">
     Your current interval begins at age 75 and ends at 84. It is in this interval where a “Natural Life Review” takes place.
     It's a time when forgiving and forgetting transpires naturally. And with this occurrence the onset of surrender follows.
@@ -225,7 +286,14 @@ return [
     you want to engage in life and with others. Being more in the moment is a wonderful byproduct of this interval.
 </p>",
 
-    'surrender_(84+)' => "
+    'video_url' => "https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8"
+
+],
+
+
+    'surrender_(84+)' => [
+
+        "text" =>  "
 <p class=\"text-sm mt-3 fs-12px\" style=\" text-align: justify; font-size:1rem; \">
     This interval begins at age 84 and extends for the remainder of your life.
     It is known as the time of Surrender. This is not about giving up, but rather letting go — surrendering into peace, presence, and the divine order of life.
@@ -233,5 +301,9 @@ return [
     to your memories, and to the essence of who you are. This is a beautiful period to reflect, to be surrounded by love, and to express your gratitude for the journey.
     Physical changes may continue, but emotional clarity and acceptance often increase. In this stage, the soul shines through more brightly.
 </p>",
+
+    'video_url' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')
+
+],
 
 ];
