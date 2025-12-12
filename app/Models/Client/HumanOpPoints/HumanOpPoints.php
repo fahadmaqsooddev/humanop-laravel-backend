@@ -28,10 +28,10 @@ class HumanOpPoints extends Model
     {
 
         return match (true) {
-            $user['plan_name'] === 'Premium' => 3,
-            $user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB => 2,
-            $user['plan_name'] === 'Beta Breaker' => 2,
-            default => 1,
+            $user['plan_name'] === 'Premium' => Admin::PREMIUM_PLAN,
+            $user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB => Admin::BETA_BREAKER_PLAN,
+            $user['plan_name'] === 'Beta Breaker' => Admin::BETA_BREAKER_PLAN,
+            default => Admin::FREEMIUM_PLAN,
         };
 
     }
