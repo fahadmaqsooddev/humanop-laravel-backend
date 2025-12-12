@@ -27,27 +27,12 @@ class HumanOpPoints extends Model
     protected static function getHumanOpPointMultiplier($user = null)
     {
 
-        if ($user['plan_name'] === 'Premium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
-
-            return 5;
-
-        } elseif ($user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) {
-
-            return 3;
-
-        } elseif ($user['plan_name'] === 'Freemium') {
-
-            return ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB) ? 2 : 1;
-
-        } elseif ($user['plan_name'] === 'Beta Breaker') {
-
-            return 2;
-
-        } else {
-
-            return 3;
-
-        }
+        return match (true) {
+            $user['plan_name'] === 'Premium' => 3,
+            $user['plan_name'] === 'Freemium' && $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB => 2,
+            $user['plan_name'] === 'Beta Breaker' => 2,
+            default => 1,
+        };
 
     }
 
