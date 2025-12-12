@@ -189,7 +189,7 @@ class MessageController extends Controller
 
             $heading = $senderUserName . " send you a message";
 
-            Notification::createNotification('message sent', $heading, null, $messageThread->id, 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION, Helpers::getUser()['id']);
+            Notification::createNotification('message sent', $heading, null, Helpers::getUser()['id'], 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION, Helpers::getUser()['id']);
 
             DB::commit();
 
