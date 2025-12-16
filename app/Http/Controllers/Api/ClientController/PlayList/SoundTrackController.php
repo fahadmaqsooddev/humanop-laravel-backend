@@ -120,7 +120,7 @@ class SoundTrackController extends Controller
                                 'audio_url' => $item->audio_url ?? null,
                                 'thumbnail_url' => $item->thumbnail_url['url'] ?? null,
                                 'document_url' => $item->document_url['path'] ?? null,
-                                'allow_download' => $item->download_document == 1 ? true : false,
+                                'allow_download' => $item->download_document === 1 ? true : false,
                                 'resource_category_name' => optional($item->resourceCategory)->name,
                                 'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
                                     1 => 'Freemium',
@@ -179,7 +179,7 @@ class SoundTrackController extends Controller
                                 'video_url' => $resource->video_url['path'] ?? null,
                                 'audio_url' => $resource->audio_url['path'] ?? null,
                                 'document_url' => $resource->document_url['path'] ?? null,
-                                'allow_download' => $item->download_document == 1 ? true : false,
+                                'allow_download' => $item->download_document === 1 ? true : false,
                                 'thumbnail_url' => $resource->thumbnail_url['url'] ?? null,
                                 'grid' => $gridPublicName,
                             ];
@@ -262,7 +262,7 @@ class SoundTrackController extends Controller
                         'audio_url' => $item->audio_url ?? null,
                         'thumbnail_url' => $item->thumbnail_url['url'] ?? null,
                         'document_url' => $item->document_url['path'] ?? null,
-                        'allow_download' => $item->download_document == 1 ? true : false,
+                        'allow_download' => $item->download_document === 1 ? true : false,
                         'resource_category_name' => optional($item->resourceCategory)->name,
                         'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
                             1 => 'Freemium',
@@ -307,7 +307,7 @@ class SoundTrackController extends Controller
                         'audio_url' => $resource->audio_url['path'] ?? null,
                         'document_url' => $resource->document_url['path'] ?? null,
                         'thumbnail_url' => $resource->thumbnail_url['url'] ?? null,
-                        'allow_download' => $item->download_document == 1 ? true : false,
+                        'allow_download' => $item->download_document === 1 ? true : false,
                         'grid' => $gridPublicName,
                     ];
 
