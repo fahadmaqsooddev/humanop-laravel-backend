@@ -40,4 +40,9 @@ return [
         'webhook_secret' => env('WEBHOOK_SECRET'),
     ],
 
+    'gohighlevel' => [
+        'token' => env('GOHIGHLEVEL_API_TOKEN'),
+        'location_id' => env('GOHIGHLEVEL_LOCATION_ID'),
+    ],
+
 ];

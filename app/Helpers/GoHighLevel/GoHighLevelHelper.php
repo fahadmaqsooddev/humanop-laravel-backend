@@ -13,8 +13,8 @@ class GoHighLevelHelper
     {
         try {
 
-            $token = 'pit-0c93a962-87be-4904-bb16-80b04278f5c4';
-            $locationId = 'tGZlNlIBZShcfUWMETK6';
+            $token = config('services.gohighlevel.token');
+            $locationId = config('services.gohighlevel.location_id');
 
             $client = new Client([
                 'base_uri' => 'https://services.leadconnectorhq.com/',
