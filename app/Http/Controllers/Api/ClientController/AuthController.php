@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\ActivityLogs\ActivityLogger;
+use App\Helpers\GoHighLevel\GoHighLevelHelper;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -489,6 +490,8 @@ class AuthController extends Controller
                     $signupMethod = $getUser->google_id ? 'Google' : ($getUser->apple_id ? 'Apple' : 'Email');
 
                     ActivityLogger::addLog('Signup', "User Signup by {$signupMethod}");
+
+                    GoHighLevelHelper::createUserInGoHighLevel($getUser);
 
                     $data = [
                         'user' => $getUser,
