@@ -344,7 +344,7 @@
                                                     <input class="form-check-input" type="checkbox"
                                                            style="margin-top: 10px"
                                                            wire:model.defer="download_document"
-                                                           name="document_download">
+                                                           name="download_document">
                                                 </div>
                                             </div>
                                             <input wire:model="document_file"
@@ -707,7 +707,7 @@
                                                         Download</label>
                                                     <input class="form-check-input" type="checkbox" style="margin-top: 10px"
                                                            wire:model.defer="download_document"
-                                                           name="document_download">
+                                                           name="download_document">
                                                 </div>
                                             </div>
                                             <input wire:model="document_file"
@@ -801,7 +801,7 @@
                                                     <input class="form-check-input" type="checkbox"
                                                            style="margin-top: 10px"
                                                            wire:model.defer="download_document"
-                                                           name="document_download"{{ $download_document ? 'checked' : '' }}>
+                                                           name="download_document"{{ $download_document ? 'checked' : '' }}>
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2">
