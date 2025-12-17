@@ -269,21 +269,24 @@ class LibraryResource extends Model
     public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null)
     {
         $user = Helpers::getUser();
-        $userId = $user['id'];
 
-        if (
-            $user['beta_breaker_club'] != Admin::BETA_BREAKER_CLUB
-            && in_array($user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime'])
-        ) {
-            $userPlan = 'Premium';
-        } elseif (
-            $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB
-            || $user['plan'] == 'bb_onetime'
-        ) {
-            $userPlan = 'Beta Breaker';
-        } else {
-            $userPlan = 'Freemium';
-        }
+        $userId = $user->id;
+
+        $userPlan = $user->plan_name;
+
+//        if (
+//            $user['beta_breaker_club'] != Admin::BETA_BREAKER_CLUB
+//            && in_array($user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime'])
+//        ) {
+//            $userPlan = 'Premium';
+//        } elseif (
+//            $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB
+//            || $user['plan'] == 'bb_onetime'
+//        ) {
+//            $userPlan = 'Beta Breaker';
+//        } else {
+//            $userPlan = 'Freemium';
+//        }
 
         $permissionLevels = match ($userPlan) {
             'Premium' => [6, 3, 2, 1],
