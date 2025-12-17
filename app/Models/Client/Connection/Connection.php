@@ -165,7 +165,7 @@ class Connection extends Model
             ->where('user_id', Helpers::getUser()->id)
             ->where('status', 1)
             ->when($request->input('name'), function ($q, $name) {
-                $q->whereHas('user', function ($q) use ($name) {
+                $q->whereHas('friend', function ($q) use ($name) {
                     $q->where('first_name', 'LIKE', "%{$name}%")
                         ->orWhere('last_name', 'LIKE', "%{$name}%")
                         ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$name}%"]);
@@ -191,13 +191,15 @@ class Connection extends Model
             ->where('user_id', Helpers::getUser()->id)
             ->where('status', 1)
             ->when($request->input('name'), function ($q, $name) {
-                $q->whereHas('user', function ($q) use ($name) {
+                $q->whereHas('friend', function ($q) use ($name) {
                     $q->where('first_name', 'LIKE', "%{$name}%")
                         ->orWhere('last_name', 'LIKE', "%{$name}%")
                         ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$name}%"]);
                 });
             })
             ->latest();
+
+//        dd($connections->get());
 
         $connections =  Helpers::pagination($connections, $request->input('pagination'), $request->input('per_page'));
 
