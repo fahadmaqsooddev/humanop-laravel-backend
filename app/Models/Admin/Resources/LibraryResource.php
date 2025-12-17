@@ -271,18 +271,18 @@ class LibraryResource extends Model
         $user = Helpers::getUser();
         $userId = $user['id'];
 
-        if (
-            $user['beta_breaker_club'] != Admin::BETA_BREAKER_CLUB
-            && in_array($user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime'])
-        ) {
+        if ($user->plan_name == "Premium"){
+
             $userPlan = 'Premium';
-        } elseif (
-            $user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB
-            || $user['plan'] == 'bb_onetime'
-        ) {
+
+        }elseif ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB || $user['plan'] == 'bb_onetime') {
+
             $userPlan = 'Beta Breaker';
+
         } else {
+
             $userPlan = 'Freemium';
+
         }
 
         $permissionLevels = match ($userPlan) {
