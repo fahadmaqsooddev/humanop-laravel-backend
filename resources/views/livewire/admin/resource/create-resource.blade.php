@@ -336,12 +336,15 @@
                                              x-on:livewire-upload-finish="progress = 0"
                                              x-on:livewire-upload-error="progress = 0">
                                             <div class="d-flex justify-content-between">
-                                                <label class="form-label fs-4" style="color: #1b3a62">Document
-                                                    File</label>
+                                                <label class="form-label fs-4" style="color: #1b3a62">Document File
+                                                    Upload</label>
                                                 <div class="form-check form-switch mb-0">
+                                                    <label class="form-label fs-4" style="color: #1b3a62">Allow
+                                                        Download</label>
                                                     <input class="form-check-input" type="checkbox"
+                                                           style="margin-top: 10px"
                                                            wire:model.defer="download_document"
-                                                           name="document_download">
+                                                           name="download_document">
                                                 </div>
                                             </div>
                                             <input wire:model="document_file"
@@ -697,12 +700,14 @@
                                              x-on:livewire-upload-finish="progress = 0"
                                              x-on:livewire-upload-error="progress = 0">
                                             <div class="d-flex justify-content-between">
-                                                <label class="form-label fs-4" style="color: #1b3a62">Document
-                                                    File</label>
+                                                <label class="form-label fs-4" style="color: #1b3a62">New Document File
+                                                    Upload</label>
                                                 <div class="form-check form-switch mb-0">
-                                                    <input class="form-check-input" type="checkbox"
+                                                    <label class="form-label fs-4" style="color: #1b3a62">Allow
+                                                        Download</label>
+                                                    <input class="form-check-input" type="checkbox" style="margin-top: 10px"
                                                            wire:model.defer="download_document"
-                                                           name="document_download">
+                                                           name="download_document">
                                                 </div>
                                             </div>
                                             <input wire:model="document_file"
@@ -722,7 +727,7 @@
                                         </div>
                                     @else
                                         @if(!in_array($typeThumbnail, ['jpeg', 'png', 'jpg', 'gif']))
-                                            @if(!empty($editResourceData['video_url']) || !empty($editResourceData['audio_url']))
+                                            @if(!empty($editResourceData['audio_url']))
                                                 <div class="form-group" x-data="{ progress: 0 }"
                                                      x-on:livewire-upload-progress="progress = $event.detail.progress"
                                                      x-on:livewire-upload-finish="progress = 0"
@@ -755,16 +760,111 @@
                                                              src="{{ $editResourceData['thumbnail_url']['url'] }}">
                                                     </div>
                                                 @endif
+                                            @elseif(!empty($editResourceData['video_url']))
+                                                <div class="form-group" x-data="{ progress: 0 }"
+                                                     x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                                     x-on:livewire-upload-finish="progress = 0"
+                                                     x-on:livewire-upload-error="progress = 0">
+                                                    <label class="form-label fs-4" style="color: #1b3a62">
+                                                        Thumbnail Image Upload [PNG, JPG, GIF, JPEG]
+                                                    </label>
+                                                    <input wire:model="thumbnail_file"
+                                                           id="thumbnail_file"
+                                                           class="form-control input-form-style thumbnail_file"
+                                                           type="file"
+                                                           accept="image/*">
+
+                                                    {{-- Progress bar --}}
+                                                    <div class="progress mt-2" x-show="progress > 0"
+                                                    >
+                                                        <div class="progress-bar" role="progressbar"
+                                                             :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                             x-text="`${progress}%`">
+                                                        </div>
+                                                    </div>
+
+                                                    <span wire:loading.flex wire:target="audio_file"
+                                                          style="color:#1b3a62"></span>
+
+                                                </div>
+                                                @if(!empty($editResourceData['thumbnail_id']))
+                                                    <div class="form-group mt-4">
+                                                        <img height="120" width="200"
+                                                             src="{{ $editResourceData['thumbnail_url']['url'] }}">
+                                                    </div>
+                                                @endif
+                                                <div class="form-group" x-data="{ progress: 0 }"
+                                                     x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                                     x-on:livewire-upload-finish="progress = 0"
+                                                     x-on:livewire-upload-error="progress = 0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <label class="form-label fs-4" style="color: #1b3a62">New Document File
+                                                            Upload</label>
+                                                        <div class="form-check form-switch mb-0">
+                                                            <label class="form-label fs-4" style="color: #1b3a62">Allow
+                                                                Download</label>
+                                                            <input class="form-check-input" type="checkbox" style="margin-top: 10px"
+                                                                   wire:model.defer="download_document"
+                                                                   name="download_document">
+                                                        </div>
+                                                    </div>
+                                                    <input wire:model="document_file"
+                                                           id="resource_file"
+                                                           class="form-control input-form-style document_file"
+                                                           type="file"
+                                                           accept="document/*">
+{{--                                                     Progress bar--}}
+                                                    <div class="progress mt-2" x-show="progress > 0">
+                                                        <div class="progress-bar" role="progressbar"
+                                                             :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                             x-text="`${progress}%`">
+                                                        </div>
+                                                    </div>
+                                                    <span wire:loading.flex wire:target="document_file"
+                                                          style="color:#1b3a62"></span>
+                                                </div>
                                             @endif
                                         @endif
                                         @if(!empty($editResourceData['document_url']))
+{{--                                            <div class="form-group" x-data="{ progress: 0 }"--}}
+{{--                                                 x-on:livewire-upload-progress="progress = $event.detail.progress"--}}
+{{--                                                 x-on:livewire-upload-finish="progress = 0"--}}
+{{--                                                 x-on:livewire-upload-error="progress = 0">--}}
+{{--                                                <div class="d-flex justify-content-between">--}}
+{{--                                                    <label class="form-label fs-4" style="color: #1b3a62">New Document--}}
+{{--                                                        File Upload</label>--}}
+{{--                                                    --}}{{--                                                        <div class="form-check form-switch mb-0">--}}
+{{--                                                    --}}{{--                                                            <label class="form-label fs-4" style="color: #1b3a62">Allow Download</label>--}}
+{{--                                                    --}}{{--                                                            <input class="form-check-input" type="checkbox" style="margin-top: 10px"--}}
+{{--                                                    --}}{{--                                                                   wire:model.defer="download_document"--}}
+{{--                                                    --}}{{--                                                                   name="document_download">--}}
+{{--                                                    --}}{{--                                                        </div>--}}
+{{--                                                </div>--}}
+{{--                                                <input wire:model="document_file"--}}
+{{--                                                       id="resource_file"--}}
+{{--                                                       class="form-control input-form-style document_file"--}}
+{{--                                                       type="file"--}}
+{{--                                                       accept="document/*">--}}
+{{--                                                --}}{{-- Progress bar --}}
+{{--                                                <div class="progress mt-2" x-show="progress > 0">--}}
+{{--                                                    <div class="progress-bar" role="progressbar"--}}
+{{--                                                         :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"--}}
+{{--                                                         x-text="`${progress}%`">--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                                <span wire:loading.flex wire:target="document_file"--}}
+{{--                                                      style="color:#1b3a62"></span>--}}
+{{--                                            </div>--}}
                                             <div class="d-flex justify-content-between">
-                                                <label class="form-label fs-4" style="color: #1b3a62">Document
+                                                <label class="form-label fs-4" style="color: #1b3a62">Uploaded Document
                                                     File</label>
                                                 <div class="form-check form-switch mb-0">
+                                                    <label class="form-label fs-4" style="color: #1b3a62">Allow
+                                                        Download</label>
                                                     <input class="form-check-input" type="checkbox"
+                                                           style="margin-top: 10px"
                                                            wire:model.defer="download_document"
-                                                           name="document_download"{{ $download_document ? 'checked' : '' }}>
+                                                           name="download_document"{{ $download_document ? 'checked' : '' }}>
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2">
@@ -1123,7 +1223,8 @@
                 })
                 .then(editor => {
                     editor.model.document.on('change:data', () => {
-                    @this.set('content', editor.getData())
+                        @this.
+                        set('content', editor.getData())
                         ;
                     })
                     Livewire.on('editorContentUpdated', content => {
@@ -1153,7 +1254,8 @@
                 })
                 .then(editor => {
                     editor.model.document.on('change:data', () => {
-                    @this.set('update_content', editor.getData())
+                        @this.
+                        set('update_content', editor.getData())
                         ;
                     })
                     Livewire.on('contentUpdated', content => {

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Services\GoHighLevelService;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(GoHighLevelService::class);
     }
 
     /**

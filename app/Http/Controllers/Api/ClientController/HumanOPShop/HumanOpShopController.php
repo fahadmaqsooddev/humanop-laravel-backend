@@ -47,7 +47,7 @@ class HumanOpShopController extends Controller
                     'video_url' => isset($item->video_url) ? ($item->video_url['path'] ?? null) : null,
                     'audio_url' => isset($item->audio_url) ? ($item->audio_url['path'] ?? null) : null,
                     'document_url' => isset($item->document_url) ? ($item->document_url['path'] ?? null) : null,
-                    'allowDownload' => $item->download_document == 1 ? true : false,
+                    'allow_download' => $item->download_document === 1 ? true : false,
                     'thumbnail_url' => isset($item->thumbnail_url) ? ($item->thumbnail_url['url'] ?? null) : null,
                 ];
 
@@ -83,7 +83,7 @@ class HumanOpShopController extends Controller
                     'video_url' => isset($item->video_url) ? ($item->video_url['path'] ?? null) : null,
                     'audio_url' => isset($item->audio_url) ? ($item->audio_url['path'] ?? null) : null,
                     'document_url' => isset($item->document_url) ? ($item->document_url['path'] ?? null) : null,
-                    'allowDownload' => $item->download_document == 1 ? true : false,
+                    'allow_download' => $item->download_document === 1 ? true : false,
                     'thumbnail_url' => isset($item->thumbnail_url) ? ($item->thumbnail_url['url'] ?? null) : null,
                 ];
 
@@ -213,7 +213,7 @@ class HumanOpShopController extends Controller
                     'video_url' => (isset($item['shopItems']->video_url) && !empty($item['shopItems']->video_url)) ? $item['shopItems']->video_url : null,
                     'audio_url' => (isset($item['shopItems']->audio_url) && !empty($item['shopItems']->audio_url)) ? $item['shopItems']->audio_url : null,
                     'document_url' => isset($item['shopItems']->document_url) ?? null,
-                    'allowDownload' => $item->download_document == 1 ? true : false,
+                    'allow_download' => $item['shopItems']->download_document === Admin::ALLOW_DOCUMENT_DOWNLOAD ? true : false,
                     'thumbnail_url' => isset($item['shopItems']->thumbnail_url) ? ($item['shopItems']->thumbnail_url['url'] ?? null) : null,
                 ];
 
@@ -235,7 +235,7 @@ class HumanOpShopController extends Controller
                     'audio_url' => $libraryItem['libraryItems']->audio_url ?? null,
                     'thumbnail_url' => $libraryItem['libraryItems']->thumbnail_url ?? null,
                     'document_url' => $libraryItem['libraryItems']->document_url ?? null,
-                    'allowDownload' => $libraryItem['download_document'] == 1 ? true : false,
+                    'allow_download' => $libraryItem['libraryItems']->download_document === Admin::ALLOW_DOCUMENT_DOWNLOAD ? true : false,
                     'resource_category_name' => optional($libraryItem['libraryItems']->resourceCategory)->name,
                     'library_permission_name' => match(optional($libraryItem['libraryItems']->libraryPermissions)->permission) {
                         1 => 'Freemium',

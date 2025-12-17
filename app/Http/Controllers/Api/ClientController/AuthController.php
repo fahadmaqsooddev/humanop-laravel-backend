@@ -10,9 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\CheckCandidate;
 use App\Http\Requests\Api\Auth\CheckInviteLinkRequest;
 use App\Http\Requests\Api\Auth\EmailVerifiedRequest;
-use App\Http\Requests\Api\Client\Auth\ResendOtpCodeRequest;
-use App\Http\Requests\Api\Client\Auth\TwoFactorAuthRequest;
-use App\Http\Requests\Api\Client\Auth\VerifyOtpCodeRequest;
 use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
@@ -32,7 +29,6 @@ use App\Models\B2B\TeamDepartmentMembers;
 use App\Models\B2B\TeamDepartmentModel;
 use App\Models\B2B\UserCandidateInvite;
 use App\Models\Client\Connection\Connection;
-use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\Client\Hai\HaiThread;
@@ -42,17 +38,16 @@ use App\Models\Client\Point\PointLog;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\GenerateFile\PdfGenerate;
-use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\HaiChat;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\IntentionPlan\IntentionOption;
-use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Notification\PushNotification;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
 use App\Models\UserInvite\UserInviteLog;
 use App\Services\AwsSnsServices\SnsServices;
 use App\Services\FreemiumEnrollmentService;
+use App\Services\GoHighLevelService;
 use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
@@ -67,13 +62,17 @@ class AuthController extends Controller
     protected $auth;
     protected $sns;
 
-    public function __construct(SnsServices $sns, private FreemiumEnrollmentService $freemiumService)
+    protected  $ghl;
+
+    public function __construct(SnsServices $sns, private FreemiumEnrollmentService $freemiumService, GoHighLevelService $ghl)
     {
         $this->middleware('auth:api')->except(['resendOtpCode', 'verifyOtpCode', 'SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'getUserInfoForHai', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification', 'intentionOption', 'ResendFaVerificationCode', 'onboardingScreens', 'storeUserDataFromOtherDb', 'betaBreakerClubUsers', 'haiChatHistory', 'createThreadIds']);
 
         $this->auth = Auth::guard('api');
 
         $this->sns = $sns;
+
+        $this->ghl = $ghl;
     }
 
     public function onboardingScreens()
@@ -489,6 +488,8 @@ class AuthController extends Controller
                     $signupMethod = $getUser->google_id ? 'Google' : ($getUser->apple_id ? 'Apple' : 'Email');
 
                     ActivityLogger::addLog('Signup', "User Signup by {$signupMethod}");
+
+                    $this->ghl->createUser($getUser);
 
                     $data = [
                         'user' => $getUser,

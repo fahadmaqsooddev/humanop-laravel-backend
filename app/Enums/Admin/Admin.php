@@ -269,4 +269,10 @@ final class Admin
 
     const FREEMIUM_PLAN = 1;
 
+    const PROFILE_PRIVACY_ONLY_ME = 3;
+
+    const PROFILE_PRIVACY_ONLY_CONNECTION = 2;
+
+    const ALLOW_DOCUMENT_DOWNLOAD = 1;
+
 }
