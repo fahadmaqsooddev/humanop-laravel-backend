@@ -98,12 +98,17 @@ class HumanNetworkController extends Controller
 
             $loginUser = Helpers::getUser();
 
-
-            if ($loginUser['hai_status'] == 1) {
+            if ($loginUser['profile_privacy'] === Admin::PROFILE_PRIVACY_ONLY_ME) {
 
                 return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
-            }else {
+            } elseif ($loginUser['profile_privacy'] === Admin::PROFILE_PRIVACY_ONLY_CONNECTION) {
+
+                $users = Connection::userSearchConnections($request);
+
+                return Helpers::successResponse('All users', $users, $request->input('pagination'));
+
+            } else {
 
                 $users = User::allPaginatedClients($request, $loginUser);
 
@@ -125,7 +130,7 @@ class HumanNetworkController extends Controller
 
             $loginUser = Helpers::getUser();
 
-            if (Helpers::getUser()['hai_status'] == 1) {
+            if ($loginUser['profile_privacy'] === Admin::PROFILE_PRIVACY_ONLY_ME) {
 
                 return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
@@ -133,19 +138,19 @@ class HumanNetworkController extends Controller
 
                 if ($loginUser['plan_name'] == 'Premium') {
 
-//                    if ($loginUser['profile_privacy'] == 2) {
-//
-//                        $matchingUsers = Connection::allMatchingConnections($request, $loginUser);
-//
-//                        return Helpers::successResponse('Matching Connections', $matchingUsers);
-//
-//                    } else {
+                    if ($loginUser['profile_privacy'] === Admin::PROFILE_PRIVACY_ONLY_CONNECTION) {
+
+                        $matchingUsers = Connection::allMatchingConnections($request, $loginUser);
+
+                        return Helpers::successResponse('Matching Connections', $matchingUsers, $request->input('pagination'));
+
+                    } else {
 
                         $matchingUsers = User::allMatchingClients($request, $loginUser);
 
-                        return Helpers::successResponse('Matching Connections', $matchingUsers);
+                        return Helpers::successResponse('Matching Connections', $matchingUsers, $request->input('pagination'));
 
-//                    }
+                    }
 
                 } else {
 
