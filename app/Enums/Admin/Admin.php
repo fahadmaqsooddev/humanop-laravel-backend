@@ -273,4 +273,6 @@ final class Admin
 
     const PROFILE_PRIVACY_ONLY_CONNECTION = 2;
 
+    const ALLOW_DOCUMENT_DOWNLOAD = 1;
+
 }
