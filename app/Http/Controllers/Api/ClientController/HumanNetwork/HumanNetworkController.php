@@ -98,11 +98,11 @@ class HumanNetworkController extends Controller
 
             $loginUser = Helpers::getUser();
 
-            if ($loginUser['profile_privacy'] === Admin::PROFILE_PRIVACY_ONLY_ME) {
+            if ($loginUser['profile_privacy'] == Admin::PROFILE_PRIVACY_ONLY_ME) {
 
                 return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
-            } elseif ($loginUser['profile_privacy'] === Admin::PROFILE_PRIVACY_ONLY_CONNECTION) {
+            } elseif ($loginUser['profile_privacy'] == Admin::PROFILE_PRIVACY_ONLY_CONNECTION) {
 
                 $users = Connection::userSearchConnections($request);
 
@@ -130,7 +130,7 @@ class HumanNetworkController extends Controller
 
             $loginUser = Helpers::getUser();
 
-            if ($loginUser['profile_privacy'] === Admin::PROFILE_PRIVACY_ONLY_ME) {
+            if ($loginUser['profile_privacy'] == Admin::PROFILE_PRIVACY_ONLY_ME) {
 
                 return Helpers::validationResponse('Oops! Looks like you have to change your privacy settings to connect with others on the network');
 
@@ -138,7 +138,7 @@ class HumanNetworkController extends Controller
 
                 if ($loginUser['plan_name'] == 'Premium') {
 
-                    if ($loginUser['profile_privacy'] === Admin::PROFILE_PRIVACY_ONLY_CONNECTION) {
+                    if ($loginUser['profile_privacy'] == Admin::PROFILE_PRIVACY_ONLY_CONNECTION) {
 
                         $matchingUsers = Connection::allMatchingConnections($request, $loginUser);
 
