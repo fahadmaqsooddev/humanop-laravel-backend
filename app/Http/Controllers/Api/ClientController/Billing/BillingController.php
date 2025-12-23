@@ -703,20 +703,20 @@ class BillingController extends Controller
                 return Helpers::serverErrorResponse('Coupon already redeemed.');
             }
 
-            if ($coupon->type === 'premium_lifetime' && $user->is_lifetime) {
+            if ($coupon->type === PlanRules::PREMIUM_LIFETIME && $user->is_lifetime) {
                 return Helpers::serverErrorResponse('You already have Premium Lifetime.');
             }
 
-            if ($coupon->type === 'bb_lifetime' && $user->has_bb_onetime) {
+            if ($coupon->type === PlanRules::BB_LIFETIME && $user->has_bb_onetime) {
                 return Helpers::serverErrorResponse('You already have BB Lifetime.');
             }
 
-            if ($coupon->type === 'premium_lifetime') {
+            if ($coupon->type === PlanRules::PREMIUM_LIFETIME) {
                 $user->is_lifetime = true;
-                $user->plan = 'premium_lifetime';
+                $user->plan = PlanRules::PREMIUM_LIFETIME;
             }
 
-            if ($coupon->type === 'bb_lifetime') {
+            if ($coupon->type === PlanRules::BB_LIFETIME) {
                 $user->has_bb_onetime = true;
             }
 
@@ -734,6 +734,8 @@ class BillingController extends Controller
             return Helpers::successResponse('Coupon Redeemed', $coupon);
 
         } catch (\Exception $exception) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
