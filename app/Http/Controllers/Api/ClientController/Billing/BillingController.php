@@ -718,6 +718,7 @@ class BillingController extends Controller
 
             if ($coupon->type === 'bb_lifetime') {
                 $user->has_bb_onetime = true;
+                $user->plan = 'bb_onetime';
             }
 
             $user->billing_context = 'b2c';
