@@ -297,6 +297,7 @@
                                                         'admin/edit-code/*',
                                                         'admin/lifetime-deal-banner',
                                                        'admin/admin_get_client_invite',
+                                                       'admin/manage-coupons',
                                                        'admin/pricing-plans',
                                                        'admin/faq',
                                                        'admin/b2c-email-template',
@@ -554,6 +555,19 @@
 {{--                                                                </li>--}}
                                                             @endif
 
+                                                            <li class="nav-item {{ (Request::is('admin/manage-coupons') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/manage-coupons') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_manage_coupons') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/manage-coupons') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/manage-coupons') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Manage Coupons </span>
+                                                                </a>
+                                                            </li>
                                                             <li class="nav-item {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/pricing-plans') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_pricing_plan') }}">

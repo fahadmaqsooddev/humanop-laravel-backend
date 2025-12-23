@@ -7,9 +7,12 @@ use App\Enums\Admin\Admin;
 use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Coupon\RedeemCouponRequest;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
+use App\Models\LifetimeCoupon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Support\StripeConfig;
 use Laravel\Cashier\Subscription;
 use Stripe\StripeClient;
@@ -681,6 +684,60 @@ class BillingController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+    }
+
+    public function redeemLifetimeCoupon(RedeemCouponRequest $request)
+    {
+        $user = Helpers::getUser();
+
+        DB::beginTransaction();
+
+        try {
+            $coupon = LifetimeCoupon::where('code', $request->code)->lockForUpdate()->first();
+
+            if (!$coupon) {
+                return Helpers::serverErrorResponse('Invalid coupon.');
+            }
+
+            if ($coupon->is_redeemed) {
+                return Helpers::serverErrorResponse('Coupon already redeemed.');
+            }
+
+            if ($coupon->type === 'premium_lifetime' && $user->is_lifetime) {
+                return Helpers::serverErrorResponse('You already have Premium Lifetime.');
+            }
+
+            if ($coupon->type === 'bb_lifetime' && $user->has_bb_onetime) {
+                return Helpers::serverErrorResponse('You already have BB Lifetime.');
+            }
+
+            if ($coupon->type === 'premium_lifetime') {
+                $user->is_lifetime = true;
+                $user->plan = 'premium_lifetime';
+            }
+
+            if ($coupon->type === 'bb_lifetime') {
+                $user->has_bb_onetime = true;
+            }
+
+            $user->billing_context = 'b2c';
+            $user->save();
+
+            $coupon->update([
+                'is_redeemed' => true,
+                'redeemed_by_user_id' => $user->id,
+                'redeemed_at' => now(),
+            ]);
+
+            DB::commit();
+
+            return Helpers::successResponse('Coupon Redeemed', $coupon);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
     }
 
 }
