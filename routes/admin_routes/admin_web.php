@@ -148,6 +148,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
         Route::get('/suggested-items', [SuggestedItemsController::class, 'suggestedItems'])->name('admin_suggested_items');
         Route::get('/summary-report', [SummaryReportController::class, 'ManageSummaryReport'])->name('admin_manage_summary_report');
         Route::get('/edit-summary-report/{id}', [SummaryReportController::class, 'editSummaryReport'])->name('admin_edit_summary_report');
+        Route::get('/manage-coupons', [CouponController::class, 'manageCoupons'])->name('admin_manage_coupons');
+        Route::post('/generate-lifetime-coupons', [CouponController::class, 'generateLifetimeCoupons'])->name('admin_generate_lifetime_coupons');
         Route::get('/pricing-plans', [PricingPlanController::class, 'getPricingPlan'])->name('admin_pricing_plan');
         Route::get('/create-pricing-plan', [PricingPlanController::class, 'createPricingPlan'])->name('admin_create_pricing_plan');
         Route::get('/edit-pricing-plan/{id}', [PricingPlanController::class, 'editPricingPlan'])->name('admin_edit_pricing_plan');
