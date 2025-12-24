@@ -12,6 +12,8 @@ final class PlanRules
     public const PREMIUM_LIFETIME  = 'premium_lifetime';
     public const BB_ONETIME        = 'bb_onetime'; // represents Beta Breaker Lifetime
 
+    public const BETA_BREAKER_CLUB        = 'beta_breaker_club';
+
     public const BB_TO_PREMIUM_LIFETIME_DELTA_CENTS = 10000; // $100
 
     public static function isPremiumLifetime(User $u): bool

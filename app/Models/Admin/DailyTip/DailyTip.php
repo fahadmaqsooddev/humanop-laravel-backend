@@ -122,31 +122,43 @@ class DailyTip extends Model
 
     public static function randomCode($assessment = null)
     {
+        if (empty($assessment) || empty($assessment['id'])) {
+            return null;
+        }
+
+        $codes = [];
+
+        // Motivation Driver (Color)
         $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
+        if (!empty($codeColor['code'])) {
+            $codes[] = $codeColor['code'];
+        }
 
+        // Alchemy
         $alchemy = Assessment::getAlchemy($assessment);
-
-        if ($alchemy) {
-            $codeAlchemy = $alchemy['code'];
+        if (!empty($alchemy['code'])) {
+            $codes[] = $alchemy['code'];
         }
 
+        // Communication / Energy
         $communication = Assessment::getEnergy($assessment);
-
-        if ($communication) {
-            $codeCommunication = $communication[0];
+        if (!empty($communication[0])) {
+            $codes[] = $communication[0];
         }
 
-        $selectedCodeList = [
-            $codeColor['code'] ?? '',
-            $codeAlchemy ?? '',
-            $codeCommunication ?? ''
-        ];
+        // Perception of Life
+        $perceptionOfLife = Assessment::getPreceptionReportDetail($assessment);
+        if (!empty($perceptionOfLife['code_name'])) {
+            $codes[] = $perceptionOfLife['code_name'];
+        }
 
-        do {
-            $random = $selectedCodeList[array_rand($selectedCodeList)];
-        } while (empty($random)); // Retry until $random is not empty
+        // If no valid codes found
+        if (empty($codes)) {
+            return null;
+        }
 
-        return $random; // Return the valid $random value
+        // Return a random valid code
+        return $codes[array_rand($codes)];
     }
 
     public static function dailyTip()
@@ -225,7 +237,8 @@ class DailyTip extends Model
 
     public static function getSameCodeTips($code = null)
     {
-        return self::where('code', $code)->inRandomOrder()->first();
+
+        return self::where('code', strtoupper($code))->inRandomOrder()->first();
     }
 
     public static function findTip($id = null)
