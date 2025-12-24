@@ -696,22 +696,6 @@ class BillingController extends Controller
 
             $coupon = LifetimeCoupon::where('code', $request->code)->lockForUpdate()->first();
 
-//            if (!$coupon) {
-//                return Helpers::serverErrorResponse('Invalid coupon.');
-//            }
-//
-//            if ($coupon->is_redeemed) {
-//                return Helpers::serverErrorResponse('Coupon already redeemed.');
-//            }
-//
-//            if ($coupon->type === PlanRules::PREMIUM_LIFETIME && $user->is_lifetime) {
-//                return Helpers::serverErrorResponse('You already have Premium Lifetime.');
-//            }
-//
-//            if ($coupon->type === PlanRules::BB_LIFETIME && ($user->has_bb_onetime || $user->beta_breaker_club)) {
-//                return Helpers::serverErrorResponse('You already have BB Lifetime.');
-//            }
-
             if ($coupon->type === PlanRules::PREMIUM_LIFETIME) {
                 $user->is_lifetime = true;
                 $user->plan = PlanRules::PREMIUM_LIFETIME;
