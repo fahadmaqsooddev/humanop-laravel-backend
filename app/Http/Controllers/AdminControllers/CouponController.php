@@ -43,7 +43,7 @@ class CouponController extends Controller
             $stats = [
                 'total' => LifetimeCoupon::count(),
                 'premium_lifetime' => LifetimeCoupon::where('type', 'premium_lifetime')->count(),
-                'bb_lifetime' => LifetimeCoupon::where('type', 'bb_lifetime')->count(),
+                'beta_breaker_club' => LifetimeCoupon::where('type', 'beta_breaker_club')->count(),
                 'redeemed' => LifetimeCoupon::where('is_redeemed', true)->count(),
                 'available' => LifetimeCoupon::where('is_redeemed', false)->count(),
             ];

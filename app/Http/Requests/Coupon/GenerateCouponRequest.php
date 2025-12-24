@@ -24,7 +24,7 @@ class GenerateCouponRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|in:premium_lifetime,bb_lifetime',
+            'type' => 'required|in:premium_lifetime,beta_breaker_club',
             'quantity' => 'required|integer|min:1|max:500',
         ];
     }
