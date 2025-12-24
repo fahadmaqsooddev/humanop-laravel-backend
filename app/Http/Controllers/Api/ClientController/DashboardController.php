@@ -82,14 +82,6 @@ class DashboardController extends Controller
 
                         $updatedWithinDay = $currentTime->greaterThanOrEqualTo($nextTipTime);
 
-//                    dd([
-//                        'nextTipTime' => $nextTipTime->format('Y-m-d H:i:s.u T (P)'),
-//                        'currentTime' => $currentTime->format('Y-m-d H:i:s.u T (P)'),
-//                        'check' => $updatedWithinDay,
-//
-//                    ]);
-
-
                     } else {
 
                         $updatedWithinDay = $userDailyTip['updated_at'] < now()->subDay();

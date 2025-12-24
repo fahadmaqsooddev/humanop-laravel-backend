@@ -107,7 +107,7 @@
                         <div class="col-md-3">
                             <div class="stats-card">
                                 <h6 class="text-muted mb-2">Beta Breaker Lifetime</h6>
-                                <h3 class="mb-0">{{ $stats['bb_lifetime'] }}</h3>
+                                <h3 class="mb-0">{{ $stats['beta_breaker_club'] }}</h3>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -199,7 +199,7 @@
                             <select class="form-select" id="couponType" name="type" required>
                                 <option value="">Select Type</option>
                                 <option value="premium_lifetime">Premium Lifetime</option>
-                                <option value="bb_lifetime">Beta Breaker Lifetime</option>
+                                <option value="beta_breaker_club">Beta Breaker Lifetime</option>
                             </select>
                         </div>
                         <div class="mb-3">
