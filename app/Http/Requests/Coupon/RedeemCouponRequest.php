@@ -48,6 +48,11 @@ class RedeemCouponRequest extends FormRequest
                 return;
             }
 
+            if ($coupon->is_redeemed) {
+                $validator->errors()->add('code', 'Coupon already redeemed.');
+                return;
+            }
+
             // PREMIUM LIFETIME CHECK
             if (
                 $coupon->type === PlanRules::PREMIUM_LIFETIME &&
