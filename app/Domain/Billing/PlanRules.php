@@ -11,6 +11,7 @@ final class PlanRules
     public const PREMIUM_YEARLY    = 'premium_yearly';
     public const PREMIUM_LIFETIME  = 'premium_lifetime';
     public const BB_ONETIME        = 'bb_onetime'; // represents Beta Breaker Lifetime
+    public const BB_LIFETIME        = 'bb_lifetime';
 
     public const BB_TO_PREMIUM_LIFETIME_DELTA_CENTS = 10000; // $100
 

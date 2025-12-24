@@ -42,6 +42,9 @@ Route::group(['middleware' => ['checkUser']], function () {
     // BB-onetime / add-on (one-time)
     Route::post('billing/bb-onetime/init', 'BillingController@initBBOneTime');
 
+    // Redeem lifetime coupon code
+    Route::post('billing/redeem-coupon', 'BillingController@redeemLifetimeCoupon');
+
     Route::get('plans', 'BillingController@plans');
 
 });
