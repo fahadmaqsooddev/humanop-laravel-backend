@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class RegisterFirstStepRequest extends FormRequest
 {
@@ -27,8 +28,47 @@ class RegisterFirstStepRequest extends FormRequest
 
         return [
             'password' => $required . '|string|min:6',
-            'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL'
+            'email' => [
+                $required,
+                'unique:users,email,NULL,id,deleted_at,NULL',
+                'regex:/^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/' //Regex Validation
+            ],
         ];
+    }
+
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $email = $this->input('email');
+
+            if ($email) {
+                // Starts with letter or number
+                if (!preg_match('/^[a-zA-Z0-9]/', $email)) {
+                    $validator->errors()->add('email', 'Email must start with a letter or number.');
+                }
+
+                // Cannot start or end with special character
+                if (preg_match('/^[._-]|[._-]@|[._-]$/', $email)) {
+                    $validator->errors()->add('email', 'Email cannot start or end with special characters (., _, -).');
+                }
+
+                // No consecutive dots
+                if (preg_match('/\.\./', $email)) {
+                    $validator->errors()->add('email', 'Email cannot contain consecutive dots (..).');
+                }
+
+                // Domain TLD at least 2 letters
+                if (!preg_match('/\.[a-zA-Z]{2,}$/', $email)) {
+                    $validator->errors()->add('email', 'Email domain must end with at least 2 letters.');
+                }
+
+                // Allowed characters only
+                if (preg_match('/[^a-zA-Z0-9._@-]/', $email)) {
+                    $validator->errors()->add('email', 'Email can contain only letters, numbers, dots (.), underscores (_) and hyphens (-).');
+                }
+            }
+        });
     }
 
     public function messages()

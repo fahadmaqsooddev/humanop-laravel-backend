@@ -686,6 +686,23 @@ class BillingController extends Controller
 
     }
 
+    private function calculateCredits($user): int
+    {
+        $credits = 0;
+
+        if ($user->plan_name === 'Premium') {
+            $credits += Admin::PREMIUM_LIFETIME_CREDITS;
+        }
+
+        if ($user->beta_breaker_club === Admin::BETA_BREAKER_CLUB) {
+            $credits += Admin::BREAKER_CREDITS;
+        }
+
+        return $credits;
+    }
+
+
+
     public function redeemLifetimeCoupon(RedeemCouponRequest $request)
     {
         $user = Helpers::getUser();
@@ -706,8 +723,10 @@ class BillingController extends Controller
                 $user->beta_breaker_club = Admin::BETA_BREAKER_CLUB;
             }
 
+            $credits = $this->calculateCredits($user);
+            $this->HAiCreditsUpdated($credits, $user);
+            
             $user->save();
-
             $coupon->update([
                 'is_redeemed' => true,
                 'redeemed_by_user_id' => $user->id,
