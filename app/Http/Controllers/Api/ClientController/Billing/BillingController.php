@@ -690,7 +690,7 @@ class BillingController extends Controller
     {
         $credits = 0;
 
-        if ($user->plan_name === Admin::PREMIUM_PLAN_NAME) {
+        if ($user->plan_name === 'Premium') {
             $credits += Admin::PREMIUM_LIFETIME_CREDITS;
         }
 

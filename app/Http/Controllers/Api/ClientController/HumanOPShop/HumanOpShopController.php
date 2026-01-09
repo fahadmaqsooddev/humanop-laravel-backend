@@ -212,7 +212,7 @@ class HumanOpShopController extends Controller
                     'prices' => 0,
                     'video_url' => (isset($item['shopItems']->video_url) && !empty($item['shopItems']->video_url)) ? $item['shopItems']->video_url : null,
                     'audio_url' => (isset($item['shopItems']->audio_url) && !empty($item['shopItems']->audio_url)) ? $item['shopItems']->audio_url : null,
-                    'document_url' => (isset($item['shopItems']->document_url) && !empty($item['shopItems']->document_url)) ? $item['shopItems']->document_url : null,
+                    'document_url' => isset($item['shopItems']->document_url) ?? null,
                     'allow_download' => $item['shopItems']->download_document === Admin::ALLOW_DOCUMENT_DOWNLOAD ? true : false,
                     'thumbnail_url' => isset($item['shopItems']->thumbnail_url) ? ($item['shopItems']->thumbnail_url['url'] ?? null) : null,
                 ];
