@@ -1642,6 +1642,5 @@ class Helpers
         }
 
     }
-
 }
 

@@ -45,5 +45,12 @@ return [
         'location_id' => env('GOHIGHLEVEL_LOCATION_ID'),
         'base_uri' => env('GOHIGHLEVEL_BASE_URI', 'https://services.leadconnectorhq.com/'),
     ],
+    'ip_api' => [
+        'base_url' => env('IP_API_URL', 'http://ip-api.com/json/')
+    ],
+
+    'ipify' => [
+        'base_url' => env('IPIFY_API_URL', 'https://api.ipify.org?format=text'),
+    ],
 
 ];
