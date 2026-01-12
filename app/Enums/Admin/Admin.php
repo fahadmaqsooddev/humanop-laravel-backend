@@ -275,4 +275,6 @@ final class Admin
 
     const ALLOW_DOCUMENT_DOWNLOAD = 1;
 
+    const PREMIUM_PLAN_NAME = 'Premium';
+
 }
