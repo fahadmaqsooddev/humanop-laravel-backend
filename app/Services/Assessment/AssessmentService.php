@@ -19,6 +19,7 @@ use App\Models\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Question;
 use Carbon\Carbon;
+use App\Services\GeoService;
 
 class AssessmentService
 {
@@ -106,8 +107,8 @@ class AssessmentService
 
         if ($currentPage >= $totalPages) {
             $result['page'] = 0;
-            // ✅ Direct helper call
-            $location = Helpers::getLocationByIp();
+            $geoService = new GeoService();
+            $location = $geoService->getLocationByIp();
 
             $result['ip_address'] = $location['ip'];
             $result['city'] = $location['city'];
