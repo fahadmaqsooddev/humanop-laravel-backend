@@ -207,6 +207,8 @@
                 <th>Date & Time</th>
                 <th>Email</th>
                 <th>Reset Assessment</th>
+                <th>IP Address</th>
+                <th>Address</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -233,6 +235,16 @@
                                    @checked($assessmentStatus)
                                    @if($assessmentStatus) disabled @endif>
                         </div>
+                    </td>
+                    <td class="text-md font-weight-normal">{{ $assessment['ip_address'] ?? '' }}</td>
+                    <td class="text-md font-weight-normal">
+                        @if(!empty($assessment['city']) || !empty($assessment['country']))
+                            {{ $assessment['city'] ?? '' }}
+                            {{ (!empty($assessment['city']) && !empty($assessment['country'])) ? ', ' : '' }}
+                            {{ $assessment['country'] ?? '' }}
+                        @else
+                            -
+                        @endif
                     </td>
                     <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_user_answer',['id' => $assessment['id']]) }}" type="submit"

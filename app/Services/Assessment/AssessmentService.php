@@ -106,6 +106,12 @@ class AssessmentService
 
         if ($currentPage >= $totalPages) {
             $result['page'] = 0;
+            // ✅ Direct helper call
+            $location = Helpers::getLocationByIp();
+
+            $result['ip_address'] = $location['ip'];
+            $result['city'] = $location['city'];
+            $result['country'] = $location['country'];
             $assessment->update($result);
             event(new SubmitAssessment($user->id, 0));
             $message = self::handleDailyTipIfFinalPage($assessment, $user);

@@ -26,6 +26,8 @@ use PhpOffice\PhpWord\Writer\PDF\DomPDF;
 use Smalot\PdfParser\Parser;
 use App\Models\User;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class Helpers
 {
@@ -1641,6 +1643,74 @@ class Helpers
 
         }
 
+    }
+
+        /**
+     * Fetch location (city, state, country) by IP.
+     * If no IP provided, automatically detects public IP.
+     *
+     * @param string|null $ip
+     * @return array
+     */
+    /**
+     * Fetch location info (IP, city, state, country)
+     * Automatically detects public IP if not provided.
+     *
+     * @param string|null $ip
+     * @return array
+     */
+    public static function getLocationByIp(?string $ip = null): array
+    {
+        // Step 1: Detect IP if not provided
+        if (!$ip) {
+            try {
+                // Try to fetch public IP
+                $ip = Http::timeout(2)->get('https://api.ipify.org?format=text')->body();
+            } catch (\Throwable $e) {
+                Log::warning('Public IP fetch failed, using local IP', [
+                    'error' => $e->getMessage()
+                ]);
+                // Local IP fallback
+                $ip = gethostbyname(gethostname());
+                if (!$ip || in_array($ip, ['127.0.0.1', '::1'])) {
+                    $ip = '8.8.8.8'; // test fallback IP
+                }
+            }
+        }
+
+        // Step 2: Default response
+        $default = [
+            'ip'      => $ip,
+            'city'    => null,
+            'state'   => null,
+            'country' => null,
+        ];
+
+        // Step 3: Fetch location from IP-API
+        try {
+            $response = Http::timeout(3)->get("http://ip-api.com/json/{$ip}");
+
+            if (!$response->successful()) {
+                Log::warning('Geo API failed', [
+                    'ip'     => $ip,
+                    'status' => $response->status()
+                ]);
+                return $default;
+            }
+
+            return [
+                'ip'      => $ip,
+                'city'    => $response->json('city'),
+                'state'   => $response->json('regionName'),
+                'country' => $response->json('country'),
+            ];
+        } catch (\Throwable $e) {
+            Log::error('Geo API exception', [
+                'ip'    => $ip,
+                'error' => $e->getMessage()
+            ]);
+            return $default;
+        }
     }
 
 }
