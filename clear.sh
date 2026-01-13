@@ -1,7 +1,7 @@
-echo "Deploy script started"
+echo "Deploy (staging) started"
 
-# 1) Vendors first
-sudo -u www-data composer -n install --prefer-dist --no-progress --no-interaction
+# 1) Vendors first (optimized autoloader)
+sudo -u www-data composer -n install --prefer-dist --no-progress --no-interaction --optimize-autoloader
 
 # 2) Clear any stale state
 sudo -u www-data php artisan optimize:clear
@@ -15,5 +15,13 @@ sudo -u www-data php artisan clear-compiled
 # 3) DB changes (non-interactive)
 sudo -u www-data php artisan migrate --force
 
-echo "Deploy script finished execution"
-# sudo -u www-data php artisan db:seed --class=CreditPlanSeeder
+# 4) Warm caches to mirror production behavior
+sudo -u www-data php artisan config:cache
+sudo -u www-data php artisan route:cache
+sudo -u www-data php artisan view:cache
+sudo -u www-data php artisan event:cache
+
+# 5) Optional: restart workers if you use queues
+sudo -u www-data php artisan queue:restart
+
+echo "Deploy (staging) finished"

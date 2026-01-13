@@ -29,7 +29,7 @@ class ShopCategoryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['document_url', 'video_url', 'audio_url','image_url', 'thumbnail_url'];
+    protected $appends = ['document_url', 'video_url', 'audio_url', 'image_url', 'thumbnail_url'];
 
     // relation
     public function shopCategory()
