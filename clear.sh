@@ -1,7 +1,7 @@
-echo "Deploy (staging) started"
+echo "Deploy script started"
 
-# 1) Vendors first (optimized autoloader)
-sudo -u www-data composer -n install --prefer-dist --no-progress --no-interaction --optimize-autoloader
+# 1) Vendors first
+sudo -u www-data composer -n install --prefer-dist --no-progress --no-interaction
 
 # 2) Clear any stale state
 sudo -u www-data php artisan optimize:clear
@@ -24,4 +24,4 @@ sudo -u www-data php artisan event:cache
 # 5) Optional: restart workers if you use queues
 sudo -u www-data php artisan queue:restart
 
-echo "Deploy (staging) finished"
+echo "Deploy script finished execution"
