@@ -109,10 +109,12 @@ class AssessmentService
 
         if ($currentPage >= $totalPages) {
             $result['page'] = 0;
-            // $geoService = new GeoService();
-            // $location = $geoService->getLocationByIp();
             $cachedIp = Cache::get("user_ip_{$user->id}", null); // null if not set
+            $geoService = new GeoService();
+            $location = $geoService->getLocationByIp($cachedIp);
             $result['ip_address'] = $cachedIp ?? '0.0.0.0'; // fallback if cache empty
+            $result['city'] = $location['city'];
+            $result['country'] = $location['country'];
             $assessment->update($result);
             event(new SubmitAssessment($user->id, 0));
             $message = self::handleDailyTipIfFinalPage($assessment, $user);
