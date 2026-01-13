@@ -909,13 +909,13 @@ class AuthController extends Controller
 
             }
 
-//        } catch (\Exception $exception) {
-//
-//            DB::rollBack();
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//
-//        }
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
 
     }
 
