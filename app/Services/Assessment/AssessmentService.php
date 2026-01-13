@@ -20,6 +20,8 @@ use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Question;
 use Carbon\Carbon;
 use App\Services\GeoService;
+use Illuminate\Support\Facades\Cache;
+
 
 class AssessmentService
 {
@@ -107,12 +109,10 @@ class AssessmentService
 
         if ($currentPage >= $totalPages) {
             $result['page'] = 0;
-            $geoService = new GeoService();
-            $location = $geoService->getLocationByIp();
-
-            $result['ip_address'] = $location['ip'];
-            $result['city'] = $location['city'];
-            $result['country'] = $location['country'];
+            // $geoService = new GeoService();
+            // $location = $geoService->getLocationByIp();
+            $cachedIp = Cache::get("user_ip_{$user->id}", null); // null if not set
+            $result['ip_address'] = $cachedIp ?? '0.0.0.0'; // fallback if cache empty
             $assessment->update($result);
             event(new SubmitAssessment($user->id, 0));
             $message = self::handleDailyTipIfFinalPage($assessment, $user);
