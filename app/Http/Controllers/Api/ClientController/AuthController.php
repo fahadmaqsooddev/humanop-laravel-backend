@@ -96,7 +96,7 @@ class AuthController extends Controller
     {
         DB::beginTransaction();
 
-//        try {
+        try {
 
             // We'll use this only to access instance methods like checkEmail()
             $userModel = new User();
@@ -358,12 +358,12 @@ class AuthController extends Controller
                 }
             }
 
-//        } catch (\Exception $exception) {
-//
-//            DB::rollBack();
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
     public function checkEmailVerification(Request $request)
@@ -729,12 +729,26 @@ class AuthController extends Controller
 
     }
 
+
+    // Add this private method in your controller
+    private function handleUserLoginIp(User $user, Request $request): string
+    {
+        // Get IP from request or fallback to request IP
+        $ipAddress = $request->input('ip_address') ?? $request->ip();
+
+        // Unique cache key per user
+        $cacheKey = "user_ip_{$user->id}";
+
+        // Store IP in cache for 24 hours
+        Cache::put($cacheKey, $ipAddress, now()->addHours(24));
+
+        return $ipAddress;
+    }
+
     public function loginClient(LoginRequest $request)
     {
 
         try {
-
-            $ipAddress = $request->input('ip_address') ?? $request->ip();
             DB::beginTransaction();
 
             $credentials = $request->only(['email', 'password']);
@@ -882,10 +896,7 @@ class AuthController extends Controller
                     $signupMethod = $checkUser->google_id ? 'Google' : ($checkUser->apple_id ? 'Apple' : 'Email');
 
                     ActivityLogger::addLog('Login', "User loggedIn by Email");
-                    // Unique cache key per user
-                    $cacheKey = "user_ip_{$checkUser->id}";
-                    // Store IP in cache for, e.g., 24 hours
-                    Cache::put($cacheKey, $ipAddress, now()->addHours(24));
+                    $ipAddress = $this->handleUserLoginIp($checkUser, $request);
                     $data = [
                         'user' => $checkUser,
                         'ip_address' => $ipAddress, // <-- return IP without saving
@@ -1043,9 +1054,10 @@ class AuthController extends Controller
                 $signupMethod = $updateUser->google_id ? 'Google' : ($updateUser->apple_id ? 'Apple' : 'Email');
 
                 ActivityLogger::addLog('Login', "User loggedIn by {$signupMethod}");
-
+                $ipAddress = $this->handleUserLoginIp($user, $request);
                 $data = [
                     'user' => $updateUser,
+                    'ip_address' => $ipAddress,
                     'authorization' => [
                         'token' => $token,
                         'type' => 'bearer',
