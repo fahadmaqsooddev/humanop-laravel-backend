@@ -56,6 +56,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Cache;
 
 class AuthController extends Controller
 {
@@ -731,9 +732,10 @@ class AuthController extends Controller
     public function loginClient(LoginRequest $request)
     {
 
-//        try {
-//
-//            DB::beginTransaction();
+        try {
+
+            $ipAddress = $request->input('ip_address') ?? $request->ip();
+            DB::beginTransaction();
 
             $credentials = $request->only(['email', 'password']);
 
@@ -880,9 +882,13 @@ class AuthController extends Controller
                     $signupMethod = $checkUser->google_id ? 'Google' : ($checkUser->apple_id ? 'Apple' : 'Email');
 
                     ActivityLogger::addLog('Login', "User loggedIn by Email");
-
+                    // Unique cache key per user
+                    $cacheKey = "user_ip_{$checkUser->id}";
+                    // Store IP in cache for, e.g., 24 hours
+                    Cache::put($cacheKey, $ipAddress, now()->addHours(24));
                     $data = [
                         'user' => $checkUser,
+                        'ip_address' => $ipAddress, // <-- return IP without saving
                         'authorization' => [
                             'token' => $token,
                             'type' => 'bearer',

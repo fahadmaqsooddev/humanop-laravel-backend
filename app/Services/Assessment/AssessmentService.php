@@ -20,6 +20,8 @@ use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Question;
 use Carbon\Carbon;
 use App\Services\GeoService;
+use Illuminate\Support\Facades\Cache;
+
 
 class AssessmentService
 {
@@ -107,10 +109,10 @@ class AssessmentService
 
         if ($currentPage >= $totalPages) {
             $result['page'] = 0;
+            $cachedIp = Cache::get("user_ip_{$user->id}", null); // null if not set
             $geoService = new GeoService();
-            $location = $geoService->getLocationByIp();
-
-            $result['ip_address'] = $location['ip'];
+            $location = $geoService->getLocationByIp($cachedIp);
+            $result['ip_address'] = $cachedIp ?? '0.0.0.0'; // fallback if cache empty
             $result['city'] = $location['city'];
             $result['country'] = $location['country'];
             $assessment->update($result);
