@@ -271,8 +271,13 @@ class Connection extends Model
 //            $connectionRequests = $query->get();
 //        }
 
+        $items = $connectionRequests instanceof \Illuminate\Pagination\LengthAwarePaginator
+            ? $connectionRequests->getCollection()
+            : $connectionRequests;
+
+
         // Filter valid users only
-        $users = $connectionRequests
+        $users = $items
             ->pluck('user')
             ->filter(function ($user) {
                 return in_array($user->is_admin, [Admin::IS_CUSTOMER, Admin::IS_B2B])
