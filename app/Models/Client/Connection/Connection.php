@@ -266,7 +266,7 @@ class Connection extends Model
 
         // Apply pagination
 //        if ($request->has('pagination')) {
-            $connectionRequests = Helpers::pagination($query, $request->input('pagination'), $request->input('per_page'));
+            $connectionRequests = Helpers::pagination($query, true, $request->input('per_page'));
 //        } else {
 //            $connectionRequests = $query->get();
 //        }
