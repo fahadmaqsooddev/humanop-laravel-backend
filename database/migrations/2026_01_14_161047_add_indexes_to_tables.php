@@ -32,7 +32,7 @@ return new class extends Migration
     public function down()
     {
 
-        Schema::table('connection_requests', function (Blueprint $table) {
+        Schema::table('connections', function (Blueprint $table) {
             $table->dropIndex('connection_status');
         });
 
