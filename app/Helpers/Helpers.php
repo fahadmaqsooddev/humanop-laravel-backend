@@ -77,7 +77,7 @@ class Helpers
         }
     }
 
-    public static function pagination($all, $pagination = false, $per_page = null)
+    public static function pagination($all, $pagination = true, $per_page = null)
     {
         if ($pagination && ($pagination === true || $pagination === "true")) {
 
