@@ -1267,115 +1267,115 @@ class Helpers
 
     }
 
-    public static function matchingUsers($users = null, $loginUser = null)
-    {
-        if (empty($users) || empty($loginUser)) {
-
-            return [];
-        }
-
-        $matchingUsers = [];
-
-//      Fetch login user's latest assessment ONCE
-        $loginUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
-
-        if (empty($loginUserAssessment)) {
-            // If login user has no assessment, no matching is possible
-            return [];
-        }
-
-//        Fetch all target user IDs
-
-        $userIds = collect($users)->pluck('id')->unique()->values();
-
-        if ($userIds->isEmpty()) {
-
-            return [];
-        }
-
-        $assessments = Assessment::whereIn('user_id', $userIds)
-            ->where('page', 0)
-            ->orderBy('user_id')
-            ->orderByDesc('created_at')
-            ->get()
-            ->groupBy('user_id')
-            ->map(function ($userAssessments) {
-                return $userAssessments->first(); // latest assessment per user
-            });
-
-//        Pre-calculate login user trait weights ONCE
-
-        $loginUserTraitWeight = Assessment::getTopThreeTraitWeight($loginUserAssessment);
-
-        if (empty($loginUserTraitWeight)) {
-
-            return [];
-        }
-
-//        Loop users with ZERO DB queries inside
-
-        foreach ($users as $user){
-
-            if (!isset($assessments[$user->id])) {
-                continue; // user has no assessment
-            }
-
-            $userAssessment = $assessments[$user->id];
-
-            $userTraitWeight = Assessment::getTopThreeTraitWeight($userAssessment);
-
-            if (empty($userTraitWeight)) {
-
-                continue;
-            }
-
-            $compatibilityScore = Helpers::getCompatabilityBetweenTwoPerson($loginUserTraitWeight, $userTraitWeight, $loginUserAssessment, $userAssessment);
-
-            if ($compatibilityScore >= $loginUser['matching_connection_score']) {
-
-                $matchingUsers[] = $user;
-            }
-
-        }
-
-        return $matchingUsers;
-    }
 //    public static function matchingUsers($users = null, $loginUser = null)
 //    {
+//        if (empty($users) || empty($loginUser)) {
+//
+//            return [];
+//        }
 //
 //        $matchingUsers = [];
 //
-//        foreach ($users as $user) {
+////      Fetch login user's latest assessment ONCE
+//        $loginUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
 //
-//            $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
+//        if (empty($loginUserAssessment)) {
+//            // If login user has no assessment, no matching is possible
+//            return [];
+//        }
 //
-//            $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
+////        Fetch all target user IDs
 //
-//            if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
+//        $userIds = collect($users)->pluck('id')->unique()->values();
 //
-//                // ==================== Trait Compatability Calculator =========================== //
+//        if ($userIds->isEmpty()) {
 //
-//                $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
+//            return [];
+//        }
 //
-//                $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
+//        $assessments = Assessment::whereIn('user_id', $userIds)
+//            ->where('page', 0)
+//            ->orderBy('user_id')
+//            ->orderByDesc('created_at')
+//            ->get()
+//            ->groupBy('user_id')
+//            ->map(function ($userAssessments) {
+//                return $userAssessments->first(); // latest assessment per user
+//            });
 //
-//                if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
+////        Pre-calculate login user trait weights ONCE
 //
-//                    $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+//        $loginUserTraitWeight = Assessment::getTopThreeTraitWeight($loginUserAssessment);
 //
-//                    if ($compatabilityCalculator >= $loginUser['matching_connection_score']) {
+//        if (empty($loginUserTraitWeight)) {
 //
-//                        $matchingUsers[] = $user;
-//                    }
+//            return [];
+//        }
 //
-//                }
+////        Loop users with ZERO DB queries inside
 //
+//        foreach ($users as $user){
+//
+//            if (!isset($assessments[$user->id])) {
+//                continue; // user has no assessment
 //            }
+//
+//            $userAssessment = $assessments[$user->id];
+//
+//            $userTraitWeight = Assessment::getTopThreeTraitWeight($userAssessment);
+//
+//            if (empty($userTraitWeight)) {
+//
+//                continue;
+//            }
+//
+//            $compatibilityScore = Helpers::getCompatabilityBetweenTwoPerson($loginUserTraitWeight, $userTraitWeight, $loginUserAssessment, $userAssessment);
+//
+//            if ($compatibilityScore >= $loginUser['matching_connection_score']) {
+//
+//                $matchingUsers[] = $user;
+//            }
+//
 //        }
 //
 //        return $matchingUsers;
-//
 //    }
+    public static function matchingUsers($users = null, $loginUser = null)
+    {
+
+        $matchingUsers = [];
+
+        foreach ($users as $user) {
+
+            $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
+
+            $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
+
+            if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
+
+                // ==================== Trait Compatability Calculator =========================== //
+
+                $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
+
+                $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
+
+                if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
+
+                    $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+
+                    if ($compatabilityCalculator >= $loginUser['matching_connection_score']) {
+
+                        $matchingUsers[] = $user;
+                    }
+
+                }
+
+            }
+        }
+
+        return $matchingUsers;
+
+    }
 
     public static function getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight = null, $getSecondUserTraitWeight = null, $getFirstUserAssessment = null, $getSecondUserAssessment = null)
     {
