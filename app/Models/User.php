@@ -1776,7 +1776,7 @@ class User extends Authenticatable implements JWTSubject
             });
         }
 
-        $users = $query->get();
+        $users = $query->limit(10)->get();
 
         return Helpers::matchingUsers($users, $loginUser);
 

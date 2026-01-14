@@ -262,6 +262,7 @@ class Connection extends Model
                 });
             })
             ->with('user:id,first_name,last_name,is_admin,profile_privacy,b2b_deleted_at') // preload only needed fields
+            ->limit(10)
             ->get()
             ->pluck('user')
             ->filter(function ($user) {
