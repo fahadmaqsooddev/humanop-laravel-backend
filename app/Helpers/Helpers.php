@@ -1384,9 +1384,9 @@ class Helpers
         // ==================================== End =========================== //
         // ==================== Driver Compatability Calculator =========================== //
 
-        $getFirstUserDriver = Assessment::getFeatures($getFirstUserAssessment)['top_two_keys'];
+        $getFirstUserDriver = Assessment::getFeatures($getFirstUserAssessment)['top_two_keys'] ?? [];
 
-        $getSecondUserDriver = Assessment::getFeatures($getSecondUserAssessment)['top_two_keys'];
+        $getSecondUserDriver = Assessment::getFeatures($getSecondUserAssessment)['top_two_keys'] ?? [];
 
         $firstUserScores = [];
 
@@ -1412,9 +1412,9 @@ class Helpers
 
         }
 
-        $firstUserAverageScore = array_sum($firstUserScores) / count($firstUserScores);
+        $firstUserAverageScore = count($firstUserScores) > 0 ? array_sum($firstUserScores) / count($firstUserScores) : 0;
 
-        $secondUserAverageScore = array_sum($secondUserScores) / count($secondUserScores);
+        $secondUserAverageScore = count($secondUserScores) > 0 ? array_sum($secondUserScores) / count($secondUserScores) : 0;
 
         $driverCompatabilityCalculate = ($firstUserAverageScore + $secondUserAverageScore) / 2;
 
