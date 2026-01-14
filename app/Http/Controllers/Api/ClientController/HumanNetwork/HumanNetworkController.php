@@ -148,7 +148,7 @@ class HumanNetworkController extends Controller
 
                         $matchingUsers = User::allMatchingClients($request, $loginUser);
 
-                        return Helpers::successResponse('Matching Connections', $matchingUsers, true);
+                        return Helpers::successResponse('Matching Connections', $matchingUsers, $request->input('pagination'));
 
                     }
 
