@@ -1286,7 +1286,7 @@ class Helpers
 
 //        Fetch all target user IDs
 
-        $userIds = collect($users)->pluck('id')->unique()->values();
+        $userIds = collect($users)->pluck('id')->take(10)->unique()->values();
 
         if ($userIds->isEmpty()) {
 
