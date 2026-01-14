@@ -1294,6 +1294,7 @@ class Helpers
         }
 
         $assessments = Assessment::whereIn('user_id', $userIds)
+            ->where('page', 0)
             ->orderBy('user_id')
             ->orderByDesc('created_at')
             ->get()
