@@ -265,19 +265,14 @@ class Connection extends Model
             }]);
 
         // Apply pagination
-//        if ($request->has('pagination')) {
-            $connectionRequests = Helpers::pagination($query, true, $request->input('per_page'));
-//        } else {
-//            $connectionRequests = $query->get();
-//        }
-
-        $items = $connectionRequests instanceof \Illuminate\Pagination\LengthAwarePaginator
-            ? $connectionRequests->getCollection()
-            : $connectionRequests;
-
+        if ($request->has('pagination')) {
+            $connectionRequests = $query->paginate($request->input('pagination'));
+        } else {
+            $connectionRequests = $query->get();
+        }
 
         // Filter valid users only
-        $users = $items
+        $users = $connectionRequests
             ->pluck('user')
             ->filter(function ($user) {
                 return in_array($user->is_admin, [Admin::IS_CUSTOMER, Admin::IS_B2B])
