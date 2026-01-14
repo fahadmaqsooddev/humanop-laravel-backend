@@ -1776,8 +1776,8 @@ class User extends Authenticatable implements JWTSubject
             });
         }
 
-        $users = $query->get();
-
+        $users = Helpers::pagination($query, $request->input('pagination'), $request->input('per_page'));
+        
         return Helpers::matchingUsers($users, $loginUser);
 
     }
