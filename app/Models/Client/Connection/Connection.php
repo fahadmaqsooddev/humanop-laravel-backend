@@ -250,8 +250,7 @@ class Connection extends Model
     {
         $searchName = $request->input('search_name');
 
-        // Step 1: Get user IDs from connection requests matching criteria
-        $userIds = self::query()
+        $query = self::query()
             ->where('friend_id', $loginUser['id'])
             ->where('status', 0)
             ->when($searchName, function ($q) use ($searchName) {
@@ -261,8 +260,19 @@ class Connection extends Model
                         ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$searchName%"]);
                 });
             })
-            ->with('user:id,first_name,last_name,is_admin,profile_privacy,b2b_deleted_at') // preload only needed fields
-            ->get()
+            ->with(['user' => function ($q) {
+                $q->select('id', 'first_name', 'last_name', 'is_admin', 'profile_privacy', 'b2b_deleted_at');
+            }]);
+
+        // Apply pagination
+//        if ($request->has('pagination')) {
+            $connectionRequests = Helpers::pagination($query, $request->input('pagination'), $request->input('per_page'));
+//        } else {
+//            $connectionRequests = $query->get();
+//        }
+
+        // Filter valid users only
+        $users = $connectionRequests
             ->pluck('user')
             ->filter(function ($user) {
                 return in_array($user->is_admin, [Admin::IS_CUSTOMER, Admin::IS_B2B])
@@ -271,12 +281,9 @@ class Connection extends Model
             })
             ->values();
 
-        $users = Helpers::pagination($userIds, $request->input('pagination'), $request->input('per_page'));
-
-
-       return Helpers::matchingUsers($users, $loginUser);
-
+        return Helpers::matchingUsers($users, $loginUser);
     }
+
 //    public static function allMatchingConnections($request = null, $loginUser = null)
 //    {
 //
