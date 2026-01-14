@@ -1297,7 +1297,7 @@ class Helpers
             ->where('page', 0)
             ->orderBy('user_id')
             ->orderByDesc('created_at')
-            ->take(20)
+            ->take(30)
             ->get()
             ->groupBy('user_id')
             ->map(function ($userAssessments) {
