@@ -271,7 +271,10 @@ class Connection extends Model
             })
             ->values();
 
-       return Helpers::matchingUsers($userIds, $loginUser);
+        $users = Helpers::pagination($userIds, $request->input('pagination'), $request->input('per_page'));
+
+
+       return Helpers::matchingUsers($users, $loginUser);
 
     }
 //    public static function allMatchingConnections($request = null, $loginUser = null)
