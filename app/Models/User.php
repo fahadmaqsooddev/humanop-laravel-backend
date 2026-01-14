@@ -1756,27 +1756,55 @@ class User extends Authenticatable implements JWTSubject
     public static function allMatchingClients($request = null, $loginUser = null)
     {
 
+        $searchName = $request->input('search_name');
+
+
         $users = self::query();
 
         $users->where('profile_privacy',1);
 
-        if (!empty($request['search_name'])) {
+        $query = self::query()
+            ->where('profile_privacy', 1)
+            ->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])
+            ->whereNull('b2b_deleted_at');
 
-            $search_name = $request['search_name'];
-
-            $users = $users->where(function ($q) use ($search_name) {
-
-                $q->where('first_name', 'LIKE', "%$search_name%")
-                    ->orWhere('last_name', 'LIKE', "%$search_name%")
-                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+        if (!empty($searchName)) {
+            $query->where(function ($q) use ($searchName) {
+                $q->where('first_name', 'LIKE', "%$searchName%")
+                    ->orWhere('last_name', 'LIKE', "%$searchName%")
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$searchName%"]);
             });
         }
 
-        $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
+        $users = $query->get();
 
         return Helpers::matchingUsers($users, $loginUser);
 
     }
+//    public static function allMatchingClients($request = null, $loginUser = null)
+//    {
+//
+//        $users = self::query();
+//
+//        $users->where('profile_privacy',1);
+//
+//        if (!empty($request['search_name'])) {
+//
+//            $search_name = $request['search_name'];
+//
+//            $users = $users->where(function ($q) use ($search_name) {
+//
+//                $q->where('first_name', 'LIKE', "%$search_name%")
+//                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+//                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+//            });
+//        }
+//
+//        $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->whereNull('b2b_deleted_at')->get();
+//
+//        return Helpers::matchingUsers($users, $loginUser);
+//
+//    }
 
     public static function deletedClients($page = null, $per_page = null, $search_name = null, $email = null, $age = null)
     {
