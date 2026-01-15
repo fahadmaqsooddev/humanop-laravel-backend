@@ -1642,5 +1642,21 @@ class Helpers
         }
 
     }
+
+    public static function formatTimeByTimezone(string $timestamp, ?string $rawTimezone = 'UTC'): string
+    {
+        // Extract timezone like "Asia/Karachi"
+        if ($rawTimezone && str_contains($rawTimezone, '-')) {
+            $timezone = trim(substr($rawTimezone, strrpos($rawTimezone, '-') + 1));
+        } else {
+            $timezone = $rawTimezone ?? 'UTC';
+        }
+
+        return \Carbon\Carbon::parse($timestamp)
+            ->setTimezone($timezone)
+            ->format('m/d/Y h:i A');
+    }
+
+
 }
 
