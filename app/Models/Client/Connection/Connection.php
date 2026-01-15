@@ -248,31 +248,59 @@ class Connection extends Model
 
     public static function allMatchingConnections($request = null, $loginUser = null)
     {
+        $searchName = $request->input('search_name');
 
-        $connectionRequests = self::query()
-            ->has('user')
-            ->with('user')
-            ->where('friend_id', Helpers::getUser()->id)
+        // Step 1: Get user IDs from connection requests matching criteria
+        $userIds = self::query()
+            ->where('friend_id', $loginUser['id'])
             ->where('status', 0)
-            ->when($request->input('search_name'), function ($q, $name) {
-                $q->whereHas('user', function ($q) use ($name) {
-                    $q->where('first_name', 'LIKE', "%$name%")
-                        ->orWhere('last_name', 'LIKE', "%$name%")
-                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
+            ->when($searchName, function ($q) use ($searchName) {
+                $q->whereHas('user', function ($q) use ($searchName) {
+                    $q->where('first_name', 'LIKE', "%$searchName%")
+                        ->orWhere('last_name', 'LIKE', "%$searchName%")
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$searchName%"]);
                 });
             })
-            ->latest()
-            ->get();
+            ->with('user:id,first_name,last_name,is_admin,profile_privacy,b2b_deleted_at') // preload only needed fields
+            ->get()
+            ->pluck('user')
+            ->filter(function ($user) {
+                return in_array($user->is_admin, [Admin::IS_CUSTOMER, Admin::IS_B2B])
+                    && in_array($user->profile_privacy, [1, 2])
+                    && is_null($user->b2b_deleted_at);
+            })
+            ->values();
 
-        $users = $connectionRequests->pluck('user')->filter(function ($user) {
-            return in_array($user->is_admin, [Admin::IS_CUSTOMER, Admin::IS_B2B])
-                && ($user->profile_privacy == 2 || $user->profile_privacy == 1)
-                && is_null($user->b2b_deleted_at);
-        });
-
-       return Helpers::matchingUsers($users, $loginUser);
+       return Helpers::matchingUsers($userIds, $loginUser);
 
     }
+//    public static function allMatchingConnections($request = null, $loginUser = null)
+//    {
+//
+//        $connectionRequests = self::query()
+//            ->has('user')
+//            ->with('user')
+//            ->where('friend_id', Helpers::getUser()->id)
+//            ->where('status', 0)
+//            ->when($request->input('search_name'), function ($q, $name) {
+//                $q->whereHas('user', function ($q) use ($name) {
+//                    $q->where('first_name', 'LIKE', "%$name%")
+//                        ->orWhere('last_name', 'LIKE', "%$name%")
+//                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
+//                });
+//            })
+//            ->latest()
+//            ->get();
+//
+//        $users = $connectionRequests->pluck('user')->filter(function ($user) {
+//            return in_array($user->is_admin, [Admin::IS_CUSTOMER, Admin::IS_B2B])
+//                && ($user->profile_privacy == 2 || $user->profile_privacy == 1)
+//                && is_null($user->b2b_deleted_at);
+//        });
+//
+//       return Helpers::matchingUsers($users, $loginUser);
+//
+//    }
 
     public static function userConnectionIdsForHAi()
     {

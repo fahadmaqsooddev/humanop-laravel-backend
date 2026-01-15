@@ -774,40 +774,69 @@ class Assessment extends Model
 
     public static function getTopThreeTraitWeight($assessment = null)
     {
-
         $topThreeTrait = self::topThreeTraits($assessment);
 
-        if (!empty($topThreeTrait) && count($topThreeTrait) > 2) {
-
-            $result = [];
-
-            foreach ($topThreeTrait as $trait => $value) {
-
-                $result[$trait] = $value;
-
-            }
-
-            $countTraitWeight = array_sum(array_values($result));
-
-            $firstWeight = round((array_values(array_slice($result, 0, 1))[0] / $countTraitWeight) * 100, 2);
-
-            $secondWeight = round((array_values(array_slice($result, 1, 1))[0] / $countTraitWeight) * 100, 2);
-
-            $thirdWeight = round((array_values(array_slice($result, 2, 1))[0] / $countTraitWeight) * 100, 2);
-
-            return [
-                'first_weight' => $firstWeight,
-                'second_weight' => $secondWeight,
-                'third_weight' => $thirdWeight
-            ];
-
-        } else {
-
+        if (empty($topThreeTrait) || count($topThreeTrait) < 3) {
             return null;
-
         }
 
+        $result = [];
+
+        foreach ($topThreeTrait as $trait => $value) {
+            $result[$trait] = (float) $value;
+        }
+
+        $countTraitWeight = array_sum($result);
+
+        // CRITICAL FIX: prevent division by zero
+        if ($countTraitWeight <= 0) {
+            return null;
+        }
+
+        $values = array_values($result);
+
+        return [
+            'first_weight'  => round(($values[0] / $countTraitWeight) * 100, 2),
+            'second_weight' => round(($values[1] / $countTraitWeight) * 100, 2),
+            'third_weight'  => round(($values[2] / $countTraitWeight) * 100, 2),
+        ];
     }
+//    public static function getTopThreeTraitWeight($assessment = null)
+//    {
+//
+//        $topThreeTrait = self::topThreeTraits($assessment);
+//
+//        if (!empty($topThreeTrait) && count($topThreeTrait) > 2) {
+//
+//            $result = [];
+//
+//            foreach ($topThreeTrait as $trait => $value) {
+//
+//                $result[$trait] = $value;
+//
+//            }
+//
+//            $countTraitWeight = array_sum(array_values($result));
+//
+//            $firstWeight = round((array_values(array_slice($result, 0, 1))[0] / $countTraitWeight) * 100, 2);
+//
+//            $secondWeight = round((array_values(array_slice($result, 1, 1))[0] / $countTraitWeight) * 100, 2);
+//
+//            $thirdWeight = round((array_values(array_slice($result, 2, 1))[0] / $countTraitWeight) * 100, 2);
+//
+//            return [
+//                'first_weight' => $firstWeight,
+//                'second_weight' => $secondWeight,
+//                'third_weight' => $thirdWeight
+//            ];
+//
+//        } else {
+//
+//            return null;
+//
+//        }
+//
+//    }
 
     public static function getAllStyles($assessment = null, $loginUser = null)
     {
