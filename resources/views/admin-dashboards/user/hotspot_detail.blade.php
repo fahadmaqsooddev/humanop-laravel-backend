@@ -33,7 +33,7 @@
 <div class="container-fluid mt-4">
 
     <!-- Top Grid Section (HotSpot Cards) -->
-    <div class="page-heading">HotSpot Detail</div>
+    <div class="page-heading">{{ config('hotspot_labels.hotspot_detail') }}</div>
     <div class="row g-4 mt-3">
         @foreach($assessments as $key => $assessment)
             <div class="col-md-4">
@@ -66,23 +66,23 @@
     </div>
 
     <!-- Tabs Section -->
-    <div class="page-heading mt-5">Additional Analysis</div>
+    <div class="page-heading mt-5">{{ config('hotspot_labels.additional_analysis') }}</div>
 
     <ul class="nav nav-tabs mb-3" id="gridDetailTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="trend-tab" data-bs-toggle="tab" data-bs-target="#trend" type="button" role="tab">Trend Direction</button>
+            <button class="nav-link active" id="trend-tab" data-bs-toggle="tab" data-bs-target="#trend" type="button" role="tab">{{ config('hotspot_labels.trend_direction') }}</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="interval-tab" data-bs-toggle="tab" data-bs-target="#interval" type="button" role="tab">Interval Shift</button>
+            <button class="nav-link" id="interval-tab" data-bs-toggle="tab" data-bs-target="#interval" type="button" role="tab">{{ config('hotspot_labels.interval_shift') }}</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="delta-tab" data-bs-toggle="tab" data-bs-target="#delta" type="button" role="tab">Hotspot Delta</button>
+            <button class="nav-link" id="delta-tab" data-bs-toggle="tab" data-bs-target="#delta" type="button" role="tab">{{ config('hotspot_labels.hotspot_delta') }}</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="authentic-tab" data-bs-toggle="tab" data-bs-target="#authentic" type="button" role="tab">Authentic Shift</button>
+            <button class="nav-link" id="authentic-tab" data-bs-toggle="tab" data-bs-target="#authentic" type="button" role="tab">{{ config('hotspot_labels.authentic_shift') }}</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button" role="tab">Shai Analysis Prompt Context</button>
+            <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button" role="tab">{{ config('hotspot_labels.shia_analysis_prompt_context') }}</button>
         </li>
     </ul>
 

@@ -20,6 +20,7 @@ use App\Models\AssessmentDetail;
 use App\Models\AssessmentColorCode;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Client\Dashboard\ActionPlan;
+
 use App\Models\HotSpotUser;
 use App\Models\HotSpot;
 use Illuminate\Support\Facades\Log;
@@ -460,7 +461,7 @@ class AdminController extends Controller
     }
 
 
-   public function hotspotDetail($user_id)
+     public function hotspotDetail($user_id)
     {
         try {
             if (empty($user_id)) {
@@ -482,16 +483,23 @@ class AdminController extends Controller
                 ->get()
                 ->groupBy('assessment_id');
 
+            // -----------------------
+            // Preload all hotspot names once to avoid N+1
+            // -----------------------
+            $hotspotIds = $assessmentsRaw->pluck('hotspot_id')->flatten()->unique()->toArray();
+            $hotspotNames = Hotspot::whereIn('id', $hotspotIds)->pluck('name', 'id');
+
+            // -----------------------
             // Map assessments to structured array
-            $assessments = $assessmentsRaw->map(function ($rows, $assessmentId) {
+            // -----------------------
+            $assessments = $assessmentsRaw->map(function ($rows, $assessmentId) use ($hotspotNames) {
                 return [
                     'assessment_id' => $assessmentId,
                     'date' => optional($rows->first())->created_at?->format('F j, Y'),
-                    'hotspots' => $rows->map(function ($row) {
-                        $hotspotName = optional(Hotspot::find($row->hotspot_id))->name;
+                    'hotspots' => $rows->map(function ($row) use ($hotspotNames) {
                         return [
                             'priority' => $row->hotspot_score,
-                            'name' => $hotspotName,
+                            'name' => $hotspotNames[$row->hotspot_id] ?? null,
                             'shift_interval' => $row->shift_interval,
                             'id' => $row->hotspot_id,
                         ];
@@ -511,7 +519,9 @@ class AdminController extends Controller
                 $curr = $assessments[$i];
                 $prev = $assessments[$i + 1];
 
+                // -----------------------
                 // Trend Direction
+                // -----------------------
                 $currPriorities = $curr['hotspots']->pluck('priority', 'name');
                 $prevPriorities = $prev['hotspots']->pluck('priority', 'name');
 
@@ -534,7 +544,9 @@ class AdminController extends Controller
                     $message = 'Insufficient data for trend analysis.';
                 }
 
+                // -----------------------
                 // Interval Shift
+                // -----------------------
                 $intervalShift = false;
                 foreach ($curr['hotspots'] as $h) {
                     $prevShift = collect($prev['hotspots'])->firstWhere('name', $h['name'])['shift_interval'] ?? null;
@@ -544,13 +556,15 @@ class AdminController extends Controller
                     }
                 }
 
+                // -----------------------
                 // Hotspot Delta
+                // -----------------------
                 $resolved = $prevPriorities->keys()->diff($currPriorities->keys());
                 $new = $currPriorities->keys()->diff($prevPriorities->keys());
                 $persistent = $currPriorities->keys()->intersect($prevPriorities->keys());
 
                 // -----------------------
-                // Authentic Shifts Logic
+                // Authentic Shifts
                 // -----------------------
                 $normalize = fn($item) => is_array($item) && isset($item[0]) ? $item : ($item ? [$item] : []);
 
@@ -583,7 +597,6 @@ class AdminController extends Controller
                     'energy_pool' => $calculateShifts($hotspotMessages['energy_pool']['label'] ?? 'Energy Pool', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['energy_pool']['message'] ?? ''),
                 ];
 
-               
                 // Flatten all categories except interval_of_life
                 $authentic_element_shifts = [];
                 foreach ($authenticShifts as $category => $shifts) {
@@ -639,6 +652,8 @@ class AdminController extends Controller
             abort(500, 'Something went wrong!');
         }
     }
+
+
 
     public function downloadUserReport($id)
     {
