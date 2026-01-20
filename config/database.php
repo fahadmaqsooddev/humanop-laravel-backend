@@ -209,6 +209,17 @@ return [
             'fillable' => ['user_id', 'page', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'created_at', 'type', 'updated_at', 'reset_assessment', 'web_page', 'app_page', 'after_reset_assessment_updated_at','ip_address','city','country'],
 //            'hidden' => ['updated_at']
         ],
+        'HotSpot' => [
+            'table' => 'hotspots',
+            'fillable' => ['user_id','assessment_id','hotspot_score','hotspot_name','shift_interval','names']
+//            'hidden' => ['updated_at']
+        ],
+        'HotSpotUser' => [
+            'table' => 'hotspot_users',
+            'fillable' => ['user_id','assessment_id','hotspot_id','hotspot_score','shift_interval','names']
+//            'hidden' => ['updated_at']
+        ],
+
         'AssessmentDetail' => [
             'table' => 'assessment_details',
             'fillable' => ['user_id', 'assessment_id', 'question', 'answer'],

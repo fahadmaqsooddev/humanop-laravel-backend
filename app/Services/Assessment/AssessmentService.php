@@ -21,7 +21,8 @@ use App\Models\Question;
 use Carbon\Carbon;
 use App\Services\GeoService;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Facades\Log;
+use App\Models\HotSpotUser;
 
 class AssessmentService
 {
@@ -140,12 +141,17 @@ class AssessmentService
         AssessmentColorCode::createStylesCodeAndColor($assessment);
         AssessmentColorCode::createFeaturesCodeAndColor($assessment);
 
+       
+    
         if ($assessment->page == 0) {
-
+           
             ActionPlan::storeUserActionPlan($assessment);
-
+            $data=Assessment::getAllRowGrid($assessment->id);
+            if($data){
+                $trendtracker=new HotSpotUser;
+                $trendtracker->insertData($assessment->id,$data);
+            }
             ActivityLogger::addLog('New Action Plan', "Your New 14 Days Action Plan");
-
         }
 
         return $message;

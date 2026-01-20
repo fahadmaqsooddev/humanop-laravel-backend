@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             HasRoleSeeder::class,
             PermissionSeeder::class,
             HasPermissionSeeder::class,
+            HotSpotSeeder::class
         ]);
     }
 }

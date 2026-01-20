@@ -21,6 +21,10 @@ use App\Models\AssessmentColorCode;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Client\Dashboard\ActionPlan;
 
+use App\Models\HotSpotUser;
+use App\Models\HotSpot;
+use Illuminate\Support\Facades\Log;
+
 class AdminController extends Controller
 {
     /**
@@ -455,6 +459,201 @@ class AdminController extends Controller
         }
 
     }
+
+
+     public function hotspotDetail($user_id)
+    {
+        try {
+            if (empty($user_id)) {
+                abort(404, "User not found");
+            }
+
+            // -----------------------
+            // Get last 3 assessments
+            // -----------------------
+            $assessmentIds = HotSpotUser::where('user_id', $user_id)
+                ->orderByDesc('assessment_id')
+                ->distinct()
+                ->pluck('assessment_id');
+
+            $assessmentsRaw = HotSpotUser::where('user_id', $user_id)
+                ->whereIn('assessment_id', $assessmentIds)
+                ->orderByDesc('assessment_id')
+                ->orderBy('hotspot_score')
+                ->get()
+                ->groupBy('assessment_id');
+
+            // -----------------------
+            // Preload all hotspot names once to avoid N+1
+            // -----------------------
+            $hotspotIds = $assessmentsRaw->pluck('hotspot_id')->flatten()->unique()->toArray();
+            $hotspotNames = Hotspot::whereIn('id', $hotspotIds)->pluck('name', 'id');
+
+            // -----------------------
+            // Map assessments to structured array
+            // -----------------------
+            $assessments = $assessmentsRaw->map(function ($rows, $assessmentId) use ($hotspotNames) {
+                return [
+                    'assessment_id' => $assessmentId,
+                    'date' => optional($rows->first())->created_at?->format('F j, Y'),
+                    'hotspots' => $rows->map(function ($row) use ($hotspotNames) {
+                        return [
+                            'priority' => $row->hotspot_score,
+                            'name' => $hotspotNames[$row->hotspot_id] ?? null,
+                            'shift_interval' => $row->shift_interval,
+                            'id' => $row->hotspot_id,
+                        ];
+                    })->values()
+                ];
+            })->values();
+
+            // -----------------------
+            // Prepare trend comparisons
+            // -----------------------
+            $trendComparisons = [];
+            $hotspotMessages = config('hotspot_messages'); // make sure you have this config
+
+            $totalAssessments = $assessments->count();
+
+            for ($i = 0; $i < $totalAssessments - 1; $i++) {
+                $curr = $assessments[$i];
+                $prev = $assessments[$i + 1];
+
+                // -----------------------
+                // Trend Direction
+                // -----------------------
+                $currPriorities = $curr['hotspots']->pluck('priority', 'name');
+                $prevPriorities = $prev['hotspots']->pluck('priority', 'name');
+
+                $minCurr = $currPriorities->isNotEmpty() ? min($currPriorities->all()) : null;
+                $minPrev = $prevPriorities->isNotEmpty() ? min($prevPriorities->all()) : null;
+
+                if (!is_null($minCurr) && !is_null($minPrev)) {
+                    if ($minCurr > $minPrev) {
+                        $trend = 'Positive Trend';
+                        $message = "User moved from a severe issue (#{$minPrev}) to a lesser issue (#{$minCurr}).";
+                    } elseif ($minCurr < $minPrev) {
+                        $trend = 'Negative Trend';
+                        $message = "User developed a more severe issue (#{$minCurr}) from previous (#{$minPrev}).";
+                    } else {
+                        $trend = 'No Change';
+                        $message = "The most severe issue (#{$minCurr}) has not changed.";
+                    }
+                } else {
+                    $trend = 'No Data';
+                    $message = 'Insufficient data for trend analysis.';
+                }
+
+                // -----------------------
+                // Interval Shift
+                // -----------------------
+                $intervalShift = false;
+                foreach ($curr['hotspots'] as $h) {
+                    $prevShift = collect($prev['hotspots'])->firstWhere('name', $h['name'])['shift_interval'] ?? null;
+                    if ($prevShift && $prevShift !== $h['shift_interval']) {
+                        $intervalShift = true;
+                        break;
+                    }
+                }
+
+                // -----------------------
+                // Hotspot Delta
+                // -----------------------
+                $resolved = $prevPriorities->keys()->diff($currPriorities->keys());
+                $new = $currPriorities->keys()->diff($prevPriorities->keys());
+                $persistent = $currPriorities->keys()->intersect($prevPriorities->keys());
+
+                // -----------------------
+                // Authentic Shifts
+                // -----------------------
+                $normalize = fn($item) => is_array($item) && isset($item[0]) ? $item : ($item ? [$item] : []);
+
+                $calculateShifts = function ($category, $prevData, $currData, $descField) use ($normalize) {
+                    $prevArr = collect($normalize($prevData))->pluck('name')->filter()->values()->toArray();
+                    $currArr = collect($normalize($currData))->pluck('name')->filter()->values()->toArray();
+
+                    $removed = array_values(array_diff($prevArr, $currArr));
+                    $added   = array_values(array_diff($currArr, $prevArr));
+
+                    $max = max(count($removed), count($added));
+                    $shifts = [];
+                    for ($i = 0; $i < $max; $i++) {
+                        $shifts[] = [
+                            'category'    => $category,
+                            'prev_value'  => $removed[$i] ?? ($prevArr[0] ?? null),
+                            'curr_value'  => $added[$i] ?? ($currArr[0] ?? null),
+                            'description' => $descField
+                        ];
+                    }
+                    return $shifts;
+                };
+
+                $authenticShifts = [
+                    'traits'      => $calculateShifts($hotspotMessages['traits']['label'] ?? 'Traits', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['traits']['message'] ?? ''),
+                    'drivers'     => $calculateShifts($hotspotMessages['drivers']['label'] ?? 'Drivers', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['drivers']['message'] ?? ''),
+                    'alchemy'     => $calculateShifts($hotspotMessages['alchemy']['label'] ?? 'Alchemy', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['alchemy']['message'] ?? ''),
+                    'comm_style'  => $calculateShifts($hotspotMessages['comm_style']['label'] ?? 'Communication', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['comm_style']['message'] ?? ''),
+                    'perception'  => $calculateShifts($hotspotMessages['perception']['label'] ?? 'Perception', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['perception']['message'] ?? ''),
+                    'energy_pool' => $calculateShifts($hotspotMessages['energy_pool']['label'] ?? 'Energy Pool', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['energy_pool']['message'] ?? ''),
+                ];
+
+                // Flatten all categories except interval_of_life
+                $authentic_element_shifts = [];
+                foreach ($authenticShifts as $category => $shifts) {
+                    if ($category === 'interval_of_life') continue;
+                    foreach ($shifts as $s) {
+                        $authentic_element_shifts[] = [
+                            'category'   => ucwords(str_replace('_', ' ', $category)),
+                            'prev_value' => $s['prev_value'] ?? null,
+                            'curr_value' => $s['curr_value'] ?? null,
+                            'description'=> $s['description'] ?? null,
+                        ];
+                    }
+                }
+
+                // -----------------------
+                // HAI Analysis Prompt Context
+                // -----------------------
+                $prevMinName = $prevPriorities->search(min($prevPriorities->all()));
+                $primaryWin = ($prevMinName && !$currPriorities->has($prevMinName))
+                    ? "Eliminated Priority #{$prevPriorities[$prevMinName]} Drain ({$prevMinName})"
+                    : null;
+
+                $currMinName = $currPriorities->search(min($currPriorities->all()));
+                $currentHighestDrain = $currMinName ? "Priority #{$currPriorities[$currMinName]} ({$currMinName})" : null;
+
+                $contextNote = 'User improved significantly but now faces environmental friction.';
+
+                $trendComparisons[] = [
+                    'current_assessment_number' => $i + 1,
+                    'previous_assessment_number' => $i + 2,
+                    'trend' => $trend,
+                    'message' => $message,
+                    'date_current' => $curr['date'],
+                    'date_previous' => $prev['date'],
+                    'interval_shift' => $intervalShift,
+                    'hotspot_delta' => [
+                        'resolved' => $resolved,
+                        'new' => $new,
+                        'persistent' => $persistent,
+                    ],
+                    'authentic_element_shifts' => $authentic_element_shifts,
+                    'hai_analysis_prompt_context' => [
+                        'primary_win' => $primaryWin,
+                        'current_highest_drain' => $currentHighestDrain,
+                        'context_note' => $contextNote,
+                    ],
+                ];
+            }
+
+            return view('admin-dashboards.user.hotspot_detail', compact('assessments', 'trendComparisons'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            abort(500, 'Something went wrong!');
+        }
+    }
+
+
 
     public function downloadUserReport($id)
     {
