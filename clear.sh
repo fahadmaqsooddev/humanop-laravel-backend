@@ -29,4 +29,4 @@ sudo -u www-data php artisan event:cache
 sudo -u www-data php artisan queue:restart
 
 echo "Deploy script finished execution"
-
+exit 0

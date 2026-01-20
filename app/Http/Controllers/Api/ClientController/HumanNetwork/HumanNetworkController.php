@@ -15,7 +15,6 @@ use App\Models\Admin\Notification\Notification;
 use App\Models\Assessment;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
-use App\Models\Client\Plan\Plan;
 use App\Models\NetworkTutorial\NetworkTutorial;
 use App\Models\User;
 use Illuminate\Http\Request;
