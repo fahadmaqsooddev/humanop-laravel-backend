@@ -90,132 +90,114 @@ class AssessmentController extends Controller
 
     public function assessmentStatus()
     {
-
         try {
 
             $user = Helpers::getUser();
 
+            $userId = $user->id;
+
             $status = Assessment::assessmentStatusForApi();
 
-            $assessment_price = StripeSetting::getSingle();
+            $latestAssessment = Assessment::getLatestAssessment($userId);
 
-            $latest_assessment = Assessment::getLatestAssessment($user['id']);
+            $assessmentCount = Assessment::getAllAssessmentCount($userId);
 
-            $assessment_count = Assessment::getAllAssessmentCount($user['id']);
+            $baseResponse = [
+                'latest_assessment_id' => $latestAssessment->id ?? null,
+                'latest_assessment_at' => $latestAssessment->updated_at ?? null,
+                'assessment_count' => $assessmentCount,
+                'plan_name' => $user->plan_name,
+            ];
 
-            if (!empty($latest_assessment) && $latest_assessment['reset_assessment'] == 1) {
+            if (!empty($latestAssessment) && $latestAssessment->reset_assessment == 1) {
 
-                return Helpers::successResponse('Reset Assessment', [
-                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
-                    'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
-                    'assessment_count' => $assessment_count,
+                return Helpers::successResponse('Reset Assessment', array_merge($baseResponse, [
                     'assessment_page_number' => $status == 0 ? true : $status,
-                    'plan_name' => $user['plan_name'],
                     'retake_assessment' => null,
                     'reset_assessment' => true,
-                    'assessment_price' => ($assessment_price->amount - 1 ?? 0),
-                    'user' => [
-                        'last_four_digits' => $user['pm_last_four'],
-                        'exp_month' => $user['pm_exp_month'],
-                        'exp_year' => $user['pm_exp_year'],
-                        'name' => $user['card_name'],
-                    ]
-                ]);
+                ]));
 
-            } elseif ($user['plan_name'] != 'Freemium') {
-
-                $checkAssessment = Assessment::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
-
-                return Helpers::successResponse('Assessment Status', [
-                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
-                    'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
-                    'assessment_count' => $assessment_count,
-                    'assessment_page_number' => $checkAssessment['page'],
-                    'plan_name' => $user['plan_name'],
-                    'reset_assessment' => false,
-                    'assessment_price' => ($assessment_price->amount - 1 ?? 0),
-                    'user' => [
-                        'last_four_digits' => $user['pm_last_four'],
-                        'exp_month' => $user['pm_exp_month'],
-                        'exp_year' => $user['pm_exp_year'],
-                        'name' => $user['card_name'],
-                    ]
-                ]);
-
-            } elseif (!empty($latest_assessment)) {
-
-                $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user['timezone']);
-
-                $userTime = Carbon::parse($latest_assessment['updated_at']);
-
-                $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
-
-                $difference = $userTime->diffInDays($currentTime);
-
-                if ($difference <= 90) {
-
-                    $takeAssessment = 90 - $difference;
-
-                    return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', [
-                        'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
-                        'latest_assessment_at' => $latest_assessment ? $userTime: '',
-                        'current_time' => $currentTime,
-                        'difference_time' => $difference,
-                        'assessment_count' => $assessment_count,
-                        'retake_assessment' => $takeAssessment,
-                        'plan_name' => $user['plan_name'],
-                        'reset_assessment' => false,
-                        'assessment_page_number' => $status,
-                        'assessment_price' => ($assessment_price->amount - 1 ?? 0),
-                        'user' => [
-                            'last_four_digits' => $user['pm_last_four'],
-                            'exp_month' => $user['pm_exp_month'],
-                            'exp_year' => $user['pm_exp_year'],
-                            'name' => $user['card_name'],
-                        ]
-                    ]);
-
-                } else {
-                    return Helpers::successResponse('Assessment Status', [
-                        'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
-                        'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
-                        'assessment_count' => $assessment_count,
-                        'retake_assessment' => null,
-                        'plan_name' => $user['plan_name'],
-                        'assessment_page_number' => $status,
-                        'reset_assessment' => true,
-                        'assessment_price' => ($assessment_price->amount - 1 ?? 0),
-                        'user' => [
-                            'last_four_digits' => $user['pm_last_four'],
-                            'exp_month' => $user['pm_exp_month'],
-                            'exp_year' => $user['pm_exp_year'],
-                            'name' => $user['card_name'],
-                        ]
-                    ]);
-                }
-            } else {
-
-                return Helpers::successResponse('Assessment Status', [
-                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
-                    'latest_assessment_at' => $latest_assessment ? $latest_assessment['updated_at'] : '',
-                    'assessment_count' => $assessment_count,
-                    'assessment_page_number' => $status,
-                    'plan_name' => $user['plan_name'],
-                    'reset_assessment' => false,
-                    'assessment_price' => ($assessment_price->amount - 1 ?? 0),
-                    'user' => [
-                        'last_four_digits' => $user['pm_last_four'],
-                        'exp_month' => $user['pm_exp_month'],
-                        'exp_year' => $user['pm_exp_year'],
-                        'name' => $user['card_name'],
-                    ]
-                ]);
             }
 
-        } catch (\Exception $exception) {
+            if ($user->plan_name !== 'Freemium') {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+                $assessment = Assessment::where('user_id', $userId)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
+
+                if ($assessment && $assessment->page === 0) {
+
+                    if ($this->isWithin90Days($assessment->updated_at, $user->timezone)) {
+                        return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
+                            'assessment_page_number' => null,
+                            'reset_assessment' => false,
+                        ]));
+                    }
+                }
+
+                return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
+                    'assessment_page_number' => $assessment->page ?? $status,
+                    'reset_assessment' => false,
+                ]));
+
+            }
+
+            if (!empty($latestAssessment)) {
+
+                $daysPassed = $this->getDayDifference($latestAssessment->updated_at, $user->timezone);
+
+                if ($daysPassed <= 90) {
+
+                    $remainingDays = 90 - $daysPassed;
+
+                    return Helpers::successResponse(
+                        "You can take another assessment after {$remainingDays} days.",
+                        array_merge($baseResponse, [
+                            'retake_assessment' => $remainingDays,
+                            'assessment_page_number' => $status,
+                            'reset_assessment' => false,
+                        ])
+                    );
+
+                }
+
+                return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
+                    'retake_assessment' => null,
+                    'assessment_page_number' => $status,
+                    'reset_assessment' => true,
+                ]));
+
+            }
+
+            return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
+                'assessment_page_number' => $status,
+                'reset_assessment' => false,
+            ]));
+
+        } catch (\Throwable $e) {
+
+            return Helpers::serverErrorResponse($e->getMessage());
+
         }
+
+    }
+
+    private function isWithin90Days($date, $timezone)
+    {
+
+        return $this->getDayDifference($date, $timezone) <= 90;
+
+    }
+
+    private function getDayDifference($date, $timezone)
+    {
+
+        $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($timezone);
+
+        $userTime = Carbon::parse($date);
+
+        $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+
+        return $userTime->diffInDays($currentTime);
+
     }
 
     public function questions(QuestionsRequest $request)

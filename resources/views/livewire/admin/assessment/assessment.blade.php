@@ -216,9 +216,17 @@
             @foreach($assessments as $assessment)
                 <tr class="text-color-blue">
                     <td class="text-md font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
-                    <td class="text-md font-weight-normal">
-                           {{ $assessment['reset_assessment'] == 1 ? $assessment['after_reset_assessment_updated_at'] : $assessment['updated_at'] }} (GMT)
+                  <td class="text-md font-weight-normal">
+                        <span>
+                           {{ \App\Helpers\Helpers::formatTimeByTimezone(
+                                $assessment['reset_assessment'] == 1
+                                    ? $assessment['after_reset_assessment_updated_at']
+                                    : $assessment['updated_at'],
+                                $assessment['users']['timezone'] ?? 'UTC'
+                            ) }} (GMT)
+                        </span>
                     </td>
+
                     <td class="text-md font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
                     <td class="text-md font-weight-normal">
                         <div class="form-check form-switch mb-0 d-flex justify-content-center">
