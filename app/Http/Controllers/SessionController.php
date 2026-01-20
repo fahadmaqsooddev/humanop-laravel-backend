@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\HAIChai\HaiChat;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,8 +12,6 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
-use Stripe\Product;
-use Stripe\Stripe;
 
 class SessionController extends Controller
 {
