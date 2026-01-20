@@ -25,3 +25,4 @@ sudo -u www-data php artisan event:cache
 sudo -u www-data php artisan queue:restart
 
 echo "Deploy (staging) finished"
+exit 0
