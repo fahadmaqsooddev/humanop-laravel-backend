@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('hotspot_users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('assessment_id');
-            $table->unsignedBigInteger('hotspot_id')->nullable();
+            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('assessment_id')->index(); // Added index
+            $table->unsignedBigInteger('hotspot_id')->nullable()->index(); // Added index
             $table->integer('hotspot_score')->default(0);
             $table->string('shift_interval')->nullable();
             $table->string('names')->nullable();
