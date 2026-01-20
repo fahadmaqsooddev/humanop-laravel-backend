@@ -262,6 +262,10 @@
                             href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"
                             class=" btn-sm float-end mt-2 mb-0" style="background:#1B3A62;color:white;font-weight:bolder;border:none;">View</a>
                     </td>
+                    <td class="text-md font-weight-normal"><a
+                            href="{{ route('admin_hotspot_detail',['id' => $assessment->users['id']]) }}" type="submit"
+                            class=" btn-sm float-end mt-2 mb-0" style="background:#1B3A62;color:white;font-weight:bolder;border:none;">HotSpot Detail</a>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

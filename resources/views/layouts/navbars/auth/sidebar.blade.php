@@ -526,6 +526,19 @@
                                                                     <span class="sidenav-normal"> Codes Manage </span>
                                                                 </a>
                                                             </li>
+                                                             <li class="nav-item {{ (Request::is('admin/hotspots') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/hotspots') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_hotspots') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/hotspots') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{ Request::is('admin/hotspots') ? asset('assets/new-blue-icons/pricing-plan.png') : asset('assets/new-white-icons/pricing-plan.png') }}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Hotspots  </span>
+                                                                </a>
+                                                            </li>
                                                             <li class="nav-item {{ (Request::is('admin/lifetime-deal-banner') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/lifetime-deal-banner') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_lifetime_deal_banner') }}">

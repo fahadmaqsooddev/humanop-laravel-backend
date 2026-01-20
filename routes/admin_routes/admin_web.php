@@ -31,6 +31,7 @@ use App\Http\Controllers\AdminControllers\SummaryReportController;
 use App\Http\Controllers\AdminControllers\AnnouncementsNewsController;
 use App\Http\Controllers\AdminControllers\ResultVideoController;
 use \App\Http\Controllers\Api\ClientController\Billing\StripeWebhookController;
+use \App\Http\Controllers\AdminControllers\HotSpotController;
 /*
 |--------------------------------------------------------------------------
 | Admin Web Routes
@@ -83,6 +84,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
         Route::get('/assessments', [AdminController::class, 'assessments'])->name('assessments');
         Route::get('/user-profile-overview/{id?}', [AdminController::class, 'profileOverview'])->name('admin_profile_overview');
+        Route::get('/hotspot-detail/{id}', [AdminController::class, 'hotspotDetail'])->name('admin_hotspot_detail');
         Route::get('/user-grid/{id}', [AdminController::class, 'grid'])->name('admin_user_grid');
         Route::get('/activity-logs/{id}', [AdminController::class, 'activityLogs'])->name('admin_activity_logs');
         Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('admin_generate_grid_pdf');
@@ -157,6 +159,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
         Route::get('/network-tutorials', [NetworkTutorialController::class, 'networkTutorials'])->name('admin_network_tutorials');
         Route::get('/announcements-news', [AnnouncementsNewsController::class, 'announcementsNews'])->name('admin_announcements_news');
         Route::get('/faq', [FaqController::class, 'FaqQuestions'])->name('admin_faq');
+         Route::get('/hotspots', [HotSpotController::class, 'HotSpots'])->name('admin_hotspots');
+         Route::get('/edit-hotspot/{id}', [HotSpotController::class, 'editHotSpot'])->name('admin_edit_hotspot');
         Route::get('/b2c-email-template', [EmailTemplateController::class, 'b2CTemplates'])->name('admin_b2c_email_template');
 
         Route::get('/logs-activity', [EmailTemplateController::class, 'getLogsActitvity'])->name('get_logs_activity');

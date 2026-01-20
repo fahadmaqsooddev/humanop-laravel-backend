@@ -27,5 +27,5 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('create-styles-assessment', 'AssessmentController@createStylesAssessment');
     Route::post('assessment-watch-video-track', 'AssessmentController@assessmentWatchVideoTrack');
     Route::get('get-assessment-video-track', 'AssessmentController@getAssessmentVideoTrack');
-
+    Route::get('trend-direction', 'HotSpotController@getTrendDirection');
 });
