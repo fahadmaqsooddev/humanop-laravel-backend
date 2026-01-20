@@ -1,11 +1,11 @@
-<?php 
+<?php
 namespace App\Http\Livewire\Admin\Hotspots;
 
 use Livewire\Component;
 use App\Models\HotSpot;
 use Illuminate\Validation\Rule;
 
-class EditHotSpot extends Component
+class EditHotspot extends Component
 {
     public $select_hotspot;
 
