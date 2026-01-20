@@ -1,13 +1,9 @@
-echo "Deploy script started"
+echo "Deploy (staging) started"
 
-# Fix permissions
-sudo chown -R www-data:www-data .
-sudo chmod -R ug+rw storage bootstrap/cache
+# 1) Vendors first (optimized autoloader)
+sudo -u www-data composer -n install --prefer-dist --no-progress --no-interaction --optimize-autoloader
 
-# Vendors
-sudo -u www-data composer -n install --prefer-dist --no-progress --no-interaction
-
-# Clear stale state
+# 2) Clear any stale state
 sudo -u www-data php artisan optimize:clear
 sudo -u www-data php artisan cache:clear
 sudo -u www-data php artisan config:clear
@@ -16,17 +12,17 @@ sudo -u www-data php artisan view:clear
 sudo -u www-data php artisan event:clear
 sudo -u www-data php artisan clear-compiled
 
-# DB changes
+# 3) DB changes (non-interactive)
 sudo -u www-data php artisan migrate --force
 
-# Warm up caches
+# 4) Warm caches to mirror production behavior
 sudo -u www-data php artisan config:cache
 sudo -u www-data php artisan route:cache
 sudo -u www-data php artisan view:cache
 sudo -u www-data php artisan event:cache
 
-# Restart queue workers
+# 5) Optional: restart workers if you use queues
 sudo -u www-data php artisan queue:restart
 
-echo "Deploy script finished execution"
+echo "Deploy (staging) finished"
 exit 0
