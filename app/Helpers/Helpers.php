@@ -6,7 +6,6 @@ use App\Enums\Admin\Admin;
 use App\Helpers\Assessments\AssessmentHelper;
 use App\Models\Admin\Notification\Notification;
 use App\Models\B2B\B2BBusinessCandidates;
-use App\Models\B2B\UserCandidateInvite;
 use App\Models\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Client\Plan\Plan;
@@ -22,10 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Models\Assessment;
 use App\Models\Admin\StripeSetting\StripeSetting;
-use PhpOffice\PhpWord\Writer\PDF\DomPDF;
-use Smalot\PdfParser\Parser;
 use App\Models\User;
-use GuzzleHttp\Client;
 
 class Helpers
 {
@@ -1717,7 +1713,7 @@ class Helpers
 
     }
 
-    public static function formatTimeByTimezone(string $timestamp, ?string $rawTimezone = 'UTC'): string
+    public static function formatTimeByTimezone(Carbon|string $timestamp, ?string $rawTimezone = 'UTC'): string
     {
         // Extract timezone like "Asia/Karachi"
         if ($rawTimezone && str_contains($rawTimezone, '-')) {
