@@ -531,17 +531,18 @@ class Helpers
             ];
 
         } elseif (
-            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5 && $assessmentDetails['firstRow']['so'] < 5) &&
+            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5) &&
             ($assessmentDetails['thirdRow']['jo'] < 30 && $assessmentDetails['thirdRow']['mer'] < 30) &&
             ($assessmentDetails['firstRow']['so'] < 3)
         ) {
 
             return [
-//                'plan_text' => config('90DaysActionPlan.priority_3'),
+                // 'plan_text' => config('90DaysActionPlan.priority_3'),
                 'priority' => 'priority 3'
             ];
 
-        } elseif ($authenticTraitCount < 3) {
+        }
+        elseif ($authenticTraitCount < 3) {
 
             return [
 //                'plan_text' => config('90DaysActionPlan.priority_4'),
@@ -781,7 +782,7 @@ class Helpers
             ];
 
         } elseif (
-            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5 && $assessmentDetails['firstRow']['so'] < 5) &&
+            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5) &&
             ($assessmentDetails['thirdRow']['jo'] < 30 && $assessmentDetails['thirdRow']['mer'] < 30) &&
             ($assessmentDetails['firstRow']['so'] < 3)
         ) {
@@ -791,7 +792,8 @@ class Helpers
                 'priority' => 'priority 3'
             ];
 
-        } elseif ($authenticTraitCount < 3) {
+        }
+        elseif ($authenticTraitCount < 3) {
 
             return [
                 'plan_text' => config('14DaysActionPlan.priority_4'),
