@@ -136,16 +136,24 @@ class AssessmentController extends Controller
 
             if (!empty($latestAssessment)) {
 
-                $daysPassed = $this->getDayDifference($latestAssessment->updated_at, $user->timezone);
+                $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
 
-                if ($daysPassed <= 90) {
+                $userTime = Carbon::parse($latestAssessment->updated_at);
 
-                    $remainingDays = 90 - $daysPassed;
+                $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+
+                $difference = $userTime->diffInDays($currentTime);
+
+                if ($difference <= 90) {
+
+                    $remainingDays = 90 - $difference;
 
                     return Helpers::successResponse(
                         "You can take another assessment after {$remainingDays} days.",
                         array_merge($baseResponse, [
                             'retake_assessment' => $remainingDays,
+                            'current_time' => $currentTime,
+                            'difference_time' => $difference,
                             'assessment_page_number' => $status,
                             'reset_assessment' => false,
                         ])
