@@ -482,7 +482,7 @@ class AdminController extends Controller
                 ->orderBy('hotspot_score')
                 ->get()
                 ->groupBy('assessment_id');
-            
+
 
             // -----------------------
             // Preload all hotspot names once to avoid N+1
@@ -747,5 +747,6 @@ class AdminController extends Controller
         }
     }
 
+    
 
 }
