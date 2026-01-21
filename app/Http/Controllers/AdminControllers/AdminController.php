@@ -482,6 +482,7 @@ class AdminController extends Controller
                 ->orderBy('hotspot_score')
                 ->get()
                 ->groupBy('assessment_id');
+            
 
             // -----------------------
             // Preload all hotspot names once to avoid N+1
@@ -497,20 +498,21 @@ class AdminController extends Controller
             // -----------------------
             // Map assessments to structured array
             // -----------------------
-            $assessments = $assessmentsRaw->map(function ($rows, $assessmentId) use ($hotspotNames) {
+           $assessments = $assessmentsRaw->map(function ($rows, $assessmentId) use ($hotspotNames) {
                 return [
                     'assessment_id' => $assessmentId,
                     'date' => optional($rows->first())->created_at?->format('F j, Y'),
                     'hotspots' => $rows->map(function ($row) use ($hotspotNames) {
                         return [
                             'priority' => $row->hotspot_score,
-                            'name' => $hotspotNames[$row->hotspot_id] ?? null,
+                            'name' => $hotspotNames[$row->hotspot_id] ?? null, // get name from Hotspot table
                             'shift_interval' => $row->shift_interval,
                             'id' => $row->hotspot_id,
                         ];
                     })->values()
                 ];
             })->values();
+
 
             // -----------------------
             // Prepare trend comparisons
