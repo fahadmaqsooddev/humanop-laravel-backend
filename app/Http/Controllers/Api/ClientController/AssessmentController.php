@@ -209,8 +209,10 @@ class AssessmentController extends Controller
 
             if ($assessment && ($assessment->page + 1 ?? 0) == $request->input('page')) {
 
-                $questions = Question::paginatedQuestions();
+                $assessmentFromApp = filter_var($request->input('assessment_from_app'), FILTER_VALIDATE_BOOLEAN);
+                $perPage = $assessmentFromApp ? 1 : 3;
 
+                $questions = Question::paginatedQuestions($perPage);
                 return Helpers::successResponse('Questions', $questions, true);
 
             } else {
