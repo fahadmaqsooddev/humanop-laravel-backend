@@ -121,37 +121,39 @@ class AssessmentController extends Controller
 
             if ($user->plan_name !== 'Freemium') {
 
-                $assessment = Assessment::where('user_id', $userId)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
-
-                if ($assessment && $assessment->page === 0) {
-
-                    if ($this->isWithin90Days($assessment->updated_at, $user->timezone)) {
-                        return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
-                            'assessment_page_number' => null,
-                            'reset_assessment' => false,
-                        ]));
-                    }
-                }
+                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
 
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
-                    'assessment_page_number' => $assessment->page ?? $status,
+                    'assessment_page_number' => $assessment->page,
                     'reset_assessment' => false,
+                    'latest_assessment_id' => $assessment->id ?? null,
+                    'latest_assessment_at' => $assessment->updated_at ?? null,
+                    'assessment_count' => $assessmentCount,
+                    'plan_name' => $user->plan_name,
                 ]));
 
             }
 
             if (!empty($latestAssessment)) {
 
-                $daysPassed = $this->getDayDifference($latestAssessment->updated_at, $user->timezone);
+                $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
 
-                if ($daysPassed <= 90) {
+                $userTime = Carbon::parse($latestAssessment->updated_at);
 
-                    $remainingDays = 90 - $daysPassed;
+                $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+
+                $difference = $userTime->diffInDays($currentTime);
+
+                if ($difference <= 90) {
+
+                    $remainingDays = 90 - $difference;
 
                     return Helpers::successResponse(
                         "You can take another assessment after {$remainingDays} days.",
                         array_merge($baseResponse, [
                             'retake_assessment' => $remainingDays,
+                            'current_time' => $currentTime,
+                            'difference_time' => $difference,
                             'assessment_page_number' => $status,
                             'reset_assessment' => false,
                         ])
@@ -161,7 +163,7 @@ class AssessmentController extends Controller
 
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'retake_assessment' => null,
-                    'assessment_page_number' => $status,
+                    'assessment_page_number' => null,
                     'reset_assessment' => true,
                 ]));
 

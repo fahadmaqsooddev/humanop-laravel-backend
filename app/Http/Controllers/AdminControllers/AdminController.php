@@ -487,10 +487,10 @@ class AdminController extends Controller
             // -----------------------
             // Preload all hotspot names once to avoid N+1
             // -----------------------
-           $hotspotIds = $assessmentsRaw->flatten() // merge all sub-collections into one
-            ->pluck('hotspot_id')                // get hotspot_id from each HotSpotUser
-            ->filter()                           // remove nulls if any
-            ->unique()                           // remove duplicates
+           $hotspotIds = $assessmentsRaw->flatten()
+            ->pluck('hotspot_id')
+            ->filter()
+            ->unique()
             ->toArray();
 
             $hotspotNames = HotSpot::whereIn('id', $hotspotIds)->pluck('name', 'id');
@@ -747,6 +747,6 @@ class AdminController extends Controller
         }
     }
 
-    
+
 
 }
