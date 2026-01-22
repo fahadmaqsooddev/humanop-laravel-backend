@@ -127,14 +127,19 @@ class Question extends Model
 
     }
 
-    public static function paginatedQuestions()
+    public static function paginatedQuestions($perPage=3)
     {
 
         $user = Helpers::getUser();
-        
-        $userGender = ($user->gender == 0 || strtolower($user->gender) == 'male') ? 0 : 1;
 
-        $questions = self::whereIn('gender', [$userGender, 2])->whereNull('question_id')->where('active', 1)->with(['subQuestionsForApi.answers', 'answers'])->orderBy('id', "ASC")->paginate(3)->toArray();
+        $userGender = ($user->gender == 0 || strtolower($user->gender) == 'male') ? 0 : 1;
+        $questions = self::whereIn('gender', [$userGender, 2])
+            ->whereNull('question_id')
+            ->where('active', 1)
+            ->with(['subQuestionsForApi.answers', 'answers'])
+            ->orderBy('id', "ASC")
+            ->paginate($perPage)
+            ->toArray();
 
         $final_questions = [];
 
