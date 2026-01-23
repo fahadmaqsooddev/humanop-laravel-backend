@@ -22,6 +22,18 @@ class QuestionUpdateForm extends Component
         }
     }
 
+    protected function rules()
+    {
+        return [
+            'sub_question'   => 'required|string',
+            'sub_answer.*'    => 'required|string',
+        ];
+    }
+
+    protected $messages = [
+        'sub_question.required' => 'Sub question is required.',
+        'sub_answer.*.required' => 'Answer field is required.',
+    ];
 
 
 
@@ -81,6 +93,7 @@ class QuestionUpdateForm extends Component
     public function createSubQuestion()
     {
 
+        $this->validate();
         try {
 
             $new_question = Question::createQuestion($this->question, $this->sub_question);
