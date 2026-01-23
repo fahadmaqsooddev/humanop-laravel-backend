@@ -75,7 +75,8 @@ class BillingController extends Controller
         if ($si->status !== 'succeeded') {
             return response()->json(['status' => false, 'message' => 'SetupIntent is not succeeded. Please try again.',], 422);
         }
-
+        $credits = $this->calculateCredits($user);
+        $this->HAiCreditsUpdated($credits, $user);
         $pmId = $si->payment_method;
 
         // Idempotent: attach then set default
@@ -725,7 +726,7 @@ class BillingController extends Controller
 
             $credits = $this->calculateCredits($user);
             $this->HAiCreditsUpdated($credits, $user);
-            
+
             $user->save();
             $coupon->update([
                 'is_redeemed' => true,
