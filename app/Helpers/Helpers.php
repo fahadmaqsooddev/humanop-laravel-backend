@@ -1718,28 +1718,14 @@ class Helpers
 
     public static function formatTimeByTimezone(Carbon|string $timestamp, ?string $rawTimezone = 'UTC'): string
     {
-        $defaultTimezone = 'UTC';
-
-        if (empty($rawTimezone)) {
-            $timezone = $defaultTimezone;
+        // Extract timezone like "Asia/Karachi"
+        if ($rawTimezone && str_contains($rawTimezone, '-')) {
+            $timezone = trim(substr($rawTimezone, strrpos($rawTimezone, '-') + 1));
         } else {
-
-            $map = [
-                'karachi, pakistan' => 'Asia/Karachi',
-                'lahore, pakistan'  => 'Asia/Karachi',
-                'new york, usa'     => 'America/New_York',
-
-            ];
-
-            $timezone = $map[strtolower(trim($rawTimezone))] ?? $rawTimezone;
+            $timezone = $rawTimezone ?? 'UTC';
         }
 
-
-        if (!in_array($timezone, \DateTimeZone::listIdentifiers())) {
-            $timezone = $defaultTimezone;
-        }
-
-        return Carbon::parse($timestamp)
+        return \Carbon\Carbon::parse($timestamp)
             ->setTimezone($timezone)
             ->format('m/d/Y h:i A');
     }
