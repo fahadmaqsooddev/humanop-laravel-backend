@@ -102,7 +102,10 @@ class AuthController extends Controller
             $userModel = new User();
 
             // Take only fillable fields from request
-            $dataArray = $request->only($userModel->getFillable());
+            $dataArray = collect(
+                $request->only((new User)->getFillable())
+            )->except(['gender', 'dob', 'timezone','date_of_birth'])->toArray();
+
 
             // Split full_name into first_name / last_name
             $parts = explode(' ', $request->input('full_name'));
