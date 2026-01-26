@@ -461,8 +461,44 @@ class AdminController extends Controller
 
     }
 
+    private function calculateShifts($category, $prevData, $currData, $descField)
+    {
+        $normalize = fn($item) =>
+        is_array($item) && isset($item[0]) ? $item : ($item ? [$item] : []);
 
-     public function hotspotDetail($user_id)
+        $prevArr = collect($normalize($prevData))
+            ->pluck('name')
+            ->filter()
+            ->values()
+            ->toArray();
+
+        $currArr = collect($normalize($currData))
+            ->pluck('name')
+            ->filter()
+            ->values()
+            ->toArray();
+
+        $removed = array_values(array_diff($prevArr, $currArr));
+        $added   = array_values(array_diff($currArr, $prevArr));
+
+        $max = max(count($removed), count($added));
+        $shifts = [];
+
+        for ($i = 0; $i < $max; $i++) {
+            $shifts[] = [
+                'category'    => $category,
+                'prev_value'  => $removed[$i] ?? ($prevArr[0] ?? null),
+                'curr_value'  => $added[$i] ?? ($currArr[0] ?? null),
+                'description' => $descField,
+            ];
+        }
+
+        return $shifts;
+    }
+
+
+
+    public function hotspotDetail($user_id)
     {
         try {
 
@@ -560,19 +596,18 @@ class AdminController extends Controller
                 // -----------------------
                 // Interval Shift
                 // -----------------------
-                $intervalShift = false;
-                foreach ($curr['hotspots'] as $h) {
-                    $prevShift = collect($prev['hotspots'])->firstWhere('name', $h['name'])['shift_interval'] ?? null;
-                    if ($prevShift && $prevShift !== $h['shift_interval']) {
-                        $intervalShift = true;
-                        break;
-                    }
-                }
+                $prevIntervals = $prev['hotspots']->pluck('shift_interval', 'id');
+                $currIntervals = $curr['hotspots']->pluck('shift_interval', 'id');
+
+                $intervalShift = $currIntervals->contains(function ($interval, $hotspotId) use ($prevIntervals) {
+                    return isset($prevIntervals[$hotspotId]) && $prevIntervals[$hotspotId] !== $interval;
+                });
 
                 // -----------------------
                 // Hotspot Delta
                 // -----------------------
                 // collect previous and current scores only
+                
                 $prevScores = $prev['hotspots']->pluck('priority')->toArray();
                 $currScores = $curr['hotspots']->pluck('priority')->toArray();
 
@@ -614,62 +649,44 @@ class AdminController extends Controller
                 $prevCore = Assessment::getCoreState($previousAssessment, $dob);
 
 
-                $calculateShifts = function ($category, $prevData, $currData, $descField) use ($normalize) {
-                    $prevArr = collect($normalize($prevData))->pluck('name')->filter()->values()->toArray();
-                    $currArr = collect($normalize($currData))->pluck('name')->filter()->values()->toArray();
 
-                    $removed = array_values(array_diff($prevArr, $currArr));
-                    $added   = array_values(array_diff($currArr, $prevArr));
 
-                    $max = max(count($removed), count($added));
-                    $shifts = [];
-                    for ($i = 0; $i < $max; $i++) {
-                        $shifts[] = [
-                            'category'    => $category,
-                            'prev_value'  => $removed[$i] ?? ($prevArr[0] ?? null),
-                            'curr_value'  => $added[$i] ?? ($currArr[0] ?? null),
-                            'description' => $descField
-                        ];
-                    }
-                    return $shifts;
-                };
-
-                $traitsShifts = $calculateShifts(
+                $traitsShifts =$this->calculateShifts(
                     $hotspotMessages['traits']['label'],
                     $prevCore['topThreeStyles'] ?? [],
                     $latestCore['topThreeStyles'] ?? [],
                     $hotspotMessages['traits']['message']
                 );
 
-                $driversShifts = $calculateShifts(
+                $driversShifts = $this->calculateShifts(
                     $hotspotMessages['drivers']['label'],
                     $prevCore['topTwoFeatures'] ?? [],
                     $latestCore['topTwoFeatures'] ?? [],
                     $hotspotMessages['drivers']['message']
                 );
 
-                $alchemyShifts = $calculateShifts(
+                $alchemyShifts = $this->calculateShifts(
                     $hotspotMessages['alchemy']['label'],
                     $prevCore['boundary'] ?? [],
                     $latestCore['boundary'] ?? [],
                     $hotspotMessages['alchemy']['message']
                 );
 
-                $commShifts = $calculateShifts(
+                $commShifts = $this->calculateShifts(
                     $hotspotMessages['comm_style']['label'],
                     $prevCore['topCommunication'] ?? [],
                     $latestCore['topCommunication'] ?? [],
                     $hotspotMessages['comm_style']['message']
                 );
 
-                $perceptionShifts = $calculateShifts(
+                $perceptionShifts = $this->calculateShifts(
                     $hotspotMessages['perception']['label'],
                     $prevCore['perception'] ?? [],
                     $latestCore['perception'] ?? [],
                     $hotspotMessages['perception']['message']
                 );
 
-                $energyShifts = $calculateShifts(
+                $energyShifts = $this->calculateShifts(
                     $hotspotMessages['energy_pool']['label'],
                     $prevCore['energyPool'] ?? [],
                     $latestCore['energyPool'] ?? [],
