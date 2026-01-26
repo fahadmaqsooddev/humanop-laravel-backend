@@ -100,13 +100,9 @@ class AuthController extends Controller
 
             // We'll use this only to access instance methods like checkEmail()
             $userModel = new User();
-
-            // Take only fillable fields from request
-            $dataArray = collect(
-                $request->only((new User)->getFillable())
-            )->except(['gender', 'dob', 'timezone','date_of_birth'])->toArray();
-
-
+            $skipFields = ['gender','date_of_birth','timezone', 'phone'];
+            $allFields = $request->only((new User)->getFillable());
+            $dataArray = array_diff_key($allFields, array_flip($skipFields));
             // Split full_name into first_name / last_name
             $parts = explode(' ', $request->input('full_name'));
             $dataArray['first_name'] = $parts[0] ?? '';
