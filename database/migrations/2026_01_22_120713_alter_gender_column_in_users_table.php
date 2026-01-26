@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             // gender ko smallInt unsigned me convert karo
-            $table->unsignedInteger('gender')->comment('0 = male, 1 = female')->change();
+            $table->unsignedInteger('gender')->nullable()->comment('0 = male, 1 = female')->change();
             // Index add karo
             $table->index('gender');
         });

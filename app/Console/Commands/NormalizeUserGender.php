@@ -7,55 +7,47 @@ use Illuminate\Support\Facades\DB;
 
 class NormalizeUserGender extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'users:normalize-gender';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Convert gender values: male → 0, female → 1';
+    protected $description = 'Convert gender values: male → 0, female → 1, empty → null';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         $this->info('Starting gender normalization...');
 
-        $affectedRows = 0; // Track rows updated
+        $affectedRows = 0;
 
         DB::table('users')
             ->orderBy('id')
             ->chunk(500, function ($users) use (&$affectedRows) {
+
                 foreach ($users as $user) {
+
+                    $currentGender = strtolower(trim((string) $user->gender));
                     $newGender = null;
-                    $currentGender = strtolower(trim($user->gender));
 
                     if ($currentGender === 'male') {
                         $newGender = 0;
                     } elseif ($currentGender === 'female') {
                         $newGender = 1;
+                    } elseif ($currentGender === '' || is_null($user->gender)) {
+                        $newGender = null;
+                    } else {
+                        // koi unexpected value ho to bhi null
+                        $newGender = null;
                     }
 
-                    if (!is_null($newGender) && $user->gender != $newGender) {
+                    if ($user->gender !== $newGender) {
                         $updated = DB::table('users')
                             ->where('id', $user->id)
                             ->update(['gender' => $newGender]);
 
-                        $affectedRows += $updated; // Increment affected rows
+                        $affectedRows += $updated;
                     }
                 }
             });
 
-        $this->info("Gender normalization completed successfully.");
+        $this->info('Gender normalization completed successfully.');
         $this->info("Total rows affected: {$affectedRows}");
 
         return Command::SUCCESS;
