@@ -531,17 +531,18 @@ class Helpers
             ];
 
         } elseif (
-            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5 && $assessmentDetails['firstRow']['so'] < 5) &&
+            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5) &&
             ($assessmentDetails['thirdRow']['jo'] < 30 && $assessmentDetails['thirdRow']['mer'] < 30) &&
             ($assessmentDetails['firstRow']['so'] < 3)
         ) {
 
             return [
-//                'plan_text' => config('90DaysActionPlan.priority_3'),
+                // 'plan_text' => config('90DaysActionPlan.priority_3'),
                 'priority' => 'priority 3'
             ];
 
-        } elseif ($authenticTraitCount < 3) {
+        }
+        elseif ($authenticTraitCount < 3) {
 
             return [
 //                'plan_text' => config('90DaysActionPlan.priority_4'),
@@ -781,7 +782,7 @@ class Helpers
             ];
 
         } elseif (
-            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5 && $assessmentDetails['firstRow']['so'] < 5) &&
+            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5) &&
             ($assessmentDetails['thirdRow']['jo'] < 30 && $assessmentDetails['thirdRow']['mer'] < 30) &&
             ($assessmentDetails['firstRow']['so'] < 3)
         ) {
@@ -791,7 +792,8 @@ class Helpers
                 'priority' => 'priority 3'
             ];
 
-        } elseif ($authenticTraitCount < 3) {
+        }
+        elseif ($authenticTraitCount < 3) {
 
             return [
                 'plan_text' => config('14DaysActionPlan.priority_4'),
@@ -1728,7 +1730,7 @@ class Helpers
             ->format('m/d/Y h:i A');
     }
 
-        public static function getActiveHotspots(array $assessmentData, $assessmentID, $dob): array
+        public static function getActiveHotspots(array $assessmentData): array
     {
         $hotspots = [];
 
@@ -1750,10 +1752,24 @@ class Helpers
             'mer'=> 'Perceptive',
             'so' => 'Effervescent',
             'van'=> 'Aesthetic Sensibility',
-            'em' => 'Energy EM',
-            'ins'=> 'Energy INS',
-            'int'=> 'Energy INT',
-            'mov'=> 'Energy MOV',
+
+            'de'  => 'Initiates Change',
+            'dom' => 'Creating Order',
+            'fe'  => 'Creates Protection',
+            'gre' => 'Monetary Discernment',
+            'lun' => 'Visionary',
+            'nai' => 'Optimism',
+            'ne'  => 'Negative',
+            'pow' => 'Accomplishment',
+            'sp'  => 'Compassion',
+            'tra' => 'The Traveler',
+            'wil' => 'Perseverance',
+
+            // Energy
+            'em'  => 'Energy EM',
+            'ins' => 'Energy INS',
+            'int' => 'Energy INT',
+            'mov' => 'Energy MOV',
         ];
 
         // ===============================
@@ -1768,7 +1784,7 @@ class Helpers
         // ===============================
         $zeroTraits = [];
         foreach (['sa','ma','jo','lu','ven','mer','so'] as $key) {
-            if (($volume[$key] ?? 1) === 0) $zeroTraits[] = $publicNames[$key];
+            if (($volume[$key] ?? 1) === 0) $zeroTraits[] = $publicNames[$key]; break;
         }
         if (!empty($zeroTraits)) {
             $hotspots[] = ['id'=>2, 'name'=>implode(',', $zeroTraits)];
@@ -1817,49 +1833,70 @@ class Helpers
         // ===============================
         // Priority 11–12 – Pilot / CoPilot
         // ===============================
-        $greenDrivers = [];
-        foreach($firstRowDriver as $driver){
-            if(($gridColor[$driver] ?? '')==='green'){
-                $greenDrivers[] = [
-                    'driver'=>$driver,
-                    'value'=>$volume[$driver] ?? 0,
-                    'weight'=>$weight[$driver] ?? 0,
-                    'name'=>$publicNames[$driver] ?? $driver
-                ];
+
+        $pilotDriverCount = 0;
+        $lowValueDrivers  = [];
+        foreach ($firstRowDriver as $driver) {
+            if (isset($gridColor[$driver]) && ($gridColor[$driver] == 'green') && ($volume[$driver] < 3)) {
+                $pilotDriverCount++;
+                $lowValueDrivers[] = $publicNames[$driver] ?? $driver;
             }
         }
-        usort($greenDrivers, fn($a,$b)=> $b['value']<=>$a['value'] ?: $b['weight']<=>$a['weight']);
 
-        $pilot = $greenDrivers[0] ?? null;
-        $copilot = $greenDrivers[1] ?? null;
 
-        if($pilot && $copilot){
-            $names=[];
-            if($pilot['value']<3) $names[] = $pilot['name'];
-            if($copilot['value']<3) $names[] = $copilot['name'];
+        if ($pilotDriverCount == 2) {
 
-            if($pilot['value']<3 && $copilot['value']<3) $hotspots[] = ['id'=>11, 'name'=>implode(',',$names)];
-            elseif(($pilot['value']<3) xor ($copilot['value']<3)) $hotspots[] = ['id'=>12, 'name'=>implode(',',$names)];
+            $hotspots[] = [
+                'id'   => 11,
+                'name' => implode(',', $lowValueDrivers),
+            ];
+        } elseif ($pilotDriverCount == 1) {
+
+            $hotspots[] = [
+                'id'   => 12,
+                'name' => implode(',', $lowValueDrivers),
+            ];
         }
 
         // ===============================
         // Priority 13–14 – Driver Volume Sum
         // ===============================
         $names = [];
-            foreach($firstRowDriver as $driver){
-                if(isset($volume[$driver]) && $volume[$driver] > 0){
-                    $names[] = $publicNames[$driver] ?? $driver;
-                }
+
+        foreach ($firstRowDriver as $driver) {
+            Log::info('Individual driver', ['driver' => $driver]);
+            Log::info('Volume for driver', [
+                'driver' => $driver,
+                'volume' => $volume[$driver] ?? null,
+            ]);
+            $names[] = $publicNames[$driver] ?? $driver;
+
+        }
+
+        Log::info(
+            ["Find Names"=>$names]
+        );
+
+// Sum of all driver volumes
+            $countFirstRowDriver = 0;
+
+            foreach ($firstRowDriver as $driver) {
+                $countFirstRowDriver += $volume[$driver] ?? 0;
             }
 
-            $countFirstRowDriver = array_sum(array_map(fn($d) => $volume[$d] ?? 0, $firstRowDriver));
-
-            if($countFirstRowDriver > 21 || $countFirstRowDriver < 16){
-                $id = $countFirstRowDriver > 21 ? 13 : 14;
-                $hotspots[] = ['id'=>$id, 'name'=>implode(', ', $names)];
+            if ($countFirstRowDriver > 21) {
+                $hotspots[] = [
+                    'id' => 13,
+                    'name' => implode(', ', $names),
+                ];
+            } else {
+                $hotspots[] = [
+                    'id' => 14,
+                    'name' => implode(', ', $names),
+                ];
             }
 
-        // ===============================
+            // ===============================
         // Priority 15–16 – Alchemy
         // ===============================
         $alchemyHigh = [700,610,601,520,511,502,430];

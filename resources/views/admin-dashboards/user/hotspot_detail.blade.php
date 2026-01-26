@@ -53,7 +53,7 @@
                                         </div>
                                         <small class="text-muted">
                                             HotSpot Priority: {{ $hotspot['priority'] }} <br>
-                                            Shift: {{ $hotspot['shift_interval'] }}
+                                            Shift Interval : {{ $hotspot['shift_interval'] }}
                                         </small>
                                     </div>
                                 </div>
@@ -92,11 +92,11 @@
         <div class="tab-pane fade show active" id="trend" role="tabpanel">
             <div class="mt-3">
                 @foreach($trendComparisons as $trend)
-                    <div class="alert 
+                    <div class="alert
                         @if($trend['trend'] == 'Positive Trend') alert-success
                         @elseif($trend['trend'] == 'Negative Trend') alert-danger
                         @else alert-warning @endif">
-                        <strong>{{ $trend['trend'] }}:</strong> {{ $trend['message'] }} 
+                        <strong>{{ $trend['trend'] }}:</strong> {{ $trend['message'] }}
                         <br>
                         <small>
                             Assessment {{ $trend['previous_assessment_number'] }} ({{ $trend['date_previous'] }})
@@ -112,26 +112,12 @@
             <div class="mt-3">
                 @foreach($trendComparisons as $trend)
                     @if($trend['interval_shift'])
-                        <div class="alert alert-info">
-                            <strong>Interval Shift Detected:</strong>
-                            Assessment {{ $trend['previous_assessment_number'] }} ({{ $trend['date_previous'] }})
-                            → Assessment {{ $trend['current_assessment_number'] }} ({{ $trend['date_current'] }})
-                            <br>
-                            <ul>
-                                @php
-                                    $currShifts = collect($assessments[$trend['current_assessment_number'] - 1]['hotspots'])->pluck('shift_interval', 'name');
-                                    $prevShifts = collect($assessments[$trend['previous_assessment_number'] - 1]['hotspots'])->pluck('shift_interval', 'name');
-                                @endphp
-                                @foreach($currShifts as $name => $currShift)
-                                    @if(isset($prevShifts[$name]) && $prevShifts[$name] !== $currShift)
-                                        <li>{{ $name }}: Previous Shift → {{ $prevShifts[$name] }}, Current Shift → {{ $currShift }}</li>
-                                    @endif
-                                @endforeach
-                            </ul>
+                        <div class="alert alert-success">
+                            Interval Shift: True
                         </div>
                     @else
                         <div class="alert alert-secondary">
-                            No Interval Shift between Assessment {{ $trend['previous_assessment_number'] }} → Assessment {{ $trend['current_assessment_number'] }}.
+                            Interval Shift: False
                         </div>
                     @endif
                 @endforeach
@@ -143,12 +129,9 @@
             <div class="mt-3">
                 @foreach($trendComparisons as $trend)
                     @php
-                        $currHotspots = collect($assessments[$trend['current_assessment_number'] - 1]['hotspots'])->pluck('priority', 'name');
-                        $prevHotspots = collect($assessments[$trend['previous_assessment_number'] - 1]['hotspots'])->pluck('priority', 'name');
-
-                        $resolved = $prevHotspots->keys()->diff($currHotspots->keys());
-                        $new = $currHotspots->keys()->diff($prevHotspots->keys());
-                        $persistent = $currHotspots->keys()->intersect($prevHotspots->keys());
+                        $resolved = $trend['hotspot_delta']['resolved'] ?? [];
+                        $new = $trend['hotspot_delta']['new'] ?? [];
+                        $persistent = $trend['hotspot_delta']['persistent'] ?? [];
                     @endphp
 
                     <div class="card mb-3">
@@ -157,43 +140,49 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
+                                <!-- Resolved -->
                                 <div class="col-md-4">
                                     <h6>Resolved</h6>
                                     <div class="p-2 bg-success text-white rounded">
-                                        @if($resolved->isEmpty())
+                                        @if(empty($resolved))
                                             <p class="mb-0">None</p>
                                         @else
                                             <ul class="mb-0">
-                                                @foreach($resolved as $name)
-                                                    <li>{{ $name }} (#{{ $prevHotspots[$name] }})</li>
+                                                @foreach($resolved as $item)
+                                                    {{-- item can be ['priority' => 1, 'name' => 'NO-AES'] --}}
+                                                    <li>#{{ $item['priority'] ?? '?' }} - {{ $item['name'] ?? '?' }}</li>
                                                 @endforeach
                                             </ul>
                                         @endif
                                     </div>
                                 </div>
+
+                                <!-- New -->
                                 <div class="col-md-4">
                                     <h6>New</h6>
                                     <div class="p-2 bg-danger text-white rounded">
-                                        @if($new->isEmpty())
+                                        @if(empty($new))
                                             <p class="mb-0">None</p>
                                         @else
                                             <ul class="mb-0">
-                                                @foreach($new as $name)
-                                                    <li>{{ $name }} (#{{ $currHotspots[$name] }})</li>
+                                                @foreach($new as $item)
+                                                    <li>#{{ $item['priority'] ?? '?' }} - {{ $item['name'] ?? '?' }}</li>
                                                 @endforeach
                                             </ul>
                                         @endif
                                     </div>
                                 </div>
+
+                                <!-- Persistent -->
                                 <div class="col-md-4">
                                     <h6>Persistent</h6>
                                     <div class="p-2 bg-warning text-dark rounded">
-                                        @if($persistent->isEmpty())
+                                        @if(empty($persistent))
                                             <p class="mb-0">None</p>
                                         @else
                                             <ul class="mb-0">
-                                                @foreach($persistent as $name)
-                                                    <li>{{ $name }} (#{{ $currHotspots[$name] }})</li>
+                                                @foreach($persistent as $item)
+                                                    <li>#{{ $item['hotspot_score'] ?? '?' }} - {{ $item['name'] ?? '?' }}</li>
                                                 @endforeach
                                             </ul>
                                         @endif
@@ -206,7 +195,8 @@
             </div>
         </div>
 
-        <!-- Authentic Shift -->
+
+
         <!-- Authentic Shift -->
         <div class="tab-pane fade" id="authentic" role="tabpanel">
             <div class="mt-3">
@@ -215,11 +205,11 @@
                         <div class="card-header fw-bold" style="color:black">
                             Authentic Shifts: Assessment {{ $trend['previous_assessment_number'] }} → Assessment {{ $trend['current_assessment_number'] }}
                         </div>
-                        <div class="card-body" style="color:black">
+                        <div class="card-body" style="color:white">
 
                             <!-- Interval of Life Shift -->
                             <div class="mb-3">
-                                <strong>Interval of Life Shift:</strong>
+                                <strong style="color:black">Interval of Life Shift : </strong>
                                 @if($trend['interval_shift'])
                                     <span class="badge bg-success">Detected</span>
                                 @else
@@ -233,10 +223,11 @@
                                     @foreach($trend['authentic_element_shifts'] as $shift)
                                         <li class="list-group-item">
                                             <strong>{{ $shift['category'] ?? 'Category' }}</strong>:
-                                            {{ $shift['prev_value'] ?? 'None' }} 
-                                            → {{ $shift['curr_value'] ?? 'None' }}
-                                            <br>
-                                            <small class="text-muted">{{ $shift['description'] ?? '' }}</small>
+                                            {{ $shift['prev_value'] ?? 'None' }} → {{ $shift['curr_value'] ?? 'None' }}
+                                            @if(!empty($shift['description']))
+                                                <br>
+                                                <small class="text-muted">{{ $shift['description'] }}</small>
+                                            @endif
                                         </li>
                                     @endforeach
                                 </ul>
@@ -248,7 +239,6 @@
                 @endforeach
             </div>
         </div>
-
 
         <!-- HAI Analysis Prompt Context -->
         <div class="tab-pane fade" id="analysis" role="tabpanel">

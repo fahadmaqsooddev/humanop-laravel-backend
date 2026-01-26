@@ -29,7 +29,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('user-feedback', 'UserController@userFeedback');
     Route::get('user-feedback-status', 'UserController@userFeedbackStatus');
     Route::post('/google/login/signup', 'UserController@googleLoginSignup');
-    Route::get('profile-overview-result', 'UserController@profileOverviewResult');
+    Route::get('profile-overview-result', 'UserController@profileOverviewResult')->middleware('assessment.owner');
     Route::get('summary-report', 'UserController@summaryReport');
     Route::get('version', 'UserController@getLatestVersion');
     Route::get('referral-credits', 'UserController@referralCredits');

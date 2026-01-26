@@ -23,12 +23,11 @@ class RegisterLastStepRequest extends FormRequest
      */
     public function rules()
     {
-        $requiredDobAndGender = filter_var(request()->input('is_android', true), FILTER_VALIDATE_BOOLEAN) ? 'required' : 'nullable';
 
         return [
             'user_id' => 'required',
-            'gender' => $requiredDobAndGender . '|in:male,female',
-            'date_of_birth' => $requiredDobAndGender . '|date',
+            'gender' => 'required|in:male,female',
+            'date_of_birth' => 'required|date',
             'phone' => 'nullable|max:25',
             'timezone' => 'required|string|max:100',
         ];

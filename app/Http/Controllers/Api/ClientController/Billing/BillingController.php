@@ -90,6 +90,9 @@ class BillingController extends Controller
 
         $user->syncDefaultPmFromStripe($this->stripe, $pmId);
 
+        $credits = $this->calculateCredits($user);
+        $this->HAiCreditsUpdated($credits, $user);
+
         return response()->json(['status' => true]);
     }
 
@@ -725,7 +728,7 @@ class BillingController extends Controller
 
             $credits = $this->calculateCredits($user);
             $this->HAiCreditsUpdated($credits, $user);
-            
+
             $user->save();
             $coupon->update([
                 'is_redeemed' => true,
