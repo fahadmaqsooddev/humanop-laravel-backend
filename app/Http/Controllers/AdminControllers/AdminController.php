@@ -24,6 +24,7 @@ use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\HotSpotUser;
 use App\Models\HotSpot;
 use Illuminate\Support\Facades\Log;
+use function App\Http\Controllers\Api\ClientController;
 
 class AdminController extends Controller
 {
@@ -464,25 +465,22 @@ class AdminController extends Controller
      public function hotspotDetail($user_id)
     {
         try {
+
             if (empty($user_id)) {
                 abort(404, "User not found");
             }
 
             // -----------------------
-            // Get last 3 assessments
+            // Get All assessments
             // -----------------------
             $assessmentIds = HotSpotUser::where('user_id', $user_id)
-                ->orderByDesc('assessment_id')
                 ->distinct()
                 ->pluck('assessment_id');
 
             $assessmentsRaw = HotSpotUser::where('user_id', $user_id)
                 ->whereIn('assessment_id', $assessmentIds)
-                ->orderByDesc('assessment_id')
-                ->orderBy('hotspot_score')
                 ->get()
                 ->groupBy('assessment_id');
-
 
             // -----------------------
             // Preload all hotspot names once to avoid N+1
@@ -506,6 +504,7 @@ class AdminController extends Controller
                         return [
                             'priority' => $row->hotspot_score,
                             'name' => $hotspotNames[$row->hotspot_id] ?? null, // get name from Hotspot table
+                            'names' => $row->names,
                             'shift_interval' => $row->shift_interval,
                             'id' => $row->hotspot_id,
                         ];
@@ -513,18 +512,25 @@ class AdminController extends Controller
                 ];
             })->values();
 
-
+            $assessments = $assessments
+                ->sortBy(fn ($a) => \Carbon\Carbon::parse($a['date']))
+                ->values();
             // -----------------------
             // Prepare trend comparisons
             // -----------------------
+
             $trendComparisons = [];
             $hotspotMessages = config('hotspot_messages'); // make sure you have this config
 
             $totalAssessments = $assessments->count();
+            $dob = User::find($user_id)->date_of_birth;
 
             for ($i = 0; $i < $totalAssessments - 1; $i++) {
-                $curr = $assessments[$i];
-                $prev = $assessments[$i + 1];
+                $prev = $assessments[$i];
+                $curr = $assessments[$i + 1];
+
+                $previousAssessmentId = $prev['assessment_id'];
+                $latestAssessmentId = $curr['assessment_id'];
 
                 // -----------------------
                 // Trend Direction
@@ -566,14 +572,47 @@ class AdminController extends Controller
                 // -----------------------
                 // Hotspot Delta
                 // -----------------------
-                $resolved = $prevPriorities->keys()->diff($currPriorities->keys());
-                $new = $currPriorities->keys()->diff($prevPriorities->keys());
-                $persistent = $currPriorities->keys()->intersect($prevPriorities->keys());
+                // collect previous and current scores only
+                $prevScores = $prev['hotspots']->pluck('priority')->toArray();
+                $currScores = $curr['hotspots']->pluck('priority')->toArray();
 
-                // -----------------------
+
+                $resolved = $prev['hotspots']->filter(function($hPrev) use ($curr) {
+                    return !$curr['hotspots']->contains(function($hCurr) use ($hPrev) {
+                        return $hCurr['priority'] === $hPrev['priority'];
+                    });
+                })->map(fn($h) => [
+                    'priority' => $h['priority'],
+                    'name' => $h['name'],
+                ])->values()->all();
+
+                $new = $curr['hotspots']->filter(function($hCurr) use ($prev) {
+                    return !$prev['hotspots']->contains(function($hPrev) use ($hCurr) {
+                        return $hPrev['priority'] === $hCurr['priority'];
+                    });
+                })->map(fn($h) => [
+                    'priority' => $h['priority'],
+                    'name' => $h['name'],
+                ])->values()->all();
+
+                $persistent = $curr['hotspots']->filter(function($hCurr) use ($prev) {
+                    return $prev['hotspots']->contains(function($hPrev) use ($hCurr) {
+                        return $hPrev['priority'] === $hCurr['priority'];
+                    });
+                })->map(fn($h) => [
+                    'priority' => $h['priority'],
+                    'name' => $h['name'],
+                ])->values()->all();
+
                 // Authentic Shifts
-                // -----------------------
+
                 $normalize = fn($item) => is_array($item) && isset($item[0]) ? $item : ($item ? [$item] : []);
+                $latestAssessment = Assessment::singleAssessmentFromId($latestAssessmentId, null);
+                $latestCore = Assessment::getCoreState($latestAssessment, $dob);
+
+                $previousAssessment = Assessment::singleAssessmentFromId($previousAssessmentId, null);
+                $prevCore = Assessment::getCoreState($previousAssessment, $dob);
+
 
                 $calculateShifts = function ($category, $prevData, $currData, $descField) use ($normalize) {
                     $prevArr = collect($normalize($prevData))->pluck('name')->filter()->values()->toArray();
@@ -595,45 +634,110 @@ class AdminController extends Controller
                     return $shifts;
                 };
 
-                $authenticShifts = [
-                    'traits'      => $calculateShifts($hotspotMessages['traits']['label'] ?? 'Traits', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['traits']['message'] ?? ''),
-                    'drivers'     => $calculateShifts($hotspotMessages['drivers']['label'] ?? 'Drivers', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['drivers']['message'] ?? ''),
-                    'alchemy'     => $calculateShifts($hotspotMessages['alchemy']['label'] ?? 'Alchemy', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['alchemy']['message'] ?? ''),
-                    'comm_style'  => $calculateShifts($hotspotMessages['comm_style']['label'] ?? 'Communication', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['comm_style']['message'] ?? ''),
-                    'perception'  => $calculateShifts($hotspotMessages['perception']['label'] ?? 'Perception', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['perception']['message'] ?? ''),
-                    'energy_pool' => $calculateShifts($hotspotMessages['energy_pool']['label'] ?? 'Energy Pool', $prev['hotspots'], $curr['hotspots'], $hotspotMessages['energy_pool']['message'] ?? ''),
-                ];
+                $traitsShifts = $calculateShifts(
+                    $hotspotMessages['traits']['label'],
+                    $prevCore['topThreeStyles'] ?? [],
+                    $latestCore['topThreeStyles'] ?? [],
+                    $hotspotMessages['traits']['message']
+                );
+
+                $driversShifts = $calculateShifts(
+                    $hotspotMessages['drivers']['label'],
+                    $prevCore['topTwoFeatures'] ?? [],
+                    $latestCore['topTwoFeatures'] ?? [],
+                    $hotspotMessages['drivers']['message']
+                );
+
+                $alchemyShifts = $calculateShifts(
+                    $hotspotMessages['alchemy']['label'],
+                    $prevCore['boundary'] ?? [],
+                    $latestCore['boundary'] ?? [],
+                    $hotspotMessages['alchemy']['message']
+                );
+
+                $commShifts = $calculateShifts(
+                    $hotspotMessages['comm_style']['label'],
+                    $prevCore['topCommunication'] ?? [],
+                    $latestCore['topCommunication'] ?? [],
+                    $hotspotMessages['comm_style']['message']
+                );
+
+                $perceptionShifts = $calculateShifts(
+                    $hotspotMessages['perception']['label'],
+                    $prevCore['perception'] ?? [],
+                    $latestCore['perception'] ?? [],
+                    $hotspotMessages['perception']['message']
+                );
+
+                $energyShifts = $calculateShifts(
+                    $hotspotMessages['energy_pool']['label'],
+                    $prevCore['energyPool'] ?? [],
+                    $latestCore['energyPool'] ?? [],
+                    $hotspotMessages['energy_pool']['message']
+                );
 
                 // Flatten all categories except interval_of_life
+                $authenticShifts = [
+                    'interval_of_life' => $intervalShift,
+                    'traits'           => $traitsShifts,
+                    'drivers'          => $driversShifts,
+                    'alchemy'          => $alchemyShifts,
+                    'comm_style'       => $commShifts,
+                    'perception'       => $perceptionShifts,
+                    'energy_pool'      => $energyShifts
+                ];
+
+                // -----------------------
+                // HAI Analysis Prompt Context
+                // -----------------------
+                $prevMinScore = min($prevPriorities->all());
+                $currScores = $currPriorities->values()->all();
+
+                if (!in_array($prevMinScore, $currScores)) {
+                    $hotspotNames = collect($prev['hotspots'])
+                        ->filter(fn($h) => $h['priority'] === $prevMinScore)
+                        ->pluck('names') // directly pluck the name column
+                        ->toArray();
+
+                    $hotspotNameStr = implode(', ', $hotspotNames);
+
+                    $primaryWin = "Eliminated Priority #{$prevMinScore} Drain ({$hotspotNameStr})";
+                } else {
+                    $primaryWin = null;
+                }
+
+                // find the hotspot(s) with the min priority in current assessment
+                $maxCurrScore = min($currPriorities->all());
+                $currHotspotNames = collect($curr['hotspots'])
+                    ->filter(fn($h) => $h['priority'] === $maxCurrScore)
+                    ->pluck('names')
+                    ->toArray();
+
+                $currHotspotNameStr = implode(', ', $currHotspotNames);
+
+                $currentHighestDrain = $currHotspotNameStr
+                    ? "Hotspot #{$maxCurrScore} ({$currHotspotNameStr})"
+                    : null;
+
+                $contextNote = $hotspotMessages['trend_context'][$trend] ?? $hotspotMessages['trend_context']['NEUTRAL'];
+
+                // Flatten all authentic shifts
                 $authentic_element_shifts = [];
                 foreach ($authenticShifts as $category => $shifts) {
                     if ($category === 'interval_of_life') continue;
                     foreach ($shifts as $s) {
                         $authentic_element_shifts[] = [
                             'category'   => ucwords(str_replace('_', ' ', $category)),
-                            'prev_value' => $s['prev_value'] ?? null,
-                            'curr_value' => $s['curr_value'] ?? null,
-                            'description'=> $s['description'] ?? null,
+                            'prev_value' => $s['prev_value'] ?? 'None',
+                            'curr_value' => $s['curr_value'] ?? 'None',
+                            'description'=> $s['description'] ?? '',
                         ];
                     }
                 }
 
-                // -----------------------
-                // HAI Analysis Prompt Context
-                // -----------------------
-                $prevMinName = $prevPriorities->search(min($prevPriorities->all()));
-                $primaryWin = ($prevMinName && !$currPriorities->has($prevMinName))
-                    ? "Eliminated Priority #{$prevPriorities[$prevMinName]} Drain ({$prevMinName})"
-                    : null;
-
-                $currMinName = $currPriorities->search(min($currPriorities->all()));
-                $currentHighestDrain = $currMinName ? "Priority #{$currPriorities[$currMinName]} ({$currMinName})" : null;
-
-                $contextNote = 'User improved significantly but now faces environmental friction.';
-
                 $trendComparisons[] = [
-                    'current_assessment_number' => $i + 1,
-                    'previous_assessment_number' => $i + 2,
+                    'current_assessment_number' => $i + 2,
+                    'previous_assessment_number' => $i + 1,
                     'trend' => $trend,
                     'message' => $message,
                     'date_current' => $curr['date'],
@@ -644,7 +748,7 @@ class AdminController extends Controller
                         'new' => $new,
                         'persistent' => $persistent,
                     ],
-                    'authentic_element_shifts' => $authentic_element_shifts,
+                    'authentic_element_shifts' =>  $authentic_element_shifts,
                     'hai_analysis_prompt_context' => [
                         'primary_win' => $primaryWin,
                         'current_highest_drain' => $currentHighestDrain,
