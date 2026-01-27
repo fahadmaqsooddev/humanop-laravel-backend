@@ -1,8 +1,14 @@
 echo "Deploy script started"
 
-# Fix permissions
-sudo chown -R www-data:www-data .
+# Set ownership to the web server user
+sudo chown -R www-data:www-data storage bootstrap/cache
+
+# Set correct permissions: read/write for user and group
 sudo chmod -R ug+rw storage bootstrap/cache
+
+# Ensure the group bit is set so all created files inherit the group
+sudo find storage -type d -exec chmod g+s {} \;
+sudo find bootstrap/cache -type d -exec chmod g+s {} \;
 
 # Vendors
 sudo -u www-data composer -n install --prefer-dist --no-progress --no-interaction
