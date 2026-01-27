@@ -234,7 +234,12 @@ class AssessmentController extends Controller
 
         try {
 
-            $message = AssessmentService::submitAnswers($request->input('answer_ids'));
+            $assessment_from_app = $request->boolean('assessment_from_app');
+
+            $message = AssessmentService::submitAnswers(
+                $request->input('answer_ids'),
+                $assessment_from_app
+            );
 
             return Helpers::successResponse($message);
 

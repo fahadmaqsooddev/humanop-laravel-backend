@@ -1995,7 +1995,7 @@ class User extends Authenticatable implements JWTSubject
 
             $user = $user->where('email', $request->input('email'))->with('userIntensionPlan')->selection()->first();
 
-            $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
+            $user ? $user['gender'] = ($user['gender'] === 'male' ? 0 : 1) : '';
 
             if ($user) {
 
