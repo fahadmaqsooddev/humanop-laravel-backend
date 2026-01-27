@@ -26,7 +26,7 @@ use App\Models\HotSpotUser;
 
 class AssessmentService
 {
-    public static function submitAnswers(array $answerIds): string
+    public static function submitAnswers(array $answerIds,bool $assessmentFromApp = false): string
     {
         $user = Helpers::getUser();
         $userId = $user->id;
@@ -40,7 +40,7 @@ class AssessmentService
             return 'Assessment not found';
         }
 
-        $message = self::updateAssessmentWithScores($assessment, $finalScores, $user);
+        $message = self::updateAssessmentWithScores($assessment, $finalScores, $user,$assessmentFromApp);
         self::storeAssessmentDetails($answerIds, $assessment, $userId);
 
         return $message;
@@ -92,7 +92,7 @@ class AssessmentService
         return [$singleScores, $multiScores];
     }
 
-    private static function updateAssessmentWithScores($assessment, array $scores, $user): string
+    private static function updateAssessmentWithScores($assessment, array $scores, $user, bool $assessmentFromApp = false): string
     {
         $old = $assessment->toArray();
         $result = [];
@@ -103,7 +103,12 @@ class AssessmentService
 
         $userGender = ($user->gender == 0 || strtolower($user->gender) == 'male') ? 0 : 1;
 
-        $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [$userGender, 2])->where('active', 1)->count() / 3);
+        $totalPages = $assessmentFromApp
+            ? Question::whereNull('question_id')->whereIn('gender', [$userGender, 2])->where('active', 1)->count()
+            : ceil(
+                Question::whereNull('question_id')->whereIn('gender', [$userGender, 2])->where('active', 1)->count() / 3
+            );
+
         $currentPage = $assessment->page + 1;
 
         $message = '';
@@ -141,10 +146,10 @@ class AssessmentService
         AssessmentColorCode::createStylesCodeAndColor($assessment);
         AssessmentColorCode::createFeaturesCodeAndColor($assessment);
 
-       
-    
+
+
         if ($assessment->page == 0) {
-           
+
             ActionPlan::storeUserActionPlan($assessment);
             $data=Assessment::getAllRowGrid($assessment->id);
             if($data){
