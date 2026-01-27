@@ -28,7 +28,7 @@ class AssessmentSubmitRequest extends FormRequest
             'answer_ids.0' => 'required',
             'answer_ids.1' => 'nullable',
             'answer_ids.2' => 'nullable',
-            'assessment_from_app' => 'sometimes|boolean',
+            'assessment_from_app' => 'nullable|boolean',
         ];
     }
 
