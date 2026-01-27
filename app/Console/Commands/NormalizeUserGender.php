@@ -9,7 +9,7 @@ class NormalizeUserGender extends Command
 {
     protected $signature = 'users:normalize-gender';
 
-    protected $description = 'Convert gender values: male → 0, female → 1, empty → null';
+    protected $description = 'Normalize gender values: "male"/"female" or 0/1 to 0/1, others to null.';
 
     public function handle()
     {
@@ -18,27 +18,41 @@ class NormalizeUserGender extends Command
         $affectedRows = 0;
 
         DB::table('users')
+
             ->orderBy('id')
+
             ->chunk(500, function ($users) use (&$affectedRows) {
+
                 foreach ($users as $user) {
 
-                    if (is_numeric($user->gender)){
-                        $newGender = (int) $user->gender;
-                    }
-                    else{
+                    $newGender = null;
+
+                    // Handle numeric strings or ints safely
+                    if (is_string($user->gender) && preg_match('/^\d+$/', $user->gender)) {
+
+                        $intVal = (int) $user->gender;
+
+                        $newGender = in_array($intVal, [0, 1]) ? $intVal : null;
+
+                    } elseif (is_int($user->gender)) {
+
+                        $newGender = in_array($user->gender, [0, 1]) ? $user->gender : null;
+
+                    } else {
+
                         $val = strtolower(trim((string) $user->gender));
+
                         $newGender = match ($val) {
-                            'male', '0' => 0,
-                            'female', '1' => 1,
-                            '' => null,
+                            'male' => 0,
+                            'female' => 1,
                             default => null,
                         };
                     }
 
                     if ($user->gender !== $newGender) {
-                        $updated = DB::table('users')
-                            ->where('id', $user->id)
-                            ->update(['gender' => $newGender]);
+
+                        $updated = DB::table('users')->where('id', $user->id)->update(['gender' => $newGender]);
+
                         $affectedRows += $updated;
                     }
                 }
@@ -49,5 +63,4 @@ class NormalizeUserGender extends Command
 
         return Command::SUCCESS;
     }
-
 }
