@@ -21,14 +21,19 @@ class NormalizeUserGender extends Command
             ->orderBy('id')
             ->chunk(500, function ($users) use (&$affectedRows) {
                 foreach ($users as $user) {
-                    $val = strtolower(trim((string) $user->gender));
 
-                    $newGender = match ($val) {
-                        'male', '0' => 0,
-                        'female', '1' => 1,
-                        '' => null,
-                        default => null,
-                    };
+                    if (is_numeric($user->gender)){
+                        $newGender = (int) $user->gender;
+                    }
+                    else{
+                        $val = strtolower(trim((string) $user->gender));
+                        $newGender = match ($val) {
+                            'male', '0' => 0,
+                            'female', '1' => 1,
+                            '' => null,
+                            default => null,
+                        };
+                    }
 
                     if ($user->gender !== $newGender) {
                         $updated = DB::table('users')

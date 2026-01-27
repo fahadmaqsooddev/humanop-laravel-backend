@@ -47,9 +47,6 @@ class User extends Authenticatable implements JWTSubject
 
     protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator'];
 
-    protected $casts = [
-        'gender' => 'integer',
-    ];
 
     public function __construct(array $attributes = array())
     {
@@ -108,6 +105,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'gender' => 'integer',
     ];
 
 
@@ -1998,7 +1996,7 @@ class User extends Authenticatable implements JWTSubject
             }
 
             $user = $user->where('email', $request->input('email'))->with('userIntensionPlan')->selection()->first();
-            
+
             if ($user) {
 
                 $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);

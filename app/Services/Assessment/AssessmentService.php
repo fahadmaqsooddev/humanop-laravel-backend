@@ -103,9 +103,7 @@ class AssessmentService
 
         $userGender = (int) $user->gender;
 
-        $query = Question::query();
-
-        $questionCount = $query->genderApplicable($userGender)
+        $questionCount = Question::genderApplicable($userGender)
             ->active()
             ->rootQuestions()
             ->count();
