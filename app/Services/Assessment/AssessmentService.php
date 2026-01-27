@@ -101,13 +101,16 @@ class AssessmentService
             $result[strtolower($code)] = ($old[strtolower($code)] ?? 0) + $value;
         }
 
-        $userGender = ($user->gender == 0 || strtolower($user->gender) == 'male') ? 0 : 1;
+        $userGender = (int) $user->gender;
+
+        $questionCount = Question::genderApplicable($userGender)
+            ->active()
+            ->rootQuestions()
+            ->count();
 
         $totalPages = $assessmentFromApp
-            ? Question::whereNull('question_id')->whereIn('gender', [$userGender, 2])->where('active', 1)->count()
-            : ceil(
-                Question::whereNull('question_id')->whereIn('gender', [$userGender, 2])->where('active', 1)->count() / 3
-            );
+            ? $questionCount
+            : ceil($questionCount / 3);
 
         $currentPage = $assessment->page + 1;
 

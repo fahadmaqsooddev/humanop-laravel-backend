@@ -169,4 +169,19 @@ class Question extends Model
 
     }
 
+    public function scopeRootQuestions($q)
+    {
+        return $q->whereNull('question_id');
+    }
+
+    public function scopeActive($q)
+    {
+        return $q->where('active', 1);
+    }
+
+    public function scopeGenderApplicable($q, $gender)
+    {
+        return $q->whereIn('gender', [$gender, 2]);
+    }
+
 }

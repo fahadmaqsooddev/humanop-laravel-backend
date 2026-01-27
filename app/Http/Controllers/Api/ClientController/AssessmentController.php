@@ -234,11 +234,11 @@ class AssessmentController extends Controller
 
         try {
 
-            $assessment_from_app = $request->boolean('assessment_from_app');
+            $assessmentFromApp = $request->boolean('assessment_from_app', false);
 
             $message = AssessmentService::submitAnswers(
-                $request->input('answer_ids'),
-                $assessment_from_app
+                answerIds: $request->input('answer_ids'),
+                assessmentFromApp: $assessmentFromApp
             );
 
             return Helpers::successResponse($message);
