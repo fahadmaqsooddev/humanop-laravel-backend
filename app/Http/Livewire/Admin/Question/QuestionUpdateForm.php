@@ -13,6 +13,22 @@ class QuestionUpdateForm extends Component
     public $question, $answers, $sub_question, $sub_answer = [];
     public $subQuestions;
 
+
+    protected function rules()
+    {
+        return [
+            'sub_question' => 'required|string',
+            'sub_answer'   => 'required|array',
+            'sub_answer.*' => 'required|string',
+        ];
+    }
+
+    protected $messages = [
+        'sub_question.required' => 'Sub question is required.',
+        'sub_answer.required'  => 'All answer fields are required.',
+        'sub_answer.*.required'=> 'Answer field is required.',
+    ];
+
     public function mount($question, $answers)
     {
         $this->question = $question;
@@ -21,20 +37,6 @@ class QuestionUpdateForm extends Component
             $this->sub_answer[$index] = '';
         }
     }
-
-    protected function rules()
-    {
-        return [
-            'sub_question'   => 'required|string',
-            'sub_answer.*'    => 'required|string',
-        ];
-    }
-
-    protected $messages = [
-        'sub_question.required' => 'Sub question is required.',
-        'sub_answer.*.required' => 'Answer field is required.',
-    ];
-
 
 
     public function updateSubQuestion($subQuestionId)
@@ -93,26 +95,26 @@ class QuestionUpdateForm extends Component
     public function createSubQuestion()
     {
 
+        // Validate
         $this->validate();
+
         try {
-
+            // Save
             $new_question = Question::createQuestion($this->question, $this->sub_question);
-
             Answer::createAnswer($this->question['answers'], $this->sub_answer, $new_question['id']);
 
+            // Reset for next submission (keys maintained)
             $this->sub_question = '';
-            $this->sub_answer = '';
+            $this->sub_answer = array_fill(0, count($this->sub_answer), '');
+
             $this->emit('refreshQuestion');
 
-            session()->flash('success', 'Sub Question create successfully.');
-
+            session()->flash('success', 'Sub Question created successfully.');
         } catch (\Exception $exception) {
-
             session()->flash('error', $exception->getMessage());
-
         }
-
     }
+
 
     public function render()
     {
