@@ -1409,7 +1409,6 @@ class User extends Authenticatable implements JWTSubject
     public static function user($id = null)
     {
         $user = self::whereId($id)->with('userIntensionPlan')->selection()->first();
-        $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
         $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
         $user['is_feedback'] = $user['is_feedback'];
         $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
@@ -1503,9 +1502,7 @@ class User extends Authenticatable implements JWTSubject
             $request['password'] = Helpers::getUser()->password;
 
         }
-
         self::whereId($user['id'])->update($request);
-
         $user = self::user($user['id']);
 
         return $user;
@@ -2783,16 +2780,13 @@ class User extends Authenticatable implements JWTSubject
         return false;
     }
 
-    public function getGenderLabelAttribute()
+    public function getGenderAttribute()
     {
-        return match ($this->gender) {
+        return match ((int) $this->attributes['gender']) {
             0 => 'male',
             1 => 'female',
             default => null,
         };
     }
-
-
-
 
 }
