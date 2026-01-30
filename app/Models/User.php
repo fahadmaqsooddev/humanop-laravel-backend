@@ -39,6 +39,7 @@ use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Log;
 
 
 class User extends Authenticatable implements JWTSubject
@@ -105,7 +106,6 @@ class User extends Authenticatable implements JWTSubject
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'gender' => 'integer',
     ];
 
 
@@ -943,7 +943,7 @@ class User extends Authenticatable implements JWTSubject
 
         switch ($age) {
 
-            case (7 <= $age && $age <= 11):
+            case (7 >= $age && $age <= 11):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'connecting_communicating');
 
@@ -959,7 +959,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (12 <= $age && $age <= 15):
+            case (12 >= $age && $age <= 15):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'alchemical_revelation');
 
@@ -975,7 +975,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (16 <= $age && $age <= 20):
+            case (16 >= $age && $age <= 20):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'motivation');
 
@@ -991,7 +991,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (21 <= $age && $age <= 29):
+            case (21 >= $age && $age <= 29):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'roadworthy');
 
@@ -1007,7 +1007,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (30 <= $age && $age <= 33):
+            case (30 >= $age && $age <= 33):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'power');
 
@@ -1023,7 +1023,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (34 <= $age && $age <= 42):
+            case (34 >= $age && $age <= 42):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'midLife_transformation');
 
@@ -1039,7 +1039,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (43 <= $age && $age <= 51):
+            case (43 >= $age && $age <= 51):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'awareness');
 
@@ -1055,7 +1055,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (52 <= $age && $age <= 65):
+            case (52 >= $age && $age <= 65):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'payit_forward');
 
@@ -1071,7 +1071,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (66 <= $age && $age <= 69):
+            case (66 >= $age && $age <= 69):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'liberated');
 
@@ -1087,7 +1087,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (70 <= $age && $age <= 74):
+            case (70 >= $age && $age >= 74):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'being');
 
@@ -1103,7 +1103,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (75 <= $age && $age <= 83):
+            case (75 >= $age && $age <= 83):
 
                 $progress = VideoProgress::checkVideoProgress($assessment['id'], 'life_review');
 
@@ -1502,7 +1502,9 @@ class User extends Authenticatable implements JWTSubject
             $request['password'] = Helpers::getUser()->password;
 
         }
+
         self::whereId($user['id'])->update($request);
+
         $user = self::user($user['id']);
 
         return $user;
@@ -2403,7 +2405,7 @@ class User extends Authenticatable implements JWTSubject
 
         switch ($age) {
 
-            case (7 <= $age && $age <= 11):
+            case (7 >= $age && $age <= 11):
 
                 $interval = [
                     'interval' => 'Connecting & Communicating',
@@ -2780,13 +2782,35 @@ class User extends Authenticatable implements JWTSubject
         return false;
     }
 
-    public function getGenderAttribute()
+
+    public function getGenderAttribute($value)
     {
-        return match ((int) $this->attributes['gender']) {
+
+        Log::info([
+            'Getter' => 'Call'
+        ]);
+        $intValue = is_numeric($value) ? (int)$value : null;
+
+        return match ($intValue) {
             0 => 'male',
             1 => 'female',
+            default => $value, // agar DB me already 'male'/'female' hai
+        };
+    }
+
+
+    public function setGenderAttribute($value)
+    {
+
+        $value = strtolower((string) $value);
+
+        $this->attributes['gender'] = match ($value) {
+            'female' => 1,
+            'male',  => 0,
             default => null,
         };
     }
+
+
 
 }

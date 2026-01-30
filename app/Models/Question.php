@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Answer\Answer;
+use Illuminate\Support\Facades\Log;
 
 class Question extends Model
 {
@@ -132,7 +133,12 @@ class Question extends Model
 
         $user = Helpers::getUser();
 
-        $userGender = ($user->gender == 0 || strtolower($user->gender) == 'male') ? 0 : 1;
+        $userGender = (int) $user->getRawOriginal('gender');
+
+        $assessmentID = Assessment::where('user_id', $user->id)
+            ->latest()
+            ->value('id');
+
         $questions = self::whereIn('gender', [$userGender, 2])
             ->whereNull('question_id')
             ->where('active', 1)
@@ -141,7 +147,14 @@ class Question extends Model
             ->paginate($perPage)
             ->toArray();
 
+        $userAssessmentAnswerIds = \App\Models\AssessmentDetail::where('user_id', $user->id)
+
+            ->pluck('answer_id', 'question_id')  // [question_id => answer_id]
+            ->where('assessment_id',$assessmentID) // yahan latest assessment add karo
+            ->toArray();
+
         $final_questions = [];
+
 
         foreach ($questions['data'] as $key => $question) {
 
@@ -150,6 +163,13 @@ class Question extends Model
             $sub_questions = $question['sub_questions_for_api'];
 
             unset($question['sub_questions_for_api']);
+
+            foreach ($question['answers'] as &$answer) {
+                $answer['solved'] = isset($userAssessmentAnswerIds[$question['id']]) &&
+                    $userAssessmentAnswerIds[$question['id']] == $answer['id'];
+            }
+
+            unset($answer);
 
             array_push($temp_array, $question);
 

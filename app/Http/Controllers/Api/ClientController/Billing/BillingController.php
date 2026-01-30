@@ -90,9 +90,6 @@ class BillingController extends Controller
 
         $user->syncDefaultPmFromStripe($this->stripe, $pmId);
 
-        $credits = $this->calculateCredits($user);
-        $this->HAiCreditsUpdated($credits, $user);
-
         return response()->json(['status' => true]);
     }
 
@@ -213,6 +210,9 @@ class BillingController extends Controller
         if ($invoice->status === 'paid' || $paidInvoice->status === 'paid') {
             // (optional) persist masked PM again to be safe
             $user->syncDefaultPmFromStripe($this->stripe, $pmId);
+
+            $credits = $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB ? Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS : Admin::PREMIUM_LIFETIME_CREDITS;
+            $this->HAiCreditsUpdated($credits, $user);
 
             return response()->json([
                 'subscription_id' => $subscription->id,

@@ -112,12 +112,41 @@ class AssessmentService
             ? $questionCount
             : ceil($questionCount / 3);
 
-        $currentPage = $assessment->page + 1;
+
+        /**
+         * 1️⃣ Calculate CURRENT QUESTION NUMBER
+         */
+        if ($assessmentFromApp) {
+
+            $currentPage = ($assessment->web_page * 3) + 1;
+
+            $appPage = $assessment->app_page + 1;
+
+            if ($appPage == 1) {
+                $webPage = 1;
+            } else {
+
+                $webPage = (int) ceil(($appPage + 1) / 3);
+            }
+
+        } else {
+            // web: 1 page = 3 questions
+            $currentPage = $assessment->web_page + 1;
+            $webPage = $assessment->web_page + 1;
+            $appPage =  1 + (($webPage - 1) * 3) + 3;
+
+        }
 
         $message = '';
 
+        Log::info([
+           'Current Page' => $currentPage,
+           'Total Page' => $totalPages,
+        ]);
         if ($currentPage >= $totalPages) {
             $result['page'] = 0;
+            $result['app_page'] = 0;
+            $result['web_page'] = 0;
             $cachedIp = Cache::get("user_ip_{$user->id}", null); // null if not set
             $geoService = new GeoService();
             $location = $geoService->getLocationByIp($cachedIp);
@@ -140,7 +169,16 @@ class AssessmentService
             }
 
         } else {
-            $result['page'] = $currentPage;
+
+            Log::info([
+                'App Page' => $appPage,
+                'Web Page' => $webPage,
+            ]);
+            $result['app_page'] = $appPage;
+            $result['web_page'] = $webPage;
+
+            $result['page'] = $webPage;
+
             $assessment->update($result);
             event(new SubmitAssessment($user->id, $currentPage + 1));
         }
@@ -224,12 +262,25 @@ class AssessmentService
                 $ans = $answers[$id] ?? null;
 
                 if ($ans) {
+                    $data = [
+                        'user_id'     => $userId,
+                        'assessment_id' => $assessment->id,
+                        'answer_id'   => $ans->id,
+                        'question_id' => $ans->question_id,
+                        'answer'      => $ans->answer,
+                        'question'    => optional($ans->question)->question,
+                    ];
 
-                    $data['answer'] = $ans->answer;
+                    // 🔹 Check if record already exists
+                    $exists = AssessmentDetail::where('user_id', $userId)
+                        ->where('assessment_id', $assessment->id)
+                        ->where('question_id', $ans->question_id)
+                        ->where('answer_id',$ans->id)
+                        ->exists();
 
-                    $data['question'] = optional($ans->question)->question;
-
-                    AssessmentDetail::createAssessmentDetail($data);
+                    if (!$exists) {
+                        AssessmentDetail::createAssessmentDetail($data);
+                    }
                 }
             }
         }

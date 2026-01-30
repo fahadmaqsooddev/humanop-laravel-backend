@@ -101,6 +101,7 @@ class AssessmentController extends Controller
             $latestAssessment = Assessment::getLatestAssessment($userId);
 
             $assessmentCount = Assessment::getAllAssessmentCount($userId);
+            $assessment_price = StripeSetting::getSingle();
 
             $baseResponse = [
                 'latest_assessment_id' => $latestAssessment->id ?? null,
@@ -128,7 +129,14 @@ class AssessmentController extends Controller
                     'reset_assessment' => false,
                     'latest_assessment_id' => $assessment->id ?? null,
                     'latest_assessment_at' => $assessment->updated_at ?? null,
+                    'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                     'assessment_count' => $assessmentCount,
+                    'user' => [
+                        'last_four_digits' => $user['pm_last_four'],
+                        'exp_month' => $user['pm_exp_month'],
+                        'exp_year' => $user['pm_exp_year'],
+                        'name' => $user['card_name'],
+                    ],
                     'plan_name' => $user->plan_name,
                 ]));
 
@@ -207,20 +215,40 @@ class AssessmentController extends Controller
 
         try {
 
-            $assessment = Assessment::where('user_id', Helpers::getUser()->id)->latest()->first();
+            $user = Helpers::getUser();
+            $assessment = Assessment::Where('user_id', $user->id)->latest()->first();
 
-            if ($assessment && ($assessment->page + 1 ?? 0) == $request->input('page')) {
+            $assessmentFromApp = filter_var(
+                $request->input('assessment_from_app'),
+                FILTER_VALIDATE_BOOLEAN
+            );
 
-                $assessmentFromApp = filter_var($request->input('assessment_from_app'), FILTER_VALIDATE_BOOLEAN);
-                $perPage = $assessmentFromApp ? 1 : 3;
+            $requestedPage = (int) $request->input('page');
 
-                $questions = Question::paginatedQuestions($perPage);
-                return Helpers::successResponse('Questions', $questions, true);
+            if ($assessmentFromApp) {
+
+                $expectedPage = $assessment->app_page + 1;
+                if ($expectedPage !== (int) $request->input('page')) {
+                    return Helpers::validationResponse('Invalid page number');
+                }
+
+                $perPage = 1;
 
             } else {
 
-                return Helpers::validationResponse('Invalid page number');
+                $expectedWebPage = (int) ceil(($assessment->app_page + 1) / 3);
+                $requestedPage  = (int) $request->input('page');
+
+                if ($requestedPage !== $expectedWebPage) {
+                    return Helpers::validationResponse('Invalid page number');
+                }
+
+                $perPage = 3;
             }
+
+
+            $questions = Question::paginatedQuestions($perPage);
+            return Helpers::successResponse('Questions', $questions, true);
 
         } catch (\Exception $exception) {
 
