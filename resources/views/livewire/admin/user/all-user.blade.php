@@ -132,10 +132,8 @@
                    <td class="text-sm font-weight-normal text-center">
                         @if(is_null($user['gender']))
                             -
-                        @elseif($user['gender'] == 1 || $user['gender'] === 'female')
-                            Female
                         @else
-                            Male
+                            {{ $user['gender'] }}
                         @endif
                     </td>
                     <td class="text-sm font-weight-normal">
