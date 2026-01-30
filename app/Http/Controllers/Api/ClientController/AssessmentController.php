@@ -114,6 +114,8 @@ class AssessmentController extends Controller
 
                 return Helpers::successResponse('Reset Assessment', array_merge($baseResponse, [
                     'assessment_page_number' => $status == 0 ? true : $status,
+                    'web_page_number' => $status == 0 ? true : $status,
+                    'app_page_number' => $status == 0 ? true : $status,
                     'retake_assessment' => null,
                     'reset_assessment' => true,
                 ]));
@@ -122,10 +124,12 @@ class AssessmentController extends Controller
 
             if ($user->plan_name !== 'Freemium') {
 
-                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
+                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page','web_page','app_page','type', 'updated_at', 'reset_assessment'])->latest()->first();
 
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'assessment_page_number' => $assessment->page,
+                    'web_page_number' => $assessment->web_page,
+                    'app_page_number' => $assessment->app_page,
                     'reset_assessment' => false,
                     'latest_assessment_id' => $assessment->id ?? null,
                     'latest_assessment_at' => $assessment->updated_at ?? null,
@@ -172,6 +176,8 @@ class AssessmentController extends Controller
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'retake_assessment' => null,
                     'assessment_page_number' => null,
+                    'web_page_number' => null,
+                    'app_page_number' => null,
                     'reset_assessment' => true,
                 ]));
 
@@ -179,6 +185,8 @@ class AssessmentController extends Controller
 
             return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                 'assessment_page_number' => $status,
+                'web_page_number' => $status,
+                'app_page_number' => $status,
                 'reset_assessment' => false,
             ]));
 
