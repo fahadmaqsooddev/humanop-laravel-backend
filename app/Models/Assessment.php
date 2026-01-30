@@ -1674,7 +1674,7 @@ class Assessment extends Model
 
         $user = Helpers::getUser();
 
-        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
+        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page','web_page','app_page','type', 'updated_at', 'reset_assessment'])->latest()->first();
 
         if ($assessment) {
 
@@ -1700,7 +1700,12 @@ class Assessment extends Model
                 }
             } else {
 
-                return ($assessment['page'] === null ? 0 : $assessment['page']);
+                return [
+                    'page'     => ($assessment['page']     === null ? 0 : $assessment['page']),
+                    'web_page' => ($assessment['web_page'] === null ? 0 : $assessment['web_page']),
+                    'app_page' => ($assessment['app_page'] === null ? 0 : $assessment['app_page']),
+                ];
+
             }
         } else {
 

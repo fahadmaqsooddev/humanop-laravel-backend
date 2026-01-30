@@ -133,7 +133,7 @@ class AssessmentService
             // web: 1 page = 3 questions
             $currentPage = $assessment->web_page + 1;
             $webPage = $assessment->web_page + 1;
-            $appPage =  1 + (($webPage - 1) * 3) + 3;
+            $appPage =  (($webPage - 1) * 3) + 3;
 
         }
 

@@ -113,9 +113,9 @@ class AssessmentController extends Controller
             if (!empty($latestAssessment) && $latestAssessment->reset_assessment == 1) {
 
                 return Helpers::successResponse('Reset Assessment', array_merge($baseResponse, [
-                    'assessment_page_number' => $status == 0 ? true : $status,
-                    'web_page_number' => $status == 0 ? true : $status,
-                    'app_page_number' => $status == 0 ? true : $status,
+                    'assessment_page_number' => $status['page'] == 0 ? true : $status['page'],
+                    'web_page_number' => $status['web_page'] == 0 ? true : $status['web_page'],
+                    'app_page_number' => $status['app_page'] == 0 ? true : $status['app_page'],
                     'retake_assessment' => null,
                     'reset_assessment' => true,
                 ]));
@@ -184,9 +184,9 @@ class AssessmentController extends Controller
             }
 
             return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
-                'assessment_page_number' => $status,
-                'web_page_number' => $status,
-                'app_page_number' => $status,
+                'assessment_page_number' => $status['page'],
+                'web_page_number' => $status['page'],
+                'app_page_number' => $status['web_page'],
                 'reset_assessment' => false,
             ]));
 
