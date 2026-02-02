@@ -226,6 +226,7 @@ class AssessmentController extends Controller
             $user = Helpers::getUser();
             $assessment = Assessment::Where('user_id', $user->id)->latest()->first();
 
+
             $assessmentFromApp = filter_var(
                 $request->input('assessment_from_app'),
                 FILTER_VALIDATE_BOOLEAN
@@ -236,7 +237,7 @@ class AssessmentController extends Controller
             if ($assessmentFromApp) {
 
                 $expectedPage = $assessment->app_page + 1;
-                if ($expectedPage !== (int) $request->input('page')) {
+                if ($expectedPage !== $requestedPage) {
                     return Helpers::validationResponse('Invalid page number');
                 }
 
@@ -245,7 +246,6 @@ class AssessmentController extends Controller
             } else {
 
                 $expectedWebPage = (int) ceil(($assessment->app_page + 1) / 3);
-                $requestedPage  = (int) $request->input('page');
 
                 if ($requestedPage !== $expectedWebPage) {
                     return Helpers::validationResponse('Invalid page number');

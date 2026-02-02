@@ -130,10 +130,10 @@
                                placeholder="Enter email">
                     </td>
                    <td class="text-sm font-weight-normal text-center">
-                        @if(is_null($user['gender']))
+                        @if(is_null($user['gender_label']))
                             -
                         @else
-                            {{ $user['gender'] }}
+                            {{ $user['gender_label'] }}
                         @endif
                     </td>
                     <td class="text-sm font-weight-normal">
