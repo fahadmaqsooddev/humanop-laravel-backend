@@ -147,10 +147,10 @@ class Question extends Model
             ->paginate($perPage)
             ->toArray();
 
-        $userAssessmentAnswerIds = \App\Models\AssessmentDetail::where('user_id', $user->id)
 
-            ->pluck('answer_id', 'question_id')  // [question_id => answer_id]
-            ->where('assessment_id',$assessmentID) // yahan latest assessment add karo
+        $userAssessmentAnswerIds = AssessmentDetail::where('user_id', $user->id)
+            ->where('assessment_id',$assessmentID)
+            ->pluck('answer_id', 'question_id','assessment_id')
             ->toArray();
 
         $final_questions = [];
