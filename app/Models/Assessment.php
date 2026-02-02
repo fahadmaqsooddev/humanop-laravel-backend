@@ -87,21 +87,13 @@ class Assessment extends Model
 
         if ($webUser = Helpers::getWebUser()) {
 
-            Log::info("Hello");
-
             $timezone = $webUser['timezone'] ?? 'UTC';
 
         } elseif ($appUser = Helpers::getUser()) {
 
-
-            Log::info("Hello2");
-
             $timezone = $appUser['timezone'] ?? 'UTC';
 
         } else {
-
-
-            Log::info("Hello3");
 
             $user = User::getSingleUser($this->id);
             $timezone = $user->timezone ?? 'UTC';
