@@ -34,9 +34,12 @@ use Stripe\Stripe;
 
 class AssessmentController extends Controller
 {
+
+    public $user = null;
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->user = Helpers::getUser();
     }
 
     public function allAssessments(Request $request)
@@ -223,8 +226,7 @@ class AssessmentController extends Controller
 
         try {
 
-            $user = Helpers::getUser();
-            $assessment = Assessment::Where('user_id', $user->id)->latest()->first();
+            $assessment = Assessment::Where('user_id', $this->user->id)->latest()->first();
 
 
             $assessmentFromApp = filter_var(
@@ -255,7 +257,9 @@ class AssessmentController extends Controller
             }
 
 
-            $questions = Question::paginatedQuestions($perPage);
+//            dd($this->user);
+
+            $questions = Question::paginatedQuestions($perPage,$this->user);
             return Helpers::successResponse('Questions', $questions, true);
 
         } catch (\Exception $exception) {
