@@ -94,6 +94,37 @@ class AssessmentService
 
     private static function updateAssessmentWithScores($assessment, array $scores, $user, bool $assessmentFromApp = false): string
     {
+        $result = self::calculateUpdatedScores($assessment, $scores);
+
+        $userGender = (int) $user->gender;
+        $questionCount = Question::genderApplicable($userGender)
+            ->active()
+            ->rootQuestions()
+            ->count();
+
+        $pageData = self::calculateCurrentPages($assessment, $questionCount, $assessmentFromApp);
+
+        $result = array_merge($result, $pageData['update_data']);
+        $assessment->update($result);
+
+        self::handleAssessmentEvents($assessment, $user, $pageData['current_page']);
+
+        AssessmentColorCode::deleteAssessemntColorCodeData($assessment);
+        AssessmentColorCode::createStylesCodeAndColor($assessment);
+        AssessmentColorCode::createFeaturesCodeAndColor($assessment);
+
+        if ($assessment->page == 0) {
+            self::handleNewActionPlan($assessment);
+        }
+
+        return $pageData['message'];
+    }
+
+    /**
+     * 1️⃣ Update scores
+     */
+    private static function calculateUpdatedScores($assessment, array $scores): array
+    {
         $old = $assessment->toArray();
         $result = [];
 
@@ -101,69 +132,96 @@ class AssessmentService
             $result[strtolower($code)] = ($old[strtolower($code)] ?? 0) + $value;
         }
 
-        $userGender = (int) $user->gender;
+        return $result;
+    }
 
-        $questionCount = Question::genderApplicable($userGender)
-            ->active()
-            ->rootQuestions()
-            ->count();
+    /**
+     * 2️⃣ Calculate current page numbers
+     */
+    private static function calculateCurrentPages($assessment, int $questionCount, bool $assessmentFromApp): array
+    {
+        if ($assessmentFromApp) {
+            $appPage = $assessment->app_page + 1;
+            $currentPage = $appPage;
+            if ($appPage == 1) {
+                $webPage = 1;
+            } else {
+                $webPage = (int) ceil($appPage / 3);
+            }
+        } else {
+            $currentPage = $assessment->web_page + 1;
+            $webPage = $currentPage;
+            $appPage = (($webPage - 1) * 3) + 3;
+        }
 
-        $totalPages = $assessmentFromApp
-            ? $questionCount
-            : ceil($questionCount / 3);
-
-        $currentPage = $assessment->page + 1;
+        $totalPages = $assessmentFromApp ? $questionCount : ceil($questionCount / 3);
 
         $message = '';
+        $updateData = [];
 
         if ($currentPage >= $totalPages) {
-            $result['page'] = 0;
-            $cachedIp = Cache::get("user_ip_{$user->id}", null); // null if not set
+            $updateData['page'] = 0;
+            $updateData['web_page'] = 0;
+            $updateData['app_page'] = 0;
+            $message = 'final_page';
+        } else {
+            $updateData['page'] = $webPage;
+            $updateData['web_page'] = $webPage;
+            $updateData['app_page'] = $appPage;
+        }
+
+        return [
+            'current_page' => $currentPage,
+            'update_data' => $updateData,
+            'message' => $message,
+        ];
+    }
+
+    /**
+     * 3️⃣ Handle gamification, events and logging
+     */
+    private static function handleAssessmentEvents($assessment, $user, int $currentPage)
+    {
+        if ($currentPage == 0) {
+            $cachedIp = Cache::get("user_ip_{$user->id}", null);
             $geoService = new GeoService();
             $location = $geoService->getLocationByIp($cachedIp);
-            $result['ip_address'] = $cachedIp ?? '0.0.0.0'; // fallback if cache empty
-            $result['city'] = $location['city'];
-            $result['country'] = $location['country'];
-            $assessment->update($result);
+            $assessment->update([
+                'ip_address' => $cachedIp ?? '0.0.0.0',
+                'city' => $location['city'],
+                'country' => $location['country']
+            ]);
+
             event(new SubmitAssessment($user->id, 0));
-            $message = self::handleDailyTipIfFinalPage($assessment, $user);
             self::triggerGamification($user);
 
-            if (Assessment::where('user_id', $user->id)->count() == 1) {
+            $logMessage = Assessment::where('user_id', $user->id)->count() == 1
+                ? "Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free."
+                : "Congratulations on finishing your assessment!";
 
-                ActivityLogger::addLog('Assessment Completed', "Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free.");
+            ActivityLogger::addLog('Assessment Completed', $logMessage);
 
-            } else {
-
-                ActivityLogger::addLog('Assessment Completed', "Congratulations on finishing your assessment!");
-
-            }
-
+            self::handleDailyTipIfFinalPage($assessment, $user);
         } else {
-            $result['page'] = $currentPage;
-            $assessment->update($result);
             event(new SubmitAssessment($user->id, $currentPage + 1));
         }
+    }
 
-        AssessmentColorCode::deleteAssessemntColorCodeData($assessment);
-        AssessmentColorCode::createStylesCodeAndColor($assessment);
-        AssessmentColorCode::createFeaturesCodeAndColor($assessment);
-
-
-
-        if ($assessment->page == 0) {
-
-            ActionPlan::storeUserActionPlan($assessment);
-            $data=Assessment::getAllRowGrid($assessment->id);
-            if($data){
-                $trendtracker=new HotSpotUser;
-                $trendtracker->insertData($assessment->id,$data);
-            }
-            ActivityLogger::addLog('New Action Plan', "Your New 14 Days Action Plan");
+    /**
+     * 4️⃣ Handle Action Plan & HotSpot insertion
+     */
+    private static function handleNewActionPlan($assessment)
+    {
+        ActionPlan::storeUserActionPlan($assessment);
+        $data = Assessment::getAllRowGrid($assessment->id);
+        if ($data) {
+            $trendTracker = new HotSpotUser;
+            $trendTracker->insertData($assessment->id, $data);
         }
 
-        return $message;
+        ActivityLogger::addLog('New Action Plan', "Your New 14 Days Action Plan");
     }
+
 
     private static function handleDailyTipIfFinalPage($assessment, $user): string
     {
@@ -211,29 +269,32 @@ class AssessmentService
     {
         $flatIds = collect($answerIds)->flatten()->unique()->toArray();
 
-        $answers = Answer::with('question')->whereIn('id', $flatIds)->orWhereIn('answer_id', $flatIds)->get()->keyBy('id');
+        $answers = Answer::with('question')
+            ->whereIn('id', $flatIds)
+            ->orWhereIn('answer_id', $flatIds)
+            ->get();
 
-        foreach ($answerIds as $answer) {
+        $insertData = [];
 
-            $data = ['user_id' => $userId, 'assessment_id' => $assessment->id];
-
-            $ids = is_array($answer) ? $answer : [$answer];
-
-            foreach ($ids as $id) {
-
-                $ans = $answers[$id] ?? null;
-
-                if ($ans) {
-
-                    $data['answer'] = $ans->answer;
-
-                    $data['question'] = optional($ans->question)->question;
-
-                    AssessmentDetail::createAssessmentDetail($data);
-                }
+        foreach ($answers as $ans) {
+            if ($ans) {
+                $insertData[] = [
+                    'user_id'       => $userId,
+                    'assessment_id' => $assessment->id,
+                    'answer_id'     => $ans->id,
+                    'question_id'   => $ans->question_id,
+                    'answer'        => $ans->answer,
+                    'question'      => optional($ans->question)->question,
+                    'created_at'    => now(),
+                    'updated_at'    => now(),
+                ];
             }
         }
+
+        // Batch insert, ignores duplicates if DB has unique constraint
+        AssessmentDetail::insertOrIgnore($insertData);
     }
+
 
     private static function triggerGamification($user): void
     {

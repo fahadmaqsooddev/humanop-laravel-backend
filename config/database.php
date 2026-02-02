@@ -222,7 +222,7 @@ return [
 
         'AssessmentDetail' => [
             'table' => 'assessment_details',
-            'fillable' => ['user_id', 'assessment_id', 'question', 'answer'],
+            'fillable' => ['user_id', 'assessment_id','question_id','answer_id','question', 'answer'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'DailyTip' => [

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Answer\Answer;
+use Illuminate\Support\Facades\Log;
 
 class Question extends Model
 {
@@ -17,7 +18,6 @@ class Question extends Model
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
         $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
-
         parent::__construct($attributes);
     }
 
@@ -127,12 +127,16 @@ class Question extends Model
 
     }
 
-    public static function paginatedQuestions($perPage=3)
+    public static function paginatedQuestions($perPage=3,$user)
     {
 
-        $user = Helpers::getUser();
 
-        $userGender = ($user->gender == 0 || strtolower($user->gender) == 'male') ? 0 : 1;
+        $userGender = (int) $user->getRawOriginal('gender');
+
+        $assessmentID = Assessment::where('user_id', $user->id)
+            ->latest()
+            ->value('id');
+
         $questions = self::whereIn('gender', [$userGender, 2])
             ->whereNull('question_id')
             ->where('active', 1)
@@ -141,7 +145,14 @@ class Question extends Model
             ->paginate($perPage)
             ->toArray();
 
+
+        $userAssessmentAnswerIds = AssessmentDetail::where('user_id', $user->id)
+            ->where('assessment_id',$assessmentID)
+            ->pluck('answer_id', 'question_id')
+            ->toArray();
+
         $final_questions = [];
+
 
         foreach ($questions['data'] as $key => $question) {
 
@@ -150,6 +161,13 @@ class Question extends Model
             $sub_questions = $question['sub_questions_for_api'];
 
             unset($question['sub_questions_for_api']);
+
+            foreach ($question['answers'] as &$answer) {
+                $answer['solved'] = isset($userAssessmentAnswerIds[$question['id']]) &&
+                    $userAssessmentAnswerIds[$question['id']] == $answer['id'];
+            }
+
+            unset($answer);
 
             array_push($temp_array, $question);
 

@@ -55,6 +55,8 @@ class Assessment extends Model
     public function getUpdatedAtAttribute($value)
     {
 
+
+
         if ($webUser = Helpers::getWebUser()) {
 
             $timezone = $webUser['timezone'] ?? 'UTC';
@@ -68,6 +70,8 @@ class Assessment extends Model
             $user = User::getSingleUser($this->id);
             $timezone = $user->timezone ?? 'UTC';
         }
+
+
 
         $formattedTimestamp = str_replace('T', ' ', $value);
 
@@ -95,6 +99,8 @@ class Assessment extends Model
             $timezone = $user->timezone ?? 'UTC';
 
         }
+
+
 
         $formattedTimestamp = str_replace('T', ' ', $value);
 
@@ -1674,11 +1680,15 @@ class Assessment extends Model
 
         $user = Helpers::getUser();
 
-        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
+        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page','web_page','app_page','type', 'updated_at', 'reset_assessment'])->latest()->first();
 
         if ($assessment) {
 
-            if ($assessment['page'] === 0) {
+            $page     = (int) ($assessment['page']     ?? 0);
+            $webPage  = (int) ($assessment['web_page'] ?? 0);
+            $appPage  = (int) ($assessment['app_page'] ?? 0);
+
+            if ($page === 0 || $webPage === 0 || $appPage === 0) {
 
                 if ($assessment['reset_assessment'] == 1) {
 
@@ -1695,12 +1705,19 @@ class Assessment extends Model
 
                     return self::createNewAssessment();
                 } else {
-
-                    return false;
+                    return [
+                        'page'     => $page,
+                        'web_page' => $webPage,
+                        'app_page' => $appPage,
+                    ];
                 }
             } else {
 
-                return ($assessment['page'] === null ? 0 : $assessment['page']);
+                return [
+                    'page'     => ($assessment['page'] === null ? 0 : $assessment['page']),
+                    'web_page' => ($assessment['web_page'] === null ? 0 : $assessment['web_page']),
+                    'app_page' => ($assessment['app_page'] === null ? 0 : $assessment['app_page']),
+                ];
             }
         } else {
 

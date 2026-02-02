@@ -62,7 +62,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label fs-4" style="color: #1b3a62">Question</label>
+                                    <label class="form-label fs-4" style="color: #1b3a62">Add Question</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -82,8 +82,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
-                                Question
+                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Submit
                             </button>
                         </div>
                     </form>

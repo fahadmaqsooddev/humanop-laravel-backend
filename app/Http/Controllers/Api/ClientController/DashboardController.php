@@ -45,16 +45,20 @@ use PHPUnit\TextUI\Help;
 
 class DashboardController extends Controller
 {
+    public $user = null;
+
     public function __construct()
     {
         $this->middleware('auth:api');
+
+        $this->user = Helpers::getUser();
     }
 
     public function dailyTip()
     {
         try {
 
-            $user = Helpers::getWebUser() ?? Helpers::getUser();
+            $user = Helpers::getWebUser() ?? $this->user;
 
             $assessment = Assessment::getLatestAssessment($user['id']);
 

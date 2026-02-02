@@ -34,9 +34,12 @@ use Stripe\Stripe;
 
 class AssessmentController extends Controller
 {
+
+    public $user = null;
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->user = Helpers::getUser();
     }
 
     public function allAssessments(Request $request)
@@ -101,6 +104,7 @@ class AssessmentController extends Controller
             $latestAssessment = Assessment::getLatestAssessment($userId);
 
             $assessmentCount = Assessment::getAllAssessmentCount($userId);
+            $assessment_price = StripeSetting::getSingle();
 
             $baseResponse = [
                 'latest_assessment_id' => $latestAssessment->id ?? null,
@@ -112,7 +116,9 @@ class AssessmentController extends Controller
             if (!empty($latestAssessment) && $latestAssessment->reset_assessment == 1) {
 
                 return Helpers::successResponse('Reset Assessment', array_merge($baseResponse, [
-                    'assessment_page_number' => $status == 0 ? true : $status,
+                    'assessment_page_number' => $status['page'] == 0 ? true : $status['page'],
+                    'web_page_number' => $status['web_page'] == 0 ? true : $status['web_page'],
+                    'app_page_number' => $status['app_page'] == 0 ? true : $status['app_page'],
                     'retake_assessment' => null,
                     'reset_assessment' => true,
                 ]));
@@ -121,14 +127,23 @@ class AssessmentController extends Controller
 
             if ($user->plan_name !== 'Freemium') {
 
-                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
+                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page','web_page','app_page','type', 'updated_at', 'reset_assessment'])->latest()->first();
 
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'assessment_page_number' => $assessment->page,
+                    'web_page_number' => $assessment->web_page,
+                    'app_page_number' => $assessment->app_page,
                     'reset_assessment' => false,
                     'latest_assessment_id' => $assessment->id ?? null,
                     'latest_assessment_at' => $assessment->updated_at ?? null,
+                    'assessment_price' => ($assessment_price->amount - 1 ?? 0),
                     'assessment_count' => $assessmentCount,
+                    'user' => [
+                        'last_four_digits' => $user['pm_last_four'],
+                        'exp_month' => $user['pm_exp_month'],
+                        'exp_year' => $user['pm_exp_year'],
+                        'name' => $user['card_name'],
+                    ],
                     'plan_name' => $user->plan_name,
                 ]));
 
@@ -164,13 +179,17 @@ class AssessmentController extends Controller
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'retake_assessment' => null,
                     'assessment_page_number' => null,
+                    'web_page_number' => null,
+                    'app_page_number' => null,
                     'reset_assessment' => true,
                 ]));
 
             }
 
             return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
-                'assessment_page_number' => $status,
+                'assessment_page_number' => $status['page'],
+                'web_page_number' => $status['page'],
+                'app_page_number' => $status['web_page'],
                 'reset_assessment' => false,
             ]));
 
@@ -207,20 +226,41 @@ class AssessmentController extends Controller
 
         try {
 
-            $assessment = Assessment::where('user_id', Helpers::getUser()->id)->latest()->first();
+            $assessment = Assessment::Where('user_id', $this->user->id)->latest()->first();
 
-            if ($assessment && ($assessment->page + 1 ?? 0) == $request->input('page')) {
 
-                $assessmentFromApp = filter_var($request->input('assessment_from_app'), FILTER_VALIDATE_BOOLEAN);
-                $perPage = $assessmentFromApp ? 1 : 3;
+            $assessmentFromApp = filter_var(
+                $request->input('assessment_from_app'),
+                FILTER_VALIDATE_BOOLEAN
+            );
 
-                $questions = Question::paginatedQuestions($perPage);
-                return Helpers::successResponse('Questions', $questions, true);
+            $requestedPage = (int) $request->input('page');
+
+            if ($assessmentFromApp) {
+
+                $expectedPage = $assessment->app_page + 1;
+                if ($expectedPage !== $requestedPage) {
+                    return Helpers::validationResponse('Invalid page number');
+                }
+
+                $perPage = 1;
 
             } else {
 
-                return Helpers::validationResponse('Invalid page number');
+                $expectedWebPage = (int) ceil(($assessment->app_page + 1) / 3);
+
+                if ($requestedPage !== $expectedWebPage) {
+                    return Helpers::validationResponse('Invalid page number');
+                }
+
+                $perPage = 3;
             }
+
+
+//            dd($this->user);
+
+            $questions = Question::paginatedQuestions($perPage,$this->user);
+            return Helpers::successResponse('Questions', $questions, true);
 
         } catch (\Exception $exception) {
 
