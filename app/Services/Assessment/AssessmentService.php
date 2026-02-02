@@ -142,11 +142,11 @@ class AssessmentService
     {
         if ($assessmentFromApp) {
             $appPage = $assessment->app_page + 1;
-            $webPage = (int) ceil($appPage / 3);
             $currentPage = $appPage;
-
-            if ($appPage > 1) {
-                $webPage = (int) ceil(($appPage + 1) / 3);
+            if ($appPage == 1) {
+                $webPage = 1;
+            } else {
+                $webPage = (int) ceil($appPage / 3);
             }
         } else {
             $currentPage = $assessment->web_page + 1;
