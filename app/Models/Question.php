@@ -150,7 +150,7 @@ class Question extends Model
 
         $userAssessmentAnswerIds = AssessmentDetail::where('user_id', $user->id)
             ->where('assessment_id',$assessmentID)
-            ->pluck('answer_id', 'question_id','assessment_id')
+            ->pluck('answer_id', 'question_id')
             ->toArray();
 
         $final_questions = [];

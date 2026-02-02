@@ -2786,9 +2786,6 @@ class User extends Authenticatable implements JWTSubject
     public function getGenderAttribute($value)
     {
 
-        Log::info([
-            'Getter' => 'Call'
-        ]);
         $intValue = is_numeric($value) ? (int)$value : null;
 
         return match ($intValue) {
@@ -2806,7 +2803,7 @@ class User extends Authenticatable implements JWTSubject
 
         $this->attributes['gender'] = match ($value) {
             'female' => 1,
-            'male',  => 0,
+            'male'  => 0,
             default => null,
         };
     }

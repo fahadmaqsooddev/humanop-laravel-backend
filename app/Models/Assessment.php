@@ -1706,9 +1706,9 @@ class Assessment extends Model
                     return self::createNewAssessment();
                 } else {
                     return [
-                        'page'     => 0,
-                        'web_page' => 0,
-                        'app_page' => 0,
+                        'page'     => $page,
+                        'web_page' => $webPage,
+                        'app_page' => $appPage,
                     ];
                 }
             } else {

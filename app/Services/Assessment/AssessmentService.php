@@ -118,9 +118,9 @@ class AssessmentService
          */
         if ($assessmentFromApp) {
 
-            $currentPage = ($assessment->web_page * 3) + 1;
-
             $appPage = $assessment->app_page + 1;
+            $currentPage = $appPage;
+            $webPage    = (int) ceil($appPage / 3);
 
             if ($appPage == 1) {
                 $webPage = 1;
@@ -132,17 +132,13 @@ class AssessmentService
         } else {
             // web: 1 page = 3 questions
             $currentPage = $assessment->web_page + 1;
-            $webPage = $assessment->web_page + 1;
+            $webPage = $currentPage;
             $appPage =  (($webPage - 1) * 3) + 3;
 
         }
 
         $message = '';
 
-        Log::info([
-           'Current Page' => $currentPage,
-           'Total Page' => $totalPages,
-        ]);
         if ($currentPage >= $totalPages) {
             $result['page'] = 0;
             $result['app_page'] = 0;
@@ -170,10 +166,6 @@ class AssessmentService
 
         } else {
 
-            Log::info([
-                'App Page' => $appPage,
-                'Web Page' => $webPage,
-            ]);
             $result['app_page'] = $appPage;
             $result['web_page'] = $webPage;
 
@@ -249,42 +241,32 @@ class AssessmentService
     {
         $flatIds = collect($answerIds)->flatten()->unique()->toArray();
 
-        $answers = Answer::with('question')->whereIn('id', $flatIds)->orWhereIn('answer_id', $flatIds)->get()->keyBy('id');
+        $answers = Answer::with('question')
+            ->whereIn('id', $flatIds)
+            ->orWhereIn('answer_id', $flatIds)
+            ->get();
 
-        foreach ($answerIds as $answer) {
+        $insertData = [];
 
-            $data = ['user_id' => $userId, 'assessment_id' => $assessment->id];
-
-            $ids = is_array($answer) ? $answer : [$answer];
-
-            foreach ($ids as $id) {
-
-                $ans = $answers[$id] ?? null;
-
-                if ($ans) {
-                    $data = [
-                        'user_id'     => $userId,
-                        'assessment_id' => $assessment->id,
-                        'answer_id'   => $ans->id,
-                        'question_id' => $ans->question_id,
-                        'answer'      => $ans->answer,
-                        'question'    => optional($ans->question)->question,
-                    ];
-
-                    // 🔹 Check if record already exists
-                    $exists = AssessmentDetail::where('user_id', $userId)
-                        ->where('assessment_id', $assessment->id)
-                        ->where('question_id', $ans->question_id)
-                        ->where('answer_id',$ans->id)
-                        ->exists();
-
-                    if (!$exists) {
-                        AssessmentDetail::createAssessmentDetail($data);
-                    }
-                }
+        foreach ($answers as $ans) {
+            if ($ans) {
+                $insertData[] = [
+                    'user_id'       => $userId,
+                    'assessment_id' => $assessment->id,
+                    'answer_id'     => $ans->id,
+                    'question_id'   => $ans->question_id,
+                    'answer'        => $ans->answer,
+                    'question'      => optional($ans->question)->question,
+                    'created_at'    => now(),
+                    'updated_at'    => now(),
+                ];
             }
         }
+
+        // Batch insert, ignores duplicates if DB has unique constraint
+        AssessmentDetail::insertOrIgnore($insertData);
     }
+
 
     private static function triggerGamification($user): void
     {
