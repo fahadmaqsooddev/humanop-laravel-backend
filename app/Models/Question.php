@@ -7,20 +7,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Answer\Answer;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use App\Services\UserContext;
 
 class Question extends Model
 {
     use HasFactory;
 
-    public function __construct(array $attributes = [])
+
+
+
+    public function __construct(array $attributes = [],?UserContext $userContext = null)
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
         $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
-
         parent::__construct($attributes);
     }
+
+
 
     // relations
     public function answers()
@@ -131,11 +137,10 @@ class Question extends Model
     public static function paginatedQuestions($perPage=3)
     {
 
-        $user = Helpers::getUser();
+        $userId = UserContext::getInstance()->getUserId();
+        $userGender = UserContext::getInstance()->getUserGender();
 
-        $userGender = (int) $user->getRawOriginal('gender');
-
-        $assessmentID = Assessment::where('user_id', $user->id)
+        $assessmentID = Assessment::where('user_id', $userId)
             ->latest()
             ->value('id');
 
@@ -148,7 +153,7 @@ class Question extends Model
             ->toArray();
 
 
-        $userAssessmentAnswerIds = AssessmentDetail::where('user_id', $user->id)
+        $userAssessmentAnswerIds = AssessmentDetail::where('user_id', $userId)
             ->where('assessment_id',$assessmentID)
             ->pluck('answer_id', 'question_id')
             ->toArray();
