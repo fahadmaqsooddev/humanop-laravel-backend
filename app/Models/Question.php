@@ -133,7 +133,7 @@ class Question extends Model
 
         $user = Helpers::getUser();
 
-        $userGender = (int) $user->gender;
+        $userGender = (int) $user->getRawOriginal('gender');
 
         $assessmentID = Assessment::where('user_id', $user->id)
             ->latest()

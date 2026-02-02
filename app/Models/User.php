@@ -46,7 +46,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator','gender_label'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator'];
 
 
     public function __construct(array $attributes = array())
@@ -106,7 +106,6 @@ class User extends Authenticatable implements JWTSubject
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'gender' => 'integer'
     ];
 
 
@@ -2758,7 +2757,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public function getGenderLabelAttribute($value)
+    public function getGenderAttribute($value)
     {
 
         $intValue = is_numeric($value) ? (int)$value : null;
@@ -2766,9 +2765,24 @@ class User extends Authenticatable implements JWTSubject
         return match ($intValue) {
             0 => 'male',
             1 => 'female',
-            default => $value,
+            default => $value, // agar DB me already 'male'/'female' hai
         };
     }
+
+
+    public function setGenderAttribute($value)
+    {
+
+        $value = strtolower((string) $value);
+
+        $this->attributes['gender'] = match ($value) {
+            'female' => 1,
+            'male'  => 0,
+            default => null,
+        };
+    }
+
+ 
 
 
 }
