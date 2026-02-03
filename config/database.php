@@ -186,7 +186,7 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['parent_referal_plan_name', 'last_updated_daily_tip', 'first_name', 'last_name', 'email', 'password', 'phone', 'date_of_birth', 'gender', 'signup_date', 'last_login', 'status', 'stripe_id', 'is_admin', 'payment_method', 'pm_type', 'pm_last_four', 'pm_exp_month', 'pm_exp_year', 'google_id', 'is_feedback', 'password_set', 'is_permanently_deleted', 'image_id', 'apple_id', 'hai_chat', 'referral_code', 'referred_by', 'practitioner_id', 'timezone', 'two_way_auth', 'intro_check', 'reset_password', 'app_intro_check', 'reset_password_token', 'email_verify_token', 'step', 'email_verified_at', 'register_from_app', 'device_token', 'company_name', 'business_sub_stratergy_id', 'business_id', 'work_email', 'b2b_step', 'team_department', 'prompt_notification', 'version_update', 'sms_verify_code', 'phone_verified_at', 'complete_assessment_walkthrough', 'complete_tutorial', 'chat_summary', 'profile_status', 'hai_status', 'credits_log', 'life_alchemist', 'excited_connect', 'note', 'profile_privacy', 'hai_privacy', 'registration_checkout', 'trial_day', 'trial_time', 'set_daily_tip_time', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'google_apple_last_login_at', 'last_login_with', 'login_device_with', 'plan', 'has_bb_onetime', 'is_lifetime', 'hai_chat_sound_mute', 'billing_context','premium_lifetime_welcome','skip_premium_lifetime_deal','premium_banner_hide'],
+            'fillable' => ['parent_referal_plan_name', 'last_updated_daily_tip', 'first_name', 'last_name', 'email', 'password', 'phone', 'date_of_birth', 'gender', 'signup_date', 'last_login', 'status', 'stripe_id', 'is_admin', 'payment_method', 'pm_type', 'pm_last_four', 'pm_exp_month', 'pm_exp_year', 'google_id', 'is_feedback', 'password_set', 'is_permanently_deleted', 'image_id', 'apple_id', 'hai_chat', 'referral_code', 'referred_by', 'practitioner_id', 'timezone', 'two_way_auth', 'intro_check', 'reset_password', 'app_intro_check', 'reset_password_token', 'email_verify_token', 'step', 'email_verified_at', 'register_from_app', 'device_token', 'company_name', 'business_sub_stratergy_id', 'business_id', 'work_email', 'b2b_step', 'team_department', 'prompt_notification', 'version_update', 'sms_verify_code', 'phone_verified_at', 'complete_assessment_walkthrough', 'complete_tutorial', 'chat_summary', 'profile_status', 'hai_status', 'credits_log', 'life_alchemist', 'excited_connect', 'note', 'profile_privacy', 'hai_privacy', 'registration_checkout', 'trial_day', 'trial_time', 'set_daily_tip_time', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'google_apple_last_login_at', 'last_login_with', 'login_device_with', 'plan', 'has_bb_onetime', 'is_lifetime', 'hai_chat_sound_mute', 'billing_context', 'premium_lifetime_welcome', 'skip_premium_lifetime_deal', 'premium_banner_hide'],
             'hidden' => ['created_at', 'updated_at', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret']
         ],
         'Page' => [
@@ -206,23 +206,23 @@ return [
         ],
         'Assessment' => [
             'table' => 'assessments',
-            'fillable' => ['user_id', 'page', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'created_at', 'type', 'updated_at', 'reset_assessment', 'web_page', 'app_page', 'after_reset_assessment_updated_at','ip_address','city','country'],
+            'fillable' => ['user_id', 'page', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'created_at', 'type', 'updated_at', 'reset_assessment', 'web_page', 'app_page', 'after_reset_assessment_updated_at', 'ip_address', 'city', 'country'],
 //            'hidden' => ['updated_at']
         ],
         'HotSpot' => [
             'table' => 'hotspots',
-            'fillable' => ['user_id','assessment_id','hotspot_score','hotspot_name','shift_interval','names']
+            'fillable' => ['user_id', 'assessment_id', 'hotspot_score', 'hotspot_name', 'shift_interval', 'names']
 //            'hidden' => ['updated_at']
         ],
         'HotSpotUser' => [
             'table' => 'hotspot_users',
-            'fillable' => ['user_id','assessment_id','hotspot_id','hotspot_score','shift_interval','names']
+            'fillable' => ['user_id', 'assessment_id', 'hotspot_id', 'hotspot_score', 'shift_interval', 'names']
 //            'hidden' => ['updated_at']
         ],
 
         'AssessmentDetail' => [
             'table' => 'assessment_details',
-            'fillable' => ['user_id', 'assessment_id','question_id','answer_id','question', 'answer'],
+            'fillable' => ['user_id', 'assessment_id', 'question_id', 'answer_id', 'question', 'answer'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'DailyTip' => [
@@ -334,7 +334,7 @@ return [
         ],
         'Feedback' => [
             'table' => 'feedbacks',
-            'fillable' => ['comment', 'user_id', 'approve', 'rating', 'title', 'platform', 'image_id', 'video_id', 'blue_ticket_id', 'blue_status', 'blue_last_update', 'blue_last_synced_at','category'],
+            'fillable' => ['comment', 'user_id', 'approve', 'rating', 'title', 'platform', 'image_id', 'video_id', 'blue_ticket_id', 'blue_status', 'blue_last_update', 'blue_last_synced_at', 'category'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Connection' => [
@@ -827,17 +827,22 @@ return [
         ],
         'LifetimeDealBanner' => [
             'table' => 'lifetime_deal_banners',
-            'fillable' => ['title_for_beta_breaker', 'title_for_freemium', 'description_for_beta_breaker', 'description_for_freemium', 'status','start_date','end_date'],
+            'fillable' => ['title_for_beta_breaker', 'title_for_freemium', 'description_for_beta_breaker', 'description_for_freemium', 'status', 'start_date', 'end_date'],
             'hidden' => ['created_at'],
         ],
         'Activity' => [
             'table' => 'activity_log',
-            'fillable' => ['log_name', 'description', 'subject_type', 'event', 'subject_id','causer_type','causer_id','properties','batch_uuid','action_title','action_description','url'],
+            'fillable' => ['log_name', 'description', 'subject_type', 'event', 'subject_id', 'causer_type', 'causer_id', 'properties', 'batch_uuid', 'action_title', 'action_description', 'url'],
             'hidden' => ['created_at'],
         ],
         'LifetimeCoupon' => [
             'table' => 'lifetime_coupons',
             'fillable' => ['code', 'type', 'is_redeemed', 'redeemed_by_user_id', 'redeemed_at'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'FamilyMatrixResponse' => [
+            'table' => 'family_matrix_response',
+            'fillable' => ['user_id', 'target_id', 'vide_check_text', 'physics_friction_analysis', 'physics_flow_analysis', 'system_hack_title', 'system_hack_actionable_step'],
             'hidden' => ['created_at', 'updated_at']
         ],
     ]

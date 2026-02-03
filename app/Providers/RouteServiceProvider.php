@@ -26,6 +26,8 @@ class RouteServiceProvider extends ServiceProvider
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
 
+    protected $FamilyMatrixNamespace = 'App\Http\Controllers\Api\ClientController\FamilyMatrix';
+
 
     /**
      * The controller namespace for the application.
@@ -129,6 +131,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/webhook/blue_webhook_api.php'));
+
+            Route::prefix('api')
+                ->namespace($this->FamilyMatrixNamespace)
+                ->group(base_path('routes/client_apis/family_matrix/family_matrix_api.php'));
 
             Route::prefix('api')->middleware('api')
                 ->namespace('')
