@@ -408,8 +408,6 @@ class AuthController extends Controller
 
                 $dataArray['step'] = 3;
 
-                $dataArray['gender'] = $request->input('gender') === 'male' ? 0 : 1;
-
                 tap($getUser->update($dataArray));
 
                 PushNotification::createNotification($request['user_id']);
