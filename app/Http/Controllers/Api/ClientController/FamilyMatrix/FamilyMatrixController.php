@@ -6,19 +6,26 @@ use App\Helpers\Assessments\AssessmentHelper;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\FamilyMatrix\AssignFamilymatrixRelationshipRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Assessment;
 use App\Models\CompatibilityReferenceKeys\DriverCompatibilityReferenceKeys;
 use App\Models\CompatibilityReferenceKeys\EnergyPoolCompatibilityReferenceKeys;
+use App\Models\FamilyMatrix\AssignFamilyMatrixRelationship;
+use App\Models\FamilyMatrix\FamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixResponse;
 use Illuminate\Http\Request;
 
 class FamilyMatrixController extends Controller
 {
 
-    public function __construct()
+    protected $assignRelationship;
+
+    public function __construct(AssignFamilyMatrixRelationship $assignRelationship)
     {
         $this->middleware('auth:api');
+
+        $this->assignRelationship = $assignRelationship;
     }
 
 
@@ -73,7 +80,7 @@ class FamilyMatrixController extends Controller
             GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'family-matrix/analyze', $error);
 
         }
-
+            
         $familyMatrix = FamilyMatrixResponse::createFamilyMatrixResponse($userId, $targetId, $response);
 
         return Helpers::successResponse('family matrix', $familyMatrix);
@@ -85,7 +92,7 @@ class FamilyMatrixController extends Controller
 
         $errors = [];
 
-        if (!isset($response['content']) || !is_array($response['content'])) {
+        if (!isset($response['data']['content']) || !is_array($response['data']['content'])) {
 
             $errors[] = 'Missing content block';
 
@@ -93,7 +100,7 @@ class FamilyMatrixController extends Controller
 
         }
 
-        $content = $response['content'];
+        $content = $response['data']['content'];
 
         $requiredTop = ['vibe_check', 'the_physics', 'system_hack'];
 
@@ -113,31 +120,31 @@ class FamilyMatrixController extends Controller
 
         }
 
-        if (empty($content['vibe_check']['text']) || !is_string($content['vibe_check']['text'])) {
+        if (empty($content['data']['vibe_check']['text']) || !is_string($content['data']['vibe_check']['text'])) {
 
             $errors[] = 'vibe_check.text missing or invalid';
 
         }
 
-        if (empty($content['the_physics']['friction_analysis']) || !is_string($content['the_physics']['friction_analysis'])) {
+        if (empty($content['data']['the_physics']['friction_analysis']) || !is_string($content['data']['the_physics']['friction_analysis'])) {
 
             $errors[] = 'the_physics.friction_analysis missing or invalid';
 
         }
 
-        if (empty($content['the_physics']['flow_analysis']) || !is_string($content['the_physics']['flow_analysis'])) {
+        if (empty($content['data']['the_physics']['flow_analysis']) || !is_string($content['data']['the_physics']['flow_analysis'])) {
 
             $errors[] = 'the_physics.flow_analysis missing or invalid';
 
         }
 
-        if (empty($content['system_hack']['title']) || !is_string($content['system_hack']['title'])) {
+        if (empty($content['data']['system_hack']['title']) || !is_string($content['data']['system_hack']['title'])) {
 
             $errors[] = 'system_hack.title missing or invalid';
 
         }
 
-        if (empty($content['system_hack']['actionable_step']) || !is_string($content['system_hack']['actionable_step'])) {
+        if (empty($content['data']['system_hack']['actionable_step']) || !is_string($content['data']['system_hack']['actionable_step'])) {
 
             $errors[] = 'system_hack.actionable_step missing or invalid';
 
@@ -304,6 +311,86 @@ class FamilyMatrixController extends Controller
             return "GREEN";
 
         }
+    }
+
+    public function allFamilyMatrixRelationship()
+    {
+
+        try {
+
+            $relationships = FamilyMatrixRelationship::getRelationships();
+
+            return Helpers::successResponse('All Family Matrix relationship', $relationships);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function assignFamilyMatrixRelationship(AssignFamilymatrixRelationshipRequest $request)
+    {
+
+        try {
+
+            $userId = Helpers::getUser()->id;
+
+            $dataArray = $request->only($this->assignRelationship->getFillable());
+
+            if (AssignFamilyMatrixRelationship::checkRelationship($userId, $dataArray)) {
+
+                return Helpers::validationResponse('Relationship already added.');
+
+            }
+
+            $relationship = AssignFamilyMatrixRelationship::createAssignRelationships($userId, $dataArray);
+
+            return Helpers::successResponse('Relationship added successfully.', $relationship);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function allAssignFamilyMatrixRelationship()
+    {
+
+        try {
+
+            $userId = Helpers::getUser()->id;
+
+            $relationships = AssignFamilyMatrixRelationship::getRelationships($userId);
+
+            return Helpers::successResponse('All Assign Family Matrix relationship', $relationships);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function deleteAssignFamilyMatrixRelationship(Request $request)
+    {
+
+        try {
+
+            $targetId = $request->input('target_id');
+
+            $userId = Helpers::getUser()->id;
+
+            AssignFamilyMatrixRelationship::deleteRelationship($targetId, $userId);
+
+            return Helpers::successResponse('Delete Assign Family Matrix relationship Successfully');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 
 }

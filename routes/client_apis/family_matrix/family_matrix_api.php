@@ -17,8 +17,14 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::prefix('v4/family-matrix/')->group(function () {
 
-        Route::get('analyze', 'App\Http\Controllers\Api\ClientController\FamilyMatrix\FamilyMatrixController@familyMatrixAnalyze');
+        Route::get('analyze', 'FamilyMatrixController@familyMatrixAnalyze');
 
     });
+
+    Route::get('all-family-matrix-relationship', 'FamilyMatrixController@allFamilyMatrixRelationship');
+    Route::post('assign-family-matrix-relationship', 'FamilyMatrixController@assignFamilyMatrixRelationship');
+    Route::get('all-assign-family-matrix-relationship', 'FamilyMatrixController@allAssignFamilyMatrixRelationship');
+    Route::delete('delete-assign-family-matrix-relationship', 'FamilyMatrixController@deleteAssignFamilyMatrixRelationship');
+
 
 });
