@@ -845,5 +845,15 @@ return [
             'fillable' => ['user_id', 'target_id', 'vide_check_text', 'physics_friction_analysis', 'physics_flow_analysis', 'system_hack_title', 'system_hack_actionable_step'],
             'hidden' => ['created_at', 'updated_at']
         ],
+        'FamilyMatrixRelationship' => [
+            'table' => 'family_matrix_relationships',
+            'fillable' => ['relationship_name'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'AssignFamilyMatrixRelationship' => [
+            'table' => 'assign_family_matrix_relationships',
+            'fillable' => ['user_id', 'target_id', 'relationship_id'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
     ]
 ];

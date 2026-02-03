@@ -29,11 +29,11 @@ class FamilyMatrixResponse extends Model
         return self::create([
             'user_id' => $userId,
             'target_id' => $targetId,
-            'vide_check_text' => $response['content']['vibe_check']['text'],
-            'physics_friction_analysis' => $response['content']['the_physics']['friction_analysis'],
-            'physics_flow_analysis' => $response['content']['the_physics']['flow_analysis'],
-            'system_hack_title' => $response['content']['system_hack']['title'],
-            'system_hack_actionable_step' => $response['content']['system_hack']['actionable_step']
+            'vide_check_text' => $response['data']['content']['vibe_check']['text'],
+            'physics_friction_analysis' => $response['data']['content']['the_physics']['friction_analysis'],
+            'physics_flow_analysis' => $response['data']['content']['the_physics']['flow_analysis'],
+            'system_hack_title' => $response['data']['content']['system_hack']['title'],
+            'system_hack_actionable_step' => $response['data']['content']['system_hack']['actionable_step']
         ]);
 
     }

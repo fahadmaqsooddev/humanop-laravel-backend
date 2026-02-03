@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminControllers\CouponController;
 use App\Http\Controllers\AdminControllers\IntentionPlanController;
 use App\Http\Controllers\AdminControllers\DailyTipController;
 use App\Http\Controllers\AdminControllers\OptimizationPlanController;
+use App\Http\Controllers\AdminControllers\FamilyMatrixRelationshipController;
 use App\Http\Controllers\AdminControllers\PaymentController;
 use App\Http\Controllers\AdminControllers\ClientController;
 use App\Http\Controllers\AdminControllers\PodcastController;
@@ -157,6 +158,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
         Route::get('/edit-pricing-plan/{id}', [PricingPlanController::class, 'editPricingPlan'])->name('admin_edit_pricing_plan');
         Route::get('/onboarding-screens', [OnboardingScreenController::class, 'onboardingScreens'])->name('admin_onboarding_screens');
         Route::get('/network-tutorials', [NetworkTutorialController::class, 'networkTutorials'])->name('admin_network_tutorials');
+        Route::get('/family-matrix-relationship', [FamilyMatrixRelationshipController::class, 'familyMatrixrelationship'])->name('admin_family_matrix_relationship');
         Route::get('/announcements-news', [AnnouncementsNewsController::class, 'announcementsNews'])->name('admin_announcements_news');
         Route::get('/faq', [FaqController::class, 'FaqQuestions'])->name('admin_faq');
          Route::get('/hotspots', [HotSpotController::class, 'HotSpots'])->name('admin_hotspots');
