@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Log;
 
 class CreateResource extends Component
 {
@@ -335,32 +336,40 @@ class CreateResource extends Component
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
 
-    public function editMoveResource($category_id)
+    public function editMoveResource($category_id, $name)
     {
         $this->current_category = $category_id;
+        $this->category_name   = $name;
     }
 
     public function moveResourceToCategory()
     {
+        // Validate category name
+        $this->validate([
+            'category_name' => 'required|string|max:255|unique:resource_categories,name,' . $this->current_category,
+        ], [
+            'category_name.required' => 'Please enter category name',
+            'category_name.unique'   => 'This category name already exists',
+        ]);
 
-        $rule = [
-            'category_id' => 'required',
-        ];
-
-        $message = [
-            'category_id.required' => 'Please Select New Category',
-
-        ];
-
-        $this->validate($rule, $message);
-
-        if ($this->current_category) {
-
-            LibraryResource::updateCategory($this->current_category, $this->category_id);
+        if (! $this->current_category) {
+            return session()->flash('error', 'Invalid category selected.');
         }
-        session()->flash('success', 'Resource Moved successfully.');
-        $this->current_category = '';
+
+        // Update via Model method
+        $updated = ResourceCategory::updateCategoryName($this->current_category, $this->category_name);
+
+        if (! $updated) {
+            return session()->flash('error', 'Category not found or name already exists.');
+        }
+
+        // Success: reset fields and close modal
+        session()->flash('success', 'Category name updated successfully.');
+        $this->reset(['current_category', 'category_name']);
+        $this->dispatchBrowserEvent('close-move-resource-modal');
     }
+
+
 
     public function deleteCategory($id)
     {
@@ -377,6 +386,7 @@ class CreateResource extends Component
         $this->priceValue = '';
         $this->pointValue = '';
         $this->permission = [];
+        $this->category_name='';
     }
 
     public function updateContent($editorId, $data)

@@ -96,28 +96,20 @@ class AssessmentService
     {
         $result = self::calculateUpdatedScores($assessment, $scores);
 
-        $userGender = (int) $user->gender;
-        $questionCount = Question::genderApplicable($userGender)
-            ->active()
-            ->rootQuestions()
-            ->count();
+        $userGender = (int) $user->getRawOriginal('gender');
 
-        $pageData = self::calculateCurrentPages($assessment, $questionCount, $assessmentFromApp);
+        $questionCount = self::getApplicableQuestionCount($userGender);
 
-        $result = array_merge($result, $pageData['update_data']);
-        $assessment->update($result);
+        [$webPage, $appPage] = self::calculatePages($assessment, $assessmentFromApp, $questionCount);
 
-        self::handleAssessmentEvents($assessment, $user, $pageData['current_page']);
+        $currentPage = $assessment->page + 1;
+        $totalPages = $assessmentFromApp ? $questionCount : ceil($questionCount / 3);
 
-        AssessmentColorCode::deleteAssessemntColorCodeData($assessment);
-        AssessmentColorCode::createStylesCodeAndColor($assessment);
-        AssessmentColorCode::createFeaturesCodeAndColor($assessment);
-
-        if ($assessment->page == 0) {
-            self::handleNewActionPlan($assessment);
+        if ($currentPage >= $totalPages) {
+            return self::handleFinalPage($assessment, $user, $result);
+        } else {
+            return self::handleIntermediatePage($assessment, $currentPage, $webPage, $appPage, $result);
         }
-
-        return $pageData['message'];
     }
 
     /**
@@ -136,81 +128,104 @@ class AssessmentService
     }
 
     /**
-     * 2️⃣ Calculate current page numbers
+     * Get the total number of applicable questions for the user.
      */
-    private static function calculateCurrentPages($assessment, int $questionCount, bool $assessmentFromApp): array
+    private static function getApplicableQuestionCount(int $gender): int
+    {
+        return Question::genderApplicable($gender)
+            ->active()
+            ->rootQuestions()
+            ->count();
+    }
+
+    /**
+     * Calculate the web and app pages based on current assessment state.
+     */
+    private static function calculatePages($assessment, bool $assessmentFromApp, int $questionCount): array
     {
         if ($assessmentFromApp) {
             $appPage = $assessment->app_page + 1;
-            $currentPage = $appPage;
-            if ($appPage == 1) {
-                $webPage = 1;
-            } else {
-                $webPage = (int) ceil($appPage / 3);
-            }
+            $webPage = $appPage == 1 ? 1 : (int) ceil($appPage / 3);
         } else {
-            $currentPage = $assessment->web_page + 1;
-            $webPage = $currentPage;
+            $webPage = $assessment->web_page + 1;
             $appPage = (($webPage - 1) * 3) + 3;
         }
 
-        $totalPages = $assessmentFromApp ? $questionCount : ceil($questionCount / 3);
-
-        $message = '';
-        $updateData = [];
-
-        if ($currentPage >= $totalPages) {
-            $updateData['page'] = 0;
-            $updateData['web_page'] = 0;
-            $updateData['app_page'] = 0;
-            $message = 'final_page';
-        } else {
-            $updateData['page'] = $webPage;
-            $updateData['web_page'] = $webPage;
-            $updateData['app_page'] = $appPage;
-        }
-
-        return [
-            'current_page' => $currentPage,
-            'update_data' => $updateData,
-            'message' => $message,
-        ];
+        return [$webPage, $appPage];
     }
 
     /**
-     * 3️⃣ Handle gamification, events and logging
+     * Handle the logic when the user is on the final page of the assessment.
      */
-    private static function handleAssessmentEvents($assessment, $user, int $currentPage)
+    private static function handleFinalPage($assessment, $user, array $result): string
     {
-        if ($currentPage == 0) {
-            $cachedIp = Cache::get("user_ip_{$user->id}", null);
-            $geoService = new GeoService();
-            $location = $geoService->getLocationByIp($cachedIp);
-            $assessment->update([
-                'ip_address' => $cachedIp ?? '0.0.0.0',
-                'city' => $location['city'],
-                'country' => $location['country']
-            ]);
+        $result['page'] = 0;
+        $result['web_page'] = 0;
+        $result['app_page'] = 0;
 
-            event(new SubmitAssessment($user->id, 0));
-            self::triggerGamification($user);
+        $cachedIp = Cache::get("user_ip_{$user->id}", null);
+        $geoService = new GeoService();
+        $location = $geoService->getLocationByIp($cachedIp);
 
-            $logMessage = Assessment::where('user_id', $user->id)->count() == 1
-                ? "Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free."
-                : "Congratulations on finishing your assessment!";
+        $result['ip_address'] = $cachedIp ?? '0.0.0.0';
+        $result['city'] = $location['city'];
+        $result['country'] = $location['country'];
 
-            ActivityLogger::addLog('Assessment Completed', $logMessage);
+        $assessment->update($result);
 
-            self::handleDailyTipIfFinalPage($assessment, $user);
+        event(new SubmitAssessment($user->id, 0));
+
+        self::triggerGamification($user);
+        $message = self::handleDailyTipIfFinalPage($assessment, $user);
+
+        if (Assessment::where('user_id', $user->id)->count() == 1) {
+            ActivityLogger::addLog(
+                'Assessment Completed',
+                "Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free."
+            );
         } else {
-            event(new SubmitAssessment($user->id, $currentPage + 1));
+            ActivityLogger::addLog('Assessment Completed', "Congratulations on finishing your assessment!");
         }
+
+        return $message;
     }
 
     /**
-     * 4️⃣ Handle Action Plan & HotSpot insertion
+     * Handle the logic for intermediate (non-final) pages.
      */
-    private static function handleNewActionPlan($assessment)
+    private static function handleIntermediatePage($assessment, int $currentPage, int $webPage, int $appPage, array $result): string
+    {
+        $result['page'] = $currentPage;
+        $result['web_page'] = $webPage;
+        $result['app_page'] = $appPage;
+
+        $assessment->update($result);
+
+        event(new SubmitAssessment($assessment->user_id, $currentPage + 1));
+
+        self::updateAssessmentColorCodes($assessment);
+
+        if ($assessment->page == 0) {
+            self::initializeActionPlan($assessment);
+        }
+
+        return '';
+    }
+
+    /**
+     * Update color codes for the assessment.
+     */
+    private static function updateAssessmentColorCodes($assessment): void
+    {
+        AssessmentColorCode::deleteAssessemntColorCodeData($assessment);
+        AssessmentColorCode::createStylesCodeAndColor($assessment);
+        AssessmentColorCode::createFeaturesCodeAndColor($assessment);
+    }
+
+    /**
+     * Initialize action plan for the assessment.
+     */
+    private static function initializeActionPlan($assessment): void
     {
         ActionPlan::storeUserActionPlan($assessment);
         $data = Assessment::getAllRowGrid($assessment->id);
@@ -218,7 +233,6 @@ class AssessmentService
             $trendTracker = new HotSpotUser;
             $trendTracker->insertData($assessment->id, $data);
         }
-
         ActivityLogger::addLog('New Action Plan', "Your New 14 Days Action Plan");
     }
 

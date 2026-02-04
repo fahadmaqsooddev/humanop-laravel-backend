@@ -92,9 +92,13 @@
                                 Category
                             </button>
                             <button style="background-color: #1b3a62; color: white;margin-bottom: 0px"
-                                    wire:click="editMoveResource(`{{$category->id}}`)" data-bs-toggle="modal"
-                                    data-bs-target="#moveResource" class="btn btn-sm mb-2 ">Edit Category
+                                    wire:click="editMoveResource({{ $category->id }}, '{{ $category->name }}')"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#moveResource"
+                                    class="btn btn-sm mb-2">
+                                Edit Category
                             </button>
+
                         </div>
                     </div>
                 </div>
@@ -1163,15 +1167,10 @@
                                     <label class="form-label fs-5 text-white">Move Resources To An Other
                                         Category</label>
                                     <br/>
-                                    <select class="form-control input-form-style"
-                                            wire:model.defer="category_id" placeholder="Select category">
-                                        <option value="">Select Category</option>
-                                        @foreach($dropDownCategories as $category)
-                                            @if($current_category != $category->id)
-                                                <option value="{{$category->id}}">{{$category->name}}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
+                                    <input type="text"
+                                           class="form-control input-form-style"
+                                           wire:model.defer="category_name"
+                                           placeholder="Enter Category Name">
                                 </div>
                             </div>
                             <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
@@ -1382,5 +1381,22 @@
                 }
             })
         }
+
+        window.addEventListener('close-move-resource-modal', () => {
+            const modalEl = document.getElementById('moveResource');
+            if (!modalEl) return;
+
+            let modalInstance = bootstrap.Modal.getInstance(modalEl);
+
+            if (!modalInstance) {
+                modalInstance = new bootstrap.Modal(modalEl);
+            }
+
+            modalInstance.hide();
+
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();
+        });
+
     </script>
 @endpush
