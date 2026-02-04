@@ -247,8 +247,7 @@ class AssessmentController extends Controller
 
             } else {
 
-                $expectedWebPage = (int) ceil(($assessment->app_page + 1) / 3);
-
+                $expectedWebPage = $assessment->web_page + 1;
                 if ($requestedPage !== $expectedWebPage) {
                     return Helpers::validationResponse('Invalid page number');
                 }

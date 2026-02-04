@@ -145,7 +145,7 @@ class AssessmentService
     {
         if ($assessmentFromApp) {
             $appPage = $assessment->app_page + 1;
-            $webPage = $appPage == 1 ? 1 : (int) ceil($appPage / 3);
+            $webPage = (int) floor($appPage / 3);
         } else {
             $webPage = $assessment->web_page + 1;
             $appPage = (($webPage - 1) * 3) + 3;
@@ -195,7 +195,7 @@ class AssessmentService
      */
     private static function handleIntermediatePage($assessment, int $currentPage, int $webPage, int $appPage, array $result): string
     {
-        $result['page'] = $currentPage;
+        $result['page'] = $webPage;
         $result['web_page'] = $webPage;
         $result['app_page'] = $appPage;
 
