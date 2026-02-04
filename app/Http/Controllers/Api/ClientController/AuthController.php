@@ -675,13 +675,6 @@ class AuthController extends Controller
 
         try {
 
-            $user = $this->auth->user();
-
-            if ($user) {
-                $cacheKey = "user_ip_{$user->id}";
-                Cache::forget($cacheKey);
-            }
-
             $this->auth->logout();
 
             ActivityLogger::addLog('Logout', "User logged out successfully");
@@ -737,14 +730,17 @@ class AuthController extends Controller
     // Add this private method in your controller
     private function handleUserLoginIp(User $user, Request $request): string
     {
-
+        // Get IP from request or fallback to request IP
         $ipAddress = $request->input('ip_address') ?? $request->ip();
+
+        // Unique cache key per user
         $cacheKey = "user_ip_{$user->id}";
-        $jwtTtl = config('jwt.ttl', 1440);
-        Cache::put($cacheKey, $ipAddress, now()->addMinutes($jwtTtl));
+
+        // Store IP in cache for 24 hours
+        Cache::put($cacheKey, $ipAddress, now()->addHours(24));
+
         return $ipAddress;
     }
-
 
     public function loginClient(LoginRequest $request)
     {

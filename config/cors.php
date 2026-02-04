@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://dev.humanop.com','http://localhost:3000','https://58rzct3l-3000.inc1.devtunnels.ms'],
+    'allowed_origins' => ['https://dev.humanop.com','http://localhost:3000'],
 
     'allowed_origins_patterns' => [],
 
