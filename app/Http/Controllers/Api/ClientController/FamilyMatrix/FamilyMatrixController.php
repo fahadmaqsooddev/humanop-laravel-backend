@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController\FamilyMatrix;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Assessments\AssessmentHelper;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
@@ -33,6 +34,14 @@ class FamilyMatrixController extends Controller
     {
 
         $userId = Helpers::getUser()->id;
+
+        $userPlan = Helpers::getUser()->plan_name;
+
+        if ($userPlan != Admin::PREMIUM_PLAN_NAME) {
+
+            return Helpers::validationResponse('This feature is available for Premium users only. Please upgrade your plan to continue.');
+
+        }
 
         $targetId = $request->input('target_id');
 
@@ -80,7 +89,7 @@ class FamilyMatrixController extends Controller
             GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'family-matrix/analyze', $error);
 
         }
-            
+
         $familyMatrix = FamilyMatrixResponse::createFamilyMatrixResponse($userId, $targetId, $response);
 
         return Helpers::successResponse('family matrix', $familyMatrix);
