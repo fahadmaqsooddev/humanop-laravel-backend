@@ -57,6 +57,19 @@ class ShopCategory extends Model
         return self::get('name');
     }
 
+    public static function updateCategoryName($categoryId, $newName)
+    {
+        $category = self::find($categoryId);
+
+        if (! $category) {
+            return false;
+        }
+
+        $category->update(['name' => trim($newName)]);
+
+        return true;
+    }
+
     public static function dropDownCategories()
     {
 

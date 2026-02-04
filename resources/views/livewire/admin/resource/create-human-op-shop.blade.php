@@ -89,10 +89,14 @@
                                     onclick="confirmDeleteCategory('{{$category->id }}')" class="btn btn-sm mb-2">Delete
                                 Category
                             </button>
-                            <button style="background-color: #1b3a62; color: white;margin-bottom: 0px"
-                                    wire:click="editHumanOpShopResource(`{{$category->id}}`)" data-bs-toggle="modal"
-                                    data-bs-target="#moveShopResource" class="btn btn-sm mb-2 ">Edit Category
+                            <button style="background-color: #1b3a62; color: white; margin-bottom: 0px"
+                                    wire:click="editHumanOpShopResource({{ $category->id }}, '{{ addslashes($category->name) }}')"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#moveShopResource"
+                                    class="btn btn-sm mb-2">
+                                Edit Category
                             </button>
+
                         </div>
                     </div>
                 </div>
@@ -869,15 +873,10 @@
                                     <label class="form-label fs-5 " style="color: #1b3a62">Move Resources To An Other
                                         Category</label>
                                     <br/>
-                                    <select class="form-control input-form-style"
-                                            wire:model.defer="category_id" placeholder="Select category">
-                                        <option value="">Select Category
-                                        @foreach($dropDownCategories as $category)
-                                            @if($current_category != $category->id)
-                                                <option value="{{$category->id}}">{{$category->name}}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
+                                    <input type="text"
+                                           class="form-control input-form-style"
+                                           wire:model.defer="category_name"
+                                           placeholder="Enter Category Name">
                                 </div>
                             </div>
                             <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
@@ -1017,6 +1016,7 @@
             }, 1000);
         });
 
+
     </script>
     <!-- script for checkbox multiple check  -->
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
@@ -1088,5 +1088,15 @@
                 window.location.reload();
             });
         });
+
+        window.addEventListener('close-move-resource-modal', function () {
+            let modalEl = document.getElementById('moveShopResource');
+            let modal = bootstrap.Modal.getInstance(modalEl);
+
+            if (modal) {
+                modal.hide();
+            }
+        });
+
     </script>
 @endpush

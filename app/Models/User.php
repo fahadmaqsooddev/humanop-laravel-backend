@@ -40,6 +40,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 
 class User extends Authenticatable implements JWTSubject
@@ -2757,32 +2758,30 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public function getGenderAttribute($value)
+    protected function gender(): Attribute
     {
+        return Attribute::make(
+            get: function ($value) {
 
-        $intValue = is_numeric($value) ? (int)$value : null;
+                $intValue = is_numeric($value) ? (int) $value : null;
 
-        return match ($intValue) {
-            0 => 'male',
-            1 => 'female',
-            default => $value, // agar DB me already 'male'/'female' hai
-        };
+                return match ($intValue) {
+                    0 => 'male',
+                    1 => 'female',
+                    default => $value,
+                };
+            },
+            set: function ($value) {
+
+                $value = strtolower(trim($value));
+
+                return match ($value) {
+                    'female' => 1,
+                    'male'   => 0,
+                    default  => null,
+                };
+            }
+        );
     }
-
-
-    public function setGenderAttribute($value)
-    {
-
-        $value = strtolower((string) $value);
-
-        $this->attributes['gender'] = match ($value) {
-            'female' => 1,
-            'male'  => 0,
-            default => null,
-        };
-    }
-
- 
-
 
 }
