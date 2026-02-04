@@ -56,6 +56,23 @@ class ResourceCategory extends Model
         return self::get('name');
     }
 
+    public static function updateCategoryName($categoryId, $newName)
+    {
+        // Find the category
+        $category = self::find($categoryId);
+
+        if (! $category) {
+            return false;
+        }
+
+        $newName = trim($newName);
+
+        // Update the category name
+        $category->update(['name' => $newName]);
+
+        return true;
+    }
+
     public static function dropDownCategories()
     {
 

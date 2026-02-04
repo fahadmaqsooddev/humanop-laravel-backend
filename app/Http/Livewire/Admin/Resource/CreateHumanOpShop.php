@@ -13,6 +13,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Upload\Upload;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 
 class CreateHumanOpShop extends Component
@@ -291,9 +292,10 @@ class CreateHumanOpShop extends Component
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
 
-    public function editHumanOpShopResource($category_id)
+    public function editHumanOpShopResource($category_id,$name)
     {
         $this->current_category = $category_id;
+        $this->category_name=$name;
     }
 
     public function getVideoLink()
@@ -319,25 +321,31 @@ class CreateHumanOpShop extends Component
     public function moveShopResourceToCategory()
     {
 
-        $rule = [
-            'category_id' => 'required',
-        ];
+        $this->validate([
+            'category_name' => 'required|string|max:255|unique:humanop_shop_categories,name,' . $this->current_category,
+        ], [
+            'category_name.required' => 'Please enter category name',
+            'category_name.unique'   => 'This category name already exists',
+        ]);
 
-        $message = [
-            'category_id.required' => 'Please Select New Category',
 
-        ];
-
-        $this->validate($rule, $message);
-
-        if ($this->current_category) {
-
-            ShopCategoryResource::updateCategory($this->current_category, $this->category_id);
+        if (! $this->current_category) {
+            return session()->flash('error', 'Invalid category selected.');
         }
-        session()->flash('success', 'HumanOP Shop Resource Moved successfully.');
 
-        $this->current_category = '';
+
+        $updated = ShopCategory::updateCategoryName($this->current_category, $this->category_name);
+
+        if (! $updated) {
+            return session()->flash('error', 'Category not found or could not be updated.');
+        }
+
+        session()->flash('success', 'HumanOP Shop Resource category updated successfully.');
+
+        $this->reset(['current_category', 'category_name']);
+        $this->dispatchBrowserEvent('close-move-resource-modal');
     }
+
 
     public function deleteCategory($id)
     {
