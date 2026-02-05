@@ -22,6 +22,14 @@ class FamilyMatrixController extends Controller
 
     protected $assignRelationship;
 
+    const ELECTROMAGNETIC_REPULSION = "ELECTROMAGNETIC_REPULSION";
+
+    const RED = "RED";
+
+    const YELLOW = "YELLOW";
+
+    const GREEN = "GREEN";
+
     public function __construct(AssignFamilyMatrixRelationship $assignRelationship)
     {
         $this->middleware('auth:api');
@@ -173,9 +181,9 @@ class FamilyMatrixController extends Controller
             )
         );
 
-        if ($perception['status'] === 'RED') {
+        if ($perception['status'] === self::RED) {
 
-            $perception['flag'] = 'ELECTROMAGNETIC_REPULSION';
+            $perception['flag'] = self::ELECTROMAGNETIC_REPULSION;
 
         }
 
@@ -309,15 +317,15 @@ class FamilyMatrixController extends Controller
 
         if ($score < 30) {
 
-            return "RED";
+            return self::RED;
 
         } elseif ($score >= 30 || $score < 70) {
 
-            return "YELLOW";
+            return self::YELLOW;
 
         } else {
 
-            return "GREEN";
+            return self::GREEN;
 
         }
     }
