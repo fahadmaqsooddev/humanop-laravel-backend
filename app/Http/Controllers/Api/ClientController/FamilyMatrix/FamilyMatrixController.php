@@ -97,6 +97,8 @@ class FamilyMatrixController extends Controller
 
             GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'family-matrix/analyze', $error);
 
+            return Helpers::serverErrorResponse('Family matrix analysis response invalid.');
+
         }
 
         $familyMatrix = FamilyMatrixResponse::createFamilyMatrixResponse($userId, $targetId, $response);
