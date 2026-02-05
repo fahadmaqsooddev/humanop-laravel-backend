@@ -1655,8 +1655,13 @@ class Assessment extends Model
             if ($page === 0 || $webPage === 0 || $appPage === 0) {
 
                 if ($assessment['reset_assessment'] == 1) {
-
-                    return self::createNewAssessment();
+                    $newAssessment = self::createNewAssessment();
+                    return [
+                        'state'     => 'reset',
+                        'page'      => $newAssessment->page ?? 0,
+                        'web_page'  => $newAssessment->web_page ?? 0,
+                        'app_page'  => $newAssessment->app_page ?? 0,
+                    ];
                 }
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
@@ -1667,7 +1672,13 @@ class Assessment extends Model
 
                 if ($difference > 90) {
 
-                    return self::createNewAssessment();
+                    $newAssessment = self::createNewAssessment();
+                    return [
+                        'state'     => 'expired',
+                        'page'      => $newAssessment->page ?? 0,
+                        'web_page'  => $newAssessment->web_page ?? 0,
+                        'app_page'  => $newAssessment->app_page ?? 0,
+                    ];
                 } else {
                     return [
                         'page'     => $page,
@@ -1678,6 +1689,7 @@ class Assessment extends Model
             } else {
 
                 return [
+                    'state'     => 'ok',
                     'page'     => ($assessment['page'] === null ? 0 : $assessment['page']),
                     'web_page' => ($assessment['web_page'] === null ? 0 : $assessment['web_page']),
                     'app_page' => ($assessment['app_page'] === null ? 0 : $assessment['app_page']),
@@ -1685,7 +1697,13 @@ class Assessment extends Model
             }
         } else {
 
-            return self::createNewAssessment();
+            $newAssessment = self::createNewAssessment();
+            return [
+                'state'     => 'new',
+                'page'      => $newAssessment->page ?? 0,
+                'web_page'  => $newAssessment->web_page ?? 0,
+                'app_page'  => $newAssessment->app_page ?? 0,
+            ];
         }
     }
 
