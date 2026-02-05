@@ -112,7 +112,7 @@
 
         <!-- Description for Both Web - Mobile -->
         <div class="col-12 mt-4">
-            <label class="form-label">Title for Description</label>
+            <label class="form-label">Description</label>
 
             <div class="input-group w-100" wire:ignore>
                 <textarea
@@ -225,10 +225,13 @@
             initSummernote('#summernote_both', 'banner.description');
 
             // Reinitialize after Livewire updates
-            Livewire.hook('message.processed', () => {
-                if (!$('#summernote_both').next().hasClass('note-editor')) {
-                    initSummernote('#summernote_both', 'banner.description');
-                }
+            Livewire.hook('message.processed', (message, component) => {
+                ['summernote_beta', 'summernote_freemium', 'summernote_both'].forEach(id => {
+                    const summernoteElement = $('#' + id);
+                    if (summernoteElement.length && !summernoteElement.data('initialized')) {
+                        initSummernote(id, summernoteElement.data('model'));
+                    }
+                });
             });
 
         });

@@ -67,7 +67,7 @@ class LifetimeDealBanner extends Component
 //            'banner.description_for_freemium' => 'required|string',
             'banner.title' => 'required|string|max:255',
             'banner.description' => 'required|string',
-            'banner.payment_url' => ' required|url|max:255',
+            'banner.payment_url' => 'required|url|max:255',
             'banner.visible_on_mobile' => 'boolean',
             'banner.visible_on_web' => 'boolean',
 //            'banner.start_date' => 'nullable|date',
