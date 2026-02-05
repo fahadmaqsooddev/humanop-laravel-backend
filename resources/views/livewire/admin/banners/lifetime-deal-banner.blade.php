@@ -53,7 +53,7 @@
     <div class="row">
 
         <!-- Title for Beta Breaker -->
-        <div class="col-12">
+        <!--<div class="col-12">
             <label class="form-label">Title for Beta Breaker</label>
             <div class="input-group">
                 <input name="title_for_beta_breaker"
@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <!-- Description for Beta Breaker -->
+
         <div class="col-12 mt-4">
             <label class="form-label">Description for Beta Breaker</label>
             <div class="input-group w-100" wire:ignore>
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <!-- Title for Freemium -->
+
         <div class="col-12 mt-4">
             <label class="form-label">Title for Freemium</label>
             <div class="input-group">
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <!-- Description for Freemium -->
+
         <div class="col-12 mt-4">
             <label class="form-label">Description for Freemium</label>
             <div class="input-group w-100" wire:ignore>
@@ -96,47 +96,42 @@
 
 
 
-        <!-- Title for Both Web - Mobile -->
-        <!-- Title for Both Web - Mobile -->
+
+        -->
+
+
         <div class="col-12 mt-4">
-            <label class="form-label">Title for Both (Web & Mobile)</label>
+            <label class="form-label">Title for Banner</label>
             <div class="input-group">
-                <input name="shared_title"
+                <input name="title"
                         class="form-control input-form-style"
                         type="text"
-                        wire:model.defer="banner.shared_title">
+                        wire:model.defer="banner.title">
             </div>
         </div>
 
         <!-- Description for Both Web - Mobile -->
         <div class="col-12 mt-4">
-            <label class="form-label">Description for Web & Mobile</label>
+            <label class="form-label">Title for Description</label>
 
             <div class="input-group w-100" wire:ignore>
                 <textarea
                     id="summernote_both"
                     class="form-control editor"
                     rows="10"
-                    wire:model.defer="banner.shared_description">{{ $banner['shared_description'] ?? '' }}</textarea>
+                    wire:model.defer="banner.description">{{ $banner['description'] ?? '' }}</textarea>
             </div>
 
             <!-- URLs -->
             <div class="row mt-3">
-                <div class="col-md-6">
-                    <label class="form-label">Freemium URL</label>
+                <div class="col-md-12">
+                    <label class="form-label">Payment URL</label>
                     <input type="url"
                            class="form-control input-form-style"
                            placeholder="https://example.com/freemium"
-                           wire:model.defer="banner.freemium_url">
+                           wire:model.defer="banner.payment_url">
                 </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">Beta Breaker URL</label>
-                    <input type="url"
-                           class="form-control input-form-style"
-                           placeholder="https://example.com/beta-breaker"
-                           wire:model.defer="banner.beta_breaker_url">
-                </div>
             </div>
 
             <!-- Checkboxes -->
@@ -228,7 +223,7 @@
 
             initSummernote('summernote_beta', 'banner.description_for_beta_breaker');
             initSummernote('summernote_freemium', 'banner.description_for_freemium');
-            initSummernote('summernote_both', 'banner.description_for_both');
+            initSummernote('summernote_both', 'banner.description');
 
             Livewire.hook('message.processed', (message, component) => {
                 ['summernote_beta', 'summernote_freemium'].forEach(id => {
