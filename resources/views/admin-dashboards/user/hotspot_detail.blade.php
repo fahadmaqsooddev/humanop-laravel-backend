@@ -182,7 +182,7 @@
                                         @else
                                             <ul class="mb-0">
                                                 @foreach($persistent as $item)
-                                                    <li>#{{ $item['hotspot_score'] ?? '?' }} - {{ $item['name'] ?? '?' }}</li>
+                                                    <li>#{{ $item['priority'] ?? '?' }} - {{ $item['name'] ?? '?' }}</li>
                                                 @endforeach
                                             </ul>
                                         @endif

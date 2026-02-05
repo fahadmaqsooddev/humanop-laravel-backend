@@ -53,7 +53,7 @@
     <div class="row">
 
         <!-- Title for Beta Breaker -->
-        <div class="col-12">
+        <!--<div class="col-12">
             <label class="form-label">Title for Beta Breaker</label>
             <div class="input-group">
                 <input name="title_for_beta_breaker"
@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <!-- Description for Beta Breaker -->
+
         <div class="col-12 mt-4">
             <label class="form-label">Description for Beta Breaker</label>
             <div class="input-group w-100" wire:ignore>
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <!-- Title for Freemium -->
+
         <div class="col-12 mt-4">
             <label class="form-label">Title for Freemium</label>
             <div class="input-group">
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <!-- Description for Freemium -->
+
         <div class="col-12 mt-4">
             <label class="form-label">Description for Freemium</label>
             <div class="input-group w-100" wire:ignore>
@@ -92,6 +92,71 @@
                   class="form-control editor"
                   rows="10">{{ $banner['description_for_freemium'] ?? '' }}</textarea>
             </div>
+        </div>
+
+
+
+
+        -->
+
+
+        <div class="col-12 mt-4">
+            <label class="form-label">Title for Banner</label>
+            <div class="input-group">
+                <input name="title"
+                        class="form-control input-form-style"
+                        type="text"
+                        wire:model.defer="banner.title">
+            </div>
+        </div>
+
+        <!-- Description for Both Web - Mobile -->
+        <div class="col-12 mt-4">
+            <label class="form-label">Description</label>
+
+            <div class="input-group w-100" wire:ignore>
+                <textarea
+                    id="summernote_both"
+                    class="form-control editor"
+                    rows="10"
+                    wire:model.defer="banner.description">{{ $banner['description'] ?? '' }}</textarea>
+            </div>
+
+            <!-- URLs -->
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label class="form-label">Payment URL</label>
+                    <input type="url"
+                           class="form-control input-form-style"
+                           placeholder="https://example.com/freemium"
+                           wire:model.defer="banner.payment_url">
+                </div>
+
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="mt-3 d-flex gap-4">
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           wire:model.defer="banner.visible_on_mobile"
+                           id="platform_mobile">
+                    <label class="form-check-label" for="platform_mobile">
+                        Mobile
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           wire:model.defer="banner.visible_on_web"
+                           id="platform_web">
+                    <label class="form-check-label" for="platform_web">
+                        Web
+                    </label>
+                </div>
+            </div>
+
         </div>
 
         <!-- Start & End Date -->
@@ -144,50 +209,33 @@
     <script>
         document.addEventListener('livewire:load', function () {
 
-            function initSummernote(id, modelPath) {
-                $('#' + id).summernote({
+            function initSummernote(selector, modelPath) {
+                $(selector).summernote({
                     height: 200,
-                    width: '100%', // ensure full width
+                    width: '100%',
                     callbacks: {
                         onChange: function (contents) {
-                        @this.set(modelPath, contents);
+                            @this.set(modelPath, contents);
                         }
                     }
                 });
             }
 
-            initSummernote('summernote_beta', 'banner.description_for_beta_breaker');
-            initSummernote('summernote_freemium', 'banner.description_for_freemium');
+            // Initialize single editor
+            initSummernote('#summernote_both', 'banner.description');
 
+            // Reinitialize after Livewire updates
             Livewire.hook('message.processed', (message, component) => {
-                ['summernote_beta', 'summernote_freemium'].forEach(id => {
-                    if (!$('#' + id).next().hasClass('note-editor')) {
-                        initSummernote(
-                            id,
-                            id === 'summernote_beta'
-                                ? 'banner.description_for_beta_breaker'
-                                : 'banner.description_for_freemium'
-                        );
+                ['summernote_beta', 'summernote_freemium', 'summernote_both'].forEach(id => {
+                    const summernoteElement = $('#' + id);
+                    if (summernoteElement.length && !summernoteElement.data('initialized')) {
+                        initSummernote(id, summernoteElement.data('model'));
                     }
                 });
             });
+
         });
 
-        document.addEventListener('livewire:load', function () {
-            function initSummernote(selector, model) {
-                $(selector).summernote({
-                    height: 200,
-                    callbacks: {
-                        onChange: function (contents) {
-                        @this.set(model, contents);
-                        }
-                    }
-                });
-            }
-
-            initSummernote('#summernote_beta', 'banner.description_for_beta_breaker');
-            initSummernote('#summernote_freemium', 'banner.description_for_freemium');
-        });
 
     </script>
 @endpush

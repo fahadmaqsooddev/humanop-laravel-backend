@@ -827,7 +827,20 @@ return [
         ],
         'LifetimeDealBanner' => [
             'table' => 'lifetime_deal_banners',
-            'fillable' => ['title_for_beta_breaker', 'title_for_freemium', 'description_for_beta_breaker', 'description_for_freemium', 'status','start_date','end_date'],
+            'fillable' => [
+//                'title_for_beta_breaker',
+//                'description_for_beta_breaker',
+//                'title_for_freemium',
+//                'description_for_freemium',
+                'title',
+                'description',
+                'payment_url',
+                'visible_on_mobile',
+                'visible_on_web',
+                'status',
+//                'start_date',
+//                'end_date',
+            ],
             'hidden' => ['created_at'],
         ],
         'Activity' => [

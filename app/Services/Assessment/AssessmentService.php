@@ -100,9 +100,8 @@ class AssessmentService
 
         $questionCount = self::getApplicableQuestionCount($userGender);
 
-        [$webPage, $appPage] = self::calculatePages($assessment, $assessmentFromApp, $questionCount);
+        [$webPage,$appPage,$currentPage] = self::calculatePages($assessment, $assessmentFromApp, $questionCount);
 
-        $currentPage = $assessment->page + 1;
         $totalPages = $assessmentFromApp ? $questionCount : ceil($questionCount / 3);
 
         if ($currentPage >= $totalPages) {
@@ -145,13 +144,15 @@ class AssessmentService
     {
         if ($assessmentFromApp) {
             $appPage = $assessment->app_page + 1;
+            $currentPage = $appPage;
             $webPage = (int) floor($appPage / 3);
         } else {
             $webPage = $assessment->web_page + 1;
+            $currentPage = $webPage;
             $appPage = (($webPage - 1) * 3) + 3;
         }
 
-        return [$webPage, $appPage];
+        return [$webPage, $appPage,$currentPage];
     }
 
     /**
