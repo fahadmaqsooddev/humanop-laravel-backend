@@ -75,6 +75,7 @@ class LifetimeDealBanner extends Component
             'banner.start_date' => 'nullable|date',
             'banner.end_date' => 'nullable|date|after_or_equal:banner.start_date',
             'banner.is_active' => 'boolean',
+            'banner.status' => 'boolean',
         ]);
 
 
