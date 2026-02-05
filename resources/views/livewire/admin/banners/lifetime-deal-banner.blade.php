@@ -209,51 +209,30 @@
     <script>
         document.addEventListener('livewire:load', function () {
 
-            function initSummernote(id, modelPath) {
-                $('#' + id).summernote({
-                    height: 200,
-                    width: '100%', // ensure full width
-                    callbacks: {
-                        onChange: function (contents) {
-                        @this.set(modelPath, contents);
-                        }
-                    }
-                });
-            }
-
-            initSummernote('summernote_beta', 'banner.description_for_beta_breaker');
-            initSummernote('summernote_freemium', 'banner.description_for_freemium');
-            initSummernote('summernote_both', 'banner.description');
-
-            Livewire.hook('message.processed', (message, component) => {
-                ['summernote_beta', 'summernote_freemium'].forEach(id => {
-                    if (!$('#' + id).next().hasClass('note-editor')) {
-                        initSummernote(
-                            id,
-                            id === 'summernote_beta'
-                                ? 'banner.description_for_beta_breaker'
-                                : 'banner.description_for_freemium'
-                        );
-                    }
-                });
-            });
-        });
-
-        document.addEventListener('livewire:load', function () {
-            function initSummernote(selector, model) {
+            function initSummernote(selector, modelPath) {
                 $(selector).summernote({
                     height: 200,
+                    width: '100%',
                     callbacks: {
                         onChange: function (contents) {
-                        @this.set(model, contents);
+                            @this.set(modelPath, contents);
                         }
                     }
                 });
             }
 
-            initSummernote('#summernote_beta', 'banner.description_for_beta_breaker');
-            initSummernote('#summernote_freemium', 'banner.description_for_freemium');
+            // Initialize single editor
+            initSummernote('#summernote_both', 'banner.description');
+
+            // Reinitialize after Livewire updates
+            Livewire.hook('message.processed', () => {
+                if (!$('#summernote_both').next().hasClass('note-editor')) {
+                    initSummernote('#summernote_both', 'banner.description');
+                }
+            });
+
         });
+
 
     </script>
 @endpush
