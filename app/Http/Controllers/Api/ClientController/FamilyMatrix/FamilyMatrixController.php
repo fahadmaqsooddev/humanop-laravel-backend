@@ -84,6 +84,7 @@ class FamilyMatrixController extends Controller
                 'target_member' => $this->buildProfile($targetAssessment),
             ],
             'compatibility_matrix' => $this->buildCompatibilityMatrix($userAssessment, $targetAssessment),
+            'validationErrors' => []
         ];
 
         $response = GuzzleHelpers::sendRequestFromGuzzleForNewHai('post', 'family-matrix/analyze', $data);
@@ -137,31 +138,31 @@ class FamilyMatrixController extends Controller
 
         }
 
-        if (empty($content['data']['vibe_check']['text']) || !is_string($content['data']['vibe_check']['text'])) {
+        if (empty($content['vibe_check']['text']) || !is_string($content['vibe_check']['text'])) {
 
             $errors[] = 'vibe_check.text missing or invalid';
 
         }
 
-        if (empty($content['data']['the_physics']['friction_analysis']) || !is_string($content['data']['the_physics']['friction_analysis'])) {
+        if (empty($content['the_physics']['friction_analysis']) || !is_string($content['the_physics']['friction_analysis'])) {
 
             $errors[] = 'the_physics.friction_analysis missing or invalid';
 
         }
 
-        if (empty($content['data']['the_physics']['flow_analysis']) || !is_string($content['data']['the_physics']['flow_analysis'])) {
+        if (empty($content['the_physics']['flow_analysis']) || !is_string($content['the_physics']['flow_analysis'])) {
 
             $errors[] = 'the_physics.flow_analysis missing or invalid';
 
         }
 
-        if (empty($content['data']['system_hack']['title']) || !is_string($content['data']['system_hack']['title'])) {
+        if (empty($content['system_hack']['title']) || !is_string($content['system_hack']['title'])) {
 
             $errors[] = 'system_hack.title missing or invalid';
 
         }
 
-        if (empty($content['data']['system_hack']['actionable_step']) || !is_string($content['data']['system_hack']['actionable_step'])) {
+        if (empty($content['system_hack']['actionable_step']) || !is_string($content['system_hack']['actionable_step'])) {
 
             $errors[] = 'system_hack.actionable_step missing or invalid';
 
@@ -319,7 +320,7 @@ class FamilyMatrixController extends Controller
 
             return self::RED;
 
-        } elseif ($score >= 30 || $score < 70) {
+        } elseif ($score >= 30 && $score < 70) {
 
             return self::YELLOW;
 
