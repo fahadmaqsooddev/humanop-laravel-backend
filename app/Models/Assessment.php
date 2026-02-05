@@ -1652,7 +1652,7 @@ class Assessment extends Model
             $webPage  = (int) ($assessment['web_page'] ?? 0);
             $appPage  = (int) ($assessment['app_page'] ?? 0);
 
-            if ($page === 0 || $webPage === 0 || $appPage === 0) {
+            if ($page === 0 && $webPage === 0 && $appPage === 0) {
 
                 if ($assessment['reset_assessment'] == 1) {
                     $newAssessment = self::createNewAssessment();
