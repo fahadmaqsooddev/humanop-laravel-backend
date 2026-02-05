@@ -188,6 +188,9 @@ class AssessmentService
             ActivityLogger::addLog('Assessment Completed', "Congratulations on finishing your assessment!");
         }
 
+        self::updateAssessmentColorCodes($assessment);
+        self::initializeActionPlan($assessment);
+
         return $message;
     }
 
