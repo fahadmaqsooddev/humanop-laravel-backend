@@ -128,7 +128,7 @@ class AssessmentController extends Controller
             if ($user->plan_name !== 'Freemium') {
 
                 $assessment = Assessment::where('user_id', $userId)->select(['id', 'page','web_page','app_page','type', 'updated_at', 'reset_assessment'])->latest()->first();
-
+                $price = optional($assessment_price)->amount ?? 0;
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'assessment_page_number' => $assessment->page,
                     'web_page_number' => $assessment->web_page,
@@ -136,7 +136,7 @@ class AssessmentController extends Controller
                     'reset_assessment' => false,
                     'latest_assessment_id' => $assessment->id ?? null,
                     'latest_assessment_at' => $assessment->updated_at ?? null,
-                    'assessment_price' => ($assessment_price->amount - 1 ?? 0),
+                    'assessment_price' => max($price - 1, 0),
                     'assessment_count' => $assessmentCount,
                     'user' => [
                         'last_four_digits' => $user['pm_last_four'],
@@ -228,6 +228,10 @@ class AssessmentController extends Controller
 
             $assessment = Assessment::Where('user_id', $this->user->id)->latest()->first();
 
+
+            if (!$assessment){
+                return Helpers::validationResponse('Assessment not found');
+            }
 
             $assessmentFromApp = filter_var(
                 $request->input('assessment_from_app'),
