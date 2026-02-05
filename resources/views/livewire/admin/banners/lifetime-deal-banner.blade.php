@@ -94,6 +94,76 @@
             </div>
         </div>
 
+
+
+        <!-- Title for Both Web - Mobile -->
+        <!-- Title for Both Web - Mobile -->
+        <div class="col-12 mt-4">
+            <label class="form-label">Title for Both (Web & Mobile)</label>
+            <div class="input-group">
+                <input name="shared_title"
+                        class="form-control input-form-style"
+                        type="text"
+                        wire:model.defer="banner.shared_title">
+            </div>
+        </div>
+
+        <!-- Description for Both Web - Mobile -->
+        <div class="col-12 mt-4">
+            <label class="form-label">Description for Web & Mobile</label>
+
+            <div class="input-group w-100" wire:ignore>
+                <textarea
+                    id="summernote_both"
+                    class="form-control editor"
+                    rows="10"
+                    wire:model.defer="banner.shared_description">{{ $banner['shared_description'] ?? '' }}</textarea>
+            </div>
+
+            <!-- URLs -->
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">Freemium URL</label>
+                    <input type="url"
+                           class="form-control input-form-style"
+                           placeholder="https://example.com/freemium"
+                           wire:model.defer="banner.freemium_url">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Beta Breaker URL</label>
+                    <input type="url"
+                           class="form-control input-form-style"
+                           placeholder="https://example.com/beta-breaker"
+                           wire:model.defer="banner.beta_breaker_url">
+                </div>
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="mt-3 d-flex gap-4">
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           wire:model.defer="banner.visible_on_mobile"
+                           id="platform_mobile">
+                    <label class="form-check-label" for="platform_mobile">
+                        Mobile
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           wire:model.defer="banner.visible_on_web"
+                           id="platform_web">
+                    <label class="form-check-label" for="platform_web">
+                        Web
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
         <!-- Start & End Date -->
 {{--        <div class="col-12 d-flex justify-content-between mt-4">--}}
 {{--            <div class="col-5">--}}
@@ -158,6 +228,7 @@
 
             initSummernote('summernote_beta', 'banner.description_for_beta_breaker');
             initSummernote('summernote_freemium', 'banner.description_for_freemium');
+            initSummernote('summernote_both', 'banner.description_for_both');
 
             Livewire.hook('message.processed', (message, component) => {
                 ['summernote_beta', 'summernote_freemium'].forEach(id => {

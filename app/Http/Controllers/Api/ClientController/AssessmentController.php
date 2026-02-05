@@ -188,8 +188,8 @@ class AssessmentController extends Controller
 
             return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                 'assessment_page_number' => $status['page'],
-                'web_page_number' => $status['page'],
-                'app_page_number' => $status['web_page'],
+                'web_page_number' => $status['web_page'],
+                'app_page_number' => $status['app_page'],
                 'reset_assessment' => false,
             ]));
 
