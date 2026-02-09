@@ -12,19 +12,13 @@ class EnsureAssessmentOwner
     /**
      * Handle an incoming request.
      */
+
     public function handle(Request $request, Closure $next)
     {
         $assessmentId = $request->input('assessment_id');
 
         if (!$assessmentId) {
-            return Helpers::validationResponse('assessment_id is required');
-        }
-
-        // Check assessment exists
-        $assessment = Assessment::singleAssessmentFromId($assessmentId);
-
-        if (empty($assessment)) {
-            return Helpers::validationResponse('Assessment Not Found');
+            return $next($request);
         }
 
         $user = Helpers::getUser();
@@ -33,15 +27,17 @@ class EnsureAssessmentOwner
             return Helpers::forbiddenResponse('Unauthorized user');
         }
 
-        // Ownership check
-        $isOwner = Assessment::where('id', $assessmentId)
-            ->where('user_id', $user->id)
-            ->exists();
+        $assessment = Assessment::singleAssessmentFromId($assessmentId);
 
-        if (!$isOwner) {
+        if (empty($assessment)) {
+            return Helpers::validationResponse('Assessment Record Not Found');
+        }
+
+        if ($assessment->user_id !== $user->id) {
             return Helpers::forbiddenResponse('Unauthorized assessment access');
         }
 
         return $next($request);
     }
+
 }

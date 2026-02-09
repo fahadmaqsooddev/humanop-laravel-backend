@@ -169,7 +169,9 @@ class AssessmentController extends Controller
                             'retake_assessment' => $remainingDays,
                             'current_time' => $currentTime,
                             'difference_time' => $difference,
-                            'assessment_page_number' => $status,
+                            'assessment_page_number' => $status['page'] ?? 0,
+                            'web_page_number' => $status['web_page'] ?? 0,
+                            'app_page_number' => $status['app_page'] ?? 0,
                             'reset_assessment' => false,
                         ])
                     );
