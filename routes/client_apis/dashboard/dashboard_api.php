@@ -21,8 +21,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('podcast', 'DashboardController@getPodcasts');
     Route::get('core-stats', 'DashboardController@coreStats');
     Route::post('daily-tip-read', 'DashboardController@dailyTipRead');
-    Route::get('action-plan', 'DashboardController@actionPlan');
-    Route::get('hot-spots', 'DashboardController@hotSpots');
+    Route::get('action-plan', 'DashboardController@actionPlan')->middleware('assessment.owner');
+    Route::get('hot-spots', 'DashboardController@hotSpots')->middleware('assessment.owner');
     Route::get('information-icon', 'DashboardController@informationIcon');
     Route::get('optimal-trait', 'DashboardController@optimalTrait');
     Route::get('assessment-walkthrough','DashboardController@getWalkThrough');
