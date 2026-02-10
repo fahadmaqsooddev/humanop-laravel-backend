@@ -8,6 +8,7 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\FamilyMatrix\AssignFamilymatrixRelationshipRequest;
+use App\Http\Requests\Api\FamilyMatrix\ConsentRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Assessment;
 use App\Models\CompatibilityReferenceKeys\DriverCompatibilityReferenceKeys;
@@ -15,7 +16,9 @@ use App\Models\CompatibilityReferenceKeys\EnergyPoolCompatibilityReferenceKeys;
 use App\Models\FamilyMatrix\AssignFamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixResponse;
+//use App\Models\FamilyMatrix\FamilyMatrixNote;
 use Illuminate\Http\Request;
+//use App\Http\Requests\Api\FamilyMatrix\FamilyMatrixNoteRequest;
 
 class FamilyMatrixController extends Controller
 {
@@ -30,11 +33,17 @@ class FamilyMatrixController extends Controller
 
     const GREEN = "GREEN";
 
+
+    public $user=null;
+
     public function __construct(AssignFamilyMatrixRelationship $assignRelationship)
     {
         $this->middleware('auth:api');
 
         $this->assignRelationship = $assignRelationship;
+
+        $this->user=Helpers::getUser();
+
     }
 
 
@@ -375,6 +384,31 @@ class FamilyMatrixController extends Controller
 
     }
 
+    /**
+     * Set user consent (YES / NO)
+     */
+    public function giveConsent(ConsentRequest $request)
+    {
+        $validated = $request->validated();
+
+        $consentValue = $validated['consent'] === 'yes' ? 1 : 0;
+
+        $relation = AssignFamilyMatrixRelationship::updateConsent(
+            $this->user->id,
+            $validated['target_id'],
+            $consentValue
+        );
+
+        if (!$relation) {
+            return Helpers::notFoundResponse('Relationship not found');
+        }
+
+        return Helpers::successResponse('Permission updated', [
+            'consent' => $relation->consent
+        ]);
+    }
+
+
     public function allAssignFamilyMatrixRelationship()
     {
 
@@ -412,5 +446,81 @@ class FamilyMatrixController extends Controller
         }
 
     }
+
+//    public function addFamilyMatrixNote(FamilyMatrixNoteRequest $request)
+//    {
+//        try {
+//
+//            $validated = $request->validated();
+//            $note = FamilyMatrixNote::addFamilyMatrixNote(
+//                $this->user->id,
+//                $validated['assign_relation_id'],
+//                $validated['note'] ?? null
+//            );
+//
+//            return Helpers::successResponse('Family Matrix Note Added Successfully', $note);
+//
+//        } catch (\Exception $exception) {
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
+//    }
+
+
+    /**
+     * Update an existing note
+     */
+//    public function updateFamilyNote(FamilyMatrixNoteRequest $request, int $id)
+//    {
+//        try {
+//
+//            $validated = $request->validated();
+//
+//            $note = FamilyMatrixNote::updateFamilyMatrixNote($id, $validated['note'] ?? null);
+//
+//            if (!$note) {
+//                return Helpers::notFoundResponse('Note not found');
+//            }
+//
+//            return Helpers::successResponse('Family Matrix Note Updated Successfully', $note);
+//
+//        } catch (\Exception $exception) {
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
+//    }
+//
+//
+//    public function deleteFamilyNote(int $id)
+//    {
+//        try {
+//            $deleted = FamilyMatrixNote::deleteFamilyMatrixNote($id);
+//
+//            if (!$deleted) {
+//                return Helpers::notFoundResponse('Note not found');
+//            }
+//
+//            return Helpers::successResponse('Family Matrix Note Deleted Successfully');
+//
+//        } catch (\Exception $exception) {
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
+//    }
+//
+//    public function viewFamilyMatrixNotes()
+//    {
+//        try {
+//
+//            $notes = FamilyMatrixNote::getAllNotes($this->user->id);
+//
+//            if ($notes->isEmpty()) {
+//                return Helpers::notFoundResponse('No family matrix notes found');
+//            }
+//
+//            return Helpers::successResponse('Family Matrix Notes retrieved successfully', $notes);
+//
+//        } catch (\Exception $exception) {
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
+//    }
+
 
 }
