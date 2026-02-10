@@ -8,27 +8,31 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('assign_family_matrix_relationships', function (Blueprint $table) {
-            $table->boolean('consent')->default(false)->after('relationship_id');
-            $table->index('consent');
+
+            if (!Schema::hasColumn('assign_family_matrix_relationships', 'consent')) {
+                $table->tinyInteger('consent')
+                    ->default(0)
+                    ->comment('0 = pending, 1 = approved, 2 = rejected')
+                    ->after('relationship_id');
+            }
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('assign_family_matrix_relationships', function (Blueprint $table) {
-            $table->dropIndex(['consent']);
-            $table->dropColumn('consent');
+
+
+            if (Schema::hasColumn('assign_family_matrix_relationships', 'consent')) {
+                $table->dropColumn('consent');
+            }
         });
     }
 };

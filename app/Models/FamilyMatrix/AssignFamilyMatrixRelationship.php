@@ -21,8 +21,9 @@ class AssignFamilyMatrixRelationship extends Model
 {
     use HasFactory;
 
+    const CONSENT_PENDING = 0;
     const CONSENT_GRANTED = 1;
-    const CONSENT_DENIED  = 0;
+    const CONSENT_REJECTED  = 2;
 
 
     public function __construct(array $attributes = array())
@@ -113,6 +114,7 @@ class AssignFamilyMatrixRelationship extends Model
 
     public static function updateConsent(int $userId, int $targetId, int $consent)
     {
+
         $relation = self::findRelation($userId, $targetId);
 
         if (!$relation) {
@@ -123,36 +125,33 @@ class AssignFamilyMatrixRelationship extends Model
             'consent' => $consent,
         ]);
 
-        // Only process approval if consent = 1
-        if ($consent === 1) {
+        $requester = User::find($targetId);
+        $approver  = User::find($userId);
 
-            $requester = User::find($targetId);
-            $approver  = User::find($userId);
-
-            if (!$requester || !$approver) {
-
-                return $relation;
-            }
+        if (!$requester || !$approver) {
+            return $relation;
+        }
 
 
-            $message = "Your Family Matrix permission request has been approved by " . ($approver->first_name ?? '');
+        $actionText = $consent === 1 ? 'approved' : ($consent === 2 ? 'declined' : null);
 
+        if ($actionText) {
+            $message = "Your Family Matrix permission request has been {$actionText} by " . ($approver->first_name ?? '');
 
             event(new FamilyMatrixPermissionApproved(
                 $targetId,
                 $userId,
-                $message
+                $message,
+                $consent
             ));
 
-
             ActivityLogger::addLog(
-                'Family Matrix Permission Approved',
+                'Family Matrix Permission ' . ucfirst($actionText),
                 $message
             );
 
-
             Notification::createNotification(
-                'family_matrix_approved',
+                $consent === 1 ? 'family_matrix_approved' : 'family_matrix_rejected',
                 $message,
                 null,
                 $targetId,
@@ -165,8 +164,5 @@ class AssignFamilyMatrixRelationship extends Model
 
         return $relation;
     }
-
-
-
 
 }

@@ -391,13 +391,10 @@ class FamilyMatrixController extends Controller
     public function giveConsent(ConsentRequest $request)
     {
         $validated = $request->validated();
-
-        $consentValue = $validated['consent'] === 'yes' ? 1 : 0;
-
         $relation = AssignFamilyMatrixRelationship::updateConsent(
             $this->user->id,
             $validated['target_id'],
-            $consentValue
+            $validated['consent']
         );
 
         if (!$relation) {
