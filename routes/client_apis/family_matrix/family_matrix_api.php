@@ -25,13 +25,13 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('assign-family-matrix-relationship', 'FamilyMatrixController@assignFamilyMatrixRelationship');
     Route::get('all-assign-family-matrix-relationship', 'FamilyMatrixController@allAssignFamilyMatrixRelationship');
     Route::delete('delete-assign-family-matrix-relationship', 'FamilyMatrixController@deleteAssignFamilyMatrixRelationship');
-    Route::post('permission-family-matrix-relationship', 'FamilyMatrixController@giveConsent');
+    Route::put('permission-family-matrix-relationship', 'FamilyMatrixController@giveConsent');
 
     //Family Note Routes
 
     Route::post('family-matrix-relationship-note', 'FamilyMatrixController@addFamilyMatrixNotes');
     Route::get('show-note-family-matrix', 'FamilyMatrixController@showFamilyMatrixNote');
-    Route::post('update-note-family-matrix', 'FamilyMatrixController@updateFamilyMatrixNotes');
+    Route::put('update-note-family-matrix', 'FamilyMatrixController@updateFamilyMatrixNotes');
     Route::delete('delete-note-family-matrix', 'FamilyMatrixController@deleteFamilyMatrixNotes');
     Route::get('all-note-family-matrix-relationship','FamilyMatrixController@viewFamilyMatrixNotes');
 
