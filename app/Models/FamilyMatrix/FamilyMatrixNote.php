@@ -46,8 +46,11 @@ class FamilyMatrixNote extends Model
     }
 
 
-    public static function updateFamilyMatrixNote(int $assignRelationId, int $userId, ?string $noteText): ?self
-    {
+    public static function updateFamilyMatrixNote(
+        int $assignRelationId,
+        int $userId,
+        ?string $noteText
+    ): ?self {
 
         $note = self::getNoteByRelationId($assignRelationId, $userId);
 
@@ -55,12 +58,17 @@ class FamilyMatrixNote extends Model
             return null;
         }
 
-        $note->update([
-            'note' => $noteText ?? $note->note,
-        ]);
+
+        $note->note = $noteText;
+
+        if ($note->isDirty('note')) {
+            $note->save();
+        }
 
         return $note;
     }
+
+
 
 
 
