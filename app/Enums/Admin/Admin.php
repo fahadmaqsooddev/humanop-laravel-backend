@@ -98,6 +98,9 @@ final class Admin
     const ACCEPT_REQUEST_NOTIFICATION = 16;
 
     const REJECT_REQUEST_NOTIFICATION = 17;
+
+    const FAMILY_MATRIX_RELATIONSHIP_PERMISSION = 18;
+
     const OPTIMAL_TRAIT = 14;
 
     const CREDIT_BONUS = 15;
