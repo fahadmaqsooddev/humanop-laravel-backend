@@ -7,6 +7,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class FamilyMatrixPermissionApproved implements ShouldBroadcast
 {
@@ -15,6 +16,7 @@ class FamilyMatrixPermissionApproved implements ShouldBroadcast
     public $requesterId;
     public $approverId;
     public $message;
+    public $status;
 
     /**
      * Create a new event instance.
@@ -22,12 +24,21 @@ class FamilyMatrixPermissionApproved implements ShouldBroadcast
      * @param int $requesterId
      * @param int $approverId
      * @param string $message
+     * @param int $status
      */
-    public function __construct(int $requesterId, int $approverId, string $message)
+    public function __construct(int $requesterId, int $approverId, string $message, int $status = 1)
     {
         $this->requesterId = $requesterId;
         $this->approverId  = $approverId;
-        $this->message     = $message; // Dynamic message from caller
+        $this->message     = $message;
+        $this->status      = $status;
+
+        Log::info('FamilyMatrixPermission event fired', [
+            'requester_id' => $this->requesterId,
+            'approver_id'  => $this->approverId,
+            'message'      => $this->message,
+            'status'       => $this->status,
+        ]);
     }
 
     /**
@@ -37,8 +48,9 @@ class FamilyMatrixPermissionApproved implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        // Broadcast to the requester only
+
         return new Channel('push-notification.' . $this->requesterId);
+
     }
 
     /**
@@ -59,8 +71,9 @@ class FamilyMatrixPermissionApproved implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'message'     => $this->message,
-            'approved_by' => $this->approverId,
+            'message'      => $this->message,
+            'approved_by'  => $this->approverId,
+            'status'       => $this->status,
         ];
     }
 }

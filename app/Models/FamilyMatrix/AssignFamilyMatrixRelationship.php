@@ -21,8 +21,14 @@ class AssignFamilyMatrixRelationship extends Model
 {
     use HasFactory;
 
-    const CONSENT_GRANTED = 1;
-    const CONSENT_DENIED  = 0;
+    const CONSENT_PENDING  = 0; // ya null agar aap null use karte hain pending ke liye
+    const CONSENT_APPROVED = 1;
+    const CONSENT_REJECTED = 2;
+
+    // Consent text/status for frontend or logs
+    const STATUS_PENDING  = 'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_REJECTED = 'rejected';
 
 
     public function __construct(array $attributes = array())
@@ -33,13 +39,25 @@ class AssignFamilyMatrixRelationship extends Model
         parent::__construct($attributes);
     }
 
+    /**
+     * Get all relationships for a user with readable status
+     */
     public static function getRelationships($userId = null)
     {
-        return self::where([
-            'user_id' => $userId,
-            'consent' => self::CONSENT_GRANTED
-        ])->orderBy('created_at', 'desc')->get();
+
+        return self::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function($relation) {
+                $relation->consent_status = match($relation->consent) {
+                    self::CONSENT_APPROVED => self::STATUS_APPROVED,
+                    self::CONSENT_REJECTED => self::STATUS_REJECTED,
+                    default => self::STATUS_PENDING,
+                };
+                return $relation;
+            });
     }
+
 
 
     public static function checkRelationship($userId = null, $dataArray = null)
@@ -106,13 +124,22 @@ class AssignFamilyMatrixRelationship extends Model
 
     public static function findRelation(int $userId, int $targetId)
     {
-        return self::where('user_id', $userId)
-            ->where('target_id', $targetId)
-            ->first();
+
+
+        return self::where(function($q) use ($userId, $targetId) {
+            $q->where('user_id', $userId)
+                ->where('target_id', $targetId);
+        })
+        ->orWhere(function($q) use ($userId, $targetId) {
+            $q->where('user_id', $targetId)
+                ->where('target_id', $userId);
+        })->first();
     }
+
 
     public static function updateConsent(int $userId, int $targetId, int $consent)
     {
+
         $relation = self::findRelation($userId, $targetId);
 
         if (!$relation) {
@@ -123,36 +150,33 @@ class AssignFamilyMatrixRelationship extends Model
             'consent' => $consent,
         ]);
 
-        // Only process approval if consent = 1
-        if ($consent === 1) {
+        $requester = User::find($targetId);
+        $approver  = User::find($userId);
 
-            $requester = User::find($targetId);
-            $approver  = User::find($userId);
-
-            if (!$requester || !$approver) {
-
-                return $relation;
-            }
+        if (!$requester || !$approver) {
+            return $relation;
+        }
 
 
-            $message = "Your Family Matrix permission request has been approved by " . ($approver->first_name ?? '');
+        $actionText = $consent === 1 ? 'approved' : ($consent === 2 ? 'declined' : null);
 
+        if ($actionText) {
+            $message = "Your Family Matrix permission request has been {$actionText} by " . ($approver->first_name ?? '');
 
             event(new FamilyMatrixPermissionApproved(
                 $targetId,
                 $userId,
-                $message
+                $message,
+                $consent
             ));
 
-
             ActivityLogger::addLog(
-                'Family Matrix Permission Approved',
+                'Family Matrix Permission ' . ucfirst($actionText),
                 $message
             );
 
-
             Notification::createNotification(
-                'family_matrix_approved',
+                $consent === 1 ? 'family_matrix_approved' : 'family_matrix_rejected',
                 $message,
                 null,
                 $targetId,
@@ -165,8 +189,5 @@ class AssignFamilyMatrixRelationship extends Model
 
         return $relation;
     }
-
-
-
 
 }
