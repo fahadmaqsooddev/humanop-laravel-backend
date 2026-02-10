@@ -868,10 +868,10 @@ return [
             'fillable' => ['user_id', 'target_id', 'relationship_id','consent'],
             'hidden' => ['created_at', 'updated_at']
         ],
-//        'FamilyMatrixNote' => [
-//            'table' => 'family_matrix_notes',
-//            'fillable' => ['user_id', 'assign_relation_id','note'],
-//            'hidden' => ['created_at', 'updated_at']
-//        ]
+        'FamilyMatrixNote' => [
+            'table' => 'family_matrix_notes',
+            'fillable' => ['user_id', 'assign_relation_id','note'],
+            'hidden' => ['created_at', 'updated_at']
+        ]
     ]
 ];

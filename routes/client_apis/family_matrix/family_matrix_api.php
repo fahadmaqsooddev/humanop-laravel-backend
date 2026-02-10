@@ -26,11 +26,13 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('all-assign-family-matrix-relationship', 'FamilyMatrixController@allAssignFamilyMatrixRelationship');
     Route::delete('delete-assign-family-matrix-relationship', 'FamilyMatrixController@deleteAssignFamilyMatrixRelationship');
     Route::post('permission-family-matrix-relationship', 'FamilyMatrixController@giveConsent');
-//    Route::post('family-matrix-relationship-note', 'FamilyMatrixController@addFamilyMatrixNote');
-//    // Update a note
-//    Route::put('edit-note-family-matrix', 'FamilyMatrixController@updateFamilyMatrixNote');
-//    // Delete a note
-//    Route::delete('delete-note-family-matrix', 'FamilyMatrixController@deleteFamilyMatrixNote');
-//    Route::get('all-note-family-matrix-relationship','FamilyMatrixNoteController@viewFamilyMatrixNotes');
+
+    //Family Note Routes
+
+    Route::post('family-matrix-relationship-note', 'FamilyMatrixController@addFamilyMatrixNotes');
+    Route::get('show-note-family-matrix', 'FamilyMatrixController@showFamilyMatrixNote');
+    Route::post('update-note-family-matrix', 'FamilyMatrixController@updateFamilyMatrixNotes');
+    Route::delete('delete-note-family-matrix', 'FamilyMatrixController@deleteFamilyMatrixNotes');
+    Route::get('all-note-family-matrix-relationship','FamilyMatrixController@viewFamilyMatrixNotes');
 
 });
