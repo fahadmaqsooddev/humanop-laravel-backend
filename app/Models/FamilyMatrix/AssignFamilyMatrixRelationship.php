@@ -21,9 +21,14 @@ class AssignFamilyMatrixRelationship extends Model
 {
     use HasFactory;
 
-    const CONSENT_PENDING = 0;
-    const CONSENT_GRANTED = 1;
-    const CONSENT_REJECTED  = 2;
+    const CONSENT_PENDING  = 0; // ya null agar aap null use karte hain pending ke liye
+    const CONSENT_APPROVED = 1;
+    const CONSENT_REJECTED = 2;
+
+    // Consent text/status for frontend or logs
+    const STATUS_PENDING  = 'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_REJECTED = 'rejected';
 
 
     public function __construct(array $attributes = array())
@@ -34,13 +39,25 @@ class AssignFamilyMatrixRelationship extends Model
         parent::__construct($attributes);
     }
 
+    /**
+     * Get all relationships for a user with readable status
+     */
     public static function getRelationships($userId = null)
     {
-        return self::where([
-            'user_id' => $userId,
-            'consent' => self::CONSENT_GRANTED
-        ])->orderBy('created_at', 'desc')->get();
+
+        return self::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function($relation) {
+                $relation->consent_status = match($relation->consent) {
+                    self::CONSENT_APPROVED => self::STATUS_APPROVED,
+                    self::CONSENT_REJECTED => self::STATUS_REJECTED,
+                    default => self::STATUS_PENDING,
+                };
+                return $relation;
+            });
     }
+
 
 
     public static function checkRelationship($userId = null, $dataArray = null)
@@ -107,6 +124,8 @@ class AssignFamilyMatrixRelationship extends Model
 
     public static function findRelation(int $userId, int $targetId)
     {
+
+
         return self::where(function($q) use ($userId, $targetId) {
             $q->where('user_id', $userId)
                 ->where('target_id', $targetId);
