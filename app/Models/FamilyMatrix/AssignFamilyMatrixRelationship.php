@@ -107,10 +107,16 @@ class AssignFamilyMatrixRelationship extends Model
 
     public static function findRelation(int $userId, int $targetId)
     {
-        return self::where('user_id', $userId)
-            ->where('target_id', $targetId)
-            ->first();
+        return self::where(function($q) use ($userId, $targetId) {
+            $q->where('user_id', $userId)
+                ->where('target_id', $targetId);
+        })
+        ->orWhere(function($q) use ($userId, $targetId) {
+            $q->where('user_id', $targetId)
+                ->where('target_id', $userId);
+        })->first();
     }
+
 
     public static function updateConsent(int $userId, int $targetId, int $consent)
     {
