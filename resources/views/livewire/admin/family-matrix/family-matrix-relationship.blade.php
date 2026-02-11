@@ -16,10 +16,12 @@
                     <td class="text-sm font-weight-normal">
                         <a onclick="deleteRelationship({{ $relationship->id }})" class="btn-sm mt-2 mb-0"
                            style="background:#ff0000;color:white;font-weight:bolder;cursor:pointer;">Delete</a>
-                        <a wire:click="editRelationshipModal({{ $relationship->id }},`{{ $relationship->relationship_name  }}`)"
+                        <a wire:click="editRelationshipModal({{ $relationship->id }}, `{{ strip_tags($relationship->relationship_name) }}`)"
                            class="btn-sm mt-2 mb-0"
                            data-bs-target="#editFormRelationshipModal" data-bs-toggle="modal"
-                           style="background:#1b3a62;color:white;font-weight:bolder;cursor:pointer;">Edit</a>
+                           style="background:#1b3a62;color:white;font-weight:bolder;cursor:pointer;">
+                            Edit
+                        </a>
                     </td>
                 </tr>
             @endforeach
