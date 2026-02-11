@@ -36,6 +36,7 @@ class AssessmentController extends Controller
 {
 
     public $user = null;
+
     public function __construct()
     {
         $this->middleware('auth:api');
@@ -127,7 +128,7 @@ class AssessmentController extends Controller
 
             if ($user->plan_name !== 'Freemium') {
 
-                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page','web_page','app_page','type', 'updated_at', 'reset_assessment'])->latest()->first();
+                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page', 'web_page', 'app_page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
                 $price = optional($assessment_price)->amount ?? 0;
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'assessment_page_number' => $assessment->page,
@@ -231,7 +232,7 @@ class AssessmentController extends Controller
             $assessment = Assessment::Where('user_id', $this->user->id)->latest()->first();
 
 
-            if (!$assessment){
+            if (!$assessment) {
                 return Helpers::validationResponse('Assessment not found');
             }
 
@@ -240,7 +241,7 @@ class AssessmentController extends Controller
                 FILTER_VALIDATE_BOOLEAN
             );
 
-            $requestedPage = (int) $request->input('page');
+            $requestedPage = (int)$request->input('page');
 
             if ($assessmentFromApp) {
 
@@ -264,7 +265,7 @@ class AssessmentController extends Controller
 
 //            dd($this->user);
 
-            $questions = Question::paginatedQuestions($perPage,$this->user);
+            $questions = Question::paginatedQuestions($perPage, $this->user);
             return Helpers::successResponse('Questions', $questions, true);
 
         } catch (\Exception $exception) {
@@ -522,5 +523,96 @@ class AssessmentController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
     }
+
+    public function userAssessmentDetails(Request $request)
+    {
+
+        try {
+
+            $userId = Helpers::getUser()->id;
+
+            $assessment = Assessment::getLatestAssessment($userId);
+
+            if (!$assessment) {
+
+                return Helpers::successResponse('No assessment found');
+
+            }
+
+            $assessmentId = $assessment->id;
+
+            $assessmentDetail = Assessment::getAllRowGrid($assessmentId);
+
+            $traitAndDriverCodes = AssessmentColorCode::getAssessmentCodeAndColor($assessmentId);
+
+            $assessmentCodeNames = CodeDetail::getPublicNames($traitAndDriverCodes);
+
+            $alchemy = Assessment::getAlchemyDetail($assessment);
+
+            $communications = Assessment::getEnergyCenter($assessment);
+
+            $communicationCodeNames = CodeDetail::getPublicNames($communications);
+
+            $perceptionOfLife = Assessment::getPerceptionReportDetail($assessment);
+
+            $energyPool = Assessment::getEnergyPoolDetail($assessment);
+
+            $traitAndDriver = array_map(function ($code) {
+
+                return [
+                    'public_name' => $code[5] ?? null,
+                    'code_name' => $code[4] ?? null,
+                    'code_color' => $code[0] ?? null,
+                ];
+
+            }, $assessmentCodeNames ?? []);
+
+            $communicationDetails = array_map(function ($code) {
+
+                return [
+                    'public_name' => $code[1] ?? null,
+                    'code_name' => $code[4] ?? null,
+                ];
+
+            }, $communicationCodeNames ?? []);
+
+            $data = [
+                'assessment_detail' => [
+                    'assessment_first_row' => $assessmentDetail['firstRow'] ?? [],
+                    'assessment_second_row' => $assessmentDetail['secondRow'] ?? [],
+                    'assessment_last_row' => $assessmentDetail['thirdRow'] ?? [],
+                    'trait_and_driver' => $traitAndDriver,
+                    'alchemy' => [
+                        'public_name' => $alchemy['public_name'] ?? null,
+                        'code_name' => $alchemy['code_name'] ?? null,
+                    ],
+                    'communication' => $communicationDetails,
+                    'perception_of_life' => [
+                        'public_name' => $perceptionOfLife['public_name'] ?? null,
+                        'code_name' => $perceptionOfLife['code_name'] ?? null,
+                    ],
+                    'energy_pool' => [
+                        'public_name' => $energyPool['public_name'] ?? null,
+                        'code_name' => $energyPool['code'] ?? null,
+                    ],
+                ],
+            ];
+
+            return Helpers::successResponse('User Assessment Detail', $data);
+
+        } catch (\Throwable $e) {
+
+            Log::error('Error fetching assessments', [
+                'message' => $e->getMessage(),
+                'user_id' => Helpers::getUser()->id ?? null,
+            ]);
+
+            return Helpers::serverErrorResponse('Something went wrong while fetching assessment details.');
+
+        }
+
+    }
+
 }

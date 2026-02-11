@@ -430,7 +430,7 @@ class AdminController extends Controller
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $perception_life = AssessmentIntro::getPerceptionStaticText();
-            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
+            $perception = $assessment != null ? Assessment::getPerceptionReportDetail($assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
             ActionPlan::storeUserActionPlan($assessment, $get_user['plan_name']);
@@ -607,7 +607,7 @@ class AdminController extends Controller
                 // Hotspot Delta
                 // -----------------------
                 // collect previous and current scores only
-                
+
                 $prevScores = $prev['hotspots']->pluck('priority')->toArray();
                 $currScores = $curr['hotspots']->pluck('priority')->toArray();
 
@@ -792,7 +792,7 @@ class AdminController extends Controller
         $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
         $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
         $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
-        $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
+        $perception = $assessment != null ? Assessment::getPerceptionReportDetail($assessment) : [];
         $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
         $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
         $alchl_code = Assessment::getAlchlCode($id);

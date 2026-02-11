@@ -46,7 +46,7 @@ class SoundTrackController extends Controller
 
             $topCommunication = [$topCommunication[0]];
 
-            $perception = [Assessment::getPreceptionReportDetail($userLatestAssessment)['public_name']];
+            $perception = [Assessment::getPerceptionReportDetail($userLatestAssessment)['public_name']];
 
             $energyPool = Assessment::getEnergyPoolPublicName($userLatestAssessment)['public_name'];
 

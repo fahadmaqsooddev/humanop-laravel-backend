@@ -147,7 +147,7 @@ class DailyTip extends Model
         }
 
         // Perception of Life
-        $perceptionOfLife = Assessment::getPreceptionReportDetail($assessment);
+        $perceptionOfLife = Assessment::getPerceptionReportDetail($assessment);
         if (!empty($perceptionOfLife['code_name'])) {
             $codes[] = $perceptionOfLife['code_name'];
         }

@@ -656,7 +656,7 @@ class UserController extends Controller
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
-            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
+            $perception = $assessment != null ? Assessment::getPerceptionReportDetail($assessment) : null;
 
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
 
@@ -754,7 +754,7 @@ class UserController extends Controller
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
-            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
+            $perception = $assessment != null ? Assessment::getPerceptionReportDetail($assessment) : null;
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
             $alchl_code = $assessment != null ? Assessment::getAlchlCode($assessment['id']) : null;
