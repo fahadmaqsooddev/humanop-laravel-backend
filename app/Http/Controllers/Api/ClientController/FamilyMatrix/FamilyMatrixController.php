@@ -456,7 +456,7 @@ class FamilyMatrixController extends Controller
         );
 
         if (!$note) {
-            return Helpers::validationResponse('Relationship already added.');
+            return Helpers::validationResponse('Family Matrix Note Already Added.');
         }
 
         return Helpers::successResponse('Family Matrix Note Added Successfully', $note);
