@@ -259,7 +259,7 @@ class ShopCategoryResource extends Model
 
         $topCommunication = [$topCommunication[0]];
 
-        $perception = [Assessment::getPreceptionReportDetail($userLatestAssessment)['code_name']];
+        $perception = [Assessment::getPerceptionReportDetail($userLatestAssessment)['code_name']];
 
         $energyPool = Assessment::getEnergyPoolPublicName($userLatestAssessment)['code_name'];
 

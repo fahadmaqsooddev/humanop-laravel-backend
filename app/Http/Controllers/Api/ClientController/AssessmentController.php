@@ -555,7 +555,7 @@ class AssessmentController extends Controller
 
             $communicationCodeNames = CodeDetail::getPublicNames($communications);
 
-            $perceptionOfLife = Assessment::getPreceptionReportDetail($assessment);
+            $perceptionOfLife = Assessment::getPerceptionReportDetail($assessment);
 
             $energyPool = Assessment::getEnergyPoolDetail($assessment);
 

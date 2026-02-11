@@ -2072,7 +2072,7 @@ class Assessment extends Model
 
     }
 
-    public static function getPreceptionReportDetail($assessment = null)
+    public static function getPerceptionReportDetail($assessment = null)
     {
 
         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
@@ -2171,7 +2171,7 @@ class Assessment extends Model
 
         $perception_life = AssessmentIntro::getPerceptionStaticText();
 
-        $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
+        $perception = $assessment != null ? Assessment::getPerceptionReportDetail($assessment) : null;
 
         $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
 

@@ -298,7 +298,7 @@ class FamilyMatrixController extends Controller
             'co_pilot_driver' => $drivers[1]['public_name'] ?? null,
             'primary_trait' => CodeDetail::getPublicNames($traits)[0][1] ?? null,
             'alchemy' => Assessment::getAlchemyDetail($assessment)['public_name'] ?? null,
-            'perception_of_life' => Assessment::getPreceptionReportDetail($assessment)['public_name'] ?? null,
+            'perception_of_life' => Assessment::getPerceptionReportDetail($assessment)['public_name'] ?? null,
             'energy_center' => CodeDetail::getPublicNames(Assessment::getEnergyCenter($assessment))[0][1] ?? null,
         ];
 
