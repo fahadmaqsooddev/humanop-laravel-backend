@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('family_matrix_grids');
+        Schema::dropIfExists('family_matrix_configurations');
     }
 };
