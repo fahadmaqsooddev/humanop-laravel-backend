@@ -18,7 +18,7 @@
                         <td class="text-sm  font-weight-normal">{{ $key + 1 }}</td>
                         <td class="text-sm font-weight-normal">{{ $config->grid_name }}</td>
                         <td class="text-sm font-weight-normal">{{ $config->color_code }}</td>
-                        <td class="text-sm font-weight-normal">{{ $config->text }}</td>
+                        <td class="text-sm font-weight-normal">{{ strip_tags($config->text) }}</td>
                         <td class="text-sm font-weight-normal">
                             <a wire:click="editConfigurationModal({{ $config->id }}, '{{ $config->text }}')"
                                class="btn-sm mt-2 mb-0"

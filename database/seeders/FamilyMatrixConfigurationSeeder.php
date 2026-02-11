@@ -17,18 +17,19 @@ class FamilyMatrixConfigurationSeeder extends Seeder
             'Energy Pool',
         ];
 
+        // Color names mapped to hex values
         $colors = [
-            'red',
-            'green',
-            'yellow',
+            'red'    => '#FF0000',
+            'green'  => '#00FF00',
+            'yellow' => '#FFFF00',
         ];
 
         foreach ($traits as $trait) {
-            foreach ($colors as $color) {
+            foreach ($colors as $name => $hex) {
                 DB::table('family_matrix_configurations')->insert([
                     'grid_name'   => $trait,
-                    'color_code'  => $color,
-                    'text'        => ucfirst($color) . ' text for ' . $trait,
+                    'color_code'  => $hex,
+                    'text'        => strip_tags(ucfirst($name) . ' text for ' . $trait),
                     'created_at'  => now(),
                     'updated_at'  => now(),
                 ]);

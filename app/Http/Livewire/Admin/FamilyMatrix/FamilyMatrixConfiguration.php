@@ -45,11 +45,11 @@ class FamilyMatrixConfiguration extends Component
 
     public function updateConfiguration()
     {
-        // Call validation
-        $validated = $this->validateConfigurationText();
 
-        // Update using model method
-        $updated = FamilyMatrixConfigurationModel::updateConfigurationText($this->configId, $validated['configText']);
+        $validated = $this->validateConfigurationText();
+        $text = strip_tags($validated['configText']);
+
+        $updated = FamilyMatrixConfigurationModel::updateConfigurationText($this->configId, $text);
 
         if (!$updated) {
             session()->flash('error', 'Configuration not found');
@@ -60,6 +60,7 @@ class FamilyMatrixConfiguration extends Component
         $this->emit('refreshComponent'); // Refresh table if needed
         $this->dispatchBrowserEvent('hide-edit-modal');
     }
+
 
 
     public function render()
