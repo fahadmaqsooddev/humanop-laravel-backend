@@ -12,6 +12,7 @@ use App\Events\FamilyMatrix\FamilyMatrixPermission;
 use App\Events\FamilyMatrix\FamilyMatrixPermissionApproved;
 use App\Models\User;
 use App\Helpers\Helpers;
+use App\Models\FamilyMatrix\FamilyMatrixRelationship;
 
 
 use Illuminate\Support\Facades\Log;
@@ -39,26 +40,48 @@ class AssignFamilyMatrixRelationship extends Model
         parent::__construct($attributes);
     }
 
+    public function targetUser()
+    {
+        return $this->belongsTo(User::class, 'target_id');
+    }
+
+    public function relationship()
+    {
+        return $this->belongsTo(FamilyMatrixRelationship::class, 'relationship_id');
+    }
+
+
     /**
      * Get all relationships for a user with readable status
      */
     public static function getRelationships($userId = null)
     {
-
-        return self::where('user_id', $userId)
+        return self::with([
+            'targetUser:id,first_name,last_name,email',
+            'relationship:id,relationship_name'
+        ])
+            ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->get()
             ->map(function($relation) {
-                $relation->consent_status = match($relation->consent) {
-                    self::CONSENT_APPROVED => self::STATUS_APPROVED,
-                    self::CONSENT_REJECTED => self::STATUS_REJECTED,
-                    default => self::STATUS_PENDING,
-                };
-                return $relation;
+
+                return [
+                    'id'                 => $relation->id,
+                    'user_id'            => $relation->user_id,
+                    'target_id'          => $relation->target_id,
+                    'relationship_id'    => $relation->relationship_id,
+                    'consent'            => $relation->consent,
+                    'consent_status'     => match($relation->consent) {
+                        self::CONSENT_APPROVED => self::STATUS_APPROVED,
+                        self::CONSENT_REJECTED => self::STATUS_REJECTED,
+                        default => self::STATUS_PENDING,
+                    },
+                    'relationship_name'  => $relation->relationship->relationship_name ?? null,
+                    'target_name'          => trim($relation->targetUser->first_name . ' ' . $relation->targetUser->last_name),
+                    'target_email'         => $relation->targetUser->email
+                ];
             });
     }
-
-
 
     public static function checkRelationship($userId = null, $dataArray = null)
     {
@@ -103,12 +126,11 @@ class AssignFamilyMatrixRelationship extends Model
             'family_matrix_request',
             $msg,
             null,
-            $user->id,
+            $assignRelationship->target_id,
             1,
             Admin::FAMILY_MATRIX_RELATIONSHIP_PERMISSION,
             Admin::B2C_NOTIFICATION,
-            $assignRelationship->target_id,
-
+            $user->id
         );
 
         return $assignRelationship;
@@ -124,7 +146,6 @@ class AssignFamilyMatrixRelationship extends Model
 
     public static function findRelation(int $userId, int $targetId)
     {
-
 
         return self::where(function($q) use ($userId, $targetId) {
             $q->where('user_id', $userId)

@@ -17,18 +17,28 @@ class FamilyMatrixNote extends Model
         parent::__construct($attributes);
     }
 
+
+    /**
+     * Reusable finder for a note by user + relation
+     */
+    public static function findUserNote(int $relationId, int $userId): ?self
+    {
+        return self::where('assign_relation_id', $relationId)
+            ->where('user_id', $userId)
+            ->first();
+    }
+
     /**
      * Optionally: Add a note (static helper method)
      */
+    /**
+     * Add a note
+     */
     public static function addFamilyMatrixNote(int $userId, int $relationId, ?string $note = null): ?self
     {
-
-        $existingNote = self::where('assign_relation_id', $relationId)->first();
-
-        if ($existingNote) {
+        if (self::findUserNote($relationId, $userId)) {
             return null;
         }
-
 
         return self::create([
             'user_id'            => $userId,
@@ -38,26 +48,26 @@ class FamilyMatrixNote extends Model
     }
 
 
-    public static function getNoteByRelationId(int $relationId, int $userId)
+    /**
+     * Get note for edit/display
+     */
+    public static function getNoteByRelationId(int $relationId, int $userId): ?self
     {
-        return self::where('assign_relation_id', $relationId)
-            ->where('user_id', $userId)
-            ->first();
+        return self::findUserNote($relationId, $userId);
     }
 
 
-    public static function updateFamilyMatrixNote(
-        int $assignRelationId,
-        int $userId,
-        ?string $noteText
-    ): ?self {
 
-        $note = self::getNoteByRelationId($assignRelationId, $userId);
+    /**
+     * Update note
+     */
+    public static function updateFamilyMatrixNote(int $assignRelationId, int $userId, ?string $noteText): ?self
+    {
+        $note = self::findUserNote($assignRelationId, $userId);
 
         if (!$note) {
             return null;
         }
-
 
         $note->note = $noteText;
 
@@ -69,19 +79,17 @@ class FamilyMatrixNote extends Model
     }
 
 
-
-
-
     /**
      * Delete a note based on user_id and assign_relation_id
      */
 
 
+    /**
+     * Delete a note
+     */
     public static function deleteFamilyMatrixNote(int $assignRelationId, int $userId): bool
     {
-        $note = self::where('assign_relation_id', $assignRelationId)
-            ->where('user_id', $userId)
-            ->first();
+        $note = self::findUserNote($assignRelationId, $userId);
 
         if (!$note) {
             return false;
