@@ -872,6 +872,11 @@ return [
             'table' => 'family_matrix_notes',
             'fillable' => ['user_id', 'assign_relation_id','note'],
             'hidden' => ['created_at', 'updated_at']
+        ],
+        'FamilyMatrixConfiguration' => [
+            'table' => 'family_matrix_configuration',
+            'fillable' => ['grid_name','color','text'],
+            'hidden' => ['created_at', 'updated_at']
         ]
     ]
 ];
