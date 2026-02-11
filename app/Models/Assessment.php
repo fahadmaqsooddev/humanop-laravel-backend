@@ -204,6 +204,9 @@ class Assessment extends Model
             'tra' => $grid['tra'],
             'van' => $grid['van'],
             'wil' => $grid['wil'],
+            'g' => $grid['g'],
+            's' => $grid['s'],
+            'c' => $grid['c'],
             'em' => $grid['em'],
             'ins' => $grid['ins'],
             'int' => $grid['int'],
@@ -234,6 +237,9 @@ class Assessment extends Model
             'tra' => $grid['jo'] + $grid['ven'],
             'van' => $grid['jo'] + $grid['ven'] + $grid['mer'] + $grid['so'],
             'wil' => $grid['ma'] + $grid['lu'],
+            'g' => $grid['mer'] + $grid['sa'] + $grid['so'],
+            's' => $grid['ven'] + $grid['jo'],
+            'c' => $grid['ma'] + $grid['lu'],
             'em' => $grid['jo'] + $grid['ven'] + $grid['lu'],
             'ins' => $grid['ma'] + $grid['ven'] + $grid['mer'],
             'int' => $grid['jo'] + $grid['sa'] + $grid['mer'],
@@ -260,6 +266,9 @@ class Assessment extends Model
             'tra' => $grid['tra'] * $second_row_tra,
             'van' => $grid['van'] * $second_row_van,
             'wil' => $grid['wil'] * $second_row_wil,
+            'g' => $grid['g'] * $secondRowGrid['g'],
+            's' => $grid['s'] * $secondRowGrid['s'],
+            'c' => $grid['c'] * $secondRowGrid['c'],
             'em' => $grid['em'] * $second_row_em,
             'ins' => $grid['ins'] * $second_row_ins,
             'int' => $grid['int'] * $second_row_int,
@@ -2000,7 +2009,7 @@ class Assessment extends Model
 
         if ($code_detail) {
 
-            $code_detail['public_name'] = str_replace('Energy', '', $code_detail['public_name']);
+            $code_detail['public_name'] = str_replace('Energy ', '', $code_detail['public_name']);
         }
 
 
