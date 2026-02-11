@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('family_matrix_configuration', function (Blueprint $table) {
+        Schema::create('family_matrix_configurations', function (Blueprint $table) {
             $table->id();
 
             $table->string('grid_name');      // Grid name

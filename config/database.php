@@ -874,7 +874,7 @@ return [
             'hidden' => ['created_at', 'updated_at']
         ],
         'FamilyMatrixConfiguration' => [
-            'table' => 'family_matrix_configuration',
+            'table' => 'family_matrix_configurations',
             'fillable' => ['grid_name','color','text'],
             'hidden' => ['created_at', 'updated_at']
         ]

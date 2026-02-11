@@ -25,9 +25,9 @@ class FamilyMatrixConfigurationSeeder extends Seeder
 
         foreach ($traits as $trait) {
             foreach ($colors as $color) {
-                DB::table('family_matrix_configuration')->insert([
+                DB::table('family_matrix_configurations')->insert([
                     'grid_name'   => $trait,
-                    'color_code'  => $color, // ab color name
+                    'color_code'  => $color,
                     'text'        => ucfirst($color) . ' text for ' . $trait,
                     'created_at'  => now(),
                     'updated_at'  => now(),
