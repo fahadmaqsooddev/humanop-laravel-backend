@@ -2,10 +2,14 @@
 
 namespace App\Helpers\Assessments;
 
+use App\Enums\Admin\Admin;
 use App\Models\Assessment;
+use App\Models\CompatibilityReferenceKeys\DriverCompatibilityReferenceKeys;
+use App\Models\CompatibilityReferenceKeys\EnergyPoolCompatibilityReferenceKeys;
 use App\Models\CompatibilityReferenceKeys\TraitCompatibilityPolarity;
 use App\Models\CompatibilityReferenceKeys\TraitCompatibilityReferenceKeys;
-use Illuminate\Support\Facades\Auth;
+use App\Models\FamilyMatrix\FamilyMatrixConfiguration;
+
 
 class AssessmentHelper
 {
@@ -374,4 +378,151 @@ class AssessmentHelper
             'perception' => $perception,
         ];
     }
+
+    public static function getUserAssessments(array $userIds): array
+    {
+
+        $data = [];
+
+        foreach ($userIds as $userId) {
+
+            $assessment = Assessment::getLatestAssessment($userId);
+
+            if ($assessment) {
+
+                $data[$userId] = $assessment;
+
+            }
+
+        }
+
+        return $data;
+
+    }
+
+    public static function buildCompatibilityMatrix($userA, $userB): array
+    {
+
+        $perception = self::makeResult(
+            AssessmentHelper::polarityCompatabilityCalculate(
+                Assessment::getPv($userA),
+                Assessment::getPv($userB)
+            ), 'Perception Of Life'
+        );
+
+        if ($perception['status'] === Admin::RED) {
+
+            $perception['flag'] = Admin::ELECTROMAGNETIC_REPULSION;
+
+        }
+
+        return [
+            'cms_score' => $perception['score'],
+            'traits' => self::makeResult(
+                AssessmentHelper::traitCompatabilityCalculate(
+                    Assessment::getTopThreeTraitWeight($userA),
+                    Assessment::getTopThreeTraitWeight($userB),
+                    $userA,
+                    $userB
+                ), 'Traits'
+            ),
+
+            'drivers' => self::makeResult(
+                self::calculateDriverCompatibility($userA, $userB), 'Motivational Driver (Pilot)'
+            ),
+
+            'alchemy' => self::makeResult(
+                AssessmentHelper::alchemyCompatabilityCalculate(
+                    abs(
+                        Assessment::getAlchlCode($userA['id']) -
+                        Assessment::getAlchlCode($userB['id'])
+                    )
+                ), 'Alchemy'
+            ),
+
+            'communication_style' => self::makeResult(
+                AssessmentHelper::energyCenterCompatabilityCalculate(
+                    Assessment::getEnergyCenter($userA),
+                    Assessment::getEnergyCenter($userB)
+                ), 'Communication Styles'
+            ),
+
+            'perception_of_life' => $perception,
+
+            'energy_pool' => self::makeResult(
+                EnergyPoolCompatibilityReferenceKeys::energyPoolCompatabilityCalculate(
+                    Assessment::getEnergyPoolDetail($userA)['public_name'],
+                    Assessment::getEnergyPoolDetail($userB)['public_name']
+                ), 'Energy Pool'
+            ),
+        ];
+    }
+
+    public static function makeResult($score = null, $grid = null): array
+    {
+
+        $score = round($score, 2);
+
+        $colorCode = self::checkStatus($score);
+
+        $familyMatrixConfigration = FamilyMatrixConfiguration::where('grid_name', $grid)->where('color_code', $colorCode)->first();
+
+        return [
+            'score' => $score,
+            'status' => $colorCode,
+            'text' => $familyMatrixConfigration ? $familyMatrixConfigration->text : '',
+        ];
+
+    }
+
+    public static function checkStatus($score = null)
+    {
+
+        if ($score < 30) {
+
+            return Admin::RED;
+
+        } elseif ($score >= 30 && $score < 70) {
+
+            return Admin::YELLOW;
+
+        } else {
+
+            return Admin::GREEN;
+
+        }
+    }
+
+    public static function calculateDriverCompatibility($userA, $userB): float
+    {
+
+        $driversA = Assessment::getFeatures($userA)['top_two_keys'] ?? [];
+
+        $driversB = Assessment::getFeatures($userB)['top_two_keys'] ?? [];
+
+        if (empty($driversA) || empty($driversB)) {
+
+            return 0;
+
+        }
+
+        $scores = [];
+
+        foreach ($driversA as $driverA) {
+
+            foreach ($driversB as $driverB) {
+
+                $scores[] = DriverCompatibilityReferenceKeys::driverCompatabilityCalculate($driverA, $driverB);
+
+                $scores[] = DriverCompatibilityReferenceKeys::driverCompatabilityCalculate($driverB, $driverA);
+
+            }
+
+        }
+
+        return array_sum($scores) / count($scores);
+
+    }
+
+
 }

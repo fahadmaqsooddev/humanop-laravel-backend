@@ -17,7 +17,8 @@ class FamilyMatrixConfiguration extends Model
         parent::__construct($attributes);
     }
 
-    public static function getConfigurations(){
+    public static function getConfigurations()
+    {
         return self::orderBy('created_at', 'Desc')->get();
     }
 
