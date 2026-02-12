@@ -68,6 +68,8 @@ class AssignFamilyMatrixRelationship extends Model
 
             ->map(function ($relation) {
 
+                $compatibilityResult = [];
+                
                 if ($relation->consent == 1) {
 
                     $targetId = $relation->target_id;
