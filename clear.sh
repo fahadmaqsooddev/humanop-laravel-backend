@@ -30,7 +30,5 @@ sudo find bootstrap/cache -type d -exec chmod g+s {} \;
 # Restart queue workers
 sudo -u www-data php artisan queue:restart
 
-php artisan db:seed --class=FamilyMatrixConfigurationSeeder
-
 echo "Deploy script finished execution"
 exit 0
