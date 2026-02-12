@@ -12,8 +12,6 @@ use App\Http\Requests\Api\FamilyMatrix\FamilyMatrixNoteRelationRequest;
 use App\Http\Requests\Api\FamilyMatrix\ConsentRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Assessment;
-use App\Models\CompatibilityReferenceKeys\DriverCompatibilityReferenceKeys;
-use App\Models\CompatibilityReferenceKeys\EnergyPoolCompatibilityReferenceKeys;
 use App\Models\FamilyMatrix\AssignFamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixResponse;
@@ -26,16 +24,7 @@ class FamilyMatrixController extends Controller
 
     protected $assignRelationship;
 
-    const ELECTROMAGNETIC_REPULSION = "ELECTROMAGNETIC_REPULSION";
-
-    const RED = "RED";
-
-    const YELLOW = "YELLOW";
-
-    const GREEN = "GREEN";
-
-
-    public $user=null;
+    public $user = null;
 
     public function __construct(AssignFamilyMatrixRelationship $assignRelationship)
     {
@@ -43,7 +32,7 @@ class FamilyMatrixController extends Controller
 
         $this->assignRelationship = $assignRelationship;
 
-        $this->user=Helpers::getUser();
+        $this->user = Helpers::getUser();
 
     }
 
@@ -71,7 +60,7 @@ class FamilyMatrixController extends Controller
 
         }
 
-        $assessments = $this->getAssessments([$userId, $targetId]);
+        $assessments = AssessmentHelper::getUserAssessments([$userId, $targetId]);
 
         if (count($assessments) !== 2) {
 
@@ -93,7 +82,7 @@ class FamilyMatrixController extends Controller
                 'user_self' => $this->buildProfile($userAssessment),
                 'target_member' => $this->buildProfile($targetAssessment),
             ],
-            'compatibility_matrix' => $this->buildCompatibilityMatrix($userAssessment, $targetAssessment),
+            'compatibility_matrix' => AssessmentHelper::buildCompatibilityMatrix($userAssessment, $targetAssessment),
             'validationErrors' => []
         ];
 
@@ -184,106 +173,6 @@ class FamilyMatrixController extends Controller
 
     }
 
-    private function buildCompatibilityMatrix($userA, $userB): array
-    {
-
-        $perception = $this->makeResult(
-            AssessmentHelper::polarityCompatabilityCalculate(
-                Assessment::getPv($userA),
-                Assessment::getPv($userB)
-            )
-        );
-
-        if ($perception['status'] === self::RED) {
-
-            $perception['flag'] = self::ELECTROMAGNETIC_REPULSION;
-
-        }
-
-        return [
-            'traits' => $this->makeResult(
-                AssessmentHelper::traitCompatabilityCalculate(
-                    Assessment::getTopThreeTraitWeight($userA),
-                    Assessment::getTopThreeTraitWeight($userB),
-                    $userA,
-                    $userB
-                )
-            ),
-
-            'drivers' => $this->makeResult(
-                $this->calculateDriverCompatibility($userA, $userB)
-            ),
-
-            'alchemy' => $this->makeResult(
-                AssessmentHelper::alchemyCompatabilityCalculate(
-                    abs(
-                        Assessment::getAlchlCode($userA['id']) -
-                        Assessment::getAlchlCode($userB['id'])
-                    )
-                )
-            ),
-
-            'communication_style' => $this->makeResult(
-                AssessmentHelper::energyCenterCompatabilityCalculate(
-                    Assessment::getEnergyCenter($userA),
-                    Assessment::getEnergyCenter($userB)
-                )
-            ),
-
-            'perception_of_life' => $perception,
-
-            'energy_pool' => $this->makeResult(
-                EnergyPoolCompatibilityReferenceKeys::energyPoolCompatabilityCalculate(
-                    Assessment::getEnergyPoolDetail($userA)['public_name'],
-                    Assessment::getEnergyPoolDetail($userB)['public_name']
-                )
-            ),
-        ];
-    }
-
-    private function makeResult($score): array
-    {
-
-        $score = round($score, 2);
-
-        return [
-            'score' => $score,
-            'status' => $this->checkStatus($score),
-        ];
-
-    }
-
-    private function calculateDriverCompatibility($userA, $userB): float
-    {
-
-        $driversA = Assessment::getFeatures($userA)['top_two_keys'] ?? [];
-
-        $driversB = Assessment::getFeatures($userB)['top_two_keys'] ?? [];
-
-        if (empty($driversA) || empty($driversB)) {
-
-            return 0;
-
-        }
-
-        $scores = [];
-
-        foreach ($driversA as $driverA) {
-
-            foreach ($driversB as $driverB) {
-
-                $scores[] = DriverCompatibilityReferenceKeys::driverCompatabilityCalculate($driverA, $driverB);
-
-                $scores[] = DriverCompatibilityReferenceKeys::driverCompatabilityCalculate($driverB, $driverA);
-
-            }
-
-        }
-
-        return array_sum($scores) / count($scores);
-
-    }
-
     private function buildProfile($assessment): array
     {
 
@@ -302,45 +191,6 @@ class FamilyMatrixController extends Controller
             'energy_center' => CodeDetail::getPublicNames(Assessment::getEnergyCenter($assessment))[0][1] ?? null,
         ];
 
-    }
-
-    private function getAssessments(array $userIds): array
-    {
-
-        $data = [];
-
-        foreach ($userIds as $userId) {
-
-            $assessment = Assessment::getLatestAssessment($userId);
-
-            if ($assessment) {
-
-                $data[$userId] = $assessment;
-
-            }
-
-        }
-
-        return $data;
-
-    }
-
-    private function checkStatus($score = null)
-    {
-
-        if ($score < 30) {
-
-            return self::RED;
-
-        } elseif ($score >= 30 && $score < 70) {
-
-            return self::YELLOW;
-
-        } else {
-
-            return self::GREEN;
-
-        }
     }
 
     public function allFamilyMatrixRelationship()
@@ -385,32 +235,28 @@ class FamilyMatrixController extends Controller
 
     }
 
-    /**
-     * Set user consent (YES / NO)
-     */
     public function giveConsent(ConsentRequest $request)
     {
+
         $validated = $request->validated();
-        $relation = AssignFamilyMatrixRelationship::updateConsent(
-            $this->user->id,
-            $validated['target_id'],
-            $validated['consent']
-        );
+
+        $relation = AssignFamilyMatrixRelationship::updateConsent($this->user->id, $validated['target_id'], $validated['consent']);
 
         if (!$relation) {
+
             return Helpers::notFoundResponse('Relationship not found');
+
         }
 
-        return Helpers::successResponse('Permission updated', [
-            'consent' => $relation->consent
-        ]);
+        return Helpers::successResponse('Permission updated', ['consent' => $relation->consent]);
+
     }
 
 
     public function allAssignFamilyMatrixRelationship()
     {
 
-        try {
+//        try {
 
             $userId = Helpers::getUser()->id;
 
@@ -418,10 +264,10 @@ class FamilyMatrixController extends Controller
 
             return Helpers::successResponse('All Assign Family Matrix relationship', $relationships);
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
 
     }
 
@@ -461,7 +307,6 @@ class FamilyMatrixController extends Controller
 
         return Helpers::successResponse('Family Matrix Note Added Successfully', $note);
     }
-
 
 
     /**
@@ -532,7 +377,6 @@ class FamilyMatrixController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
-
 
 
     public function viewFamilyMatrixNotes()

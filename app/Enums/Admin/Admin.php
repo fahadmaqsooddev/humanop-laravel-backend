@@ -280,4 +280,12 @@ final class Admin
 
     const PREMIUM_PLAN_NAME = 'Premium';
 
+    const RED = "RED";
+
+    const YELLOW = "YELLOW";
+
+    const GREEN = "GREEN";
+
+    const ELECTROMAGNETIC_REPULSION = "ELECTROMAGNETIC_REPULSION";
+
 }

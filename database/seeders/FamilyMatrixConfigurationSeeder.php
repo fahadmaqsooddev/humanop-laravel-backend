@@ -9,19 +9,27 @@ class FamilyMatrixConfigurationSeeder extends Seeder
 {
     public function run(): void
     {
+
+        DB::table("family_matrix_configurations")->truncate();
+
         $traits = [
             'Traits',
             'Motivational Driver (Pilot)',
             'Alchemy',
             'Communication Styles',
             'Energy Pool',
+            'Perception Of Life'
         ];
 
         // Color names mapped to hex values
         $colors = [
-            'red'    => '#FF0000',
-            'green'  => '#00FF00',
-            'yellow' => '#FFFF00',
+//            'red'    => '#FF0000',
+//            'green'  => '#00FF00',
+//            'yellow' => '#FFFF00',
+
+            'red'    => 'RED',
+            'green'  => 'GREEN',
+            'yellow' => 'YELLOW',
         ];
 
         foreach ($traits as $trait) {
