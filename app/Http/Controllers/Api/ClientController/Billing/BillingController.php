@@ -186,7 +186,9 @@ class BillingController extends Controller
 
         $tag = Admin::ASSESSMENT_GIVEN . ' ' . $planPrice;
 
-        GoHighLevelService::syncContactWithTags($user, $tag);
+        $ghl = app(GoHighLevelService::class);
+
+        $ghl->syncContactWithTags($user, $tag);
 
         $latestInvoiceId = $subscription->latest_invoice ?? null;
         if (!$latestInvoiceId) {

@@ -126,7 +126,6 @@ class GoHighLevelService
 
             $email = is_array($user) ? ($user['email'] ?? '') : ($user->email ?? '');
 
-            // 1️⃣ Try to find contact
             $contactId = $this->getContactByEmail($email);
 
             // ==============================
@@ -135,10 +134,13 @@ class GoHighLevelService
             if ($contactId) {
 
                 $contact = $this->getContact($contactId);
+
                 $existingTags = $contact['contact']['tags'] ?? [];
 
                 if (!in_array($tag, $existingTags)) {
+
                     $existingTags[] = $tag;
+
                 }
 
                 $response = $this->client->put("contacts/{$contactId}", [
@@ -154,6 +156,7 @@ class GoHighLevelService
                 ]);
 
                 return json_decode($response->getBody(), true);
+
             }
 
             // ==============================
@@ -161,8 +164,11 @@ class GoHighLevelService
             // ==============================
 
             $firstName = is_array($user) ? ($user['first_name'] ?? '') : ($user->first_name ?? '');
+
             $lastName = is_array($user) ? ($user['last_name'] ?? '') : ($user->last_name ?? '');
+
             $phone = is_array($user) ? ($user['phone'] ?? '') : ($user->phone ?? '');
+
             $dob = is_array($user) ? ($user['date_of_birth'] ?? null) : ($user->date_of_birth ?? null);
 
             $payload = [
@@ -175,7 +181,9 @@ class GoHighLevelService
             ];
 
             if (!empty($dob)) {
+
                 $payload['dateOfBirth'] = date('Y-m-d', strtotime($dob));
+
             }
 
             $response = $this->client->post('contacts/', [
@@ -197,7 +205,9 @@ class GoHighLevelService
             ]);
 
             return false;
+
         }
+
     }
 
 }
