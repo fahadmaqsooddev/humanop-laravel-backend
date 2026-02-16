@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\PackageLimitations\PackageLimitations;
+use App\Http\Middleware\PreventIndexing;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Http\Middleware\HandleCors;
 
@@ -22,6 +23,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
+        PreventIndexing::class
 //        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
