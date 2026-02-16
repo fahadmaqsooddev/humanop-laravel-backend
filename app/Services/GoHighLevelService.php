@@ -120,44 +120,79 @@ class GoHighLevelService
         }
     }
 
-    public function updateContactTags($email, $newTag)
+    public function syncContactWithTags($user, $tag)
     {
         try {
 
-            // 1️⃣ Get Contact ID
+            $email = is_array($user) ? ($user['email'] ?? '') : ($user->email ?? '');
+
+            // 1️⃣ Try to find contact
             $contactId = $this->getContactByEmail($email);
 
-            if (!$contactId) {
-                return "Contact not found";
+            // ==============================
+            // CONTACT EXISTS → UPDATE TAGS
+            // ==============================
+            if ($contactId) {
+
+                $contact = $this->getContact($contactId);
+                $existingTags = $contact['contact']['tags'] ?? [];
+
+                if (!in_array($tag, $existingTags)) {
+                    $existingTags[] = $tag;
+                }
+
+                $response = $this->client->put("contacts/{$contactId}", [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->token,
+                        'Version' => '2021-07-28',
+                        'Accept' => 'application/json',
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'tags' => array_values($existingTags)
+                    ],
+                ]);
+
+                return json_decode($response->getBody(), true);
             }
 
-            // 2️⃣ Get existing tags
-            $contact = $this->getContact($contactId);
-            $existingTags = $contact['contact']['tags'] ?? [];
+            // ==============================
+            // CONTACT NOT EXISTS → CREATE
+            // ==============================
 
-            // 3️⃣ Merge tags (avoid duplicates)
-            if (!in_array($newTag, $existingTags)) {
-                $existingTags[] = $newTag;
+            $firstName = is_array($user) ? ($user['first_name'] ?? '') : ($user->first_name ?? '');
+            $lastName = is_array($user) ? ($user['last_name'] ?? '') : ($user->last_name ?? '');
+            $phone = is_array($user) ? ($user['phone'] ?? '') : ($user->phone ?? '');
+            $dob = is_array($user) ? ($user['date_of_birth'] ?? null) : ($user->date_of_birth ?? null);
+
+            $payload = [
+                'locationId' => $this->locationId,
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'email' => $email,
+                'phone' => $phone,
+                'tags' => [$tag], // auto add tag
+            ];
+
+            if (!empty($dob)) {
+                $payload['dateOfBirth'] = date('Y-m-d', strtotime($dob));
             }
 
-            // 4️⃣ Update contact
-            $response = $this->client->put("contacts/{$contactId}", [
+            $response = $this->client->post('contacts/', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->token,
                     'Version' => '2021-07-28',
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
                 ],
-                'json' => [
-                    'tags' => $existingTags
-                ],
+                'json' => $payload,
             ]);
 
             return json_decode($response->getBody(), true);
 
         } catch (\GuzzleHttp\Exception\RequestException $e) {
 
-            Log::error('GHL Update Tag Error', [
+            Log::error('GHL Sync Contact Error', [
                 'error' => $e->getResponse()?->getBody()?->getContents()
             ]);
 

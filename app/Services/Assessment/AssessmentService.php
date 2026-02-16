@@ -278,11 +278,11 @@ class AssessmentService
 
                     ActivityLogger::addLog('new daily tip', "Your New Daily Tip");
 
-                    GoHighLevelService::updateContactTags($user->email, Admin::ASSESSMENT_GIVEN);
-
                 }
             }
         }
+
+        GoHighLevelService::syncContactWithTags($user, Admin::ASSESSMENT_GIVEN);
 
         return Assessment::where('user_id', $user->id)->count() === 1
             ? "Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free."
