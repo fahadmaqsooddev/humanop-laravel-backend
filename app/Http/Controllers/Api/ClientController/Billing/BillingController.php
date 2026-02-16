@@ -21,7 +21,7 @@ use Stripe\StripeClient;
 class BillingController extends Controller
 {
 
-    public function __construct(private StripeClient $stripe)
+    public function __construct(private StripeClient $stripe, protected GoHighLevelService $ghl)
     {
 
     }
@@ -186,9 +186,10 @@ class BillingController extends Controller
 
         $tag = Admin::ASSESSMENT_GIVEN . ' ' . $planPrice;
 
-        GoHighLevelService::syncContactWithTags($user, $tag);
+        $this->ghl->syncContactWithTags($user, $tag);
 
         $latestInvoiceId = $subscription->latest_invoice ?? null;
+
         if (!$latestInvoiceId) {
             return response()->json([
                 'subscription_id' => $subscription->id,

@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Log;
 
 class GoHighLevelService
 {
+
     protected Client $client;
+
     protected string $token;
     protected string $locationId;
 
@@ -43,26 +45,42 @@ class GoHighLevelService
                 ],
             ]);
 
-            $data = json_decode($response->getBody(), true);
+            $data = json_decode($response->getBody()->getContents(), true);
 
             return $data['contact']['id'] ?? null;
 
-        } catch (\Exception $e) {
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+
+            Log::error('Get Contact By Email Failed', [
+                'error' => $e->getResponse()->getBody()->getContents()
+            ]);
+
             return null;
         }
     }
 
     public function getContact($contactId)
     {
-        $response = $this->client->get("contacts/{$contactId}", [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->token,
-                'Version' => '2021-07-28',
-                'Accept' => 'application/json',
-            ],
-        ]);
+        try {
 
-        return json_decode($response->getBody(), true);
+            $response = $this->client->get("contacts/{$contactId}", [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->token,
+                    'Version' => '2021-07-28',
+                    'Accept' => 'application/json',
+                ],
+            ]);
+
+            return json_decode($response->getBody()->getContents(), true);
+
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+
+            Log::error('Get Contact Failed', [
+                'error' => $e->getResponse()->getBody()->getContents()
+            ]);
+
+            return null;
+        }
     }
 
     public function createUser($user)
@@ -126,74 +144,56 @@ class GoHighLevelService
 
             $email = is_array($user) ? ($user['email'] ?? '') : ($user->email ?? '');
 
-            // 1️⃣ Try to find contact
             $contactId = $this->getContactByEmail($email);
 
-            // ==============================
+            // ==================================================
             // CONTACT EXISTS → UPDATE TAGS
-            // ==============================
-            if ($contactId) {
+            // ==================================================
+            if (!empty($contactId)) {
 
                 $contact = $this->getContact($contactId);
+
+                if (!$contact || !isset($contact['contact'])) {
+                    return false;
+                }
+
                 $existingTags = $contact['contact']['tags'] ?? [];
 
                 if (!in_array($tag, $existingTags)) {
+
                     $existingTags[] = $tag;
+
                 }
 
-                $response = $this->client->put("contacts/{$contactId}", [
+                $this->client->put("contacts/{$contactId}", [
+
                     'headers' => [
                         'Authorization' => 'Bearer ' . $this->token,
                         'Version' => '2021-07-28',
                         'Accept' => 'application/json',
                         'Content-Type' => 'application/json',
                     ],
+
                     'json' => [
                         'tags' => array_values($existingTags)
                     ],
+
                 ]);
 
-                return json_decode($response->getBody(), true);
+                return true;
+
             }
 
-            // ==============================
+            // ==================================================
             // CONTACT NOT EXISTS → CREATE
-            // ==============================
+            // ==================================================
 
-            $firstName = is_array($user) ? ($user['first_name'] ?? '') : ($user->first_name ?? '');
-            $lastName = is_array($user) ? ($user['last_name'] ?? '') : ($user->last_name ?? '');
-            $phone = is_array($user) ? ($user['phone'] ?? '') : ($user->phone ?? '');
-            $dob = is_array($user) ? ($user['date_of_birth'] ?? null) : ($user->date_of_birth ?? null);
+            return $this->createUser($user);
 
-            $payload = [
-                'locationId' => $this->locationId,
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'email' => $email,
-                'phone' => $phone,
-                'tags' => [$tag], // auto add tag
-            ];
-
-            if (!empty($dob)) {
-                $payload['dateOfBirth'] = date('Y-m-d', strtotime($dob));
-            }
-
-            $response = $this->client->post('contacts/', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->token,
-                    'Version' => '2021-07-28',
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => $payload,
-            ]);
-
-            return json_decode($response->getBody(), true);
-
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
+        } catch (\Exception $e) {
 
             Log::error('GHL Sync Contact Error', [
-                'error' => $e->getResponse()?->getBody()?->getContents()
+                'error' => $e->getMessage()
             ]);
 
             return false;

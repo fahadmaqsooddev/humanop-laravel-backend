@@ -183,7 +183,9 @@ class AssessmentService
 
         $message = self::handleDailyTipIfFinalPage($assessment, $user);
 
-        GoHighLevelService::syncContactWithTags($user, Admin::ASSESSMENT_GIVEN);
+        $ghl = app(GoHighLevelService::class);
+
+        $ghl->syncContactWithTags($user, Admin::ASSESSMENT_GIVEN);
 
         if (Assessment::where('user_id', $user->id)->count() == 1) {
             ActivityLogger::addLog(
