@@ -256,7 +256,7 @@ class FamilyMatrixController extends Controller
     public function allAssignFamilyMatrixRelationship()
     {
 
-//        try {
+        try {
 
             $userId = Helpers::getUser()->id;
 
@@ -264,10 +264,10 @@ class FamilyMatrixController extends Controller
 
             return Helpers::successResponse('All Assign Family Matrix relationship', $relationships);
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
 
     }
 
