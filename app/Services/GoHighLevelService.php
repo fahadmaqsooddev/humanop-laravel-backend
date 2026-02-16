@@ -153,6 +153,10 @@ class GoHighLevelService
 
                 $contact = $this->getContact($contactId);
 
+                if (!$contact || !isset($contact['contact'])) {
+                    return false;
+                }
+
                 $existingTags = $contact['contact']['tags'] ?? [];
 
                 if (!in_array($tag, $existingTags)) {
