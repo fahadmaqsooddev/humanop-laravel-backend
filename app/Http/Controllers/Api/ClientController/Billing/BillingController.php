@@ -184,7 +184,7 @@ class BillingController extends Controller
 
         $planPrice = Plan::where('key', $validated['plan'])->pluck('price')->first();
 
-        $tag = Admin::ASSESSMENT_GIVEN . ' ' . $planPrice;
+        $tag = Admin::NEW_PAID . ' ' . $planPrice;
 
         $this->ghl->syncContactWithTags($user, $tag);
 
