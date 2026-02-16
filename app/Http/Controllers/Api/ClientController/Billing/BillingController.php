@@ -182,6 +182,12 @@ class BillingController extends Controller
         $user->billing_context = 'b2c';
         $user->save();
 
+        $planPrice = Plan::where('key', $validated['plan'])->pluck('price')->first();
+
+        $tag = Admin::ASSESSMENT_GIVEN . ' ' . $planPrice;
+
+        GoHighLevelService::syncContactWithTags($user, $tag);
+
         $latestInvoiceId = $subscription->latest_invoice ?? null;
         if (!$latestInvoiceId) {
             return response()->json([
@@ -240,12 +246,6 @@ class BillingController extends Controller
         }
 
         $credits = $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB ? Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS : Admin::PREMIUM_LIFETIME_CREDITS;
-
-        $planPrice = Plan::where('key', $validated['plan'])->pluck('price')->first();
-
-        $tag = Admin::ASSESSMENT_GIVEN . ' ' . $planPrice;
-
-        GoHighLevelService::updateContactTags($user->email, $tag);
 
         $this->HAiCreditsUpdated($credits, $user);
 
