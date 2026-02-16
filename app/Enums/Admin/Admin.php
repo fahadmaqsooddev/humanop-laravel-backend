@@ -292,4 +292,6 @@ final class Admin
 
     const NEW_USER = "New Freemium Users";
 
+    const NEW_PAID = "Paid";
+
 }
