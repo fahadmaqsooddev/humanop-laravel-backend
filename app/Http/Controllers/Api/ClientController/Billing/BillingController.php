@@ -11,6 +11,7 @@ use App\Http\Requests\Coupon\RedeemCouponRequest;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
 use App\Models\LifetimeCoupon;
+use App\Services\GoHighLevelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Support\StripeConfig;
@@ -239,6 +240,12 @@ class BillingController extends Controller
         }
 
         $credits = $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB ? Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS : Admin::PREMIUM_LIFETIME_CREDITS;
+
+        $planPrice = Plan::where('key', $validated['plan'])->pluck('price')->first();
+
+        $tag = Admin::ASSESSMENT_GIVEN . ' ' . $planPrice;
+
+        GoHighLevelService::updateContactTags($user->email, $tag);
 
         $this->HAiCreditsUpdated($credits, $user);
 

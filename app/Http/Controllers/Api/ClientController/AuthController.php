@@ -63,7 +63,7 @@ class AuthController extends Controller
     protected $auth;
     protected $sns;
 
-    protected  $ghl;
+    protected $ghl;
 
     public function __construct(SnsServices $sns, private FreemiumEnrollmentService $freemiumService, GoHighLevelService $ghl)
     {
@@ -100,7 +100,7 @@ class AuthController extends Controller
 
             // We'll use this only to access instance methods like checkEmail()
             $userModel = new User();
-            $skipFields = ['gender','date_of_birth','timezone', 'phone'];
+            $skipFields = ['gender', 'date_of_birth', 'timezone', 'phone'];
             $allFields = $request->only((new User)->getFillable());
             $dataArray = array_diff_key($allFields, array_flip($skipFields));
             // Split full_name into first_name / last_name
