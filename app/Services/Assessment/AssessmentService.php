@@ -180,7 +180,10 @@ class AssessmentService
         event(new SubmitAssessment($user->id, 0));
 
         self::triggerGamification($user);
+
         $message = self::handleDailyTipIfFinalPage($assessment, $user);
+
+        GoHighLevelService::syncContactWithTags($user, Admin::ASSESSMENT_GIVEN);
 
         if (Assessment::where('user_id', $user->id)->count() == 1) {
             ActivityLogger::addLog(
@@ -281,8 +284,6 @@ class AssessmentService
                 }
             }
         }
-
-        GoHighLevelService::syncContactWithTags($user, Admin::ASSESSMENT_GIVEN);
 
         return Assessment::where('user_id', $user->id)->count() === 1
             ? "Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free."
