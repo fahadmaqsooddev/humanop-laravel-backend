@@ -1,0 +1,968 @@
+<?php
+
+namespace App\Http\Controllers\Api\v4\ClientController;
+
+use App\Enums\Admin\Admin;
+use App\Events\DailyTip\NewDailyTip;
+use App\Helpers\ActivityLogs\ActivityLogger;
+use App\Helpers\BlueHelper\BlueHelpers;
+use App\Helpers\HaiChat\HaiChatHelpers;
+use App\Helpers\Helpers;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Client\ChangePasswordRequest;
+use App\Http\Requests\Api\Client\CompanyRequest;
+use App\Http\Requests\Api\Client\TwoWayAuthRequest;
+use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
+use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
+use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
+use App\Http\Requests\Api\Client\UpdatePersonalInformationRequets;
+use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
+use App\Http\Requests\Api\Client\UpdateUserImageRequest;
+use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
+use App\Http\Requests\Client\ProfileAccess\HaiAccessRequest;
+use App\Http\Requests\Client\ProfileAccess\ProfileAccessRequest;
+use App\Http\Requests\Client\Register\ResetPasswordRequest;
+use App\Models\Admin\AssessmentIntro\AssessmentIntro;
+use App\Models\Admin\Code\CodeDetail;
+use App\Models\Admin\Notification\Notification;
+use App\Models\Admin\VersionControl\Version;
+use App\Models\v4\Assessment;
+use App\Models\v4\AssessmentColorCode;
+use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\v4\Client\Feedback\Feedback;
+use App\Models\v4\GenerateFile\PdfGenerate;
+use App\Models\v4\IntentionPlan\IntentionPlan;
+use App\Models\v4\Upload\Upload;
+use App\Models\v4\User;
+use App\Models\v4\UserInvite\UserInvite;
+use App\Models\v4\Videos\VideoProgress;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
+
+use function PHPUnit\Framework\lessThanOrEqual;
+
+class UserController extends Controller
+{
+
+    protected $user;
+
+    public function __construct(User $user)
+    {
+        $this->middleware('auth:api')->except(['googleLoginSignup', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
+
+        $this->user = $user;
+    }
+
+
+    public function userProfile()
+    {
+
+        try {
+
+            $user = User::user(Helpers::getUser()->id);
+
+            return Helpers::successResponse('User information', $user);
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function changeTwoWayAuth(TwoWayAuthRequest $request)
+    {
+        try {
+            $status = $request->status;
+
+            if ($status == 1) {
+                User::updateUser(['two_way_auth' => 1], Helpers::getUser()->id);
+            } else {
+                User::updateUser(['two_way_auth' => 2], Helpers::getUser()->id);
+            }
+            return Helpers::successResponse('2 Way Auth successfully updated');
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function completeIntro(Request $request)
+    {
+        try {
+
+            User::updateUser(['app_intro_check' => 1], Helpers::getUser()->id);
+
+            return Helpers::successResponse('Intro Completed Successfully');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function updatePersonalInformation(UpdatePersonalInformationRequets $request)
+    {
+
+        try {
+
+            $request = Helpers::explodeAgeRangeIntoAge($request);
+
+            $user = Helpers::getUser();
+
+            if ($request) {
+
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone', 'set_daily_tip_time']);
+
+                if (!empty($request['set_daily_tip_time'])) {
+
+                    $setDailyTipTime = date("H:i:s", strtotime($dataArray['set_daily_tip_time']));
+
+                    if (empty($user['last_updated_daily_tip'])) {
+                        $dataArray['last_updated_daily_tip'] = Carbon::now();
+                    }
+
+                    if ($user['set_daily_tip_time'] != $setDailyTipTime) {
+
+                        if (empty($user['last_updated_daily_tip']) || Carbon::parse($user['last_updated_daily_tip'])->diffInDays(Carbon::now()) >= 1) {
+
+                            $dataArray['set_daily_tip_time'] = $setDailyTipTime;
+                            $dataArray['last_updated_daily_tip'] = Carbon::now();
+
+                        } else {
+                            return Helpers::validationResponse('You can set daily tip again tomorrow.');
+                        }
+
+                    } else {
+
+                        $dataArray['set_daily_tip_time'] = $setDailyTipTime;
+
+                    }
+                }
+
+                $updated_user = User::updatePersonalInformation($dataArray);
+
+                HaiChatHelpers::syncUserRecordWithHAi($updated_user);
+
+                ActivityLogger::addLog('Personal Information Updated', "Personal information has been successfully updated.");
+
+                return Helpers::successResponse('Personal Information updated successfully', $updated_user);
+
+            } else {
+
+                return Helpers::forbiddenResponse('Please Filled Data');
+            }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function updateProfile(UpdateUserProfileRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $authUser = Helpers::getUser();
+
+            $dataArray = $request->only($authUser->getFillable());
+
+            $parts = preg_split('/\s+/', $request->input('full_name'), 2);
+
+            $dataArray['first_name'] = $parts[0] ?? '';
+
+            $dataArray['last_name'] = $parts[1] ?? '';
+
+            $authUser->update($dataArray);
+
+            if (Helpers::getUser()['plan_name'] == 'Premium' || Helpers::getUser()['plan_name'] == 'Beta Breaker') {
+
+                $shareAssessment = $request->only(['core_state', 'authentic_traits']);
+
+                User\UserShareAssessment::createOrUpdateShareAssessment($shareAssessment);
+
+            }
+
+            if ($request->has('tag_line')) {
+
+                User\UserTagline::updateTags($request['tag_line']);
+
+            }
+
+            HaiChatHelpers::syncUserRecordWithHAi();
+
+            ActivityLogger::addLog('Update Profile', "Personal Information updated successfully");
+
+            DB::commit();
+
+            return Helpers::successResponse('Personal Information updated successfully');
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function updateUserImage(UpdateUserImageRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ($request->profile_image) {
+
+                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
+
+                $user = Helpers::getUser();
+
+                $updated_user = $user->update(['image_id' => $upload_id]);
+
+                tap($user);
+
+                DB::commit();
+
+                return Helpers::successResponse('User updated successfully', $user);
+
+            } else {
+
+                return Helpers::forbiddenResponse('Please Select Image');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+
+        try {
+
+            $user = Helpers::getUser();
+
+            if (!empty($user['google_id'] || !empty($user['apple_id']))) {
+
+                User::updateUserPassword($request->input('new_password'));
+
+                return Helpers::successResponse('Password successfully updated');
+
+            } else if (Hash::check($request->input('current_password'), Helpers::getUser()->password)) {
+
+                if (!Hash::check($request->input('new_password'), Helpers::getUser()->password)) {
+
+                    User::updateUserPassword($request->input('new_password'));
+
+                    ActivityLogger::addLog('Password Changed', "Your password has been successfully updated.");
+
+                    return Helpers::successResponse('Password successfully updated');
+
+                } else {
+
+                    return Helpers::validationResponse('The current and new passwords cannot be the same.');
+                }
+
+            } else {
+
+                return Helpers::validationResponse('Current Password is incorrect');
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function forgotPassword(ResetPasswordRequest $request)
+    {
+
+        $dataArray = $request->only($this->user->getFillable());
+
+        $token = $request['token'];
+
+        $user = User::where('reset_password_token', $token)->first();
+
+        if (!empty($token) && !empty($user)) {
+
+            $user->password = $dataArray['password'];
+
+            $user->reset_password = 1;
+
+            $user->save();
+
+            Auth::logoutOtherDevices($user->password);
+
+            return Helpers::successResponse('Your password has been reset');
+        } else {
+
+            return Helpers::forbiddenResponse('Reset password link not match');
+        }
+    }
+
+    public function getTimezone()
+    {
+
+        try {
+
+            $timezones = Helpers::timeZone();
+
+            return Helpers::successResponse('Timezone successfully updated', $timezones);
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function updateUserTimezone(ChangeTimezoneRequest $request)
+    {
+
+        try {
+            $user = Helpers::getUser();
+
+            if ($user) {
+
+                $timezones = $user->update([
+
+                    'timezone' => $request['timezone']
+
+                ]);
+
+                return Helpers::successResponse('Timezone successfully updated');
+            } else {
+                return Helpers::forbiddenResponse('User Does Not Foiund');
+            }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function getLatestVersion()
+    {
+
+        try {
+
+            $version = Version::getLatestVersion();
+
+
+            return Helpers::successResponse('Get Latest Version', $version);
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function referralCredits()
+    {
+
+        try {
+
+            $user = Helpers::getUser();
+
+            $getReferralUsers = User::allReferralUsers($user['id']);
+
+            return Helpers::successResponse('All Referral Credits Users List', $getReferralUsers);
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function deleteProfile()
+    {
+
+        try {
+
+            UserInvite::deleteInvite();
+
+            $user = Helpers::getUser();
+
+            $companies = B2BBusinessCandidates::getCompanies($user['id']);
+
+            if (!empty($companies)) {
+
+                foreach ($companies as $company) {
+
+                    $company->future_consideration = 1;
+
+                    $company->future_consideration_share_date = 3;
+
+                    $company->save();
+
+                    $companyData = User::getSingleUser($company['business_id']);
+
+                    $message = "The Maestro platform will no longer have access to the {$user['first_name']} {$user['last_name']} data";
+
+                    Notification::createNotification('Remove Company', $message, $companyData['device_token'], $companyData['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+                }
+
+            }
+
+            User::whereId($user['id'])->delete();
+
+            Session::flush();
+
+            return Helpers::successResponse('User deleted successfully');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function userFeedback(StoreUserFeedback $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $feedback = new Feedback();
+
+            $dataArray = $request->only($feedback->getFillable());
+
+            $dataArray['user_id'] = Helpers::getUser()->id;
+
+            if (!empty($request->hasfile('file_upload'))) {
+
+                $extension = $request['file_upload']->extension();
+
+                if (in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
+
+                    $upload_id = Upload::uploadFile($request['file_upload'], 200, 200, 'base64Image', 'png', true);
+
+                    $dataArray['image_id'] = $upload_id;
+
+                } else {
+
+                    $upload_id = Upload::uploadFile($request['file_upload'], '', '', 'video');
+
+                    $dataArray['video_id'] = $upload_id;
+
+                }
+
+            }
+
+            $result = Feedback::storeClientFeedback($dataArray);
+
+            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email'], $request['support_category'], $result['photo_url'], $result['video_url']);
+
+            if (isset($response['errors'])) {
+
+                return Helpers::validationResponse($response['errors']);
+
+            } else {
+
+                $categoryMap = [
+                    'cmggk8b0g0r3use1eyfp3w2sr' => 'Account & Billing',
+                    'cmggk8o360tdyob1eqjgonkoe' => 'Technical Issue',
+                    'cmggk946b0r6rse1e06btq2tt' => 'Feedback',
+                ];
+
+                $category = $categoryMap[$request['support_category']] ?? 'Feature Request';
+
+                $result->blue_ticket_id = $response['blue_ticket_id'];
+
+                $result->blue_status = 'pending';
+
+                $result->category = $category;
+
+                $result->save();
+
+                DB::commit();
+
+                ActivityLogger::addLog('Feedback', "Thank you for your feedback! We have given you a point as a token of our appreciation!");
+
+                return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function userFeedbackStatus()
+    {
+
+        try {
+
+            $feedbacks = Feedback::userFeedbackStatus();
+
+            return Helpers::successResponse('All Feedbacks Users List', $feedbacks);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function googleLoginSignup(GoogleLoginSignupRequest $request)
+    {
+
+        try {
+
+            $user = Socialite::driver('google')->userFromToken($request->input('google_access_token'));
+
+            if ($user) {
+
+                $finduser = User::where('google_id', $user->id)->orWhere('email', $user->email)->first();
+
+                if ($finduser) {
+
+                    $token = Auth::guard('api')->login($finduser);
+
+                    $user_data = User::user($finduser->id);
+
+                    $user = Helpers::getUser();
+
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                    $data = [
+
+                        'user' => $user_data,
+
+                        'authorization' => [
+
+                            'token' => $token,
+
+                            'type' => 'bearer',
+                        ]
+                    ];
+                    User::updateUserIsFeedback();
+                    $message = "LoggedIn successfully";
+                } else {
+
+                    $newUser = User::create([
+                        'email' => $user->email,
+                        'first_name' => $user->user['given_name'] ?? "",
+                        'last_name' => $user->user['family_name'] ?? "",
+                        'google_id' => $user->id,
+                        'password' => $user->id,
+                        'is_admin' => 2,
+                        'password_set' => 2,
+                        'status' => 1,
+                    ]);
+
+                    $token = Auth::guard('api')->login($newUser);
+
+                    $user_data = User::user($newUser->id);
+
+                    $user = Helpers::getUser();
+
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                    $data = [
+
+                        'user' => $user_data,
+
+                        'authorization' => [
+
+                            'token' => $token,
+
+                            'type' => 'bearer',
+                        ]
+                    ];
+                    User::updateUserIsFeedback();
+                    $message = "Signup successfully";
+                }
+
+                return Helpers::successResponse($message, $data);
+            } else {
+
+                return Helpers::validationResponse('User not found on google');
+            }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function updateintentionPlan(updateIntentionPlanRequest $request)
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            IntentionPlan::where('user_id', $user['id'])->delete();
+
+            IntentionPlan::updateIntentionPlan($user['id'], $request->ninety_day_intention);
+
+            HaiChatHelpers::syncUserRecordWithHAi();
+
+            return Helpers::successResponse('updated successfully.', $request->ninety_day_intention);
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function profileOverviewResult(Request $request)
+    {
+
+        try {
+
+            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+
+            if (empty($assessment)) {
+                return Helpers::validationResponse('Assessment Not Found');
+            }
+
+            $get_user = User::getSingleUser($assessment['user_id']);
+
+            $user_age = Carbon::parse($get_user['date_of_birth'])->age;
+
+            $interval_life = User::getUserAge($get_user['date_of_birth'], $assessment);
+
+            $user_name = $get_user['first_name'] . ' ' . $get_user['last_name'];
+
+            $gender = $get_user['gender'] == 0 ? '(M)' : '(F)';
+
+            $isPremiumUser = $get_user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB ||
+                in_array($get_user['plan'], ['premium_monthly', 'premium_yearly', 'premium_lifetime', 'bb_onetime']);
+
+            $allStyles = $assessment != null ? ($isPremiumUser ? Assessment::getAllAuthenticStyles($assessment) : Assessment::getAllStyles($assessment)) : [];
+
+            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+
+            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
+
+            $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
+
+            $perception = $assessment != null ? Assessment::getPerceptionReportDetail($assessment) : null;
+
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
+
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
+
+            $summary_static = AssessmentIntro::summaryIntro($assessment['id']);
+            $main_result = AssessmentIntro::mainResult($assessment['id']);
+            $cycle_life = AssessmentIntro::cycleLife($assessment['id']);
+            $trait_intro = AssessmentIntro::traitIntro($assessment['id']);
+            $motivation_intro = AssessmentIntro::motivationIntroduction($assessment['id']);
+            $intro_boundaries = AssessmentIntro::introBoundaries($assessment['id']);
+            $intro_communication = AssessmentIntro::introCommunication($assessment['id']);
+            $intro_energypool = AssessmentIntro::introEnergypool($assessment['id']);
+            $perception_life = AssessmentIntro::getPerceptionStaticText($assessment['id']);
+
+            $resultIntroInfoName = [
+                $cycle_life['name'],
+                $interval_life['name'],
+                $main_result['name'],
+                $trait_intro['name'],
+                $motivation_intro['name'],
+                $intro_boundaries['name'],
+                $intro_communication['name'],
+                $intro_energypool['name'],
+                $perception_life['name'],
+                $boundary['name'],
+                $perception['name'],
+                $energyPool['name'],
+            ];
+
+            VideoProgress::createVideoProgress($assessment['id'], $resultIntroInfoName, $allStyles, $topTwoFeatures, $topCommunication);
+
+            $style_position = AssessmentColorCode::getStylePosition($assessment->id);
+            $feature_position = AssessmentColorCode::getFeaturePosition($assessment->id);
+            $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+            $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
+            $ep = $positive + $negative;
+            $pv = $positive - $negative;
+
+            $recordCount = VideoProgress::getRecords($assessment['id'])->count();
+
+            $watchVideo = VideoProgress::checkAllWatchVideos($assessment['id'])->count();
+
+            $data = [
+                'user_name' => $user_name,
+                'user_age' => $user_age,
+                'gender' => $gender,
+                'summary_intro' => $summary_static,
+                'main_result_into' => $main_result,
+                'intro_cycle_life' => $cycle_life,
+                'interval_life_cycle' => $interval_life,
+                'traits_intro' => $trait_intro,
+                'all_styles' => $allStyles,
+                'motivation_introduction' => $motivation_intro,
+                'top_features' => $topTwoFeatures,
+                'intro_boundaries' => $intro_boundaries,
+                'boundary' => $boundary,
+                'intro_perception' => $perception_life,
+                'perception' => $perception,
+                'intro_communication' => $intro_communication,
+                'top_communication' => $topCommunication,
+                'intro_energypool' => $intro_energypool,
+                'energy_pool' => $energyPool,
+                'style_position' => $style_position,
+                'feature_position' => $feature_position,
+                'positive' => $positive,
+                'negative' => $negative,
+                'pv' => $pv,
+                'ep' => $ep,
+                'footer' => config('pdffooter'),
+                'completed_date' => Carbon::parse($assessment['updated_at'])->format('F j, Y'),
+                'summary_report' => $recordCount == $watchVideo ? 'unlocked' : 'locked',
+            ];
+
+            return Helpers::successResponse('Profile overview data', $data);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function summaryReport(Request $request)
+    {
+
+        try {
+
+            $user_name = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name;
+            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+            $Styles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
+            $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
+            $perception = $assessment != null ? Assessment::getPerceptionReportDetail($assessment) : null;
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
+            $alchl_code = $assessment != null ? Assessment::getAlchlCode($assessment['id']) : null;
+            $style_position = $assessment != null ? AssessmentColorCode::getStylePosition($assessment['id']) : null;
+            $feature_position = $assessment != null ? AssessmentColorCode::getFeaturePosition($assessment['id']) : null;
+            $negative = $assessment != null ? $assessment['ma'] + $assessment['lu'] + $assessment['mer'] : null;
+            $positive = $assessment != null ? $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'] : null;
+            $ep = $assessment != null ? $positive + $negative : null;
+            $pv = $assessment != null ? $positive - $negative : null;
+
+            if ($assessment) {
+
+                $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getUser()->id, $Styles);
+            }
+
+            $data = [
+                'user_name' => $user_name,
+                'user_gender' => Helpers::getUser()->gender === 0 ? Admin::IS_MALE : (Helpers::getUser()->gender === 1 ? Admin::IS_FEMALE : ''),
+                'top_two_feature' => $topTwoFeatures,
+                'boundary' => $boundary,
+                'perception' => $perception,
+                'top_communication' => $topCommunication,
+                'energy_pool' => $energyPool,
+                'all_styles' => $allStyles ?? [],
+                'style_position' => $style_position,
+                'feature_position' => $feature_position,
+                'alchemy_code' => $alchl_code,
+                'ep' => $ep,
+                'pv' => $pv
+            ];
+
+            return Helpers::successResponse('Summary Report', $data);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function updatePromptNotification(Request $request)
+    {
+        try {
+
+            if (empty($request['prompt'])) {
+
+                return Helpers::validationResponse('Prompt Key is Required');
+            } else {
+
+                User::where('id', Helpers::getUser()['id'])->update(['prompt_notification' => 1]);
+
+                return Helpers::successResponse('Prompt Updated Successfully');
+            }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function profilePublicOrPrivate(ProfileAccessRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $user = Helpers::getUser();
+
+            User::changeProfileAccess($request['change_profile_access']);
+
+            HaiChatHelpers::syncUserRecordWithHAi();
+
+            DB::commit();
+
+            return Helpers::successResponse('Profile access has been changed to ' . ($user['profile_status'] == 1 ? 'private' : 'public') . ' successfully.', $user);
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function haiAccess(HaiAccessRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $user = Helpers::getUser();
+
+            User::changeHaiAccess($request['change_hai_access']);
+
+            DB::commit();
+
+            return Helpers::successResponse('HAi access has been changed to ' . ($user['hai_status'] == 1 ? 'private' : 'public') . ' successfully.', $user);
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function getAssociatedCompanies()
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $getCompanies = B2BBusinessCandidates::getCompanies($user['id']);
+
+            if (!empty($getCompanies)) {
+
+                $companies = [];
+
+                foreach ($getCompanies as $company) {
+
+                    $companies[] = [
+                        'id' => $company['id'],
+                        'company_name' => $company['businessUsers']['company_name'] ?? '',
+                        'role' => $company['role'] == Admin::IS_TEAM_MEMBER ? 'Team Member' : 'Candidate',
+                        'share_data' => $company['share_data'] == Admin::SHARED_DATA ? 1 : 0
+                    ];
+
+                }
+
+                return Helpers::successResponse('You are linked with these companies', $companies);
+            }
+
+            return Helpers::validationResponse('You don\'t have any companies yet');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function shareNotShareDataAssociatedCompanies(Request $request)
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $businessId = User::getSingleUserFromCompanyName($request['company_name'])['id'];
+
+            $checkShareData = B2BBusinessCandidates::checkShareDataDetail($request['company_name'], $user['id']);
+
+            if (!$checkShareData) {
+                return Helpers::validationResponse('No association found between you and the selected company.');
+            }
+
+            if ($checkShareData['share_data'] == Admin::NOT_SHARED_DATA || $checkShareData['share_data'] == Admin::DECLINED_DATA) {
+
+                B2BBusinessCandidates::shareDataWithBusiness($businessId, $user['id']);
+
+                return Helpers::successResponse('Data has been successfully shared with the company.');
+
+            } else {
+
+                B2BBusinessCandidates::notShareDataWithBusiness($businessId, $user['id']);
+
+                return Helpers::successResponse('Data sharing has been disabled for this company.');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function removeCompany(CompanyRequest $request)
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $company = User::getSingleUserFromCompanyName($request['company_name']);
+
+            $businessCandidateRecord = B2BBusinessCandidates::getCompany($company['id'], $user['id']);
+
+            if ($businessCandidateRecord) {
+
+                $businessCandidateRecord->future_consideration = 1;
+
+                $businessCandidateRecord->future_consideration_share_date = 3;
+
+                $businessCandidateRecord->save();
+
+                $message = "The Maestro platform will no longer have access to the {$user['first_name']} {$user['last_name']} data";
+
+                Notification::createNotification('Remove Company', $message, $company['device_token'], $company['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+                return Helpers::successResponse('You has been successfully removed from the company.');
+            }
+
+            return Helpers::forbiddenResponse('You are not part of this company');
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+}

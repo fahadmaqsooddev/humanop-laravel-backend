@@ -23,8 +23,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
-        \App\Http\Middleware\NoIndexMiddleware::class,
-        PreventIndexing::class
+        \App\Http\Middleware\PreventIndexing::class
 //        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 

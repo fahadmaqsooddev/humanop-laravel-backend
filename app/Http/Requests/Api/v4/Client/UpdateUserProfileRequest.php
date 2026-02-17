@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Http\Requests\Api\v4\Client;
+
+use App\Helpers\Helpers;
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateUserProfileRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules()
+    {
+
+        $assessmentPermission = Helpers::getUser()['plan_name'] === "Freemium" ? 'nullable' : 'required';
+
+        return [
+            'full_name' => 'required',
+            'life_alchemist' => 'nullable|string|max:255',
+            'excited_connect' => 'nullable|string|max:255',
+            'note' => 'nullable|string|max:255',
+            'tag_line' => 'nullable',
+            'profile_status' => 'required',
+            'hai_status' => 'required',
+            'profile_privacy' => 'required',
+            'hai_privacy' => 'required',
+            'authentic_traits' => $assessmentPermission,
+            'core_state' => $assessmentPermission,
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'full_name.required' => 'Full name is required.',
+            'life_alchemist.required' => 'Please provide your role as a life alchemist.',
+            'life_alchemist.string' => 'Life alchemist must be a valid string.',
+            'life_alchemist.max' => 'Life alchemist cannot exceed 255 characters.',
+            'excited_connect.required' => 'Tell us what excites you to connect.',
+            'excited_connect.string' => 'Excited to connect must be a string.',
+            'excited_connect.max' => 'Excited to connect cannot exceed 255 characters.',
+            'note.required' => 'Please write a note.',
+            'note.string' => 'Note must be a valid string.',
+            'note.max' => 'Note cannot exceed 255 characters.',
+            'tag_line.required' => 'A tag line is required.',
+            'profile_status.required' => 'Profile status is required.',
+            'hai_status.required' => 'HAI status is required.',
+            'profile_privacy.required' => 'Profile privacy setting is required.',
+            'hai_privacy.required' => 'HAI privacy setting is required.',
+            'authentic_traits.required' => 'Authentic traits are required for paid users.',
+            'core_state.required'       => 'Core state is required for paid users.',
+        ];
+    }
+
+}

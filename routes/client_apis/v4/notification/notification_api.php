@@ -1,0 +1,23 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
+
+Route::group(['middleware' => ['checkUser']], function () {
+
+    Route::get('all-notification', 'NotificationController@notifications');
+    Route::post('read-notification', 'NotificationController@readNotification');
+    Route::post('all-read-unread-notification', 'NotificationController@allReadNotification');
+    Route::delete('delete-notification', 'NotificationController@deleteNotification');
+
+});
