@@ -2,6 +2,7 @@
 
 namespace App\Services\Assessment;
 
+use App\Enums\Admin\Admin;
 use App\Events\Assessment\SubmitAssessment;
 use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\ActivityLogs\ActivityLogger;
@@ -21,11 +22,13 @@ use App\Models\Question;
 use Carbon\Carbon;
 use App\Services\GeoService;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use App\Models\HotSpotUser;
+use App\Services\GoHighLevelService;
+
 
 class AssessmentService
 {
+
     public static function submitAnswers(array $answerIds,bool $assessmentFromApp = false): string
     {
         $user = Helpers::getUser();
@@ -177,7 +180,12 @@ class AssessmentService
         event(new SubmitAssessment($user->id, 0));
 
         self::triggerGamification($user);
+
         $message = self::handleDailyTipIfFinalPage($assessment, $user);
+
+        $ghl = app(GoHighLevelService::class);
+
+        $ghl->syncContactWithTags($user, Admin::ASSESSMENT_GIVEN);
 
         if (Assessment::where('user_id', $user->id)->count() == 1) {
             ActivityLogger::addLog(
@@ -270,6 +278,7 @@ class AssessmentService
                 if (!$alreadyExists) {
 
                     UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
+
                     event(new NewDailyTip($user->id, 'new daily tip', 'Your New Daily Tip'));
 
                     ActivityLogger::addLog('new daily tip', "Your New Daily Tip");

@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+
+class PreventIndexing
+{
+    public function handle(Request $request, Closure $next)
+    {
+        $response = $next($request);
+
+        if (app()->environment(['local', 'development', 'staging'])) {
+
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        }
+
+        return $response;
+    }
+}

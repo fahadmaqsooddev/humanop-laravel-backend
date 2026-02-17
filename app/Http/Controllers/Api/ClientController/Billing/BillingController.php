@@ -11,6 +11,7 @@ use App\Http\Requests\Coupon\RedeemCouponRequest;
 use App\Models\Client\Plan\Plan;
 use App\Models\Client\Point\Point;
 use App\Models\LifetimeCoupon;
+use App\Services\GoHighLevelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Support\StripeConfig;
@@ -20,7 +21,7 @@ use Stripe\StripeClient;
 class BillingController extends Controller
 {
 
-    public function __construct(private StripeClient $stripe)
+    public function __construct(private StripeClient $stripe, protected GoHighLevelService $ghl)
     {
 
     }
@@ -181,7 +182,14 @@ class BillingController extends Controller
         $user->billing_context = 'b2c';
         $user->save();
 
+        $planPrice = Plan::where('key', $validated['plan'])->pluck('price')->first();
+
+        $tag = Admin::NEW_PAID . ' ' . $planPrice;
+
+        $this->ghl->syncContactWithTags($user, $tag);
+
         $latestInvoiceId = $subscription->latest_invoice ?? null;
+
         if (!$latestInvoiceId) {
             return response()->json([
                 'subscription_id' => $subscription->id,

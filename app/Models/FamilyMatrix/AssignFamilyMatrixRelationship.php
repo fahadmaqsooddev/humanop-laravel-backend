@@ -55,7 +55,7 @@ class AssignFamilyMatrixRelationship extends Model
     public static function getRelationships($userId = null)
     {
 
-        return self::with([
+        $relationships = self::with([
             'targetUser:id,first_name,last_name,email',
             'relationship:id,relationship_name'
         ])
@@ -64,58 +64,80 @@ class AssignFamilyMatrixRelationship extends Model
 
             ->orderBy('created_at', 'desc')
 
-            ->get()
+            ->get();
 
-            ->map(function ($relation) {
+        $userIds = $relationships->pluck('user_id')
 
-                $compatibilityResult = [];
-                
-                if ($relation->consent == 1) {
+            ->merge($relationships->pluck('target_id'))
 
-                    $targetId = $relation->target_id;
+            ->unique()
 
-                    $userId = $relation->user_id;
+            ->toArray();
 
-                    $assessments = AssessmentHelper::getUserAssessments([$userId, $targetId]);
+        $allAssessments = AssessmentHelper::getUserAssessments($userIds);
 
-                    if (count($assessments) == 2) {
+        return $relationships->map(function ($relation) use ($allAssessments) {
 
-                        $userAssessment = $assessments[$userId];
+            $compatibilityResult = [];
 
-                        $targetAssessment = $assessments[$targetId];
+            if ($relation->consent == 1) {
+
+                $userAssessment = $allAssessments[$relation->user_id] ?? null;
+
+                $targetAssessment = $allAssessments[$relation->target_id] ?? null;
+
+                if ($userAssessment && $targetAssessment) {
+
+                    $cacheKey = "compatibility_{$relation->user_id}_{$relation->target_id}";
+
+                    $compatibilityResult = Cache::remember($cacheKey, 3600, function () use ($userAssessment, $targetAssessment) {
 
                         $loginUserTraitWeight = Assessment::getTopThreeTraitWeight($targetAssessment);
 
                         $userTraitWeight = Assessment::getTopThreeTraitWeight($userAssessment);
 
-                        $compatibilityScore = Helpers::getCompatabilityBetweenTwoPerson($loginUserTraitWeight, $userTraitWeight, $targetAssessment, $userAssessment);
+                        $compatibilityScore = Helpers::getCompatabilityBetweenTwoPerson(
 
-                        $compatibilityResult = [
+                            $loginUserTraitWeight,
+
+                            $userTraitWeight,
+
+                            $targetAssessment,
+
+                            $userAssessment
+
+                        );
+
+                        return [
                             'compatibility_score' => $compatibilityScore,
                             'compatibility_matrix' => AssessmentHelper::buildCompatibilityMatrix($userAssessment, $targetAssessment),
                         ];
 
-                    }
+                    });
 
                 }
 
-                return [
-                    'id' => $relation->id,
-                    'user_id' => $relation->user_id,
-                    'target_id' => $relation->target_id,
-                    'relationship_id' => $relation->relationship_id,
-                    'consent' => $relation->consent,
-                    'consent_status' => match ($relation->consent) {
-                        self::CONSENT_APPROVED => self::STATUS_APPROVED,
-                        self::CONSENT_REJECTED => self::STATUS_REJECTED,
-                        default => self::STATUS_PENDING,
-                    },
-                    'relationship_name' => $relation->relationship->relationship_name ?? null,
-                    'target_name' => trim(($relation->targetUser?->first_name ?? '') . ' ' . ($relation->targetUser?->last_name ?? '')),
-                    'target_email' => $relation->targetUser->email ?? null,
-                    'compatibility_result' => $compatibilityResult ?? [],
-                ];
-            });
+            }
+
+            return [
+                'id' => $relation->id,
+                'user_id' => $relation->user_id,
+                'target_id' => $relation->target_id,
+                'relationship_id' => $relation->relationship_id,
+                'consent' => $relation->consent,
+                'consent_status' => match ($relation->consent) {
+                    self::CONSENT_APPROVED => self::STATUS_APPROVED,
+                    self::CONSENT_REJECTED => self::STATUS_REJECTED,
+                    default => self::STATUS_PENDING,
+                },
+                'relationship_name' => $relation->relationship->relationship_name ?? null,
+                'target_name' => trim(($relation->targetUser?->first_name ?? '') . ' ' . ($relation->targetUser?->last_name ?? '')),
+                'target_email' => $relation->targetUser->email ?? null,
+                'compatibility_result' => $compatibilityResult,
+            ];
+
+        });
+
     }
 
     public static function checkRelationship($userId = null, $dataArray = null)
@@ -197,6 +219,12 @@ class AssignFamilyMatrixRelationship extends Model
         $relation = self::findRelation($userId, $targetId);
 
         if (!$relation) {
+
+            return null;
+
+        }
+
+        if ($relation->target_id !== $userId) {
 
             return null;
 

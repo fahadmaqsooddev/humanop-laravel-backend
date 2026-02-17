@@ -381,22 +381,19 @@ class AssessmentHelper
 
     public static function getUserAssessments(array $userIds): array
     {
+        return Assessment::whereIn('user_id', $userIds)
 
-        $data = [];
+            ->where('page', 0)
 
-        foreach ($userIds as $userId) {
+            ->orderByDesc('created_at')
 
-            $assessment = Assessment::getLatestAssessment($userId);
+            ->get()
 
-            if ($assessment) {
+            ->unique('user_id')
 
-                $data[$userId] = $assessment;
+            ->keyBy('user_id')
 
-            }
-
-        }
-
-        return $data;
+            ->toArray();
 
     }
 
