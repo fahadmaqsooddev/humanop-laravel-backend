@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Events\Follow;
+namespace App\Events\v4\Follow;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -13,8 +11,8 @@ use Illuminate\Queue\SerializesModels;
 class UnFollowRequest implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    
-    
+
+
     public $friendId;
     public $heading;
     public $message;
@@ -28,8 +26,8 @@ class UnFollowRequest implements ShouldBroadcast
         $this->friendId = $friendId;
         $this->heading = $heading;
         $this->message = $message;
-        
-       
+
+
     }
 
     /**
@@ -42,7 +40,7 @@ class UnFollowRequest implements ShouldBroadcast
         return new Channel('push-notification.' . $this->friendId);
     }
     public function broadcastAs(){
-    
+
         return 'un-follow.request';
     }
     public function broadcastWith()
@@ -53,6 +51,6 @@ class UnFollowRequest implements ShouldBroadcast
             'message' => $this->message,
         ];
 
-        
+
     }
 }
