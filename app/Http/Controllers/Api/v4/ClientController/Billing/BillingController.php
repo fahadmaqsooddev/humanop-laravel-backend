@@ -7,7 +7,7 @@ use App\Enums\Admin\Admin;
 use App\Helpers\v4\ActivityLogs\ActivityLogger;
 use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Coupon\RedeemCouponRequest;
+use App\Http\Requests\Api\v4\Coupon\RedeemCouponRequest;
 use App\Models\v4\Client\Plan\Plan;
 use App\Models\v4\Client\Point\Point;
 use App\Models\v4\LifetimeCoupon;
