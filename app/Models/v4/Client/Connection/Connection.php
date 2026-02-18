@@ -10,9 +10,9 @@ use App\Models\v4\Client\MessageThread\MessageThread;
 use App\Models\v4\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Events\Connection\ConnectionRequest;
-use App\Events\Connection\UnconnectRequest;
-use App\Events\Connection\RequestAccept;
+use App\Events\v4\Connection\ConnectionRequest;
+use App\Events\v4\Connection\UnconnectRequest;
+use App\Events\v4\Connection\RequestAccept;
 
 class Connection extends Model
 {
