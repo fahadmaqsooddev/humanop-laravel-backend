@@ -10,8 +10,8 @@ use App\Models\v4\Client\Gamification\GamificationPerformanceLevel;
 use App\Models\v4\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\v4\Client\Plan\Plan;
 use App\Models\v4\Client\Point\Point;
-use App\Models\CompatibilityReferenceKeys\DriverCompatibilityReferenceKeys;
-use App\Models\CompatibilityReferenceKeys\EnergyPoolCompatibilityReferenceKeys;
+use App\Models\v4\CompatibilityReferenceKeys\DriverCompatibilityReferenceKeys;
+use App\Models\v4\CompatibilityReferenceKeys\EnergyPoolCompatibilityReferenceKeys;
 use App\Models\v4\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -728,56 +728,56 @@ class Helpers
         if ($assessmentDetails['firstRow']['van'] == 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_1'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_1'),
                 'priority' => 'priority 1'
             ];
 
         } elseif ($assessmentDetails['firstRow']['sa'] == 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_2.regal'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_2.regal'),
                 'priority' => 'priority 2 regal'
             ];
 
         } elseif ($assessmentDetails['firstRow']['ma'] == 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_2.energetic'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_2.energetic'),
                 'priority' => 'priority 2 energetic'
             ];
 
         } elseif ($assessmentDetails['firstRow']['jo'] == 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_2.absorptive'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_2.absorptive'),
                 'priority' => 'priority 2 absorptive'
             ];
 
         } elseif ($assessmentDetails['firstRow']['lu'] == 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_2.romantic'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_2.romantic'),
                 'priority' => 'priority 2 romantic'
             ];
 
         } elseif ($assessmentDetails['firstRow']['ven'] == 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_2.sympathetic'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_2.sympathetic'),
                 'priority' => 'priority 2 sympathetic'
             ];
 
         } elseif ($assessmentDetails['firstRow']['mer'] == 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_2.perceptive'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_2.perceptive'),
                 'priority' => 'priority 2 perceptive'
             ];
 
         } elseif ($assessmentDetails['firstRow']['so'] == 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_2.effervescent'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_2.effervescent'),
                 'priority' => 'priority 2 effervescent'
             ];
 
@@ -788,7 +788,7 @@ class Helpers
         ) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_3'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_3'),
                 'priority' => 'priority 3'
             ];
 
@@ -796,7 +796,7 @@ class Helpers
         elseif ($authenticTraitCount < 3) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_4'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_4'),
                 'priority' => 'priority 4'
             ];
 
@@ -808,7 +808,7 @@ class Helpers
         ) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_5'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_5'),
                 'priority' => 'priority 5'
             ];
 
@@ -819,84 +819,84 @@ class Helpers
         ) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_6'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_6'),
                 'priority' => 'priority 6'
             ];
 
         } elseif ($inAuthenticDriverCount > 4) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_7'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_7'),
                 'priority' => 'priority 7'
             ];
 
         } elseif ($inAuthenticDriverCount == 3) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_8'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_8'),
                 'priority' => 'priority 8'
             ];
 
         } elseif ($inAuthenticDriverCount == 2) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_9'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_9'),
                 'priority' => 'priority 9'
             ];
 
         } elseif ($inAuthenticDriverCount == 1) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_10'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_10'),
                 'priority' => 'priority 10'
             ];
 
         } elseif ($pilotDriverCount == 2) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_11'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_11'),
                 'priority' => 'priority 11'
             ];
 
         } elseif ($pilotDriverCount == 1) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_12'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_12'),
                 'priority' => 'priority 12'
             ];
 
         } elseif ($countFirstRowDriver > 21) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_13'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_13'),
                 'priority' => 'priority 13'
             ];
 
         } elseif ($countFirstRowDriver < 16) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_14'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_14'),
                 'priority' => 'priority 14'
             ];
 
         } elseif (in_array($assessmentDetails['alchemy'], [700, 610, 601, 520, 511, 502, 430])) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_15'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_15'),
                 'priority' => 'priority 15'
             ];
 
         } elseif (in_array($assessmentDetails['alchemy'], [223, 133, 043, 214, 124, 115, 034, 007])) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_16'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_16'),
                 'priority' => 'priority 16'
             ];
 
         } elseif ($countGreaterThan12 >= 2) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_17'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_17'),
                 'priority' => 'priority 17'
             ];
 
@@ -905,41 +905,41 @@ class Helpers
             })) == 1) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_18'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_18'),
                 'priority' => 'priority 18'
             ];
 
         } elseif ($countLessThan7 == 2) {
 
-            return config('14DaysActionPlan.priority_19');
+            return config('v4/14DaysActionPlan.priority_19');
 
         } elseif (count(array_filter($values, function ($value) {
                 return $value < 7;
             })) == 1) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_20'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_20'),
                 'priority' => 'priority 20'
             ];
 
         } elseif ($assessmentDetails['firstRow']['pv'] == 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_21'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_21'),
                 'priority' => 'priority 21'
             ];
 
         } elseif ($assessmentDetails['firstRow']['pv'] < 0) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_22'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_22'),
                 'priority' => 'priority 22'
             ];
 
         } elseif ($assessmentDetails['firstRow']['pv'] > 12) {
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_23'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_23'),
                 'priority' => 'priority 23'
             ];
 
@@ -947,7 +947,7 @@ class Helpers
 
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_24'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_24'),
                 'priority' => 'priority 24'
             ];
 
@@ -955,7 +955,7 @@ class Helpers
 
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_25'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_25'),
                 'priority' => 'priority 25'
             ];
 
@@ -963,7 +963,7 @@ class Helpers
 
 
             return [
-                'plan_text' => config('14DaysActionPlan.priority_26'),
+                'plan_text' => config('v4/14DaysActionPlan.priority_26'),
                 'priority' => 'priority 26'
             ];
 

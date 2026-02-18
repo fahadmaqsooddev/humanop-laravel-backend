@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api\v4\Client\Story;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteStoryRequest extends FormRequest

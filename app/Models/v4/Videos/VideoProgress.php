@@ -3,7 +3,7 @@
 namespace App\Models\v4\Videos;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Models\v4\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\v4\Client\Gamification\GamificationMedalRewards;
 use App\Models\v4\Client\HumanOpPoints\HumanOpPoints;

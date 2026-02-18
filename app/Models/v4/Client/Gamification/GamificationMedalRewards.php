@@ -3,7 +3,7 @@
 namespace App\Models\v4\Client\Gamification;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

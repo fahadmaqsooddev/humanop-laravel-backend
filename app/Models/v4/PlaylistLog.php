@@ -2,12 +2,12 @@
 
 namespace App\Models\v4;
 
-use App\Helpers\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
 use App\Models\Admin\MediaPlayer\MediaPlayerResources;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\Resources\ShopCategoryResource;
-use App\Models\Playlist\Playlist;
+use App\Models\v4\Playlist\Playlist;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

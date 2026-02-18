@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api\v4\ClientController;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\Client\LibraryResourceSuggestionItemRequest;
-use App\Http\Requests\Api\v4\Client\SuggestionItemRequest;
 use App\Models\Admin\MediaPlayer\MediaPlayerCategories;
 use App\Models\Admin\MediaPlayer\MediaPlayerResources;
 use App\Models\Admin\ResourceCategory\ResourceCategory;

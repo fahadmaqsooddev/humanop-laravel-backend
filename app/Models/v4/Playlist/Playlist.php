@@ -2,8 +2,8 @@
 
 namespace App\Models\v4\Playlist;
 
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Models\v4\PlaylistLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

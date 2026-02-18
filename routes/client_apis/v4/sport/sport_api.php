@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['checkUser']], function () {
+Route::group(['middleware' => ['checkUser','assessment']], function () {
     Route::get('faq',[FaqController::class,'getFaqQuestionsData']);
 
 

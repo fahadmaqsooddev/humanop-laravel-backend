@@ -3,17 +3,17 @@
 namespace App\Models\v4\FamilyMatrix;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Assessments\AssessmentHelper;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Assessments\AssessmentHelper;
 use App\Models\Admin\Notification\Notification;
 use App\Models\v4\Assessment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Events\FamilyMatrix\FamilyMatrixPermission;
-use App\Events\FamilyMatrix\FamilyMatrixPermissionApproved;
+use App\Events\v4\FamilyMatrix\FamilyMatrixPermission;
+use App\Events\v4\FamilyMatrix\FamilyMatrixPermissionApproved;
 use App\Models\v4\User;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 
 
 use Illuminate\Support\Facades\Log;

@@ -3,18 +3,8 @@
 namespace App\Helpers\v4;
 
 use App\Enums\Admin\Admin;
-use App\Models\v4\Upload\Upload;
 use App\Models\v4\User;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use App\Models\v4\Assessment;
-use Illuminate\Support\Facades\Log;
 
 class OpenRouterHelper
 {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\v4\ClientController\Billing;
 
-use App\Domain\Billing\PlanRules;
+use App\Domain\v4\Billing\PlanRules;
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coupon\RedeemCouponRequest;
 use App\Models\v4\Client\Plan\Plan;

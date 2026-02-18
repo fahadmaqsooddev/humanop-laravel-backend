@@ -3,17 +3,15 @@
 namespace App\Helpers\v4\HaiChat;
 
 
-use App\Enums\Admin\Admin;
-use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\v4\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\v4\Helpers;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Plan\OptimizationPlan;
-use App\Models\Assessment;
+use App\Models\v4\Assessment;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\v4\Client\Dashboard\ActionPlan;
 use App\Models\v4\IntentionPlan\IntentionPlan;
 use App\Models\v4\User;
-use Illuminate\Support\Facades\Log;
 use Smalot\PdfParser\Parser;
 
 class HaiChatHelpers

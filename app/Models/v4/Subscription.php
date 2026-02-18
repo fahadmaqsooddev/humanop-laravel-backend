@@ -3,7 +3,7 @@
 namespace App\Models\v4;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\v4\Client\Plan\Plan;
 use App\Models\v4\Client\Point\Point;

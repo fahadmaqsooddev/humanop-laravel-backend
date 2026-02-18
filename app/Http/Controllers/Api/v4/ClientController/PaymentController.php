@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v4\ClientController;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\Client\CheckoutPaymentRequest;
 use App\Http\Requests\Api\v4\Client\RedeemCouponRequest;
@@ -15,14 +15,13 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\v4\Assessment;
 use App\Models\v4\AssessmentColorCode;
 use App\Models\v4\Client\HumanOpPoints\HumanOpPoints;
-use App\Models\v4\Client\Plan\Plan;
 use App\Models\v4\Client\Point\Point;
 use App\Models\v4\Client\PurchasedItems;
 use App\Models\v4\Customization\Customization;
 use App\Models\v4\Payment;
-use App\Models\Plan\CreditPlan;
-use App\Models\Subscription;
-use App\Models\User;
+use App\Models\v4\Plan\CreditPlan;
+use App\Models\v4\Subscription;
+use App\Models\v4\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

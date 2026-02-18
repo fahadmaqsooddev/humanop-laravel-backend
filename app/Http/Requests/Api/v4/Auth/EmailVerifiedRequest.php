@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\Auth;
+namespace App\Http\Requests\Api\v4\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v4\ClientController;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\Client\AssessmentAnswersRequest;
 use App\Http\Requests\Api\v4\Client\AssessmentSubmitRequest;
@@ -24,7 +24,7 @@ use App\Models\v4\Client\PurchasedItems;
 use App\Models\v4\Question;
 use App\Models\v4\User;
 use App\Models\v4\Videos\VideoProgress;
-use App\Services\Assessment\AssessmentService;
+use App\Services\v4\Assessment\AssessmentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

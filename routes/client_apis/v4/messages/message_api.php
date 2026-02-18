@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['checkUser']], function () {
+Route::group(['middleware' => ['checkUser','assessment']], function () {
 
     Route::get('chats', 'MessageController@chats');
     Route::post('send-message', 'MessageController@sendMessage');

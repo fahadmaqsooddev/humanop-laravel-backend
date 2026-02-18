@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v4\ClientController;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\v4\Client\Point\Point;
 

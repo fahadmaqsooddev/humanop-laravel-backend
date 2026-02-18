@@ -2,7 +2,7 @@
 
 namespace App\Models\v4\Client\StoryView;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Models\v4\Client\Story\Story;
 use App\Models\v4\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

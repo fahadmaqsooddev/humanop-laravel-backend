@@ -5,7 +5,6 @@ namespace App\Models\v4;
 use App\Models\Admin\Code\CodeDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\v4\Assessment;
 use function Symfony\Component\Mime\Test\Constraint\toString;
 
 class AssessmentColorCode extends Model

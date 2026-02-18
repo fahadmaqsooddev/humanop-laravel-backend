@@ -3,8 +3,8 @@
 namespace App\Models\v4\Client;
 
 use App\Enums\Admin\Admin;
-use App\Events\SendGroupRequest;
-use App\Helpers\ActivityLogs\ActivityLogger;
+use App\Events\v4\SendGroupRequest;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
 use App\Models\Admin\Notification\Notification;
 use App\Models\v4\Client\MessageThread\MessageThread;
 use App\Models\v4\User;

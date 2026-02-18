@@ -3,11 +3,9 @@
 namespace App\Models\v4\Client\Connection;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\GuzzleHelper\GuzzleHelpers;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Models\Admin\Notification\Notification;
-use App\Models\v4\Assessment;
 use App\Models\v4\Client\MessageThread\MessageThread;
 use App\Models\v4\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

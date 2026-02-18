@@ -3,8 +3,8 @@
 namespace App\Models\v4\Client\Point;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Models\v4\Customization\Customization;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

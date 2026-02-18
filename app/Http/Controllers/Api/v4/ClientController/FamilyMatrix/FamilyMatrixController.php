@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\v4\ClientController\FamilyMatrix;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\Assessments\AssessmentHelper;
-use App\Helpers\GuzzleHelper\GuzzleHelpers;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Assessments\AssessmentHelper;
+use App\Helpers\v4\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\FamilyMatrix\AssignFamilymatrixRelationshipRequest;
 use App\Http\Requests\Api\v4\FamilyMatrix\FamilyMatrixNoteRelationRequest;
@@ -17,7 +17,7 @@ use App\Models\v4\FamilyMatrix\FamilyMatrixRelationship;
 use App\Models\v4\FamilyMatrix\FamilyMatrixResponse;
 use App\Models\v4\FamilyMatrix\FamilyMatrixNote;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\FamilyMatrix\FamilyMatrixNoteRequest;
+use App\Http\Requests\Api\v4\FamilyMatrix\FamilyMatrixNoteRequest;
 
 class FamilyMatrixController extends Controller
 {

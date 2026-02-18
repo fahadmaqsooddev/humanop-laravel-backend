@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Api\v4\ClientController\UserProfile;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\Client\AddUserEmailPhoneRequest;
-use App\Models\v4\User;
 use App\Models\v4\UserEmailPhoneNumber;
 use Illuminate\Http\Request;
 

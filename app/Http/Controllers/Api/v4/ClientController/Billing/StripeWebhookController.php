@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\v4\ClientController\Billing;
 
 use App\Http\Controllers\Controller;
 use App\Mail\InvoicePaidMail;
-use App\Models\User;
+use App\Models\v4\User;
 use App\Support\StripeConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;

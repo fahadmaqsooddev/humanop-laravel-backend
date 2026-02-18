@@ -2,8 +2,8 @@
 
 namespace App\Models\v4\Client\HotSpot;
 
-use App\Helpers\Helpers;
-use App\Models\Assessment;
+use App\Helpers\v4\Helpers;
+use App\Models\v4\Assessment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -3,10 +3,10 @@
 namespace App\Models\v4;
 
 use App\Enums\Admin\Admin;
-use App\Events\Assessment\SubmitAssessment;
-use App\Events\DailyTip\NewDailyTip;
-use App\Helpers\HaiChat\HaiChatHelpers;
-use App\Helpers\Helpers;
+use App\Events\v4\Assessment\SubmitAssessment;
+use App\Events\v4\DailyTip\NewDailyTip;
+use App\Helpers\v4\HaiChat\HaiChatHelpers;
+use App\Helpers\v4\Helpers;
 use App\Models\Admin\AssessmentIntro\AssessmentIntro;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;

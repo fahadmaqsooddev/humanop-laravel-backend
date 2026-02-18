@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\StripePublicController;
 |
 */
 
-Route::group(['middleware' => ['checkUser']], function () {
+Route::group(['middleware' => ['checkUser','assessment']], function () {
 
     Route::post('payment_checkout', 'PaymentController@paymentCheckout');
     Route::post('redeem_coupon', 'PaymentController@redeemCoupon');

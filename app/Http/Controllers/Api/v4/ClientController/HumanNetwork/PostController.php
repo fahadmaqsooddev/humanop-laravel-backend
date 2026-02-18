@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v4\ClientController\HumanNetwork;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\Client\Post\CreateCommentRequest;
 use App\Http\Requests\Api\v4\Client\Post\CreatePostRequest;

@@ -4,10 +4,10 @@ namespace App\Helpers\v4\Assessments;
 
 use App\Enums\Admin\Admin;
 use App\Models\v4\Assessment;
-use App\Models\CompatibilityReferenceKeys\DriverCompatibilityReferenceKeys;
-use App\Models\CompatibilityReferenceKeys\EnergyPoolCompatibilityReferenceKeys;
-use App\Models\CompatibilityReferenceKeys\TraitCompatibilityPolarity;
-use App\Models\CompatibilityReferenceKeys\TraitCompatibilityReferenceKeys;
+use App\Models\v4\CompatibilityReferenceKeys\DriverCompatibilityReferenceKeys;
+use App\Models\v4\CompatibilityReferenceKeys\EnergyPoolCompatibilityReferenceKeys;
+use App\Models\v4\CompatibilityReferenceKeys\TraitCompatibilityPolarity;
+use App\Models\v4\CompatibilityReferenceKeys\TraitCompatibilityReferenceKeys;
 use App\Models\v4\FamilyMatrix\FamilyMatrixConfiguration;
 
 

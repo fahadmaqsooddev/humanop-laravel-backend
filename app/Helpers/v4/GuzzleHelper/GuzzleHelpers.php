@@ -3,18 +3,8 @@
 namespace App\Helpers\v4\GuzzleHelper;
 
 use App\Helpers\v4\Helpers;
-use App\Models\v4\Upload\Upload;
-use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use App\Models\v4\Assessment;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class GuzzleHelpers
 {

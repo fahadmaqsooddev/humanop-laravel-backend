@@ -3,7 +3,7 @@
 namespace App\Services\v4;
 
 use App\Support\StripeConfig;
-use App\Models\User;
+use App\Models\v4\User;
 use Stripe\StripeClient;
 
 

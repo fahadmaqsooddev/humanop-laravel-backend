@@ -2,8 +2,7 @@
 
 namespace App\Models\v4\Client\MultiMedia;
 
-use App\Helpers\Helpers;
-use App\Models\v4\Upload\Upload;
+use App\Helpers\v4\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

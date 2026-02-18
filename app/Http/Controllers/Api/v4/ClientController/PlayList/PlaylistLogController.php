@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v4\ClientController\PlayList;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\Client\Playlist\AddPlayListRequest;
 use App\Http\Requests\Api\v4\Client\Playlist\DeletePlayListRequest;

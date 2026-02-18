@@ -3,14 +3,14 @@
 namespace App\Models\v4\Client\Follow;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\v4\Client\MessageThread\MessageThread;
 use App\Models\v4\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Events\Follow\FollowRequest;
+use App\Events\v4\Follow\FollowRequest;
 
 use App\Events\Follow\UnFollowRequest;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\v4\ClientController;
 
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\HaiChat\HaiChatHelpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\HaiChat\HaiChatHelpers;
 use App\Http\Requests\Api\v4\Client\AddRecentPlayerRequest;
 use App\Http\Requests\Api\v4\Client\ShareDataRequest;
 use App\Http\Requests\B2B\CandidatetoMember;
@@ -11,25 +11,23 @@ use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\AnnouncementNews\AnnouncementNews;
 use App\Models\Admin\LifeTimeDeal\LifetimeDealBanner;
 use App\Models\Admin\Plan\OptimizationPlan;
-use App\Models\Admin\RecentActivity\RecentActivity;
 use App\Models\Admin\SuggestedItem\SuggestedItem;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\v4\Client\HotSpot\HotSpotsPlan;
 use App\Models\v4\Client\MultiMedia\MultiMediaStats;
 use App\Models\v4\Client\Suggestion\SuggestionForYou;
-use App\Models\v4\HAIChai\HaiChat;
 use App\Models\v4\Notification\PushNotification;
 use App\Models\v4\PlaylistLog;
 use App\Models\v4\UserOptimalTrait;
 use Carbon\Carbon;
 use App\Models\v4\User;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Enums\Admin\Admin;
 use App\Models\v4\Assessment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\v4\AssessmentColorCode;
-use App\Events\DailyTip\NewDailyTip;
+use App\Events\v4\DailyTip\NewDailyTip;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Podcast\Podcast;

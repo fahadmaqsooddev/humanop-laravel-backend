@@ -3,10 +3,9 @@
 namespace App\Models\v4\Client\HumanOpPoints;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
-use App\Models\Client\Point\Point;
-use http\Client\Curl\User;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
+use App\Models\v4\Client\Point\Point;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;

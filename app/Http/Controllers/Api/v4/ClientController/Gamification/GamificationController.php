@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\v4\ClientController\Gamification;
 
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\Client\CompleteWatchVideoRequest;
 use App\Http\Requests\Api\v4\Client\Gamification\PurchaseCreditsFromHp;
@@ -12,7 +12,6 @@ use App\Models\v4\Assessment;
 use App\Models\v4\Client\Gamification\GamificationBadgesAchievement;
 use App\Models\v4\Client\Gamification\GamificationMedalRewards;
 use App\Models\v4\Client\Gamification\GamificationPerformanceLevel;
-use App\Models\v4\Client\Hai\HaiThread;
 use App\Models\v4\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\v4\Client\HumanOpPoints\LoginStreaks;
 use App\Models\v4\HAIChai\HaiChat;

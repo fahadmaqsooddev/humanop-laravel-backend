@@ -4,7 +4,7 @@ namespace App\Models\v4\HAIChai;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+use App\Models\v4\User;
 
 class ClientQuery extends Model
 {

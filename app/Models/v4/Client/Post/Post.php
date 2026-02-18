@@ -2,7 +2,7 @@
 
 namespace App\Models\v4\Client\Post;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Models\v4\Client\PostComment\PostComment;
 use App\Models\v4\Client\PostLike\PostLike;
 use App\Models\v4\User;

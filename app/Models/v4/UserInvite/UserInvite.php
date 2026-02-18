@@ -3,7 +3,7 @@
 namespace App\Models\v4\UserInvite;
 
 use Carbon\Carbon;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Enums\Admin\Admin;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;

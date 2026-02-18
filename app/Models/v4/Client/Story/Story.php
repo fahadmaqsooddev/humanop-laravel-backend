@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Client\Story;
+namespace App\Models\v4\Client\Story;
 
-use App\Helpers\Helpers;
-use App\Models\Client\StoryView\StoryView;
-use App\Models\User;
+use App\Helpers\v4\Helpers;
+use App\Models\v4\Client\StoryView\StoryView;
+use App\Models\v4\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\v4\ClientController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\v4\Models\HotSpotUser;
-use App\v4\Models\HotSpot;
-use App\Helpers\Helpers;
-use App\v4\Models\Assessment;
+use App\Models\v4\HotSpotUser;
+use App\Models\v4\HotSpot;
+use App\Helpers\v4\Helpers;
+use App\Models\v4\Assessment;
 
 class HotSpotController extends Controller
 {

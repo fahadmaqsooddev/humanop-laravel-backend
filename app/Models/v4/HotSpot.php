@@ -4,9 +4,6 @@ namespace App\Models\v4;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
-use App\Helpers\Helpers;
-use Carbon\Carbon;
 
 class HotSpot extends Model
 {

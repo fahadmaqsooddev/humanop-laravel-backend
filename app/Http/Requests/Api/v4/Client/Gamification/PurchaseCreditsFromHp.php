@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Api\v4\Client\Gamification;
 
-use App\Helpers\Helpers;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

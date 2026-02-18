@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v4\ClientController;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\Client\Messages\DeleteChatRequest;
 use App\Http\Requests\Api\v4\Client\Messages\MessagesRequest;
@@ -16,8 +16,8 @@ use App\Models\v4\Client\MessageThread\MessageThread;
 use App\Models\v4\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Events\messages\MessageSent;
-use App\Events\messages\NewMessage;
+use App\Events\v4\messages\MessageSent;
+use App\Events\v4\messages\NewMessage;
 use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller

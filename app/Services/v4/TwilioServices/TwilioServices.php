@@ -2,12 +2,6 @@
 
 namespace App\Services\v4\TwilioServices;
 
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Config;
 use Twilio\Rest\Client;
 use Exception;
 class TwilioServices

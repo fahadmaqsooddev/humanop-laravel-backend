@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v4\ClientController\HumanOPShop;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v4\Client\SuggestionItemRequest;
 use App\Models\Admin\Resources\ShopCategoryResource;

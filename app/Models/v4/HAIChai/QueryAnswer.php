@@ -2,8 +2,8 @@
 
 namespace App\Models\v4\HAIChai;
 
-use App\Helpers\GuzzleHelper\GuzzleHelpers;
-use App\Helpers\Helpers;
+use App\Helpers\v4\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\v4\Helpers;
 use App\Models\Admin\FineTuneContent\FineTuneContent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -2,8 +2,7 @@
 
 namespace App\Models\v4\Libraries;
 
-use App\Helpers\Helpers;
-use App\Models\Admin\HumanOpShopCategory\HumanOpShopTraits;
+use App\Helpers\v4\Helpers;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\Resources\ShopCategoryResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

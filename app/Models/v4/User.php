@@ -3,7 +3,7 @@
 namespace App\Models\v4;
 
 use App\Enums\Admin\Admin;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\B2B\B2BBusinessCandidates;
@@ -950,8 +950,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Connecting & Communicating',
                     'name' => 'connecting_communicating',
                     'public_name' => 'Cycle of Life - Connecting & Communicating (7-11)',
-                    'video_url' => config('intervalLifeCycle.connecting_Communicating_(7-11).video_url'),
-                    'description' => config('intervalLifeCycle.connecting_Communicating_(7-11).text'),
+                    'video_url' => config('v4/intervalLifeCycle.connecting_Communicating_(7-11).video_url'),
+                    'description' => config('v4/intervalLifeCycle.connecting_Communicating_(7-11).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -963,8 +963,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Alchemical Revelation',
                     'name' => 'alchemical_revelation',
                     'public_name' => 'Cycle of Life - Alchemical Revelation (12-15)',
-                    'video_url' => config('intervalLifeCycle.alchemical_revelation_(12-15).video_url'),
-                    'description' => config('intervalLifeCycle.alchemical_revelation_(12-15).text'),
+                    'video_url' => config('v4/intervalLifeCycle.alchemical_revelation_(12-15).video_url'),
+                    'description' => config('v4/intervalLifeCycle.alchemical_revelation_(12-15).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -976,8 +976,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Motivation',
                     'name' => 'motivation',
                     'public_name' => 'Cycle of Life - Motivation (16-20)',
-                    'video_url' => config('intervalLifeCycle.motivation_(16-20).video_url'),
-                    'description' => config('intervalLifeCycle.motivation_(16-20).text'),
+                    'video_url' => config('v4/intervalLifeCycle.motivation_(16-20).video_url'),
+                    'description' => config('v4/intervalLifeCycle.motivation_(16-20).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -989,8 +989,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Roadworthy',
                     'name' => 'roadworthy',
                     'public_name' => 'Cycle of Life - Roadworthy (21-29)',
-                    'video_url' => config('intervalLifeCycle.roadworthy_(21-29).video_url'),
-                    'description' => config('intervalLifeCycle.roadworthy_(21-29).text'),
+                    'video_url' => config('v4/intervalLifeCycle.roadworthy_(21-29).video_url'),
+                    'description' => config('v4/intervalLifeCycle.roadworthy_(21-29).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -1002,8 +1002,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Power',
                     'name' => 'power',
                     'public_name' => 'Cycle of Life - The Power Interval (30-33)',
-                    'video_url' => config('intervalLifeCycle.the_power_interval_(30-33).video_url'),
-                    'description' => config('intervalLifeCycle.the_power_interval_(30-33).text'),
+                    'video_url' => config('v4/intervalLifeCycle.the_power_interval_(30-33).video_url'),
+                    'description' => config('v4/intervalLifeCycle.the_power_interval_(30-33).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -1015,8 +1015,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Mid Life Transformation',
                     'name' => 'midLife_transformation',
                     'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)',
-                    'video_url' => config('intervalLifeCycle.mid_life_transformation_(34-42).video_url'),
-                    'description' => config('intervalLifeCycle.mid_life_transformation_(34-42).text'),
+                    'video_url' => config('v4/intervalLifeCycle.mid_life_transformation_(34-42).video_url'),
+                    'description' => config('v4/intervalLifeCycle.mid_life_transformation_(34-42).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -1028,8 +1028,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Awareness',
                     'name' => 'awareness',
                     'public_name' => 'Cycle of Life - Awareness (43-51)',
-                    'video_url' => config('intervalLifeCycle.awareness_(43-51).video_url'),
-                    'description' => config('intervalLifeCycle.awareness_(43-51).text'),
+                    'video_url' => config('v4/intervalLifeCycle.awareness_(43-51).video_url'),
+                    'description' => config('v4/intervalLifeCycle.awareness_(43-51).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -1041,8 +1041,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Pay it Forward',
                     'name' => 'payit_forward',
                     'public_name' => 'Cycle of Life - Pay It Forward (52-65)',
-                    'video_url' => config('intervalLifeCycle.pay_it_forward_(52-65).video_url'),
-                    'description' => config('intervalLifeCycle.pay_it_forward_(52-65).text'),
+                    'video_url' => config('v4/intervalLifeCycle.pay_it_forward_(52-65).video_url'),
+                    'description' => config('v4/intervalLifeCycle.pay_it_forward_(52-65).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -1054,8 +1054,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Liberated',
                     'name' => 'liberated',
                     'public_name' => 'Cycle of Life - Liberated (66-69)',
-                    'video_url' => config('intervalLifeCycle.liberated_(66-69).video_url'),
-                    'description' => config('intervalLifeCycle.liberated_(66-69).text'),
+                    'video_url' => config('v4/intervalLifeCycle.liberated_(66-69).video_url'),
+                    'description' => config('v4/intervalLifeCycle.liberated_(66-69).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -1067,8 +1067,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Being',
                     'name' => 'being',
                     'public_name' => 'Cycle of Life - Being (70-74)',
-                    'video_url' => config('intervalLifeCycle.being_(70-74).video_url'),
-                    'description' => config('intervalLifeCycle.being_(70-74).text'),
+                    'video_url' => config('v4/intervalLifeCycle.being_(70-74).video_url'),
+                    'description' => config('v4/intervalLifeCycle.being_(70-74).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -1080,8 +1080,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Life Review',
                     'name' => 'life_review',
                     'public_name' => 'Cycle of Life - Life Review (75-83)',
-                    'video_url' => config('intervalLifeCycle.life_review_(75-83).video_url'),
-                    'description' => config('intervalLifeCycle.life_review_(75-83).text'),
+                    'video_url' => config('v4/intervalLifeCycle.life_review_(75-83).video_url'),
+                    'description' => config('v4/intervalLifeCycle.life_review_(75-83).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -1093,8 +1093,8 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Surrender',
                     'name' => 'surrender',
                     'public_name' => 'Cycle of Life - Surrender (84+)',
-                    'video_url' => config('intervalLifeCycle.surrender_(84+).video_url'),
-                    'description' => config('intervalLifeCycle.surrender_(84+).text'),
+                    'video_url' => config('v4/intervalLifeCycle.surrender_(84+).video_url'),
+                    'description' => config('v4/intervalLifeCycle.surrender_(84+).text'),
                     'video_progress' => $progress['video_progress'],
                     'video_time' => $progress['video_time']
                 ];
@@ -1122,7 +1122,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'connecting_communicating',
                     'public_name' => 'Cycle of Life - Connecting & Communicating (7-11)',
                     'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
-                    'description' => config('intervalLifeCycle.connecting_Communicating_(7-11)'),
+                    'description' => config('v4/intervalLifeCycle.connecting_Communicating_(7-11)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1137,7 +1137,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'alchemical_revelation',
                     'public_name' => 'Cycle of Life - Alchemical Revelation (12-15)',
                     'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
-                    'description' => config('intervalLifeCycle.alchemical_revelation_(12-15)'),
+                    'description' => config('v4/intervalLifeCycle.alchemical_revelation_(12-15)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1152,7 +1152,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'motivation',
                     'public_name' => 'Cycle of Life - Motivation (16-20)',
                     'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
-                    'description' => config('intervalLifeCycle.motivation_(16-20)'),
+                    'description' => config('v4/intervalLifeCycle.motivation_(16-20)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1167,7 +1167,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'roadworthy',
                     'public_name' => 'Cycle of Life - Roadworthy (21-29)',
                     'video_url' => asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4'),
-                    'description' => config('intervalLifeCycle.roadworthy_(21-29)'),
+                    'description' => config('v4/intervalLifeCycle.roadworthy_(21-29)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1182,7 +1182,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'power',
                     'public_name' => 'Cycle of Life - The Power Interval (30-33)',
                     'video_url' => asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4'),
-                    'description' => config('intervalLifeCycle.the_power_interval_(30-33)'),
+                    'description' => config('v4/intervalLifeCycle.the_power_interval_(30-33)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1197,7 +1197,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'midLife_transformation',
                     'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)',
                     'video_url' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4'),
-                    'description' => config('intervalLifeCycle.mid_life_transformation_(34-42)'),
+                    'description' => config('v4/intervalLifeCycle.mid_life_transformation_(34-42)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1212,7 +1212,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'awareness',
                     'public_name' => 'Cycle of Life - Awareness (43-51)',
                     'video_url' => asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4'),
-                    'description' => config('intervalLifeCycle.awareness_(43-51)'),
+                    'description' => config('v4/intervalLifeCycle.awareness_(43-51)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1227,7 +1227,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'payit_forward',
                     'public_name' => 'Cycle of Life - Pay It Forward (52-65)',
                     'video_url' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4'),
-                    'description' => config('intervalLifeCycle.pay_it_forward_(52-65)'),
+                    'description' => config('v4/intervalLifeCycle.pay_it_forward_(52-65)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1242,7 +1242,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'liberated',
                     'public_name' => 'Cycle of Life - Liberated (66-69)',
                     'video_url' => asset('assets/video/Cycle of Life - Liberated 66-70.mp4'),
-                    'description' => config('intervalLifeCycle.liberated_(66-69)'),
+                    'description' => config('v4/intervalLifeCycle.liberated_(66-69)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1257,7 +1257,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'being',
                     'public_name' => 'Cycle of Life - Being (70-74)',
                     'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
-                    'description' => config('intervalLifeCycle.being_(70-74)'),
+                    'description' => config('v4/intervalLifeCycle.being_(70-74)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1272,7 +1272,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'life_review',
                     'public_name' => 'Cycle of Life - Life Review (75-83)',
                     'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
-                    'description' => config('intervalLifeCycle.life_review_(75-83)'),
+                    'description' => config('v4/intervalLifeCycle.life_review_(75-83)'),
                     'video_progress' => $progress,
                 ];
 
@@ -1287,7 +1287,7 @@ class User extends Authenticatable implements JWTSubject
                     'name' => 'surrender',
                     'public_name' => 'Cycle of Life - Surrender (84+)',
                     'video_url' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4'),
-                    'description' => config('intervalLifeCycle.surrender_(84+)'),
+                    'description' => config('v4/intervalLifeCycle.surrender_(84+)'),
                     'video_progress' => $progress,
                 ];
 

@@ -13,14 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['checkUser']], function () {
 
+Route::group(['middleware' => ['checkUser']], function () {
+    Route::get('questions', 'AssessmentController@questions');
+    Route::get('assessment-status', 'AssessmentController@assessmentStatus');
+    Route::post('submit-assessment', 'AssessmentController@submitAnswers');
+});
+
+
+Route::group(['middleware' => ['checkUser', 'assessment']], function () {
     Route::get('all-assessments', 'AssessmentController@allAssessments');
     Route::get('assessment-answers', 'AssessmentController@assessmentAnswers');
     Route::get('grid', 'AssessmentController@grid');
-    Route::get('assessment-status', 'AssessmentController@assessmentStatus');
-    Route::get('questions', 'AssessmentController@questions');
-    Route::post('submit-assessment', 'AssessmentController@submitAnswers');
     Route::get('user-report', 'AssessmentController@userReport');
     Route::get('intro-assessment', 'AssessmentController@introAssessment');
     Route::post('assessment-checkout', 'AssessmentController@assessmentCheckout');

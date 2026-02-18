@@ -2,12 +2,11 @@
 
 namespace App\Models\v4\Client\MessageThread;
 
-use App\Helpers\ActivityLogs\ActivityLogger;
-use App\Helpers\Helpers;
+use App\Helpers\v4\ActivityLogs\ActivityLogger;
+use App\Helpers\v4\Helpers;
 use App\Models\v4\Client\Message\Message;
-use App\Models\v4\CLient\MessageThreadRequest;
 use App\Models\v4\User;
-use App\Services\Chat\DirectThread;
+use App\Services\v4\Chat\DirectThread;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

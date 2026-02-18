@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\StripePublicController;
 |
 */
 
-Route::group(['middleware' => ['checkUser']], function () {
+Route::group(['middleware' => ['checkUser','assessment']], function () {
 
     Route::get('billing/payment-method/init','BillingController@initPaymentMethod');
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api\v4\Client\Post;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditCommentRequest extends FormRequest

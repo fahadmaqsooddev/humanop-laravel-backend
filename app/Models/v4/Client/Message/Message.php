@@ -2,7 +2,7 @@
 
 namespace App\Models\v4\Client\Message;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Models\v4\Client\MessageRead\MassageRead;
 use App\Models\v4\Client\MessageThread\MessageThread;
 use App\Models\v4\User;

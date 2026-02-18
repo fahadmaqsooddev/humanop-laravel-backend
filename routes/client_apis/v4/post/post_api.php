@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['checkUser']], function () {
+Route::group(['middleware' => ['checkUser','assessment']], function () {
 
     Route::get('posts', 'PostController@posts');
     Route::post('create-post', 'PostController@createPost');

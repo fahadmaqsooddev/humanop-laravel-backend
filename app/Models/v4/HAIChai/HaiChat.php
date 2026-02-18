@@ -4,7 +4,7 @@ namespace App\Models\v4\HAIChai;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use Illuminate\Support\Carbon;
 
 class HaiChat extends Model

@@ -2,7 +2,7 @@
 
 namespace App\Models\v4\Client\PostComment;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use App\Http\Livewire\Client\HumanNetwork\Post\Post;
 use App\Models\v4\Client\PostLike\PostLike;
 use App\Models\v4\User;

@@ -2,12 +2,9 @@
 
 namespace App\Models\v4;
 
-use App\Helpers\Helpers;
+use App\Helpers\v4\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Models\Assessment;
 use App\Models\Admin\Coupon\Coupon;
 
 class Payment extends Model
