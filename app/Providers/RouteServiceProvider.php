@@ -184,7 +184,7 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::prefix('v4/api')->middleware('api')
                 ->namespace($this->HumanOpShopControllerV4)
-                ->group(base_path('rroutes/v4/lient_apis/humanop_shop/humanop_shop_api.php'));
+                ->group(base_path('routes/v4/client_apis/humanop_shop/humanop_shop_api.php'));
 
             Route::prefix('v4/api')->middleware('api')
                 ->namespace($this->HumanNetworkNamespaceV4)
