@@ -141,8 +141,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace('')
                 ->group(base_path('routes/client_apis/sport/sport_api.php'));
 
-
-
         });
     }
 
