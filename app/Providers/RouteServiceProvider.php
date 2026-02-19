@@ -29,6 +29,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $FamilyMatrixNamespace = 'App\Http\Controllers\Api\ClientController\FamilyMatrix';
 
 
+
     /**
      * The controller namespace for the application.
      *
@@ -139,6 +140,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace('')
                 ->group(base_path('routes/client_apis/sport/sport_api.php'));
+
         });
     }
 
