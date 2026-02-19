@@ -37,6 +37,47 @@ class Notification extends Model
             ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority', 'sender_id']);
     }
 
+    public static function allB2CMessageNotificationCount(): array
+    {
+        $user = Helpers::getUser();
+
+        if (empty($user) || empty($user['id'])) {
+            return [
+                'all_notification_counts' => 0,
+                'read_notification_counts' => 0,
+                'unread_notification_counts' => 0,
+                'message_notification_counts' => 0,
+            ];
+        }
+
+        $baseQuery = self::query()
+            ->where('user_id', $user['id'])
+            ->where('role', Admin::B2C_NOTIFICATION);
+
+        $allNotificationCounts = (clone $baseQuery)
+            ->where('notification_priority', '!=', Admin::MESSAGE_SEND_NOTIFICATION)
+            ->count();
+
+        $unreadNotificationCounts = (clone $baseQuery)
+            ->where('read', Admin::NOT_READ_NOTIFICATION)
+            ->count();
+
+        $readNotificationCounts = (clone $baseQuery)
+            ->where('read', Admin::READ_NOTIFICATION)
+            ->count();
+
+        $messageNotificationCounts = (clone $baseQuery)
+            ->where('notification_priority', Admin::MESSAGE_SEND_NOTIFICATION)
+            ->count();
+
+        return [
+            'all_notification_counts' => $allNotificationCounts,
+            'read_notification_counts' => $readNotificationCounts,
+            'unread_notification_counts' => $unreadNotificationCounts,
+            'message_notification_counts' => $messageNotificationCounts,
+        ];
+    }
+
     public static function allNetworkNotification()
     {
         $user = Helpers::getUser();

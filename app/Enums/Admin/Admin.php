@@ -80,6 +80,10 @@ final class Admin
 
     const ANNOUNCEMENT_NEWS_NOTIFICATION = 14;
 
+    const READ_NOTIFICATION = 0;
+
+    const NOT_READ_NOTIFICATION = 1;
+
     const REMOVE_COMPANY_NOTIFICATION = 15;
 
     const NETWORK_NOTIFICTAION = 4;

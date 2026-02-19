@@ -35,6 +35,20 @@ class NotificationController extends Controller
         }
     }
 
+    public function allNotificationsCount()
+    {
+        try {
+
+            $notifications = Notification::allB2CMessageNotificationCount();
+
+            return Helpers::successResponse('All Notification Count', $notifications);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
     public function readNotification(NotificationRequest $request)
     {
         try {
