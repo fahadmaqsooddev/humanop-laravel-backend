@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\UserProfile;
+namespace App\Http\Controllers\v4\Api\ClientController\UserProfile;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AddUserEmailPhoneRequest;
-use App\Models\User;
 use App\Models\UserEmailPhoneNumber;
 use Illuminate\Http\Request;
 
