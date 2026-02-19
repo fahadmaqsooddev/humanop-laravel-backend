@@ -154,75 +154,75 @@ class RouteServiceProvider extends ServiceProvider
             // Api's v4 for client app
 
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/auth/auth_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/payment/old_payment_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->PaymentClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/payment/new_payment_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/dashboard/dashboard_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/assessment/assessment_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/user_profile/user_profile_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/library_resources/library_resource_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->HumanOpShopControllerV4)
                 ->group(base_path('routes/v4/client_apis/humanop_shop/humanop_shop_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->HumanNetworkNamespaceV4)
                 ->group(base_path('routes/v4/client_apis/post/post_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->HumanNetworkNamespaceV4)
                 ->group(base_path('routes/v4/client_apis/story/story_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/messages/message_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->HumanNetworkNamespaceV4)
                 ->group(base_path('routes/v4/client_apis/human_network/human_network_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/notification/notification_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/credits/credits_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->GamificationClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/gamifications/gamifications_api.php'));
 
-            Route::prefix('v4/api')->middleware('api')
+            Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->PlaylistClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/playlist/playlist_api.php'));
 
-            Route::prefix('v4/api')
+            Route::prefix('api/v4')
                 ->namespace($this->ApiClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/webhook/blue_webhook_api.php'));
 
-            Route::prefix('v4/api')
+            Route::prefix('api/v4')
                 ->namespace($this->FamilyMatrixNamespaceV4)
                 ->group(base_path('routes/v4/client_apis/family_matrix/family_matrix_api.php'));
 
