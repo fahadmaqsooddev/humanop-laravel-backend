@@ -46,7 +46,7 @@ class VersionUpdate implements ShouldBroadcast
         return [
 
             'message' => $this->message,
-
+            
         ];
 
     }
