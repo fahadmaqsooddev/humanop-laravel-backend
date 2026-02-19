@@ -39,6 +39,7 @@ class NotificationController extends Controller
     {
         try {
 
+
             $notifications = Notification::allB2CMessageNotificationCount();
 
             return Helpers::successResponse('All Notification Count', $notifications);

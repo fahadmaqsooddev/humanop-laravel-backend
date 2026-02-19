@@ -43,38 +43,33 @@ class Notification extends Model
 
         if (empty($user) || empty($user['id'])) {
             return [
-                'all_notification_counts' => 0,
-                'read_notification_counts' => 0,
-                'unread_notification_counts' => 0,
+                'all_notification_counts'     => 0,
+                'read_notification_counts'    => 0,
+                'unread_notification_counts'  => 0,
                 'message_notification_counts' => 0,
             ];
         }
 
-        $baseQuery = self::query()
+        $counts = self::query()
             ->where('user_id', $user['id'])
-            ->where('role', Admin::B2C_NOTIFICATION);
-
-        $allNotificationCounts = (clone $baseQuery)
-            ->where('notification_priority', '!=', Admin::MESSAGE_SEND_NOTIFICATION)
-            ->count();
-
-        $unreadNotificationCounts = (clone $baseQuery)
-            ->where('read', Admin::NOT_READ_NOTIFICATION)
-            ->count();
-
-        $readNotificationCounts = (clone $baseQuery)
-            ->where('read', Admin::READ_NOTIFICATION)
-            ->count();
-
-        $messageNotificationCounts = (clone $baseQuery)
-            ->where('notification_priority', Admin::MESSAGE_SEND_NOTIFICATION)
-            ->count();
+            ->where('role', Admin::B2C_NOTIFICATION)
+            ->selectRaw("
+            COUNT(*) as total,
+            SUM(CASE WHEN `read` = ? THEN 1 ELSE 0 END) as read_count,
+            SUM(CASE WHEN `read` = ? THEN 1 ELSE 0 END) as unread_count,
+            SUM(CASE WHEN notification_priority = ? THEN 1 ELSE 0 END) as message_count
+        ", [
+                Admin::NOTIFICATION_STATUS_READ,
+                Admin::NOTIFICATION_STATUS_UNREAD,
+                Admin::MESSAGE_SEND_NOTIFICATION
+            ])
+            ->first();
 
         return [
-            'all_notification_counts' => $allNotificationCounts,
-            'read_notification_counts' => $readNotificationCounts,
-            'unread_notification_counts' => $unreadNotificationCounts,
-            'message_notification_counts' => $messageNotificationCounts,
+            'all_notification_counts'     => (int) ($counts->total ?? 0),
+            'read_notification_counts'    => (int) ($counts->read_count ?? 0),
+            'unread_notification_counts'  => (int) ($counts->unread_count ?? 0),
+            'message_notification_counts' => (int) ($counts->message_count ?? 0),
         ];
     }
 
