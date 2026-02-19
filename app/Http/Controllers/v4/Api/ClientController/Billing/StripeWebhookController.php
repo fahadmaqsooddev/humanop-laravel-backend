@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\Billing;
+namespace App\Http\Controllers\v4\Api\ClientController\Billing;
 
 use App\Http\Controllers\Controller;
 use App\Mail\InvoicePaidMail;

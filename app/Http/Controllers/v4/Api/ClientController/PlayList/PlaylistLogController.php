@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\PlayList;
+namespace App\Http\Controllers\v4\Api\ClientController\PlayList;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;

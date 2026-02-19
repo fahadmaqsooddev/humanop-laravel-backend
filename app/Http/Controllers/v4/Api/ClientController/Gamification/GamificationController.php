@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\Gamification;
+namespace App\Http\Controllers\v4\Api\ClientController\Gamification;
 
 use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
@@ -9,12 +9,11 @@ use App\Http\Requests\Api\Client\CompleteWatchVideoRequest;
 use App\Http\Requests\Api\Client\Gamification\PurchaseCreditsFromHp;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Assessment;
-use App\Models\Client\Gamification\GamificationBadgesAchievement;
-use App\Models\Client\Gamification\GamificationMedalRewards;
-use App\Models\Client\Gamification\GamificationPerformanceLevel;
-use App\Models\Client\Hai\HaiThread;
-use App\Models\Client\HumanOpPoints\HumanOpPoints;
-use App\Models\Client\HumanOpPoints\LoginStreaks;
+use App\Models\v4\Client\Gamification\GamificationBadgesAchievement;
+use App\Models\v4\Client\Gamification\GamificationMedalRewards;
+use App\Models\v4\Client\Gamification\GamificationPerformanceLevel;
+use App\Models\v4\Client\HumanOpPoints\HumanOpPoints;
+use App\Models\v4\Client\HumanOpPoints\LoginStreaks;
 use App\Models\HAIChai\HaiChat;
 use App\Models\Videos\VideoProgress;
 use Illuminate\Support\Facades\DB;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\Billing;
+namespace App\Http\Controllers\v4\Api\ClientController\Billing;
 
 use App\Domain\Billing\PlanRules;
 use App\Enums\Admin\Admin;
@@ -8,8 +8,8 @@ use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coupon\RedeemCouponRequest;
-use App\Models\Client\Plan\Plan;
-use App\Models\Client\Point\Point;
+use App\Models\v4\Client\Plan\Plan;
+use App\Models\v4\Client\Point\Point;
 use App\Models\LifetimeCoupon;
 use App\Services\GoHighLevelService;
 use Illuminate\Http\Request;

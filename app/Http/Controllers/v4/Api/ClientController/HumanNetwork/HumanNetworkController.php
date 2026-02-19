@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\HumanNetwork;
+namespace App\Http\Controllers\v4\Api\ClientController\HumanNetwork;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\Assessments\AssessmentHelper;
@@ -13,8 +13,8 @@ use App\Http\Requests\Api\Client\HumanNetwork\SetScoreForMatchingConnectionReque
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Assessment;
-use App\Models\Client\Connection\Connection;
-use App\Models\Client\Follow\Follow;
+use App\Models\v4\Client\Connection\Connection;
+use App\Models\v4\Client\Follow\Follow;
 use App\Models\NetworkTutorial\NetworkTutorial;
 use App\Models\User;
 use Illuminate\Http\Request;

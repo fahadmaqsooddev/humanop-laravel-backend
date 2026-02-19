@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\HumanOPShop;
+namespace App\Http\Controllers\v4\Api\ClientController\HumanOPShop;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\ActivityLogs\ActivityLogger;
@@ -8,9 +8,8 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\SuggestionItemRequest;
 use App\Models\Admin\Resources\ShopCategoryResource;
-use App\Models\Admin\SuggestedItem\SuggestedItem;
-use App\Models\Client\HumanOpPoints\HumanOpPoints;
-use App\Models\Client\PurchasedItems;
+use App\Models\v4\Client\HumanOpPoints\HumanOpPoints;
+use App\Models\v4\Client\PurchasedItems;
 use App\Models\Libraries\HumanOpLibraries;
 use App\Models\PlaylistLog;
 use Illuminate\Support\Facades\DB;
