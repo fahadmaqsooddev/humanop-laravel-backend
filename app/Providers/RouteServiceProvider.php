@@ -38,6 +38,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $HumanNetworkNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\HumanNetwork';
     protected $FamilyMatrixNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\FamilyMatrix';
 
+
     /**
      * The controller namespace for the application.
      *
