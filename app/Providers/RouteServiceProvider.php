@@ -18,6 +18,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/login';
+
+    // v3 Api Controllers Namespace
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
     protected $PaymentClientController = 'App\Http\Controllers\Api\ClientController\Billing';
     protected $GamificationClientController = 'App\Http\Controllers\Api\ClientController\Gamification';
@@ -25,9 +27,16 @@ class RouteServiceProvider extends ServiceProvider
     protected $HumanOpShopController = 'App\Http\Controllers\Api\ClientController\HumanOPShop';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
-
     protected $FamilyMatrixNamespace = 'App\Http\Controllers\Api\ClientController\FamilyMatrix';
 
+    // v4 Api Controllers Namespace
+    protected $ApiClientControllerV4 = 'App\Http\Controllers\v4\Api\ClientController';
+    protected $PaymentClientControllerV4 = 'App\Http\Controllers\v4\Api\ClientController\Billing';
+    protected $GamificationClientControllerV4 = 'App\Http\Controllers\v4\Api\ClientController\Gamification';
+    protected $PlaylistClientControllerV4 = 'App\Http\Controllers\v4\Api\ClientController\PlayList';
+    protected $HumanOpShopControllerV4 = 'App\Http\Controllers\v4\Api\ClientController\HumanOPShop';
+    protected $HumanNetworkNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\HumanNetwork';
+    protected $FamilyMatrixNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\FamilyMatrix';
 
     /**
      * The controller namespace for the application.
@@ -62,7 +71,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->UploadControllerNamespace)
                 ->group(base_path('routes/file_routes/file_routes.php'));
 
-            // Api's
+            // Api's v3 for client app
 
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)
@@ -139,6 +148,83 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace('')
                 ->group(base_path('routes/client_apis/sport/sport_api.php'));
+
+
+            // Api's v4 for client app
+
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/auth/auth_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/payment/old_payment_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->PaymentClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/payment/new_payment_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/dashboard/dashboard_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/assessment/assessment_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/user_profile/user_profile_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/library_resources/library_resource_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->HumanOpShopControllerV4)
+                ->group(base_path('rroutes/v4/lient_apis/humanop_shop/humanop_shop_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->HumanNetworkNamespaceV4)
+                ->group(base_path('routes/v4/client_apis/post/post_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->HumanNetworkNamespaceV4)
+                ->group(base_path('routes/v4/client_apis/story/story_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/messages/message_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->HumanNetworkNamespaceV4)
+                ->group(base_path('routes/v4/client_apis/human_network/human_network_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/notification/notification_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/credits/credits_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->GamificationClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/gamifications/gamifications_api.php'));
+
+            Route::prefix('v4/api')->middleware('api')
+                ->namespace($this->PlaylistClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/playlist/playlist_api.php'));
+
+            Route::prefix('v4/api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/webhook/blue_webhook_api.php'));
+
+            Route::prefix('v4/api')
+                ->namespace($this->FamilyMatrixNamespaceV4)
+                ->group(base_path('routes/v4/client_apis/family_matrix/family_matrix_api.php'));
+
         });
     }
 
@@ -152,5 +238,6 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
+
     }
 }

@@ -1,0 +1,241 @@
+<?php
+
+namespace App\Http\Controllers\Api\ClientController\PlayList;
+
+use App\Helpers\ActivityLogs\ActivityLogger;
+use App\Helpers\Helpers;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Client\Playlist\EditPlayListRequest;
+use App\Http\Requests\Api\Client\Playlist\NewPlaylistRequest;
+use App\Models\Playlist\Playlist;
+use App\Models\Upload\Upload;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class PlaylistController extends Controller
+{
+
+    protected $playlist = null;
+
+    public function __construct(Playlist $playlist)
+    {
+        $this->middleware('auth:api');
+
+        $this->playlist = $playlist;
+
+    }
+
+    public function myPlaylists()
+    {
+        try {
+            $playlists = $this->playlist->myPlaylists();
+
+            $myPlaylists = [];
+
+            foreach ($playlists as $playlist) {
+
+                $mergedResourceItems = [];
+                $mergedShopItems = [];
+                $mergedPodcastItems = [];
+                $mergedMediaPlayerItems = [];
+
+                foreach ($playlist['playlist'] as $playlistLog) {
+
+                    if (!empty($playlistLog['resourceItems'])) {
+                        foreach ($playlistLog['resourceItems'] as $item) {
+                            $item['order'] = $playlistLog['order'];
+                            $item['item_id'] = $playlistLog['id'];
+                            $mergedResourceItems[] = $item;
+                        }
+                    }
+
+                    if (!empty($playlistLog['shopItems'])) {
+                        foreach ($playlistLog['shopItems'] as $item) {
+                            $item['order'] = $playlistLog['order'];
+                            $item['item_id'] = $playlistLog['id'];
+                            $mergedShopItems[] = $item;
+                        }
+                    }
+
+                    if (!empty($playlistLog['podcastItems'])) {
+                        foreach ($playlistLog['podcastItems'] as $item) {
+                            $item['order'] = $playlistLog['order'];
+                            $item['item_id'] = $playlistLog['id'];
+                            $mergedPodcastItems[] = $item;
+                        }
+                    }
+
+                    if (!empty($playlistLog['mediaPlayerItems'])) {
+                        foreach ($playlistLog['mediaPlayerItems'] as $item) {
+                            $item['order'] = $playlistLog['order'];
+                            $item['item_id'] = $playlistLog['id'];
+                            $mergedMediaPlayerItems[] = $item;
+                        }
+                    }
+                }
+
+                $playlistItems = array_merge($mergedResourceItems, $mergedShopItems, $mergedPodcastItems, $mergedMediaPlayerItems);
+
+                usort($playlistItems, function ($a, $b) {
+                    return $a['order'] <=> $b['order'];
+                });
+
+                $myPlaylists[] = [
+                    'id' => $playlist['id'],
+                    'title' => $playlist['title'],
+                    'description' => $playlist['description'],
+                    'playlist_image' => $playlist['image_url'] ? $playlist['image_url']['url'] : null,
+                    'play_items' => $playlistItems
+                ];
+            }
+
+            return Helpers::successResponse('All My Playlists', $myPlaylists);
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function newPlaylist(NewPlaylistRequest $request)
+    {
+
+        try {
+
+            $user = Helpers::getUser();
+
+            $dataArray = $request->only($this->playlist->getFillable());
+
+            $dataArray['user_id'] = $user['id'];
+
+            $checkPlayList = Playlist::myPlaylists();
+
+            if ($user['plan_name'] == 'Freemium'){
+
+                if (count($checkPlayList) == 0){
+
+                    if ($request['image']){
+
+                        $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image', 'png', true);
+
+                        $dataArray['image_id']= $upload_id;
+
+                    }
+
+                    Playlist::newPlaylist($dataArray);
+
+                    ActivityLogger::addLog('Playlist', "Your new playlist '{$dataArray['title']}' has been added.");
+
+                    return Helpers::successResponse("Add your playlist");
+
+                }else{
+
+                    return Helpers::validationResponse("You can't add more playlists because your plan is Freemium.");
+
+                }
+
+            }else{
+
+                if ($request['image']){
+
+                    $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image', 'png', true);
+
+                    $dataArray['image_id']= $upload_id;
+
+                }
+
+                Playlist::newPlaylist($dataArray);
+
+                ActivityLogger::addLog('Playlist', "Your new playlist '{$dataArray['title']}' has been added.");
+
+                return Helpers::successResponse("Add your playlist");
+
+            }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public static function updateMyPlaylists(EditPlayListRequest $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $playlistId = $request->input('playlist_id');
+
+            if (!empty($playlistId)) {
+
+                if ($request->hasFile('image')) {
+
+                    $upload_id = Upload::uploadFile($request->file('image'), 200, 200, 'base64Image', 'png', true);
+
+                    $request->merge(['image_id' => $upload_id]);
+                }
+
+                $playlistUpdated = Playlist::editPlaylist($request->all());
+
+                if ($playlistUpdated) {
+
+                    ActivityLogger::addLog('Playlist', "Playlist has been updated");
+
+                    DB::commit();
+
+                    return Helpers::successResponse("Playlist has been updated");
+
+                } else {
+
+
+                    DB::rollBack();
+
+                    return Helpers::validationResponse("Playlist update failed");
+
+                }
+
+            } else {
+
+                return Helpers::validationResponse('Playlist id is required');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+    public static function deleteMyPlaylists(Request $request)
+    {
+
+        try {
+
+            $playlistId = $request['playlist_id'];
+
+            if (!empty($playlistId)){
+
+                Playlist::deletePlaylist($playlistId);
+
+                return Helpers::successResponse("Delete your playlist");
+
+            }else{
+
+                return Helpers::validationResponse('Playlist id is required');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+}

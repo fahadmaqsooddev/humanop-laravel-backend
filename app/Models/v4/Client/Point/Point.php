@@ -1,0 +1,178 @@
+<?php
+
+namespace App\Models\v4\Client\Point;
+
+use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
+use App\Helpers\Helpers;
+use App\Models\Customization\Customization;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Point extends Model
+{
+    use HasFactory;
+
+    public function __construct(array $attributes = [])
+    {
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+
+        parent::__construct($attributes);
+    }
+
+    public static function storePoint($data = null)
+    {
+        self::create($data);
+    }
+
+    public static function userExists($user_id = null)
+    {
+        return self::where('user_id', $user_id)->first();
+    }
+
+    public static function updatePoint($user_id = null, $point = null)
+    {
+        $userCredits = self::where('user_id', $user_id)->first();
+
+        $userCredits->update(['point' => $point]);
+
+        return $userCredits;
+
+    }
+
+    public static function getPoints()
+    {
+        $points = self::where('user_id', Helpers::getUser()->id)->first();
+
+        $pointLogs = PointLog::query()->where('user_id', Helpers::getUser()->id)->where('type', PointLog::HAI_Credit)->where('is_b2b', 0);
+
+        // Initialize defaults
+        $total_tokens = 0;
+        $used_tokens = 0;
+        $remaining_tokens = 0;
+        $rollover_tokens = 0;
+
+        if ($points) {
+            $total_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 1)->sum('point');
+
+            $used_tokens = (clone $pointLogs)->whereMonth('created_at', Carbon::now()->month)->where('is_added', 0)->sum('point');
+
+            $remaining_tokens = $points['point'] + $points['purchased_points'];
+
+            $rollover_tokens = (
+                (clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 1)->sum('point')
+                -
+                (clone $pointLogs)->whereMonth('created_at', Carbon::now()->subMonth())->where('is_added', 0)->sum('point')
+            );
+        }
+
+        return [
+            'total_tokens' => (int)$total_tokens,
+            'used_tokens' => (int)$used_tokens,
+            'remaining_tokens' => (int)$remaining_tokens,
+            'rollover_tokens' => (int)$rollover_tokens,
+        ];
+    }
+
+
+    public static function addPoints($points, $user = null, $is_b2b = 0)
+    {
+
+        $user = ($user ?? Helpers::getUser());
+
+        $record = self::where('user_id', $user->id)->where('is_b2b', $is_b2b)->first();
+
+        if ($record) {
+
+            $record->increment('point', $points);
+
+        } else {
+
+            self::create([
+                'user_id' => $user->id,
+                'point' => $points,
+                'is_b2b' => $is_b2b
+            ]);
+        }
+
+        PointLog::createPointLog($points, 1, $user, $is_b2b);
+
+    }
+
+    public static function addPurchasedPoints($points, $user = null, $is_b2b = 0)
+    {
+
+        $user = ($user ?? Helpers::getUser());
+
+        $record = self::where('user_id', $user->id)->where('is_b2b', $is_b2b)->first();
+
+        if ($record) {
+
+            $record->increment('purchased_points', $points);
+
+        } else {
+
+            self::create([
+                'user_id' => $user->id,
+                'purchased_points' => $points,
+                'is_b2b' => $is_b2b
+            ]);
+        }
+
+        PointLog::createPointLog($points, 1, $user, $is_b2b, Admin::PURCHASED_HAI_CREDITS);
+
+    }
+
+    public static function updatePointOnPlanUpdate($points, $user = null)
+    {
+
+        $user = ($user ?? Helpers::getUser());
+
+        $record = self::where('user_id', $user->id)->first();
+
+        if ($record) {
+
+            $record->increment('point', $points);
+
+
+        } else {
+
+            self::create([
+                'user_id' => $user->id,
+                'point' => $points,
+            ]);
+        }
+
+        PointLog::createPointLog($points, 1, $user);
+
+    }
+
+    public static function purchaseHAiCreditsFromHp($hp)
+    {
+
+        $one_credit = Customization::oneHaiCreditDetail();
+
+        if ($one_credit > 0) {
+
+            $credits = ($hp / $one_credit);
+
+            ActivityLogger::addLog('Purchased Credits', "You have purchased {$credits}  for using Humanop Points.");
+
+            self::addPurchasedPoints($credits);
+
+        }
+
+    }
+
+    public static function createUserFetchPoints($userId = null, $points = null)
+    {
+
+        $points['user_id'] = $userId;
+
+        return self::create($points);
+
+    }
+}
