@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\FamilyMatrix;
+namespace App\Http\Controllers\v4\Api\ClientController\FamilyMatrix;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\Assessments\AssessmentHelper;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\HumanNetwork;
+namespace App\Http\Controllers\v4\Api\ClientController\HumanNetwork;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -8,8 +8,8 @@ use App\Http\Requests\Api\Client\Story\CreateStoryRequest;
 use App\Http\Requests\Api\Client\Story\DeleteStoryRequest;
 use App\Http\Requests\Api\Client\Story\StoryViewedRequest;
 use App\Http\Requests\Api\Client\Story\UserStoryRequest;
-use App\Models\Client\Story\Story;
-use App\Models\Client\StoryView\StoryView;
+use App\Models\v4\Client\Story\Story;
+use App\Models\v4\Client\StoryView\StoryView;
 use App\Models\Upload\Upload;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;

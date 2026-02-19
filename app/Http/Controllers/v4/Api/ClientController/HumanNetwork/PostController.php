@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\ClientController\HumanNetwork;
+namespace App\Http\Controllers\v4\Api\ClientController\HumanNetwork;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -15,9 +15,9 @@ use App\Http\Requests\Api\Client\Post\LikeUnLikePostRequest;
 use App\Http\Requests\Api\Client\Post\SharePostRequest;
 use App\Http\Requests\Api\Client\Post\SingleCommentRequest;
 use App\Http\Requests\Api\Client\Post\SinglePostRequest;
-use App\Models\Client\Post\Post;
-use App\Models\Client\PostComment\PostComment;
-use App\Models\Client\PostLike\PostLike;
+use App\Models\v4\Client\Post\Post;
+use App\Models\v4\Client\PostComment\PostComment;
+use App\Models\v4\Client\PostLike\PostLike;
 use App\Models\Upload\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
