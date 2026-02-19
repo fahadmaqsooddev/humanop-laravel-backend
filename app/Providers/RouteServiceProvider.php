@@ -30,17 +30,6 @@ class RouteServiceProvider extends ServiceProvider
 
 
 
-    //V4 Controllers
-
-    protected $PaymentClientControllerV4 = 'App\Http\Controllers\Api\v4\ClientController\Billing';
-    protected $GamificationClientControllerV4 = 'App\Http\Controllers\Api\v4\ClientController\Gamification';
-    protected $PlaylistClientControllerV4 = 'App\Http\Controllers\Api\v4\ClientController\PlayList';
-    protected $HumanOpShopControllerV4 = 'App\Http\Controllers\Api\v4\ClientController\HumanOPShop';
-    protected $HumanNetworkNamespaceV4 = 'App\Http\Controllers\Api\v4\ClientController\HumanNetwork';
-    protected $FamilyMatrixNamespaceV4 = 'App\Http\Controllers\Api\v4\ClientController\FamilyMatrix';
-
-    protected $ApiClientControllerV4 = 'App\Http\Controllers\Api\v4\ClientController';
-
     /**
      * The controller namespace for the application.
      *
@@ -152,91 +141,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace('')
                 ->group(base_path('routes/client_apis/sport/sport_api.php'));
 
-
-
-            // -------------------------
-            // API V4 ROUTES
-            // -------------------------
-
-            // Auth
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/auth/auth_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/payment/old_payment_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->PaymentClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/payment/new_payment_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/dashboard/dashboard_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/assessment/assessment_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/user_profile/user_profile_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/library_resources/library_resource_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->HumanOpShopControllerV4)
-                ->group(base_path('routes/client_apis/v4/humanop_shop/humanop_shop_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->HumanNetworkNamespaceV4)
-                ->group(base_path('routes/client_apis/v4/post/post_api.php'));
-
-// Story
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->HumanNetworkNamespaceV4)
-                ->group(base_path('routes/client_apis/v4/story/story_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/messages/message_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->HumanNetworkNamespaceV4)
-                ->group(base_path('routes/client_apis/v4/human_network/human_network_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/notification/notification_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/credits/credits_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->GamificationClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/gamifications/gamifications_api.php'));
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace($this->PlaylistClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/playlist/playlist_api.php'));
-
-
-            Route::prefix('api/v4')
-                ->namespace($this->ApiClientControllerV4)
-                ->group(base_path('routes/client_apis/v4/webhook/blue_webhook_api.php'));
-
-            Route::prefix('api/v4')
-                ->namespace($this->FamilyMatrixNamespaceV4)
-                ->group(base_path('routes/client_apis/v4/family_matrix/family_matrix_api.php'));
-
-
-            Route::prefix('api/v4')->middleware('api')
-                ->namespace('')
-                ->group(base_path('routes/client_apis/v4/sport/sport_api.php'));
 
 
         });
