@@ -128,49 +128,14 @@ class MessageThread extends Model
     // appends
     public function getUserDataAttribute()
     {
-        $authId = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-
-        if ($this->sender_id === $authId) {
-            $user = $this->receiver()->select('id', 'first_name', 'last_name', 'image_id')->first();
-        } else if ($this->receiver_id === $authId) {
-            $user = $this->sender()->select('id', 'first_name', 'last_name', 'image_id')->first();
+        if ($this->sender_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)) {
+            return $this->receiver()->select('id', 'first_name', 'last_name', 'image_id')->first();
+        }else if ($this->receiver_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)) {
+            return $this->sender()->select('id', 'first_name', 'last_name', 'image_id')->first();
         } else {
             return null;
         }
 
-        if (!$user) {
-            return null;
-        }
-
-        $latest = $this->latestMessage();
-        $unread = $this->unreadMessageCount();
-
-        $user->latest_message         = $latest->message     ?? null;
-        $user->latest_message_time    = $latest->created_at  ?? null;
-        $user->unread_messages_count  = $unread;
-
-        return $user;
-    }
-
-
-    public function latestMessage()
-    {
-
-        return DB::table('messages')
-            ->where('message_thread_id', $this->id)
-            ->orderByDesc('id')
-            ->select('message', 'created_at')
-            ->first();
-    }
-
-    public function unreadMessageCount()
-    {
-        $authId = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-        return DB::table('messages')
-            ->where('message_thread_id', $this->id)
-            ->where('sender_id', '!=', $authId)
-            ->where('is_read', 0)
-            ->count();
     }
 
 
@@ -323,32 +288,23 @@ class MessageThread extends Model
     public static function getAllDirectMessageThread($request = null, $userId = null)
     {
 
-        $type = !empty($request) && $request->filled('type')
-            ? (int) $request->query('type')
-            : null;
-
         $q = self::query()
-            ->select([
-                'id', 'type', 'name', 'owner_id', 'sender_id',
-                'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy',
+            ->with('participants')
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy',
             ])
+            ->where(function ($query) use ($userId, $request) {
 
-            ->when($type !== 0, function ($query) {
-                $query->with('participants');
-            })
-            ->where(function ($query) use ($userId, $type) {
                 $query->where(function ($sub) use ($userId) {
                     $sub->where('sender_id', $userId)
                         ->orWhere('receiver_id', $userId);
                 });
 
-                if ($type !== null) {
-                    $query->where('type', $type);
+                // Apply type condition inside same grouped scope
+                if (!empty($request) && $request->filled('type')) {
+                    $query->where('type', (int) $request->query('type'));
                 }
+
             });
-
-        //dd($q);
-
 
         return Helpers::pagination(
             $q->orderByDesc('id'),
