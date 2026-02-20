@@ -216,7 +216,7 @@ class AssessmentService
 
         $assessment->update($result);
 
-        event(new SubmitAssessment($assessment->user_id, $app + 1));
+        event(new SubmitAssessment($assessment->user_id, $appPage + 1));
 
         self::updateAssessmentColorCodes($assessment);
 
