@@ -253,9 +253,9 @@ class AssessmentService
         $tip = UserDailyTip::getLatestTip();
 
         if (!$tip) {
-            $alchemy = Assessment::getAlchemy($assessment);
+            $alchemy       = Assessment::getAlchemy($assessment);
             $communication = Assessment::getEnergy($assessment);
-            $color = AssessmentColorCode::getGreenCodes($assessment->id);
+            $color         = AssessmentColorCode::getGreenCodes($assessment->id);
 
             $selected = array_filter([
                 $color['code'] ?? null,
@@ -263,25 +263,26 @@ class AssessmentService
                 $communication[0] ?? null
             ]);
 
-            $randomCode = $selected[array_rand($selected)];
-            $newTip = DailyTip::getSameCodeTips($randomCode);
+            // ✅ Fix: Only pick random code if $selected is not empty
+            if (!empty($selected)) {
+                $randomCode = $selected[array_rand($selected)];
+                $newTip     = DailyTip::getSameCodeTips($randomCode);
 
-            if ($newTip) {
-                $latestTip = UserDailyTip::where('user_id', $user->id)
-                    ->where('daily_tip_id', $newTip->id)
-                    ->latest()
-                    ->first();
+                if ($newTip) {
+                    $latestTip = UserDailyTip::where('user_id', $user->id)
+                        ->where('daily_tip_id', $newTip->id)
+                        ->latest()
+                        ->first();
 
-                $alreadyExists = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
+                    $alreadyExists = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
 
-                if (!$alreadyExists) {
+                    if (!$alreadyExists) {
+                        UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
 
-                    UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
+                        event(new NewDailyTip($user->id, 'new daily tip', 'Your New Daily Tip'));
 
-                    event(new NewDailyTip($user->id, 'new daily tip', 'Your New Daily Tip'));
-
-                    ActivityLogger::addLog('new daily tip', "Your New Daily Tip");
-
+                        ActivityLogger::addLog('new daily tip', "Your New Daily Tip");
+                    }
                 }
             }
         }

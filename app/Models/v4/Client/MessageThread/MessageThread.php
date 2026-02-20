@@ -129,10 +129,11 @@ class MessageThread extends Model
     {
         $authId = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
 
+        // Determine the other user in the thread
         if ($this->sender_id === $authId) {
-            $user = $this->receiver()->select('id', 'first_name', 'last_name', 'image_id')->first();
-        } else if ($this->receiver_id === $authId) {
-            $user = $this->sender()->select('id', 'first_name', 'last_name', 'image_id')->first();
+            $user = $this->receiver;
+        } elseif ($this->receiver_id === $authId) {
+            $user = $this->sender;
         } else {
             return null;
         }
@@ -141,15 +142,18 @@ class MessageThread extends Model
             return null;
         }
 
-        $latest = $this->latestMessage();
-        $unread = $this->unreadMessageCount();
+        // ✅ Use already eager-loaded relations instead of manual DB queries
+        $latest = $this->lastMessage; // lastMessage relation
+        $unread = $this->unread_messages_count ?? 0; // withCount
 
-        $user->latest_message         = $latest->message     ?? null;
-        $user->latest_message_time    = $latest->created_at  ?? null;
-        $user->unread_messages_count  = $unread;
+        $user->latest_message        = $latest->message ?? null;
+        $user->latest_message_time   = $latest->created_at ?? null;
+        $user->unread_messages_count = $unread;
 
         return $user;
     }
+
+
 
     public function latestMessage()
     {
@@ -170,6 +174,8 @@ class MessageThread extends Model
             ->where('is_read', 0)
             ->count();
     }
+
+
 
 
     // query

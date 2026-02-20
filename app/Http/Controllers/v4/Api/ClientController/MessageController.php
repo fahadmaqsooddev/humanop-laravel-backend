@@ -141,7 +141,7 @@ class MessageController extends Controller
                 ->paginate(50);
 
             $messages->getCollection()->transform(function ($message) {
-                $sender = $message->sender;
+
                 if (empty($message->sender_id) || !$message->sender) {
                     $message->sender_id = '001';
                     $message->sender = (object)[
@@ -154,14 +154,7 @@ class MessageController extends Controller
                     ];
                 }
 
-                $sender = $message->sender;
-
-                $message->setRelation('sender', [
-                    'first_name' => $sender->first_name ?? null,
-                    'last_name'  => $sender->last_name ?? null,
-                    'photo_url'  => $sender->photo_url ?? null,
-                ]);
-
+                $message->setRelation('sender', $message->sender);
 
                 return $message;
             });
