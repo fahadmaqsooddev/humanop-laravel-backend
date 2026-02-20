@@ -2,59 +2,57 @@
 
 namespace App\Events\v4\messages;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
-class NewMessage implements ShouldBroadcast
+
+class NewMessage implements ShouldBroadcast, ShouldQueue
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets, InteractsWithQueue, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public $sender_id;
-    public $receiver_id;
+    public string $broadcastQueue = 'broadcasts';
 
-    public $message;
-    public $time;
-    public function __construct($sender_id=null,$receiver_id=null,$message=null,$time=null)
+    protected int $thread_id;
+    protected array $payload;
+
+    public function __construct(
+        int     $thread_id,
+        int     $sender_id,
+        int     $receiver_id,
+        ?string $message = null,
+        ?string $time = null
+    )
     {
-        $this->sender_id=$sender_id;
-        $this->receiver_id=$receiver_id;
+        $this->thread_id = $thread_id;
 
-        $this->message=$message;
-        $this->time=$time;
+        $this->payload = [
+            'thread_id' => $thread_id,
+            'sender_id' => $sender_id,
+            'receiver_id' => $receiver_id,
+            'message' => $message,
+            'time' => $time,
+        ];
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
     public function broadcastOn()
     {
-        return new Channel('messages'. $this->sender_id.'-'.$this->receiver_id);
-    }
-    public function broadcastAs(){
-
-        return 'sent.message';
+        return new PrivateChannel(
+            'chat.thread.' . $this->thread_id
+        );
     }
 
-    public function broadcastWith()
+    public function broadcastAs()
     {
-        return [
-            'sender_id' => $this->sender_id,
-            'receiver_id' => $this->receiver_id,
+        return 'message.simple';
+    }
 
-            'message' => $this->message,
-            'time' => $this->time,
-        ];
-
-
+    public function broadcastWith(): array
+    {
+        return $this->payload;
     }
 }
