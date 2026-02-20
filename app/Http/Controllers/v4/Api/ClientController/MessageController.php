@@ -16,8 +16,8 @@ use App\Models\v4\Client\MessageThread\MessageThread;
 use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Events\messages\MessageSent;
-use App\Events\messages\NewMessage;
+use App\Events\v4\messages\MessageSent;
+use App\Events\v4\messages\NewMessage;
 use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
