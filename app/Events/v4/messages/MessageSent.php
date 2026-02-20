@@ -19,27 +19,30 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
 
     public function __construct(Message $message)
     {
-
+        // Ensure relationship is loaded
         $message->load('sender');
+
+        $sender = $message->sender;
 
         $this->payload = [
             'id' => $message->id,
             'thread_id' => $message->message_thread_id,
-            'sender' => [
-                'id' => $message->sender->id,
-                'name' => $message->sender->first_name . ' ' . $message->sender->last_name,
-                'photo_url' => $message->sender->photo_url,
-            ],
+            'sender' => $sender ? [
+                'id' => $sender->id,
+                'name' => trim($sender->first_name . ' ' . $sender->last_name),
+                'photo_url' => $sender->photo_url,
+            ] : null,
             'message_text' => $message->message,
             'upload_url' => $message->upload_url,
             'created_at' => $message->created_at?->toISOString(),
         ];
-
     }
 
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.thread.' . $this->payload['thread_id']);
+        return new PrivateChannel(
+            'chat.thread.' . $this->payload['thread_id']
+        );
     }
 
     public function broadcastAs()
