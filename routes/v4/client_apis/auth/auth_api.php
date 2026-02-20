@@ -18,7 +18,7 @@ Route::get('onboarding-screens', 'AuthController@onboardingScreens');
 Route::post('register-first-step', 'AuthController@registerFirstStep');
 Route::post('check-email-verification', 'AuthController@checkEmailVerification');
 Route::post('email-verified', 'AuthController@EmailVerified');
-Route::get('resend-email-verification', 'AuthController@resendEmailVerification');
+Route::post('resend-email-verification', 'AuthController@resendEmailVerification');
 Route::post('send-sms-code', 'AuthController@sendSmsCode');
 Route::post('check-sms-code-verification', 'AuthController@SmsCodeVerification');
 Route::post('register-last-step', 'AuthController@registerLastStep');
