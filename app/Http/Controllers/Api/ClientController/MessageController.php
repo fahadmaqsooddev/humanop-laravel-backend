@@ -153,6 +153,8 @@ class MessageController extends Controller
                     ];
                 }
 
+                $message->setRelation('sender', collect($message->sender));
+
                 return $message;
             });
 
