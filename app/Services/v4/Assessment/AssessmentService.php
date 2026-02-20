@@ -103,7 +103,7 @@ class AssessmentService
 
         $questionCount = self::getApplicableQuestionCount($userGender);
 
-        [$page,$currentPage] = self::calculatePages($assessment,$questionCount);
+        [$page,$currentPage,$webPage,$appPage] = self::calculatePages($assessment,$questionCount);
 
         if ($currentPage >= $questionCount) {
             return self::handleFinalPage($assessment, $user, $result);
