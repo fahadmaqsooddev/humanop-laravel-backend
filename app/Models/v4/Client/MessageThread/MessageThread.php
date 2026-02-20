@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class MessageThread extends Model
 {
@@ -126,20 +127,48 @@ class MessageThread extends Model
     // appends
     public function getUserDataAttribute()
     {
+        $authId = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
 
-        if ($this->sender_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)) {
-
-            return $this->receiver()->select('id', 'first_name', 'last_name', 'image_id')->first();
-
-        } else if ($this->receiver_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)) {
-
-            return $this->sender()->select('id', 'first_name', 'last_name', 'image_id')->first();
-
+        if ($this->sender_id === $authId) {
+            $user = $this->receiver()->select('id', 'first_name', 'last_name', 'image_id')->first();
+        } else if ($this->receiver_id === $authId) {
+            $user = $this->sender()->select('id', 'first_name', 'last_name', 'image_id')->first();
         } else {
-
             return null;
         }
 
+        if (!$user) {
+            return null;
+        }
+
+        $latest = $this->latestMessage();
+        $unread = $this->unreadMessageCount();
+
+        $user->latest_message         = $latest->message     ?? null;
+        $user->latest_message_time    = $latest->created_at  ?? null;
+        $user->unread_messages_count  = $unread;
+
+        return $user;
+    }
+
+    public function latestMessage()
+    {
+
+        return DB::table('messages')
+            ->where('message_thread_id', $this->id)
+            ->orderByDesc('id')
+            ->select('message', 'created_at')
+            ->first();
+    }
+
+    public function unreadMessageCount()
+    {
+        $authId = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
+        return DB::table('messages')
+            ->where('message_thread_id', $this->id)
+            ->where('sender_id', '!=', $authId)
+            ->where('is_read', 0)
+            ->count();
     }
 
 
