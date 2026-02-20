@@ -199,14 +199,15 @@ class AuthController extends Controller
                 }
 
 
-                if (!empty($request['register_from_app'])) {
-                    $verifyUrl = config('client_url.client_dashboard_url') .
-                        '/email-verified?token=' . $user['email_verify_token'];
+                $baseUrl = config('client_url.client_dashboard_url') .
+                    '/email-verified?token=' . $user['email_verify_token'];
+
+                if (isset($request['register_from_app']) && $request['register_from_app'] === true) {
+                    $verifyUrl = $baseUrl . '&app=azklmwosdf';
                 } else {
-                    $verifyUrl = config('client_url.client_dashboard_url') .
-                        '/email-verified?token=' . $user['email_verify_token'] .
-                        '&app=azklmwosdf';
+                    $verifyUrl = $baseUrl;
                 }
+
                 // Strip any appended accessors so we don't leak internals
                 $user->setAppends([]);
 
@@ -277,13 +278,13 @@ class AuthController extends Controller
             if (empty($checkEmailVerified)) {
 
                 // build verification URL again for existing user
-                if (!empty($request['register_from_app'])) {
-                    $verifyUrl = config('client_url.client_dashboard_url') .
-                        '/email-verified?token=' . $checkUser['email_verify_token'];
-                } else {
-                    $verifyUrl = config('client_url.client_dashboard_url') .
-                        '/email-verified?token=' . $checkUser['email_verify_token'] .
-                        '&app=azklmwosdf';
+                $baseUrl = config('client_url.client_dashboard_url') .
+                    '/email-verified?token=' . $checkUser['email_verify_token'];
+
+                if (isset($request['register_from_app']) && $request['register_from_app'] === true) {
+                    $verifyUrl = $baseUrl . '&app=azklmwosdf';
+                }else{
+                    $verifyUrl = $baseUrl;
                 }
 
                 $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);
