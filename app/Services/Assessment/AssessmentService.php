@@ -294,31 +294,55 @@ class AssessmentService
 
     private static function storeAssessmentDetails(array $answerIds, $assessment, $userId): void
     {
-        $flatIds = collect($answerIds)->flatten()->unique()->toArray();
+        // Normalize incoming IDs
+        $flatIds = collect($answerIds)
+            ->flatten()
+            ->unique()
+            ->values()
+            ->toArray();
 
-        $answers = Answer::with('question')
-            ->whereIn('id', $flatIds)
-            ->orWhereIn('answer_id', $flatIds)
-            ->get();
-
-        $insertData = [];
-
-        foreach ($answers as $ans) {
-            if ($ans) {
-                $insertData[] = [
-                    'user_id'       => $userId,
-                    'assessment_id' => $assessment->id,
-                    'answer_id'     => $ans->id,
-                    'question_id'   => $ans->question_id,
-                    'answer'        => $ans->answer,
-                    'question'      => optional($ans->question)->question,
-                    'created_at'    => now(),
-                    'updated_at'    => now(),
-                ];
-            }
+        if (empty($flatIds)) {
+            return;
         }
 
-        // Batch insert, ignores duplicates if DB has unique constraint
+        // Fetch answers matching either 'id' or 'answer_id'
+        $answers = Answer::with('question')
+            ->where(function ($query) use ($flatIds) {
+                $query->whereIn('id', $flatIds)
+                    ->orWhereIn('answer_id', $flatIds);
+            })
+            ->get()
+            ->sortBy(function ($item) use ($flatIds) {
+                $index = array_search($item->id, $flatIds);
+                if ($index !== false) return $index;
+
+                $index = array_search($item->answer_id, $flatIds);
+                if ($index !== false) return $index;
+
+                return count($flatIds); // unlisted items last
+            })
+            ->values();
+
+        if ($answers->isEmpty()) {
+            return;
+        }
+
+        $now = now(); // agar timestamps chahiye
+
+        // Prepare insert data
+        $insertData = $answers->map(function ($ans) use ($userId, $assessment, $now) {
+            return [
+                'user_id'       => $userId,
+                'assessment_id' => $assessment->id,
+                'answer_id'     => $ans->id,
+                'question_id'   => $ans->question_id,
+                'answer'        => $ans->answer,
+                'question'      => optional($ans->question)->question,
+                'created_at'    => $now,
+                'updated_at'    => $now,
+            ];
+        })->toArray();
+
         AssessmentDetail::insertOrIgnore($insertData);
     }
 
