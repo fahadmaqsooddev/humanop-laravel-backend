@@ -237,7 +237,7 @@ class AssessmentController extends Controller
 
             $requestedPage = (int)$request->input('page');
 
-            $expectedPage = $assessment->page + 1;
+            $expectedPage = $assessment->app_page + 1;
 
             if ($expectedPage !== $requestedPage) {
                 return Helpers::validationResponse('Invalid page number');
