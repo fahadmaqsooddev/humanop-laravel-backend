@@ -109,11 +109,7 @@ class AssessmentService
         if ($currentPage >= $questionCount) {
             return self::handleFinalPage($assessment, $user, $result);
         } else {
-            Log::info([
-                "Current Page" => $currentPage,
-                "Web Page" => $webPage,
-                "App Page" => $appPage,
-            ]);
+
             return self::handleIntermediatePage($assessment, $currentPage, $webPage, $appPage, $result);
         }
     }
