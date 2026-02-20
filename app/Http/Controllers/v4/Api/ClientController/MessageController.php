@@ -154,12 +154,13 @@ class MessageController extends Controller
                     ];
                 }
 
-                // Ensure the sender is included when converting to JSON
-                $message->setRelation('sender', collect([
-                    'first_name' => $sender->first_name,
-                    'last_name'  => $sender->last_name,
-                    'photo_url'  => $sender->photo_url,
-                ]));
+                $sender = $message->sender;
+
+                $message->setRelation('sender', [
+                    'first_name' => $sender->first_name ?? null,
+                    'last_name'  => $sender->last_name ?? null,
+                    'photo_url'  => $sender->photo_url ?? null,
+                ]);
 
 
                 return $message;

@@ -300,7 +300,7 @@ class MessageThread extends Model
 
     public static function getMyMessageThread($request = null, $userId = null)
     {
-        
+
         $q = self::query()
             ->where('owner_id', $userId)
             ->orWhereHas('participants', function ($q) use ($userId) {
@@ -318,8 +318,8 @@ class MessageThread extends Model
 
     public static function getAllDirectMessageThread($request = null, $userId = null)
     {
-
-        $type = $request?->query('type');
+        $type   = $request?->query('type');
+        $authId = $userId;
 
         $q = self::query()
             ->select([
@@ -333,9 +333,17 @@ class MessageThread extends Model
                 'group_icon_id',
                 'thread_privacy',
             ])
-
+            ->with([
+                'lastMessage:id,message_thread_id,message,created_at'
+            ])
+            ->withCount([
+                'messages as unread_messages_count' => function ($q) use ($authId) {
+                    $q->where('sender_id', '!=', $authId)
+                        ->where('is_read', 0);
+                }
+            ])
             ->when($type != 0, function ($query) {
-                $query->with('participants');
+                $query->with('participants:id,first_name,last_name,image_id');
             })
 
             ->where(function ($query) use ($userId, $type) {
@@ -355,6 +363,7 @@ class MessageThread extends Model
             $request['per_page'] ?? null
         );
     }
+
     public static function createGroup($request = null, $ownerId = null)
     {
 

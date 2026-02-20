@@ -24,6 +24,7 @@ use App\Services\GeoService;
 use Illuminate\Support\Facades\Cache;
 use App\Models\HotSpotUser;
 use App\Services\GoHighLevelService;
+use Illuminate\Support\Facades\Log;
 
 
 class AssessmentService
@@ -108,6 +109,11 @@ class AssessmentService
         if ($currentPage >= $questionCount) {
             return self::handleFinalPage($assessment, $user, $result);
         } else {
+            Log::info([
+                "Current Page" => $currentPage,
+                "Web Page" => $webPage,
+                "App Page" => $appPage,
+            ]);
             return self::handleIntermediatePage($assessment, $currentPage, $webPage, $appPage, $result);
         }
     }
@@ -146,10 +152,12 @@ class AssessmentService
 
 
         $appPage = $assessment->app_page + 1;
-        $currentPage=$appPage;
-        $webPage = $appPage;
-        $page=$webPage = (int) floor($appPage / 3);
-        return [$page,$currentPage,$webPage,$appPage];
+
+        $webPage = (int) floor($appPage / 3);
+        $currentPage = $appPage;
+        $page = $webPage;
+
+        return [$page, $currentPage, $webPage, $appPage];
     }
 
     /**
@@ -201,8 +209,9 @@ class AssessmentService
      */
     private static function handleIntermediatePage($assessment, int $currentPage, int $webPage, int $appPage, array $result): string
     {
+        
         $result['page'] = $webPage;
-        $result['web_page'] = $appPage;
+        $result['web_page'] = $currentPage;
         $result['app_page'] = $appPage;
 
         $assessment->update($result);
