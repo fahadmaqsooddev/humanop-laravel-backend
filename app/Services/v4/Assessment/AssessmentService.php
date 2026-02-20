@@ -209,14 +209,14 @@ class AssessmentService
      */
     private static function handleIntermediatePage($assessment, int $currentPage, int $webPage, int $appPage, array $result): string
     {
-        
+
         $result['page'] = $webPage;
         $result['web_page'] = $currentPage;
         $result['app_page'] = $appPage;
 
         $assessment->update($result);
 
-        event(new SubmitAssessment($assessment->user_id, $currentPage + 1));
+        event(new SubmitAssessment($assessment->user_id, $app + 1));
 
         self::updateAssessmentColorCodes($assessment);
 
