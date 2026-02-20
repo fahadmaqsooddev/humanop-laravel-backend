@@ -15,14 +15,31 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
 
     public string $broadcastQueue = 'broadcasts';
 
-    public function __construct(public Message $message)
+    protected array $payload;
+
+    public function __construct(Message $message)
     {
+
+        $message->load('sender');
+
+        $this->payload = [
+            'id' => $message->id,
+            'thread_id' => $message->message_thread_id,
+            'sender' => [
+                'id' => $message->sender->id,
+                'name' => $message->sender->first_name . ' ' . $message->sender->last_name,
+                'photo_url' => $message->sender->photo_url,
+            ],
+            'message_text' => $message->message,
+            'upload_url' => $message->upload_url,
+            'created_at' => $message->created_at?->toISOString(),
+        ];
 
     }
 
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.thread.' . $this->message->message_thread_id);
+        return new PrivateChannel('chat.thread.' . $this->payload['thread_id']);
     }
 
     public function broadcastAs()
@@ -30,19 +47,8 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
         return 'message.sent';
     }
 
-    public function broadcastWith(): array {
-
-        return [
-            'id' => $this->message->id,
-            'thread_id' => $this->message->message_thread_id,
-            'sender' => [
-                'id' => $this->message->sender->id,
-                'name' => $this->message->sender->first_name . ' ' .$this->message->sender->last_name,
-                'photo_url' => $this->message->sender->photo_url
-            ],
-            'message_text' => $this->message->message,
-            'upload_url' => $this->message->upload_url,
-            'created_at' => $this->message->created_at,
-        ];
+    public function broadcastWith(): array
+    {
+        return $this->payload;
     }
 }
