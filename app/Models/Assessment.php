@@ -1653,15 +1653,24 @@ class Assessment extends Model
 
         $user = Helpers::getUser();
 
-        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
+        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page','web_page','app_page','type', 'updated_at', 'reset_assessment'])->latest()->first();
 
         if ($assessment) {
 
-            if ($assessment['page'] === 0) {
+            $page     = (int) ($assessment['page']     ?? 0);
+            $webPage  = (int) ($assessment['web_page'] ?? 0);
+            $appPage  = (int) ($assessment['app_page'] ?? 0);
+
+            if ($page === 0 && $webPage === 0 && $appPage === 0) {
 
                 if ($assessment['reset_assessment'] == 1) {
-
-                    return self::createNewAssessment();
+                    $newAssessment = self::createNewAssessment();
+                    return [
+                        'state'     => 'reset',
+                        'page'      => $newAssessment->page ?? 0,
+                        'web_page'  => $newAssessment->web_page ?? 0,
+                        'app_page'  => $newAssessment->app_page ?? 0,
+                    ];
                 }
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
@@ -1672,18 +1681,38 @@ class Assessment extends Model
 
                 if ($difference > 90) {
 
-                    return self::createNewAssessment();
+                    $newAssessment = self::createNewAssessment();
+                    return [
+                        'state'     => 'expired',
+                        'page'      => $newAssessment->page ?? 0,
+                        'web_page'  => $newAssessment->web_page ?? 0,
+                        'app_page'  => $newAssessment->app_page ?? 0,
+                    ];
                 } else {
-
-                    return false;
+                    return [
+                        'page'     => $page,
+                        'web_page' => $webPage,
+                        'app_page' => $appPage,
+                    ];
                 }
             } else {
 
-                return ($assessment['page'] === null ? 0 : $assessment['page']);
+                return [
+                    'state'     => 'ok',
+                    'page'     => ($assessment['page'] === null ? 0 : $assessment['page']),
+                    'web_page' => ($assessment['web_page'] === null ? 0 : $assessment['web_page']),
+                    'app_page' => ($assessment['app_page'] === null ? 0 : $assessment['app_page']),
+                ];
             }
         } else {
 
-            return self::createNewAssessment();
+            $newAssessment = self::createNewAssessment();
+            return [
+                'state'     => 'new',
+                'page'      => $newAssessment->page ?? 0,
+                'web_page'  => $newAssessment->web_page ?? 0,
+                'app_page'  => $newAssessment->app_page ?? 0,
+            ];
         }
     }
 

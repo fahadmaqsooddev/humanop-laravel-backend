@@ -105,6 +105,7 @@ class AssessmentController extends Controller
             $latestAssessment = Assessment::getLatestAssessment($userId);
 
             $assessmentCount = Assessment::getAllAssessmentCount($userId);
+            $assessment_price = StripeSetting::getSingle();
 
             $baseResponse = [
                 'latest_assessment_id' => $latestAssessment->id ?? null,
@@ -116,7 +117,9 @@ class AssessmentController extends Controller
             if (!empty($latestAssessment) && $latestAssessment->reset_assessment == 1) {
 
                 return Helpers::successResponse('Reset Assessment', array_merge($baseResponse, [
-                    'assessment_page_number' => $status == 0 ? true : $status,
+                    'assessment_page_number' => $status['page'] == 0 ? true : $status['page'],
+                    'web_page_number' => $status['web_page'] == 0 ? true : $status['web_page'],
+                    'app_page_number' => $status['app_page'] == 0 ? true : $status['app_page'],
                     'retake_assessment' => null,
                     'reset_assessment' => true,
                 ]));
@@ -125,14 +128,23 @@ class AssessmentController extends Controller
 
             if ($user->plan_name !== 'Freemium') {
 
-                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
-
+                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page', 'web_page', 'app_page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
+                $price = optional($assessment_price)->amount ?? 0;
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'assessment_page_number' => $assessment->page,
+                    'web_page_number' => $assessment->web_page,
+                    'app_page_number' => $assessment->app_page,
                     'reset_assessment' => false,
                     'latest_assessment_id' => $assessment->id ?? null,
                     'latest_assessment_at' => $assessment->updated_at ?? null,
+                    'assessment_price' => max($price - 1, 0),
                     'assessment_count' => $assessmentCount,
+                    'user' => [
+                        'last_four_digits' => $user['pm_last_four'],
+                        'exp_month' => $user['pm_exp_month'],
+                        'exp_year' => $user['pm_exp_year'],
+                        'name' => $user['card_name'],
+                    ],
                     'plan_name' => $user->plan_name,
                 ]));
 
@@ -158,7 +170,9 @@ class AssessmentController extends Controller
                             'retake_assessment' => $remainingDays,
                             'current_time' => $currentTime,
                             'difference_time' => $difference,
-                            'assessment_page_number' => $status,
+                            'assessment_page_number' => $status['page'] ?? 0,
+                            'web_page_number' => $status['web_page'] ?? 0,
+                            'app_page_number' => $status['app_page'] ?? 0,
                             'reset_assessment' => false,
                         ])
                     );
@@ -168,13 +182,17 @@ class AssessmentController extends Controller
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'retake_assessment' => null,
                     'assessment_page_number' => null,
+                    'web_page_number' => null,
+                    'app_page_number' => null,
                     'reset_assessment' => true,
                 ]));
 
             }
 
             return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
-                'assessment_page_number' => $status,
+                'assessment_page_number' => $status['page'],
+                'web_page_number' => $status['web_page'],
+                'app_page_number' => $status['app_page'],
                 'reset_assessment' => false,
             ]));
 
@@ -227,7 +245,7 @@ class AssessmentController extends Controller
 
             $perPage=1;
 
-            $questions = Question::paginatedQuestions($perPage, $this->user);
+            $questions = Question::paginatedQuestionsv4($perPage, $this->user);
             return Helpers::successResponse('Questions', $questions, true);
 
         } catch (\Exception $exception) {

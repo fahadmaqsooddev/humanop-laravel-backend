@@ -300,7 +300,7 @@ class MessageThread extends Model
 
     public static function getMyMessageThread($request = null, $userId = null)
     {
-
+        
         $q = self::query()
             ->where('owner_id', $userId)
             ->orWhereHas('participants', function ($q) use ($userId) {
@@ -319,20 +319,34 @@ class MessageThread extends Model
     public static function getAllDirectMessageThread($request = null, $userId = null)
     {
 
+        $type = $request?->query('type');
+
         $q = self::query()
-            ->with('participants')
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy',
+            ->select([
+                'id',
+                'type',
+                'name',
+                'owner_id',
+                'sender_id',
+                'receiver_id',
+                'updated_at',
+                'group_icon_id',
+                'thread_privacy',
             ])
-            ->where(function ($query) use ($userId, $request) {
+
+            ->when($type != 0, function ($query) {
+                $query->with('participants');
+            })
+
+            ->where(function ($query) use ($userId, $type) {
                 $query->where(function ($sub) use ($userId) {
                     $sub->where('sender_id', $userId)
                         ->orWhere('receiver_id', $userId);
-                });
+                })
 
-                // Apply type condition inside same grouped scope
-                if (!empty($request) && $request->filled('type')) {
-                    $query->where('type', (int) $request->query('type'));
-                }
+                    ->when(!is_null($type), function ($q) use ($type) {
+                        $q->where('type', (int) $type);
+                    });
             });
 
         return Helpers::pagination(

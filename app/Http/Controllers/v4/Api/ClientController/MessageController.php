@@ -140,7 +140,6 @@ class MessageController extends Controller
                 ->with(['sender:id,first_name,last_name,image_id'])
                 ->paginate(50);
 
-            // Modify messages: set default sender if missing
             $messages->getCollection()->transform(function ($message) {
                 $sender = $message->sender;
                 if (empty($message->sender_id) || !$message->sender) {

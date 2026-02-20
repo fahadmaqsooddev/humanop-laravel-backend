@@ -144,10 +144,11 @@ class AssessmentService
     private static function calculatePages($assessment): array
     {
 
-        $page = $assessment->page + 1;
-        $currentPage = $page;
-        $appPage = $page;
-        $webPage = $page;
+
+        $appPage = $assessment->app_page + 1;
+        $currentPage=$appPage;
+        $webPage = $appPage;
+        $page=$webPage = (int) floor($appPage / 3);
         return [$page,$currentPage,$webPage,$appPage];
     }
 
@@ -201,7 +202,7 @@ class AssessmentService
     private static function handleIntermediatePage($assessment, int $currentPage, int $webPage, int $appPage, array $result): string
     {
         $result['page'] = $webPage;
-        $result['web_page'] = $webPage;
+        $result['web_page'] = $appPage;
         $result['app_page'] = $appPage;
 
         $assessment->update($result);
