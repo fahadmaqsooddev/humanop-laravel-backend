@@ -142,9 +142,9 @@ class MessageThread extends Model
             return null;
         }
 
-        // ✅ Use already eager-loaded relations instead of manual DB queries
-        $latest = $this->lastMessage; // lastMessage relation
-        $unread = $this->unread_messages_count ?? 0; // withCount
+        $latest = $this->lastMessage;
+        $unread = $this->unread_messages_count ?? 0;
+
 
         $user->latest_message        = $latest->message ?? null;
         $user->latest_message_time   = $latest->created_at ?? null;
@@ -152,31 +152,6 @@ class MessageThread extends Model
 
         return $user;
     }
-
-
-
-    public function latestMessage()
-    {
-
-        return DB::table('messages')
-            ->where('message_thread_id', $this->id)
-            ->orderByDesc('id')
-            ->select('message', 'created_at')
-            ->first();
-    }
-
-    public function unreadMessageCount()
-    {
-        $authId = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-        return DB::table('messages')
-            ->where('message_thread_id', $this->id)
-            ->where('sender_id', '!=', $authId)
-            ->where('is_read', 0)
-            ->count();
-    }
-
-
-
 
     // query
     public static function chats($name = null)
@@ -291,10 +266,26 @@ class MessageThread extends Model
     public static function getAllMessageThread($request = null)
     {
 
+
         $q = self::query()
             ->whereNotNull('owner_id')
-            ->with('participants')
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
+            ->with([
+                'participants',
+                'sender:id,first_name,last_name,image_id',
+                'receiver:id,first_name,last_name,image_id',
+                'lastMessage:id,message_thread_id,message,created_at',
+            ])
+            ->select([
+                'id',
+                'type',
+                'name',
+                'owner_id',
+                'sender_id',
+                'receiver_id',
+                'updated_at',
+                'group_icon_id',
+                'thread_privacy'
+            ]);
 
         if ($request->filled('type')) {
             $q->where('type', (int)$request->query('type'));
@@ -312,8 +303,18 @@ class MessageThread extends Model
             ->orWhereHas('participants', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
-
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy'])
+            ->with([
+                'lastMessage:id,message_thread_id,message,created_at',
+                'sender:id,first_name,last_name,image_id',
+                'receiver:id,first_name,last_name,image_id',
+            ])
+            ->withCount([
+                'messages as unread_messages_count' => function ($q) use ($userId) {
+                    $q->where('sender_id', '!=', $userId)
+                        ->where('is_read', 0);
+                }
+            ]);
         if ($request->filled('type')) {
             $q->where('type', (int)$request->query('type'));
         }
@@ -324,7 +325,9 @@ class MessageThread extends Model
 
     public static function getAllDirectMessageThread($request = null, $userId = null)
     {
+
         $type   = $request?->query('type');
+
         $authId = $userId;
 
         $q = self::query()
@@ -340,7 +343,9 @@ class MessageThread extends Model
                 'thread_privacy',
             ])
             ->with([
-                'lastMessage:id,message_thread_id,message,created_at'
+                'lastMessage:id,message_thread_id,message,created_at',
+                'sender:id,first_name,last_name,image_id',
+                'receiver:id,first_name,last_name,image_id',
             ])
             ->withCount([
                 'messages as unread_messages_count' => function ($q) use ($authId) {
@@ -348,6 +353,7 @@ class MessageThread extends Model
                         ->where('is_read', 0);
                 }
             ])
+
             ->when($type != 0, function ($query) {
                 $query->with('participants:id,first_name,last_name,image_id');
             })

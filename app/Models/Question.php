@@ -242,7 +242,9 @@ class Question extends Model
                 $tempArray[] = $subQuestion;
             }
 
-            $final_questions[] = $tempArray[array_rand($tempArray)];
+            if (!empty($tempArray)) {
+                $final_questions[] = $tempArray[array_rand($tempArray)];
+            }
         }
 
         // Return Single Object Instead of Array
