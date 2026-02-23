@@ -2,15 +2,15 @@
 
 if (env('APP_ENV') == 'local') {
     return [
-        'auth_key'=>'os_v2_app_3cmvptfgofe33gpiqvkbd46v6ny4liblmsjuw64iybt6swb442mmwme56nbjtmvvxbsyetobvqbkhr2hdop2oknoifulmiz7ebnkgfa',
-        'app_id'=>'d89957cc-a671-49bd-99e8-855411f3d5f3',
+        'auth_key'=>'os_v2_app_g7zrfudfmnhijo7ycfgdicvoymdn3sadqjhulefefy76v4vk5eyzbf3y6et2k7kmp4fc5n3gv3jqiitigt5pf7sm7wduskawllmgfnq',
+        'app_id'=>'37f312d0-6563-4e84-bbf8-114c340aaec3',
 
     ];
 } elseif (env('APP_ENV') == 'development') {
     return [
 
-        'auth_key'=>'os_v2_app_5ghm3f2cbzcrjfyo4dvxnww24gpeqtodqpnunxniznfd5flt73fb2pzznehmxlwdvhzsqrjmd3w3f23dtmvmzuutgxh62m5uw7hrvza',
-        'app_id'=>'e98ecd97-420e-4514-970e-e0eb76dadae1',
+        'auth_key'=>'os_v2_app_g7zrfudfmnhijo7ycfgdicvoymdn3sadqjhulefefy76v4vk5eyzbf3y6et2k7kmp4fc5n3gv3jqiitigt5pf7sm7wduskawllmgfnq',
+        'app_id'=>'37f312d0-6563-4e84-bbf8-114c340aaec3',
     ];
 } elseif (env('APP_ENV') == 'staging') {
     return [
