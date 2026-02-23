@@ -48,6 +48,7 @@ use App\Models\UserInvite\UserInviteLog;
 use App\Services\AwsSnsServices\SnsServices;
 use App\Services\FreemiumEnrollmentService;
 use App\Services\GoHighLevelService;
+use App\Services\OneSignalServices\OneSignalService;
 use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
@@ -145,6 +146,8 @@ class AuthController extends Controller
                         $request['ref']  // referral code / source
                     );
                 }
+
+                OneSignalService::createClient($user->id, $user->email);
 
                 // Safety: make sure createFirstStep actually returned a persisted Eloquent model
                 if (!($user instanceof User) || empty($user->id)) {
