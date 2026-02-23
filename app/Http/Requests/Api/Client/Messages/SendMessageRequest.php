@@ -41,9 +41,9 @@ class SendMessageRequest extends FormRequest
             'message.required' => 'Please enter a message before sending.',
             'message.string' => 'The message must be a valid text string.',
             'message.max' => 'The message may not be greater than 1000 characters.',
-            'upload_file.file' => 'The upload file must be a file.',
-            'upload_file.mimes' => 'The upload file must be a file.',
-            'upload_file.max' => 'The upload file is too large.',
+            'upload_file.file' => 'The upload file must be a valid file.',
+            'upload_file.mimes' => 'The upload file must be a PNG, JPG, JPEG, or GIF image.',
+            'upload_file.max' => 'The upload file may not be greater than 200MB.',
         ];
     }
 
