@@ -292,7 +292,7 @@ final class Admin
 
     const ELECTROMAGNETIC_REPULSION = "ELECTROMAGNETIC_REPULSION";
 
-    const ASSESSMENT_GIVEN = "first-assessment-completed";
+    const ASSESSMENT_GIVEN = "assessment-completed";
 
     const NEW_USER = "new-freemium-users";
 
