@@ -129,7 +129,9 @@ class MessageController extends Controller
 
     public function allMessages(Request $request)
     {
+
         $messageThread = MessageThread::findOrFail($request->thread_id);
+
         $this->authorize('view', $messageThread);
 
         try {
@@ -151,7 +153,6 @@ class MessageController extends Controller
                     ];
                 }
 
-                // Ensure the sender is included when converting to JSON
                 $message->setRelation('sender', collect($message->sender));
 
                 return $message;

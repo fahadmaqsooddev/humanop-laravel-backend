@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class MessageThread extends Model
 {
@@ -127,17 +128,11 @@ class MessageThread extends Model
     // appends
     public function getUserDataAttribute()
     {
-
         if ($this->sender_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)) {
-
             return $this->receiver()->select('id', 'first_name', 'last_name', 'image_id')->first();
-
-        } else if ($this->receiver_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)) {
-
+        }else if ($this->receiver_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)) {
             return $this->sender()->select('id', 'first_name', 'last_name', 'image_id')->first();
-
         } else {
-
             return null;
         }
 
@@ -280,9 +275,11 @@ class MessageThread extends Model
             })
             ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
 
+
         if ($request->filled('type')) {
             $q->where('type', (int)$request->query('type'));
         }
+
 
         return Helpers::pagination($q->orderByDesc('id'), $request['pagination'], $request['per_page']);
 
@@ -296,6 +293,7 @@ class MessageThread extends Model
             ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy',
             ])
             ->where(function ($query) use ($userId, $request) {
+
                 $query->where(function ($sub) use ($userId) {
                     $sub->where('sender_id', $userId)
                         ->orWhere('receiver_id', $userId);
@@ -305,6 +303,7 @@ class MessageThread extends Model
                 if (!empty($request) && $request->filled('type')) {
                     $query->where('type', (int) $request->query('type'));
                 }
+
             });
 
         return Helpers::pagination(

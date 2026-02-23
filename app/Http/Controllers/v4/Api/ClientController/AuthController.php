@@ -647,11 +647,11 @@ class AuthController extends Controller
 
             if (!empty($user['register_from_app'])) {
 
-                $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
+                $baseUrl = config('client_url.client_dashboard_url_v4') . '/email-verified?token=' . $updateProfile['email_verify_token'];
 
             } else {
 
-                $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
+                $baseUrl = config('client_url.client_dashboard_url_v4') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
             }
 
             $template = EmailTemplate::getEmailTemplateByTag(Admin::VERIFIED_EMAIL);

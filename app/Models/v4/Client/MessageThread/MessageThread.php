@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class MessageThread extends Model
 {
@@ -126,22 +127,31 @@ class MessageThread extends Model
     // appends
     public function getUserDataAttribute()
     {
+        $authId = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
 
-        if ($this->sender_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)) {
-
-            return $this->receiver()->select('id', 'first_name', 'last_name', 'image_id')->first();
-
-        } else if ($this->receiver_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)) {
-
-            return $this->sender()->select('id', 'first_name', 'last_name', 'image_id')->first();
-
+        // Determine the other user in the thread
+        if ($this->sender_id === $authId) {
+            $user = $this->receiver;
+        } elseif ($this->receiver_id === $authId) {
+            $user = $this->sender;
         } else {
-
             return null;
         }
 
-    }
+        if (!$user) {
+            return null;
+        }
 
+        $latest = $this->lastMessage;
+        $unread = $this->unread_messages_count ?? 0;
+
+
+        $user->latest_message        = $latest->message ?? null;
+        $user->latest_message_time   = $latest->created_at ?? null;
+        $user->unread_messages_count = $unread;
+
+        return $user;
+    }
 
     // query
     public static function chats($name = null)
@@ -256,10 +266,26 @@ class MessageThread extends Model
     public static function getAllMessageThread($request = null)
     {
 
+
         $q = self::query()
             ->whereNotNull('owner_id')
-            ->with('participants')
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
+            ->with([
+                'participants',
+                'sender:id,first_name,last_name,image_id',
+                'receiver:id,first_name,last_name,image_id',
+                'lastMessage:id,message_thread_id,message,created_at',
+            ])
+            ->select([
+                'id',
+                'type',
+                'name',
+                'owner_id',
+                'sender_id',
+                'receiver_id',
+                'updated_at',
+                'group_icon_id',
+                'thread_privacy'
+            ]);
 
         if ($request->filled('type')) {
             $q->where('type', (int)$request->query('type'));
@@ -277,8 +303,18 @@ class MessageThread extends Model
             ->orWhereHas('participants', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy']);
-
+            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy'])
+            ->with([
+                'lastMessage:id,message_thread_id,message,created_at',
+                'sender:id,first_name,last_name,image_id',
+                'receiver:id,first_name,last_name,image_id',
+            ])
+            ->withCount([
+                'messages as unread_messages_count' => function ($q) use ($userId) {
+                    $q->where('sender_id', '!=', $userId)
+                        ->where('is_read', 0);
+                }
+            ]);
         if ($request->filled('type')) {
             $q->where('type', (int)$request->query('type'));
         }
@@ -290,20 +326,47 @@ class MessageThread extends Model
     public static function getAllDirectMessageThread($request = null, $userId = null)
     {
 
+        $type   = $request?->query('type');
+
+        $authId = $userId;
+
         $q = self::query()
-            ->with('participants')
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy',
+            ->select([
+                'id',
+                'type',
+                'name',
+                'owner_id',
+                'sender_id',
+                'receiver_id',
+                'updated_at',
+                'group_icon_id',
+                'thread_privacy',
             ])
-            ->where(function ($query) use ($userId, $request) {
+            ->with([
+                'lastMessage:id,message_thread_id,message,created_at',
+                'sender:id,first_name,last_name,image_id',
+                'receiver:id,first_name,last_name,image_id',
+            ])
+            ->withCount([
+                'messages as unread_messages_count' => function ($q) use ($authId) {
+                    $q->where('sender_id', '!=', $authId)
+                        ->where('is_read', 0);
+                }
+            ])
+
+            ->when(!is_null($type) && (int)$type !== 0, function ($query) {
+                $query->with('participants:id,first_name,last_name,image_id');
+            })
+
+            ->where(function ($query) use ($userId, $type) {
                 $query->where(function ($sub) use ($userId) {
                     $sub->where('sender_id', $userId)
                         ->orWhere('receiver_id', $userId);
-                });
+                })
 
-                // Apply type condition inside same grouped scope
-                if (!empty($request) && $request->filled('type')) {
-                    $query->where('type', (int) $request->query('type'));
-                }
+                    ->when(!is_null($type), function ($q) use ($type) {
+                        $q->where('type', (int) $type);
+                    });
             });
 
         return Helpers::pagination(
@@ -312,6 +375,7 @@ class MessageThread extends Model
             $request['per_page'] ?? null
         );
     }
+
     public static function createGroup($request = null, $ownerId = null)
     {
 

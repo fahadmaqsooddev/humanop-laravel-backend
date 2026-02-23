@@ -129,7 +129,10 @@ class MessageController extends Controller
 
     public function allMessages(Request $request)
     {
+
+
         $messageThread = MessageThread::findOrFail($request->thread_id);
+
         $this->authorize('view', $messageThread);
 
         try {
@@ -137,8 +140,8 @@ class MessageController extends Controller
                 ->with(['sender:id,first_name,last_name,image_id'])
                 ->paginate(50);
 
-            // Modify messages: set default sender if missing
             $messages->getCollection()->transform(function ($message) {
+
                 if (empty($message->sender_id) || !$message->sender) {
                     $message->sender_id = '001';
                     $message->sender = (object)[
@@ -151,8 +154,7 @@ class MessageController extends Controller
                     ];
                 }
 
-                // Ensure the sender is included when converting to JSON
-                $message->setRelation('sender', collect($message->sender));
+                $message->setRelation('sender', $message->sender);
 
                 return $message;
             });

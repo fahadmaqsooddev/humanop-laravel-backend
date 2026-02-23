@@ -24,7 +24,7 @@ use App\Models\v4\Client\PurchasedItems;
 use App\Models\Question;
 use App\Models\User;
 use App\Models\Videos\VideoProgress;
-use App\Services\Assessment\AssessmentService;
+use App\Services\v4\Assessment\AssessmentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -231,41 +231,21 @@ class AssessmentController extends Controller
 
             $assessment = Assessment::Where('user_id', $this->user->id)->latest()->first();
 
-
             if (!$assessment) {
                 return Helpers::validationResponse('Assessment not found');
             }
 
-            $assessmentFromApp = filter_var(
-                $request->input('assessment_from_app'),
-                FILTER_VALIDATE_BOOLEAN
-            );
-
             $requestedPage = (int)$request->input('page');
 
-            if ($assessmentFromApp) {
+            $expectedPage = $assessment->app_page + 1;
 
-                $expectedPage = $assessment->app_page + 1;
-                if ($expectedPage !== $requestedPage) {
-                    return Helpers::validationResponse('Invalid page number');
-                }
-
-                $perPage = 1;
-
-            } else {
-
-                $expectedWebPage = $assessment->web_page + 1;
-                if ($requestedPage !== $expectedWebPage) {
-                    return Helpers::validationResponse('Invalid page number');
-                }
-
-                $perPage = 3;
+            if ($expectedPage !== $requestedPage) {
+                return Helpers::validationResponse('Invalid page number');
             }
 
+            $perPage=1;
 
-//            dd($this->user);
-
-            $questions = Question::paginatedQuestions($perPage, $this->user);
+            $questions = Question::paginatedQuestionsv4($perPage, $this->user);
             return Helpers::successResponse('Questions', $questions, true);
 
         } catch (\Exception $exception) {
@@ -280,11 +260,8 @@ class AssessmentController extends Controller
 
         try {
 
-            $assessmentFromApp = $request->boolean('assessment_from_app', false);
-
             $message = AssessmentService::submitAnswers(
                 answerIds: $request->input('answer_ids'),
-                assessmentFromApp: $assessmentFromApp
             );
 
             return Helpers::successResponse($message);

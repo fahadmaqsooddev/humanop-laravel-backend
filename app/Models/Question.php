@@ -187,6 +187,73 @@ class Question extends Model
 
     }
 
+
+
+
+    //For version 4
+    public static function paginatedQuestionsv4($perPage = 1, $user)
+    {
+        $userGender = (int) $user->getRawOriginal('gender');
+
+        $assessmentID = Assessment::where('user_id', $user->id)
+            ->latest()
+            ->value('id');
+
+        $questions = self::whereIn('gender', [$userGender, 2])
+            ->whereNull('question_id')
+            ->where('active', 1)
+            ->with(['subQuestionsForApi.answers', 'answers'])
+            ->orderBy('id', 'ASC')
+            ->paginate($perPage)
+            ->toArray();
+
+        $userAssessmentAnswerIds = AssessmentDetail::where('user_id', $user->id)
+            ->where('assessment_id', $assessmentID)
+            ->pluck('answer_id', 'question_id')
+            ->toArray();
+
+        $final_questions = [];
+
+        foreach ($questions['data'] as $question) {
+
+            $tempArray = [];
+
+            $subQuestions = $question['sub_questions_for_api'] ?? [];
+            unset($question['sub_questions_for_api']);
+
+            // Main Question Answers
+            foreach ($question['answers'] as &$answer) {
+                $answer['solved'] = isset($userAssessmentAnswerIds[$question['id']]) &&
+                    $userAssessmentAnswerIds[$question['id']] == $answer['id'];
+            }
+            unset($answer);
+
+            $tempArray[] = $question;
+
+            // Sub Questions
+            foreach ($subQuestions as $subQuestion) {
+
+                foreach ($subQuestion['answers'] as &$subAnswer) {
+                    $subAnswer['solved'] = isset($userAssessmentAnswerIds[$subQuestion['id']]) &&
+                        $userAssessmentAnswerIds[$subQuestion['id']] == $subAnswer['id'];
+                }
+                unset($subAnswer);
+
+                $tempArray[] = $subQuestion;
+            }
+
+            if (!empty($tempArray)) {
+                $final_questions[] = $tempArray[array_rand($tempArray)];
+            }
+        }
+
+        // Return Single Object Instead of Array
+        $questions['data'] = isset($final_questions[0])
+            ? $final_questions[0]
+            : null;
+
+        return $questions;
+    }
     public function scopeRootQuestions($q)
     {
         return $q->whereNull('question_id');

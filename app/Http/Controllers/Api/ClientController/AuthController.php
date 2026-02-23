@@ -198,7 +198,7 @@ class AuthController extends Controller
                     }
                 }
 
-                // Build email verification URL
+
                 if (!empty($request['register_from_app'])) {
                     $verifyUrl = config('client_url.client_dashboard_url') .
                         '/email-verified?token=' . $user['email_verify_token'];
@@ -207,7 +207,6 @@ class AuthController extends Controller
                         '/email-verified?token=' . $user['email_verify_token'] .
                         '&app=azklmwosdf';
                 }
-
                 // Strip any appended accessors so we don't leak internals
                 $user->setAppends([]);
 

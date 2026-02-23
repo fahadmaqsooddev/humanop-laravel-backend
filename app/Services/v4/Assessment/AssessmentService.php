@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Assessment;
+namespace App\Services\v4\Assessment;
 
 use App\Enums\Admin\Admin;
 use App\Events\Assessment\SubmitAssessment;
@@ -15,21 +15,22 @@ use App\Models\AnswerCode;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\AssessmentDetail;
-use App\Models\Client\Dashboard\ActionPlan;
-use App\Models\Client\Gamification\GamificationBadgesAchievement;
-use App\Models\Client\HumanOpPoints\HumanOpPoints;
+use App\Models\v4\Client\Dashboard\ActionPlan;
+use App\Models\v4\Client\Gamification\GamificationBadgesAchievement;
+use App\Models\v4\Client\HumanOpPoints\HumanOpPoints;
 use App\Models\Question;
 use Carbon\Carbon;
 use App\Services\GeoService;
 use Illuminate\Support\Facades\Cache;
 use App\Models\HotSpotUser;
 use App\Services\GoHighLevelService;
+use Illuminate\Support\Facades\Log;
 
 
 class AssessmentService
 {
 
-    public static function submitAnswers(array $answerIds,bool $assessmentFromApp = false): string
+    public static function submitAnswers(array $answerIds): string
     {
         $user = Helpers::getUser();
         $userId = $user->id;
@@ -43,7 +44,7 @@ class AssessmentService
             return 'Assessment not found';
         }
 
-        $message = self::updateAssessmentWithScores($assessment, $finalScores, $user,$assessmentFromApp);
+        $message = self::updateAssessmentWithScores($assessment, $finalScores, $user);
         self::storeAssessmentDetails($answerIds, $assessment, $userId);
 
         return $message;
@@ -95,7 +96,7 @@ class AssessmentService
         return [$singleScores, $multiScores];
     }
 
-    private static function updateAssessmentWithScores($assessment, array $scores, $user, bool $assessmentFromApp = false): string
+    private static function updateAssessmentWithScores($assessment, array $scores, $user): string
     {
         $result = self::calculateUpdatedScores($assessment, $scores);
 
@@ -103,13 +104,12 @@ class AssessmentService
 
         $questionCount = self::getApplicableQuestionCount($userGender);
 
-        [$webPage,$appPage,$currentPage] = self::calculatePages($assessment, $assessmentFromApp, $questionCount);
+        [$page,$currentPage,$webPage,$appPage] = self::calculatePages($assessment);
 
-        $totalPages = $assessmentFromApp ? $questionCount : ceil($questionCount / 3);
-
-        if ($currentPage >= $totalPages) {
+        if ($currentPage >= $questionCount) {
             return self::handleFinalPage($assessment, $user, $result);
         } else {
+
             return self::handleIntermediatePage($assessment, $currentPage, $webPage, $appPage, $result);
         }
     }
@@ -143,19 +143,17 @@ class AssessmentService
     /**
      * Calculate the web and app pages based on current assessment state.
      */
-    private static function calculatePages($assessment, bool $assessmentFromApp, int $questionCount): array
+    private static function calculatePages($assessment): array
     {
-        if ($assessmentFromApp) {
-            $appPage = $assessment->app_page + 1;
-            $currentPage = $appPage;
-            $webPage = (int) floor($appPage / 3);
-        } else {
-            $webPage = $assessment->web_page + 1;
-            $currentPage = $webPage;
-            $appPage = (($webPage - 1) * 3) + 3;
-        }
 
-        return [$webPage, $appPage,$currentPage];
+
+        $appPage = $assessment->app_page + 1;
+
+        $webPage = (int) floor($appPage / 3);
+        $currentPage = $appPage;
+        $page = $webPage;
+
+        return [$page, $currentPage, $webPage, $appPage];
     }
 
     /**
@@ -207,13 +205,14 @@ class AssessmentService
      */
     private static function handleIntermediatePage($assessment, int $currentPage, int $webPage, int $appPage, array $result): string
     {
+
         $result['page'] = $webPage;
-        $result['web_page'] = $webPage;
+        $result['web_page'] = $currentPage;
         $result['app_page'] = $appPage;
 
         $assessment->update($result);
 
-        event(new SubmitAssessment($assessment->user_id, $currentPage + 1));
+        event(new SubmitAssessment($assessment->user_id, $appPage + 1));
 
         self::updateAssessmentColorCodes($assessment);
 
@@ -254,9 +253,9 @@ class AssessmentService
         $tip = UserDailyTip::getLatestTip();
 
         if (!$tip) {
-            $alchemy = Assessment::getAlchemy($assessment);
+            $alchemy       = Assessment::getAlchemy($assessment);
             $communication = Assessment::getEnergy($assessment);
-            $color = AssessmentColorCode::getGreenCodes($assessment->id);
+            $color         = AssessmentColorCode::getGreenCodes($assessment->id);
 
             $selected = array_filter([
                 $color['code'] ?? null,
@@ -264,25 +263,26 @@ class AssessmentService
                 $communication[0] ?? null
             ]);
 
-            $randomCode = $selected[array_rand($selected)];
-            $newTip = DailyTip::getSameCodeTips($randomCode);
+            // ✅ Fix: Only pick random code if $selected is not empty
+            if (!empty($selected)) {
+                $randomCode = $selected[array_rand($selected)];
+                $newTip     = DailyTip::getSameCodeTips($randomCode);
 
-            if ($newTip) {
-                $latestTip = UserDailyTip::where('user_id', $user->id)
-                    ->where('daily_tip_id', $newTip->id)
-                    ->latest()
-                    ->first();
+                if ($newTip) {
+                    $latestTip = UserDailyTip::where('user_id', $user->id)
+                        ->where('daily_tip_id', $newTip->id)
+                        ->latest()
+                        ->first();
 
-                $alreadyExists = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
+                    $alreadyExists = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
 
-                if (!$alreadyExists) {
+                    if (!$alreadyExists) {
+                        UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
 
-                    UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
+                        event(new NewDailyTip($user->id, 'new daily tip', 'Your New Daily Tip'));
 
-                    event(new NewDailyTip($user->id, 'new daily tip', 'Your New Daily Tip'));
-
-                    ActivityLogger::addLog('new daily tip', "Your New Daily Tip");
-
+                        ActivityLogger::addLog('new daily tip', "Your New Daily Tip");
+                    }
                 }
             }
         }
@@ -294,7 +294,7 @@ class AssessmentService
 
     private static function storeAssessmentDetails(array $answerIds, $assessment, $userId): void
     {
-        // Normalize incoming IDs
+
         $flatIds = collect($answerIds)
             ->flatten()
             ->unique()
@@ -305,7 +305,6 @@ class AssessmentService
             return;
         }
 
-        // Fetch answers matching either 'id' or 'answer_id'
         $answers = Answer::with('question')
             ->where(function ($query) use ($flatIds) {
                 $query->whereIn('id', $flatIds)
