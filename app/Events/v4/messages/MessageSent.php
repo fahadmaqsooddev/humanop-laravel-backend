@@ -34,7 +34,7 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
             ] : null,
             'message_text' => $message->message,
             'upload_url' => $message->upload_url,
-            'created_at' => $message->created_at?->toISOString(),
+            'created_at' => $message->created_at,
         ];
     }
 
