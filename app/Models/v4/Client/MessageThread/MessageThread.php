@@ -354,7 +354,7 @@ class MessageThread extends Model
                 }
             ])
 
-            ->when($type != 0, function ($query) {
+            ->when(!is_null($type) && (int)$type !== 0, function ($query) {
                 $query->with('participants:id,first_name,last_name,image_id');
             })
 
