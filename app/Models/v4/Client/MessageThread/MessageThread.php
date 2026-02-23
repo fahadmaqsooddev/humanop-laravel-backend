@@ -346,6 +346,7 @@ class MessageThread extends Model
                 'lastMessage:id,message_thread_id,message,created_at',
                 'sender:id,first_name,last_name,image_id',
                 'receiver:id,first_name,last_name,image_id',
+                'participants',
             ])
             ->withCount([
                 'messages as unread_messages_count' => function ($q) use ($authId) {
@@ -353,11 +354,6 @@ class MessageThread extends Model
                         ->where('is_read', 0);
                 }
             ])
-
-            ->when(!is_null($type) && (int)$type !== 0, function ($query) {
-                $query->with('participants:id,first_name,last_name,image_id');
-            })
-
             ->where(function ($query) use ($userId, $type) {
                 $query->where(function ($sub) use ($userId) {
                     $sub->where('sender_id', $userId)
