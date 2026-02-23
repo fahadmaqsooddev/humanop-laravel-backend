@@ -46,4 +46,6 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('plans', 'BillingController@plans');
 
+    Route::post('subscription-from-app', 'BillingController@subscriptionFromApp');
+
 });
