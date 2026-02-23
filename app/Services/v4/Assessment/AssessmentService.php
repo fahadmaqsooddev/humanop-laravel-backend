@@ -183,9 +183,21 @@ class AssessmentService
 
         $ghl = app(GoHighLevelService::class);
 
-        $ghl->syncContactWithTags($user, Admin::ASSESSMENT_GIVEN);
+        $assessmentCount = Assessment::where('user_id', $user->id)->count();
 
-        if (Assessment::where('user_id', $user->id)->count() == 1) {
+        $suffix = match(true) {
+            $assessmentCount % 100 >= 11 && $assessmentCount % 100 <= 13 => 'th',
+            $assessmentCount % 10 == 1 => 'st',
+            $assessmentCount % 10 == 2 => 'nd',
+            $assessmentCount % 10 == 3 => 'rd',
+            default => 'th'
+        };
+
+        $tag = "{$assessmentCount}{$suffix}-" . Admin::ASSESSMENT_GIVEN;
+
+        $ghl->syncContactWithTags($user, $tag);
+
+        if ($assessmentCount == 1) {
             ActivityLogger::addLog(
                 'Assessment Completed',
                 "Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free."
