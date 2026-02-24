@@ -26,7 +26,7 @@ class OneSignalService
     {
 
         return [
-            'Authorization' => 'Key ' . config('oneSignal.auth_key'),
+            'Authorization' => 'Key ' .  config('services.oneSignal.auth_key') ,
             'accept' => 'application/json',
             'content-type' => 'application/json',
         ];
@@ -39,7 +39,8 @@ class OneSignalService
         try {
 
             $response = self::client()->post(
-                "apps/" . config('oneSignal.app_id') . "/users",
+
+                "apps/" . config('services.oneSignal.app_id') . "/users",
                 [
                     'headers' => self::headers(),
                     'json' => [
@@ -68,7 +69,7 @@ class OneSignalService
         try {
 
             $payload = [
-                'app_id' => config('oneSignal.app_id'),
+                'app_id' => config('services.oneSignal.app_id'),
                 'headings' => ['en' => $heading],
                 'contents' => ['en' => $message],
             ];
@@ -76,6 +77,13 @@ class OneSignalService
             // =============================================
             // SEND TO ALL USERS
             // =============================================
+
+            if (!$sendToAll && !$userId) {
+
+                return false;
+
+            }
+
             if ($sendToAll) {
 
                 $payload['included_segments'] = ['All'];
@@ -91,7 +99,7 @@ class OneSignalService
             // =============================================
             // SEND TO SPECIFIC USER
             // =============================================
-            $response = self::client()->get("apps/" . config('oneSignal.app_id') . "/users/by/external_id/{$userId}",
+            $response = self::client()->get("apps/" . config('services.oneSignal.app_id') . "/users/by/external_id/{$userId}",
                 [
                     'headers' => self::headers()
                 ]

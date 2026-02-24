@@ -26,35 +26,30 @@ class OneSignalService
     {
 
         return [
-            'Authorization' => 'Key ' . config('oneSignal.auth_key'),
+            'Authorization' => 'Key ' . config('services.oneSignal.auth_key'),
             'accept' => 'application/json',
             'content-type' => 'application/json',
         ];
 
     }
 
-    public static function createClient(string $userId): ?array
+    public static function createClient(string $id, string $email): ?array
     {
 
         try {
 
             $response = self::client()->post(
 
-                "apps/" . config('oneSignal.app_id') . "/users",
-
+                "apps/" . config('services.oneSignal.app_id') . "/users",
                 [
-
                     'headers' => self::headers(),
-
                     'json' => [
                         'identity' => [
-                            'external_id' => $userId
+                            'external_id' => $id,
+                            'email' => $email,
                         ]
-
                     ]
-
                 ]
-
             );
 
             return json_decode($response->getBody()->getContents(), true);
@@ -69,19 +64,34 @@ class OneSignalService
 
     }
 
-    public static function sendNotification(?string $userId, string $heading, string $message, bool $sendToAll = false): bool
+    public static function sendNotification(?string $userId, string  $heading, string  $message, bool    $sendToAll = false): bool
     {
         try {
 
             $payload = [
-                'app_id' => config('oneSignal.app_id'),
+                'app_id' => config('services.oneSignal.app_id'),
                 'headings' => ['en' => $heading],
                 'contents' => ['en' => $message],
             ];
 
-            // =============================================
+            // ==================================================
+            // GUARD: Prevent invalid API call
+            // ==================================================
+            if (!$sendToAll && empty($userId)) {
+                Log::warning('OneSignal Send Notification: Missing userId.');
+                return false;
+            }
+
+            // ==================================================
             // SEND TO ALL USERS
-            // =============================================
+            // ==================================================
+
+            if (!$sendToAll && !$userId) {
+
+                return false;
+
+            }
+
             if ($sendToAll) {
 
                 $payload['included_segments'] = ['All'];
@@ -94,10 +104,11 @@ class OneSignalService
                 return true;
             }
 
-            // =============================================
+            // ==================================================
             // SEND TO SPECIFIC USER
-            // =============================================
-            $response = self::client()->get("apps/" . config('oneSignal.app_id') . "/users/by/external_id/{$userId}",
+            // ==================================================
+            $response = self::client()->get(
+                "apps/" . config('services.oneSignal.app_id') . "/users/by/external_id/{$userId}",
                 [
                     'headers' => self::headers()
                 ]
@@ -106,9 +117,7 @@ class OneSignalService
             $data = json_decode($response->getBody()->getContents(), true);
 
             if (empty($data['subscriptions'])) {
-
                 return false;
-
             }
 
             $badgeCount = Notification::notReadNotification()->count();
@@ -116,16 +125,13 @@ class OneSignalService
             foreach ($data['subscriptions'] as $subscription) {
 
                 $payload['include_player_ids'] = [$subscription['id']];
-
                 $payload['ios_badgeType'] = 'Set';
-
                 $payload['ios_badgeCount'] = $badgeCount;
 
                 self::client()->post('notifications?c=push', [
                     'headers' => self::headers(),
                     'json' => $payload
                 ]);
-
             }
 
             return true;
@@ -135,9 +141,6 @@ class OneSignalService
             Log::error('OneSignal Send Notification Error: ' . $e->getMessage());
 
             return false;
-
         }
-
     }
-
 }

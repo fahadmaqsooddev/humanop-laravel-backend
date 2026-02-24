@@ -7,21 +7,23 @@ use Illuminate\Console\Command;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
-class createClientsOnOneSignal extends Command
+class CreateClientsOnOneSignal extends Command
 {
 
-    protected $signature = 'create:createClientsOnOneSignal';
+    protected $signature = 'onesignal:create-clients';
 
     protected $description = 'this command is used for registering the user in OneSignal';
+
+    public function __construct(private OneSignalService $oneSignal) {}
 
     public function handle()
     {
 
-        foreach (User::all()->cursor() as $user) {
+        foreach (User::cursor() as $user) {
 
             try {
 
-                OneSignalService::createClient($user->id);
+                $this->oneSignal->createClient($user->id, $user->email);
 
             } catch (\Exception $e) {
 
