@@ -8,7 +8,6 @@ use App\Http\Requests\Api\Client\Notification\NotificationRequest;
 use App\Models\Admin\Notification\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\NotificationsRequest;
 
 class NotificationController extends Controller
 {
@@ -23,12 +22,12 @@ class NotificationController extends Controller
 
     }
 
-    public function notifications(NotificationsRequest $request)
+    public function notifications(Request $request)
     {
         try {
 
             $status = $request->input('status', null);
-            $pagination = $request->boolean('pagination');
+            $pagination = $request->input('pagination');
             $perPage = (int) $request->input('per_page', 10);
             $userId=$this->user->id;
             $notifications = Notification::allB2CNotification($status, $pagination, $perPage,$userId);
