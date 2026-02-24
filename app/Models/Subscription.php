@@ -264,4 +264,20 @@ class Subscription extends Model
         );
     }
 
+    public static function updateUserSubscription($userId, $purchaseId, $purchaseName)
+    {
+        $subscription = self::where('user_id', $userId)->first();
+
+        if (!$subscription) {
+            return false;
+        }
+
+        $subscription->update([
+            'purchase_id'   => $purchaseId,
+            'purchase_name' => $purchaseName,
+        ]);
+
+        return $subscription;
+    }
+
 }

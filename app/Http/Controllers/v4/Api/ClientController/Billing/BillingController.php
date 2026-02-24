@@ -17,13 +17,17 @@ use Illuminate\Support\Facades\DB;
 use App\Support\StripeConfig;
 use Laravel\Cashier\Subscription;
 use Stripe\StripeClient;
+use App\Models\Subscription as SubscriptionModel;
+use App\Http\Requests\SubscriptionFromAppRequest;
 
 class BillingController extends Controller
 {
 
+    public $user=null;
+
     public function __construct(private StripeClient $stripe, protected GoHighLevelService $ghl)
     {
-
+        $this->user=Helpers::getUser();
     }
 
     private function HAiCreditsUpdated($points, $user)
@@ -755,6 +759,23 @@ class BillingController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
+    }
+
+    public function syncAppSubscription(SubscriptionFromAppRequest $request)
+    {
+        $user_id = $this->user->id;
+
+        $subscription = SubscriptionModel::updateUserSubscription(
+            $user_id,
+            $request->purchase_id,
+            $request->purchase_name
+        );
+
+        if (!$subscription) {
+            return Helpers::notFoundResponse('Subscription record not found for this user');
+        }
+
+        return Helpers::successResponse('Subscription updated successfully');
     }
 
 }
