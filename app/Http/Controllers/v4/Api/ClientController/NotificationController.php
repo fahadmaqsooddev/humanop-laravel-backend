@@ -15,11 +15,15 @@ class NotificationController extends Controller
 
     protected $user;
 
+    public $userdata=null;
+
     public function __construct(User $user)
     {
         $this->middleware('auth:api');
 
         $this->user = $user;
+
+        $this->userdata=Helpers::getUser();
 
     }
 
@@ -27,10 +31,11 @@ class NotificationController extends Controller
     {
         try {
 
-            $status = $request->input('status', null);
-            $pagination = $request->input('pagination') === 'true';
+            $status     = $request->input('status', null);
+            $pagination = $request->boolean('pagination');
             $perPage = (int) $request->input('per_page', 10);
-            $notifications = Notification::allB2CNotification($status, $pagination, $perPage);
+            $userId=$this->userdata->id;
+            $notifications = Notification::allB2CNotification($status, $pagination, $perPage,$userId);
             return Helpers::successResponse('All Notification', $notifications, $pagination);
 
         } catch (\Exception $exception) {

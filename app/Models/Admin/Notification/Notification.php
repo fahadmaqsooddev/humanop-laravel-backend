@@ -27,15 +27,16 @@ class Notification extends Model
         return self::whereId($notificationId)->first();
     }
 
-    public static function allB2CNotification($status = null, $pagination = false, $perPage = null)
+    public static function allB2CNotification($status = null, $pagination = false, $perPage = null, $userId = null)
     {
-        $user = Helpers::getUser();
 
-        $query = self::where('user_id', $user['id'])
+        $userId = $userId ?? Helpers::getUser()->id;
+
+        $query = self::where('user_id', $userId)
             ->where('role', Admin::B2C_NOTIFICATION);
 
-        if ($status !== null && in_array($status, [0, 1])) {
-            $query->where('read', $status);
+        if ($status !== null) {
+            $query->where('read', (int) $status);
         }
 
         $query->orderBy('created_at', 'desc')
@@ -49,7 +50,6 @@ class Notification extends Model
                 'sender_id'
             ]);
 
-        // 👇 Call existing helper
         return Helpers::pagination($query, $pagination, $perPage);
     }
 
