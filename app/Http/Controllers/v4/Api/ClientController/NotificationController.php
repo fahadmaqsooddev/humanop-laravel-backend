@@ -31,7 +31,7 @@ class NotificationController extends Controller
     {
         try {
 
-            $status     = $request->input('status', null);
+            $status = $request->input('status', null);
             $pagination = $request->boolean('pagination');
             $perPage = (int) $request->input('per_page', 10);
             $userId=$this->userdata->id;
