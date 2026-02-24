@@ -138,66 +138,91 @@ class GoHighLevelService
         }
     }
 
-    public function syncContactWithTags($user, $tag)
+    public function syncContactWithTags($user, $tag): bool
     {
         try {
 
             $email = is_array($user) ? ($user['email'] ?? '') : ($user->email ?? '');
 
+            if (empty($email)) {
+
+                Log::warning('GHL Sync: Email is missing', compact('user'));
+
+                return false;
+
+            }
+
             $contactId = $this->getContactByEmail($email);
 
-            // ==================================================
-            // CONTACT EXISTS → UPDATE TAGS
-            // ==================================================
-            if (!empty($contactId)) {
+            if (empty($contactId)) {
 
-                $contact = $this->getContact($contactId);
+                $created = $this->createUser($user);
 
-                if (!$contact || !isset($contact['contact'])) {
+                $contactId = $created['contact']['id'] ?? null;
+
+                if (empty($contactId)) {
+
+                    Log::error('GHL Sync: Failed to create contact', compact('email'));
+
                     return false;
-                }
-
-                $existingTags = $contact['contact']['tags'] ?? [];
-
-                if (!in_array($tag, $existingTags)) {
-
-                    $existingTags[] = $tag;
 
                 }
 
-                $this->client->put("contacts/{$contactId}", [
+            }
 
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $this->token,
-                        'Version' => '2021-07-28',
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                    ],
+            $contact = $this->getContact($contactId);
 
-                    'json' => [
-                        'tags' => array_values($existingTags)
-                    ],
+            if (!isset($contact['contact'])) {
 
-                ]);
+                Log::error('GHL Sync: Contact not found after resolve', compact('contactId'));
+
+                return false;
+
+            }
+
+            $existingTags = $contact['contact']['tags'] ?? [];
+
+
+
+            if (in_array($tag, $existingTags, strict: true)) {
 
                 return true;
 
             }
 
-            // ==================================================
-            // CONTACT NOT EXISTS → CREATE
-            // ==================================================
+            $existingTags[] = $tag;
 
-            return $this->createUser($user);
+            $this->client->put("contacts/{$contactId}", [
+                'headers' => $this->getHeaders(),
+                'json' => ['tags' => array_values($existingTags)],
+            ]);
+
+            return true;
 
         } catch (\Exception $e) {
 
             Log::error('GHL Sync Contact Error', [
-                'error' => $e->getMessage()
+                'email' => $email ?? null,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return false;
+
         }
+
+    }
+
+    private function getHeaders(): array
+    {
+
+        return [
+            'Authorization' => 'Bearer ' . $this->token,
+            'Version' => '2021-07-28',
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ];
+
     }
 
 }
