@@ -20,7 +20,7 @@ class NotificationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'read' => 'nullable|in:0,1',
+            'status' => 'nullable|in:0,1',
             'pagination' => 'nullable|in:true,false',
             'per_page' => 'nullable|integer|min:1'
         ];
@@ -32,7 +32,7 @@ class NotificationsRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'read.in' => 'The read field must be 0 (unread) or 1 (read).',
+            'status.in' => 'The status field must be 0 (unread) or 1 (read).',
             'pagination.in' => 'The pagination field must be "true" or "false" as string.',
             'per_page.integer' => 'The per_page field must be a number.',
             'per_page.min' => 'The per_page field must be at least 1.'

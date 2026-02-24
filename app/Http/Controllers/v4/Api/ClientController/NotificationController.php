@@ -27,10 +27,10 @@ class NotificationController extends Controller
     {
         try {
 
-            $read = $request->input('read', null);
+            $status = $request->input('status', null);
             $pagination = $request->input('pagination') === 'true';
             $perPage = (int) $request->input('per_page', 10);
-            $notifications = Notification::allB2CNotification($read, $pagination, $perPage);
+            $notifications = Notification::allB2CNotification($status, $pagination, $perPage);
             return Helpers::successResponse('All Notification', $notifications, $pagination);
 
         } catch (\Exception $exception) {
