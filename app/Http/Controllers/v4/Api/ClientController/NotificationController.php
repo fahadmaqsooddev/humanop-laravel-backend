@@ -15,8 +15,6 @@ class NotificationController extends Controller
 
     protected $user;
 
-    public $userdata=null;
-
     public function __construct(User $user)
     {
         $this->middleware('auth:api');
