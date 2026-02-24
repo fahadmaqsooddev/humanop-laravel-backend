@@ -23,9 +23,11 @@ use App\Http\Requests\SubscriptionFromAppRequest;
 class BillingController extends Controller
 {
 
+    public $user=null;
+
     public function __construct(private StripeClient $stripe, protected GoHighLevelService $ghl)
     {
-
+        $this->user=Helpers::getUser();
     }
 
     private function HAiCreditsUpdated($points, $user)
@@ -759,12 +761,12 @@ class BillingController extends Controller
         }
     }
 
-    public function subscriptionFromApp(SubscriptionFromAppRequest $request)
+    public function syncAppSubscription(SubscriptionFromAppRequest $request)
     {
-        $user = Helpers::getUser();
+        $user_id = $this->user->id;
 
         $subscription = SubscriptionModel::updateUserSubscription(
-            $user->id,
+            $user_id,
             $request->purchase_id,
             $request->purchase_name
         );

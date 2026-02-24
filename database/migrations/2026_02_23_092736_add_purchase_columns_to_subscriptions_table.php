@@ -14,8 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('subscriptions', function (Blueprint $table) {
-            $table->unsignedBigInteger('purchase_id')->nullable()->after('stripe_price'); // change 'after' if needed
-            $table->string('purchase_name')->nullable()->after('purchase_id');
+            $table->string('purchase_id')
+                ->nullable()
+                ->unique()
+                ->after('stripe_price');
+
+            $table->string('purchase_name')
+                ->nullable()
+                ->after('purchase_id');
         });
     }
 
@@ -27,6 +33,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('subscriptions', function (Blueprint $table) {
+            $table->dropUnique(['purchase_id']);
             $table->dropColumn(['purchase_id', 'purchase_name']);
         });
     }
