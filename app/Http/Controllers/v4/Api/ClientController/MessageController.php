@@ -23,9 +23,13 @@ use Illuminate\Support\Facades\DB;
 class MessageController extends Controller
 {
 
+
+    public $user=null;
+
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->user=Helpers::getUser();
     }
 
     public function chats(Request $request)
@@ -103,7 +107,15 @@ class MessageController extends Controller
 
         try {
 
-            $messages = Message::threadMessages($request->input('message_thread_id'));
+
+            $threadId = $request->input('message_thread_id');
+            $thread = Message::checkThreadOwnership($threadId,$this->user->id);
+
+            if (!$thread) {
+                return Helpers::forbiddenResponse('You are not allowed to access this thread.');
+            }
+
+            $messages = Message::updateThreadMessages($threadId,$this->user->id);
 
             return Helpers::successResponse('Thread messages', $messages);
         } catch (\Exception $exception) {

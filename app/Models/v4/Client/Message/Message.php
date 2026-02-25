@@ -91,4 +91,26 @@ class Message extends Model
 
         return self::where('message_thread_id', $thread_id)->get();
     }
+
+    public static function checkThreadOwnership($threadId,$userId)
+    {
+        return MessageThread::where('id', $threadId)
+            ->whereHas('participants', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->first();
+    }
+
+    public static function updateThreadMessages($thread_id,$user_id)
+    {
+
+        self::where('message_thread_id', $thread_id)
+            ->where('is_read', 0)
+            ->where('sender_id', '!=', $user_id)
+            ->update(['is_read' => 1]);
+
+        return self::where('message_thread_id', $thread_id)->get();
+    }
+
+
 }
