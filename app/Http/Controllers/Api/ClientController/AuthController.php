@@ -17,6 +17,7 @@ use App\Http\Requests\Client\Register\SmsCodeRequest;
 use App\Http\Requests\Client\Register\SmsRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
+use App\Jobs\v4\CreateOneSignalClientJob;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\RecentActivity\RecentActivity;
@@ -48,6 +49,7 @@ use App\Models\UserInvite\UserInviteLog;
 use App\Services\AwsSnsServices\SnsServices;
 use App\Services\FreemiumEnrollmentService;
 use App\Services\GoHighLevelService;
+use App\Services\OneSignalServices\OneSignalService;
 use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
@@ -145,6 +147,8 @@ class AuthController extends Controller
                         $request['ref']  // referral code / source
                     );
                 }
+
+                CreateOneSignalClientJob::dispatch($user)->afterCommit();
 
                 // Safety: make sure createFirstStep actually returned a persisted Eloquent model
                 if (!($user instanceof User) || empty($user->id)) {
