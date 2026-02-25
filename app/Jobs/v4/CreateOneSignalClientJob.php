@@ -13,17 +13,23 @@ class CreateOneSignalClientJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $user;
+    public int $userId;
+    public string $email;
+
+    public $tries = 3;
+
+    public $backoff = 10;
 
     public function __construct($user)
     {
-        $this->user = $user;
+        $this->userId = $user->id;
+        $this->email  = $user->email;
     }
 
     public function handle(): void
     {
 
-        OneSignalService::createClient($this->user->id, $this->user->email);
+        OneSignalService::createClient($this->userId, $this->email);
 
     }
 }

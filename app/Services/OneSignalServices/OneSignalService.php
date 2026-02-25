@@ -86,12 +86,6 @@ class OneSignalService
             // SEND TO ALL USERS
             // ==================================================
 
-            if (!$sendToAll && !$userId) {
-
-                return false;
-
-            }
-
             if ($sendToAll) {
 
                 $payload['included_segments'] = ['All'];
