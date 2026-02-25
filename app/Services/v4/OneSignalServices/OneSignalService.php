@@ -113,7 +113,7 @@ class OneSignalService
 
             }
 
-            $badgeCount = Notification::notReadNotification()->count();
+            $badgeCount = Notification::whereUserId($userId)->notReadNotification()->count();
 
             foreach ($data['subscriptions'] as $subscription) {
 

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\v4\OneSignalServices\OneSignalService;
+use App\Jobs\v4\CreateOneSignalClientJob;
 use Illuminate\Console\Command;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -14,8 +14,6 @@ class CreateClientsOnOneSignal extends Command
 
     protected $description = 'this command is used for registering the user in OneSignal';
 
-    public function __construct(private OneSignalService $oneSignal) {}
-
     public function handle()
     {
 
@@ -23,7 +21,7 @@ class CreateClientsOnOneSignal extends Command
 
             try {
 
-                $this->oneSignal->createClient($user->id, $user->email);
+                CreateOneSignalClientJob::dispatch($user)->afterCommit();
 
             } catch (\Exception $e) {
 

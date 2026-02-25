@@ -17,6 +17,7 @@ use App\Http\Requests\Client\Register\SmsCodeRequest;
 use App\Http\Requests\Client\Register\SmsRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
+use App\Jobs\v4\CreateOneSignalClientJob;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\RecentActivity\RecentActivity;
@@ -147,7 +148,7 @@ class AuthController extends Controller
                     );
                 }
 
-                OneSignalService::createClient($user->id, $user->email);
+                CreateOneSignalClientJob::dispatch($user)->afterCommit();
 
                 // Safety: make sure createFirstStep actually returned a persisted Eloquent model
                 if (!($user instanceof User) || empty($user->id)) {
