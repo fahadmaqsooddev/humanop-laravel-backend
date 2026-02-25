@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class CreateOneSignalClientJob implements ShouldQueue
 {
@@ -31,5 +32,13 @@ class CreateOneSignalClientJob implements ShouldQueue
 
         OneSignalService::createClient($this->userId, $this->email);
 
+    }
+
+    public function failed(\Throwable $exception)
+    {
+        Log::error("CreateOneSignalClientJob failed", [
+            'user_id' => $this->userId,
+            'error' => $exception->getMessage(),
+        ]);
     }
 }
