@@ -38,4 +38,6 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::post('/threads/{messageThread}/read', 'MessageController@markRead');
 
+    Route::put('update-unread-messages', 'MessageController@messages');
+
 });

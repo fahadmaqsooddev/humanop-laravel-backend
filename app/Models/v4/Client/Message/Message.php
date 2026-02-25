@@ -91,4 +91,17 @@ class Message extends Model
 
         return self::where('message_thread_id', $thread_id)->get();
     }
+
+    public static function updateThreadMessages($thread_id = null,$user_id)
+    {
+
+        self::where('message_thread_id', $thread_id)
+            ->where('is_read', 0)
+            ->where('sender_id', '!=', $user_id)
+            ->update(['is_read' => 1]);
+
+        return self::where('message_thread_id', $thread_id)->get();
+    }
+
+
 }

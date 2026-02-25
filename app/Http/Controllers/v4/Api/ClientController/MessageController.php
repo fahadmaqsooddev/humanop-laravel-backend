@@ -23,9 +23,13 @@ use Illuminate\Support\Facades\DB;
 class MessageController extends Controller
 {
 
+
+    public $user=null;
+
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->user=Helpers::getUser();
     }
 
     public function chats(Request $request)
@@ -103,7 +107,7 @@ class MessageController extends Controller
 
         try {
 
-            $messages = Message::threadMessages($request->input('message_thread_id'));
+            $messages = Message::updateThreadMessages($request->input('message_thread_id'),$this->user->id);
 
             return Helpers::successResponse('Thread messages', $messages);
         } catch (\Exception $exception) {
