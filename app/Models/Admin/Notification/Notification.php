@@ -27,14 +27,30 @@ class Notification extends Model
         return self::whereId($notificationId)->first();
     }
 
-    public static function allB2CNotification()
+    public static function allB2CNotification($status = null, $pagination = false, $perPage = null, $userId = null)
     {
-        $user = Helpers::getUser();
 
-        return self::where('user_id', $user['id'])
-            ->where('role', Admin::B2C_NOTIFICATION)
-            ->orderBy('created_at', 'desc')
-            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority', 'sender_id']);
+        $userId = $userId ?? Helpers::getUser()->id;
+
+        $query = self::where('user_id', $userId)
+            ->where('role', Admin::B2C_NOTIFICATION);
+
+        if ($status !== null) {
+            $query->where('read', (int) $status);
+        }
+
+        $query->orderBy('created_at', 'desc')
+            ->select([
+                'id',
+                'type',
+                'message',
+                'created_at',
+                'read',
+                'notification_priority',
+                'sender_id'
+            ]);
+
+        return Helpers::pagination($query, $pagination, $perPage);
     }
 
     public static function allB2CMessageNotificationCount(): array

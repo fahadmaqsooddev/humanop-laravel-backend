@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\Notification\NotificationRequest;
 use App\Models\Admin\Notification\Notification;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
@@ -17,20 +18,23 @@ class NotificationController extends Controller
     {
         $this->middleware('auth:api');
 
-        $this->user = $user;
+        $this->user = Helpers::getUser();
 
     }
 
-    public function notifications()
+    public function notifications(Request $request)
     {
         try {
 
-            $notifications = Notification::allB2CNotification();
-
-            return Helpers::successResponse('All Notification', $notifications);
+            $status = $request->input('status', null);
+            $pagination = $request->input('pagination');
+            $perPage = (int) $request->input('per_page', 10);
+            $userId=$this->user->id;
+            $notifications = Notification::allB2CNotification($status, $pagination, $perPage,$userId);
+            return Helpers::successResponse('All Notification', $notifications, $pagination);
 
         } catch (\Exception $exception) {
-
+            // Handle unexpected errors
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
