@@ -92,7 +92,16 @@ class Message extends Model
         return self::where('message_thread_id', $thread_id)->get();
     }
 
-    public static function updateThreadMessages($thread_id = null,$user_id)
+    public static function checkThreadOwnership($threadId,$userId)
+    {
+        return MessageThread::where('id', $threadId)
+            ->whereHas('participants', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->first();
+    }
+
+    public static function updateThreadMessages($thread_id,$user_id)
     {
 
         self::where('message_thread_id', $thread_id)
