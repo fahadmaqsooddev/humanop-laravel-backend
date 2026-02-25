@@ -36,17 +36,17 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => 'email-smtp.us-east-1.amazonaws.com',
+//            'host' => 'email-smtp.us-east-1.amazonaws.com',
+//            'port' => 587,
+//            'encryption' => 'tls',
+//            'username' => 'AKIASBLHPXE7OY32CTH4',
+//            'password' => 'BGSwZkiUzvmYx7YxCIl1Pn5+JekJkPFZNEon3j93RzFk',
+
+            'host' => 'smtp.gmail.com',
             'port' => 587,
             'encryption' => 'tls',
-            'username' => 'AKIASBLHPXE7OY32CTH4',
-            'password' => 'BGSwZkiUzvmYx7YxCIl1Pn5+JekJkPFZNEon3j93RzFk',
-
-//            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-//            'port' => env('MAIL_PORT', 587),
-//            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-//            'username' => env('MAIL_USERNAME'),
-//            'password' => env('MAIL_PASSWORD'),
+            'username' => 'jaleelkhan1630@gmail.com',
+            'password' => 'qzmjffjohsjzwpwm',
 
             'timeout' => null,
             'auth_mode' => null,
