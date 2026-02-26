@@ -133,7 +133,7 @@ class User extends Authenticatable implements JWTSubject
     // appends
     public function getUserPictureUrlAttribute()
     {
-        return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
+        return (request()->getSchemeAndHttpHost() . "/assets/img/person.png");
     }
 
     public function getCheckAssessmentAttribute()
