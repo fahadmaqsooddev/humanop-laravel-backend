@@ -81,23 +81,23 @@ class Notification extends Model
             ])
             ->first();
 
-        $participantThreadIds = DB::table('message_thread_participants')
-            ->where('user_id', $user->id)
-            ->select('message_thread_id');
-
-
-        $directThreadIds = DB::table('message_threads')
-            ->where('type', 0)
-            ->where(function ($query) use ($user) {
-                $query->where('receiver_id', $user->id)
-                    ->orWhere('owner_id', $user->id);
-            })
-            ->select('id');
-
-
-        $allThreadIds = $participantThreadIds->union($directThreadIds);
         $unreadMessageCount = DB::table('messages')
-            ->whereIn('message_thread_id', $allThreadIds)
+            ->where(function ($query) use ($user) {
+                $query->whereIn('message_thread_id', function ($q) use ($user) {
+                    $q->select('message_thread_id')
+                        ->from('message_thread_participants')
+                        ->where('user_id', $user->id);
+                })
+                    ->orWhereIn('message_thread_id', function ($q) use ($user) {
+                        $q->select('id')
+                            ->from('message_threads')
+                            ->where('type', 0)
+                            ->where(function ($sub) use ($user) {
+                                $sub->where('receiver_id', $user->id)
+                                    ->orWhere('owner_id', $user->id);
+                            });
+                    });
+            })
             ->where('is_read', 0)
             ->where('sender_id', '<>', $user->id)
             ->count();
