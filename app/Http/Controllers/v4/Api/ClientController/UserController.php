@@ -14,7 +14,7 @@ use App\Http\Requests\Api\Client\TwoWayAuthRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
-use App\Http\Requests\Api\Client\UpdatePersonalInformationRequets;
+use App\Http\Requests\v4\Api\Client\UpdatePersonalInformationRequest;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
@@ -45,6 +45,7 @@ use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
 use function PHPUnit\Framework\lessThanOrEqual;
+
 
 class UserController extends Controller
 {
@@ -104,7 +105,7 @@ class UserController extends Controller
         }
     }
 
-    public function updatePersonalInformation(UpdatePersonalInformationRequets $request)
+    public function updatePersonalInformation(UpdatePersonalInformationRequest $request)
     {
 
         try {
@@ -115,7 +116,7 @@ class UserController extends Controller
 
             if ($request) {
 
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone', 'set_daily_tip_time']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone', 'set_daily_tip_time','excited_connect','life_alchemist','note']);
 
                 if (!empty($request['set_daily_tip_time'])) {
 
@@ -409,6 +410,8 @@ class UserController extends Controller
                     $message = "The Maestro platform will no longer have access to the {$user['first_name']} {$user['last_name']} data";
 
                     Notification::createNotification('Remove Company', $message, $companyData['device_token'], $companyData['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+
 
                 }
 

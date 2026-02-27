@@ -1373,12 +1373,20 @@ class User extends Authenticatable implements JWTSubject
 
     public static function user($id = null)
     {
-        $user = self::whereId($id)->with('userIntensionPlan')->selection()->first();
+        $user = self::whereId($id)
+            ->with([
+                'userIntensionPlan',
+                'userEmailPhoneNumbers'
+            ])
+            ->selection()
+            ->first();
+
         $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
         $user['is_feedback'] = $user['is_feedback'];
         $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
         $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
         $user['hai_thread_id'] = HaiThread::where('user_id', $id)->where('is_b2b', 0)->latest()->value('hai_thread_id');
+        // Get user emails & phone numbers
         return $user;
     }
 
@@ -1816,6 +1824,11 @@ class User extends Authenticatable implements JWTSubject
 
         return $users;
 
+    }
+
+    public function userEmailPhoneNumbers()
+    {
+        return $this->hasMany(UserEmailPhoneNumber::class, 'user_id');
     }
 
     public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin)
