@@ -1716,6 +1716,8 @@ class Assessment extends Model
         }
     }
 
+
+
     public static function submitQuestionAnswers($answer_ids = [])
     {
 
@@ -2195,6 +2197,94 @@ class Assessment extends Model
         ];
 
         return $data;
+    }
+
+
+    public static function getCoreStatev4($assessment = null, $dateOfBirth = null)
+    {
+        // Interval of Life
+
+        $interval_of_life = $assessment != null
+            ? User::getUserAge($dateOfBirth, $assessment)
+            : null;
+        $cycle_life = $assessment != null ? AssessmentIntro::cycleLife($assessment['id']) : null;
+
+        // Traits
+
+        $trait_intro = $assessment != null ? AssessmentIntro::traitIntro($assessment['id']) : null;
+        $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+
+        // Motivational Drivers
+
+        $motivation_intro = $assessment != null ? AssessmentIntro::motivationIntroduction($assessment['id']) : null;
+        $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+        $topTwoFeatures = !empty($topFeatures['top_two_keys']) ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+        $nextTwoFeatures = !empty($topFeatures['next_two_keys']) ? Assessment::getTopTwoFeatures($topFeatures['next_two_keys'], $assessment) : [];
+
+        // Alchemic Boundaries
+
+        $intro_boundaries = $assessment != null ? AssessmentIntro::introBoundaries($assessment['id']) : null;
+        $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
+
+        // Communication Style
+
+        $intro_communication = $assessment != null ? AssessmentIntro::introCommunication($assessment['id']) : null;
+        $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
+        $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
+
+        // Energy Pool
+
+        $intro_energy_pool = $assessment != null ? AssessmentIntro::introEnergypool($assessment['id']) : null;
+        $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
+
+        // Perception of Life
+
+        $perception_life = $assessment != null ? AssessmentIntro::getPerceptionStaticText() : null;
+        $perception = $assessment != null ? Assessment::getPerceptionReportDetail($assessment) : null;
+
+        // Final structured data
+
+        return [
+            'assessment' => $assessment,
+
+            'interval_of_life' => [
+                'intro' => $cycle_life,
+                'result_data' => $interval_of_life
+            ],
+
+            'traits' => [
+                'intro' =>  $trait_intro,
+                'result_data' => $topThreeStyles,
+            ],
+
+            'motivational_drivers' => [
+                'intro' => $motivation_intro,
+                'result_data' => [
+                    'top_two' => $topTwoFeatures,
+                    'next_two' => $nextTwoFeatures
+                ]
+            ],
+
+            'alchemic_boundaries' => [
+                'intro' => $intro_boundaries,
+                'result_data' => $boundary
+            ],
+
+            'communication_style' => [
+                'intro' => $intro_communication,
+                'result_data' => $topCommunication
+            ],
+
+            'energy_pool' => [
+                'intro' => $intro_energy_pool,
+                'result_data' => $energyPool
+            ],
+
+            'perception_of_life' => [
+                'intro' => $perception_life,
+                'result_data' => $perception
+            ]
+        ];
     }
 
     public static function createFetchUserAssessment($assessment = null)
