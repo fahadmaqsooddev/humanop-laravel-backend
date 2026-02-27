@@ -7,30 +7,48 @@ use App\Helpers\Helpers;
 
 class UpdatePersonalInformationRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
         $rules = [
-            'first_name'        => 'required|string|max:255',
-            'last_name'         => 'nullable|string|max:255',
-            'date_of_birth'     => 'required|date',
-            'gender'            => 'required|in:male,female',
-            'phone'             => 'nullable|string|max:25',
-            'timezone'          => 'nullable|timezone',
-            'profile_image'     => 'nullable|image|mimes:jpg,png,jpeg|max:3072',
-            'excited_connect'   => 'nullable|string|max:255',
-            'life_alchemist'    => 'nullable|string|max:255',
-            'note'              => 'nullable|string|max:1000',
+            'first_name'      => 'required|string|max:255',
+            'last_name'       => 'nullable|string|max:255',
+            'date_of_birth'   => 'required|date',
+            'gender'          => 'required|in:male,female',
+            'phone'           => 'nullable|string|max:25',
+            
+            'timezone' => [
+                'nullable',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+
+                    // Expected format:
+                    // UTC/GMT +05:00 - Asia/Karachi
+
+                    if (!preg_match('/^UTC\/GMT\s[+-]\d{2}:\d{2}\s-\s.+$/', $value)) {
+                        $fail('Timezone format must be like: UTC/GMT +05:00 - Asia/Karachi');
+                        return;
+                    }
+
+                    // Extract actual timezone part
+                    $parts = explode('-', $value);
+                    $timezoneIdentifier = trim(end($parts));
+
+                    if (!in_array($timezoneIdentifier, timezone_identifiers_list())) {
+                        $fail('Invalid timezone identifier.');
+                    }
+                }
+            ],
+
+            'profile_image'   => 'nullable|image|mimes:jpg,png,jpeg|max:3072',
+            'excited_connect' => 'nullable|string|max:255',
+            'life_alchemist'  => 'nullable|string|max:255',
+            'note'            => 'nullable|string|max:1000',
         ];
 
         $user = Helpers::getUser();
@@ -44,9 +62,6 @@ class UpdatePersonalInformationRequest extends FormRequest
         return $rules;
     }
 
-    /**
-     * Custom validation messages
-     */
     public function messages(): array
     {
         return [
@@ -58,7 +73,6 @@ class UpdatePersonalInformationRequest extends FormRequest
             'profile_image.mimes'            => 'Profile Image must be of type jpg, png, jpeg.',
             'profile_image.max'              => 'Profile Image maximum size is 3MB.',
             'phone.max'                      => 'Phone number should not exceed 25 characters.',
-            'timezone.timezone'              => 'Please provide a valid timezone.',
             'set_daily_tip_time.required'    => 'Please set your daily tip time.',
             'set_daily_tip_time.date_format' => 'The daily tip time must be in the format hh:mm AM/PM. Example: 10:30 AM.',
             'set_daily_tip_time.prohibited'  => 'Only Premium users can set a daily tip time.',
