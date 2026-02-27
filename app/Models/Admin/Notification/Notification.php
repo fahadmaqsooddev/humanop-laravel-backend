@@ -8,6 +8,7 @@ use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class Notification extends Model
 {
@@ -66,26 +67,48 @@ class Notification extends Model
             ];
         }
 
+        // Notifications counts
         $counts = self::query()
-            ->where('user_id', $user['id'])
+            ->where('user_id', $user->id)
             ->where('role', Admin::B2C_NOTIFICATION)
             ->selectRaw("
             COUNT(*) as total,
             SUM(CASE WHEN `read` = ? THEN 1 ELSE 0 END) as read_count,
-            SUM(CASE WHEN `read` = ? THEN 1 ELSE 0 END) as unread_count,
-            SUM(CASE WHEN notification_priority = ? THEN 1 ELSE 0 END) as message_count
+            SUM(CASE WHEN `read` = ? THEN 1 ELSE 0 END) as unread_count
         ", [
                 Admin::NOTIFICATION_STATUS_READ,
                 Admin::NOTIFICATION_STATUS_UNREAD,
-                Admin::MESSAGE_SEND_NOTIFICATION
             ])
             ->first();
+
+        $unreadMessageCount = DB::table('messages as m')
+            ->where('m.is_read', 0)
+            ->where('m.sender_id', '<>', $user->id)
+            ->where(function($q) use ($user) {
+                $q->whereExists(function ($q) use ($user) {
+                    $q->selectRaw(1)
+                        ->from('message_thread_participants as p')
+                        ->whereColumn('p.message_thread_id', 'm.message_thread_id')
+                        ->where('p.user_id', $user->id);
+                })
+                    ->orWhereExists(function ($q) use ($user) {
+                        $q->selectRaw(1)
+                            ->from('message_threads as t')
+                            ->whereColumn('t.id', 'm.message_thread_id')
+                            ->where('t.type', 0)
+                            ->where(function($sub) use ($user) {
+                                $sub->where('t.receiver_id', $user->id)
+                                    ->orWhere('t.owner_id', $user->id);
+                            });
+                    });
+            })
+            ->count();
 
         return [
             'all_notification_counts'     => (int) ($counts->total ?? 0),
             'read_notification_counts'    => (int) ($counts->read_count ?? 0),
             'unread_notification_counts'  => (int) ($counts->unread_count ?? 0),
-            'message_notification_counts' => (int) ($counts->message_count ?? 0),
+            'message_notification_counts' => (int) $unreadMessageCount,
         ];
     }
 
