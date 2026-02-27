@@ -98,14 +98,13 @@ class AssessmentController extends Controller
 
             $user = Helpers::getUser();
 
-            $userId = $user->id;
-
             $status = Assessment::assessmentStatusForApi();
 
-            $latestAssessment = Assessment::getLatestAssessment($userId);
+            $latestAssessment = Assessment::getLatestAssessment($user->id);
 
-            $assessmentCount = Assessment::getAllAssessmentCount($userId);
-            $assessment_price = StripeSetting::getSingle();
+            $assessmentCount = Assessment::getAllAssessmentCount($user->id);
+
+            $assessmentSetting = StripeSetting::getSingle();
 
             $baseResponse = [
                 'latest_assessment_id' => $latestAssessment->id ?? null,
@@ -114,85 +113,99 @@ class AssessmentController extends Controller
                 'plan_name' => $user->plan_name,
             ];
 
-            if (!empty($latestAssessment) && $latestAssessment->reset_assessment == 1) {
+            /*
+            |--------------------------------------------------------------------------
+            | 1️⃣ RESET ASSESSMENT (Priority)
+            |--------------------------------------------------------------------------
+            */
+            if ($latestAssessment?->reset_assessment == 1) {
 
                 return Helpers::successResponse('Reset Assessment', array_merge($baseResponse, [
                     'assessment_page_number' => $status['page'] == 0 ? true : $status['page'],
                     'web_page_number' => $status['web_page'] == 0 ? true : $status['web_page'],
                     'app_page_number' => $status['app_page'] == 0 ? true : $status['app_page'],
+                    'can_take_assessment' => true,
                     'retake_assessment' => null,
                     'reset_assessment' => true,
                 ]));
-
             }
 
+            /*
+            |--------------------------------------------------------------------------
+            | 2️⃣ PAID USERS (Non-Freemium)
+            |--------------------------------------------------------------------------
+            */
             if ($user->plan_name !== 'Freemium') {
 
-                $assessment = Assessment::where('user_id', $userId)->select(['id', 'page', 'web_page', 'app_page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
-                $price = optional($assessment_price)->amount ?? 0;
-                return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
-                    'assessment_page_number' => $assessment->page,
-                    'web_page_number' => $assessment->web_page,
-                    'app_page_number' => $assessment->app_page,
-                    'reset_assessment' => false,
-                    'latest_assessment_id' => $assessment->id ?? null,
-                    'latest_assessment_at' => $assessment->updated_at ?? null,
-                    'assessment_price' => max($price - 1, 0),
-                    'assessment_count' => $assessmentCount,
-                    'user' => [
-                        'last_four_digits' => $user['pm_last_four'],
-                        'exp_month' => $user['pm_exp_month'],
-                        'exp_year' => $user['pm_exp_year'],
-                        'name' => $user['card_name'],
-                    ],
-                    'plan_name' => $user->plan_name,
-                ]));
+                $assessment = Assessment::where('user_id', $user->id)
+                    ->latest()
+                    ->first(['id', 'page', 'web_page', 'app_page', 'updated_at']);
 
+                $price = optional($assessmentSetting)->amount ?? 0;
+
+                return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
+                    'assessment_page_number' => $assessment->page ?? 0,
+                    'web_page_number' => $assessment->web_page ?? 0,
+                    'app_page_number' => $assessment->app_page ?? 0,
+                    'can_take_assessment' => ($assessment->page ?? 0) != 0,
+                    'reset_assessment' => false,
+                    'assessment_price' => max($price - 1, 0),
+                ]));
             }
 
-            if (!empty($latestAssessment)) {
+            /*
+            |--------------------------------------------------------------------------
+            | 3️⃣ FREEMIUM USERS – Retake Logic (90 Days Rule)
+            |--------------------------------------------------------------------------
+            */
+            if ($latestAssessment) {
 
-                $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
+                $timezoneMinutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
 
-                $userTime = Carbon::parse($latestAssessment->updated_at);
+                $assessmentTime = Carbon::parse($latestAssessment->updated_at);
 
-                $currentTime = Carbon::now()->addMinutes($minutes)->startOfMinute();
+                $currentTime = Carbon::now()->addMinutes($timezoneMinutes)->startOfMinute();
 
-                $difference = $userTime->diffInDays($currentTime);
+                $daysPassed = $assessmentTime->diffInDays($currentTime);
 
-                if ($difference <= 90) {
+                if ($daysPassed <= 90) {
 
-                    $remainingDays = 90 - $difference;
+                    $remainingDays = 90 - $daysPassed;
 
                     return Helpers::successResponse(
                         "You can take another assessment after {$remainingDays} days.",
                         array_merge($baseResponse, [
                             'retake_assessment' => $remainingDays,
-                            'current_time' => $currentTime,
-                            'difference_time' => $difference,
                             'assessment_page_number' => $status['page'] ?? 0,
                             'web_page_number' => $status['web_page'] ?? 0,
                             'app_page_number' => $status['app_page'] ?? 0,
+                            'can_take_assessment' => false,
                             'reset_assessment' => false,
                         ])
                     );
-
                 }
 
+                // After 90 days → Allow Reset
                 return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
                     'retake_assessment' => null,
                     'assessment_page_number' => null,
                     'web_page_number' => null,
                     'app_page_number' => null,
+                    'can_take_assessment' => true,
                     'reset_assessment' => true,
                 ]));
-
             }
 
+            /*
+            |--------------------------------------------------------------------------
+            | 4️⃣ First Time User
+            |--------------------------------------------------------------------------
+            */
             return Helpers::successResponse('Assessment Status', array_merge($baseResponse, [
-                'assessment_page_number' => $status['page'],
-                'web_page_number' => $status['web_page'],
-                'app_page_number' => $status['app_page'],
+                'assessment_page_number' => $status['page'] ?? 0,
+                'web_page_number' => $status['web_page'] ?? 0,
+                'app_page_number' => $status['app_page'] ?? 0,
+                'can_take_assessment' => true,
                 'reset_assessment' => false,
             ]));
 
