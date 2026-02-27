@@ -1381,6 +1381,10 @@ class User extends Authenticatable implements JWTSubject
             ->selection()
             ->first();
 
+        if (!$user) {
+            return null;
+        }
+
         $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
         $user['is_feedback'] = $user['is_feedback'];
         $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
