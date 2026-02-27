@@ -2204,7 +2204,9 @@ class Assessment extends Model
     {
         // Interval of Life
 
-        $interval_of_life = User::getUserAge($dateOfBirth, $assessment);
+        $interval_of_life = $assessment != null
+            ? User::getUserAge($dateOfBirth, $assessment)
+            : null;
         $cycle_life = $assessment != null ? AssessmentIntro::cycleLife($assessment['id']) : null;
 
         // Traits
