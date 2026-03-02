@@ -642,15 +642,17 @@ class Assessment extends Model
 //            ? $video['video_upload_url']['path']
 //            : ($video['video_url'] ?? null);
 
-        $videoUrl = $video->video_embed_link;
+       $videoUrl = $record?->video?->video_embed_link;
 
-        $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
+       $progress = $record
+        ? VideoProgress::checkVideoProgress($assessment['id'], $record->name)
+        : ['video_progress' => null, 'video_time' => null];
 
         $data = [
             'name' => $record['name'],
             'public_name' => $publicName,
-            'code_name' => $record['code'],
-            'description' => $record['text'],
+            'code_name' => $record?->code,
+            'description' => $record?->text,
             'video_url' => $videoUrl,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
