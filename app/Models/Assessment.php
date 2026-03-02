@@ -675,7 +675,6 @@ class Assessment extends Model
         $publicName = $map[$energy_code['energy_code']] ?? '';
 
         $record = CodeDetail::whereId($energy_code['energy_code'])->with('video')->first();
-        $video = $record['video'];
         $videoUrl = $record?->video?->video_embed_link;
         $progress = $record
             ? VideoProgress::checkVideoProgress($assessment['id'], $record->name)
