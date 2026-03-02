@@ -659,6 +659,54 @@ class Assessment extends Model
         return $data;
     }
 
+    public static function getEnergyPoolPublicNamev4($assessment = null)
+    {
+
+        $energy_code = self::getEP($assessment);
+
+        $publicName = '';
+
+        if ($energy_code['energy_code'] == 16) {
+
+            $publicName = "Above Excellent";
+        } elseif ($energy_code['energy_code'] == 18) {
+
+            $publicName = "Average";
+        } elseif ($energy_code['energy_code'] == 20) {
+
+            $publicName = "Excellent";
+        } elseif ($energy_code['energy_code'] == 21) {
+
+            $publicName = "Fair";
+        }
+
+        $record = CodeDetail::whereId($energy_code['energy_code'])->with('video')->first();
+
+
+        $video = $record['video'];
+
+//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
+//            ? $video['video_upload_url']['path']
+//            : ($video['video_url'] ?? null);
+
+        $videoUrl = $video->video_embed_link;
+
+        $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
+
+        $data = [
+            'name' => $record['name'],
+            'public_name' => $publicName,
+            'code_name' => $record['code'],
+            'code_number' => $energy_code['energy_pool'],
+            'description' => $record['text'],
+            'video_url' => $videoUrl,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
+        ];
+
+        return $data;
+    }
+
     public static function getPreceptionReport($assessment = null)
     {
 
@@ -2235,7 +2283,7 @@ class Assessment extends Model
         // Energy Pool
 
         $intro_energy_pool = $assessment != null ? AssessmentIntro::introEnergypool($assessment['id']) : null;
-        $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
+        $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicNamev4($assessment) : null;
 
         // Perception of Life
 
