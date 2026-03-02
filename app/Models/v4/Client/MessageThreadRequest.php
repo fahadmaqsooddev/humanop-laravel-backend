@@ -10,6 +10,7 @@ use App\Models\v4\Client\MessageThread\MessageThread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Services\v4\OneSignalServices\OneSignalService;
 
 class MessageThreadRequest extends Model
 {
@@ -60,6 +61,7 @@ class MessageThreadRequest extends Model
             ActivityLogger::addLog('Send Group Request', "{$msg}");
 
             Notification::createNotification('Send Group Request', $msg, '', $data['owner_id'], 0, Admin::SEND_GROUP_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
+            OneSignalService::sendNotification($data['owner_id'], 'Send Group Request', $msg);
 
             return true;
 

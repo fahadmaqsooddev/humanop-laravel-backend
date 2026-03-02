@@ -13,6 +13,7 @@ use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use App\Services\v4\OneSignalServices\OneSignalService;
 
 class optimalTraitPushNotification extends Command
 {
@@ -99,6 +100,8 @@ class optimalTraitPushNotification extends Command
 //        Helpers::OneSignalApiUsed($user->id, 'Current Optimal Trait', $message);
 
         Notification::createNotification('Optimal Trait', $message, $user->device_token, $user->id, 1, Admin::OPTIMAL_TRAIT, Admin::B2C_NOTIFICATION);
+
+        OneSignalService::sendNotification($user->id, 'Optimal Trait', $message);
 
         Log::info("Updated optimal trait for user {$user->id}: {$optimalTrait} ({$status})");
     }

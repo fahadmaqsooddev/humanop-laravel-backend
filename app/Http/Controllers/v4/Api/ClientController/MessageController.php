@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use App\Events\v4\messages\MessageSent;
 use App\Events\v4\messages\NewMessage;
 use Illuminate\Support\Facades\DB;
+use App\Services\v4\OneSignalServices\OneSignalService;
 
 class MessageController extends Controller
 {
@@ -85,6 +86,8 @@ class MessageController extends Controller
 //                Helpers::OneSignalApiUsed($request->input('receiver_id'), $heading, $request->input('message'));
 
                 Notification::createNotification('message sent', $heading, null, $request->input('receiver_id'), 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION, Helpers::getUser()['id']);
+                OneSignalService::sendNotification($request->input('receiver_id'), 'message sent', $heading);
+
 
                 event(new NewMessage(Helpers::getUser()->id, $request->input('receiver_id'), $request->input('message'), $message['created_at']));
                 // Helpers::OneSignalApiUsed($request->input('receiver_id'), 'New Message Received', $request->input('message'));
@@ -203,7 +206,9 @@ class MessageController extends Controller
 
             $heading = $senderUserName . " send you a message";
 
-            Notification::createNotification('message sent', $heading, null, Helpers::getUser()->id, 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION, Helpers::getUser()['id']);
+            Notification::createNotification('message sent', $heading, null, $this->user->id, 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION, $this->user->id);
+
+            OneSignalService::sendNotification($this->user->id, 'message sent', $heading);
 
             DB::commit();
 

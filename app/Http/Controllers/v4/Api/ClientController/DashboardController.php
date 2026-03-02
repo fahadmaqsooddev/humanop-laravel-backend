@@ -39,6 +39,8 @@ use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\VersionControl\Version;
+use App\Services\v4\OneSignalServices\OneSignalService;
+
 
 class DashboardController extends Controller
 {
@@ -147,6 +149,8 @@ class DashboardController extends Controller
 
                                 Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
+                                OneSignalService::sendNotification($user['id'], 'Daily Tip', $message);
+
                                 ActivityLogger::addLog('new daily tip', "$message");
 
                                 HaiChatHelpers::syncUserRecordWithHAi();
@@ -160,6 +164,8 @@ class DashboardController extends Controller
                                 event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
                                 Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                                OneSignalService::sendNotification($user['id'], 'Daily Tip', $message);
 
                                 ActivityLogger::addLog('new daily tip', "$message");
 
