@@ -45,8 +45,8 @@ return [
             'host' => 'smtp.gmail.com',
             'port' => 587,
             'encryption' => 'tls',
-            'username' => 'jaleelkhan1630@gmail.com',
-            'password' => 'qzmjffjohsjzwpwm',
+            'username' => 'humanopult@gmail.com',
+            'password' => 'ucxy iiue gtzk mdlk',
 
             'timeout' => null,
             'auth_mode' => null,
