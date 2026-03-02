@@ -649,7 +649,7 @@ class Assessment extends Model
         : ['video_progress' => null, 'video_time' => null];
 
         $data = [
-            'name' => $record['name'],
+            'name' => $record?->name,
             'public_name' => $publicName,
             'code_name' => $record?->code,
             'description' => $record?->text,
@@ -681,7 +681,7 @@ class Assessment extends Model
             : ['video_progress' => null, 'video_time' => null];
 
         return [
-            'name' => $record['name'],
+            'name' => $record?->name,
             'public_name' => $publicName,
             'code_name' => $record?->code,
             'code_number' => $energy_code['energy_pool'],
@@ -2142,9 +2142,9 @@ class Assessment extends Model
 
         $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
 
-        return $data = [
+        return [
             'code_number' => $record['id'],
-            'name' => $record['name'],
+            'name' => $record?->name,
             'public_name' => $record['public_name'],
             'code_name' => $record['code'],
             'description' => $record['text'],
