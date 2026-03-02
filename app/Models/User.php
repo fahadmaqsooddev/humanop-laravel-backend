@@ -218,7 +218,7 @@ class User extends Authenticatable implements JWTSubject
             return null;
         }
 
-        if ($user['plan_name'] == 'Premium') {
+        if ($user['plan_name'] == Admin::PREMIUM_PLAN_NAME) {
             $styleCodes = Assessment::authenticTraits($assessment);
         } else {
             $styleCodes = Assessment::getAllStyles($assessment);
@@ -366,7 +366,7 @@ class User extends Authenticatable implements JWTSubject
 
         if (!empty($this->plan) && in_array($this->plan, ['premium_monthly', 'premium_yearly', 'premium_lifetime'])) {
 
-            return 'Premium';
+            return Admin::PREMIUM_PLAN_NAME;
 
         }
 
@@ -627,7 +627,7 @@ class User extends Authenticatable implements JWTSubject
                 continue;
             }
 
-            if ($planName == "Premium" && $subscription->active()) {
+            if ($planName == Admin::PREMIUM_PLAN_NAME && $subscription->active()) {
 
                 $startedAt = $subscription->created_at;
 
@@ -1373,13 +1373,46 @@ class User extends Authenticatable implements JWTSubject
 
     public static function user($id = null)
     {
-        $user = self::whereId($id)->with('userIntensionPlan')->selection()->first();
-        $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
+        $user = self::whereId($id)
+            ->with([
+                'userIntensionPlan',
+                'userEmailPhoneNumbers',
+                'latestHaiThread'
+            ])
+            ->selection()
+            ->first();
+
+        if (!$user) {
+            return null;
+        }
+
+
         $user['is_feedback'] = $user['is_feedback'];
-        $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
-        $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
-        $user['hai_thread_id'] = HaiThread::where('user_id', $id)->where('is_b2b', 0)->latest()->value('hai_thread_id');
+        // Get user emails & phone numbers
         return $user;
+    }
+
+    public function getTwoWayAuthAttribute($value)
+    {
+        return $value === Admin::TWO_WAY_AUTH_ACTIVE;
+    }
+
+    public function getIntroCheckAttribute()
+    {
+        return $this->app_intro_check === Admin::INTRO_CHECK_UN_READ;
+    }
+
+
+    public function latestHaiThread()
+    {
+        return $this->hasOne(HaiThread::class)
+            ->where('is_b2b', 0)
+            ->latestOfMany();
+    }
+
+    public function getHaiChatAttribute($value)
+    {
+        return $value === Admin::HAI_CHAT_SHOW;
     }
 
 
@@ -1816,6 +1849,11 @@ class User extends Authenticatable implements JWTSubject
 
         return $users;
 
+    }
+
+    public function userEmailPhoneNumbers()
+    {
+        return $this->hasMany(UserEmailPhoneNumber::class, 'user_id');
     }
 
     public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin)

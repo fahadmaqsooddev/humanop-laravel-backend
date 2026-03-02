@@ -642,21 +642,54 @@ class Assessment extends Model
 //            ? $video['video_upload_url']['path']
 //            : ($video['video_url'] ?? null);
 
-        $videoUrl = $video->video_embed_link;
+       $videoUrl = $record?->video?->video_embed_link;
 
-        $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
+       $progress = $record
+        ? VideoProgress::checkVideoProgress($assessment['id'], $record->name)
+        : ['video_progress' => null, 'video_time' => null];
 
         $data = [
-            'name' => $record['name'],
+            'name' => $record?->name,
             'public_name' => $publicName,
-            'code_name' => $record['code'],
-            'description' => $record['text'],
+            'code_name' => $record?->code,
+            'description' => $record?->text,
             'video_url' => $videoUrl,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
         ];
 
         return $data;
+    }
+
+    public static function getEnergyPoolPublicNamev4($assessment = null)
+    {
+        $energy_code = self::getEP($assessment);
+
+        $map = [
+            16 => 'Above Excellent',
+            18 => 'Average',
+            20 => 'Excellent',
+            21 => 'Fair',
+        ];
+
+        $publicName = $map[$energy_code['energy_code']] ?? '';
+
+        $record = CodeDetail::whereId($energy_code['energy_code'])->with('video')->first();
+        $videoUrl = $record?->video?->video_embed_link;
+        $progress = $record
+            ? VideoProgress::checkVideoProgress($assessment['id'], $record->name)
+            : ['video_progress' => null, 'video_time' => null];
+
+        return [
+            'name' => $record?->name,
+            'public_name' => $publicName,
+            'code_name' => $record?->code,
+            'code_number' => $energy_code['energy_pool'],
+            'description' => $record?->text,
+            'video_url' => $videoUrl,
+            'video_progress' => $progress['video_progress'],
+            'video_time' => $progress['video_time']
+        ];
     }
 
     public static function getPreceptionReport($assessment = null)
@@ -2109,9 +2142,9 @@ class Assessment extends Model
 
         $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
 
-        return $data = [
+        return [
             'code_number' => $record['id'],
-            'name' => $record['name'],
+            'name' => $record?->name,
             'public_name' => $record['public_name'],
             'code_name' => $record['code'],
             'description' => $record['text'],
@@ -2235,7 +2268,7 @@ class Assessment extends Model
         // Energy Pool
 
         $intro_energy_pool = $assessment != null ? AssessmentIntro::introEnergypool($assessment['id']) : null;
-        $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
+        $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicNamev4($assessment) : null;
 
         // Perception of Life
 
