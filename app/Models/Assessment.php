@@ -674,20 +674,19 @@ class Assessment extends Model
 
         $publicName = $map[$energy_code['energy_code']] ?? '';
 
-        $record = CodeDetail::whereId($energy_code['energy_code'])
-            ->with('video')
-            ->first();
-
+        $record = CodeDetail::whereId($energy_code['energy_code'])->with('video')->first();
+        $video = $record['video'];
         $videoUrl = $record?->video?->video_embed_link;
-
-        $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
+        $progress = $record
+            ? VideoProgress::checkVideoProgress($assessment['id'], $record->name)
+            : ['video_progress' => null, 'video_time' => null];
 
         return [
             'name' => $record['name'],
             'public_name' => $publicName,
-            'code_name' => $record['code'],
+            'code_name' => $record?->code,
             'code_number' => $energy_code['energy_pool'],
-            'description' => $record['text'],
+            'description' => $record?->text,
             'video_url' => $videoUrl,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
