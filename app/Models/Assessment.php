@@ -661,39 +661,26 @@ class Assessment extends Model
 
     public static function getEnergyPoolPublicNamev4($assessment = null)
     {
-
         $energy_code = self::getEP($assessment);
 
-        $publicName = '';
+        $map = [
+            16 => 'Above Excellent',
+            18 => 'Average',
+            20 => 'Excellent',
+            21 => 'Fair',
+        ];
 
-        if ($energy_code['energy_code'] == 16) {
+        $publicName = $map[$energy_code['energy_code']] ?? '';
 
-            $publicName = "Above Excellent";
-        } elseif ($energy_code['energy_code'] == 18) {
+        $record = CodeDetail::whereId($energy_code['energy_code'])
+            ->with('video')
+            ->first();
 
-            $publicName = "Average";
-        } elseif ($energy_code['energy_code'] == 20) {
-
-            $publicName = "Excellent";
-        } elseif ($energy_code['energy_code'] == 21) {
-
-            $publicName = "Fair";
-        }
-
-        $record = CodeDetail::whereId($energy_code['energy_code'])->with('video')->first();
-
-
-        $video = $record['video'];
-
-//        $videoUrl = !empty($video['video_upload_id']) && !empty($video['video_upload_url']['path'])
-//            ? $video['video_upload_url']['path']
-//            : ($video['video_url'] ?? null);
-
-        $videoUrl = $video->video_embed_link;
+        $videoUrl = $record?->video?->video_embed_link;
 
         $progress = VideoProgress::checkVideoProgress($assessment['id'], $record['name']);
 
-        $data = [
+        return [
             'name' => $record['name'],
             'public_name' => $publicName,
             'code_name' => $record['code'],
@@ -703,8 +690,6 @@ class Assessment extends Model
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
         ];
-
-        return $data;
     }
 
     public static function getPreceptionReport($assessment = null)

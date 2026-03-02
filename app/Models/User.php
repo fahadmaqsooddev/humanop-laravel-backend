@@ -1388,10 +1388,18 @@ class User extends Authenticatable implements JWTSubject
 
 
         $user['is_feedback'] = $user['is_feedback'];
-        $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
-        $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
         // Get user emails & phone numbers
         return $user;
+    }
+
+    public function getTwoWayAuthAttribute($value)
+    {
+        return $value === Admin::TWO_WAY_AUTH_ACTIVE;
+    }
+
+    public function getIntroCheckAttribute()
+    {
+        return $this->app_intro_check === Admin::INTRO_CHECK_UN_READ;
     }
 
 
