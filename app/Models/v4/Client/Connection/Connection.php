@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Events\Connection\ConnectionRequest;
 use App\Events\Connection\UnconnectRequest;
 use App\Events\Connection\RequestAccept;
-use App\Services\v4\OneSignalServices\OneSignalService;
 
 class Connection extends Model
 {
@@ -81,9 +80,8 @@ class Connection extends Model
 
                 ActivityLogger::addLog('Connection Request', "{$msg}");
 
-                Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+                Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
-                OneSignalService::sendNotification($friend['id'], 'connection request', $msg);
 
                 toastr()->success("connection request was sent");
 
@@ -107,8 +105,7 @@ class Connection extends Model
 
             ActivityLogger::addLog('Connection Cancel', "{$msg}");
 
-            Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
-            OneSignalService::sendNotification($friend['id'], 'connection cancel', $msg);
+            Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
         } else if ($data['type'] === 'accept') {
 
@@ -134,9 +131,8 @@ class Connection extends Model
 
                 ActivityLogger::addLog('Connection Accept', "{$msg}");
 
-                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
-                OneSignalService::sendNotification($friend['id'], 'connection accept', $msg);
 
             } elseif ($received_request && $send_request) {
 
@@ -150,9 +146,8 @@ class Connection extends Model
 
                 ActivityLogger::addLog('Connection Accept', "{$msg}");
 
-                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
-                OneSignalService::sendNotification($friend['id'], 'connection accept', $msg);
 
             }
 

@@ -23,7 +23,6 @@ use App\Models\Assessment;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
-use App\Services\v4\OneSignalServices\OneSignalService;
 
 class Helpers
 {
@@ -1155,8 +1154,8 @@ class Helpers
 
 //                Helpers::OneSignalApiUsed($user['id'], 'Credit Bonus', $message);
 
-                Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION);
-                OneSignalService::sendNotification($user['id'], 'Credit Bonus', $message);
+                Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION,true);
+        
 
             }
         }

@@ -9,6 +9,7 @@ use App\Enums\Admin\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
+use App\Services\v4\OneSignalServices\OneSignalService;
 
 class Notification extends Model
 {
@@ -134,7 +135,7 @@ class Notification extends Model
     }
 
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null, $senderId = null)
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null, $senderId = null,  bool $sendPush = false)
     {
         self::create([
             'user_id' => $userId,
@@ -151,6 +152,10 @@ class Notification extends Model
 
             self::sendFCMNotification($type, $message, $deviceToken);
 
+        }
+
+        if ($sendPush && $userId) {
+            OneSignalService::sendNotification($userId, $type, $message);
         }
     }
 

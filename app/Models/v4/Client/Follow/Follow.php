@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Events\Follow\FollowRequest;
 
 use App\Events\Follow\UnFollowRequest;
-use App\Services\v4\OneSignalServices\OneSignalService;
 
 class Follow extends Model
 {
@@ -98,9 +97,7 @@ class Follow extends Model
 
                 ActivityLogger::addLog('Follow Request', "{$msg}");
 
-                Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
-
-                OneSignalService::sendNotification($data['follow_id'], 'follow request', $msg);
+                Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
             }
 
@@ -114,7 +111,7 @@ class Follow extends Model
 
             ActivityLogger::addLog('Unfollow Request', "{$msg}");
 
-            Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+            Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
             OneSignalService::sendNotification($data['follow_id'], 'un follow request', $msg);
 
