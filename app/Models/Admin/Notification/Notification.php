@@ -142,12 +142,13 @@ class Notification extends Model
             'type' => $type,
             'message' => $message,
             'device_token' => $deviceToken,
+            'permission' => $permission,
             'notification_priority' => $priority,
             'role' => $role,
             'sender_id' => $senderId,
         ]);
 
-        // Fire event if push is required
+
         if ($userId) {
              event(new \App\Events\NotificationCreated($notification,$sendPush));
         }
