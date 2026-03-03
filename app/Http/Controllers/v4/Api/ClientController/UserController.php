@@ -115,7 +115,7 @@ class UserController extends Controller
             $user =  $this->user;
 
 
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone', 'set_daily_tip_time','excited_connect','life_alchemist','note']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone', 'set_daily_tip_time','nickname','personal_quote','bio']);
 
                 if (!empty($request['set_daily_tip_time'])) {
 
