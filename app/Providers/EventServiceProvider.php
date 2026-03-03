@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
          \App\Events\NotificationCreated::class => [
-            \App\Listeners\SendNotificationPush::class,
+            \App\Listeners\SendPushNotification::class,
         ],
     ];
 

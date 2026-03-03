@@ -9,7 +9,6 @@ use App\Enums\Admin\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
-use App\Services\v4\OneSignalServices\OneSignalService;
 
 class Notification extends Model
 {
@@ -149,8 +148,8 @@ class Notification extends Model
         ]);
 
 
-        if ($userId) {
-             event(new \App\Events\NotificationCreated($notification,$sendPush));
+       if ($userId) {
+            event(new \App\Events\NotificationCreated($notification,$sendPush));
         }
 
         return $notification;
