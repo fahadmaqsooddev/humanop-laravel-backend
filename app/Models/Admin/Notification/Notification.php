@@ -148,8 +148,8 @@ class Notification extends Model
         ]);
 
 
-       if ($userId) {
-            event(new \App\Events\NotificationCreated($notification,$sendPush));
+        if ($userId && ($deviceToken || $sendPush)) {
+                event(new \App\Events\NotificationCreated($notification,$sendPush));
         }
 
         return $notification;
