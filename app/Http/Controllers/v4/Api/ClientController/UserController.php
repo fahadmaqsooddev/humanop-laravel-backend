@@ -405,7 +405,7 @@ class UserController extends Controller
 
                     $message = "The Maestro platform will no longer have access to the {$user['first_name']} {$user['last_name']} data";
 
-                    Notification::createNotification('Remove Company', $message, $companyData['device_token'], $companyData['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION,true);
+                    Notification::createNotification('Remove Company', $message, $companyData['device_token'], $companyData['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION,null,true);
 
                 }
 
@@ -945,7 +945,7 @@ class UserController extends Controller
 
                 $message = "The Maestro platform will no longer have access to the {$user['first_name']} {$user['last_name']} data";
 
-                Notification::createNotification('Remove Company', $message, $company['device_token'], $company['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION,true);
+                Notification::createNotification('Remove Company', $message, $company['device_token'], $company['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION,null,true);
 
 
                 return Helpers::successResponse('You has been successfully removed from the company.');

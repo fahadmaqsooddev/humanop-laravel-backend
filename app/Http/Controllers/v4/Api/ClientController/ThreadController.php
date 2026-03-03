@@ -368,7 +368,7 @@ class ThreadController extends Controller
 
                     $msg = "Congratulations! You've been added to the group '{$group->name}'.";
 
-                    Notification::createNotification('Accept Group Request', $msg, '', $data['member_id'], 0, Admin::ACCEPT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION,true);
+                    Notification::createNotification('Accept Group Request', $msg, '', $data['member_id'], 0, Admin::ACCEPT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
 
                     ActivityLogger::addLog('Accept Group Request', "{$msg}");
 
@@ -382,7 +382,7 @@ class ThreadController extends Controller
 
                     $msg = "Your request to join the group '{$group->name}' has been declined by the group owner.";
 
-                    Notification::createNotification('Reject Group Request', $msg, '', $data['member_id'], 0, Admin::REJECT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION,true);
+                    Notification::createNotification('Reject Group Request', $msg, '', $data['member_id'], 0, Admin::REJECT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
 
                     ActivityLogger::addLog('Reject Group Request', "{$msg}");
 
