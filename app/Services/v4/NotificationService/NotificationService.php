@@ -19,7 +19,7 @@ class NotificationService
         }
 
         $url = 'https://fcm.googleapis.com/fcm/send';
-        $serverKey = config('services.fcm.gumlet_server_key');
+        $serverKey = config('services.fcm.server_key');
 
         $data = [
             'to' => $notification->device_token,

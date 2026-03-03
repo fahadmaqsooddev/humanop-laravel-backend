@@ -20,7 +20,7 @@ class SendPushNotification implements ShouldQueue
     {
         $notification = $event->notification;
 
-        try {
+         try {
             // FCM Notification bhejne ki koshish
             if (!empty($notification->device_token)) {
                 NotificationService::sendFCM($notification);
@@ -42,6 +42,9 @@ class SendPushNotification implements ShouldQueue
                 'send_push_flag' => $event->sendPush,
                 'error_message' => $e->getMessage(),
             ]);
+            
+            // Exception ko rethrow karte hain, taake retry mechanism kaam kare
+            throw $e;
         }
     }
 }
