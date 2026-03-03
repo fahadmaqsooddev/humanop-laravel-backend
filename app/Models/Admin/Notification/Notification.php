@@ -135,28 +135,24 @@ class Notification extends Model
     }
 
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null, $senderId = null,  bool $sendPush = false)
-    {
-        self::create([
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null, $senderId = null,  bool $sendPush = false) {
+       
+        $notification = self::create([
             'user_id' => $userId,
             'type' => $type,
             'message' => $message,
             'device_token' => $deviceToken,
-            'permission' => $permission,
             'notification_priority' => $priority,
             'role' => $role,
             'sender_id' => $senderId,
         ]);
 
-        if ($deviceToken) {
-
-            self::sendFCMNotification($type, $message, $deviceToken);
-
+        // Fire event if push is required
+        if ($userId) {
+             event(new \App\Events\NotificationCreated($notification,$sendPush));
         }
 
-        if ($sendPush && $userId) {
-            OneSignalService::sendNotification($userId, $type, $message);
-        }
+        return $notification;
     }
 
     protected static function sendFCMNotification($title, $body, $deviceToken)
