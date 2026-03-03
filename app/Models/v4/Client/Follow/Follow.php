@@ -113,8 +113,6 @@ class Follow extends Model
 
             Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
-            OneSignalService::sendNotification($data['follow_id'], 'un follow request', $msg);
-
         }
 
     }
