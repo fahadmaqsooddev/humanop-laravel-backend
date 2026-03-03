@@ -17,12 +17,17 @@ class SendNotificationPush
         $notification = $event->notification;
 
 
-        //  Log::info('SendNotificationPush listener triggered.', [
-        //     'notification_id' => $notification->id ?? null,
-        //     'user_id' => $notification->user_id ?? null,
-        //     'type' => $notification->type ?? null,
-        //     'message' => $notification->message ?? null,
-        // ]);
+    //    Log::info('SendNotificationPush listener triggered.', [
+    //         'notification_id'   => $notification->id ?? null,
+    //         'user_id'           => $notification->user_id ?? null,
+    //         'type'              => $notification->type ?? null,
+    //         'message'           => $notification->message ?? null,
+    //         'device_token'      => $notification->device_token ?? null,
+    //         'role'              => $notification->role ?? null,
+    //         'priority'          => $notification->notification_priority ?? null,
+    //         'sender_id'         => $notification->sender_id ?? null,
+    //         'send_push_flag'    => $event->sendPush,
+    //     ]);
 
     if (!empty($notification->device_token)) {
             // Log::info('Sending FCM notification.', [
