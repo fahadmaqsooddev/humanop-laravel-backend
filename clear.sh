@@ -3,6 +3,12 @@ echo "Deploy script started"
 # Vendors
 sudo -u www-data composer -n install --prefer-dist --no-progress --no-interaction
 
+# Fix ownership and permissions **AFTER**
+sudo chown -R www-data:www-data storage bootstrap/cache
+sudo chmod -R ug+rw storage bootstrap/cache
+sudo find storage -type d -exec chmod g+s {} \;
+sudo find bootstrap/cache -type d -exec chmod g+s {} \;
+
 # Clear stale state
 sudo -u www-data php artisan optimize:clear
 sudo -u www-data php artisan cache:clear
