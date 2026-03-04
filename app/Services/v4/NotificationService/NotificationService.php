@@ -30,7 +30,7 @@ class NotificationService
             ],
         ];
 
-        $client = new \GuzzleHttp\Client(['http_errors' => true]);
+        $client = new Client(['http_errors' => true]);
         $response = $client->post($url, [
             'headers' => [
                 'Authorization' => 'key=' . $serverKey,
