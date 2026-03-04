@@ -7,15 +7,16 @@ use App\Services\v4\NotificationService\NotificationService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class SendPushNotification implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    // Use non-typed properties for maximum compatibility
     public $tries = 3;
+
     public $timeout = 120;
-    public $backoff = 30;
+    public $backoff = [10, 20, 30];
 
     /**
      * Decide whether job should be queued
@@ -36,97 +37,92 @@ class SendPushNotification implements ShouldQueue
         $notification = $event->notification;
 
         $context = [
-            'notification_id' => $notification->id,
-            'user_id' => $notification->user_id,
-            'job_attempt' => $this->attempts(),
+            'notification_id' => $notification->id ?? null,
+            'user_id' => $notification->user_id ?? null,
+            'job_attempt' => $this->job?->attempts(),
         ];
 
         Log::info('SendPushNotification started', $context);
 
-        $hasError = false;
+        $oneSignalSuccess = false;
+        $fcmSuccess = false;
 
-        // Try OneSignal
+        // OneSignal
         try {
-            $this->maybeSendOneSignal($event, $context);
-        } catch (\Exception $e) {
-            $hasError = true;
+            $oneSignalSuccess = $this->maybeSendOneSignal($event, $context);
+        } catch (Throwable $e) {
+            Log::error('OneSignal push failed', $context + [
+                    'channel' => 'onesignal',
+                    'error' => $e->getMessage(),
+                ]);
         }
 
-        // Try FCM
+        // FCM
         try {
-            $this->maybeSendFcm($notification, $context);
-        } catch (\Exception $e) {
-            $hasError = true;
+            $fcmSuccess = $this->maybeSendFcm($notification, $context);
+        } catch (Throwable $e) {
+            Log::error('FCM push failed', $context + [
+                    'channel' => 'fcm',
+                    'error' => $e->getMessage(),
+                ]);
         }
 
-        // If any channel failed → retry job
-        if ($hasError) {
-            throw new \Exception('One or more push channels failed.');
+        /**
+         * Retry only if BOTH channels failed
+         * This prevents duplicate pushes.
+         */
+        if (!$oneSignalSuccess && !$fcmSuccess) {
+            throw new \Exception('Both push channels failed.');
         }
 
-        Log::info('SendPushNotification completed successfully', $context);
+        Log::info('SendPushNotification completed successfully', $context + [
+                'onesignal_success' => $oneSignalSuccess,
+                'fcm_success' => $fcmSuccess,
+            ]);
     }
 
     /**
      * Send OneSignal push
      */
-    private function maybeSendOneSignal(NotificationCreated $event, array $context)
+    private function maybeSendOneSignal(NotificationCreated $event, array $context): bool
     {
         if (!$event->sendPush || empty($event->notification->user_id)) {
-            return;
+            return false;
         }
 
-        try {
-            NotificationService::sendOneSignal($event->notification);
+        NotificationService::sendOneSignal($event->notification);
 
-            Log::info('Push sent', $context + ['channel' => 'onesignal']);
+        Log::info('Push sent', $context + ['channel' => 'onesignal']);
 
-        } catch (\Exception $e) {
-
-            Log::error('OneSignal push failed', $context + [
-                'channel' => 'onesignal',
-                'error' => $e->getMessage(),
-            ]);
-
-            throw $e; // Allow retry
-        }
+        return true;
     }
 
     /**
      * Send FCM push
      */
-    private function maybeSendFcm($notification, array $context)
+    private function maybeSendFcm($notification, array $context): bool
     {
         if (empty($notification->device_token)) {
-            return;
+            return false;
         }
 
-        try {
-            NotificationService::sendFCM($notification);
+        NotificationService::sendFCM($notification);
 
-            Log::info('Push sent', $context + ['channel' => 'fcm']);
+        Log::info('Push sent', $context + ['channel' => 'fcm']);
 
-        } catch (\Exception $e) {
-
-            Log::error('FCM push failed', $context + [
-                'channel' => 'fcm',
-                'error' => $e->getMessage(),
-            ]);
-
-            throw $e; // Allow retry
-        }
+        return true;
     }
 
     /**
-     * Called when job fails permanently
+     * Called when job permanently fails
      */
-    public function failed(NotificationCreated $event, \Exception $exception)
+    public function failed(NotificationCreated $event, Throwable $exception)
     {
         Log::critical('SendPushNotification permanently failed', [
-            'notification_id' => $event->notification->id,
-            'user_id' => $event->notification->user_id,
+            'notification_id' => $event->notification->id ?? null,
+            'user_id' => $event->notification->user_id ?? null,
             'error' => $exception->getMessage(),
-            'attempts' => $this->attempts(),
+            'attempts' => $this->job?->attempts(),
         ]);
     }
 }
