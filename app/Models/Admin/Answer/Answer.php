@@ -23,19 +23,22 @@ class Answer extends Model
     protected $appends = ['image_url'];
 
     // appends
-    public function getImageUrlAttribute()
+    public function getImageUrlAttribute(): ?string
     {
-        $user = Helpers::getUser();
 
-        $gender = ($user && in_array($user->gender, ['male', 'female']))
-            ? $user->gender
-            : 'male';
+        $user = auth()->user();
 
-        $image = $gender === 'male'
-            ? $this->male_image
-            : $this->female_image;
+        $gender = $user?->gender === 'female' ? 'female' : 'male';
 
-        return $image ? asset('images/answer_images/' . ltrim($image, '/')) : null;
+        $image = $gender === 'female'
+            ? $this->female_image
+            : $this->male_image;
+
+        if (!$image || $image === 'NULL') {
+            return null;
+        }
+
+        return asset('images/answer_images/' . ltrim($image, '/'));
     }
 
 
