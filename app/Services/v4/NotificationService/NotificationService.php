@@ -12,10 +12,10 @@ class NotificationService
     /**
      * Send FCM push notification.
      */
-    public static function sendFCM(Notification $notification): bool
+    public static function sendFCM(Notification $notification): void
     {
         if (empty($notification->device_token)) {
-            return false;
+            throw new \Exception('FCM device token missing');
         }
 
         $url = 'https://fcm.googleapis.com/fcm/send';
@@ -30,20 +30,25 @@ class NotificationService
             ],
         ];
 
-        try {
-            $client = new Client();
-            $client->post($url, [
-                'headers' => [
-                    'Authorization' => 'key=' . $serverKey,
-                    'Content-Type'  => 'application/json',
-                ],
-                'json' => $data,
-            ]);
+        $client = new \GuzzleHttp\Client(['http_errors' => true]);
+        $response = $client->post($url, [
+            'headers' => [
+                'Authorization' => 'key=' . $serverKey,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => $data,
+        ]);
 
-            return true;
-        } catch (\Exception $e) {
-            Log::error('FCM Push failed: ' . $e->getMessage());
-            return false;
+        $statusCode = $response->getStatusCode();
+        $body = (string) $response->getBody();
+
+        // Log::info('FCM API Response', [
+        //     'status_code' => $statusCode,
+        //     'body' => $body,
+        // ]);
+
+        if ($statusCode !== 200) {
+            throw new \Exception("FCM response not OK: $statusCode - $body");
         }
     }
 

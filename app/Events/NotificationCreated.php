@@ -5,7 +5,7 @@ namespace App\Events;
 use App\Models\Admin\Notification\Notification;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log; // ✅ Import Log
+use Illuminate\Support\Facades\Log;
 
 
 class NotificationCreated
@@ -29,7 +29,7 @@ class NotificationCreated
         //     'role' => $notification->role ?? null,
         //     'priority' => $notification->notification_priority ?? null,
         //     'sender_id' => $notification->sender_id ?? null,
-        //     'send_push' => $sendPush, // ✅ log the flag
+        //     'send_push' => $sendPush,
         // ]);
     }
 }

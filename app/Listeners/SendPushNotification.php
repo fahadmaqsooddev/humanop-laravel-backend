@@ -20,30 +20,58 @@ class SendPushNotification implements ShouldQueue
     {
         $notification = $event->notification;
 
-         try {
-            // FCM Notification bhejne ki koshish
-            if (!empty($notification->device_token)) {
-                NotificationService::sendFCM($notification);
+        try {
+           
+            // Log::info('SendPushNotification started', [
+            //     'notification_id' => $notification->id,
+            //     'user_id' => $notification->user_id,
+            //     'send_push_flag' => $event->sendPush,
+            // ]);
+
+            // OneSignal
+            if ($event->sendPush && $notification->user_id) {
+                try {
+                    NotificationService::sendOneSignal($notification);
+                    Log::info('OneSignal notification sent', [
+                        'notification_id' => $notification->id,
+                        'user_id' => $notification->user_id,
+                    ]);
+                } catch (\Exception $osEx) {
+                    Log::error('OneSignal push failed', [
+                        'notification_id' => $notification->id,
+                        'user_id' => $notification->user_id,
+                        'exception_message' => $osEx->getMessage(),
+                        'exception_trace' => $osEx->getTraceAsString(),
+                    ]);
+                }
             }
 
-            // OneSignal notification bhejne ki koshish, agar flag true ho aur user_id ho
-            if ($event->sendPush && $notification->user_id) {
-                NotificationService::sendOneSignal($notification);
+            // FCM
+            if (!empty($notification->device_token)) {
+                try {
+                    NotificationService::sendFCM($notification);
+                    Log::info('FCM notification sent', [
+                        'notification_id' => $notification->id,
+                        'user_id' => $notification->user_id,
+                    ]);
+                } catch (\Exception $fcmEx) {
+                    Log::error('FCM push failed', [
+                        'notification_id' => $notification->id,
+                        'user_id' => $notification->user_id,
+                        'exception_message' => $fcmEx->getMessage(),
+                        'exception_trace' => $fcmEx->getTraceAsString(),
+                    ]);
+                }
             }
 
         } catch (\Exception $e) {
-            // Agar koi error aaye, toh usse log karenge
-            Log::error('Error sending push notification: ' . $e->getMessage(), [
-                'notification_id' => $notification->id ?? null,
-                'user_id' => $notification->user_id ?? null,
-                'type' => $notification->type ?? null,
-                'message' => $notification->message ?? null,
-                'device_token' => $notification->device_token ?? null,
-                'send_push_flag' => $event->sendPush,
-                'error_message' => $e->getMessage(),
+        
+            Log::error('Error in SendPushNotification', [
+                'notification_id' => $notification->id,
+                'user_id' => $notification->user_id,
+                'exception_message' => $e->getMessage(),
+                'exception_trace' => $e->getTraceAsString(),
             ]);
-            
-            // Exception ko rethrow karte hain, taake retry mechanism kaam kare
             throw $e;
         }
     }
