@@ -49,14 +49,14 @@ class SendPushNotification implements ShouldQueue
         // Try OneSignal
         try {
             $this->maybeSendOneSignal($event, $context);
-        } catch (Throwable $e) {
+        } catch (\Exception $e) {
             $hasError = true;
         }
 
         // Try FCM
         try {
             $this->maybeSendFcm($notification, $context);
-        } catch (Throwable $e) {
+        } catch (\Exception $e) {
             $hasError = true;
         }
 
@@ -82,7 +82,7 @@ class SendPushNotification implements ShouldQueue
 
             Log::info('Push sent', $context + ['channel' => 'onesignal']);
 
-        } catch (Throwable $e) {
+        } catch (\Exception $e) {
 
             Log::error('OneSignal push failed', $context + [
                 'channel' => 'onesignal',
@@ -107,7 +107,7 @@ class SendPushNotification implements ShouldQueue
 
             Log::info('Push sent', $context + ['channel' => 'fcm']);
 
-        } catch (Throwable $e) {
+        } catch (\Exception $e) {
 
             Log::error('FCM push failed', $context + [
                 'channel' => 'fcm',
@@ -121,7 +121,7 @@ class SendPushNotification implements ShouldQueue
     /**
      * Called when job fails permanently
      */
-    public function failed(NotificationCreated $event, Throwable $exception)
+    public function failed(NotificationCreated $event, \Exception $exception)
     {
         Log::critical('SendPushNotification permanently failed', [
             'notification_id' => $event->notification->id,
