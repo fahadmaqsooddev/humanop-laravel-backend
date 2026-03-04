@@ -278,18 +278,16 @@ class GamificationController extends Controller
             $response = [
                 "current_performance" => $currentPerformance,
                 "current_level" => $currentLevel,
+                "current_hp_points" => $points
             ];
 
-            if ($points < 500) {
+            if ($points < Admin::SECOND_LEVEL_MIN_POINTS) {
 
-                $remainingToNextLevel = max(0, 500 - $points);
+                $remainingToNextLevel = max(0, Admin::SECOND_LEVEL_MIN_POINTS - $points);
 
-                $response["remaining_hp_point"] = $remainingToNextLevel;
-
-                $response["remaining_hp_point_to_next_level"] = 2;
-
-                $response["remaining_hp_point_to_next_performance"] = Admin::SECOND_LEVEL;
-
+                $response["next_performance"] = Admin::SECOND_LEVEL;
+                $response["next_level"] = 2;
+                $response["points_required_for_next_level"] = $remainingToNextLevel;
             }
 
             return Helpers::successResponse("Your Performance Level", $response);
