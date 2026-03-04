@@ -13,11 +13,15 @@ class SendPushNotification implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    public int $tries = 3;
-    public int $timeout = 120;
-    public int $backoff = 30;
+    // Use non-typed properties for maximum compatibility
+    public $tries = 3;
+    public $timeout = 120;
+    public $backoff = 30;
 
-    public function shouldQueue(NotificationCreated $event): bool
+    /**
+     * Decide whether job should be queued
+     */
+    public function shouldQueue(NotificationCreated $event)
     {
         return (
             ($event->sendPush && !empty($event->notification->user_id))
@@ -25,7 +29,10 @@ class SendPushNotification implements ShouldQueue
         );
     }
 
-    public function handle(NotificationCreated $event): void
+    /**
+     * Handle the queued listener
+     */
+    public function handle(NotificationCreated $event)
     {
         $notification = $event->notification;
 
@@ -37,13 +44,34 @@ class SendPushNotification implements ShouldQueue
 
         Log::info('SendPushNotification started', $context);
 
-        $this->maybeSendOneSignal($event, $context);
-        $this->maybeSendFcm($notification, $context);
+        $hasError = false;
 
-        Log::info('SendPushNotification completed', $context);
+        // Try OneSignal
+        try {
+            $this->maybeSendOneSignal($event, $context);
+        } catch (Throwable $e) {
+            $hasError = true;
+        }
+
+        // Try FCM
+        try {
+            $this->maybeSendFcm($notification, $context);
+        } catch (Throwable $e) {
+            $hasError = true;
+        }
+
+        // If any channel failed → retry job
+        if ($hasError) {
+            throw new \Exception('One or more push channels failed.');
+        }
+
+        Log::info('SendPushNotification completed successfully', $context);
     }
 
-    private function maybeSendOneSignal(NotificationCreated $event, array $context): void
+    /**
+     * Send OneSignal push
+     */
+    private function maybeSendOneSignal(NotificationCreated $event, array $context)
     {
         if (!$event->sendPush || empty($event->notification->user_id)) {
             return;
@@ -57,15 +85,18 @@ class SendPushNotification implements ShouldQueue
         } catch (Throwable $e) {
 
             Log::error('OneSignal push failed', $context + [
-                'error' => $e->getMessage(),
                 'channel' => 'onesignal',
+                'error' => $e->getMessage(),
             ]);
 
             throw $e; // Allow retry
         }
     }
 
-    private function maybeSendFcm($notification, array $context): void
+    /**
+     * Send FCM push
+     */
+    private function maybeSendFcm($notification, array $context)
     {
         if (empty($notification->device_token)) {
             return;
@@ -79,15 +110,18 @@ class SendPushNotification implements ShouldQueue
         } catch (Throwable $e) {
 
             Log::error('FCM push failed', $context + [
-                'error' => $e->getMessage(),
                 'channel' => 'fcm',
+                'error' => $e->getMessage(),
             ]);
 
             throw $e; // Allow retry
         }
     }
 
-    public function failed(NotificationCreated $event, Throwable $exception): void
+    /**
+     * Called when job fails permanently
+     */
+    public function failed(NotificationCreated $event, Throwable $exception)
     {
         Log::critical('SendPushNotification permanently failed', [
             'notification_id' => $event->notification->id,

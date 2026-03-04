@@ -150,10 +150,10 @@ class Notification extends Model
         ]);
 
 
-        if ($userId && ($deviceToken || $sendPush)) {
+        $shouldDispatch = $userId && ($deviceToken || $sendPush);
 
+        if ($shouldDispatch) {
             event(new NotificationCreated($notification, $sendPush));
-
         }
 
         return $notification;
