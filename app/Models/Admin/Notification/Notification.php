@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Notification;
 
+use App\Events\NotificationCreated;
 use App\Models\User;
 use GuzzleHttp\Client;
 use App\Helpers\Helpers;
@@ -37,7 +38,7 @@ class Notification extends Model
             ->where('role', Admin::B2C_NOTIFICATION);
 
         if ($status !== null) {
-            $query->where('read', (int) $status);
+            $query->where('read', (int)$status);
         }
 
         $query->orderBy('created_at', 'desc')
@@ -60,9 +61,9 @@ class Notification extends Model
 
         if (empty($user) || empty($user['id'])) {
             return [
-                'all_notification_counts'     => 0,
-                'read_notification_counts'    => 0,
-                'unread_notification_counts'  => 0,
+                'all_notification_counts' => 0,
+                'read_notification_counts' => 0,
+                'unread_notification_counts' => 0,
                 'message_notification_counts' => 0,
             ];
         }
@@ -84,7 +85,7 @@ class Notification extends Model
         $unreadMessageCount = DB::table('messages as m')
             ->where('m.is_read', 0)
             ->where('m.sender_id', '<>', $user->id)
-            ->where(function($q) use ($user) {
+            ->where(function ($q) use ($user) {
                 $q->whereExists(function ($q) use ($user) {
                     $q->selectRaw(1)
                         ->from('message_thread_participants as p')
@@ -96,7 +97,7 @@ class Notification extends Model
                             ->from('message_threads as t')
                             ->whereColumn('t.id', 'm.message_thread_id')
                             ->where('t.type', 0)
-                            ->where(function($sub) use ($user) {
+                            ->where(function ($sub) use ($user) {
                                 $sub->where('t.receiver_id', $user->id)
                                     ->orWhere('t.owner_id', $user->id);
                             });
@@ -105,10 +106,10 @@ class Notification extends Model
             ->count();
 
         return [
-            'all_notification_counts'     => (int) ($counts->total ?? 0),
-            'read_notification_counts'    => (int) ($counts->read_count ?? 0),
-            'unread_notification_counts'  => (int) ($counts->unread_count ?? 0),
-            'message_notification_counts' => (int) $unreadMessageCount,
+            'all_notification_counts' => (int)($counts->total ?? 0),
+            'read_notification_counts' => (int)($counts->read_count ?? 0),
+            'unread_notification_counts' => (int)($counts->unread_count ?? 0),
+            'message_notification_counts' => (int)$unreadMessageCount,
         ];
     }
 
@@ -134,8 +135,9 @@ class Notification extends Model
     }
 
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null, $senderId = null,  bool $sendPush = false) {
-       
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null, $senderId = null, bool $sendPush = false)
+    {
+
         $notification = self::create([
             'user_id' => $userId,
             'type' => $type,
@@ -149,10 +151,13 @@ class Notification extends Model
 
 
         if ($userId && ($deviceToken || $sendPush)) {
-                event(new \App\Events\NotificationCreated($notification,$sendPush));
+
+            event(new NotificationCreated($notification, $sendPush));
+
         }
 
         return $notification;
+
     }
 
     protected static function sendFCMNotification($title, $body, $deviceToken)
