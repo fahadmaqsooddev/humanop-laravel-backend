@@ -134,9 +134,9 @@ class Notification extends Model
     }
 
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null, $senderId = null)
-    {
-        self::create([
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null, $role = null, $senderId = null,  bool $sendPush = false) {
+       
+        $notification = self::create([
             'user_id' => $userId,
             'type' => $type,
             'message' => $message,
@@ -147,11 +147,12 @@ class Notification extends Model
             'sender_id' => $senderId,
         ]);
 
-        if ($deviceToken) {
 
-            self::sendFCMNotification($type, $message, $deviceToken);
-
+        if ($userId && ($deviceToken || $sendPush)) {
+                event(new \App\Events\NotificationCreated($notification,$sendPush));
         }
+
+        return $notification;
     }
 
     protected static function sendFCMNotification($title, $body, $deviceToken)

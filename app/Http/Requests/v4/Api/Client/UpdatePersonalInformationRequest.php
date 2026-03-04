@@ -26,29 +26,16 @@ class UpdatePersonalInformationRequest extends FormRequest
                 'string',
                 'max:255',
                 function ($attribute, $value, $fail) {
-
-                    // Expected format:
-                    // UTC/GMT +05:00 - Asia/Karachi
-
-                    if (!preg_match('/^UTC\/GMT\s[+-]\d{2}:\d{2}\s-\s.+$/', $value)) {
-                        $fail('Timezone format must be like: UTC/GMT +05:00 - Asia/Karachi');
-                        return;
-                    }
-
-                    // Extract actual timezone part
-                    $parts = explode('-', $value);
-                    $timezoneIdentifier = trim(end($parts));
-
-                    if (!in_array($timezoneIdentifier, timezone_identifiers_list())) {
-                        $fail('Invalid timezone identifier.');
+                    if (!in_array($value, timezone_identifiers_list())) {
+                        $fail('Invalid timezone identifier. Please provide a valid timezone');
                     }
                 }
             ],
 
             'profile_image'   => 'nullable|image|mimes:jpg,png,jpeg|max:3072',
-            'excited_connect' => 'nullable|string|max:255',
-            'life_alchemist'  => 'nullable|string|max:255',
-            'note'            => 'nullable|string|max:1000',
+            'nickname'        => 'nullable|string|max:100',
+            'personal_quote'  => 'nullable|string|max:255',
+            'bio'             => 'nullable|string|max:2000',
         ];
 
         $user = Helpers::getUser();
@@ -76,9 +63,9 @@ class UpdatePersonalInformationRequest extends FormRequest
             'set_daily_tip_time.required'    => 'Please set your daily tip time.',
             'set_daily_tip_time.date_format' => 'The daily tip time must be in the format hh:mm AM/PM. Example: 10:30 AM.',
             'set_daily_tip_time.prohibited'  => 'Only Premium users can set a daily tip time.',
-            'excited_connect.max'            => 'Excited Connect should not exceed 255 characters.',
-            'life_alchemist.max'             => 'Life Alchemist should not exceed 255 characters.',
-            'note.max'                       => 'Note should not exceed 1000 characters.',
+            'nickname.max'                   => 'Nickname should not exceed 100 characters.',
+            'personal_quote.max'             => 'Personal quote should not exceed 255 characters.',
+            'bio.max'                        => 'Bio should not exceed 2000 characters.',
         ];
     }
 }

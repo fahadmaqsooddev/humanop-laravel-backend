@@ -59,7 +59,7 @@ class MessageThreadRequest extends Model
 
             ActivityLogger::addLog('Send Group Request', "{$msg}");
 
-            Notification::createNotification('Send Group Request', $msg, '', $data['owner_id'], 0, Admin::SEND_GROUP_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION);
+            Notification::createNotification('Send Group Request', $msg, '', $data['owner_id'], 0, Admin::SEND_GROUP_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
 
             return true;
 

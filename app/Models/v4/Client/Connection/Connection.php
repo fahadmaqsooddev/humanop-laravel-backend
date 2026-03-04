@@ -80,7 +80,8 @@ class Connection extends Model
 
                 ActivityLogger::addLog('Connection Request', "{$msg}");
 
-                Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+                Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
+
 
                 toastr()->success("connection request was sent");
 
@@ -104,7 +105,7 @@ class Connection extends Model
 
             ActivityLogger::addLog('Connection Cancel', "{$msg}");
 
-            Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+            Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
         } else if ($data['type'] === 'accept') {
 
@@ -130,7 +131,8 @@ class Connection extends Model
 
                 ActivityLogger::addLog('Connection Accept', "{$msg}");
 
-                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
+
 
             } elseif ($received_request && $send_request) {
 
@@ -144,7 +146,8 @@ class Connection extends Model
 
                 ActivityLogger::addLog('Connection Accept', "{$msg}");
 
-                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+                Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
+
 
             }
 

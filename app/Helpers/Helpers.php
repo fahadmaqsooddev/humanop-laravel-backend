@@ -1154,7 +1154,8 @@ class Helpers
 
 //                Helpers::OneSignalApiUsed($user['id'], 'Credit Bonus', $message);
 
-                Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION);
+                Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION,null,true);
+        
 
             }
         }

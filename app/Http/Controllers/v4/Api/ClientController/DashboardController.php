@@ -40,6 +40,7 @@ use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\VersionControl\Version;
 
+
 class DashboardController extends Controller
 {
     public $user = null;
@@ -145,7 +146,7 @@ class DashboardController extends Controller
 
                                 event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
 
                                 ActivityLogger::addLog('new daily tip', "$message");
 
@@ -159,7 +160,7 @@ class DashboardController extends Controller
 
                                 event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
 
                                 ActivityLogger::addLog('new daily tip', "$message");
 

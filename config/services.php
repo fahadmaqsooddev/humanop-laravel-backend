@@ -58,4 +58,9 @@ return [
         'app_id' => env('ONESIGNAL_APP_ID'),
         'auth_key' => env('ONESIGNAL_AUTH_KEY'),
     ],
+
+    'fcm' => [
+        'api_key' => env('FCM_API_KEY'),
+        'server_key' => env('FCM_SERVER_KEY'),
+    ]
 ];

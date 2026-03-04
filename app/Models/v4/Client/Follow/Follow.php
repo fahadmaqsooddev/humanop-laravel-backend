@@ -97,7 +97,7 @@ class Follow extends Model
 
                 ActivityLogger::addLog('Follow Request', "{$msg}");
 
-                Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+                Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
             }
 
@@ -111,7 +111,7 @@ class Follow extends Model
 
             ActivityLogger::addLog('Unfollow Request', "{$msg}");
 
-            Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+            Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
         }
 

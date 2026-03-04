@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Console\Commands;
-
 use App\Enums\Admin\Admin;
 use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\ActivityLogs\ActivityLogger;
@@ -103,7 +102,7 @@ class dailyTipPushNotification extends Command
 
             event(new NewDailyTip($user->id, 'new daily tip', $message));
 
-            Notification::createNotification('Daily Tip', $message, $user->device_token, $user->id, 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
+            Notification::createNotification('Daily Tip', $message, $user->device_token, $user->id, 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
 
             ActivityLogger::addLog('Daily Tip', $message);
 
