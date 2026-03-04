@@ -25,14 +25,13 @@ class Answer extends Model
     // appends
     public function getImageUrlAttribute()
     {
-       
         $user = Helpers::getUser();
-        $userGender = (int) $user->attributes['gender'];
-        if ($userGender == 0) {
-            return $this->male_image ? asset($this->male_image) : null;
-        } else {
-            return $this->female_image ? asset($this->female_image) : null;
-        }
+        $gender = $user ? $user->gender : 'male';
+        $image = $gender === 'male'
+            ? $this->male_image
+            : $this->female_image;
+
+        return $image ? asset('images/answer_images/' . $image) : null;
     }
 
 
