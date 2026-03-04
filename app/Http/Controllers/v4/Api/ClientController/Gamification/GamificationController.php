@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v4\Api\ClientController\Gamification;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -206,7 +207,6 @@ class GamificationController extends Controller
     }
 
 
-
     public function currentUserMedal()
     {
         try {
@@ -253,8 +253,6 @@ class GamificationController extends Controller
     }
 
 
-
-
     public function getPerformanceLevel()
     {
         try {
@@ -264,11 +262,37 @@ class GamificationController extends Controller
             if (!$user) {
 
                 return Helpers::unauthResponse("User not authenticated");
+
             }
 
-            $data = GamificationPerformanceLevel::getSinglePerformanceLevel($user);
+            $userPointsData = HumanOpPoints::getUserPoints($user);
 
-            return Helpers::successResponse("Your Performance Level", $data);
+            $points = $userPointsData['points'] ?? 0;
+
+            $performanceData = GamificationPerformanceLevel::getSinglePerformanceLevel($user, $points);
+
+            $currentPerformance = $performanceData['performance'] ?? null;
+
+            $currentLevel = $performanceData['level'] ?? null;
+
+            $response = [
+                "current_performance" => $currentPerformance,
+                "current_level" => $currentLevel,
+            ];
+
+            if ($points < 500) {
+
+                $remainingToNextLevel = max(0, 500 - $points);
+
+                $response["remaining_hp_point"] = $remainingToNextLevel;
+
+                $response["remaining_hp_point_to_next_level"] = 2;
+
+                $response["remaining_hp_point_to_next_performance"] = Admin::SECOND_LEVEL;
+
+            }
+
+            return Helpers::successResponse("Your Performance Level", $response);
 
         } catch (\Exception $exception) {
 
