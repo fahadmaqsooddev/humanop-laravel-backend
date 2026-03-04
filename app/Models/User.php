@@ -104,10 +104,6 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-
-    
-
-
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -1423,9 +1419,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkHaiStatus($id = null)
     {
-        $user = self::whereId($id)->select(['hai_chat'])->first();
-
-        return ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
+       return (bool) self::whereKey($id)->value('hai_chat');
     }
 
     public static function createClient($data = null)
