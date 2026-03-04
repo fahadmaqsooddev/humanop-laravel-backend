@@ -54,9 +54,8 @@ class GamificationPerformanceLevel extends Model
         }
     }
 
-    public static function getSinglePerformanceLevel($user = null)
+    public static function getSinglePerformanceLevel($user = null, $points = null)
     {
-        $points = HumanOpPoints::getUserPoints($user)['points'];
 
         if ($points > 0 && $points < 500)
         {

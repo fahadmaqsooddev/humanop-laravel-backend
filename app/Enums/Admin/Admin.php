@@ -223,6 +223,7 @@ final class Admin
 
     const SECOND_LEVEL = 'Seeker';
 
+    const SECOND_LEVEL_MIN_POINTS = 500;
     const TRIAL_DAY = 14;
 
     const VERIFIED_EMAIL ='verified_email';
