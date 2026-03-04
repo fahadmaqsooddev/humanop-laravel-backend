@@ -26,11 +26,9 @@ class Answer extends Model
     public function getImageUrlAttribute(): ?string
     {
 
-        $user = auth()->user();
+        $userGender = Helpers::getUser()->gender;
 
-        $gender = $user?->gender === 'female' ? 'female' : 'male';
-
-        $image = $gender === 'female'
+        $image = $userGender === 'female'
             ? $this->female_image
             : $this->male_image;
 
