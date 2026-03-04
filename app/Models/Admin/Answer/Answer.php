@@ -5,6 +5,7 @@ namespace App\Models\Admin\Answer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\AnswerCode\AnswerCode;
+use App\Helpers\Helpers;
 
 class Answer extends Model
 {
@@ -22,9 +23,16 @@ class Answer extends Model
     protected $appends = ['image_url'];
 
     // appends
-    public function getImageUrlAttribute(){
-
-        return $this->image != "NULL" ? asset('/images/q/' . $this->image) : null;
+    public function getImageUrlAttribute()
+    {
+       
+        $user = Helpers::getUser();
+        $userGender = (int) $user->attributes['gender'];
+        if ($userGender == 0) {
+            return $this->male_image ? asset($this->male_image) : null;
+        } else {
+            return $this->female_image ? asset($this->female_image) : null;
+        }
     }
 
 
