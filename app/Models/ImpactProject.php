@@ -48,9 +48,9 @@ class ImpactProject extends Model
 
     public static function fetchForUser($user)
     {
-    
+
         $userHpRecord = HumanOpPoints::getUserPoints($user);
-       
+
         $userHp = $userHpRecord ? ($userHpRecord->points ?? 0) : 0;
         $projects = self::where('status', 1)
             ->orderBy('created_at', 'desc')
@@ -91,6 +91,9 @@ class ImpactProject extends Model
                 // Deduct points
                 $userHpRecord->decrement('points', $hpRequired);
 
+                // Reload model to get accurate DB value
+                $userHpRecord->refresh();
+
                 // Record contribution
                 ImpactContribution::createContribution(
                     $user->id,
@@ -98,7 +101,6 @@ class ImpactProject extends Model
                     $hpRequired
                 );
 
-                // Return remaining points (accurate)
                 return $userHpRecord->points;
             });
 
