@@ -23,11 +23,11 @@ use App\Http\Requests\SubscriptionFromAppRequest;
 class BillingController extends Controller
 {
 
-    public $user=null;
+    public $user = null;
 
     public function __construct(private StripeClient $stripe, protected GoHighLevelService $ghl)
     {
-        $this->user=Helpers::getUser();
+        $this->user = Helpers::getUser();
     }
 
     private function HAiCreditsUpdated($points, $user)
@@ -717,7 +717,6 @@ class BillingController extends Controller
     }
 
 
-
     public function redeemLifetimeCoupon(RedeemCouponRequest $request)
     {
         $user = Helpers::getUser();
@@ -763,19 +762,66 @@ class BillingController extends Controller
 
     public function syncAppSubscription(SubscriptionFromAppRequest $request)
     {
-        $user_id = $this->user->id;
 
-        $subscription = SubscriptionModel::updateUserSubscription(
-            $user_id,
-            $request->purchase_id,
-            $request->purchase_name
-        );
+        $user = Helpers::getUser();
 
-        if (!$subscription) {
-            return Helpers::notFoundResponse('Subscription record not found for this user');
+        $purchaseName = $request->purchase_name;
+
+        $plans = [
+            'premium_lifetime' => [
+                'is_lifetime' => Admin::PREMIUM_LIFETIME,
+                'plan' => 'premium_lifetime',
+                'premium_lifetime_welcome' => 1,
+            ],
+            'premium_monthly' => [
+                'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
+                'plan' => 'premium_monthly',
+                'premium_lifetime_welcome' => 0,
+            ],
+            'premium_yearly' => [
+                'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
+                'plan' => 'premium_yearly',
+                'premium_lifetime_welcome' => 0,
+            ],
+            'freemium' => [
+                'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
+                'plan' => 'freemium',
+                'premium_lifetime_welcome' => 0,
+            ],
+        ];
+
+        $planData = $plans[$purchaseName] ?? $plans['freemium'];
+
+        $planData['billing_context'] = 'b2c';
+
+        $user->update($planData);
+
+        if ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB) {
+
+            $credits = Admin::BREAKER_CREDITS;
+
+            if ($purchaseName !== 'freemium') {
+
+                $credits += Admin::PREMIUM_LIFETIME_CREDITS;
+
+            }
+
+        } else {
+
+            $credits = $purchaseName === 'freemium' ? Admin::FREEMIUM_CREDITS : Admin::PREMIUM_LIFETIME_CREDITS;
+
         }
 
-        return Helpers::successResponse('Subscription updated successfully');
-    }
+        $points = Point::firstOrCreate(
+            ['user_id' => $user->id],
+            ['point' => Admin::FREEMIUM_CREDITS]
+        );
 
+        $points->update([
+            'point' => $credits
+        ]);
+
+        return Helpers::successResponse('Subscription updated successfully');
+
+    }
 }
