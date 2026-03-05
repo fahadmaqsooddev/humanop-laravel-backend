@@ -46,7 +46,8 @@ class ImpactProjectController extends Controller
         try {
            
 
-            $project = ImpactProject::findOrFail($request->project_id);
+            $project = ImpactProject::where('status',1)
+            ->findOrFail($request->project_id);
             $result = $project->contributeByUser($this->user, $project->hp_required);
 
            

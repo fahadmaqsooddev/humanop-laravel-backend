@@ -34,7 +34,6 @@ class AddImpactProject extends Component{
             'hp_required' => $this->hp_required,
             'verification_text' => $this->verification_text,
             'status' => $this->status,
-            'text' => $this->text,
         ]);
 
         // Reset form fields
