@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->integer('hp_required');
+            $table->unsignedInteger('hp_required');
             $table->text('verification_text')->nullable();
-            $table->boolean('status')->default(1);
+            $table->boolean('status')->default(1)->index();
             $table->timestamps();
         });
     }

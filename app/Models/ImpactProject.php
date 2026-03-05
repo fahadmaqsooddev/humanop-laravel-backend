@@ -50,6 +50,7 @@ class ImpactProject extends Model
     {
     
         $userHpRecord = HumanOpPoints::getUserPoints($user);
+       
         $userHp = $userHpRecord ? ($userHpRecord->points ?? 0) : 0;
         $projects = self::where('status', 1)
             ->orderBy('created_at', 'desc')
@@ -86,29 +87,40 @@ class ImpactProject extends Model
             ];
         }
 
-        DB::transaction(function () use ($user, $userHpRecord, $hpRequired) {
+        $result = DB::transaction(function () use ($user, $hpRequired) {
 
-            if ($userHpRecord) {
-                $userHpRecord->decrement('points', $hpRequired);
+            // Lock user's HP record for update
+            $userHpRecord = HumanOpPoints::where('user_id', $user->id)
+                ->lockForUpdate()
+                ->first();
+
+            $userHp = $userHpRecord ? ($userHpRecord->points ?? 0) : 0;
+
+            if ($userHp < $hpRequired) {
+                throw new \Exception('Insufficient HP to contribute.');
             }
 
+
+            $userHpRecord->decrement('points', $hpRequired);
             ImpactContribution::createContribution(
                 $user->id,
                 $this->id,
                 $hpRequired
             );
 
+            return $userHpRecord->points;
+
         });
 
         $remainingHp = $userHpRecord ? $userHpRecord->points : 0;
 
-        $message = "Contributed {$hpRequired} HP to Impact Project: '{$this->title}'";
+        $message = "{$user->name} contributed {$hpRequired} HP to '{$this->title}'";
 
         ActivityLogger::addLog('Impact Project', $message);
 
         return [
             'success' => true,
-            'remaining_hp' => $remainingHp,
+            'remaining_hp' => $result
         ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Http\Livewire\Admin\ImpactProjects;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\ImpactProject; // Make sure you have this model
 class AddImpactProject extends Component{
@@ -24,7 +21,7 @@ class AddImpactProject extends Component{
         'status' => 'required|boolean',
     ];
 
-     public function createCode()
+     public function createProject()
     {
         $this->validate();
 

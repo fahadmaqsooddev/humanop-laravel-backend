@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="modal-body" style="background-color: #eaf3ff;">
-                    <form wire:submit.prevent="createCode">
+                    <form wire:submit.prevent="createProject">
                         @include('layouts.message')
 
                         <div class="row">
