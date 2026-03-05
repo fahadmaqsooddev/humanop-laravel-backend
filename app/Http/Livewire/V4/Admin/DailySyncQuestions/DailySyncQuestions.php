@@ -79,14 +79,14 @@ class DailySyncQuestions extends Component
 
     public function showFullQuestion(int $id): void
     {
-        $question = DailySyncQuestion::find($id);
+        $question = DailySyncQuestion::findOrFail($id);
         $this->fullQuestionText = $question ? $question->question_text : '';
         $this->dispatchBrowserEvent('show-view-question-modal');
     }
 
     public function openEditModal(int $id): void
     {
-        $question = DailySyncQuestion::find($id);
+        $question = DailySyncQuestion::findOrFail($id);
         if ($question) {
             $this->editQuestionId = $question->id;
             $this->editQuestionText = $question->question_text;
@@ -122,7 +122,7 @@ class DailySyncQuestions extends Component
 
     public function deleteQuestion(int $id): void
     {
-        $question = DailySyncQuestion::find($id);
+        $question = DailySyncQuestion::findOrFail($id);
         if ($question) {
             $question->delete();
             session()->flash('message', 'Question deleted successfully.');
