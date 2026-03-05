@@ -1419,7 +1419,8 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkHaiStatus($id = null)
     {
-       return (bool) self::whereKey($id)->value('hai_chat');
+        $user = self::whereId($id)->select(['hai_chat'])->first();
+        return ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
     }
 
     public static function createClient($data = null)
