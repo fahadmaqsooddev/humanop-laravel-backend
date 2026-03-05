@@ -77,7 +77,7 @@
 
                             <div class="col-12 mt-4">
                                 <label class="form-label" style="color:black">Verification Text</label>
-                                <textarea class="form-control input-form-style" rows="3" wire:model.defer="verification_text" placeholder="Optional verification text"></textarea>
+                                <textarea id="neditor" class="form-control input-form-style" rows="4" wire:model.defer="description" placeholder="Verification Text"></textarea>
                             </div>
 
                             <div class="col-12 mt-4">

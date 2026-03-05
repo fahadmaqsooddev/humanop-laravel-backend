@@ -87,21 +87,15 @@ class ImpactProject extends Model
             ];
         }
 
+
         $result = DB::transaction(function () use ($user, $hpRequired) {
 
-            // Lock user's HP record for update
             $userHpRecord = HumanOpPoints::where('user_id', $user->id)
                 ->lockForUpdate()
                 ->first();
 
-            $userHp = $userHpRecord ? ($userHpRecord->points ?? 0) : 0;
-
-            if ($userHp < $hpRequired) {
-                throw new \Exception('Insufficient HP to contribute.');
-            }
-
-
             $userHpRecord->decrement('points', $hpRequired);
+
             ImpactContribution::createContribution(
                 $user->id,
                 $this->id,
@@ -109,7 +103,6 @@ class ImpactProject extends Model
             );
 
             return $userHpRecord->points;
-
         });
 
         $remainingHp = $userHpRecord ? $userHpRecord->points : 0;
