@@ -11,6 +11,7 @@ use App\Models\v4\Client\DailySync\DailySyncResponse;
 use App\Models\v4\Client\DailySync\DailySyncSession;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DailySyncController extends Controller
 {
@@ -36,7 +37,7 @@ class DailySyncController extends Controller
 
         if ($latestSession) {
 
-            $completedToday = $latestSession->completed_at == true;
+            $completedToday = $latestSession->is_completed == true;
 
             $submitQuestion = DailySyncResponse::submitQuestionCount($latestSession->id);
         }
@@ -56,15 +57,25 @@ class DailySyncController extends Controller
 
         $user = Helpers::getUser();
 
-        $session = DailySyncSession::where('user_id', $user->id)->findOrFail($request['session_id']);
+        $session = DailySyncSession::getSingleSession($user->id, $request['session_id']);
+
+        if (!$session) {
+            return Helpers::validationResponse('Invalid session.');
+        }
 
         $dailySyncResponse = DailySyncResponse::getSingleSession($session->id, $request['question_id']);
+
+        if (!$dailySyncResponse) {
+
+            return Helpers::validationResponse('Invalid question for this session.');
+
+        }
 
         $dailySyncResponse->update(['response_text' => $request['response']]);
 
         if (DailySyncResponse::submitQuestionCount($session->id) == self::QUESTIONS_LIMIT) {
 
-            $session->update(['completed_at' => self::SESSION_COMPLETED_AT]);
+            $session->update(['is_completed' => self::SESSION_COMPLETED_AT]);
 
         }
 
@@ -72,7 +83,7 @@ class DailySyncController extends Controller
             'session_id' => $session->id,
             'question_id' => (int) $request['question_id'],
             'response_text' => $dailySyncResponse->response_text,
-            'session_completed' => $session->fresh()->completed_at == true,
+            'session_completed' => $session->fresh()->is_completed == true,
         ];
 
         return Helpers::successResponse('Response saved', $payload);
@@ -83,85 +94,91 @@ class DailySyncController extends Controller
     {
         $user = Helpers::getUser();
 
-        $latestSession = DailySyncSession::where('user_id', $user->id)->latest()->first();
+        return DB::transaction(function () use ($user) {
 
-        if ($latestSession && $latestSession->completed_at == self::SESSION_NOT_COMPLETED_AT) {
+            $latestSession = DailySyncSession::where('user_id', $user->id)
+                ->lockForUpdate()
+                ->latest()
+                ->first();
 
-            $responses = $latestSession->responses()->orderBy('id')->get();
+            if ($latestSession && $latestSession->is_completed == self::SESSION_NOT_COMPLETED_AT) {
+
+                $responses = $latestSession->responses()->orderBy('id')->get();
+
+                $questionsPayload = [];
+
+                $step = 1;
+
+                foreach ($responses as $response) {
+
+                    $questionsPayload[] = [
+                        'step' => $step,
+                        'question_id' => $response->question_id,
+                        'question' => $response->question_text,
+                    ];
+
+                    $step++;
+
+                }
+
+                $response = [
+                    'session_id' => $latestSession->id,
+                    'questions' => $questionsPayload,
+                ];
+
+                return Helpers::successResponse('Existing incomplete session', $response);
+
+            }
+
+            if ($latestSession && $latestSession->is_completed == self::SESSION_COMPLETED_AT) {
+
+                $nextAllowedAt = Carbon::parse($latestSession->updated_at)->addHours(self::HOURS_UNTIL_NEXT_SESSION);
+
+                if (Carbon::now()->lt($nextAllowedAt)) {
+
+                    return Helpers::validationResponse('You can start a new session after 24 hours from your last completion.');
+
+                }
+
+            }
+
+            $activeQuestions = DailySyncQuestion::getActiveQuestions();
+
+            if ($activeQuestions->count() < self::QUESTIONS_LIMIT) {
+
+                return Helpers::validationResponse('Not enough questions available. At least ' . self::QUESTIONS_LIMIT . ' active questions are required.');
+
+            }
+
+            $selectedQuestions = $activeQuestions->random(self::QUESTIONS_LIMIT);
+
+            $session = DailySyncSession::createSessions($user);
 
             $questionsPayload = [];
 
             $step = 1;
 
-            foreach ($responses as $response) {
+            foreach ($selectedQuestions as $question) {
+
+                DailySyncResponse::createResponse($session, $question);
 
                 $questionsPayload[] = [
                     'step' => $step,
-                    'question_id' => $response->question_id,
-                    'question' => $response->question_text,
+                    'question_id' => $question->id,
+                    'question' => $question->question_text,
                 ];
-
                 $step++;
 
             }
 
             $response = [
-                'session_id' => $latestSession->id,
+                'session_id' => $session->id,
                 'questions' => $questionsPayload,
             ];
 
-            return Helpers::successResponse('Existing incomplete session', $response);
+            return Helpers::successResponse('Daily sync session started', $response);
 
-        }
-
-        if ($latestSession && $latestSession->completed_at == self::SESSION_COMPLETED_AT) {
-
-            $nextAllowedAt = Carbon::parse($latestSession->updated_at)->addHours(self::HOURS_UNTIL_NEXT_SESSION);
-
-            if (Carbon::now()->lt($nextAllowedAt)) {
-
-                return Helpers::validationResponse('You can start a new session after 24 hours from your last completion.');
-
-            }
-
-        }
-
-        $activeQuestions = DailySyncQuestion::getActiveQuestions();
-
-        if ($activeQuestions->count() < self::QUESTIONS_LIMIT) {
-
-            return Helpers::validationResponse('Not enough questions available. At least ' . self::QUESTIONS_LIMIT . ' active questions are required.');
-
-        }
-
-        $selectedQuestions = $activeQuestions->random(self::QUESTIONS_LIMIT);
-
-        $session = DailySyncSession::createSessions($user);
-
-        $questionsPayload = [];
-
-        $step = 1;
-
-        foreach ($selectedQuestions as $question) {
-
-            DailySyncResponse::createResponse($session, $question);
-
-            $questionsPayload[] = [
-                'step' => $step,
-                'question_id' => $question->id,
-                'question' => $question->question_text,
-            ];
-            $step++;
-
-        }
-
-        $response = [
-            'session_id' => $session->id,
-            'questions' => $questionsPayload,
-        ];
-
-        return Helpers::successResponse('Daily sync session started', $response);
-
+        });
     }
 
 }

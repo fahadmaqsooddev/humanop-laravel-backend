@@ -885,7 +885,7 @@ return [
         ],
         'DailySyncSession' => [
             'table' => 'daily_sync_sessions',
-            'fillable' => ['user_id', 'completed_at'],
+            'fillable' => ['user_id', 'is_completed'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'DailySyncResponse' => [

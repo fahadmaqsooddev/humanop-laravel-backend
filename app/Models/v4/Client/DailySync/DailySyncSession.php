@@ -24,7 +24,7 @@ class DailySyncSession extends Model
     }
 
     protected $casts = [
-        'completed_at' => 'boolean',
+        'is_completed' => 'boolean',
     ];
 
     public function user()
@@ -37,11 +37,16 @@ class DailySyncSession extends Model
         return $this->hasMany(DailySyncResponse::class, 'session_id');
     }
 
+    public static function getSingleSession($userId = null, $sessionId = null)
+    {
+        return self::where('user_id', $userId)->where('id', $sessionId)->firstOrFail();
+    }
+
     public static function createSessions($user = null)
     {
         return self::create([
             'user_id' => $user->id,
-            'completed_at' => self::NOT_COMPLETED,
+            'is_completed' => self::NOT_COMPLETED,
         ]);
     }
 }

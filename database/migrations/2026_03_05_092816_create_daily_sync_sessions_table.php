@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('daily_sync_sessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->boolean('completed_at')->default(0)->comment('1=completed, 0=incomplete');
+            $table->boolean('is_completed')->default(0)->comment('1=completed, 0=incomplete');
             $table->timestamps();
         });
     }
