@@ -41,6 +41,11 @@ class ImpactProject extends Model
         return self::orderBy('created_at', 'desc')->get();
     }
 
+    public function contributions()
+    {
+        return $this->hasMany(ImpactContribution::class,'impact_project_id');
+    }
+
     public static function fetchForUser($user)
     {
     

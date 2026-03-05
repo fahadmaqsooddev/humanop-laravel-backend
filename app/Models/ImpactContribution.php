@@ -35,6 +35,16 @@ class ImpactContribution extends Model
         ]);
     }
 
+    public function project()
+    {
+        return $this->belongsTo(ImpactProject::class,'impact_project_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
      
 }
