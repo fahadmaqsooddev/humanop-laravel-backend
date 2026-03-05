@@ -37,6 +37,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $HumanOpShopControllerV4 = 'App\Http\Controllers\v4\Api\ClientController\HumanOPShop';
     protected $HumanNetworkNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\HumanNetwork';
     protected $FamilyMatrixNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\FamilyMatrix';
+    protected $DailySyncNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\DailySync';
 
 
     /**
@@ -225,6 +226,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api/v4')
                 ->namespace($this->FamilyMatrixNamespaceV4)
                 ->group(base_path('routes/v4/client_apis/family_matrix/family_matrix_api.php'));
+
+            Route::prefix('api/v4')->middleware('api')
+                ->namespace($this->DailySyncNamespaceV4)
+                ->group(base_path('routes/v4/client_apis/daily_sync/daily_sync_api.php'));
 
         });
     }

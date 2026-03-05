@@ -882,6 +882,16 @@ return [
             'table' => 'daily_sync_questions',
             'fillable' => ['question_text','is_active'],
             'hidden' => ['created_at', 'updated_at']
+        ],
+        'DailySyncSession' => [
+            'table' => 'daily_sync_sessions',
+            'fillable' => ['user_id', 'is_completed'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'DailySyncResponse' => [
+            'table' => 'daily_sync_responses',
+            'fillable' => ['session_id', 'question_id', 'question_text', 'response_text'],
+            'hidden' => ['created_at', 'updated_at']
         ]
     ]
 ];

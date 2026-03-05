@@ -29,6 +29,11 @@ class DailySyncQuestion extends Model
         return self::orderBy('created_at', 'desc')->get();
     }
 
+    public static function getActiveQuestions()
+    {
+        return self::where('is_active', self::ACTIVE)->get();
+    }
+
     public static function createQuestion($question = null)
     {
 
