@@ -44,7 +44,7 @@ class ImpactProjectsTableSeeder extends Seeder
         ];
 
         foreach ($projects as $project) {
-            ImpactProject::insert($projects);
+            ImpactProject::create($project);
         }
     }
 }

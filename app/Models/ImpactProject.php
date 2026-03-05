@@ -84,11 +84,15 @@ class ImpactProject extends Model
         DB::transaction(function () use ($user, $userHpRecord) {
 
             if ($userHpRecord) {
-                $userHpRecord->points -= $this->hp_required;
-                $userHpRecord->save();
+                $userHpRecord->decrement('points', $this->hp_required);
             }
 
-            ImpactContribution::createContribution($user->id, $this->id, $this->hp_required);
+            ImpactContribution::createContribution(
+                $user->id,
+                $this->id,
+                $this->hp_required
+            );
+
         });
 
         $remainingHp = $userHpRecord ? $userHpRecord->points : 0;
