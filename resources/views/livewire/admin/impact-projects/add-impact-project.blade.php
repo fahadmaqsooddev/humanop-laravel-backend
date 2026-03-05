@@ -75,9 +75,13 @@
                                 <input type="number" class="form-control input-form-style" wire:model.defer="hp_required" placeholder="10000">
                             </div>
 
-                            <div class="col-12 mt-4">
+                           <div class="col-12 mt-4">
                                 <label class="form-label" style="color:black">Verification Text</label>
-                                <textarea id="neditor" class="form-control input-form-style" rows="4" wire:model.defer="description" placeholder="Verification Text"></textarea>
+                                <textarea id="verification_text"
+                                        class="form-control input-form-style" 
+                                        rows="4" 
+                                        wire:model.defer="verification_text" 
+                                        placeholder="Optional verification text"></textarea>
                             </div>
 
                             <div class="col-12 mt-4">
@@ -102,46 +106,34 @@
 </div>
 
 @push('scripts')
-<script type="module">
-    import {
-        ClassicEditor,
-        Essentials,
-        Paragraph,
-        Bold,
-        Italic,
-        Font,
-        List,
-        Link,
-        AutoLink
-    } from 'ckeditor5';
+<script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../../assets/js/plugins/sweetalert.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
-    document.addEventListener('livewire:load', function () {
-        let editorInstance;
-
-        Livewire.hook('message.processed', (message, component) => {
-            const editorElement = document.getElementById('neditor');
-            if (editorElement && !editorElement.classList.contains('ck-editor')) {
-                ClassicEditor.create(editorElement, {
-                    plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
-                    toolbar: [
-                        'undo', 'redo', '|', 'bold', 'italic', '|',
-                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                        'bulletedList', 'numberedList', 'link'
-                    ]
-                }).then(editor => {
-                    editor.model.document.on('change:data', () => {
-                        @this.set('text', editor.getData());
-                    });
-                    editorInstance = editor;
-                }).catch(error => console.error(error));
+<script>
+document.addEventListener('livewire:load', function () {
+    function initSummernote() {
+        $('#verification_text').summernote({
+            height: 150,
+            callbacks: {
+                onChange: function(contents, $editable) {
+                    @this.set('verification_text', contents);
+                }
             }
         });
-    });
+    }
 
-     Livewire.on('impactProjectAdded', () => {
-    
-        Livewire.emit('refreshImpactProjects');
+    // Initialize on page load
+    initSummernote();
+
+    // Re-initialize if modal is opened again
+    $('#addImpactProjectModal').on('shown.bs.modal', initSummernote);
+    Livewire.on('impactProjectAdded', () => {
         $('#addImpactProjectModal').modal('hide');
+        Livewire.emit('refreshImpactProjects');
     });
+});
 </script>
 @endpush

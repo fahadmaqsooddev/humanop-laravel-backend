@@ -74,46 +74,47 @@ class ImpactProject extends Model
 
     public function contributeByUser($user)
     {
-        $userHpRecord = HumanOpPoints::getUserPoints($user);
-
-        $userHp = $userHpRecord ? ($userHpRecord->points ?? 0) : 0;
-
         $hpRequired = $this->hp_required;
 
-        if ($userHp < $hpRequired) {
+        try {
+            $remainingHp = DB::transaction(function () use ($user, $hpRequired) {
+
+                // Lock the user's HP row
+                $userHpRecord = HumanOpPoints::where('user_id', $user->id)
+                    ->lockForUpdate()
+                    ->first();
+
+                if (!$userHpRecord || $userHpRecord->points < $hpRequired) {
+                    throw new \Exception('Insufficient HP to contribute.');
+                }
+
+                // Deduct points
+                $userHpRecord->decrement('points', $hpRequired);
+
+                // Record contribution
+                ImpactContribution::createContribution(
+                    $user->id,
+                    $this->id,
+                    $hpRequired
+                );
+
+                // Return remaining points (accurate)
+                return $userHpRecord->points;
+            });
+
+            $message = "{$user->name} contributed {$hpRequired} HP to '{$this->title}'";
+            ActivityLogger::addLog('Impact Project', $message);
+
+            return [
+                'success' => true,
+                'remaining_hp' => $remainingHp,
+            ];
+
+        } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Insufficient HP to contribute.',
+                'message' => $e->getMessage(),
             ];
         }
-
-
-        $result = DB::transaction(function () use ($user, $hpRequired) {
-
-            $userHpRecord = HumanOpPoints::where('user_id', $user->id)
-                ->lockForUpdate()
-                ->first();
-
-            $userHpRecord->decrement('points', $hpRequired);
-
-            ImpactContribution::createContribution(
-                $user->id,
-                $this->id,
-                $hpRequired
-            );
-
-            return $userHpRecord->points;
-        });
-
-        $remainingHp = $userHpRecord ? $userHpRecord->points : 0;
-
-        $message = "{$user->name} contributed {$hpRequired} HP to '{$this->title}'";
-
-        ActivityLogger::addLog('Impact Project', $message);
-
-        return [
-            'success' => true,
-            'remaining_hp' => $result
-        ];
     }
 }
