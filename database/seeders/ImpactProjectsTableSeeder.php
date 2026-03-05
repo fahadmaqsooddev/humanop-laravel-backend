@@ -4,20 +4,11 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\ImpactProject;
-use Illuminate\Support\Facades\DB;
 
 class ImpactProjectsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('impact_projects')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $projects = [
             [

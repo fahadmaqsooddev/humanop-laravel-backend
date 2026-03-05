@@ -66,22 +66,22 @@
                             </div>
 
                             <div class="col-12 mt-4">
-                                <label class="form-label text-dark" style="color:black">Description</label>
+                                <label class="form-label" style="color:black">Description</label>
                                 <textarea class="form-control input-form-style" rows="4" wire:model.defer="description" placeholder="Project description"></textarea>
                             </div>
 
                             <div class="col-12 mt-4">
-                                <label class="form-label text-dark" style="color:black">HP Required</label>
+                                <label class="form-label" style="color:black">HP Required</label>
                                 <input type="number" class="form-control input-form-style" wire:model.defer="hp_required" placeholder="10000">
                             </div>
 
                             <div class="col-12 mt-4">
-                                <label class="form-label text-dark" style="color:black">Verification Text</label>
+                                <label class="form-label" style="color:black">Verification Text</label>
                                 <textarea class="form-control input-form-style" rows="3" wire:model.defer="verification_text" placeholder="Optional verification text"></textarea>
                             </div>
 
                             <div class="col-12 mt-4">
-                                <label class="form-label text-dark" style="color:black">Status</label>
+                                <label class="form-label" style="color:black">Status</label>
                                 <select class="form-select input-form-style" wire:model.defer="status">
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
@@ -136,6 +136,12 @@
                 }).catch(error => console.error(error));
             }
         });
+    });
+
+     Livewire.on('impactProjectAdded', () => {
+    
+        Livewire.emit('refreshImpactProjects');
+        $('#addImpactProjectModal').modal('hide');
     });
 </script>
 @endpush

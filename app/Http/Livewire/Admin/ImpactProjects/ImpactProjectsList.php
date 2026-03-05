@@ -8,13 +8,23 @@ use Livewire\Component;
 use App\Models\ImpactProject;
 class ImpactProjectsList extends Component{
 
-    public $impact_projects=[];
+
+   protected $listeners = ['impactProjectAdded' => 'refreshList'];
+    public $impact_projects = [];
+
+    public function mount()
+    {
+        $this->impact_projects = ImpactProject::fetchAll();
+    }
+
+    public function refreshList()
+    {
+        $this->impact_projects = ImpactProject::fetchAll();
+    }
+
     public function render()
     {
-
-        $this->impact_projects=ImpactProject::fetchAll();
         return view('livewire.admin.impact-projects.impact-projects-list');
-
     }
 
 }

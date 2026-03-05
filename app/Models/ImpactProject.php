@@ -66,38 +66,39 @@ class ImpactProject extends Model
         ];
     }
 
-    public function contributeByUser($user,$hpRequired)
+    public function contributeByUser($user)
     {
+        $userHpRecord = HumanOpPoints::getUserPoints($user);
 
-
-        $userHpRecord = HumanOpPoints::getUserPoints($user);       
         $userHp = $userHpRecord ? ($userHpRecord->points ?? 0) : 0;
 
+        $hpRequired = $this->hp_required;
 
-         if ($userHp < $hpRequired) {
+        if ($userHp < $hpRequired) {
             return [
                 'success' => false,
                 'message' => 'Insufficient HP to contribute.',
             ];
         }
 
-        DB::transaction(function () use ($user, $userHpRecord) {
+        DB::transaction(function () use ($user, $userHpRecord, $hpRequired) {
 
             if ($userHpRecord) {
-                $userHpRecord->decrement('points', $this->hp_required);
+                $userHpRecord->decrement('points', $hpRequired);
             }
 
             ImpactContribution::createContribution(
                 $user->id,
                 $this->id,
-                $this->hp_required
+                $hpRequired
             );
 
         });
 
         $remainingHp = $userHpRecord ? $userHpRecord->points : 0;
 
-        $message = "Contributed {$this->hp_required} HP to Impact Project: '{$this->title}'";
+        $message = "Contributed {$hpRequired} HP to Impact Project: '{$this->title}'";
+
         ActivityLogger::addLog('Impact Project', $message);
 
         return [

@@ -38,8 +38,9 @@ class AddImpactProject extends Component{
 
         // Reset form fields
         $this->reset(['title', 'description', 'hp_required', 'verification_text', 'status']);
+        $this->emitUp('impactProjectAdded');
 
-        $this->emit('impactProjectAdded');
+        $this->dispatchBrowserEvent('closeModal');
 
         session()->flash('message', 'Impact project created successfully.');
     }

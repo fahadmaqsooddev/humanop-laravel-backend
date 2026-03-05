@@ -10,7 +10,6 @@
                     <th>HP Required</th>
                     <th>Verification Text</th>
                     <th>Status</th>    
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody style="color:black">
