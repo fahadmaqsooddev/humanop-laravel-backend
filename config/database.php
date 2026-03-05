@@ -877,6 +877,24 @@ return [
             'table' => 'family_matrix_configurations',
             'fillable' => ['grid_name','color_code','text'],
             'hidden' => ['created_at', 'updated_at']
+        ],
+        'ImpactProject' => [
+            'table' => 'impact_projects',
+            'fillable' => ['title','description','hp_required','verification_text','status'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'ImpactContribution' => [
+            'table' => 'impact_contributions',
+            'fillable' => [
+                'user_id',           
+                'impact_project_id',
+                'hp_contributed',
+            ],
+            'hidden' => [
+                'created_at',
+                'updated_at',
+            ],
         ]
+        
     ]
 ];

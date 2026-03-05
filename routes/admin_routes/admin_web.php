@@ -34,6 +34,7 @@ use App\Http\Controllers\AdminControllers\ResultVideoController;
 use \App\Http\Controllers\Api\ClientController\Billing\StripeWebhookController;
 use \App\Http\Controllers\AdminControllers\HotSpotController;
 use App\Http\Controllers\AdminControllers\FamilyMatrixConfigurationController;
+use App\Http\Controllers\AdminControllers\ImpactProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,6 +163,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
         Route::get('/network-tutorials', [NetworkTutorialController::class, 'networkTutorials'])->name('admin_network_tutorials');
         Route::get('/family-matrix-relationship', [FamilyMatrixRelationshipController::class, 'familyMatrixrelationship'])->name('admin_family_matrix_relationship');
         Route::get('/family-matrix-configuration', [FamilyMatrixConfigurationController::class, 'familyMatrixConfiguration'])->name('admin_family_matrix_configuration');
+         Route::get('/impact-projects', [ImpactProjectController::class, 'impactProjects'])->name('admin_impact_projects');
         Route::get('/announcements-news', [AnnouncementsNewsController::class, 'announcementsNews'])->name('admin_announcements_news');
         Route::get('/faq', [FaqController::class, 'FaqQuestions'])->name('admin_faq');
          Route::get('/hotspots', [HotSpotController::class, 'HotSpots'])->name('admin_hotspots');

@@ -23,6 +23,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
     protected $PaymentClientController = 'App\Http\Controllers\Api\ClientController\Billing';
     protected $GamificationClientController = 'App\Http\Controllers\Api\ClientController\Gamification';
+   
     protected $PlaylistClientController = 'App\Http\Controllers\Api\ClientController\PlayList';
     protected $HumanOpShopController = 'App\Http\Controllers\Api\ClientController\HumanOPShop';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
@@ -37,7 +38,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $HumanOpShopControllerV4 = 'App\Http\Controllers\v4\Api\ClientController\HumanOPShop';
     protected $HumanNetworkNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\HumanNetwork';
     protected $FamilyMatrixNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\FamilyMatrix';
-
+    protected $ImpactProjectControllerV4 = 'App\Http\Controllers\v4\Api\ClientController\ImpactProject';
 
     /**
      * The controller namespace for the application.
@@ -213,6 +214,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->GamificationClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/gamifications/gamifications_api.php'));
+                
+            Route::prefix('api/v4')->middleware('api')
+                ->namespace($this->ImpactProjectControllerV4)
+                ->group(base_path('routes/v4/client_apis/reward_hub/reward_hub_api.php'));
 
             Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->PlaylistClientControllerV4)
