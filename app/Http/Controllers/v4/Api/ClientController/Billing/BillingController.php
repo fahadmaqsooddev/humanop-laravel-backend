@@ -781,6 +781,7 @@ class BillingController extends Controller
             'premium_yearly' => [
                 'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
                 'plan' => 'premium_yearly',
+                'premium_lifetime_welcome' => 0,
             ],
             'freemium' => [
                 'is_lifetime' => Admin::PREMIUM_LIFETIME_NOT,
