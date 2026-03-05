@@ -39,7 +39,7 @@ class DailySyncSession extends Model
 
     public static function getSingleSession($userId = null, $sessionId = null)
     {
-        return self::where('user_id', $userId)->where('id', $sessionId)->firstOrFail();
+        return self::where('user_id', $userId)->where('id', $sessionId)->first();
     }
 
     public static function createSessions($user = null)

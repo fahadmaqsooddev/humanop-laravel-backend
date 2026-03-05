@@ -10,7 +10,6 @@ use App\Models\v4\Admin\DailySync\DailySyncQuestion;
 use App\Models\v4\Client\DailySync\DailySyncResponse;
 use App\Models\v4\Client\DailySync\DailySyncSession;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DailySyncController extends Controller
@@ -29,7 +28,7 @@ class DailySyncController extends Controller
 
         $premiumRequired = $user->plan_name === Admin::PREMIUM_PLAN_NAME;
 
-        $latestSession = DailySyncSession::where('user_id', $user->id)->latest()->first();
+        $latestSession = DailySyncSession::where('user_id', $user->id)->latest('created_at')->first();
 
         $completedToday = false;
 
@@ -37,18 +36,16 @@ class DailySyncController extends Controller
 
         if ($latestSession) {
 
-            $completedToday = $latestSession->is_completed == true;
+            $completedToday = $latestSession->is_completed && $latestSession->updated_at->isToday();
 
             $submitQuestion = DailySyncResponse::submitQuestionCount($latestSession->id);
         }
 
-        $response = [
+        return Helpers::successResponse('Daily sync status', [
             'premium_required' => $premiumRequired,
             'completed_today' => $completedToday,
             'submit_question' => $submitQuestion,
-        ];
-
-        return Helpers::successResponse('Daily sync status', $response);
+        ]);
 
     }
 
