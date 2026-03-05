@@ -34,7 +34,7 @@ use App\Http\Controllers\AdminControllers\ResultVideoController;
 use \App\Http\Controllers\Api\ClientController\Billing\StripeWebhookController;
 use \App\Http\Controllers\AdminControllers\HotSpotController;
 use App\Http\Controllers\AdminControllers\FamilyMatrixConfigurationController;
-
+use App\Http\Controllers\v4\AdminControllers\DailySync\DailySyncQuestionController;
 /*
 |--------------------------------------------------------------------------
 | Admin Web Routes
@@ -162,10 +162,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
         Route::get('/network-tutorials', [NetworkTutorialController::class, 'networkTutorials'])->name('admin_network_tutorials');
         Route::get('/family-matrix-relationship', [FamilyMatrixRelationshipController::class, 'familyMatrixrelationship'])->name('admin_family_matrix_relationship');
         Route::get('/family-matrix-configuration', [FamilyMatrixConfigurationController::class, 'familyMatrixConfiguration'])->name('admin_family_matrix_configuration');
+        Route::get('/daily-sync-question-question', [DailySyncQuestionController::class, 'dailySyncQuestion'])->name('admin_daily_sync_question');
         Route::get('/announcements-news', [AnnouncementsNewsController::class, 'announcementsNews'])->name('admin_announcements_news');
         Route::get('/faq', [FaqController::class, 'FaqQuestions'])->name('admin_faq');
-         Route::get('/hotspots', [HotSpotController::class, 'HotSpots'])->name('admin_hotspots');
-         Route::get('/edit-hotspot/{id}', [HotSpotController::class, 'editHotSpot'])->name('admin_edit_hotspot');
+        Route::get('/hotspots', [HotSpotController::class, 'HotSpots'])->name('admin_hotspots');
+        Route::get('/edit-hotspot/{id}', [HotSpotController::class, 'editHotSpot'])->name('admin_edit_hotspot');
         Route::get('/b2c-email-template', [EmailTemplateController::class, 'b2CTemplates'])->name('admin_b2c_email_template');
 
         Route::get('/logs-activity', [EmailTemplateController::class, 'getLogsActitvity'])->name('get_logs_activity');
