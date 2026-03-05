@@ -877,6 +877,11 @@ return [
             'table' => 'family_matrix_configurations',
             'fillable' => ['grid_name','color_code','text'],
             'hidden' => ['created_at', 'updated_at']
+        ],
+        'DailySyncQuestion' => [
+            'table' => 'daily_sync_questions',
+            'fillable' => ['question_text','is_active'],
+            'hidden' => ['created_at', 'updated_at']
         ]
     ]
 ];
