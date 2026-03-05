@@ -1,45 +1,47 @@
 <?php
 
-namespace App\Models\v4\Admin\DailySync;
+namespace App\Models\v4\Client\DailySync;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
-class DailySyncQuestion extends Model
+class DailySyncSession extends Model
 {
     use HasFactory;
 
-    const ACTIVE = 1;
-    const INACTIVE = 0;
+    const COMPLETED = 1;
 
-    public function __construct(array $attributes = array())
+    const NOT_COMPLETED = 0;
+
+    public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
         $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+
         parent::__construct($attributes);
     }
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'completed_at' => 'boolean',
     ];
 
-    public static function getQuestions()
+    public function user()
     {
-        return self::orderBy('created_at', 'desc')->get();
+        return $this->belongsTo(User::class);
     }
 
-    public static function getActiveQuestions()
+    public function responses()
     {
-        return self::where('is_active', self::ACTIVE)->get();
+        return $this->hasMany(DailySyncResponse::class, 'session_id');
     }
 
-    public static function createQuestion($question = null)
+    public static function createSessions($user = null)
     {
-
         return self::create([
-            'question_text' => $question,
-            'is_active' => self::ACTIVE,
+            'user_id' => $user->id,
+            'completed_at' => self::NOT_COMPLETED,
         ]);
     }
 }
