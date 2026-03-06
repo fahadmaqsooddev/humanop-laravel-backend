@@ -182,7 +182,7 @@ class UserController extends Controller
 
             }
 
-            if (in_array($authUser['plan_name'], ['Premium', 'Beta Breaker'])) {
+            if (in_array($authUser->plan_name, ['Premium', 'Beta Breaker'])) {
 
                 $shareAssessment = $request->only(['core_state', 'authentic_traits']);
 

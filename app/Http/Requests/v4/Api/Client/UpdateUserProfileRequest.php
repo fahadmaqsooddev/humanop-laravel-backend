@@ -41,10 +41,11 @@ class UpdateUserProfileRequest extends FormRequest
             'personal_quote_public_privacy.in' => 'Public quote privacy must be either 0 or 1.',
 
             'profile_privacy.required' => 'Profile privacy field is required.',
-            'profile_privacy.in' => 'Profile privacy must be either 0 or 1.',
+            'profile_privacy.in' => 'Profile privacy must be one of: 1, 2, or 3.',
 
             'hai_privacy.required' => 'HAI privacy field is required.',
-            'hai_privacy.in' => 'HAI privacy must be either 0 or 1.',
+            'hai_privacy.in' => 'HAI privacy must be one of: 1, 2, or 3.',
+
 
             'authentic_traits.required' => 'Authentic traits field is required for your plan.',
             'core_state.required' => 'Core state field is required for your plan.',
