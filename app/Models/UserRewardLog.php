@@ -49,35 +49,35 @@ class UserRewardLog extends Model
         ->select(['type', 'points', 'created_at']);
 
     // Helpers pagination
-    $logs = Helpers::pagination($query, $pagination, $per_page);
+    return Helpers::pagination($query, $pagination, $per_page);
 
     // mapping function
-    $transform = function ($log) {
-        return [
-            'type' => $log->type,
-            'type_label' => $log->type_label,
-            'points' => $log->points,
-            'created_at' => $log->created_at,
-            'time_ago' => $log->created_at->diffForHumans(),
-        ];
-    };
+    // $transform = function ($log) {
+    //     return [
+    //         'type' => $log->type,
+    //         'type_label' => $log->type_label,
+    //         'points' => $log->points,
+    //         'created_at' => $log->created_at,
+    //         'time_ago' => $log->created_at->diffForHumans(),
+    //     ];
+    // };
 
-    if ($logs instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+    // if ($logs instanceof \Illuminate\Pagination\LengthAwarePaginator) {
 
-        $collection = $logs->getCollection()->map($transform);
-        $logs->setCollection($collection);
+    //     $collection = $logs->getCollection()->map($transform);
+    //     $logs->setCollection($collection);
 
-    } else {
+    // } else {
 
-        $collection = $logs->map($transform);
-        $logs = $collection;
-    }
+    //     $collection = $logs->map($transform);
+    //     $logs = $collection;
+    // }
 
-    return [
-        'logs' => $logs,
-        'total_points' => $collection->sum('points'),
-        'total_transactions' => $collection->count(),
-    ];
+    // return [
+    //     'logs' => $logs,
+    //     'total_points' => $collection->sum('points'),
+    //     'total_transactions' => $collection->count(),
+    // ];
 }
 
     /**
