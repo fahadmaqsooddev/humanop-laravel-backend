@@ -15,7 +15,7 @@ use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
 use App\Http\Requests\v4\Api\Client\UpdatePersonalInformationRequest;
-use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
+use App\Http\Requests\v4\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Http\Requests\Client\ProfileAccess\HaiAccessRequest;
@@ -151,14 +151,14 @@ class UserController extends Controller
 
                 return Helpers::successResponse('Personal Information updated successfully', $updated_user);
 
-            
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function updateProfile(UpdateUserProfileRequest $request)
+    public function updateUserPrivacy(UpdateUserProfileRequest $request)
     {
         DB::beginTransaction();
 
@@ -166,37 +166,41 @@ class UserController extends Controller
 
             $authUser = Helpers::getUser();
 
-            $dataArray = $request->only($authUser->getFillable());
+            $privacyFields = ['bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy', 'profile_privacy', 'hai_privacy'];
 
-            $parts = preg_split('/\s+/', $request->input('full_name'), 2);
+            $dataArray = $request->only($privacyFields);
 
-            $dataArray['first_name'] = $parts[0] ?? '';
+            $dataArray = array_filter($dataArray, function ($value) {
 
-            $dataArray['last_name'] = $parts[1] ?? '';
+                return $value !== null;
 
-            $authUser->update($dataArray);
+            });
 
-            if (Helpers::getUser()['plan_name'] == 'Premium' || Helpers::getUser()['plan_name'] == 'Beta Breaker') {
+            if (!empty($dataArray)) {
+
+                $authUser->update($dataArray);
+
+            }
+
+            if (in_array($authUser['plan_name'], ['Premium', 'Beta Breaker'])) {
 
                 $shareAssessment = $request->only(['core_state', 'authentic_traits']);
 
-                User\UserShareAssessment::createOrUpdateShareAssessment($shareAssessment);
+                if (!empty($shareAssessment)) {
+
+                    User\UserShareAssessment::createOrUpdateShareAssessment($shareAssessment);
+
+                }
 
             }
 
-            if ($request->has('tag_line')) {
-
-                User\UserTagline::updateTags($request['tag_line']);
-
-            }
-
-            HaiChatHelpers::syncUserRecordWithHAi();
-
-            ActivityLogger::addLog('Update Profile', "Personal Information updated successfully");
+            ActivityLogger::addLog('Update User Privacy', 'Privacy settings updated successfully.');
 
             DB::commit();
 
-            return Helpers::successResponse('Personal Information updated successfully');
+            HaiChatHelpers::syncUserRecordWithHAi();
+
+            return Helpers::successResponse('Privacy settings updated successfully.');
 
         } catch (\Exception $exception) {
 
