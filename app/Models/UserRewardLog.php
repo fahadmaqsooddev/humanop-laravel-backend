@@ -38,14 +38,35 @@ class UserRewardLog extends Model
         ]);
     }
 
-    public static function getLast24HoursLogs(int $userId)
+   public static function getLast24HoursLogs(int $userId): array
     {
         $since = Carbon::now()->subDay();
 
-        return self::where('user_id', $userId)
+       
+        $logs = self::where('user_id', $userId)
             ->where('created_at', '>=', $since)
             ->orderBy('created_at', 'desc')
-            ->get(['type', 'points']);
+            ->get(['type', 'points', 'created_at']);
+
+        $logsMapped = $logs->map(function ($log) {
+            return [
+                'type' => $log->type,
+                'type_label' => $log->type_label,
+                'points' => $log->points,
+                'created_at' => $log->created_at,
+                'time_ago' => $log->created_at->diffForHumans(),
+            ];
+        });
+
+        // Totals
+        $totalPoints = $logs->sum('points');
+        $totalTransactions = $logs->count();
+
+        return [
+            'logs' => $logsMapped,
+            'total_points' => $totalPoints,
+            'total_transactions' => $totalTransactions,
+        ];
     }
 
     /**
