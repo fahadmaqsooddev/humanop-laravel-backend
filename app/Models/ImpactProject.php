@@ -45,7 +45,7 @@ class ImpactProject extends Model
 
     public function contributions()
     {
-        return $this->hasMany(ImpactContribution::class,'impact_project_id');
+        return $this->hasMany(ImpactContribution::class, 'impact_project_id');
     }
 
     public static function fetchForUser($user)
@@ -122,15 +122,16 @@ class ImpactProject extends Model
         }
     }
 
-    public static function getLogs($userId){
-        return Activity::select('action_title','action_description')
+    public static function getLogs($userId)
+    {
+        return Activity::select('action_title', 'action_description')
             ->where('causer_id', $userId)
-            ->where('event',Admin::IMPACT_PROJECT)
+            ->where('event', Admin::IMPACT_PROJECT)
             ->latest('created_at')
             ->get();
     }
 
-     public static function findOrFailById($id)
+    public static function findOrFailById($id)
     {
         return self::findOrFail($id);
     }

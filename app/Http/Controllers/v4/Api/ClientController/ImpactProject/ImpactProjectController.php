@@ -71,11 +71,17 @@ class ImpactProjectController extends Controller
     public function impactLogs()
     {
         try {
+
             $logs = ImpactProject::getLogs($this->user->id);
+
             return Helpers::successResponse('Logs Fetched successfully', $logs);
+
         } catch (\Exception $e) {
+
             return Helpers::serverErrorResponse($e->getMessage());
+
         }
+
     }
 
     public function rewardLogs(Request $request)
