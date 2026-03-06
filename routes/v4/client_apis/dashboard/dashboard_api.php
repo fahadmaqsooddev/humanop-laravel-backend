@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['checkUser']], function () {
 
+    Route::post('change-theme-mode', 'DashboardController@changeThemeMode');
     Route::get('daily_tip', 'DashboardController@dailyTip');
     Route::post('favorite-daily-tip', 'DashboardController@favoriteDailyTip');
     Route::get('get-favorite-daily-tip', 'DashboardController@getFavoriteDailyTip');
