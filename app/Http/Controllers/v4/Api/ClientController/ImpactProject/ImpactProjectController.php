@@ -8,6 +8,7 @@ use App\Models\ImpactProject;
 use App\Models\ImpactContribution;
 use App\Http\Requests\v4\Api\Client\ImpactContributionRequest;
 use App\Helpers\Helpers;
+use App\Models\UserRewardLog;
 
 class ImpactProjectController extends Controller
 {
@@ -62,6 +63,30 @@ class ImpactProjectController extends Controller
 
         } catch (\Exception $e) {
 
+            return Helpers::serverErrorResponse($e->getMessage());
+        }
+    }
+
+
+    public function getImpactProjectLogs()
+    {
+        try {
+            $logs=ImpactProject::getLogs($this->user->id);
+             return Helpers::successResponse('Logs Fetched successfully', $logs);
+        } catch (\Exception $e) {
+            return Helpers::serverErrorResponse($e->getMessage());
+        }
+    }
+
+    public function getUserRewardLogs()
+    {
+        try {
+          
+            $logs = UserRewardLog::getLast24HoursLogs($this->user->id);
+            return Helpers::successResponse('User Reward Logs Fetched successfully', $logs);
+
+        } catch (\Exception $e) {
+            
             return Helpers::serverErrorResponse($e->getMessage());
         }
     }

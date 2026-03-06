@@ -9,6 +9,8 @@ use App\Models\v4\Client\Point\Point;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use App\Models\UserRewardLog;
+use App\Enums\Reward\Reward;
 
 class HumanOpPoints extends Model
 {
@@ -66,7 +68,11 @@ class HumanOpPoints extends Model
 
             $getPoint->save();
 
+           
+
         }
+
+        UserRewardLog::createLog($user['id'], Reward::ASSESSMENT_COMPLETED, $pointsToAdd);
 
         ActivityLogger::addLog('Assessment Point', "You have earned {$pointsToAdd} Humanop Points for assessment completion.");
 
@@ -94,6 +100,8 @@ class HumanOpPoints extends Model
 
         $getPoint->save();
 
+        UserRewardLog::createLog($user['id'], Reward::VIDEO_WATCHED, $pointsToAdd);
+
         ActivityLogger::addLog('Humanop Point', "You have earned {$pointsToAdd} Humanop Points for watching the '{$videoName}' video.");
 
         Helpers::checkAndTakePerformanceLevel($user);
@@ -115,6 +123,8 @@ class HumanOpPoints extends Model
         $getPoint->points += $pointsToAdd;
 
         $getPoint->save();
+
+        UserRewardLog::createLog($user['id'], Reward::ALL_VIDEOS_COMPLETED, $pointsToAdd);
 
         ActivityLogger::addLog('Humanop Point', "You have earned {$pointsToAdd} Humanop Points for watching all videos.");
 
@@ -138,6 +148,8 @@ class HumanOpPoints extends Model
 
         $getPoint->save();
 
+        UserRewardLog::createLog($user['id'], Reward::DAILY_TIP_COMPLETED, $pointsToAdd);
+
         ActivityLogger::addLog('Humanop Point', "You have earned {$pointsToAdd} Humanop Points for completing the daily tips.");
 
         Helpers::checkAndTakePerformanceLevel($user);
@@ -156,12 +168,17 @@ class HumanOpPoints extends Model
 
         $checkPoint = self::getUserPoints($user);
 
+
+        //dd($checkPoint);
+
         if ($checkPoint === null) {
 
             self::create([
                 'user_id' => $user['id'],
                 'points' => $pointsToAdd,
             ]);
+
+            UserRewardLog::createLog($user['id'], Reward::DAILY_LOGIN, $pointsToAdd);
 
             return LoginStreaks::startLoginStreak($user);
 
@@ -170,6 +187,8 @@ class HumanOpPoints extends Model
         $streak = LoginStreaks::getStreak($user);
 
         if (!$streak) {
+
+           
 
             return LoginStreaks::startLoginStreak($user);
 
@@ -185,6 +204,7 @@ class HumanOpPoints extends Model
 
         if ($diffDays === 1) {
 
+
             if ($streak->login_days > 6) {
 
                 $streak->login_days = 1;
@@ -197,6 +217,8 @@ class HumanOpPoints extends Model
 
                 $checkPoint->save();
 
+                UserRewardLog::createLog($user['id'], Reward::DAILY_LOGIN, $pointsToAdd);
+
                 $user->last_login = $currentTime;
 
                 $user->save();
@@ -204,6 +226,7 @@ class HumanOpPoints extends Model
                 Helpers::checkAndTakePerformanceLevel($user);
 
             } else {
+
 
                 LoginStreaks::updateLoginStreak($user);
 
@@ -221,6 +244,8 @@ class HumanOpPoints extends Model
 
                 $checkPoint->save();
 
+                UserRewardLog::createLog($user['id'], Reward::DAILY_LOGIN_BONUS, $bonus);
+
                 $user->last_login = $currentTime;
 
                 $user->save();
@@ -233,6 +258,7 @@ class HumanOpPoints extends Model
 
         } elseif ($diffDays > 1) {
 
+
             $streak->login_days = 1;
 
             $streak->save();
@@ -240,6 +266,10 @@ class HumanOpPoints extends Model
             $checkPoint->points += $pointsToAdd;
 
             $checkPoint->save();
+
+
+            UserRewardLog::createLog($user['id'], Reward::DAILY_LOGIN_RESET, $pointsToAdd);
+
 
             $user->last_login = $currentTime;
 

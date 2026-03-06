@@ -19,6 +19,8 @@ use Laravel\Cashier\Subscription;
 use Stripe\StripeClient;
 use App\Models\Subscription as SubscriptionModel;
 use App\Http\Requests\SubscriptionFromAppRequest;
+use App\Models\UserRewardLog;
+use App\Enums\Reward\Reward;
 
 class BillingController extends Controller
 {
@@ -254,6 +256,8 @@ class BillingController extends Controller
 
         $this->HAiCreditsUpdated($credits, $user);
 
+        UserRewardLog::createLog($user->id, Reward::SUBSCRIPTION_PURCHASE, $credits);
+
         ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the {$validated['plan']} plan.");
 
         // Fallback
@@ -403,6 +407,8 @@ class BillingController extends Controller
         $credits = $user->beta_breaker_club == Admin::BETA_BREAKER_CLUB ? Admin::PREMIUM_LIFETIME_CREDITS + Admin::BREAKER_CREDITS : Admin::PREMIUM_LIFETIME_CREDITS;
 
         $this->HAiCreditsUpdated($credits, $user);
+
+        UserRewardLog::createLog($user->id, Reward::LIFETIME_PURCHASE, $credits);
 
         ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the Premium Life-Time plan.");
 
@@ -594,6 +600,8 @@ class BillingController extends Controller
 
         $this->HAiCreditsUpdated($credits, $user);
 
+        UserRewardLog::createLog($user->id, Reward::PLAN_SWAP, $credits);
+
         ActivityLogger::addLog('Subscription Changed', "Your subscription has been successfully updated to the {$validated['to']} plan.");
 
         return response()->json(['ok' => true]);
@@ -740,6 +748,9 @@ class BillingController extends Controller
             $credits = $this->calculateCredits($user);
             $this->HAiCreditsUpdated($credits, $user);
 
+           
+            UserRewardLog::createLog($user->id, Reward::COUPON_REDEMPTION, $credits);
+
             $user->save();
             $coupon->update([
                 'is_redeemed' => true,
@@ -816,6 +827,8 @@ class BillingController extends Controller
             ['user_id' => $user->id],
             ['point' => Admin::FREEMIUM_CREDITS]
         );
+
+        UserRewardLog::createLog($user->id, Reward::APP_SUBSCRIPTION_SYNC, $credits);
 
         $points->update([
             'point' => $credits

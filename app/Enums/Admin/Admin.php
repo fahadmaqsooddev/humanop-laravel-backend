@@ -299,4 +299,6 @@ final class Admin
 
     const NEW_PAID = "paid";
 
+    const IMPACT_PROJECT="Impact Project";
+
 }
