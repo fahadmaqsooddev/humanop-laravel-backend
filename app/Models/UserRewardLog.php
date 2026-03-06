@@ -41,7 +41,9 @@ class UserRewardLog extends Model
 
         $since = Carbon::now()->subDay();
 
-        $rewardLogs =  self::where('user_id', $userId)
+        $rewardLogs =  self::query();
+
+        $rewardLogs = $rewardLogs->where('user_id', $userId)
             ->where('created_at', '>=', $since)
             ->orderBy('created_at', 'desc')
             ->select(['type', 'points', 'created_at']);
