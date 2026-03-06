@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('bio_privacy')->default(1)->after('bio')->comment('1: share 0: not share');
+            $table->boolean('bio_privacy')->default(true)->after('bio')->comment('1: share 0: not share');
             $table->tinyInteger('personal_quote_connection_privacy')->default(1)->after('bio_privacy')->comment('1: share 0: not share');
             $table->tinyInteger('personal_quote_public_privacy')->default(0)->after('personal_quote_connection_privacy')->comment('1: share 0: not share');
         });

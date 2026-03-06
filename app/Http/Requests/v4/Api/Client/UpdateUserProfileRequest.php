@@ -21,8 +21,8 @@ class UpdateUserProfileRequest extends FormRequest
             'bio_privacy' => 'required|in:0,1',
             'personal_quote_connection_privacy' => 'required|in:0,1',
             'personal_quote_public_privacy' => 'required|in:0,1',
-            'profile_privacy' => 'required',
-            'hai_privacy' => 'required',
+            'profile_privacy' => 'required|in:1,2,3',
+            'hai_privacy' => 'required|in:1,2,3',
             'authentic_traits' => $assessmentPermission,
             'core_state' => $assessmentPermission,
         ];
