@@ -44,6 +44,10 @@ class HumanOpPoints extends Model
 
     public static function addPointsAfterCompleteAssessment($user = null)
     {
+        
+        if (!$user) {
+            return null;
+        }
 
         $multiplier = self::getHumanOpPointMultiplier($user);
 
@@ -168,8 +172,6 @@ class HumanOpPoints extends Model
 
         $checkPoint = self::getUserPoints($user);
 
-
-        //dd($checkPoint);
 
         if ($checkPoint === null) {
 
