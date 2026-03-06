@@ -48,49 +48,35 @@ class UserRewardLog extends Model
         ->orderBy('created_at', 'desc')
         ->select(['type', 'points', 'created_at']);
 
-    // Helpers pagination use
+    // Helpers pagination
     $logs = Helpers::pagination($query, $pagination, $per_page);
 
-    // Agar pagination on hai
+    // mapping function
+    $transform = function ($log) {
+        return [
+            'type' => $log->type,
+            'type_label' => $log->type_label,
+            'points' => $log->points,
+            'created_at' => $log->created_at,
+            'time_ago' => $log->created_at->diffForHumans(),
+        ];
+    };
+
     if ($logs instanceof \Illuminate\Pagination\LengthAwarePaginator) {
 
-        $collection = $logs->getCollection()->map(function ($log) {
-            return [
-                'type' => $log->type,
-                'type_label' => $log->type_label,
-                'points' => $log->points,
-                'created_at' => $log->created_at,
-                'time_ago' => $log->created_at->diffForHumans(),
-            ];
-        });
-
+        $collection = $logs->getCollection()->map($transform);
         $logs->setCollection($collection);
 
-        $totalPoints = $collection->sum('points');
-        $totalTransactions = $collection->count();
+    } else {
 
-    } 
-    // Agar pagination off hai
-    else {
-
-        $logs = $logs->map(function ($log) {
-            return [
-                'type' => $log->type,
-                'type_label' => $log->type_label,
-                'points' => $log->points,
-                'created_at' => $log->created_at,
-                'time_ago' => $log->created_at->diffForHumans(),
-            ];
-        });
-
-        $totalPoints = $logs->sum('points');
-        $totalTransactions = $logs->count();
+        $collection = $logs->map($transform);
+        $logs = $collection;
     }
 
     return [
         'logs' => $logs,
-        'total_points' => $totalPoints,
-        'total_transactions' => $totalTransactions,
+        'total_points' => $collection->sum('points'),
+        'total_transactions' => $collection->count(),
     ];
 }
 
