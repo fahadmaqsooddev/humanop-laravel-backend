@@ -8,6 +8,8 @@ use App\Models\ImpactContribution;
 use Illuminate\Support\Facades\DB;
 use App\Models\Client\HumanOpPoints\HumanOpPoints;
 use App\Helpers\ActivityLogs\ActivityLogger;
+use App\Models\Activity;
+use App\Enums\Admin\Admin;
 
 class ImpactProject extends Model
 {
@@ -43,7 +45,7 @@ class ImpactProject extends Model
 
     public function contributions()
     {
-        return $this->hasMany(ImpactContribution::class,'impact_project_id');
+        return $this->hasMany(ImpactContribution::class, 'impact_project_id');
     }
 
     public static function fetchForUser($user)
@@ -118,5 +120,31 @@ class ImpactProject extends Model
                 'message' => $e->getMessage(),
             ];
         }
+    }
+
+    public static function getLogs($userId)
+    {
+        return Activity::select('action_title', 'action_description')
+            ->where('causer_id', $userId)
+            ->where('event', Admin::IMPACT_PROJECT)
+            ->latest('created_at')
+            ->get();
+    }
+
+    public static function findOrFailById($id)
+    {
+        return self::findOrFail($id);
+    }
+
+    // Update project
+    public function updateProject(array $data)
+    {
+        $this->update($data);
+    }
+
+    // Delete project
+    public function deleteProject()
+    {
+        $this->delete();
     }
 }

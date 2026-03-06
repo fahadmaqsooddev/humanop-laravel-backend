@@ -1,41 +1,11 @@
 @push('css')
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
-    <style>
-        .ck-editor__editable_inline {
-            background-color: #eaf3ff; /* Optional: you can adjust if needed */
-        }
+<style>
+    .note-editor .note-placeholder {
+        color: white !important;
+    }
+</style>
 
-        /* Consistent styling for all inputs, textareas, selects */
-        .input-form-style, 
-        textarea.input-form-style, 
-        select.input-form-style {
-            background-color: #1b3a62 !important;  /* Dark blue background */
-            color: white !important;                /* White text */
-            border-radius: 6px !important;         /* Rounded corners */
-            padding: 0.375rem 0.75rem !important;  /* Padding */
-            border: none !important;                /* No border */
-            box-shadow: none !important;            /* No shadow */
-        }
-
-        /* Placeholder text color */
-        .input-form-style::placeholder,
-        textarea.input-form-style::placeholder {
-            color: #d1d7e0 !important; /* Light placeholder */
-        }
-
-        /* Dropdown option styling */
-        select.input-form-style option {
-            background-color: #1b3a62;  
-            color: white;
-        }
-
-        /* Modal header close button fix */
-        .modal-header .btn-close {
-            filter: invert(1);
-        }
-    </style>
 @endpush
-
 <div>
     <!-- Modal trigger button -->
     <div class="d-flex justify-content-end mt-0">
@@ -50,42 +20,39 @@
     <div wire:ignore.self class="modal fade" id="addImpactProjectModal" tabindex="-1" aria-labelledby="addImpactProjectModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #1b3a62;">
-                    <h5 class="modal-title text-white" id="addImpactProjectModalLabel">Add Impact Project</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body" style="background-color: #eaf3ff;">
+            
+                <div class="modal-body" style=" border-radius: 9px">
+                    <label class="form-label fs-4" style="color: #1b3a62">Add Impact Project</label>
                     <form wire:submit.prevent="createProject">
                         @include('layouts.message')
 
                         <div class="row">
                             <div class="col-12">
-                                <label class="form-label" style="color:black">Title</label>
+                                <label class="form-label">Title</label>
                                 <input type="text" class="form-control input-form-style" wire:model.defer="title" placeholder="Project title">
                             </div>
 
                             <div class="col-12 mt-4">
-                                <label class="form-label" style="color:black">Description</label>
-                                <textarea class="form-control input-form-style" rows="4" wire:model.defer="description" placeholder="Project description"></textarea>
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control input-form-style" rows="4" wire:model.defer="description"></textarea>
                             </div>
 
                             <div class="col-12 mt-4">
-                                <label class="form-label" style="color:black">HP Required</label>
-                                <input type="number" class="form-control input-form-style" wire:model.defer="hp_required" placeholder="10000">
+                                <label class="form-label">HP Required</label>
+                                <input type="number" class="form-control input-form-style" wire:model.defer="hp_required" placeholder="e.g. 10000">
                             </div>
 
                            <div class="col-12 mt-4">
-                                <label class="form-label" style="color:black">Verification Text</label>
+                                <label class="form-label">Verification Text</label>
                                 <textarea id="verification_text"
                                         class="form-control input-form-style" 
                                         rows="4" 
                                         wire:model.defer="verification_text" 
-                                        placeholder="Optional verification text"></textarea>
+                                ></textarea>
                             </div>
 
                             <div class="col-12 mt-4">
-                                <label class="form-label" style="color:black">Status</label>
+                                <label class="form-label">Status</label>
                                 <select class="form-select input-form-style" wire:model.defer="status">
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
@@ -117,7 +84,12 @@ document.addEventListener('livewire:load', function () {
     function initSummernote() {
         $('#verification_text').summernote({
             height: 150,
+            placeholder: 'Optional verification text', // placeholder define
             callbacks: {
+                onInit: function() {
+                    // placeholder color fix
+                    $('.note-editor .note-placeholder').css('color', 'white');
+                },
                 onChange: function(contents, $editable) {
                     @this.set('verification_text', contents);
                 }
@@ -125,10 +97,9 @@ document.addEventListener('livewire:load', function () {
         });
     }
 
-    // Initialize on page load
+
     initSummernote();
 
-    // Re-initialize if modal is opened again
     $('#addImpactProjectModal').on('shown.bs.modal', initSummernote);
     Livewire.on('impactProjectAdded', () => {
         $('#addImpactProjectModal').modal('hide');

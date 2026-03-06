@@ -8,32 +8,33 @@ use App\Models\ImpactProject;
 use App\Models\ImpactContribution;
 use App\Http\Requests\v4\Api\Client\ImpactContributionRequest;
 use App\Helpers\Helpers;
+use App\Models\UserRewardLog;
 
 class ImpactProjectController extends Controller
 {
-       /**
+    /**
      * GET: Fetch all impact initiatives for the user
      */
 
-    public $user=null;
+    public $user = null;
 
     public function __construct()
     {
-        $this->user=Helpers::getUser();   
+        $this->user = Helpers::getUser();
     }
 
     public function index(Request $request)
     {
 
         try {
-    
-         $projectsData = ImpactProject::fetchForUser($this->user);
 
-         return Helpers::successResponse('Impact projects fetched successfully', $projectsData);
+            $projectsData = ImpactProject::fetchForUser($this->user);
+
+            return Helpers::successResponse('Impact projects fetched successfully', $projectsData);
 
         } catch (\Exception $e) {
-           
-          return Helpers::serverErrorResponse($e->getMessage());
+
+            return Helpers::serverErrorResponse($e->getMessage());
         }
 
     }
@@ -44,14 +45,14 @@ class ImpactProjectController extends Controller
     public function contribute(ImpactContributionRequest $request)
     {
         try {
-           
 
-             $project = ImpactProject::where('status',1)
-            ->where('id',$request->project_id)
-            ->firstOrFail();
+
+            $project = ImpactProject::where('status', 1)
+                ->where('id', $request->project_id)
+                ->firstOrFail();
             $result = $project->contributeByUser($this->user);
 
-           
+
             if ($result['success']) {
                 return Helpers::successResponse('Contribution successful', [
                     'remaining_hp' => $result['remaining_hp']
@@ -59,6 +60,37 @@ class ImpactProjectController extends Controller
             } else {
                 return Helpers::validationResponse($result['message']);
             }
+
+        } catch (\Exception $e) {
+
+            return Helpers::serverErrorResponse($e->getMessage());
+        }
+    }
+
+
+    public function impactLogs()
+    {
+        try {
+
+            $logs = ImpactProject::getLogs($this->user->id);
+
+            return Helpers::successResponse('Logs Fetched successfully', $logs);
+
+        } catch (\Exception $e) {
+
+            return Helpers::serverErrorResponse($e->getMessage());
+
+        }
+
+    }
+
+    public function rewardLogs(Request $request)
+    {
+        try {
+
+            $rewardLogs = UserRewardLog::getLast24HoursLogs($this->user->id, $request);
+
+            return Helpers::successResponse('HumanOp Reward Points Log', $rewardLogs, $request->input('pagination'));
 
         } catch (\Exception $e) {
 

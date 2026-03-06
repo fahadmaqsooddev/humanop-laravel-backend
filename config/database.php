@@ -909,7 +909,18 @@ return [
             'table' => 'daily_sync_responses',
             'fillable' => ['session_id', 'question_id', 'question_text', 'response_text'],
             'hidden' => ['created_at', 'updated_at']
-        ]
-        
+        ],
+        'UserRewardLog' => [
+            'table' => 'user_reward_logs',
+            'fillable' => [
+                'user_id',           
+                'type',
+                'points',
+            ],
+            'hidden' => [
+                'created_at',
+                'updated_at',
+            ],
+        ],
     ]
 ];
