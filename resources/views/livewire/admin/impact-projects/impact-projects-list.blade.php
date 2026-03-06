@@ -93,7 +93,7 @@
     </div>
 </div>
 
-
+@push('scripts')
 <script>
 document.addEventListener('livewire:load', function () {
     window.addEventListener('show-edit-modal', event => {
@@ -104,7 +104,7 @@ document.addEventListener('livewire:load', function () {
     });
 
     window.addEventListener('show-delete-confirmation', event => {
-        const id = event.detail.project_id; // yaha project_id use karo
+        const id = event.detail.project_id;
         const message = event.detail.message || "Are you sure you want to delete this project?";
         if(confirm(message)) {
             Livewire.emit('deleteProject', id);
@@ -112,3 +112,4 @@ document.addEventListener('livewire:load', function () {
     });
 });
 </script>
+@endpush

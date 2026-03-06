@@ -44,7 +44,7 @@ class HumanOpPoints extends Model
 
     public static function addPointsAfterCompleteAssessment($user = null)
     {
-        
+
         if (!$user) {
             return null;
         }
@@ -92,6 +92,10 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteWatchVideo($user = null, $videoName = null)
     {
 
+        if (!$user) {
+            return null;
+        }
+
         $multiplier = self::getHumanOpPointMultiplier($user);
 
         $basePoint = Admin::COMPLETE_WATCH_VIDEO_POINT_FOR_CLARITY;
@@ -115,6 +119,10 @@ class HumanOpPoints extends Model
 
     public static function addPointsAfterCompleteAllWatchVideos($user = null)
     {
+
+        if (!$user) {
+            return null;
+        }
 
         $multiplier = self::getHumanOpPointMultiplier($user);
 
@@ -140,6 +148,10 @@ class HumanOpPoints extends Model
     public static function addPointsAfterCompleteDailyTip($user = null)
     {
 
+        if (!$user) {
+            return null;
+        }
+
         $multiplier = self::getHumanOpPointMultiplier($user);
 
         $basePoint = Admin::COMPLETE_DAILY_TIP_POINT_FOR_CLARITY;
@@ -163,6 +175,10 @@ class HumanOpPoints extends Model
 
     public static function createOrUpdateUserPoints($user = null, $currentTime = null)
     {
+
+        if (!$user) {
+            return null;
+        }
 
         $multiplier = self::getHumanOpPointMultiplier($user);
 
