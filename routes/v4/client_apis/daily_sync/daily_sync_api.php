@@ -18,6 +18,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::prefix('daily-sync/')->group(function () {
 
         Route::get('status', 'DailySyncController@status');
+        Route::get('archive', 'DailySyncController@archive');
         Route::post('start', 'DailySyncController@dailySyncStart');
         Route::post('response', 'DailySyncController@submitResponse');
 

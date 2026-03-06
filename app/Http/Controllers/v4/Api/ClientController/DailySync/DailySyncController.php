@@ -9,7 +9,7 @@ use App\Http\Requests\v4\Api\Client\DailySync\SubmitQuestionRequest;
 use App\Models\v4\Admin\DailySync\DailySyncQuestion;
 use App\Models\v4\Client\DailySync\DailySyncResponse;
 use App\Models\v4\Client\DailySync\DailySyncSession;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DailySyncController extends Controller
@@ -21,6 +21,71 @@ class DailySyncController extends Controller
     const SESSION_COMPLETED_AT = 1;
 
     const SESSION_NOT_COMPLETED_AT = 0;
+
+    public function archive()
+    {
+
+        $user = Helpers::getUser();
+
+        if ($user->plan_name != Admin::PREMIUM_PLAN_NAME){
+
+            return Helpers::validationResponse('This feature is available only for Premium users.');
+
+        }
+
+        $sessions = DailySyncSession::where('user_id', $user->id)
+            ->whereHas('responses', function ($q) {
+                $q->whereNotNull('response_text')
+                    ->where('response_text', '!=', '');
+            })
+            ->with(['responses' => function ($q) {
+                $q->whereNotNull('response_text')
+                    ->where('response_text', '!=', '')
+                    ->orderByDesc('created_at');
+            }])
+            ->orderByDesc('created_at')
+            ->get();
+
+        $responses = $sessions->flatMap(function ($session) {
+
+            return $session->responses->map(function ($response) {
+
+                return [
+                    'question_text' => $response->question_text,
+                    'response_text' => $response->response_text,
+                    'created_at' => $response->created_at,
+                ];
+
+            });
+
+        });
+
+        $archive = $responses
+            ->groupBy(function ($item) {
+
+                return $item['created_at']->format('Y-m-d');
+
+            })
+            ->map(function ($items, $date) {
+
+                return [
+                    'date' => $date,
+                    'responses' => $items->map(function ($item) {
+                        return [
+                            'question' => $item['question_text'],
+                            'response' => $item['response_text'],
+                        ];
+                    })->values()
+
+                ];
+
+            })
+            ->values()
+            ->all();
+
+        return Helpers::successResponse('Daily sync archive', $archive);
+
+    }
 
     public function status()
     {
@@ -78,7 +143,7 @@ class DailySyncController extends Controller
 
         $payload = [
             'session_id' => $session->id,
-            'question_id' => (int) $request['question_id'],
+            'question_id' => (int)$request['question_id'],
             'response_text' => $dailySyncResponse->response_text,
             'session_completed' => $session->fresh()->is_completed == true,
         ];
