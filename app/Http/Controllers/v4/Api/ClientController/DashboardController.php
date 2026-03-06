@@ -52,6 +52,24 @@ class DashboardController extends Controller
         $this->user = Helpers::getUser();
     }
 
+    public function changeThemeMode(Request $request)
+    {
+        $request->validate([
+            'theme_mode' => 'required|in:1,2',
+        ]);
+
+        $user = Helpers::getUser();
+
+        $user->theme_mode = $request->input('theme_mode');
+
+        $user->save();
+
+        $user = User::user($user->id);
+
+        return Helpers::successResponse('Theme mode updated successfully', $user);
+
+    }
+
     public function dailyTip()
     {
         try {
