@@ -9,7 +9,7 @@ use App\Http\Requests\v4\Api\Client\DailySync\SubmitQuestionRequest;
 use App\Models\v4\Admin\DailySync\DailySyncQuestion;
 use App\Models\v4\Client\DailySync\DailySyncResponse;
 use App\Models\v4\Client\DailySync\DailySyncSession;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DailySyncController extends Controller
@@ -24,15 +24,26 @@ class DailySyncController extends Controller
 
     public function archive()
     {
+
         $user = Helpers::getUser();
 
+        if ($user->plan_name != Admin::PREMIUM_PLAN_NAME){
+
+            return Helpers::validationResponse('This feature is available only for Premium users.');
+
+        }
 
         $sessions = DailySyncSession::where('user_id', $user->id)
-            ->whereHas('responses', fn($q) => $q->whereNotNull('response_text')->where('response_text', '!=', ''))
-            ->with(['responses' => fn($q) => $q->whereNotNull('response_text')
-                ->where('response_text', '!=', '')
-                ->orderBy('created_at', 'desc')])
-            ->orderBy('created_at', 'desc')
+            ->whereHas('responses', function ($q) {
+                $q->whereNotNull('response_text')
+                    ->where('response_text', '!=', '');
+            })
+            ->with(['responses' => function ($q) {
+                $q->whereNotNull('response_text')
+                    ->where('response_text', '!=', '')
+                    ->orderByDesc('created_at');
+            }])
+            ->orderByDesc('created_at')
             ->get();
 
         $responses = $sessions->flatMap(function ($session) {
@@ -52,7 +63,7 @@ class DailySyncController extends Controller
         $archive = $responses
             ->groupBy(function ($item) {
 
-                return Carbon::parse($item['created_at'])->format('Y-m-d');
+                return $item['created_at']->format('Y-m-d');
 
             })
             ->map(function ($items, $date) {
