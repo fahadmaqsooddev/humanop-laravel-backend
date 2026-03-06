@@ -10,6 +10,8 @@ class UserRewardLog extends Model
 {
     use HasFactory;
 
+     protected $appends = ['type_label']; // API response me automatically ayega
+
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
@@ -39,9 +41,20 @@ class UserRewardLog extends Model
     public static function getLast24HoursLogs(int $userId)
     {
         $since = Carbon::now()->subDay();
+
         return self::where('user_id', $userId)
             ->where('created_at', '>=', $since)
             ->orderBy('created_at', 'desc')
+            ->select('type', 'points')
             ->get();
+    }
+
+    /**
+     * Accessor for readable reward label
+     */
+
+    public function getTypeLabelAttribute(): ?string
+    {
+        return Reward::tryFrom($this->type)?->label();
     }
 }

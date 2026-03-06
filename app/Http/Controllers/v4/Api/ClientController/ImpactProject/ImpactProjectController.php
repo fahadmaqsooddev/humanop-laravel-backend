@@ -68,7 +68,7 @@ class ImpactProjectController extends Controller
     }
 
 
-    public function getImpactProjectLogs()
+    public function impactLogs()
     {
         try {
             $logs=ImpactProject::getLogs($this->user->id);
@@ -78,7 +78,7 @@ class ImpactProjectController extends Controller
         }
     }
 
-    public function getUserRewardLogs()
+    public function rewardLogs()
     {
         try {
           

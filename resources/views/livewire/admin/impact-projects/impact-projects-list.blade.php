@@ -103,9 +103,10 @@ document.addEventListener('livewire:load', function () {
         $('#editImpactProjectModal').modal('hide');
     });
 
-    window.addEventListener('confirm-delete', event => {
-        const id = event.detail.id;
-        if(confirm("Are you sure you want to delete this project?")) {
+    window.addEventListener('show-delete-confirmation', event => {
+        const id = event.detail.project_id; // yaha project_id use karo
+        const message = event.detail.message || "Are you sure you want to delete this project?";
+        if(confirm(message)) {
             Livewire.emit('deleteProject', id);
         }
     });

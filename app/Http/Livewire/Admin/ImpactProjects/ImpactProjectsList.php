@@ -69,6 +69,14 @@ class ImpactProjectsList extends Component{
         $this->dispatchBrowserEvent('hide-edit-modal');
         $this->reset(['edit_id', 'title', 'description', 'hp_required', 'verification_text', 'status']);
     }
+    public function deleteProjectConfirm($id)
+    {
+        
+        $this->dispatchBrowserEvent('show-delete-confirmation', [
+            'project_id' => $id,
+            'message' => 'Are you sure you want to delete this Impact Project? This action cannot be undone.',
+        ]);
+    }
 
     public function deleteProject($id)
     {
