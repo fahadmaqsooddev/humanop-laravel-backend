@@ -1101,36 +1101,16 @@ class DashboardController extends Controller
     public function haiChatStatus()
     {
         try {
-
-            $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-
-            $haiStatus = User::checkHaiStatus($user_id);
-
-            if ($haiStatus) {
-
-                $data = [
-
-                    'status' => $haiStatus
-
-                ];
-
-            } else {
-
-                $data = [
-
-                    'status' => false
-
-                ];
-
-            }
-
-            return Helpers::successResponse('HAI CHAT status fetched successfully', $data);
-
+            return Helpers::successResponse(
+                'HAI CHAT status fetched successfully',
+                [
+                    'status' => $this->user->hai_chat
+                ]
+            );
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function haiChatSound()
