@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\Reward\Reward;
 use Illuminate\Support\Carbon;
+use App\Helpers\Helpers;
 class UserRewardLog extends Model
 {
     use HasFactory;
@@ -38,17 +39,22 @@ class UserRewardLog extends Model
         ]);
     }
 
-   public static function getLast24HoursLogs(int $userId): array
-    {
-        $since = Carbon::now()->subDay();
+   public static function getLast24HoursLogs(int $userId, $pagination = false, $per_page = null)
+{
+    $since = Carbon::now()->subDay();
 
-       
-        $logs = self::where('user_id', $userId)
-            ->where('created_at', '>=', $since)
-            ->orderBy('created_at', 'desc')
-            ->get(['type', 'points', 'created_at']);
+    $query = self::where('user_id', $userId)
+        ->where('created_at', '>=', $since)
+        ->orderBy('created_at', 'desc')
+        ->select(['type', 'points', 'created_at']);
 
-        $logsMapped = $logs->map(function ($log) {
+    // Helpers pagination use
+    $logs = Helpers::pagination($query, $pagination, $per_page);
+
+    // Agar pagination on hai
+    if ($logs instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+
+        $collection = $logs->getCollection()->map(function ($log) {
             return [
                 'type' => $log->type,
                 'type_label' => $log->type_label,
@@ -58,16 +64,35 @@ class UserRewardLog extends Model
             ];
         });
 
-        // Totals
+        $logs->setCollection($collection);
+
+        $totalPoints = $collection->sum('points');
+        $totalTransactions = $collection->count();
+
+    } 
+    // Agar pagination off hai
+    else {
+
+        $logs = $logs->map(function ($log) {
+            return [
+                'type' => $log->type,
+                'type_label' => $log->type_label,
+                'points' => $log->points,
+                'created_at' => $log->created_at,
+                'time_ago' => $log->created_at->diffForHumans(),
+            ];
+        });
+
         $totalPoints = $logs->sum('points');
         $totalTransactions = $logs->count();
-
-        return [
-            'logs' => $logsMapped,
-            'total_points' => $totalPoints,
-            'total_transactions' => $totalTransactions,
-        ];
     }
+
+    return [
+        'logs' => $logs,
+        'total_points' => $totalPoints,
+        'total_transactions' => $totalTransactions,
+    ];
+}
 
     /**
      * Accessor for readable reward label

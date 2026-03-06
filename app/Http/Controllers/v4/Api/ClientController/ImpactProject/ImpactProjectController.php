@@ -78,15 +78,20 @@ class ImpactProjectController extends Controller
         }
     }
 
-    public function rewardLogs()
+   public function rewardLogs(Request $request)
     {
         try {
-          
-            $logs = UserRewardLog::getLast24HoursLogs($this->user->id);
+
+            $logs = UserRewardLog::getLast24HoursLogs(
+                $this->user->id,
+                $request->pagination,
+                $request->per_page
+            );
+
             return Helpers::successResponse('User Reward Logs Fetched successfully', $logs);
 
         } catch (\Exception $e) {
-            
+
             return Helpers::serverErrorResponse($e->getMessage());
         }
     }
