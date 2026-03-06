@@ -45,14 +45,12 @@ class UserRewardLog extends Model
         return self::where('user_id', $userId)
             ->where('created_at', '>=', $since)
             ->orderBy('created_at', 'desc')
-            ->select('type', 'points')
-            ->get();
+            ->get(['type', 'points']);
     }
 
     /**
      * Accessor for readable reward label
      */
-
     public function getTypeLabelAttribute(): ?string
     {
         return Reward::tryFrom($this->type)?->label();

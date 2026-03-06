@@ -124,7 +124,7 @@ class ImpactProject extends Model
 
     public static function getLogs($userId){
         return Activity::select('action_title','action_description')
-            ->where('subject_id', $userId)
+            ->where('causer_id', $userId)
             ->where('event',Admin::IMPACT_PROJECT)
             ->latest('created_at')
             ->get();
