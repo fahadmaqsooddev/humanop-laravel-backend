@@ -280,11 +280,17 @@ class GamificationController extends Controller
 
             $planName = $user->plan_name;
 
-            if ($planName === Admin::FREEMIUM_PLAN) {
+
+            if ($planName == Admin::FREEMIUM_TEXT) {
+
                $multiplier = Admin::FREEMIUM_PLAN;
-            } elseif ($planName === Admin::BETA_BREAKER_PLAN) {
+
+            } elseif ($planName == Admin::BETA_BREAKER_TEXT) {
+
                 $multiplier = Admin::BETA_BREAKER_PLAN;
-            } elseif ($planName === Admin::PREMIUM_PLAN) {
+
+            } elseif ($planName == Admin::PREMIUM_PLAN_NAME) {
+                
                 $multiplier = Admin::PREMIUM_PLAN;
             }
 

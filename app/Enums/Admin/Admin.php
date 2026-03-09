@@ -301,4 +301,10 @@ final class Admin
 
     const IMPACT_PROJECT="Impact Project";
 
+    const FREEMIUM_TEXT="Freemium";
+
+    const BETA_BREAKER_TEXT="Beta Breaker";
+
+
+
 }
