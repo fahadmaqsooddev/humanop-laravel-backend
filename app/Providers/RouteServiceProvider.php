@@ -23,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
     protected $PaymentClientController = 'App\Http\Controllers\Api\ClientController\Billing';
     protected $GamificationClientController = 'App\Http\Controllers\Api\ClientController\Gamification';
-   
+
     protected $PlaylistClientController = 'App\Http\Controllers\Api\ClientController\PlayList';
     protected $HumanOpShopController = 'App\Http\Controllers\Api\ClientController\HumanOPShop';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
@@ -40,6 +40,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $FamilyMatrixNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\FamilyMatrix';
     protected $ImpactProjectControllerV4 = 'App\Http\Controllers\v4\Api\ClientController\ImpactProject';
     protected $DailySyncNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\DailySync';
+    protected $GoogleCalendarIntegrationNamespaceV4 = 'App\Http\Controllers\v4\Api\ClientController\CalendarIntegration';
 
 
     /**
@@ -216,7 +217,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->GamificationClientControllerV4)
                 ->group(base_path('routes/v4/client_apis/gamifications/gamifications_api.php'));
-                
+
             Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->ImpactProjectControllerV4)
                 ->group(base_path('routes/v4/client_apis/reward_hub/reward_hub_api.php'));
@@ -236,6 +237,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->DailySyncNamespaceV4)
                 ->group(base_path('routes/v4/client_apis/daily_sync/daily_sync_api.php'));
+
+            Route::prefix('api/v4')->middleware('api')
+                ->namespace($this->GoogleCalendarIntegrationNamespaceV4)
+                ->group(base_path('routes/v4/client_apis/google_calendar_integration/google_calendar_integration.php'));
 
         });
     }
