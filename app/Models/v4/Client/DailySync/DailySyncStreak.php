@@ -22,15 +22,19 @@ class DailySyncStreak extends Model
 
     public static function getUserDailySyncStreak($userId = null)
     {
-        return self::where('user_id', $userId)->first();
+        return self::where('user_id', $userId)->value('streak');
     }
 
     public static function createOrIncrement(int $userId): void
     {
-        self::updateOrCreate(
+
+        $record = self::firstOrCreate(
             ['user_id' => $userId],
-            ['streak' => DB::raw('streak + 1')]
+            ['streak' => 0]
         );
+
+        $record->increment('streak');
+
     }
 
 }
