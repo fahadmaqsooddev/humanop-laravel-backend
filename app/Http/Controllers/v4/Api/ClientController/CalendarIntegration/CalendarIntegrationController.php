@@ -32,9 +32,21 @@ class CalendarIntegrationController extends Controller
 
     public function callback(Request $request)
     {
+        if (!$request->has(['code', 'state'])) {
+            return Helpers::validationResponse('Invalid callback request');
+        }
+
+        try {
+            $userId = decrypt($request->state);
+        } catch (\Exception $e) {
+            return Helpers::validationResponse('Invalid state parameter');
+        }
+
         $token = $this->google->fetchToken($request->code);
 
-        $userId = decrypt($request->state);
+        if (isset($token['error'])) {
+            return Helpers::serverErrorResponse($token['error_description'] ?? 'Google authentication failed');
+        }
 
         UserCalendarIntegration::updateOrCreate(
             [
@@ -48,7 +60,7 @@ class CalendarIntegrationController extends Controller
             ]
         );
 
-        return response()->view('calendar.success');
+        return response()->view('v4.calendar.success');
     }
 
     public function disconnect(Request $request)
