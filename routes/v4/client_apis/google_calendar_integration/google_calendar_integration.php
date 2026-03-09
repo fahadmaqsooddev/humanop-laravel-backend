@@ -15,10 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['checkUser']], function () {
 
-    Route::post('/calendar/connect', 'CalendarIntegrationController@connect');
-    Route::post('/calendar/disconnect', 'CalendarIntegrationController@disconnect');
-    Route::get('/calendar/status', 'CalendarIntegrationController@status');
+    Route::prefix('calendar/')->group(function () {
+
+        Route::post('connect', 'CalendarIntegrationController@connect');
+        Route::post('disconnect', 'CalendarIntegrationController@disconnect');
+        Route::get('status', 'CalendarIntegrationController@status');
+
+    };
 
 });
 
-Route::get('/calendar/callback', 'CalendarIntegrationController@callback');
+Route::get('calendar/callback', 'CalendarIntegrationController@callback');
