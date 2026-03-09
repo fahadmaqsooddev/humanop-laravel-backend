@@ -13,6 +13,7 @@ use App\Models\Admin\LifeTimeDeal\LifetimeDealBanner;
 use App\Models\Admin\Plan\OptimizationPlan;
 use App\Models\Admin\SuggestedItem\SuggestedItem;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\v4\Client\DailySync\DailySyncStreak;
 use App\Models\v4\Client\HotSpot\HotSpotsPlan;
 use App\Models\v4\Client\MultiMedia\MultiMediaStats;
 use App\Models\v4\Client\Suggestion\SuggestionForYou;
@@ -164,13 +165,13 @@ class DashboardController extends Controller
 
                                 event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
+                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION, null, true);
 
                                 ActivityLogger::addLog('new daily tip', "$message");
 
                                 HaiChatHelpers::syncUserRecordWithHAi();
 
-                            }elseif($getLatestTip['updated_at']->startOfMinute() != Carbon::now()->startOfMinute()){
+                            } elseif ($getLatestTip['updated_at']->startOfMinute() != Carbon::now()->startOfMinute()) {
 
                                 UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
@@ -178,7 +179,7 @@ class DashboardController extends Controller
 
                                 event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
+                                Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION, null, true);
 
                                 ActivityLogger::addLog('new daily tip', "$message");
 
@@ -380,11 +381,11 @@ class DashboardController extends Controller
         try {
             $user = Helpers::getUser();
 
-            if ($user['plan_name'] == "Freemium"){
+            if ($user['plan_name'] == "Freemium") {
 
                 $userPlan = "Freemium";
 
-            }else{
+            } else {
 
                 $userPlan = "Premium";
 
@@ -415,11 +416,11 @@ class DashboardController extends Controller
 
                 if ($userPlan == "Premium") {
 
-                    if ($assessment['reset_assessment'] == 1){
+                    if ($assessment['reset_assessment'] == 1) {
 
                         $assessmentTime = $assessment['after_reset_assessment_updated_at'];
 
-                    }else{
+                    } else {
 
                         $assessmentTime = $assessment['updated_at'];
 
@@ -1139,11 +1140,11 @@ class DashboardController extends Controller
 
             $status = User::haiChatSound($user);
 
-            if ($status == Admin::HAI_CHAT_MUTE){
+            if ($status == Admin::HAI_CHAT_MUTE) {
 
                 return Helpers::successResponse('HAi chat mute successfully');
 
-            }else{
+            } else {
 
                 return Helpers::successResponse('HAi chat unmute successfully');
 
@@ -1322,5 +1323,36 @@ class DashboardController extends Controller
         }
     }
 
+    public function energyShieldStatus()
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $timezoneMinutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
+
+            $latestUpdatedAt = ActionPlan::whereUserId($user->id)
+                ->latest('updated_at')
+                ->value('updated_at');
+
+            $optimizationDays = $latestUpdatedAt
+
+                ? now()->addMinutes($timezoneMinutes)
+                    ->diffInDays(Carbon::parse($latestUpdatedAt)->addMinutes($timezoneMinutes))
+
+                : 0;
+
+            return Helpers::successResponse('Energy shield status', [
+                'user_optimization_days' => $optimizationDays,
+                'daily_sync_streak' => DailySyncStreak::getUserDailySyncStreak($user->id) ?? 0
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return Helpers::serverErrorResponse($e->getMessage());
+
+        }
+
+    }
 
 }
