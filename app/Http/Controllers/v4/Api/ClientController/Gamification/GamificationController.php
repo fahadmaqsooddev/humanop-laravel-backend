@@ -275,10 +275,24 @@ class GamificationController extends Controller
 
             $currentLevel = $performanceData['level'] ?? null;
 
+
+            $multiplier = null;
+
+            $planName = $user->plan_name;
+
+            if ($planName == Admin::FREEMIUM_PLAN) {
+               $multiplier = Admin::FREEMIUM_PLAN;
+            } elseif ($planName == Admin::BETA_BREAKER_PLAN) {
+                $multiplier = Admin::BETA_BREAKER_PLAN;
+            } elseif ($planName == Admin::PREMIUM_PLAN) {
+                $multiplier = Admin::PREMIUM_PLAN;
+            }
+
             $response = [
                 "current_performance" => $currentPerformance,
                 "current_level" => $currentLevel,
-                "current_hp_points" => $points
+                "current_hp_points" => $points,
+                "multiplier" => $multiplier
             ];
 
             if ($points < Admin::SECOND_LEVEL_MIN_POINTS) {
@@ -288,6 +302,8 @@ class GamificationController extends Controller
                 $response["next_performance"] = Admin::SECOND_LEVEL;
                 $response["next_level"] = 2;
                 $response["points_required_for_next_level"] = $remainingToNextLevel;
+                $response["multiplier"] = $multiplier;
+
             }
 
             return Helpers::successResponse("Your Performance Level", $response);
