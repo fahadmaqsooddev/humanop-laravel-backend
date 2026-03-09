@@ -62,6 +62,7 @@ class ImpactProjectsList extends Component{
         $validatedData = $this->validate();
 
         $project = ImpactProject::findOrFailById($this->edit_id);
+        $validatedData['verification_text'] = strip_tags($validatedData['verification_text']);
         $project->updateProject($validatedData);
 
         session()->flash('success', 'Impact Project Updated Successfully!');

@@ -55,6 +55,15 @@ class Notification extends Model
         return Helpers::pagination($query, $pagination, $perPage);
     }
 
+    //For v4
+
+   public static function updateB2CNotificationStatus($userId, $status)
+    {
+        return self::where('user_id', $userId)
+            ->where('role', Admin::B2C_NOTIFICATION)
+            ->update(['read' => $status]);
+    }
+
     public static function allB2CMessageNotificationCount(): array
     {
         $user = Helpers::getUser();

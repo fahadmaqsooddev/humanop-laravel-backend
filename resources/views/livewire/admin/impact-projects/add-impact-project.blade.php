@@ -23,6 +23,10 @@
             
                 <div class="modal-body" style=" border-radius: 9px">
                     <label class="form-label fs-4" style="color: #1b3a62">Add Impact Project</label>
+                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <form wire:submit.prevent="createProject">
                         @include('layouts.message')
 
@@ -72,39 +76,51 @@
     </div>
 </div>
 
-@push('scripts')
+@push('javascript')
 <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../../assets/js/plugins/sweetalert.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
+
+
 <script>
 document.addEventListener('livewire:load', function () {
+
     function initSummernote() {
-        $('#verification_text').summernote({
-            height: 150,
-            placeholder: 'Optional verification text', // placeholder define
-            callbacks: {
-                onInit: function() {
-                    // placeholder color fix
-                    $('.note-editor .note-placeholder').css('color', 'white');
-                },
-                onChange: function(contents, $editable) {
-                    @this.set('verification_text', contents);
+        if (!$('#verification_text').hasClass('summernote-initialized')) {
+            $('#verification_text').summernote({
+                height: 150,
+                placeholder: 'Optional verification text',
+                callbacks: {
+                    onInit: function() {
+                        $('.note-editor .note-placeholder').css('color', 'white');
+                        $('#verification_text').addClass('summernote-initialized');
+                    },
+                   onChange: function(contents, $editable) {
+                        @this.set('verification_text', contents); // save full HTML for now
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
-
     initSummernote();
-
     $('#addImpactProjectModal').on('shown.bs.modal', initSummernote);
-    Livewire.on('impactProjectAdded', () => {
-        $('#addImpactProjectModal').modal('hide');
-        Livewire.emit('refreshImpactProjects');
+
+
+    window.addEventListener('closeModal', () => {
+        let modalEl = document.getElementById('addImpactProjectModal');
+        let modal = bootstrap.Modal.getInstance(modalEl);
+        if (modal) {
+            modal.hide();
+        } else {
+    
+            new bootstrap.Modal(modalEl).hide();
+        }
     });
+
 });
 </script>
+
 @endpush

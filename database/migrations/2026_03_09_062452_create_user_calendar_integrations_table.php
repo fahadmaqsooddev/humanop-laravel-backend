@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('provider');
+
+            $table->string('provider')->nullable()->index();
 
             $table->text('access_token');
+
             $table->text('refresh_token')->nullable();
 
             $table->timestamp('connected_at');
@@ -27,7 +29,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique(['user_id','provider']);
-            $table->string('provider')->index();
+
         });
     }
 
