@@ -88,46 +88,74 @@ class NotificationController extends Controller
 
     }
 
+    // public function allReadNotification(NotificationRequest $request)
+    // {
+    //     try {
+
+    //         $unreadFound = false;
+
+    //         $allNotifications = Notification::allB2CNotification(null,false,null,$this->user->id);
+
+    //         if (empty($allNotifications)) {
+
+    //             return Helpers::validationResponse('Notification not found');
+
+    //         }
+
+    //         $notificationStatus = $request->input('notification_status');
+
+
+    //         foreach ($allNotifications as $notification) {
+
+    //             if($notificationStatus == Admin::NOTIFICATION_STATUS_READ){  // Change Unread 0 to Read 1 
+    //                 Notification::readNotification($notification['id']);
+    //                 $unreadFound = true;
+    //             } else { // Change Read 1 to Unread 0
+    //                 Notification::noReadNotification($notification['id']);
+    //                 $unreadFound = false;
+    //             }
+    //         }
+
+    //         if ($unreadFound) {
+    //             return Helpers::successResponse('Unread notifications marked as read successfully');
+    //         } else {
+    //             return Helpers::successResponse('read notifications marked as unread successfully');
+    //         }
+
+    //     } catch (\Exception $exception) {
+
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+
+    //     }
+
+    // }
+
+
+
     public function allReadNotification(NotificationRequest $request)
     {
         try {
 
-            $unreadFound = false;
+            $status = $request->input('notification_status');
 
-            $allNotifications = Notification::allB2CNotification();
+            $userId = $this->user->id;
 
-            if (empty($allNotifications)) {
+            $updated = Notification::updateB2CNotificationStatus($userId, $status);
 
+            if (!$updated) {
                 return Helpers::validationResponse('Notification not found');
-
             }
 
-            $notificationStatus = $request->input('notification_status');
-
-
-            foreach ($allNotifications as $notification) {
-
-                if($notificationStatus == Admin::NOTIFICATION_STATUS_READ){  // Change Unread 0 to Read 1 
-                    Notification::readNotification($notification['id']);
-                    $unreadFound = true;
-                } else { // Change Read 1 to Unread 0
-                    Notification::noReadNotification($notification['id']);
-                    $unreadFound = false;
-                }
+            if ($status == Admin::NOTIFICATION_STATUS_READ) {
+                return Helpers::successResponse('Notifications marked as read successfully');
             }
 
-            if ($unreadFound) {
-                return Helpers::successResponse('Unread notifications marked as read successfully');
-            } else {
-                return Helpers::successResponse('read notifications marked as unread successfully');
-            }
+            return Helpers::successResponse('Notifications marked as unread successfully');
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
     public function deleteNotification(NotificationRequest $request)
