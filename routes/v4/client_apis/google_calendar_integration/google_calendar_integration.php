@@ -21,7 +21,7 @@ Route::group(['middleware' => ['checkUser']], function () {
         Route::post('disconnect', 'CalendarIntegrationController@disconnect');
         Route::get('status', 'CalendarIntegrationController@status');
 
-    };
+    });
 
 });
 
