@@ -20,7 +20,7 @@
                         <td>{{ $project->title }}</td>
                         <td>{{ $project->description }}</td>
                         <td>{{ $project->hp_required }}</td>
-                        <td>{{ $project->verification_text ?? '-' }}</td>
+                        <td>{!! $project->verification_text ?? '-' !!}</td>
                         <td>
                             @if($project->status)
                                 <span class="badge bg-success">Active</span>
@@ -55,6 +55,10 @@
             <div class="modal-content">
                 <div class="modal-body" style="border-radius: 9px">
                     <label class="form-label fs-4" style="color: #1b3a62">Edit Project</label>
+                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <form wire:submit.prevent="updateProject">
                          @include('layouts.message')
                         <div class="row">
@@ -72,7 +76,7 @@
                             </div>
                             <div class="col-12 mt-3">
                                 <label class="form-label">Verification Text</label>
-                                <textarea class="form-control input-form-style" wire:model.defer="verification_text"></textarea>
+                                <textarea id="edit_verification_text" class="form-control input-form-style" wire:model.defer="verification_text"></textarea>
                             </div>
                             <div class="col-12 mt-3">
                                 <label class="form-label">Status</label>
@@ -93,12 +97,43 @@
     </div>
 </div>
 
-@push('scripts')
+@push('javascript')
 <script>
 document.addEventListener('livewire:load', function () {
+
+   let editSummernoteInitialized = false;
+
+    function initEditSummernote() {
+        const textarea = $('#edit_verification_text');
+
+        // Destroy if already initialized (for re-opening modal)
+        if (editSummernoteInitialized) {
+            textarea.summernote('destroy');
+        }
+
+        textarea.summernote({
+            height: 150,
+            placeholder: 'Optional verification text',
+            callbacks: {
+                onInit: function() {
+                    $('.note-editor .note-placeholder').css('color', 'white');
+                    editSummernoteInitialized = true;
+
+                    // Set existing text from Livewire
+                    textarea.summernote('code', @this.get('verification_text') ?? '');
+                },
+                onChange: function(contents, $editable) {
+                    @this.set('verification_text', contents);
+                }
+            }
+        });
+    }
+
     window.addEventListener('show-edit-modal', event => {
         $('#editImpactProjectModal').modal('show');
+        initEditSummernote();
     });
+
     window.addEventListener('hide-edit-modal', event => {
         $('#editImpactProjectModal').modal('hide');
     });
