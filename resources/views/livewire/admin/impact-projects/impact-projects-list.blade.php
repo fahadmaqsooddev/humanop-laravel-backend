@@ -16,7 +16,7 @@
             <tbody style="color:black">
                 @foreach($impact_projects as $index => $project)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
+                       <td>{{ $loop->iteration }}</td>
                         <td>{{ $project->title }}</td>
                         <td>{{ $project->description }}</td>
                         <td>{{ $project->hp_required }}</td>
@@ -75,8 +75,10 @@
                                 <input type="number" class="form-control input-form-style" wire:model.defer="hp_required">
                             </div>
                             <div class="col-12 mt-3">
-                                <label class="form-label">Verification Text</label>
-                                <textarea id="edit_verification_text" class="form-control input-form-style" wire:model.defer="verification_text"></textarea>
+                                <div class="col-12 mt-3" wire:ignore>
+                                    <label class="form-label">Verification Text</label>
+                                    <textarea id="edit_verification_text" class="form-control input-form-style"></textarea>
+                                </div>
                             </div>
                             <div class="col-12 mt-3">
                                 <label class="form-label">Status</label>
@@ -120,7 +122,7 @@ document.addEventListener('livewire:load', function () {
                     editSummernoteInitialized = true;
 
                     // Set existing text from Livewire
-                    textarea.summernote('code', @this.get('verification_text') ?? '');
+                    textarea.summernote('code', @this.get('verification_text') ? @this.get('verification_text') : '');
                 },
                 onChange: function(contents, $editable) {
                     @this.set('verification_text', contents);
@@ -136,6 +138,11 @@ document.addEventListener('livewire:load', function () {
 
     window.addEventListener('hide-edit-modal', event => {
         $('#editImpactProjectModal').modal('hide');
+    });
+
+    $('#editImpactProjectModal').on('hidden.bs.modal', function () {
+        $('#edit_verification_text').summernote('destroy');
+        editSummernoteInitialized = false;
     });
 
     window.addEventListener('show-delete-confirmation', event => {
