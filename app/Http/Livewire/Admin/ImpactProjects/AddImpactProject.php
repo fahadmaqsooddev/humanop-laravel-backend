@@ -25,11 +25,12 @@ class AddImpactProject extends Component{
     {
         $this->validate();
 
+        $cleanVerificationText = strip_tags($this->verification_text);
        ImpactProject::createProject([
             'title' => $this->title,
             'description' => $this->description,
             'hp_required' => $this->hp_required,
-            'verification_text' => $this->verification_text,
+            'verification_text' => $cleanVerificationText, // save plain text
             'status' => $this->status,
         ]);
 
