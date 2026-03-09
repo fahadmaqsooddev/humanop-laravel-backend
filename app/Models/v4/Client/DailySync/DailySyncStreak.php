@@ -4,8 +4,6 @@ namespace App\Models\v4\Client\DailySync;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use function Sodium\increment;
 
 class DailySyncStreak extends Model
 {
