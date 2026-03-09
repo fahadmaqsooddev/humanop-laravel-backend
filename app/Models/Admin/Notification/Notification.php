@@ -57,16 +57,11 @@ class Notification extends Model
 
     //For v4
 
-    public static function updateB2CNotificationStatus($userId, $status)
+   public static function updateB2CNotificationStatus($userId, $status)
     {
-        $query = self::where('user_id', $userId)
-            ->where('role', Admin::B2C_NOTIFICATION);
-
-        if (!$query->exists()) {
-            return false;
-        }
-
-        return $query->update(['read' => $status]);
+        return self::where('user_id', $userId)
+            ->where('role', Admin::B2C_NOTIFICATION)
+            ->update(['read' => $status]);
     }
 
     public static function allB2CMessageNotificationCount(): array
