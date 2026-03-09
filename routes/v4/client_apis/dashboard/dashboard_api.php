@@ -55,4 +55,6 @@ Route::group(['middleware' => ['checkUser']], function () {
    Route::get('feedback-status', 'DashboardController@feedbackStatus');
    Route::get('premium-lifetime-banner', 'DashboardController@premiumLifetimeBanner');
    Route::post('skip-premium-lifetime-banner', 'DashboardController@skipPremiumLifetimeBanner');
+
+    Route::get('energy-shield-status', 'DashboardController@energyShieldStatus');
 });
