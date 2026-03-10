@@ -313,45 +313,37 @@ class AssessmentHelper
 
     }
 
-    public static function getCoreStatsData($assessment = null, $user = null,$assessmentPermission=null)
+    private static function canDisplay($permissionField)
     {
+        return $permissionField === Admin::PERMISSION_ENABLED;
+    }
 
-
+    public static function getCoreStatsData($assessment = null, $user = null, $assessmentPermission = null)
+    {
         $coreState = Assessment::getCoreState($assessment, $user->date_of_birth);
 
         $traits = [];
-
-        if ($assessmentPermission->traits === Admin::IS_DISPLAY) {
-
+        if ($assessmentPermission && self::canDisplay($assessmentPermission->traits)) {
             foreach ($coreState['topThreeStyles'] as $style) {
-
                 $traits[] = [
                     'public_name' => $style['public_name'],
                     'code_number' => $style['code_number'],
                 ];
-
             }
         }
 
         $features = [];
- 
-
-        if ($assessmentPermission->motivational_driver === Admin::IS_DISPLAY) {
-
-
+        if ($assessmentPermission && self::canDisplay($assessmentPermission->motivational_driver)) {
             foreach ($coreState['topTwoFeatures'] as $style) {
-
                 $features[] = [
                     'public_name' => $style['public_name'],
                     'code_number' => $style['code_number'],
                 ];
-
             }
         }
 
         $communications = [];
-
-        if ($assessmentPermission->communication_style == Admin::IS_DISPLAY) {
+        if ($assessmentPermission && self::canDisplay($assessmentPermission->communication_style)) {
             foreach ($coreState['topCommunication'] as $style) {
                 $communications[] = [
                     'public_name' => $style['public_name'],
@@ -361,17 +353,18 @@ class AssessmentHelper
         }
 
         $boundary = null;
-        if ($assessmentPermission->alchemic_boundaries === Admin::IS_DISPLAY) {
-              $boundary = [
+        if ($assessmentPermission && self::canDisplay($assessmentPermission->alchemic_boundaries)) {
+            $boundary = [
                 'public_name' => $coreState['boundary']['public_name'],
                 'code_number' => $coreState['boundary']['code_number'],
             ];
         }
-      
-        $energyPool = null;
-        $explode = explode('[', $coreState['energyPool']['public_name']);
 
-        if ($assessmentPermission->energy_pool === Admin::IS_DISPLAY) {
+        $energyPool = null;
+        if ($assessmentPermission && self::canDisplay($assessmentPermission->energy_pool)) {
+
+            $explode = explode('[', $coreState['energyPool']['public_name']);
+
             $energyPool = [
                 'public_name' => trim($explode[0]),
                 'code_number' => isset($explode[1]) ? rtrim($explode[1], ']') : null,
@@ -379,32 +372,28 @@ class AssessmentHelper
         }
 
         $perception = null;
-        if ($assessmentPermission->perception_of_life === Admin::IS_DISPLAY) {
-             $perception = [
+        if ($assessmentPermission && self::canDisplay($assessmentPermission->perception_of_life)) {
+            $perception = [
                 'public_name' => $coreState['perception']['public_name'],
                 'code_number' => $coreState['perception']['pv'],
             ];
         }
 
-
         $intervalOfLife = null;
-        if ($assessmentPermission->interval_of_life === Admin::IS_DISPLAY) {
+        if ($assessmentPermission && self::canDisplay($assessmentPermission->interval_of_life)) {
             $intervalOfLife = $coreState['interval_of_life']['public_name'];
         }
 
-
         $authenticTraits = null;
-        if ($assessmentPermission->authentic_traits === Admin::IS_DISPLAY) {
+        if ($assessmentPermission && self::canDisplay($assessmentPermission->authentic_traits)) {
             $authenticTraits = $coreState['authentic_traits'] ?? null;
         }
 
-       
         $coreStateField = null;
-        if ($assessmentPermission->core_state === Admin::IS_DISPLAY) {
+        if ($assessmentPermission && self::canDisplay($assessmentPermission->core_state)) {
             $coreStateField = $coreState['core_state'] ?? null;
         }
 
-    
         return array_filter([
             'interval_of_life' => $intervalOfLife,
             'traits' => $traits,
