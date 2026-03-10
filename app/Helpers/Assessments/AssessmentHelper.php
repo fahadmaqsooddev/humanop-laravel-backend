@@ -320,7 +320,7 @@ class AssessmentHelper
 
     private static function canDisplayField($permissions, $field)
     {
-        return $permissions && self::canDisplay($permissions->$field);
+        return $permissions && isset($permissions->$field) && self::canDisplay($permissions->$field);
     }
 
     public static function getCoreStatsData($assessment = null, $user = null)
@@ -435,9 +435,7 @@ class AssessmentHelper
 
         $energyPool = null;
         if (self::canDisplayField($assessmentPermission, 'energy_pool')) {
-
             $explode = explode('[', $coreState['energyPool']['public_name'] ?? '');
-
             $energyPool = [
                 'public_name' => trim($explode[0]),
                 'code_number' => isset($explode[1]) ? rtrim($explode[1], ']') : null,
@@ -467,7 +465,8 @@ class AssessmentHelper
             $coreStateField = $coreState['core_state'] ?? null;
         }
 
-        return array_filter([
+        // Return stable JSON structure — do not use array_filter
+        return [
             'interval_of_life' => $intervalOfLife,
             'traits' => $traits,
             'features' => $features,
@@ -477,7 +476,7 @@ class AssessmentHelper
             'perception' => $perception,
             'authentic_traits' => $authenticTraits,
             'core_state' => $coreStateField,
-        ], fn($value) => !is_null($value));
+        ];
     }
 
     public static function getUserAssessments(array $userIds): array
