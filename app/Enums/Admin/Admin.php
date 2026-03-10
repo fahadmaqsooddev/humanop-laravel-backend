@@ -305,6 +305,8 @@ final class Admin
 
     const BETA_BREAKER_TEXT="Beta Breaker";
 
+    const IS_DISPLAY = 1;
+
 
 
 }

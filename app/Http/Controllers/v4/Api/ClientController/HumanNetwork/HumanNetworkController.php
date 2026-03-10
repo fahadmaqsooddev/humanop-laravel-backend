@@ -417,7 +417,7 @@ class HumanNetworkController extends Controller
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1) {
 
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user,$assessmentPermission);
 
                     $data = [
                         'core_state' => $coreStats,
@@ -447,7 +447,7 @@ class HumanNetworkController extends Controller
 
                     $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
 
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user,$assessmentPermission);
 
                     $data = [
                         'authentic' => $publicNames,
@@ -474,7 +474,7 @@ class HumanNetworkController extends Controller
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1) {
 
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user,$assessmentPermission);
 
                     $data = [
                         'core_state' => $coreStats,
@@ -499,7 +499,7 @@ class HumanNetworkController extends Controller
 
                     $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
 
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user,$assessmentPermission);
 
                     $data = [
                         'authentic' => $publicNames,
@@ -526,7 +526,7 @@ class HumanNetworkController extends Controller
 
                 if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1) {
 
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user,$assessmentPermission);
 
                     $data = [
                         'core_state' => $coreStats,
