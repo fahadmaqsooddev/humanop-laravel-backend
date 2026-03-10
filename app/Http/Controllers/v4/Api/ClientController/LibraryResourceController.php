@@ -31,19 +31,72 @@ class LibraryResourceController extends Controller
     public function resourceUrls(Request $request)
     {
         try {
-            $data = LibraryResource::resourceCategoriesForClient($request['type'], $request['access'], $request['relevance']);
+
+            $query = LibraryResource::resourceCategoriesForClient(
+                $request->input('type'),
+                $request->input('access'),
+                $request->input('relevance'),
+                $request->input('search_name')
+            );
+
+            $data = Helpers::pagination(
+                $query,
+                $request->input('pagination', true),
+                $request->input('per_page')
+            );
+
+            $items = $request->input('pagination', true) ? $data->items() : $data;
 
             $transformed = [];
 
-            foreach ($data as $item) {
+            $user = Helpers::getUser();
 
-                $playList = PlaylistLog::getSingleResourceItem($item['id']);
+            $userPlan = $user['plan_name'];
 
-                // Get base price
-                $basePrice = (int)optional($item->libraryPermissions)->price ?? 0;
+            foreach ($items as $item) {
 
-                // Apply discount if plan is Core
-                $finalPrice = (Helpers::getUser()['plan_name'] === 'Premium' && !empty($basePrice)) ? $basePrice * 0.50 : $basePrice;
+                $playList = PlaylistLog::getSingleResourceItem($item->id);
+
+                $libraryPermission = optional($item->libraryPermissions);
+
+                $permission = $libraryPermission->permission ?? null;
+
+                $basePrice = (int) ($libraryPermission->price ?? 0);
+
+                $finalPrice = ($userPlan === Admin::PREMIUM_PLAN_NAME && $basePrice) ? $basePrice * 0.50 : $basePrice;
+
+                $libraryPermissionName = match ($permission) {
+                    1 => 'Freemium',
+                    2 => 'Beta Breaker',
+                    3 => 'Premium',
+                    4 => 'Freemium Only',
+                    5 => 'Beta Breaker Only',
+                    6 => 'Premium Only',
+                    default => null,
+                };
+
+                $libraryPermissionAllow = match ($permission) {
+
+                    // Freemium resource
+                    1 => true,
+
+                    // Freemium only
+                    4 => $userPlan === 'Freemium',
+
+                    // Beta breaker
+                    2 => in_array($userPlan, ['Beta Breaker', 'Premium']),
+
+                    // Beta breaker only
+                    5 => $userPlan === 'Beta Breaker',
+
+                    // Premium
+                    3 => true,
+
+                    // Premium only
+                    6 => $userPlan === 'Premium',
+
+                    default => false,
+                };
 
                 $transformed[] = [
                     'id' => $item->id,
@@ -53,25 +106,26 @@ class LibraryResourceController extends Controller
                     'description' => $item->description,
                     'content' => $item->content,
                     'relevance' => $item->relevance,
-                    'photo_url' => !empty($item->photo_url) ? $item->photo_url : null,
-                    'video_url' => !empty($item->video_url) ? $item->video_url : null,
-                    'audio_url' => !empty($item->audio_url) ? $item->audio_url : null,
-                    'thumbnail_url' => !empty($item->thumbnail_url) ? $item->thumbnail_url['url'] : null,
-                    'document_url' => !empty($item->document_url) ? $item->document_url['path'] : null,
-                    'allow_download' => $item->download_document === 1 ? true : false,
+                    'photo_url' => $item->photo_url ?: null,
+                    'video_url' => $item->video_url ?: null,
+                    'audio_url' => $item->audio_url ?: null,
+                    'thumbnail_url' => $item->thumbnail_url['url'] ?? null,
+                    'document_url' => $item->document_url['path'] ?? null,
+                    'allow_download' => $item->download_document == 1,
                     'resource_category_name' => optional($item->resourceCategory)->name,
-                    'library_permission_name' => match(optional($item->libraryPermissions)->permission) {
-                        1 => 'Freemium',
-                        2 => 'Beta Breaker',
-                        3 => 'Premium',
-                        4 => 'Freemium Only',
-                        5 => 'Beta Breaker Only',
-                        6 => 'Premium Only',
-                        default => 'null',
-                    },
+                    'library_permission_name' => $libraryPermissionName,
+                    'library_permission_allow' => $libraryPermissionAllow,
                     'price' => $finalPrice,
-                    'point' => (int)optional($item->libraryPermissions)->point ?? 0,
+                    'point' => (int) ($libraryPermission->point ?? 0),
                 ];
+            }
+
+            if ($request->input('pagination', true)) {
+
+                $data->setCollection(collect($transformed));
+
+                return Helpers::successResponse('Library resources', $data, true);
+
             }
 
             return Helpers::successResponse('Library resources', $transformed);
