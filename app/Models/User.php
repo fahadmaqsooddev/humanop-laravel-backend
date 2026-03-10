@@ -945,8 +945,6 @@ class User extends Authenticatable implements JWTSubject
         $age = Carbon::parse($date_of_birth)->age;
         $assessmentId=$assessment->id;
 
-        $assessmentId = $assessment->id;
-
         switch ($age) {
 
             case ($age >= 7 && $age <= 11):
