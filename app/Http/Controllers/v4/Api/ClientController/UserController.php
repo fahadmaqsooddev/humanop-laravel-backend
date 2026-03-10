@@ -161,7 +161,7 @@ class UserController extends Controller
     public function updateUserPrivacy(UpdateUserProfileRequest $request)
     {
 
-    
+
         DB::beginTransaction();
 
         try {
@@ -197,7 +197,7 @@ class UserController extends Controller
 
             }
 
-            if (in_array($authUser->plan_name, ['Premium', 'Beta Breaker'])) {
+            if (in_array($authUser->plan_name, ['Premium', Admin::BETA_BREAKER_TEXT])) {
 
                $shareAssessment = $request->only([
                     'core_state',
