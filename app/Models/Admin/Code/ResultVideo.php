@@ -65,10 +65,10 @@ class ResultVideo extends Model
         return self::all();
     }
 
-     public static function getVideoByPublicName(string $publicName)
+     public static function getVideoByName(string $publicName)
     {
        
-        $record = DB::table('interval_videos')
+        $record = DB::table('assessment_result_videos')
             ->where('public_name', $publicName)
             ->first();
 
