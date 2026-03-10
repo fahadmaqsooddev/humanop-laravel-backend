@@ -742,7 +742,7 @@ return [
         ],
         'ResultVideo' => [
             'table' => 'assessment_result_videos',
-            'fillable' => ['public_name', 'video', 'video_upload_id', 'video_embed_link'],
+            'fillable' => ['public_name', 'video', 'video_upload_id', 'video_embed_link', 'image_id'],
             'hidden' => ['created_at'],
         ],
         'SuggestedItem' => [

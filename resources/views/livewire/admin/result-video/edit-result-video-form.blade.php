@@ -30,7 +30,7 @@
 @endpush
 <form wire:submit.prevent="updateResultVideo">
     @include('layouts.message')
-    <input type="hidden" wire:model.defer="select_code.id">
+    <input type="hidden" wire:model.defer="select_video.id">
     <div class="row">
         <div class="col-12 mt-4">
             <label class="form-label" style="color: #1b3a62">Public Name</label>
@@ -40,6 +40,35 @@
                        type="text"
                        wire:model.defer="select_video.public_name"
                        placeholder="Alec">
+            </div>
+        </div>
+
+        <div class="col-12 mt-4">
+            <label class="form-label fs-4" style="color: #1b3a62">Result Image</label>
+            <div class="input-group w-100">
+                <input
+                        type="file"
+                        accept="image/*"
+                        class="form-control input-form-style"
+                        wire:model="image_file">
+            </div>
+
+            <span wire:loading.flex wire:target="image_file">
+                <div class="d-flex align-items-center mt-2">
+                    <div class="spinner-border" role="status" style="color: #1b3a62 !important;"></div>
+                    <span class="ms-2" style="color: #1b3a62;">Uploading...</span>
+                </div>
+            </span>
+
+            <label class="form-label mt-4" style="color: #1b3a62">Preview</label>
+            <div class="col-12 mt-2">
+                @if (!empty($image_file))
+                    <img src="{{ $image_file->temporaryUrl() }}" style="max-width: 50%; height: auto;" alt="Result image preview">
+                @elseif (!empty($select_video['image_url']['url']))
+                    <img src="{{ $select_video['image_url']['url'] }}" style="max-width: 50%; height: auto;" alt="Result image">
+                @else
+                    <div style="color: #1b3a62;">No image uploaded.</div>
+                @endif
             </div>
         </div>
 

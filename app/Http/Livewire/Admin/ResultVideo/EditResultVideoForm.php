@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\ResultVideo;
 
+use App\Helpers\Helpers;
 use App\Models\Admin\Code\ResultVideo;
 use App\Models\Upload\Upload;
 use App\Traits\HandlesValidationErrors;
@@ -15,6 +16,7 @@ class EditResultVideoForm extends Component
     use HandlesValidationErrors;
 
     public $select_video;
+    public $image_file;
 
     protected $listeners = ['videoUpdated' => 'loadResultVideo'];
 
@@ -39,13 +41,11 @@ class EditResultVideoForm extends Component
 
             $resultVideo->video_embed_link = $this->select_video['video_embed_link'];
 
-//            if (!empty($this->select_video['video_file'])) {
-//
-//                $upload_id = Upload::uploadFile($this->select_video['video_file'], '', '', 'video');
-//
-//                $resultVideo->video_upload_id = $upload_id;
-//
-//            }
+            if (!empty($this->image_file)) {
+
+                $resultVideo->image_id =  Upload::uploadFile($this->image_file, 200, 200, 'base64Image', 'png', true);
+
+            }
 
             $resultVideo->save();
 
