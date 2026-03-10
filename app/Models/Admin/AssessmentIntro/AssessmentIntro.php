@@ -130,6 +130,8 @@ class AssessmentIntro extends Model
 
         $videoUrl = $video->video_embed_link;
 
+        $imageUrl = $video->image_url ? $video->image_url['thumbnail_url'] : null;
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
@@ -137,6 +139,7 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
+            'thumbnail_url' => $imageUrl,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
         ];
@@ -155,6 +158,8 @@ class AssessmentIntro extends Model
 
         $videoUrl = $video->video_embed_link;
 
+        $imageUrl = $video->image_url ? $video->image_url['thumbnail_url'] : null;
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
@@ -162,6 +167,7 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
+            'thumbnail_url' => $imageUrl,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
         ];
@@ -180,6 +186,8 @@ class AssessmentIntro extends Model
 
         $videoUrl = $video->video_embed_link;
 
+        $imageUrl = $video->image_url ? $video->image_url['thumbnail_url'] : null;
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
@@ -187,6 +195,7 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
+            'thumbnail_url' => $imageUrl,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
         ];
@@ -205,6 +214,8 @@ class AssessmentIntro extends Model
 
         $videoUrl = $video->video_embed_link;
 
+        $imageUrl = $video->image_url ? $video->image_url['thumbnail_url'] : null;
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
@@ -212,6 +223,7 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
+            'thumbnail_url' => $imageUrl,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
         ];
@@ -230,6 +242,8 @@ class AssessmentIntro extends Model
 
         $videoUrl = $video->video_embed_link;
 
+        $imageUrl = $video->image_url ? $video->image_url['thumbnail_url'] : null;
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
@@ -237,6 +251,7 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
+            'thumbnail_url' => $imageUrl,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
         ];
@@ -255,6 +270,8 @@ class AssessmentIntro extends Model
 
         $videoUrl = $video->video_embed_link;
 
+        $imageUrl = $video->image_url ? $video->image_url['thumbnail_url'] : null;
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $data->name);
 
         return [
@@ -262,6 +279,7 @@ class AssessmentIntro extends Model
             'public_name' => $data->public_name ?? '',
             'description' => $data->text ?? '',
             'video_url' => $videoUrl,
+            'thumbnail_url' => $imageUrl,
             'video_progress' => $progress['video_progress'],
             'video_time' => $progress['video_time']
         ];
@@ -292,6 +310,8 @@ class AssessmentIntro extends Model
 
         $videoUrl = $video->video_embed_link;
 
+        $imageUrl = $video->image_url ? $video->image_url['thumbnail_url'] : null;
+
         $progress = VideoProgress::checkVideoProgress($assessmentId, $result->name);
 
         return [
@@ -300,6 +320,7 @@ class AssessmentIntro extends Model
             'name' => $result['name'],
             'description' => $result['text'],
             'video' => $videoUrl,
+            'thumbnail_url' => $imageUrl,
             'p_name' => $result['p_name'],
             'video_url' => $videoUrl,
 //            'video_url' => $result['video'] ? $result['video']['video_url'] : null,

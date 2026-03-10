@@ -288,6 +288,8 @@ class CodeDetail extends Model
 
                     $videoUrl = $video->video_embed_link;
 
+                    $imageUrl = $video->image_url ? $video->image_url['thumbnail_url'] : null;
+
                     $progress = VideoProgress::checkVideoProgress($assessment['id'], $record->name);
 
                     $data = [
@@ -295,6 +297,7 @@ class CodeDetail extends Model
                         'public_name' => substr($record->public_name, 0, $str_len),
                         'description' => $record->text,
                         'video_url' => $videoUrl,
+                        'thumbnail_url' => $imageUrl,
                         'code_name' => $codeKey,
                         'code_number' => $assessment[$codeKey] ?? null,
                         'video_progress' => $progress['video_progress'],
