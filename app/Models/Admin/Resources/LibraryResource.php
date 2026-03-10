@@ -336,7 +336,7 @@ class LibraryResource extends Model
 
         $query->with(['resourceCategory', 'libraryPermissions'])->orderBy('created_at', 'desc');
 
-        return $query->get();
+        return $query;
     }
 
     public static function allResourceCategories()
