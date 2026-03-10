@@ -35,6 +35,11 @@ class EditResultVideoForm extends Component
     public function updateResultVideo()
     {
         try {
+
+            $this->validate([
+                'image_file' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            ]);
+
             $resultVideo = ResultVideo::getSingleVideo($this->select_video['id']);
 
             $resultVideo->public_name = $this->select_video['public_name'] ?? $resultVideo->public_name;
