@@ -1110,7 +1110,7 @@ class User extends Authenticatable implements JWTSubject
 
                 break;
 
-            case (70 <= $age && $age <= 74):
+            case ($age >=70 && $age <= 74):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'being');
                 $videoRecord = ResultVideo::getVideoByName('being');
