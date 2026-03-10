@@ -305,6 +305,6 @@ final class Admin
 
     const BETA_BREAKER_TEXT="Beta Breaker";
 
-
+    const PERMISSION_ENABLED = 1;
 
 }

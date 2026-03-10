@@ -313,6 +313,16 @@ class AssessmentHelper
 
     }
 
+    private static function canDisplay($permissionField)
+    {
+        return $permissionField === Admin::PERMISSION_ENABLED;
+    }
+
+    private static function canDisplayField($permissions, $field)
+    {
+        return $permissions && isset($permissions->$field) && self::canDisplay($permissions->$field);
+    }
+
     public static function getCoreStatsData($assessment = null, $user = null)
     {
 
@@ -376,6 +386,96 @@ class AssessmentHelper
             'boundary' => $boundary,
             'energy_pool' => $energyPool,
             'perception' => $perception,
+        ];
+    }
+
+    //For v4
+
+    public static function getCoreStatsDatav4($assessment = null, $user = null, $assessmentPermission = null)
+    {
+        $coreState = Assessment::getCoreState($assessment, $user->date_of_birth);
+
+        $traits = [];
+        if (self::canDisplayField($assessmentPermission, 'traits')) {
+            foreach ($coreState['topThreeStyles'] ?? [] as $style) {
+                $traits[] = [
+                    'public_name' => $style['public_name'] ?? null,
+                    'code_number' => $style['code_number'] ?? null,
+                ];
+            }
+        }
+
+        $features = [];
+        if (self::canDisplayField($assessmentPermission, 'motivational_driver')) {
+            foreach ($coreState['topTwoFeatures'] ?? [] as $style) {
+                $features[] = [
+                    'public_name' => $style['public_name'] ?? null,
+                    'code_number' => $style['code_number'] ?? null,
+                ];
+            }
+        }
+
+        $communications = [];
+        if (self::canDisplayField($assessmentPermission, 'communication_style')) {
+            foreach ($coreState['topCommunication'] ?? [] as $style) {
+                $communications[] = [
+                    'public_name' => $style['public_name'] ?? null,
+                    'code_number' => $style['code_number'] ?? null,
+                ];
+            }
+        }
+
+        $boundary = null;
+        if (self::canDisplayField($assessmentPermission, 'alchemic_boundaries')) {
+            $boundary = [
+                'public_name' => $coreState['boundary']['public_name'] ?? null,
+                'code_number' => $coreState['boundary']['code_number'] ?? null,
+            ];
+        }
+
+        $energyPool = null;
+        if (self::canDisplayField($assessmentPermission, 'energy_pool')) {
+            $explode = explode('[', $coreState['energyPool']['public_name'] ?? '');
+            $energyPool = [
+                'public_name' => trim($explode[0]),
+                'code_number' => isset($explode[1]) ? rtrim($explode[1], ']') : null,
+            ];
+        }
+
+        $perception = null;
+        if (self::canDisplayField($assessmentPermission, 'perception_of_life')) {
+            $perception = [
+                'public_name' => $coreState['perception']['public_name'] ?? null,
+                'code_number' => $coreState['perception']['pv'] ?? null,
+            ];
+        }
+
+        $intervalOfLife = null;
+        if (self::canDisplayField($assessmentPermission, 'interval_of_life')) {
+            $intervalOfLife = $coreState['interval_of_life']['public_name'] ?? null;
+        }
+
+        $authenticTraits = null;
+        if (self::canDisplayField($assessmentPermission, 'authentic_traits')) {
+            $authenticTraits = $coreState['authentic_traits'] ?? null;
+        }
+
+        $coreStateField = null;
+        if (self::canDisplayField($assessmentPermission, 'core_state')) {
+            $coreStateField = $coreState['core_state'] ?? null;
+        }
+
+        // Return stable JSON structure — do not use array_filter
+        return [
+            'interval_of_life' => $intervalOfLife,
+            'traits' => $traits,
+            'features' => $features,
+            'communications' => $communications,
+            'boundary' => $boundary,
+            'energy_pool' => $energyPool,
+            'perception' => $perception,
+            'authentic_traits' => $authenticTraits,
+            'core_state' => $coreStateField,
         ];
     }
 

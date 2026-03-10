@@ -409,15 +409,19 @@ class HumanNetworkController extends Controller
 
             }
 
+            $coreStats = null;
+
+            if (!empty($assessmentPermission) && $assessmentPermission->core_state == Admin::PERMISSION_ENABLED) {
+                $coreStats = AssessmentHelper::getCoreStatsDatav4($assessment, $user, $assessmentPermission);
+            }
+
             if (
                 ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB &&
                     in_array($user['plan'], ['freemium', null, 'null'])
                 ) || $user['plan'] == 'bb_onetime'
             ) {
 
-                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1) {
-
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == Admin::PERMISSION_ENABLED) {
 
                     $data = [
                         'core_state' => $coreStats,
@@ -441,13 +445,11 @@ class HumanNetworkController extends Controller
                 ) || $user['plan'] == 'bb_onetime'
             ) {
 
-                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1 && $assessmentPermission->authentic_traits == 1) {
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == Admin::PERMISSION_ENABLED && $assessmentPermission->authentic_traits == Admin::PERMISSION_ENABLED) {
 
                     $styleCodes = Assessment::authenticTraits($assessment);
 
                     $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
-
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
 
                     $data = [
                         'authentic' => $publicNames,
@@ -458,7 +460,7 @@ class HumanNetworkController extends Controller
 
                 }
 
-                if (!empty($assessmentPermission) && $assessmentPermission->authentic_traits == 1) {
+                if (!empty($assessmentPermission) && $assessmentPermission->authentic_traits == Admin::PERMISSION_ENABLED) {
 
                     $styleCodes = Assessment::authenticTraits($assessment);
 
@@ -472,9 +474,7 @@ class HumanNetworkController extends Controller
 
                 }
 
-                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1) {
-
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == Admin::PERMISSION_ENABLED) {
 
                     $data = [
                         'core_state' => $coreStats,
@@ -499,8 +499,6 @@ class HumanNetworkController extends Controller
 
                     $publicNames = collect($styleCodes)->pluck('public_name')->toArray();
 
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
-
                     $data = [
                         'authentic' => $publicNames,
                         'core_state' => $coreStats,
@@ -524,9 +522,8 @@ class HumanNetworkController extends Controller
 
                 }
 
-                if (!empty($assessmentPermission) && $assessmentPermission->core_state == 1) {
+                if (!empty($assessmentPermission) && $assessmentPermission->core_state == Admin::PERMISSION_ENABLED) {
 
-                    $coreStats = AssessmentHelper::getCoreStatsData($assessment, $user);
 
                     $data = [
                         'core_state' => $coreStats,
