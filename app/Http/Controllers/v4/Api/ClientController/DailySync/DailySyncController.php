@@ -9,6 +9,7 @@ use App\Http\Requests\v4\Api\Client\DailySync\SubmitQuestionRequest;
 use App\Models\v4\Admin\DailySync\DailySyncQuestion;
 use App\Models\v4\Client\DailySync\DailySyncResponse;
 use App\Models\v4\Client\DailySync\DailySyncSession;
+use App\Models\v4\Client\DailySync\DailySyncStreak;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,7 @@ class DailySyncController extends Controller
 
         $user = Helpers::getUser();
 
-        if ($user->plan_name != Admin::PREMIUM_PLAN_NAME){
+        if ($user->plan_name != Admin::PREMIUM_PLAN_NAME) {
 
             return Helpers::validationResponse('This feature is available only for Premium users.');
 
@@ -137,7 +138,15 @@ class DailySyncController extends Controller
 
         if (DailySyncResponse::submitQuestionCount($session->id) == self::QUESTIONS_LIMIT) {
 
-            $session->update(['is_completed' => self::SESSION_COMPLETED_AT]);
+            $completedAt = now();
+
+            $session->update(['is_completed' => self::SESSION_COMPLETED_AT, 'completed_at' => $completedAt,]);
+
+            if ($session->created_at->isSameDay($completedAt)) {
+
+                DailySyncStreak::createOrIncrement($user->id);
+
+            }
 
         }
 

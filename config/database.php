@@ -181,12 +181,12 @@ return [
         ],
         'Subscription' => [
             'table' => 'subscriptions',
-            'fillable' => ['stripe_id', 'stripe_status', 'stripe_price','purchase_id','purchase_name','quantity','trial_end_at', 'user_id', 'plan_id', 'name'],
+            'fillable' => ['stripe_id', 'stripe_status', 'stripe_price', 'purchase_id', 'purchase_name', 'quantity', 'trial_end_at', 'user_id', 'plan_id', 'name'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['parent_referal_plan_name', 'last_updated_daily_tip', 'first_name', 'last_name','nickname','email', 'password', 'phone', 'date_of_birth', 'gender', 'signup_date', 'last_login', 'status', 'stripe_id', 'is_admin', 'payment_method', 'pm_type', 'pm_last_four', 'pm_exp_month', 'pm_exp_year', 'google_id', 'is_feedback', 'password_set', 'is_permanently_deleted', 'image_id', 'apple_id', 'hai_chat', 'referral_code', 'referred_by', 'practitioner_id', 'timezone', 'two_way_auth', 'intro_check', 'reset_password', 'app_intro_check', 'reset_password_token', 'email_verify_token', 'step', 'email_verified_at', 'register_from_app', 'device_token', 'company_name', 'business_sub_stratergy_id', 'business_id', 'work_email', 'b2b_step', 'team_department', 'prompt_notification', 'version_update', 'sms_verify_code', 'phone_verified_at', 'complete_assessment_walkthrough', 'complete_tutorial', 'chat_summary', 'profile_status', 'hai_status', 'credits_log', 'life_alchemist', 'excited_connect', 'note','personal_quote','bio', 'bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy', 'profile_privacy', 'hai_privacy', 'theme_mode', 'registration_checkout', 'trial_day', 'trial_time', 'set_daily_tip_time', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'google_apple_last_login_at', 'last_login_with', 'login_device_with', 'plan', 'has_bb_onetime', 'is_lifetime', 'hai_chat_sound_mute', 'billing_context', 'premium_lifetime_welcome', 'skip_premium_lifetime_deal', 'premium_banner_hide'],
+            'fillable' => ['parent_referal_plan_name', 'last_updated_daily_tip', 'first_name', 'last_name', 'nickname', 'email', 'password', 'phone', 'date_of_birth', 'gender', 'signup_date', 'last_login', 'status', 'stripe_id', 'is_admin', 'payment_method', 'pm_type', 'pm_last_four', 'pm_exp_month', 'pm_exp_year', 'google_id', 'is_feedback', 'password_set', 'is_permanently_deleted', 'image_id', 'apple_id', 'hai_chat', 'referral_code', 'referred_by', 'practitioner_id', 'timezone', 'two_way_auth', 'intro_check', 'reset_password', 'app_intro_check', 'reset_password_token', 'email_verify_token', 'step', 'email_verified_at', 'register_from_app', 'device_token', 'company_name', 'business_sub_stratergy_id', 'business_id', 'work_email', 'b2b_step', 'team_department', 'prompt_notification', 'version_update', 'sms_verify_code', 'phone_verified_at', 'complete_assessment_walkthrough', 'complete_tutorial', 'chat_summary', 'profile_status', 'hai_status', 'credits_log', 'life_alchemist', 'excited_connect', 'note', 'personal_quote', 'bio', 'bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy', 'profile_privacy', 'hai_privacy', 'theme_mode', 'registration_checkout', 'trial_day', 'trial_time', 'set_daily_tip_time', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'google_apple_last_login_at', 'last_login_with', 'login_device_with', 'plan', 'has_bb_onetime', 'is_lifetime', 'hai_chat_sound_mute', 'billing_context', 'premium_lifetime_welcome', 'skip_premium_lifetime_deal', 'premium_banner_hide'],
             'hidden' => ['created_at', 'updated_at', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret']
         ],
         'Page' => [
@@ -828,18 +828,18 @@ return [
         'LifetimeDealBanner' => [
             'table' => 'lifetime_deal_banners',
             'fillable' => [
-               'title_for_beta_breaker',
-               'description_for_beta_breaker',
-               'title_for_freemium',
-               'description_for_freemium',
+                'title_for_beta_breaker',
+                'description_for_beta_breaker',
+                'title_for_freemium',
+                'description_for_freemium',
                 'title',
                 'description',
                 'payment_url',
                 'visible_on_mobile',
                 'visible_on_web',
                 'status',
-               'start_date',
-               'end_date',
+                'start_date',
+                'end_date',
             ],
             'hidden' => ['created_at'],
         ],
@@ -865,28 +865,28 @@ return [
         ],
         'AssignFamilyMatrixRelationship' => [
             'table' => 'assign_family_matrix_relationships',
-            'fillable' => ['user_id', 'target_id', 'relationship_id','consent'],
+            'fillable' => ['user_id', 'target_id', 'relationship_id', 'consent'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'FamilyMatrixNote' => [
             'table' => 'family_matrix_notes',
-            'fillable' => ['user_id', 'assign_relation_id','note'],
+            'fillable' => ['user_id', 'assign_relation_id', 'note'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'FamilyMatrixConfiguration' => [
             'table' => 'family_matrix_configurations',
-            'fillable' => ['grid_name','color_code','text'],
+            'fillable' => ['grid_name', 'color_code', 'text'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'ImpactProject' => [
             'table' => 'impact_projects',
-            'fillable' => ['title','description','hp_required','verification_text','status'],
+            'fillable' => ['title', 'description', 'hp_required', 'verification_text', 'status'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'ImpactContribution' => [
             'table' => 'impact_contributions',
             'fillable' => [
-                'user_id',           
+                'user_id',
                 'impact_project_id',
                 'hp_contributed',
             ],
@@ -894,15 +894,20 @@ return [
                 'created_at',
                 'updated_at',
             ],
-        ],    
+        ],
         'DailySyncQuestion' => [
             'table' => 'daily_sync_questions',
-            'fillable' => ['question_text','is_active'],
+            'fillable' => ['question_text', 'is_active'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'DailySyncSession' => [
             'table' => 'daily_sync_sessions',
-            'fillable' => ['user_id', 'is_completed'],
+            'fillable' => ['user_id', 'is_completed', 'completed_at'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'DailySyncStreak' => [
+            'table' => 'daily_sync_streak',
+            'fillable' => ['user_id', 'streak'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'DailySyncResponse' => [
@@ -913,7 +918,7 @@ return [
         'UserRewardLog' => [
             'table' => 'user_reward_logs',
             'fillable' => [
-                'user_id',           
+                'user_id',
                 'type',
                 'points',
             ],
