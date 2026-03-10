@@ -266,22 +266,24 @@ class LibraryResource extends Model
     }
 
 
-    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null)
+    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null, $searchName = null)
     {
+
         $user = Helpers::getUser();
-        $userId = $user['id'];
 
-        if ($user->plan_name == "Premium"){
+        $userId = $user->id;
 
-            $userPlan = 'Premium';
+        if ($user->plan_name == Admin::PREMIUM_PLAN_NAME){
+
+            $userPlan = Admin::PREMIUM_PLAN_NAME;
 
         }elseif ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB || $user['plan'] == 'bb_onetime') {
 
-            $userPlan = 'Beta Breaker';
+            $userPlan = Admin::BETA_BREAKER_TEXT;
 
         } else {
 
-            $userPlan = 'Freemium';
+            $userPlan = Admin::FREEMIUM_TEXT;
 
         }
 
@@ -297,15 +299,18 @@ class LibraryResource extends Model
 
         $query->whereNotIn('id', $purchasedItemIds);
 
-        if (!empty($searchRelevance)) {
-            $query->where('relevance', $searchRelevance);
-        }
-
-        if (!empty($searchType)) {
-            $query->whereHas('resourceCategory', function ($q) use ($searchType) {
-                $q->where('name', 'LIKE', '%' . $searchType . '%');
+        $query
+            ->when($searchType, function ($query) use ($searchType) {
+                $query->whereHas('resourceCategory', function ($q) use ($searchType) {
+                    $q->where('name', 'LIKE', '%' . $searchType . '%');
+                });
+            })
+            ->when($searchRelevance, function ($query) use ($searchRelevance) {
+                $query->where('relevance', $searchRelevance);
+            })
+            ->when($searchName, function ($query) use ($searchName) {
+                $query->where('heading', 'LIKE', "%{$searchName}%");
             });
-        }
 
         if (!empty($searchAccess)) {
             $query->whereHas('libraryPermissions', function ($q) use ($searchAccess) {
