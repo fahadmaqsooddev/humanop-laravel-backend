@@ -955,7 +955,7 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Connecting & Communicating',
                     'name' => $videoRecord ? $videoRecord['interval'] : 'connecting_communicating',
                     'public_name' => 'Cycle of Life - Connecting & Communicating (7-11)',
-                    'video_url'      => $videoRecord ? $videoRecord['video_embed_link'] : asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+                    'video_url'      => $videoRecord ? $videoRecord['video_url'] : asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
                     'description' => config('intervalLifeCycle.connecting_Communicating_(7-11)'),
                     'video_progress' => $progress,
                     'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
@@ -971,7 +971,7 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Alchemical Revelation',
                     'name' => $videoRecord ? $videoRecord['interval'] : 'alchemical_revelation',
                     'public_name' => 'Cycle of Life - Alchemical Revelation (12-15)',
-                    'video_url'      => $videoRecord ? $videoRecord['video_embed_link'] : asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+                    'video_url'      => $videoRecord ? $videoRecord['video_url'] : asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
                     'description' => config('intervalLifeCycle.alchemical_revelation_(12-15)'),
                     'video_progress' => $progress,
                     'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
@@ -989,7 +989,7 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Motivation',
                     'name' => $videoRecord ? $videoRecord['interval'] : 'motivation',
                     'public_name' => 'Cycle of Life - Motivation (16-20)',
-                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.motivation_(16-20)'),
                     'video_progress' => $progress,
                     'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
