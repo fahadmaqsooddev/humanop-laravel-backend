@@ -41,6 +41,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Admin\Code\ResultVideo;
 
 
 class User extends Authenticatable implements JWTSubject
@@ -1117,14 +1118,15 @@ class User extends Authenticatable implements JWTSubject
             case (7 <= $age && $age <= 11):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'connecting_communicating');
-
+                $videoRecord = ResultVideo::getVideoByPublicName('connecting_communicating');
                 $interval = [
-                    'interval' => 'Connecting & Communicating',
-                    'name' => 'connecting_communicating',
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Connecting & Communicating',
+                    'name' => $videoRecord ? $videoRecord['interval'] : 'connecting_communicating',
                     'public_name' => 'Cycle of Life - Connecting & Communicating (7-11)',
-                    'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+                    'video_url'      => $videoRecord ? $videoRecord['video_embed_link'] : asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
                     'description' => config('intervalLifeCycle.connecting_Communicating_(7-11)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
                 ];
 
                 break;
@@ -1132,14 +1134,16 @@ class User extends Authenticatable implements JWTSubject
             case (12 <= $age && $age <= 15):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'alchemical_revelation');
-
+                $videoRecord = ResultVideo::getVideoByPublicName('alchemical_revelation');
                 $interval = [
-                    'interval' => 'Alchemical Revelation',
-                    'name' => 'alchemical_revelation',
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Alchemical Revelation',
+                    'name' => $videoRecord ? $videoRecord['interval'] : 'alchemical_revelation',
                     'public_name' => 'Cycle of Life - Alchemical Revelation (12-15)',
-                    'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+                    'video_url'      => $videoRecord ? $videoRecord['video_embed_link'] : asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
                     'description' => config('intervalLifeCycle.alchemical_revelation_(12-15)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
 
                 break;
@@ -1147,14 +1151,16 @@ class User extends Authenticatable implements JWTSubject
             case (16 <= $age && $age <= 20):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'motivation');
+                $videoRecord = ResultVideo::getVideoByName('motivation');
 
                 $interval = [
-                    'interval' => 'Motivation',
-                    'name' => 'motivation',
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Motivation',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'motivation',
                     'public_name' => 'Cycle of Life - Motivation (16-20)',
-                    'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.motivation_(16-20)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
                 ];
 
                 break;
@@ -1162,14 +1168,16 @@ class User extends Authenticatable implements JWTSubject
             case (21 <= $age && $age <= 29):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'roadworthy');
-
+                $videoRecord = ResultVideo::getVideoByName('roadworthy');
                 $interval = [
-                    'interval' => 'Roadworthy',
-                    'name' => 'roadworthy',
-                    'public_name' => 'Cycle of Life - Roadworthy (21-29)',
-                    'video_url' => asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4'),
+                   'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Roadworthy',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'roadworthy',
+                    'public_name' => $videoRecord ? $videoRecord['public_name'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.roadworthy_(21-29)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
 
                 break;
@@ -1177,14 +1185,16 @@ class User extends Authenticatable implements JWTSubject
             case (30 <= $age && $age <= 33):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'power');
-
+                $videoRecord = ResultVideo::getVideoByName('power');
                 $interval = [
-                    'interval' => 'Power',
-                    'name' => 'power',
-                    'public_name' => 'Cycle of Life - The Power Interval (30-33)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4'),
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Power',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'power',
+                    'public_name' => $videoRecord ? $videoRecord['public_name'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.the_power_interval_(30-33)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
 
                 break;
@@ -1192,14 +1202,17 @@ class User extends Authenticatable implements JWTSubject
             case (34 <= $age && $age <= 42):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'midLife_transformation');
+                $videoRecord = ResultVideo::getVideoByName('midLife_transformation');
 
                 $interval = [
-                    'interval' => 'Mid Life Transformation',
-                    'name' => 'midLife_transformation',
-                    'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4'),
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Mid Life Transformation',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'midLife_transformation',
+                    'public_name' => $videoRecord ? $videoRecord['public_name'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.mid_life_transformation_(34-42)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
 
                 break;
@@ -1207,29 +1220,36 @@ class User extends Authenticatable implements JWTSubject
             case (43 <= $age && $age <= 51):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'awareness');
+                $videoRecord = ResultVideo::getVideoByName('awareness');
 
                 $interval = [
-                    'interval' => 'Awareness',
-                    'name' => 'awareness',
-                    'public_name' => 'Cycle of Life - Awareness (43-51)',
-                    'video_url' => asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4'),
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Awareness',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'awareness',
+                    'public_name' => $videoRecord ? $videoRecord['public_name'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.awareness_(43-51)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
+
 
                 break;
 
             case (52 <= $age && $age <= 65):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'payit_forward');
+                $videoRecord = ResultVideo::getVideoByName('payit_forward');
 
                 $interval = [
-                    'interval' => 'Pay it Forward',
-                    'name' => 'payit_forward',
-                    'public_name' => 'Cycle of Life - Pay It Forward (52-65)',
-                    'video_url' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4'),
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Pay it Forward',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'payit_forward',
+                    'public_name' => $videoRecord ? $videoRecord['public_name'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.pay_it_forward_(52-65)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
 
                 break;
@@ -1237,14 +1257,17 @@ class User extends Authenticatable implements JWTSubject
             case (66 <= $age && $age <= 69):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'liberated');
+                $videoRecord = ResultVideo::getVideoByName('liberated');
 
                 $interval = [
-                    'interval' => 'Liberated',
-                    'name' => 'liberated',
-                    'public_name' => 'Cycle of Life - Liberated (66-69)',
-                    'video_url' => asset('assets/video/Cycle of Life - Liberated 66-70.mp4'),
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Liberated',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'liberated',
+                    'public_name' => $videoRecord ? $videoRecord['public_name'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.liberated_(66-69)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
 
                 break;
@@ -1252,14 +1275,17 @@ class User extends Authenticatable implements JWTSubject
             case (70 <= $age && $age <= 74):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'being');
+                $videoRecord = ResultVideo::getVideoByName('being');
 
                 $interval = [
-                    'interval' => 'Being',
-                    'name' => 'being',
-                    'public_name' => 'Cycle of Life - Being (70-74)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Being',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'being',
+                    'public_name' => $videoRecord ? $videoRecord['public_name'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.being_(70-74)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
 
                 break;
@@ -1267,14 +1293,17 @@ class User extends Authenticatable implements JWTSubject
             case (75 <= $age && $age <= 83):
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'life_review');
+                $videoRecord = ResultVideo::getVideoByName('life_review');
 
                 $interval = [
-                    'interval' => 'Life Review',
-                    'name' => 'life_review',
-                    'public_name' => 'Cycle of Life - Life Review (75-83)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4'),
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Life Review',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'life_review',
+                    'public_name' => $videoRecord ? $videoRecord['public_name'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.life_review_(75-83)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
 
                 break;
@@ -1282,14 +1311,17 @@ class User extends Authenticatable implements JWTSubject
             default:
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'surrender');
+                $videoRecord = ResultVideo::getVideoByName('surrender');
 
                 $interval = [
-                    'interval' => 'Surrender',
-                    'name' => 'surrender',
-                    'public_name' => 'Cycle of Life - Surrender (84+)',
-                    'video_url' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4'),
+                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Surrender',
+                    'name' => $videoRecord ? $videoRecord['name'] : 'surrender',
+                    'public_name' => $videoRecord ? $videoRecord['public_name'] : null,
+                    'video_url' => $videoRecord ? $videoRecord['video_embed_link'] : null,
                     'description' => config('intervalLifeCycle.surrender_(84+)'),
                     'video_progress' => $progress,
+                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+
                 ];
 
                 break;

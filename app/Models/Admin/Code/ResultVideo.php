@@ -6,7 +6,7 @@ use App\Helpers\Helpers;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 class ResultVideo extends Model
 {
     use HasFactory;
@@ -63,5 +63,25 @@ class ResultVideo extends Model
     public static function allVideos()
     {
         return self::all();
+    }
+
+     public static function getVideoByPublicName(string $publicName)
+    {
+       
+        $record = DB::table('interval_videos')
+            ->where('public_name', $publicName)
+            ->first();
+
+        if (!$record) {
+            return null;
+        }
+
+
+        return [
+            'slug_name' => $record->slug_name,
+            'interval'   => $record->public_name,
+            'video_url'  => $record->video_embed_link,
+            'video_name' => $record->video,
+        ];
     }
 }
