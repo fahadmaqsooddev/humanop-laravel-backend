@@ -20,7 +20,18 @@ class UserShareAssessment extends Model
 
     public static function getSingleRecord($user_id)
     {
-        return self::where('user_id', $user_id)->select('user_id', 'authentic_traits', 'core_state')->first();
+        return self::where('user_id', $user_id)->select(
+            'user_id',
+            'authentic_traits',
+            'core_state',
+            'interval_of_life',
+            'traits',
+            'motivational_driver',
+            'alchemic_boundaries',
+            'communication_style',
+            'perception_of_life',
+            'energy_pool'
+        )->first();
     }
 
     public static function createOrUpdateShareAssessment($shareAssessment = null)
@@ -36,6 +47,13 @@ class UserShareAssessment extends Model
                 'user_id' => $userId,
                 'authentic_traits' => $shareAssessment['authentic_traits'],
                 'core_state' => $shareAssessment['core_state'],
+                'interval_of_life' => $shareAssessment['interval_of_life'] ?? null,
+                'traits' => $shareAssessment['traits'] ?? null,
+                'motivational_driver' => $shareAssessment['motivational_driver'] ?? null,
+                'alchemy' => $shareAssessment['alchemy'] ?? null,
+                'communication_style' => $shareAssessment['communication_style'] ?? null,
+                'perception_of_life' => $shareAssessment['perception_of_life'] ?? null,
+                'energy_pool' => $shareAssessment['energy_pool'] ?? null,
             ]);
         }
         else
