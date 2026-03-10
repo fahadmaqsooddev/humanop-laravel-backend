@@ -49,15 +49,36 @@ class LibraryResourceController extends Controller
 
             $transformed = [];
 
+            $user = Helpers::getUser();
+
+            $userPlan = $user['plan_name'];
+
             foreach ($items as $item) {
 
-                $playList = PlaylistLog::getSingleResourceItem($item['id']);
+                $playList = PlaylistLog::getSingleResourceItem($item->id);
 
-                // Get base price
-                $basePrice = (int)optional($item->libraryPermissions)->price ?? 0;
+                $permission = optional($item->libraryPermissions)->permission;
 
-                // Apply discount if plan is Core
-                $finalPrice = (Helpers::getUser()['plan_name'] === Admin::PREMIUM_PLAN_NAME && !empty($basePrice)) ? $basePrice * 0.50 : $basePrice;
+                $basePrice = (int) optional($item->libraryPermissions)->price ?? 0;
+
+                $finalPrice = ($userPlan === Admin::PREMIUM_PLAN_NAME && $basePrice) ? $basePrice * 0.50 : $basePrice;
+
+                $permissionAllow = match ($permission) {
+                    1,4 => 'Freemium',
+                    2,5 => 'Beta Breaker',
+                    3,6 => 'Premium',
+                    default => null,
+                };
+
+                $libraryPermissionName = match ($permission) {
+                    1 => 'Freemium',
+                    2 => 'Beta Breaker',
+                    3 => 'Premium',
+                    4 => 'Freemium Only',
+                    5 => 'Beta Breaker Only',
+                    6 => 'Premium Only',
+                    default => null,
+                };
 
                 $transformed[] = [
                     'id' => $item->id,
@@ -67,24 +88,17 @@ class LibraryResourceController extends Controller
                     'description' => $item->description,
                     'content' => $item->content,
                     'relevance' => $item->relevance,
-                    'photo_url' => !empty($item->photo_url) ? $item->photo_url : null,
-                    'video_url' => !empty($item->video_url) ? $item->video_url : null,
-                    'audio_url' => !empty($item->audio_url) ? $item->audio_url : null,
-                    'thumbnail_url' => !empty($item->thumbnail_url) ? $item->thumbnail_url['url'] : null,
-                    'document_url' => !empty($item->document_url) ? $item->document_url['path'] : null,
-                    'allow_download' => $item->download_document === 1 ? true : false,
+                    'photo_url' => $item->photo_url ?: null,
+                    'video_url' => $item->video_url ?: null,
+                    'audio_url' => $item->audio_url ?: null,
+                    'thumbnail_url' => $item->thumbnail_url['url'] ?? null,
+                    'document_url' => $item->document_url['path'] ?? null,
+                    'allow_download' => $item->download_document == 1,
                     'resource_category_name' => optional($item->resourceCategory)->name,
-                    'library_permission_name' => match(optional($item->libraryPermissions)->permission) {
-                        1 => 'Freemium',
-                        2 => 'Beta Breaker',
-                        3 => 'Premium',
-                        4 => 'Freemium Only',
-                        5 => 'Beta Breaker Only',
-                        6 => 'Premium Only',
-                        default => 'null',
-                    },
+                    'library_permission_name' => $libraryPermissionName,
+                    'library_permission_allow' => $userPlan === $permissionAllow,
                     'price' => $finalPrice,
-                    'point' => (int)optional($item->libraryPermissions)->point ?? 0,
+                    'point' => (int) optional($item->libraryPermissions)->point ?? 0,
                 ];
             }
 
