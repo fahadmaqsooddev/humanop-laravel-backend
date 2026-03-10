@@ -23,7 +23,6 @@ class UpdateUserProfileRequest extends FormRequest
             'personal_quote_public_privacy' => 'required|in:0,1',
             'profile_privacy' => 'required|in:1,2,3',
             'hai_privacy' => 'required|in:1,2,3',
-            'authentic_traits' => $assessmentPermission,
             'core_state' => $assessmentPermission,
             'interval_of_life' => 'nullable|integer|in:1,2',
             'traits' => 'nullable|integer|in:1,2',
