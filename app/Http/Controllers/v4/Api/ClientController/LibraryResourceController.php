@@ -32,16 +32,24 @@ class LibraryResourceController extends Controller
     {
         try {
 
-            $data = LibraryResource::resourceCategoriesForClient(
+            $query = LibraryResource::resourceCategoriesForClient(
                 $request->input('type'),
                 $request->input('access'),
                 $request->input('relevance'),
                 $request->input('search_name')
             );
 
+            $data = Helpers::pagination(
+                $query,
+                $request->input('pagination', true),
+                $request->input('per_page')
+            );
+
+            $items = $request->input('pagination', true) ? $data->items() : $data;
+
             $transformed = [];
 
-            foreach ($data as $item) {
+            foreach ($items as $item) {
 
                 $playList = PlaylistLog::getSingleResourceItem($item['id']);
 
@@ -78,6 +86,14 @@ class LibraryResourceController extends Controller
                     'price' => $finalPrice,
                     'point' => (int)optional($item->libraryPermissions)->point ?? 0,
                 ];
+            }
+
+            if ($request->input('pagination', true)) {
+
+                $data->setCollection(collect($transformed));
+
+                return Helpers::successResponse('Library resources', $data, true);
+
             }
 
             return Helpers::successResponse('Library resources', $transformed);
