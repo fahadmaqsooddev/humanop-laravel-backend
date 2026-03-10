@@ -25,6 +25,13 @@ class UpdateUserProfileRequest extends FormRequest
             'hai_privacy' => 'required|in:1,2,3',
             'authentic_traits' => $assessmentPermission,
             'core_state' => $assessmentPermission,
+            'interval_of_life' => 'nullable|integer|in:1,2',
+            'traits' => 'nullable|integer|in:1,2',
+            'motivational_driver' => 'nullable|integer|in:1,2',
+            'alchemic_boundaries' => 'nullable|integer|in:1,2',
+            'communication_style' => 'nullable|integer|in:1,2',
+            'perception_of_life' => 'nullable|integer|in:1,2',
+            'energy_pool' => 'nullable|integer|in:1,2',
         ];
     }
 
@@ -49,6 +56,14 @@ class UpdateUserProfileRequest extends FormRequest
 
             'authentic_traits.required' => 'Authentic traits field is required for your plan.',
             'core_state.required' => 'Core state field is required for your plan.',
+
+            'interval_of_life.in' => 'Interval of life must be 1 or 2.',
+            'traits.in' => 'Traits must be 1 or 2.',
+            'motivational_driver.in' => 'Motivational drivers must be 1 or 2.',
+            'alchemic_boundaries.in' => 'Alchemy must be 1 or 2.',
+            'communication_style.in' => 'Communication style must be 1 or 2.',
+            'perception_of_life.in' => 'Perception of life must be 1 or 2.',
+            'energy_pool.in' => 'Energy pool must be 1 or 2.',
         ];
     }
 }

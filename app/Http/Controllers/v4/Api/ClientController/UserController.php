@@ -160,13 +160,28 @@ class UserController extends Controller
 
     public function updateUserPrivacy(UpdateUserProfileRequest $request)
     {
+
+
         DB::beginTransaction();
 
         try {
 
             $authUser = Helpers::getUser();
 
-            $privacyFields = ['bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy', 'profile_privacy', 'hai_privacy'];
+            $privacyFields = [
+                'bio_privacy',
+                'personal_quote_connection_privacy',
+                'personal_quote_public_privacy',
+                'profile_privacy',
+                'hai_privacy',
+                'interval_of_life',
+                'traits',
+                'motivational_driver',
+                'alchemic_boundaries',
+                'communication_style',
+                'perception_of_life',
+                'energy_pool'
+            ];
 
             $dataArray = $request->only($privacyFields);
 
@@ -182,9 +197,19 @@ class UserController extends Controller
 
             }
 
-            if (in_array($authUser->plan_name, ['Premium', 'Beta Breaker'])) {
+            if (in_array($authUser->plan_name, ['Premium', Admin::BETA_BREAKER_TEXT])) {
 
-                $shareAssessment = $request->only(['core_state', 'authentic_traits']);
+               $shareAssessment = $request->only([
+                    'core_state',
+                    'authentic_traits',
+                    'interval_of_life',
+                    'traits',
+                    'motivational_driver',
+                    'alchemic_boundaries',
+                    'communication_style',
+                    'perception_of_life',
+                    'energy_pool'
+                ]);
 
                 if (!empty($shareAssessment)) {
 
