@@ -60,7 +60,7 @@ class UpdateUserProfileRequest extends FormRequest
             'interval_of_life.in' => 'Interval of life must be 1 or 2.',
             'traits.in' => 'Traits must be 1 or 2.',
             'motivational_driver.in' => 'Motivational drivers must be 1 or 2.',
-            'alchemic_boundaries' => 'Alchemy must be 1 or 2.',
+            'alchemic_boundaries.in' => 'Alchemy must be 1 or 2.',
             'communication_style.in' => 'Communication style must be 1 or 2.',
             'perception_of_life.in' => 'Perception of life must be 1 or 2.',
             'energy_pool.in' => 'Energy pool must be 1 or 2.',

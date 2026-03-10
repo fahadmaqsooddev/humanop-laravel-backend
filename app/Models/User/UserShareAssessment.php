@@ -50,7 +50,7 @@ class UserShareAssessment extends Model
                 'interval_of_life' => $shareAssessment['interval_of_life'] ?? null,
                 'traits' => $shareAssessment['traits'] ?? null,
                 'motivational_driver' => $shareAssessment['motivational_driver'] ?? null,
-                'alchemy' => $shareAssessment['alchemy'] ?? null,
+                'alchemic_boundaries' => $shareAssessment['alchemic_boundaries'] ?? null,
                 'communication_style' => $shareAssessment['communication_style'] ?? null,
                 'perception_of_life' => $shareAssessment['perception_of_life'] ?? null,
                 'energy_pool' => $shareAssessment['energy_pool'] ?? null,
