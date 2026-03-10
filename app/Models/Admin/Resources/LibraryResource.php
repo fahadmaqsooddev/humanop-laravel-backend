@@ -324,15 +324,15 @@ class LibraryResource extends Model
             });
         }
 
-        $permissionLevels = match ($userPlan) {
-            'Premium' => [6, 3, 2, 1],
-            'Beta Breaker' => [5, 2, 1],
-            default => [4, 1],
-        };
+//        $permissionLevels = match ($userPlan) {
+//            'Premium' => [6, 3, 2, 1],
+//            'Beta Breaker' => [5, 2, 1],
+//            default => [4, 1],
+//        };
 
-        $query->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
-            $q->whereIn('permission', $permissionLevels);
-        });
+//        $query->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
+//            $q->whereIn('permission', $permissionLevels);
+//        });
 
         $query->with(['resourceCategory', 'libraryPermissions'])->orderBy('created_at', 'desc');
 

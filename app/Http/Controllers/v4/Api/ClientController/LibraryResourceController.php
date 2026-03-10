@@ -57,18 +57,13 @@ class LibraryResourceController extends Controller
 
                 $playList = PlaylistLog::getSingleResourceItem($item->id);
 
-                $permission = optional($item->libraryPermissions)->permission;
+                $libraryPermission = optional($item->libraryPermissions);
 
-                $basePrice = (int) optional($item->libraryPermissions)->price ?? 0;
+                $permission = $libraryPermission->permission ?? null;
+
+                $basePrice = (int) ($libraryPermission->price ?? 0);
 
                 $finalPrice = ($userPlan === Admin::PREMIUM_PLAN_NAME && $basePrice) ? $basePrice * 0.50 : $basePrice;
-
-                $permissionAllow = match ($permission) {
-                    1,4 => 'Freemium',
-                    2,5 => 'Beta Breaker',
-                    3,6 => 'Premium',
-                    default => null,
-                };
 
                 $libraryPermissionName = match ($permission) {
                     1 => 'Freemium',
@@ -78,6 +73,29 @@ class LibraryResourceController extends Controller
                     5 => 'Beta Breaker Only',
                     6 => 'Premium Only',
                     default => null,
+                };
+
+                $libraryPermissionAllow = match ($permission) {
+
+                    // Freemium resource
+                    1 => true,
+
+                    // Freemium only
+                    4 => $userPlan === 'Freemium',
+
+                    // Beta breaker
+                    2 => in_array($userPlan, ['Beta Breaker', 'Premium']),
+
+                    // Beta breaker only
+                    5 => $userPlan === 'Beta Breaker',
+
+                    // Premium
+                    3 => true,
+
+                    // Premium only
+                    6 => $userPlan === 'Premium',
+
+                    default => false,
                 };
 
                 $transformed[] = [
@@ -96,9 +114,9 @@ class LibraryResourceController extends Controller
                     'allow_download' => $item->download_document == 1,
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => $libraryPermissionName,
-                    'library_permission_allow' => $userPlan === $permissionAllow,
+                    'library_permission_allow' => $libraryPermissionAllow,
                     'price' => $finalPrice,
-                    'point' => (int) optional($item->libraryPermissions)->point ?? 0,
+                    'point' => (int) ($libraryPermission->point ?? 0),
                 ];
             }
 
