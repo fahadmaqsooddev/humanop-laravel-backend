@@ -266,9 +266,11 @@ class LibraryResource extends Model
     }
 
 
-    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null)
+    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null, $searchName = null)
     {
+
         $user = Helpers::getUser();
+
         $userId = $user['id'];
 
         if ($user->plan_name == "Premium"){
@@ -305,6 +307,10 @@ class LibraryResource extends Model
             $query->whereHas('resourceCategory', function ($q) use ($searchType) {
                 $q->where('name', 'LIKE', '%' . $searchType . '%');
             });
+        }
+
+        if (!empty($searchName)) {
+            $query->where('heading', 'LIKE', '%' . $searchName . '%');
         }
 
         if (!empty($searchAccess)) {

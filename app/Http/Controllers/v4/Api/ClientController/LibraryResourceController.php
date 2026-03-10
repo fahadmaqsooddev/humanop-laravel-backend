@@ -31,7 +31,7 @@ class LibraryResourceController extends Controller
     public function resourceUrls(Request $request)
     {
         try {
-            $data = LibraryResource::resourceCategoriesForClient($request['type'], $request['access'], $request['relevance']);
+            $data = LibraryResource::resourceCategoriesForClient($request['type'], $request['access'], $request['relevance'], $request['search_name']);
 
             $transformed = [];
 
