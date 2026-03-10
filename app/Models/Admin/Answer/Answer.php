@@ -22,11 +22,15 @@ class Answer extends Model
 
     protected $appends = ['image_url'];
 
-    // appends
     public function getImageUrlAttribute(): ?string
     {
+        $user = Helpers::getUser();
 
-        $userGender = Helpers::getUser()->gender;
+        if (!$user) {
+            return null;
+        }
+
+        $userGender = $user->gender;
 
         $image = $userGender === 'female'
             ? $this->female_image
