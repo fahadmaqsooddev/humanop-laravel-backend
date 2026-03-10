@@ -951,7 +951,6 @@ class User extends Authenticatable implements JWTSubject
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'connecting_communicating');
                 $videoRecord = ResultVideo::getVideoByPublicName('connecting_communicating');
-                dd($videoRecord);
                 $interval = [
                     'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Connecting & Communicating',
                     'name' => $videoRecord ? $videoRecord['interval'] : 'connecting_communicating',
