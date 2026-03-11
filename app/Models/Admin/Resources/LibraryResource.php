@@ -354,8 +354,6 @@ class LibraryResource extends Model
             return null;
         }
 
-        $user = Helpers::getUser();
-
         $resource = self::with([
             'resourceCategory',
             'libraryPermissions',
