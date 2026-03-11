@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Helpers\Helpers;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
+use App\Http\Resources\LibraryResource as LibraryResources;
+use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
 
 class LibraryResource extends Model
 {
@@ -125,6 +127,8 @@ class LibraryResource extends Model
         return null;
 
     }
+
+    
 
     public function getAudioUrlAttribute()
     {
@@ -337,6 +341,30 @@ class LibraryResource extends Model
         $query->with(['resourceCategory', 'libraryPermissions'])->orderBy('created_at', 'desc');
 
         return $query;
+    }
+
+    public function notes()
+    {
+        return $this->hasOne(LibraryResourceNotes::class, 'resource_id');
+    }
+
+    public static function getResourceById($id)
+    {
+        if (!$id) {
+            return null;
+        }
+
+        $user = Helpers::getUser();
+
+        $resource = self::with(['resourceCategory', 'libraryPermissions','notes'])
+            ->where('id', $id)
+            ->first();
+
+        if (!$resource) {
+            return null;
+        }
+
+        return new LibraryResources($resource);
     }
 
     public static function allResourceCategories()

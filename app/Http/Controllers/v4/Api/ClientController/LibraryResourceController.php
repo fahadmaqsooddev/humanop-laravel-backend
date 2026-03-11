@@ -141,6 +141,24 @@ class LibraryResourceController extends Controller
 
     }
 
+    
+    public function getResourceUrl(Request $request)
+    {
+        try {
+            
+            $request->validate([
+                'resource_id' => 'required|exists:library_resources,id',
+            ]);
+
+            $resource = LibraryResource::getResourceById($request->query('resource_id'));
+
+            return Helpers::successResponse('Resource URL Fetch', $resource);
+
+        } catch (\Exception $e) {
+            return Helpers::serverErrorResponse($e->getMessage());
+        }
+    }
+
     public function mediaPlayerCategories()
     {
         try {
