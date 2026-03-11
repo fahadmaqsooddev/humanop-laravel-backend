@@ -41,6 +41,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Admin\Code\ResultVideo;
 
 
 class User extends Authenticatable implements JWTSubject
@@ -940,171 +941,112 @@ class User extends Authenticatable implements JWTSubject
 
     public static function getUserAge($date_of_birth = null, $assessment = null)
     {
-
         $age = Carbon::parse($date_of_birth)->age;
+        $assessmentId = $assessment->id;
 
-        switch ($age) {
+        $interval = null;
+
+        switch (true) {
 
             case ($age >= 7 && $age <= 11):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'connecting_communicating');
-                $interval = [
-                    'interval' => 'Connecting & Communicating',
-                    'name' => 'connecting_communicating',
-                    'public_name' => 'Cycle of Life - Connecting & Communicating (7-11)',
-                    'video_url' => config('intervalLifeCycle.connecting_Communicating_(7-11).video_url'),
-                    'description' => config('intervalLifeCycle.connecting_Communicating_(7-11).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'connecting_communicating';
+                $public_name = 'Cycle of Life - Connecting & Communicating (7-11)';
+                $description_key = 'connecting_Communicating_(7-11)';
+                $default_video = asset('assets/video/Cycle of Life - Motivation 16-20.mp4');
                 break;
 
             case ($age >= 12 && $age <= 15):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'alchemical_revelation');
-                $interval = [
-                    'interval' => 'Alchemical Revelation',
-                    'name' => 'alchemical_revelation',
-                    'public_name' => 'Cycle of Life - Alchemical Revelation (12-15)',
-                    'video_url' => config('intervalLifeCycle.alchemical_revelation_(12-15).video_url'),
-                    'description' => config('intervalLifeCycle.alchemical_revelation_(12-15).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'alchemical_revelation';
+                $public_name = 'Cycle of Life - Alchemical Revelation (12-15)';
+                $description_key = 'alchemical_revelation_(12-15)';
+                $default_video = asset('assets/video/Cycle of Life - Motivation 16-20.mp4');
                 break;
 
             case ($age >= 16 && $age <= 20):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'motivation');
-                $interval = [
-                    'interval' => 'Motivation',
-                    'name' => 'motivation',
-                    'public_name' => 'Cycle of Life - Motivation (16-20)',
-                    'video_url' => config('intervalLifeCycle.motivation_(16-20).video_url'),
-                    'description' => config('intervalLifeCycle.motivation_(16-20).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'motivation';
+                $public_name = 'Cycle of Life - Motivation (16-20)';
+                $description_key = 'motivation_(16-20)';
+                $default_video = null;
                 break;
 
             case ($age >= 21 && $age <= 29):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'roadworthy');
-                $interval = [
-                    'interval' => 'Roadworthy',
-                    'name' => 'roadworthy',
-                    'public_name' => 'Cycle of Life - Roadworthy (21-29)',
-                    'video_url' => config('intervalLifeCycle.roadworthy_(21-29).video_url'),
-                    'description' => config('intervalLifeCycle.roadworthy_(21-29).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'roadworthy';
+                $public_name = 'Cycle of Life - Roadworthy (21-29)';
+                $description_key = 'roadworthy_(21-29)';
+                $default_video = null;
                 break;
 
             case ($age >= 30 && $age <= 33):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'power');
-                $interval = [
-                    'interval' => 'Power',
-                    'name' => 'power',
-                    'public_name' => 'Cycle of Life - The Power Interval (30-33)',
-                    'video_url' => config('intervalLifeCycle.the_power_interval_(30-33).video_url'),
-                    'description' => config('intervalLifeCycle.the_power_interval_(30-33).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'power';
+                $public_name = 'Cycle of Life - The Power Interval (30-33)';
+                $description_key = 'the_power_interval_(30-33)';
+                $default_video = null;
                 break;
 
             case ($age >= 34 && $age <= 42):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'midLife_transformation');
-                $interval = [
-                    'interval' => 'Mid Life Transformation',
-                    'name' => 'midLife_transformation',
-                    'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)',
-                    'video_url' => config('intervalLifeCycle.mid_life_transformation_(34-42).video_url'),
-                    'description' => config('intervalLifeCycle.mid_life_transformation_(34-42).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'midlife_transformation';
+                $public_name = 'Cycle of Life - Mid-Life Transformation (34-42)';
+                $description_key = 'mid_life_transformation_(34-42)';
+                $default_video = null;
                 break;
 
             case ($age >= 43 && $age <= 51):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'awareness');
-                $interval = [
-                    'interval' => 'Awareness',
-                    'name' => 'awareness',
-                    'public_name' => 'Cycle of Life - Awareness (43-51)',
-                    'video_url' => config('intervalLifeCycle.awareness_(43-51).video_url'),
-                    'description' => config('intervalLifeCycle.awareness_(43-51).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'awareness';
+                $public_name = 'Cycle of Life - Awareness (43-51)';
+                $description_key = 'awareness_(43-51)';
+                $default_video = null;
                 break;
 
             case ($age >= 52 && $age <= 65):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'payit_forward');
-                $interval = [
-                    'interval' => 'Pay it Forward',
-                    'name' => 'payit_forward',
-                    'public_name' => 'Cycle of Life - Pay It Forward (52-65)',
-                    'video_url' => config('intervalLifeCycle.pay_it_forward_(52-65).video_url'),
-                    'description' => config('intervalLifeCycle.pay_it_forward_(52-65).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'payit_forward';
+                $public_name = 'Cycle of Life - Pay It Forward (52-65)';
+                $description_key = 'pay_it_forward_(52-65)';
+                $default_video = null;
                 break;
 
             case ($age >= 66 && $age <= 69):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'liberated');
-                $interval = [
-                    'interval' => 'Liberated',
-                    'name' => 'liberated',
-                    'public_name' => 'Cycle of Life - Liberated (66-69)',
-                    'video_url' => config('intervalLifeCycle.liberated_(66-69).video_url'),
-                    'description' => config('intervalLifeCycle.liberated_(66-69).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'liberated';
+                $public_name = 'Cycle of Life - Liberated (66-69)';
+                $description_key = 'liberated_(66-69)';
+                $default_video = null;
                 break;
 
             case ($age >= 70 && $age <= 74):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'being');
-                $interval = [
-                    'interval' => 'Being',
-                    'name' => 'being',
-                    'public_name' => 'Cycle of Life - Being (70-74)',
-                    'video_url' => config('intervalLifeCycle.being_(70-74).video_url'),
-                    'description' => config('intervalLifeCycle.being_(70-74).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'being';
+                $public_name = 'Cycle of Life - Being (70-74)';
+                $description_key = 'being_(70-74)';
+                $default_video = null;
                 break;
 
             case ($age >= 75 && $age <= 83):
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'life_review');
-                $interval = [
-                    'interval' => 'Life Review',
-                    'name' => 'life_review',
-                    'public_name' => 'Cycle of Life - Life Review (75-83)',
-                    'video_url' => config('intervalLifeCycle.life_review_(75-83).video_url'),
-                    'description' => config('intervalLifeCycle.life_review_(75-83).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'life_review';
+                $public_name = 'Cycle of Life - Life Review (75-83)';
+                $description_key = 'life_review_(75-83)';
+                $default_video = null;
                 break;
 
             default:
-                $progress = VideoProgress::checkVideoProgress($assessment['id'], 'surrender');
-                $interval = [
-                    'interval' => 'Surrender',
-                    'name' => 'surrender',
-                    'public_name' => 'Cycle of Life - Surrender (84+)',
-                    'video_url' => config('intervalLifeCycle.surrender_(84+).video_url'),
-                    'description' => config('intervalLifeCycle.surrender_(84+).text'),
-                    'video_progress' => $progress['video_progress'],
-                    'video_time' => $progress['video_time']
-                ];
+                $slug = 'surrender';
+                $public_name = 'Cycle of Life - Surrender (84+)';
+                $description_key = 'surrender_(84+)';
+                $default_video = null;
                 break;
-
         }
 
-        return $interval;
+        $videoRecord = ResultVideo::getVideoByName($slug);
+        $progress = VideoProgress::checkVideoProgress($assessmentId, $slug);
 
+        $interval = [
+            'interval'       => $videoRecord['slug_name'] ?? $public_name,
+            'name'           => $videoRecord['interval'] ?? $slug,
+            'public_name'    => $public_name,
+            'video_url'      => $videoRecord['video_url'] ?? $default_video,
+            'description'    => config("intervalLifeCycle.{$description_key}"),
+            'video_progress' => $progress,
+            'thumbnail_url'  => $videoRecord['image_url'] ?? null
+        ];
+
+        return $interval;
     }
 
     public static function getUserAgeRecord($date_of_birth = null, $assessmentId = null)
@@ -1195,7 +1137,7 @@ class User extends Authenticatable implements JWTSubject
 
                 $interval = [
                     'interval' => 'Mid Life Transformation',
-                    'name' => 'midLife_transformation',
+                    'name' => 'midlife_transformation',
                     'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)',
                     'video_url' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4'),
                     'description' => config('intervalLifeCycle.mid_life_transformation_(34-42)'),
