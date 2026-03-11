@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Helpers\Helpers;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
-use App\Http\Resources\LibraryResource as LibraryResources;
+
 use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
 
 class LibraryResource extends Model
@@ -367,7 +367,7 @@ class LibraryResource extends Model
             return null;
         }
 
-        return new LibraryResources($resource);
+       return $resource;
     }
 
     public static function allResourceCategories()

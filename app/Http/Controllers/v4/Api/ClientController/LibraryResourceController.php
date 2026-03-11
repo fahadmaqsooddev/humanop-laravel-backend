@@ -21,6 +21,7 @@ use Stripe\Charge;
 use Stripe\Stripe;
 use App\Http\Requests\v4\Api\Client\LibraryResourceNotesRequest;
 use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
+use App\Http\Resources\LibraryResource as LibraryResources;
 class LibraryResourceController extends Controller
 {
 
@@ -142,25 +143,23 @@ class LibraryResourceController extends Controller
     }
 
     
+ 
     public function getResourceUrl(Request $request)
     {
-        try {
-
-            $validated = $request->validate([
+        $resource = LibraryResource::getResourceById(
+            $request->validate([
                 'resource_id' => 'required|exists:library_resources,id',
-            ]);
+            ])['resource_id']
+        );
 
-            $resource = LibraryResource::getResourceById($validated['resource_id']);
-
-            if (!$resource) {
-                return Helpers::notFoundResponse('Resource not found');
-            }
-
-            return Helpers::successResponse('Resource URL Fetch', $resource);
-
-        } catch (\Exception $e) {
-            return Helpers::serverErrorResponse($e->getMessage());
+        if (!$resource) {
+            return Helpers::notFoundResponse('Resource not found');
         }
+
+        return Helpers::successResponse(
+            'Resource URL Fetch',
+            new LibraryResources($resource)
+        );
     }
 
     public function mediaPlayerCategories()
