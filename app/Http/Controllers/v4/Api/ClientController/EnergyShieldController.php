@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v4\Api\ClientController;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\v4\Client\EnergyShieldState;
 use Illuminate\Http\JsonResponse;
@@ -15,10 +16,8 @@ class EnergyShieldController extends Controller
     {
         $state = $energyShieldService->getState($request->user()->id);
 
-        return response()->json([
-            'status' => 'ok',
-            'state' => $state,
-        ]);
+        return Helpers::successResponse('Energy shield state', $state);
+
     }
 
 }

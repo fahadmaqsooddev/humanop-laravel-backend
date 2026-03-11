@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\v4\Api\ClientController;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\v4\Api\Client\EnergyShield\IngestLocationsRequest;
+use App\Http\Requests\v4\Api\Client\EnergyShield\IngestSamplesRequest;
 use App\Jobs\v4\ProcessShieldEventsJob;
 use App\Jobs\v4\RebuildDailyStateJob;
 use App\Models\v4\Client\BiometricSample;
@@ -14,18 +17,8 @@ use Illuminate\Http\JsonResponse;
 class HealthKitController extends Controller
 {
 
-    public function ingestSamples(Request $request): JsonResponse
+    public function ingestSamples(IngestSamplesRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'samples' => ['required', 'array', 'min:1'],
-            'samples.*.metric' => ['required', 'string', 'in:' . implode(',', config('humanop.allowed_metrics'))],
-            'samples.*.value' => ['required', 'numeric'],
-            'samples.*.recorded_at' => ['required', 'date'],
-            'samples.*.source' => ['nullable', 'string'],
-            'samples.*.metadata' => ['nullable', 'array'],
-        ]);
-
-        $validator->validate();
 
         $user = $request->user();
         $created = 0;
@@ -59,24 +52,12 @@ class HealthKitController extends Controller
         RebuildDailyStateJob::dispatch($user->id);
         ProcessShieldEventsJob::dispatch($user->id);
 
-        return response()->json([
-            'status' => 'ok',
-            'created_samples' => $created,
-        ]);
+        return Helpers::successResponse('Samples ingested successfully', $created);
+
     }
 
-    public function ingestLocations(Request $request): JsonResponse
+    public function ingestLocations(IngestLocationsRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'locations' => ['required', 'array', 'min:1'],
-            'locations.*.place_id' => ['required', 'string'],
-            'locations.*.recorded_at' => ['required', 'date'],
-            'locations.*.latitude' => ['nullable', 'numeric'],
-            'locations.*.longitude' => ['nullable', 'numeric'],
-            'locations.*.metadata' => ['nullable', 'array'],
-        ]);
-
-        $validator->validate();
 
         $user = $request->user();
         $created = 0;
@@ -107,10 +88,8 @@ class HealthKitController extends Controller
 
         ProcessShieldEventsJob::dispatch($user->id);
 
-        return response()->json([
-            'status' => 'ok',
-            'created_locations' => $created,
-        ]);
+        return Helpers::successResponse('Locations ingested successfully', $created);
+
     }
 
 }
