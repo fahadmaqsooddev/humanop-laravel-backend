@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v4\Api\ClientController;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\v4\Client\BoostSession;
 use App\Services\v4\EnergyBoostService;
@@ -28,10 +29,8 @@ class BoostSessionController extends Controller
             $request->input('metadata', [])
         );
 
-        return response()->json([
-            'status' => 'ok',
-            'session' => $session,
-        ], 201);
+        return Helpers::successResponse('Session started successfully', $session);
+
     }
 
     public function end(Request $request, EnergyBoostService $energyBoostService): JsonResponse
@@ -53,10 +52,8 @@ class BoostSessionController extends Controller
             (bool) $request->boolean('coherence_achieved')
         );
 
-        return response()->json([
-            'status' => 'ok',
-            'session' => $session,
-        ]);
+        return Helpers::successResponse('Session ended successfully', $session);
+
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v4\Api\ClientController;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Jobs\v4\RebuildDailyStateJob;
 use App\Models\Assessment;
@@ -58,10 +59,8 @@ class HumanOpProfileController extends Controller
         $energyShieldService->syncPoolWithoutReset($user->id, $profile->energy_pool_state);
         RebuildDailyStateJob::dispatch($user->id);
 
-        return response()->json([
-            'status' => 'ok',
-            'profile' => $profile,
-        ]);
+        return Helpers::successResponse('Profile updated successfully', $profile);
+
     }
 
 }
