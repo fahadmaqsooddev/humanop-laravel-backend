@@ -1137,7 +1137,7 @@ class User extends Authenticatable implements JWTSubject
 
                 $interval = [
                     'interval' => 'Mid Life Transformation',
-                    'name' => 'midLife_transformation',
+                    'name' => 'midlife_transformation',
                     'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)',
                     'video_url' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4'),
                     'description' => config('intervalLifeCycle.mid_life_transformation_(34-42)'),
