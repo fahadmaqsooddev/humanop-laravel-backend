@@ -23,8 +23,8 @@ class LibraryResource extends JsonResource
             "video_url" => $this->video_url,
             "audio_url" => $this->audio_url,
 
-            "thumbnail_url" => $this->thumbnail_url['url'] ?? null,
-            "document_url" => $this->document_url['path'] ?? null,
+            "thumbnail_url" => data_get($this->thumbnail_url,'url'),
+            "document_url" => data_get($this->document_url,'path'),
 
             "allow_download" => (bool) $this->download_document,
 
