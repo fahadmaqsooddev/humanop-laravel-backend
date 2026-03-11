@@ -67,21 +67,19 @@ class ResultVideo extends Model
 
      public static function getVideoByName(string $publicName)
     {
-       
-        $record = DB::table('assessment_result_videos')
-            ->where('public_name', $publicName)
-            ->first();
+
+        $record = self::where('public_name', $publicName)->first();
 
         if (!$record) {
             return null;
         }
-
 
         return [
             'slug_name' => $record->slug_name,
             'interval'   => $record->public_name,
             'video_url'  => $record->video_embed_link,
             'video_name' => $record->video,
+            'image_url'  => $record->image_url ? $record->image_url['thumbnail_url'] : ''
         ];
     }
 }

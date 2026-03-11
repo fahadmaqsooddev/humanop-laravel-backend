@@ -958,7 +958,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url'      => $videoRecord ? $videoRecord['video_url'] : asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
                     'description' => config('intervalLifeCycle.connecting_Communicating_(7-11)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
                 ];
 
                 break;
@@ -974,7 +974,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url'      => $videoRecord ? $videoRecord['video_url'] : asset('assets/video/Cycle of Life - Motivation 16-20.mp4'),
                     'description' => config('intervalLifeCycle.alchemical_revelation_(12-15)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
 
                 ];
 
@@ -984,7 +984,7 @@ class User extends Authenticatable implements JWTSubject
 
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'motivation');
                 $videoRecord = ResultVideo::getVideoByName('motivation');
-                 
+
                 $interval = [
                     'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Motivation',
                     'name' => $videoRecord ? $videoRecord['interval'] : 'motivation',
@@ -992,7 +992,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.motivation_(16-20)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
                 ];
 
                 break;
@@ -1000,10 +1000,10 @@ class User extends Authenticatable implements JWTSubject
             case ($age >= 21 && $age <= 29):
 
 
-                
+
                 $progress = VideoProgress::checkVideoProgress($assessmentId, 'roadworthy');
                 $videoRecord = ResultVideo::getVideoByName('roadworthy');
-               
+
                 $interval = [
                    'interval' => $videoRecord ? $videoRecord['slug_name'] : 'Roadworthy',
                     'name' => $videoRecord ? $videoRecord['interval'] : 'roadworthy',
@@ -1011,7 +1011,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.roadworthy_(21-29)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url'],
 
                 ];
 
@@ -1028,7 +1028,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.the_power_interval_(30-33)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
 
                 ];
 
@@ -1046,7 +1046,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.mid_life_transformation_(34-42)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
 
                 ];
 
@@ -1064,7 +1064,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.awareness_(43-51)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
 
                 ];
 
@@ -1083,7 +1083,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.pay_it_forward_(52-65)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
 
                 ];
 
@@ -1101,7 +1101,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.liberated_(66-69)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
 
                 ];
 
@@ -1119,7 +1119,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.being_(70-74)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
 
                 ];
 
@@ -1137,7 +1137,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.life_review_(75-83)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
 
                 ];
 
@@ -1155,7 +1155,7 @@ class User extends Authenticatable implements JWTSubject
                     'video_url' => $videoRecord ? $videoRecord['video_url'] : null,
                     'description' => config('intervalLifeCycle.surrender_(84+)'),
                     'video_progress' => $progress,
-                    'thumbnail_url' => $videoRecord ? $videoRecord['image_url']['thumbnail_url'] : ""
+                    'thumbnail_url' => $videoRecord['image_url']
 
                 ];
 

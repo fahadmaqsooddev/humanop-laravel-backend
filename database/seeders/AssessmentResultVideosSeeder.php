@@ -68,29 +68,18 @@ class AssessmentResultVideosSeeder extends Seeder
             ['code'=>'EI','public_name'=>'Energy Pool Introduction','video'=>'Intro to Energy Pool.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68df5ac53232f7b8d6ffb88c/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'PLI','public_name'=>'Perception Life Introduction','video'=>'Perception of Life Intro.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68df5ab33232f7b8d6ffb429/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'CI','public_name'=>'Communication Introduction','video'=>'Intro to Communication Style.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68df5ac3cb6417cef53d6a59/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-            ['code'=>null,'public_name'=>'connecting_communicating','slug_name'=>'Connecting & Communicating','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'alchemical_revelation','slug_name'=>'Alchemical Revelation','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'motivation','slug_name'=>'Motivation','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'roadworthy','slug_name'=>'Roadworthy','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cd30d9a408df2226c7/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'power','slug_name'=>'Power','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcb0bb97fd98109b79/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'midLife_transformation','slug_name'=>'Mid Life Transformation','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fc30d9a408df22ad66/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'awareness','slug_name'=>'Awareness','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d07db0bb97fd980ff897/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'payit_forward','slug_name'=>'Pay It Forward','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cd30d9a408df2226c4/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'liberated','slug_name'=>'Liberated','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cdb0bb97fd9810141f/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'being','slug_name'=>'Being','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fc30d9a408df22ad64/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'life_review','slug_name'=>'Life Review','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-
-            ['code'=>null,'public_name'=>'surrender','slug_name'=>'Surrender','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Connecting & Communicating','slug_name'=>'connecting_communicating','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Alchemical Revelation','slug_name'=>'alchemical_revelation','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Motivation','slug_name'=>'motivation','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Roadworthy','slug_name'=>'roadworthy','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cd30d9a408df2226c7/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Power','slug_name'=>'power','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcb0bb97fd98109b79/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Mid Life Transformation','slug_name'=>'midlife_transformation','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fc30d9a408df22ad66/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Awareness','slug_name'=>'awareness','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d07db0bb97fd980ff897/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Pay It Forward','slug_name'=>'payit_forward','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cd30d9a408df2226c4/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Liberated','slug_name'=>'liberated','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cdb0bb97fd9810141f/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Being','slug_name'=>'being','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fc30d9a408df22ad64/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Life Review','slug_name'=>'life_review','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
+            ['code'=>null,'public_name'=>'Surrender','slug_name'=>'surrender','video'=>null,'video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723ee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
         ];
 
         $videos = array_map(function ($video) {
