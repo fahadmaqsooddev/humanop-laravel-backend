@@ -19,13 +19,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Stripe\Charge;
 use Stripe\Stripe;
-
+use App\Http\Requests\v4\Api\Client\LibraryResourceNotesRequest;
+use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
 class LibraryResourceController extends Controller
 {
+
+    public $user=null;
 
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->user=Helpers::getUser();
     }
 
     public function resourceUrls(Request $request)
@@ -283,6 +287,33 @@ class LibraryResourceController extends Controller
 
         }
 
+    }
+
+    public function addlibraryResourceNotes(LibraryResourceNotesRequest $request)
+    {
+        $user_id = $this->user->id;
+
+        $notes = LibraryResourceNotes::createLibraryResourceNote(
+            $request->validated(),
+            $user_id
+        );
+
+        return Helpers::successResponse('Library Resource Notes saved successfully', $notes);
+    }
+
+
+    public function getlibraryResourceNotes(Request $request)
+    {
+        $user_id = $this->user->id;
+        $library_resource_id = $request->query('library_resource_id');
+
+        $note = LibraryResourceNotes::getLibraryResourceNote($library_resource_id, $user_id);
+
+        if (!$note) {
+            return Helpers::notFoundResponse('Library Resource Note not found');
+        }
+
+        return Helpers::successResponse('Library Resource Note fetched successfully', $note);
     }
 
 }
