@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('resource-urls', 'LibraryResourceController@resourceUrls');
-    Route::get('get-resource-url', 'LibraryResourceController@getResourceUrl');
+    Route::get('resource-url', 'LibraryResourceController@getResourceUrl');
     Route::get('resource-categories', 'LibraryResourceController@resourceCategories');
     Route::post('library-resource-item-checkout', 'LibraryResourceController@libraryResourceItemCheckout');
 

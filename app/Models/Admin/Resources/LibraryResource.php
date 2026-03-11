@@ -345,8 +345,7 @@ class LibraryResource extends Model
 
    public function notes()
     {
-        return $this->hasOne(LibraryResourceNotes::class, 'resource_id')
-            ->where('user_id', Helpers::getUser()->id);
+        return $this->hasOne(LibraryResourceNotes::class, 'resource_id');
     }
 
     public static function getResourceById($id)
@@ -357,9 +356,14 @@ class LibraryResource extends Model
 
         $user = Helpers::getUser();
 
-        $resource = self::with(['resourceCategory', 'libraryPermissions','notes:id,resource_id,notes'])
-            ->where('id', $id)
-            ->first();
+        $resource = self::with([
+            'resourceCategory',
+            'libraryPermissions',
+            'notes' => function ($q) {
+                $q->where('user_id', Helpers::getUser()->id)
+                ->select('id', 'resource_id', 'user_id', 'notes');
+            }
+        ])->where('id', $id)->first();
 
         if (!$resource) {
             return null;

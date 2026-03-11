@@ -159,7 +159,7 @@ class LibraryResourceController extends Controller
             return Helpers::successResponse('Resource URL Fetch', $resource);
 
         } catch (\Exception $e) {
-            return Helpers::serverErrorResponse('Something went wrong. Please contact technical support');
+            return Helpers::serverErrorResponse($e->getMessage());
         }
     }
 
