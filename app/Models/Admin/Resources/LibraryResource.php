@@ -343,9 +343,10 @@ class LibraryResource extends Model
         return $query;
     }
 
-    public function notes()
+   public function notes()
     {
-        return $this->hasOne(LibraryResourceNotes::class, 'resource_id');
+        return $this->hasOne(LibraryResourceNotes::class, 'resource_id')
+            ->where('user_id', Helpers::getUser()->id);
     }
 
     public static function getResourceById($id)
