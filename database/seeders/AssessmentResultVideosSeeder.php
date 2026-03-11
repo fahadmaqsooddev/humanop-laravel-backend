@@ -4,17 +4,16 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Schema;
 class AssessmentResultVideosSeeder extends Seeder
 {
     public function run()
     {
-        DB::statement("SET FOREIGN_KEY_CHECKS=0;");
+        Schema::disableForeignKeyConstraints();
         DB::table('assessment_result_videos')->truncate();
-        DB::statement("SET FOREIGN_KEY_CHECKS=1;");
+        Schema::enableForeignKeyConstraints();
         $videos = [
             ['code'=>'JO','public_name'=>'Absorptive','video'=>'The Absorptive Trait.mp4','video_upload_id'=>547,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4c91fb0bb97fd980ef8be/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-            ['code'=>'JO','public_name'=>'Absorptivesa','video'=>'The Absorptive Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4c91fb0bb97fd980ef8be/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'POW','public_name'=>'Accomplishment','video'=>'Accomplishment.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4cc5caf70352b0d45ffd1/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'VAN','public_name'=>'Aesthetic Sensibility','video'=>'Aesthetic Sensibility.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4cf64b0bb97fd980fe449/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'SP','public_name'=>'Compassion','video'=>'Compassion.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4cf6430d9a408df21f3ca/main.m3u8','created_at'=>now(),'updated_at'=>now()],
@@ -23,9 +22,7 @@ class AssessmentResultVideosSeeder extends Seeder
             ['code'=>'FE','public_name'=>'Creates Protection','video'=>'Creating Protection.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d07d30d9a408df220cbd/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'DOM','public_name'=>'Creating Order','video'=>'Creating Order.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d07eb0bb97fd980ff899/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'SO','public_name'=>'Effervescent','video'=>'The Effervescent Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d803b0bb97fd98109bee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-            ['code'=>'SO','public_name'=>'Effervescent','video'=>'The Effervescent Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d803b0bb97fd98109bee/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'EM','public_name'=>'Emotionally','video'=>'The Emotional Energy Center.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d85fb0bb97fd9810a90b/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-            ['code'=>'MA','public_name'=>'Energetic','video'=>'The Energetic Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d86030d9a408df22bad5/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'MA','public_name'=>'Energetic','video'=>'The Energetic Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d86030d9a408df22bad5/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'AE','public_name'=>'Energy Above Excellent','video'=>'Energy Pool - Above Excellent.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cd30d9a408df2226c9/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'A','public_name'=>'Energy Average','video'=>'Energy Pool - Average.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d1cdaf70352b0d46a1c4/main.m3u8','created_at'=>now(),'updated_at'=>now()],
@@ -42,20 +39,15 @@ class AssessmentResultVideosSeeder extends Seeder
             ['code'=>'MOV','public_name'=>'Moving','video'=>'The Moving Energy Center.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d86cb0bb97fd9810aa18/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'NAI','public_name'=>'Optimism','video'=>'Optimism.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d58c30d9a408df22660d/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'MER','public_name'=>'Perceptive','video'=>'The Perceptive Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d870b0bb97fd9810aa7e/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-            ['code'=>'MER','public_name'=>'Perceptive','video'=>'The Perceptive Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d870b0bb97fd9810aa7e/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'WIL','public_name'=>'Perseverance','video'=>'Perseverance.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723c2/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'NE','public_name'=>'Negative','video'=>'Perception of LIfe - Negative.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d58c30d9a408df22662b/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'N','public_name'=>'Neutral','video'=>'Perception of Life - Neutral.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d58caf70352b0d46e227/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'P','public_name'=>'Positive','video'=>'Perception of Life - Positive.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d58c30d9a408df22662d/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'SA','public_name'=>'Regal','video'=>'The Regal Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d871af70352b0d473bb2/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-            ['code'=>'SA','public_name'=>'Regal','video'=>'The Regal Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d871af70352b0d473bb2/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-            ['code'=>'SA','public_name'=>'Regal','video'=>'The Regal Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d871af70352b0d473bb2/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-            ['code'=>'LU','public_name'=>'Romantic','video'=>'The Romantic Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d87230d9a408df22bf5e/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'LU','public_name'=>'Romantic','video'=>'The Romantic Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d87230d9a408df22bf5e/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'S','public_name'=>'Silver','video'=>'Silver Alchemy.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fc30d9a408df22ad41/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'SC','public_name'=>'Silver-Copper','video'=>'Silver-Copper Alchemy.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fc30d9a408df22ad5f/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'SG','public_name'=>'Silver-Gold','video'=>'Silver-Gold Alchemy.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d7fcaf70352b0d4723c4/main.m3u8','created_at'=>now(),'updated_at'=>now()],
-            ['code'=>'VEN','public_name'=>'Sympathetic','video'=>'The Sympathetic Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d874af70352b0d473c03/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'VEN','public_name'=>'Sympathetic','video'=>'The Sympathetic Trait.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d874af70352b0d473c03/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'TRA','public_name'=>'The Traveler','video'=>'Traveler.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d874af70352b0d473c19/main.m3u8','created_at'=>now(),'updated_at'=>now()],
             ['code'=>'LUN','public_name'=>'Visionary','video'=>'The Visionary.mp4','video_upload_id'=>null,'video_embed_link'=>'https://video.gumlet.io/675260ac948718dd9422d8bb/68e4d87430d9a408df22c275/main.m3u8','created_at'=>now(),'updated_at'=>now()],

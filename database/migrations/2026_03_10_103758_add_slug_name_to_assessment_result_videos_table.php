@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('assessment_result_videos', function (Blueprint $table) {
-            $table->string('slug_name')->nullable()->after('public_name');
+           $table->string('slug_name')->nullable()->after('public_name')->unique();
         });
     }
 
@@ -26,6 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('assessment_result_videos', function (Blueprint $table) {
+            $table->dropUnique(['slug_name']); 
             $table->dropColumn('slug_name');
         });
     }
