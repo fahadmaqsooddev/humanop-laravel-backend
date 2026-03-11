@@ -289,7 +289,7 @@ class LibraryResourceController extends Controller
 
     }
 
-    public function addlibraryResourceNotes(LibraryResourceNotesRequest $request)
+    public function addLibraryResourceNotes(LibraryResourceNotesRequest $request)
     {
         $user_id = $this->user->id;
 
@@ -302,12 +302,17 @@ class LibraryResourceController extends Controller
     }
 
 
-    public function getlibraryResourceNotes(Request $request)
+    public function getLibraryResourceNotes(Request $request)
     {
-        $user_id = $this->user->id;
-        $library_resource_id = $request->query('library_resource_id');
 
-        $note = LibraryResourceNotes::getLibraryResourceNote($library_resource_id, $user_id);
+        $request->validate([
+            'resource_id' => 'required|integer'
+        ]);
+
+        $user_id = $this->user->id;
+        $resource_id = $request->query('resource_id');
+
+        $note = LibraryResourceNotes::getLibraryResourceNote($resource_id, $user_id);
 
         if (!$note) {
             return Helpers::notFoundResponse('Library Resource Note not found');

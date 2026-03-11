@@ -25,7 +25,7 @@ class LibraryResourceNotesRequest extends FormRequest
     {
         return [
             'resource_id' => 'required|integer|exists:library_resources,id',
-            'notes' => 'required|string'
+            'notes' => 'required|string|max:5000'
         ];
     }
 

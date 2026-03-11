@@ -31,10 +31,10 @@ class LibraryResourceNotes extends Model
         );
     }
 
-    public static function getLibraryResourceNote($id, $user_id)
+    public static function getLibraryResourceNote($resource_id, $user_id)
     {
-        return self::where('id', $id)
-                    ->where('user_id', $user_id)
-                    ->first();
+        return self::where('resource_id', $resource_id)
+            ->where('user_id', $user_id)
+            ->first();
     }
 }
