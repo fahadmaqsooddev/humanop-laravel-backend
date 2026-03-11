@@ -144,13 +144,13 @@ class LibraryResourceController extends Controller
 
     
  
-    public function getResourceUrl(Request $request)
+   public function getResourceUrl(Request $request)
     {
-        $resource = LibraryResource::getResourceById(
-            $request->validate([
-                'resource_id' => 'required|exists:library_resources,id',
-            ])['resource_id']
-        );
+        $validated = $request->validate([
+            'resource_id' => 'required|exists:library_resources,id',
+        ]);
+
+        $resource = LibraryResource::getResourceById($validated['resource_id']);
 
         if (!$resource) {
             return Helpers::notFoundResponse('Resource not found');
