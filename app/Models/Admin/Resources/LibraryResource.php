@@ -357,7 +357,7 @@ class LibraryResource extends Model
 
         $user = Helpers::getUser();
 
-        $resource = self::with(['resourceCategory', 'libraryPermissions','notes'])
+        $resource = self::with(['resourceCategory', 'libraryPermissions','notes:id,resource_id,notes'])
             ->where('id', $id)
             ->first();
 

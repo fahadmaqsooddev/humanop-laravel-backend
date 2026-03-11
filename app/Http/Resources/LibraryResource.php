@@ -9,7 +9,7 @@ class LibraryResource extends JsonResource
 {
     public function toArray($request)
     {
-        $userNote = $this->notes;
+        $userNote = $this->whenLoaded('notes');
         return [
             "id" => $this->id,
             "heading" => $this->heading,
