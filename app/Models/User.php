@@ -984,7 +984,7 @@ class User extends Authenticatable implements JWTSubject
                 break;
 
             case ($age >= 34 && $age <= 42):
-                $slug = 'midLife_transformation';
+                $slug = 'midlife_transformation';
                 $public_name = 'Cycle of Life - Mid-Life Transformation (34-42)';
                 $description_key = 'mid_life_transformation_(34-42)';
                 $default_video = null;
