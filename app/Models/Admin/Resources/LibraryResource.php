@@ -371,6 +371,7 @@ class LibraryResource extends Model
         });
 
         return $query->first();
+
     }
 
     public static function allResourceCategories()

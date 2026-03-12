@@ -309,4 +309,11 @@ final class Admin
 
     const BB_ONETIME_TEXT='bb_onetime';
 
+
+    const FREEMIUM_ONLY_TEXT = 'Freemium Only';
+
+    const BETA_BREAKER_ONLY_TEXT = 'Beta Breaker Only';
+    
+    const PREMIUM_ONLY_TEXT = 'Premium Only';
+
 }
