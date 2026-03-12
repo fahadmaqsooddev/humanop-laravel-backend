@@ -36,9 +36,9 @@ class LibraryResource extends JsonResource
             1 => Admin::FREEMIUM_TEXT,
             2 => Admin::BETA_BREAKER_TEXT,
             3 => Admin::PREMIUM_PLAN_NAME,
-            4 => 'Freemium Only',
-            5 => 'Beta Breaker Only',
-            6 => 'Premium Only',
+            4 => Admin::FREEMIUM_ONLY_TEXT,
+            5 => Admin::BETA_BREAKER_ONLY_TEXT,
+            6 => Admin::PREMIUM_ONLY_TEXT,
             default => null,
         };
 
