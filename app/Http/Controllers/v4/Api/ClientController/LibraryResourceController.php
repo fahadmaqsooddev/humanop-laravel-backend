@@ -144,14 +144,14 @@ class LibraryResourceController extends Controller
 
     
  
-   public function getResourceUrl(Request $request)
+    public function getResourceUrl(Request $request, $resource)
     {
-        $validated = $request->validate([
-            'resource_id' => 'required|exists:library_resources,id',
-        ]);
+        validator(
+            ['resource' => $resource],
+            ['resource' => 'required|exists:library_resources,id']
+        )->validate();
 
-
-        $resource = LibraryResource::getResourceById($validated['resource_id'],$this->user);
+        $resource = LibraryResource::getResourceById($resource, $this->user);
 
         if (!$resource) {
             return Helpers::notFoundResponse('Resource not found');
@@ -159,7 +159,9 @@ class LibraryResourceController extends Controller
 
         return Helpers::successResponse(
             'Resource URL Fetch',
-            (new LibraryResources($resource,$this->user))->resolve()
+            (new LibraryResources($resource))
+                ->additional(['user' => $this->user])
+                ->resolve()
         );
     }
 

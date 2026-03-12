@@ -11,8 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Helpers\Helpers;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
-
+use App\Models\User;
 use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
+use App\Models\PlaylistLog;
 
 class LibraryResource extends Model
 {
@@ -58,6 +59,11 @@ class LibraryResource extends Model
             return null;
         }
 
+    }
+
+    public function playlistLogs()
+    {
+        return $this->hasMany(PlaylistLog::class, 'resource_item_id');
     }
 
     public function getThumbnailUrlAttribute()
@@ -270,7 +276,7 @@ class LibraryResource extends Model
     }
 
 
-    private static function getPermissionLevels($user)
+    private static function getPermissionLevels(User $user)
     {
         if ($user->plan_name == Admin::PREMIUM_PLAN_NAME) {
             $userPlan = Admin::PREMIUM_PLAN_NAME;
@@ -344,26 +350,31 @@ class LibraryResource extends Model
         return $query;
     }
 
-   public function notes()
+    public function notes()
     {
-        return $this->hasOne(LibraryResourceNotes::class, 'resource_id');
+        return $this->hasOne(LibraryResourceNotes::class, 'resource_id')
+                    ->where('user_id', Helpers::getUser()->id);
     }
 
     
 
-   public static function getResourceById($id, $user)
+  public static function getResourceById($id, $user)
     {
-        
-
         $permissionLevels = self::getPermissionLevels($user);
 
         $query = self::with([
             'resourceCategory',
             'libraryPermissions',
+           
             'notes' => function ($q) use ($user) {
                 $q->where('user_id', $user->id)
-                ->select('id','resource_id','user_id','notes');
-            }
+                ->select('id', 'resource_id', 'user_id', 'notes');
+            },
+           
+            'playlistLogs' => function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                ->select('id', 'resource_item_id', 'user_id');
+            },
         ])
         ->where('id', $id)
         ->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
@@ -371,7 +382,6 @@ class LibraryResource extends Model
         });
 
         return $query->first();
-
     }
 
     public static function allResourceCategories()

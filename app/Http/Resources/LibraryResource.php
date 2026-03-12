@@ -8,48 +8,40 @@ use App\Enums\Admin\Admin;
 
 class LibraryResource extends JsonResource
 {
-    protected $user;
 
-    public function __construct($resource, $user)
-    {
-        parent::__construct($resource);
-        $this->user = $user;
-    }
 
     public function toArray($request)
     {
-      
-        $playList = PlaylistLog::getSingleResourceItem($this->id);
 
+        $user = $this->additional['user'] ?? null;
        
         $libraryPermission = optional($this->libraryPermissions);
         $permission = $libraryPermission->permission ?? null;
         $basePrice = (int) ($libraryPermission->price ?? 0);
 
       
-        $finalPrice = ($this->user->plan_name === Admin::PREMIUM_PLAN_NAME && $basePrice)
+        $finalPrice = ($user->plan_name === Admin::PREMIUM_PLAN_NAME && $basePrice)
             ? $basePrice * 0.5
             : $basePrice;
 
       
         $libraryPermissionName = match ($permission) {
-            1 => Admin::FREEMIUM_TEXT,
-            2 => Admin::BETA_BREAKER_TEXT,
-            3 => Admin::PREMIUM_PLAN_NAME,
-            4 => Admin::FREEMIUM_ONLY_TEXT,
-            5 => Admin::BETA_BREAKER_ONLY_TEXT,
-            6 => Admin::PREMIUM_ONLY_TEXT,
+            Admin::FREEMIUM_PLAN => Admin::FREEMIUM_TEXT,
+            Admin::BETA_BREAKER_PLAN => Admin::BETA_BREAKER_TEXT,
+            Admin::PREMIUM_PLAN => Admin::PREMIUM_PLAN_NAME,
+            Admin::PERMISSION_FREEMIUM_ONLY => Admin::FREEMIUM_ONLY_TEXT,
+            Admin::PERMISSION_BETA_BREAKER_ONLY => Admin::BETA_BREAKER_ONLY_TEXT,
+            Admin::PERMISSION_PREMIUM_ONLY => Admin::PREMIUM_ONLY_TEXT,
             default => null,
         };
 
-        // Permission allow logic
         $libraryPermissionAllow = match ($permission) {
-            1 => true, // Freemium
-            4 => $this->user->plan_name === Admin::FREEMIUM_TEXT,
-            2 => in_array($this->user->plan_name, [Admin::BETA_BREAKER_TEXT, Admin::PREMIUM_PLAN_NAME]),
-            5 => $this->user->plan_name === Admin::BETA_BREAKER_TEXT,
-            3 => true, // Premium
-            6 => $this->user->plan_name === Admin::PREMIUM_PLAN_NAME,
+            Admin::PERMISSION_FREEMIUM => true, // Freemium
+            Admin::PERMISSION_FREEMIUM_ONLY => $user->plan_name === Admin::FREEMIUM_TEXT,
+            Admin::PERMISSION_BETA_BREAKER => in_array($user->plan_name, [Admin::BETA_BREAKER_TEXT, Admin::PREMIUM_PLAN_NAME]),
+            Admin::PERMISSION_BETA_BREAKER_ONLY => $user->plan_name === Admin::BETA_BREAKER_TEXT,
+            Admin::PERMISSION_PREMIUM => true, // Premium
+            Admin::PERMISSION_PREMIUM_ONLY => $user->plan_name === Admin::PREMIUM_PLAN_NAME,
             default => false,
         };
 
@@ -77,7 +69,7 @@ class LibraryResource extends JsonResource
             "price" => $finalPrice,
             "point" => (int) ($libraryPermission->point ?? 0),
 
-            "my_playlist" => !empty($playList) ? 1 : 0,
+           'my_playlist' => $this->playlistLogs->isNotEmpty() ? 1 : 0,
 
             "note" => optional($this->notes)->notes,
             "note_id" => optional($this->notes)->id,

@@ -316,4 +316,18 @@ final class Admin
     
     const PREMIUM_ONLY_TEXT = 'Premium Only';
 
+
+
+    const PERMISSION_FREEMIUM = 1;
+
+    const PERMISSION_BETA_BREAKER = 2;
+
+    const PERMISSION_PREMIUM = 3;
+    
+    const PERMISSION_FREEMIUM_ONLY = 4;
+
+    const PERMISSION_BETA_BREAKER_ONLY = 5;
+
+    const PERMISSION_PREMIUM_ONLY = 6;
+
 }
