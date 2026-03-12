@@ -58,30 +58,7 @@ class HealthKitController extends Controller
 
         if ($assessment->id != $record->assessment_id) {
 
-            $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
-
-            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
-
-            $topTwoFeatures = !empty($topFeatures['top_two_keys']) ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
-
-            $interval_of_life = $assessment != null ? User::getUserAge($user->date_of_birth, $assessment) : null;
-
-            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicNamev4($assessment) : null;
-
-            $energyPoolName = explode('energy_', $energyPool['name'])[1];
-
-            UserHumanOpProfile::query()->updateOrCreate(
-                ['user_id' => $user->id],
-                [
-                    'trait' => $topThreeStyles[0]['name'],
-                    'pilot_driver' => $topTwoFeatures[0]['name'],
-                    'copilot_driver' => $topTwoFeatures[1]['name'],
-                    'interval' => $interval_of_life['name'],
-                    'energy_pool_state' => $energyPoolName,
-                    'preferences' => $request->input('preferences'),
-                    'assessment_id' => $assessment->id ?? null,
-                ]
-            );
+            $this->createOrUpdate($user, $assessment, $request);
 
         }
 
@@ -126,6 +103,35 @@ class HealthKitController extends Controller
         ProcessShieldEventsJob::dispatch($user->id);
 
         return Helpers::successResponse('Locations ingested successfully', $created);
+
+    }
+
+    public function createOrUpdate($user = null, $assessment = null, $request = null)
+    {
+        $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+
+        $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+
+        $topTwoFeatures = !empty($topFeatures['top_two_keys']) ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+
+        $interval_of_life = $assessment != null ? User::getUserAge($user->date_of_birth, $assessment) : null;
+
+        $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicNamev4($assessment) : null;
+
+        $energyPoolName = explode('energy_', $energyPool['name'])[1];
+
+        UserHumanOpProfile::query()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'trait' => $topThreeStyles[0]['name'],
+                'pilot_driver' => $topTwoFeatures[0]['name'],
+                'copilot_driver' => $topTwoFeatures[1]['name'],
+                'interval' => $interval_of_life['name'],
+                'energy_pool_state' => $energyPoolName,
+                'preferences' => $request->input('preferences'),
+                'assessment_id' => $assessment->id ?? null,
+            ]
+        );
 
     }
 
