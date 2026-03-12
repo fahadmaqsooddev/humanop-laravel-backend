@@ -307,4 +307,6 @@ final class Admin
 
     const PERMISSION_ENABLED = 1;
 
+    const BB_ONETIME_TEXT='bb_onetime';
+
 }

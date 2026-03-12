@@ -150,7 +150,8 @@ class LibraryResourceController extends Controller
             'resource_id' => 'required|exists:library_resources,id',
         ]);
 
-        $resource = LibraryResource::getResourceById($validated['resource_id']);
+
+        $resource = LibraryResource::getResourceById($validated['resource_id'],$this->user);
 
         if (!$resource) {
             return Helpers::notFoundResponse('Resource not found');

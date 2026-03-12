@@ -13,7 +13,6 @@ class LibraryResource extends JsonResource
         return [
             "id" => $this->id,
             "heading" => $this->heading,
-            "my_playlist" => 0,
             "slug" => $this->slug,
             "description" => $this->description,
             "content" => $this->content,
@@ -35,8 +34,8 @@ class LibraryResource extends JsonResource
 
             "price" => $this->libraryPermissions?->price ?? 0,
             "point" => $this->libraryPermissions?->point ?? 0,
-            "note" => $userNote?->notes,
-            "note_id" => $userNote?->id
+            "note" => optional($this->notes)->notes,
+            "note_id" => optional($this->notes)->id
         ];
     }
 }

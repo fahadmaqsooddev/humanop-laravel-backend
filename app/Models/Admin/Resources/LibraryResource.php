@@ -340,6 +340,8 @@ class LibraryResource extends Model
 
         $query->with(['resourceCategory', 'libraryPermissions'])->orderBy('created_at', 'desc');
 
+        // dd($query);
+
         return $query;
     }
 
@@ -348,26 +350,46 @@ class LibraryResource extends Model
         return $this->hasOne(LibraryResourceNotes::class, 'resource_id');
     }
 
-    public static function getResourceById($id)
+   public static function getResourceById($id, $user)
     {
-        if (!$id) {
-            return null;
+        if ($user->plan_name == Admin::PREMIUM_PLAN_NAME) {
+            $userPlan = Admin::PREMIUM_PLAN_NAME;
+
+        } elseif ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB || $user->plan == Admin::BB_ONETIME_TEXT) {
+            $userPlan = Admin::BETA_BREAKER_TEXT;
+
+        } else {
+            $userPlan = Admin::FREEMIUM_TEXT;
         }
 
-        $resource = self::with([
+        $permissionLevels = match ($userPlan) {
+            Admin::PREMIUM_PLAN_NAME => [6,3,2,1],
+            Admin::BETA_BREAKER_TEXT => [5,2,1],
+            default => [4,1],
+        };
+
+        $purchasedItemIds = HumanOpLibraries::getAllLibraries($user->id)
+            ->pluck('library_resource_id')
+            ->toArray();
+
+        $query = self::with([
             'resourceCategory',
             'libraryPermissions',
-            'notes' => function ($q) {
-                $q->where('user_id', Helpers::getUser()->id)
-                ->select('id', 'resource_id', 'user_id', 'notes');
+            'notes' => function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                ->select('id','resource_id','user_id','notes');
             }
-        ])->where('id', $id)->first();
+        ])
+        ->where('id', $id)
+        ->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
+            $q->whereIn('permission', $permissionLevels);
+        });
 
-        if (!$resource) {
-            return null;
+        if (!empty($purchasedItemIds)) {
+            $query->whereNotIn('id', $purchasedItemIds);
         }
 
-       return $resource;
+        return $query->first();
     }
 
     public static function allResourceCategories()
