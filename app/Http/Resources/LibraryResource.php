@@ -10,6 +10,7 @@ class LibraryResource extends JsonResource
     public function toArray($request)
     {
         $userNote = $this->whenLoaded('notes');
+        
         return [
             "id" => $this->id,
             "heading" => $this->heading,
@@ -30,7 +31,6 @@ class LibraryResource extends JsonResource
             "resource_category_name" => $this->resourceCategory?->name,
 
             "library_permission_name" => $this->libraryPermissions?->permission,
-            "library_permission_allow" => true,
 
             "price" => $this->libraryPermissions?->price ?? 0,
             "point" => $this->libraryPermissions?->point ?? 0,

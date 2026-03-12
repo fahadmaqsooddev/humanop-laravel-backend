@@ -270,6 +270,24 @@ class LibraryResource extends Model
     }
 
 
+    private static function getPermissionLevels($user)
+    {
+        if ($user->plan_name == Admin::PREMIUM_PLAN_NAME) {
+            $userPlan = Admin::PREMIUM_PLAN_NAME;
+        } elseif ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB || $user->plan == Admin::BB_ONETIME_TEXT) {
+            $userPlan = Admin::BETA_BREAKER_TEXT;
+        } else {
+            $userPlan = Admin::FREEMIUM_TEXT;
+        }
+
+        return match ($userPlan) {
+            Admin::PREMIUM_PLAN_NAME => [6,3,2,1],
+            Admin::BETA_BREAKER_TEXT => [5,2,1],
+            default => [4,1],
+        };
+    }
+
+
     public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null, $searchName = null)
     {
 
@@ -277,25 +295,7 @@ class LibraryResource extends Model
 
         $userId = $user->id;
 
-        if ($user->plan_name == Admin::PREMIUM_PLAN_NAME){
-
-            $userPlan = Admin::PREMIUM_PLAN_NAME;
-
-        }elseif ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB || $user['plan'] == 'bb_onetime') {
-
-            $userPlan = Admin::BETA_BREAKER_TEXT;
-
-        } else {
-
-            $userPlan = Admin::FREEMIUM_TEXT;
-
-        }
-
-        $permissionLevels = match ($userPlan) {
-            'Premium' => [6, 3, 2, 1],
-            'Beta Breaker' => [5, 2, 1],
-            default => [4, 1],
-        };
+        $permissionLevels = self::getPermissionLevels($user);
 
         $purchasedItemIds = HumanOpLibraries::getAllLibraries($userId)->pluck('library_resource_id')->toArray();
 
@@ -340,7 +340,6 @@ class LibraryResource extends Model
 
         $query->with(['resourceCategory', 'libraryPermissions'])->orderBy('created_at', 'desc');
 
-        // dd($query);
 
         return $query;
     }
@@ -350,27 +349,13 @@ class LibraryResource extends Model
         return $this->hasOne(LibraryResourceNotes::class, 'resource_id');
     }
 
+    
+
    public static function getResourceById($id, $user)
     {
-        if ($user->plan_name == Admin::PREMIUM_PLAN_NAME) {
-            $userPlan = Admin::PREMIUM_PLAN_NAME;
+        
 
-        } elseif ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB || $user->plan == Admin::BB_ONETIME_TEXT) {
-            $userPlan = Admin::BETA_BREAKER_TEXT;
-
-        } else {
-            $userPlan = Admin::FREEMIUM_TEXT;
-        }
-
-        $permissionLevels = match ($userPlan) {
-            Admin::PREMIUM_PLAN_NAME => [6,3,2,1],
-            Admin::BETA_BREAKER_TEXT => [5,2,1],
-            default => [4,1],
-        };
-
-        $purchasedItemIds = HumanOpLibraries::getAllLibraries($user->id)
-            ->pluck('library_resource_id')
-            ->toArray();
+        $permissionLevels = self::getPermissionLevels($user);
 
         $query = self::with([
             'resourceCategory',
@@ -384,10 +369,6 @@ class LibraryResource extends Model
         ->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
             $q->whereIn('permission', $permissionLevels);
         });
-
-        if (!empty($purchasedItemIds)) {
-            $query->whereNotIn('id', $purchasedItemIds);
-        }
 
         return $query->first();
     }
