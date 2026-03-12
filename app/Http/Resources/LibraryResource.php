@@ -52,25 +52,18 @@ class LibraryResource extends JsonResource
             "description" => $this->description,
             "content" => $this->content,
             "relevance" => $this->relevance,
-
             "photo_url" => $this->photo_url,
             "video_url" => $this->video_url,
             "audio_url" => $this->audio_url,
-
             "thumbnail_url" => data_get($this->thumbnail_url, 'url'),
             "document_url" => data_get($this->document_url, 'path'),
-
             "allow_download" => (bool) $this->download_document,
             "resource_category_name" => $this->resourceCategory?->name,
-
             "library_permission_name" => $libraryPermissionName,
             "library_permission_allow" => $libraryPermissionAllow,
-
             "price" => $finalPrice,
             "point" => (int) ($libraryPermission->point ?? 0),
-
            'my_playlist' => $this->playlistLogs->isNotEmpty() ? 1 : 0,
-
             "note" => optional($this->notes)->notes,
             "note_id" => optional($this->notes)->id,
         ];

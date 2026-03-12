@@ -41,7 +41,8 @@ class LibraryResourceController extends Controller
                 $request->input('type'),
                 $request->input('access'),
                 $request->input('relevance'),
-                $request->input('search_name')
+                $request->input('search_name'),
+                $this->user
             );
 
             $data = Helpers::pagination(

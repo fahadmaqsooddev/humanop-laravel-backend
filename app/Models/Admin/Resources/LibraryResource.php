@@ -294,10 +294,8 @@ class LibraryResource extends Model
     }
 
 
-    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null, $searchName = null)
+    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null, $searchName = null,$user)
     {
-
-        $user = Helpers::getUser();
 
         $userId = $user->id;
 
