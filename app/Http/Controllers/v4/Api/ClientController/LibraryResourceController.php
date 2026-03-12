@@ -158,7 +158,7 @@ class LibraryResourceController extends Controller
 
         return Helpers::successResponse(
             'Resource URL Fetch',
-            new LibraryResources($resource)
+            (new LibraryResources($resource))->resolve()
         );
     }
 
