@@ -57,7 +57,8 @@ class LibraryResourceController extends Controller
 
             $user = Helpers::getUser();
 
-            $userPlan = $user['plan_name'];
+            $userPlan = $this->user['plan_name'];
+
 
             foreach ($items as $item) {
 
@@ -71,35 +72,34 @@ class LibraryResourceController extends Controller
 
                 $finalPrice = ($userPlan === Admin::PREMIUM_PLAN_NAME && $basePrice) ? $basePrice * 0.50 : $basePrice;
 
+                $points = (int) ($libraryPermission->point ?? 0);
+
                 $libraryPermissionName = match ($permission) {
-                    1 => 'Freemium',
-                    2 => 'Beta Breaker',
-                    3 => 'Premium',
-                    4 => 'Freemium Only',
-                    5 => 'Beta Breaker Only',
-                    6 => 'Premium Only',
+                    Admin::PERMISSION_FREEMIUM => Admin::FREEMIUM_TEXT,
+                    Admin::PERMISSION_BETA_BREAKER => Admin::BETA_BREAKER_TEXT,
+                    Admin::PERMISSION_PREMIUM => Admin::PREMIUM_PLAN_NAME,
+                    Admin::PERMISSION_FREEMIUM_ONLY => Admin::FREEMIUM_ONLY_TEXT,
+                    Admin::PERMISSION_BETA_BREAKER_ONLY => Admin::BETA_BREAKER_ONLY_TEXT,
+                    Admin::PERMISSION_PREMIUM_ONLY => Admin::PREMIUM_ONLY_TEXT,
                     default => null,
                 };
 
                 $libraryPermissionAllow = match ($permission) {
 
-                    // Freemium resource
-                    1 => true,
+                    Admin::PERMISSION_FREEMIUM => true,
 
-                    // Freemium only
-                    4 => $userPlan === 'Freemium',
+                    Admin::PERMISSION_FREEMIUM_ONLY => $userPlan === Admin::FREEMIUM_TEXT,
 
-                    // Beta breaker
-                    2 => in_array($userPlan, ['Beta Breaker', 'Premium']),
+                    Admin::PERMISSION_BETA_BREAKER => in_array($userPlan, [
+                        Admin::BETA_BREAKER_TEXT,
+                        Admin::PREMIUM_PLAN_NAME
+                    ]),
 
-                    // Beta breaker only
-                    5 => $userPlan === 'Beta Breaker',
+                    Admin::PERMISSION_BETA_BREAKER_ONLY => $userPlan === Admin::BETA_BREAKER_TEXT,
 
-                    // Premium
-                    3 => true,
+                    Admin::PERMISSION_PREMIUM => true,
 
-                    // Premium only
-                    6 => $userPlan === 'Premium',
+                    Admin::PERMISSION_PREMIUM_ONLY => $userPlan === Admin::PREMIUM_PLAN_NAME,
 
                     default => false,
                 };
@@ -120,9 +120,9 @@ class LibraryResourceController extends Controller
                     'allow_download' => $item->download_document == 1,
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => $libraryPermissionName,
-                    'library_permission_allow' => $libraryPermissionAllow,
+                    'library_permission_allow' => $libraryPermissionAllow == true && ($finalPrice == 0 && $points == 0) ? true : false,
                     'price' => $finalPrice,
-                    'point' => (int) ($libraryPermission->point ?? 0),
+                    'point' => $points,
                 ];
             }
 

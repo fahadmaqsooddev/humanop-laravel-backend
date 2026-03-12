@@ -24,6 +24,8 @@ class LibraryResource extends JsonResource
             ? $basePrice * 0.5
             : $basePrice;
 
+            
+        $points = (int) ($libraryPermission->point ?? 0);
       
         $libraryPermissionName = match ($permission) {
             Admin::FREEMIUM_PLAN => Admin::FREEMIUM_TEXT,
@@ -60,9 +62,9 @@ class LibraryResource extends JsonResource
             "allow_download" => (bool) $this->download_document,
             "resource_category_name" => $this->resourceCategory?->name,
             "library_permission_name" => $libraryPermissionName,
-            "library_permission_allow" => $libraryPermissionAllow,
+            "library_permission_allow" => $libraryPermissionAllow == true && ($finalPrice == 0 && $points == 0) ? true : false,
             "price" => $finalPrice,
-            "point" => (int) ($libraryPermission->point ?? 0),
+            "point" => $points,
            'my_playlist' => $this->playlistLogs->isNotEmpty() ? 1 : 0,
             "note" => optional($this->notes)->notes,
             "note_id" => optional($this->notes)->id,
