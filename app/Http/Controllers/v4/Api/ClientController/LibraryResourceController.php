@@ -120,7 +120,7 @@ class LibraryResourceController extends Controller
                     'allow_download' => $item->download_document == 1,
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => $libraryPermissionName,
-                    'library_permission_allow' => $libraryPermissionAllow == true && ($finalPrice == 0 && $points == 0) ? true : false,
+                    "library_permission_allow" => $libraryPermissionAllow && $finalPrice === 0 && $points === 0,
                     'price' => $finalPrice,
                     'point' => $points,
                 ];

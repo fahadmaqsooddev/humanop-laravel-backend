@@ -350,25 +350,22 @@ class LibraryResource extends Model
 
     public function notes()
     {
-        return $this->hasOne(LibraryResourceNotes::class, 'resource_id')
-                    ->where('user_id', Helpers::getUser()->id);
+        return $this->hasOne(LibraryResourceNotes::class, 'resource_id');
     }
 
     
 
-  public static function getResourceById($id, $user)
+  public static function getResourceById($id, User $user)
     {
         $permissionLevels = self::getPermissionLevels($user);
 
         $query = self::with([
             'resourceCategory',
             'libraryPermissions',
-           
             'notes' => function ($q) use ($user) {
                 $q->where('user_id', $user->id)
                 ->select('id', 'resource_id', 'user_id', 'notes');
             },
-           
             'playlistLogs' => function ($q) use ($user) {
                 $q->where('user_id', $user->id)
                 ->select('id', 'resource_item_id', 'user_id');

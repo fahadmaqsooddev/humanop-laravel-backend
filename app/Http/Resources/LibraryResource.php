@@ -14,6 +14,32 @@ class LibraryResource extends JsonResource
     {
 
         $user = $this->additional['user'] ?? null;
+
+        if (!$user) {
+          
+            return [
+                "id" => $this->id,
+                "heading" => $this->heading,
+                "slug" => $this->slug,
+                "description" => $this->description,
+                "content" => $this->content,
+                "relevance" => $this->relevance,
+                "photo_url" => $this->photo_url,
+                "video_url" => $this->video_url,
+                "audio_url" => $this->audio_url,
+                "thumbnail_url" => data_get($this->thumbnail_url, 'url'),
+                "document_url" => data_get($this->document_url, 'path'),
+                "allow_download" => (bool) $this->download_document,
+                "resource_category_name" => $this->resourceCategory?->name,
+                "library_permission_name" => null,
+                "library_permission_allow" => false,
+                "price" => 0,
+                "point" => 0,
+                "my_playlist" => 0,
+                "note" => null,
+                "note_id" => null,
+            ];
+        }
        
         $libraryPermission = optional($this->libraryPermissions);
         $permission = $libraryPermission->permission ?? null;
@@ -62,7 +88,7 @@ class LibraryResource extends JsonResource
             "allow_download" => (bool) $this->download_document,
             "resource_category_name" => $this->resourceCategory?->name,
             "library_permission_name" => $libraryPermissionName,
-            "library_permission_allow" => $libraryPermissionAllow == true && ($finalPrice == 0 && $points == 0) ? true : false,
+            "library_permission_allow" => $libraryPermissionAllow && $finalPrice === 0 && $points === 0,
             "price" => $finalPrice,
             "point" => $points,
            'my_playlist' => $this->playlistLogs->isNotEmpty() ? 1 : 0,
