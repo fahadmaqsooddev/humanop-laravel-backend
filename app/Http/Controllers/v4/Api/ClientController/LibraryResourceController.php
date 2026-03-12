@@ -162,7 +162,6 @@ class LibraryResourceController extends Controller
             'Resource URL Fetch',
             (new LibraryResources($resource))
                 ->additional(['user' => $this->user])
-                ->resolve()
         );
     }
 
