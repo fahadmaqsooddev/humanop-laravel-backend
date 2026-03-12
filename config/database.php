@@ -885,15 +885,8 @@ return [
         ],
         'ImpactContribution' => [
             'table' => 'impact_contributions',
-            'fillable' => [
-                'user_id',
-                'impact_project_id',
-                'hp_contributed',
-            ],
-            'hidden' => [
-                'created_at',
-                'updated_at',
-            ],
+            'fillable' => ['user_id', 'impact_project_id', 'hp_contributed',],
+            'hidden' => ['created_at', 'updated_at',],
         ],
         'DailySyncQuestion' => [
             'table' => 'daily_sync_questions',
@@ -917,30 +910,41 @@ return [
         ],
         'UserRewardLog' => [
             'table' => 'user_reward_logs',
-            'fillable' => [
-                'user_id',
-                'type',
-                'points',
-            ],
-            'hidden' => [
-                'created_at',
-                'updated_at',
-            ],
+            'fillable' => ['user_id', 'type', 'points',],
+            'hidden' => ['created_at', 'updated_at',],
         ],
 
         'LibraryResourceNotes' => [
             'table' => 'library_resource_notes',
-            'fillable' => [
-                'user_id',
-                'resource_id',
-                'notes',
-            ],
-            'hidden' => [
-                'created_at',
-                'updated_at',
-            ],
+            'fillable' => ['user_id', 'resource_id', 'notes',],
+            'hidden' => ['created_at', 'updated_at',],
         ],
 
+        'UserHumanOpProfile' => [
+            'table' => 'user_humanop_profiles',
+            'fillable' => ['user_id', 'trait', 'pilot_driver', 'copilot_driver', 'interval', 'energy_pool_state', 'assessment_id', 'preferences'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'EnergyShieldState' => [
+            'table' => 'energy_shield_states',
+            'fillable' => ['user_id', 'capacity_points', 'shield_points', 'shield_percent', 'energy_pool_state'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'BiometricSample' => [
+            'table' => 'biometric_samples',
+            'fillable' => ['user_id', 'metric', 'value', 'recorded_at', 'source', 'dedupe_key', 'metadata'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'Event' => [
+            'table' => 'events',
+            'fillable' => ['user_id', 'event_type', 'recommended_protocol', 'inputs_snapshot', 'detected_at', 'acknowledged_at', 'expires_at'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
+        'BoostSession' => [
+            'table' => 'boost_sessions',
+            'fillable' => ['user_id', 'protocol_type', 'started_at', 'ended_at', 'hr_before', 'hr_after', 'hrv_before', 'hrv_after', 'q_physio', 'energy_points_added', 'replenishment_percent', 'trait_modifier_key', 'trait_modifier_value', 'driver_modifier_key', 'driver_modifier_value', 'coherence_achieved', 'metadata'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
 
     ]
 ];

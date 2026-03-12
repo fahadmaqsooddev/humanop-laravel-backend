@@ -11,15 +11,13 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'event_type',
-        'recommended_protocol',
-        'inputs_snapshot',
-        'detected_at',
-        'acknowledged_at',
-        'expires_at'
-    ];
+    public function __construct(array $attributes = array())
+    {
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+        parent::__construct($attributes);
+    }
 
     protected $casts = [
         'inputs_snapshot' => 'array',

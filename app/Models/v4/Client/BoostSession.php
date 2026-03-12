@@ -11,25 +11,13 @@ class BoostSession extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'protocol_type',
-        'started_at',
-        'ended_at',
-        'hr_before',
-        'hr_after',
-        'hrv_before',
-        'hrv_after',
-        'q_physio',
-        'energy_points_added',
-        'replenishment_percent',
-        'trait_modifier_key',
-        'driver_modifier_key',
-        'trait_modifier_value',
-        'driver_modifier_value',
-        'coherence_achieved',
-        'metadata',
-    ];
+    public function __construct(array $attributes = array())
+    {
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+        parent::__construct($attributes);
+    }
 
     protected $casts = [
         'started_at' => 'datetime',

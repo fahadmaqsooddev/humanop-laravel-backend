@@ -2,9 +2,9 @@
 
 namespace App\Jobs\v4;
 
-use App\Models\v4\Client\EnergyShieldState;
 use App\Models\v4\Client\UserHumanOpProfile;
 use App\Services\v4\DailyMetricsService;
+use App\Services\v4\EnergyShieldService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -18,7 +18,7 @@ class RebuildDailyStateJob implements ShouldQueue
     {
     }
 
-    public function handle(DailyMetricsService $dailyMetricsService, EnergyShieldState $energyShieldService): void
+    public function handle(DailyMetricsService $dailyMetricsService, EnergyShieldService $energyShieldService): void
     {
         $dailyMetricsService->rebuildForDate($this->userId, now());
 

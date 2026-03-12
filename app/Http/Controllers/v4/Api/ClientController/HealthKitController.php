@@ -13,8 +13,6 @@ use App\Models\User;
 use App\Models\v4\Client\BiometricSample;
 use App\Models\v4\Client\LocationSample;
 use App\Models\v4\Client\UserHumanOpProfile;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 
 class HealthKitController extends Controller
@@ -23,7 +21,7 @@ class HealthKitController extends Controller
     public function ingestSamples(IngestSamplesRequest $request): JsonResponse
     {
 
-        $user = $request->user();
+        $user = Helpers::getUser();
         $created = 0;
 
         foreach ($request->input('samples', []) as $sample) {
@@ -56,7 +54,7 @@ class HealthKitController extends Controller
 
         $record = UserHumanOpProfile::getSingleRecord($user->id);
 
-        if ($assessment->id != $record->assessment_id) {
+        if (empty($record) || $assessment->id != $record->assessment_id) {
 
             $this->createOrUpdate($user, $assessment, $request);
 
@@ -73,7 +71,7 @@ class HealthKitController extends Controller
     public function ingestLocations(IngestLocationsRequest $request): JsonResponse
     {
 
-        $user = $request->user();
+        $user = Helpers::getUser();
         $created = 0;
 
         foreach ($request->input('locations', []) as $location) {

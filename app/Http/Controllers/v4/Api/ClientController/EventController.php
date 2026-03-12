@@ -19,7 +19,7 @@ class EventController extends Controller
     {
 
         $events = Event::query()
-            ->where('user_id',$request->user()->id)
+            ->where('user_id',Helpers::getUser()->id)
 
             ->whereNull('acknowledged_at')
 
@@ -48,7 +48,7 @@ class EventController extends Controller
 
         $event = Event::query()
             ->where('id',$eventId)
-            ->where('user_id',$request->user()->id)
+            ->where('user_id',Helpers::getUser()->id)
             ->firstOrFail();
 
         $event->update([

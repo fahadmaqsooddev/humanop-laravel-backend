@@ -16,13 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['checkUser']], function () {
 
     Route::post('healthkit/samples', 'HealthKitController@ingestSamples');
+
+    Route::get('events', 'EventController@index');
+    Route::patch('events/{id}/acknowledge', 'EventController@acknowledge');
+
     Route::post('healthkit/locations', 'HealthKitController@ingestLocations');
 
     Route::post('boost-sessions/start', 'BoostSessionController@start');
     Route::post('boost-sessions/end', 'BoostSessionController@end');
 
     Route::get('energy-shield', 'EnergyShieldController@show');
-    Route::get('events', 'EventController@index');
-    Route::patch('events/{id}/acknowledge', 'EventController@acknowledge');
 
 });

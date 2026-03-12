@@ -218,7 +218,7 @@ class MessageController extends Controller
             ['read_at' => Carbon::now()]
         );
 
-//        broadcast(new MessageReadUpdated($messageThread->id, $request->user()->id, $lastMessageId))->toOthers();
+//        broadcast(new MessageReadUpdated($messageThread->id, Helpers::getUser()->id, $lastMessageId))->toOthers();
 
         return response()->json(['ok' => true]);
     }

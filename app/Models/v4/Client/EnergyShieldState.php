@@ -11,13 +11,13 @@ class EnergyShieldState extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'capacity_points',
-        'shield_points',
-        'shield_percent',
-        'energy_pool_state',
-    ];
+    public function __construct(array $attributes = array())
+    {
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+        parent::__construct($attributes);
+    }
 
     public function user(): BelongsTo
     {

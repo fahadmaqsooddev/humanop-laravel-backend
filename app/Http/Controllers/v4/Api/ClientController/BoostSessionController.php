@@ -24,7 +24,7 @@ class BoostSessionController extends Controller
         $validator->validate();
 
         $session = $energyBoostService->startSession(
-            $request->user()->id,
+            Helpers::getUser()->id,
             $request->string('protocol_type')->toString(),
             $request->input('metadata', [])
         );
@@ -44,7 +44,7 @@ class BoostSessionController extends Controller
 
         $session = BoostSession::query()
             ->where('id', $request->integer('session_id'))
-            ->where('user_id', $request->user()->id)
+            ->where('user_id', Helpers::getUser()->id)
             ->firstOrFail();
 
         $session = $energyBoostService->finalizeSession(

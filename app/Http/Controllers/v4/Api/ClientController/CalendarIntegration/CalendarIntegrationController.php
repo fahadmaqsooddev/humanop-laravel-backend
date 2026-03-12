@@ -65,7 +65,7 @@ class CalendarIntegrationController extends Controller
 
     public function disconnect(Request $request)
     {
-        $user = $request->user();
+        $user = Helpers::getUser();
 
         UserCalendarIntegration::where('user_id',$user->id)
             ->where('provider','google')
@@ -78,7 +78,7 @@ class CalendarIntegrationController extends Controller
 
     public function status(Request $request)
     {
-        $user = $request->user();
+        $user = Helpers::getUser();
 
         $integration = UserCalendarIntegration::where('user_id',$user->id)
             ->where('provider','google')

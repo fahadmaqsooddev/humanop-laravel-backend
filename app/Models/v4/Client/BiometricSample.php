@@ -11,15 +11,13 @@ class BiometricSample extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'metric',
-        'value',
-        'recorded_at',
-        'source',
-        'dedupe_key',
-        'metadata',
-    ];
+    public function __construct(array $attributes = array())
+    {
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+        parent::__construct($attributes);
+    }
 
     protected $casts = [
         'recorded_at' => 'datetime',

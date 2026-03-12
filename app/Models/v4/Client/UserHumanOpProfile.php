@@ -11,16 +11,13 @@ class UserHumanOpProfile extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'trait',
-        'pilot_driver',
-        'copilot_driver',
-        'interval',
-        'energy_pool_state',
-        'preferences',
-        'assessment_id'
-    ];
+    public function __construct(array $attributes = array())
+    {
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+        parent::__construct($attributes);
+    }
 
     protected $casts = [
         'preferences' => 'array',
@@ -31,7 +28,7 @@ class UserHumanOpProfile extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getSingleRecord($userId = null)
+    public static function getSingleRecord($userId = null)
     {
         return self::where('user_id', $userId)->first();
     }
