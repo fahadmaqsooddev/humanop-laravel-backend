@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Helpers\Helpers;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
+use App\Models\User;
+use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
+use App\Models\PlaylistLog;
 
 class LibraryResource extends Model
 {
@@ -56,6 +59,11 @@ class LibraryResource extends Model
             return null;
         }
 
+    }
+
+    public function playlistLogs()
+    {
+        return $this->hasMany(PlaylistLog::class, 'resource_item_id');
     }
 
     public function getThumbnailUrlAttribute()
@@ -125,6 +133,8 @@ class LibraryResource extends Model
         return null;
 
     }
+
+    
 
     public function getAudioUrlAttribute()
     {
@@ -266,32 +276,30 @@ class LibraryResource extends Model
     }
 
 
-    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null, $searchName = null)
+    private static function getPermissionLevels(User $user)
     {
+        if ($user->plan_name == Admin::PREMIUM_PLAN_NAME) {
+            $userPlan = Admin::PREMIUM_PLAN_NAME;
+        } elseif ($user->beta_breaker_club == Admin::BETA_BREAKER_CLUB || $user->plan == Admin::BB_ONETIME_TEXT) {
+            $userPlan = Admin::BETA_BREAKER_TEXT;
+        } else {
+            $userPlan = Admin::FREEMIUM_TEXT;
+        }
 
-        $user = Helpers::getUser();
+        return match ($userPlan) {
+            Admin::PREMIUM_PLAN_NAME => [6,3,2,1],
+            Admin::BETA_BREAKER_TEXT => [5,2,1],
+            default => [4,1],
+        };
+    }
+
+
+    public static function resourceCategoriesForClient($searchType = null, $searchAccess = null, $searchRelevance = null, $searchName = null,$user)
+    {
 
         $userId = $user->id;
 
-        if ($user->plan_name == Admin::PREMIUM_PLAN_NAME){
-
-            $userPlan = Admin::PREMIUM_PLAN_NAME;
-
-        }elseif ($user['beta_breaker_club'] == Admin::BETA_BREAKER_CLUB || $user['plan'] == 'bb_onetime') {
-
-            $userPlan = Admin::BETA_BREAKER_TEXT;
-
-        } else {
-
-            $userPlan = Admin::FREEMIUM_TEXT;
-
-        }
-
-        $permissionLevels = match ($userPlan) {
-            'Premium' => [6, 3, 2, 1],
-            'Beta Breaker' => [5, 2, 1],
-            default => [4, 1],
-        };
+        $permissionLevels = self::getPermissionLevels($user);
 
         $purchasedItemIds = HumanOpLibraries::getAllLibraries($userId)->pluck('library_resource_id')->toArray();
 
@@ -336,7 +344,39 @@ class LibraryResource extends Model
 
         $query->with(['resourceCategory', 'libraryPermissions'])->orderBy('created_at', 'desc');
 
+
         return $query;
+    }
+
+    public function notes()
+    {
+        return $this->hasOne(LibraryResourceNotes::class, 'resource_id');
+    }
+
+    
+
+  public static function getResourceById($id, User $user)
+    {
+        $permissionLevels = self::getPermissionLevels($user);
+
+        $query = self::with([
+            'resourceCategory',
+            'libraryPermissions',
+            'notes' => function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                ->select('id', 'resource_id', 'user_id', 'notes');
+            },
+            'playlistLogs' => function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                ->select('id', 'resource_item_id', 'user_id');
+            },
+        ])
+        ->where('id', $id)
+        ->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {
+            $q->whereIn('permission', $permissionLevels);
+        });
+
+        return $query->first();
     }
 
     public static function allResourceCategories()
