@@ -23,5 +23,9 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('media-player-categories', 'LibraryResourceController@mediaPlayerCategories');
     Route::get('media-player-resources', 'LibraryResourceController@mediaPlayerResources');
 
+    Route::post('library-resource-notes', 'LibraryResourceController@addLibraryResourceNotes');
+    Route::get('library-resource-notes', 'LibraryResourceController@getLibraryResourceNotes');
+
+
 
 });

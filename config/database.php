@@ -927,5 +927,20 @@ return [
                 'updated_at',
             ],
         ],
+
+        'LibraryResourceNotes' => [
+            'table' => 'library_resource_notes',
+            'fillable' => [
+                'user_id',
+                'resource_id',
+                'notes',
+            ],
+            'hidden' => [
+                'created_at',
+                'updated_at',
+            ],
+        ],
+
+
     ]
 ];

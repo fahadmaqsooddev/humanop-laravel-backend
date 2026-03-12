@@ -3,10 +3,8 @@
 namespace App\Models\Admin\Code;
 
 use App\Helpers\Helpers;
-use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 class ResultVideo extends Model
 {
     use HasFactory;
@@ -63,5 +61,29 @@ class ResultVideo extends Model
     public static function allVideos()
     {
         return self::all();
+    }
+
+    public static function getVideoByName(string $publicName)
+    {
+    
+        $record = self::select(
+            'slug_name',
+            'public_name',
+            'video_embed_link',
+            'video',
+            'image_id'
+        )->where('public_name', $publicName)->first();
+
+        if (!$record) {
+            return null;
+        }
+
+        return [
+            'slug_name' => $record->slug_name,
+            'interval'  => $record->public_name,
+            'video_url' => $record->video_embed_link,
+            'video_name'=> $record->video,
+            'image_url' => $record->image_url 
+        ];
     }
 }
