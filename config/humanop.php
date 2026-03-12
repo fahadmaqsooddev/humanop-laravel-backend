@@ -91,6 +91,23 @@ return [
         ],
     ],
 
+    'event_cooldowns' => [
+
+        'panic' => 5,           // minutes
+        'volatility' => 10,
+        'stubbornness' => 30,
+        'gluttony' => 60,
+        'manic' => 120,
+        'immaturity' => 60,
+        'neglect' => 180,
+        'intimidation' => 20,
+        'woe_is_me' => 180,
+        'deprivation' => 180,
+        'self_absorption' => 180,
+        'rigidity' => 20
+
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | EBS Modifiers from client docs

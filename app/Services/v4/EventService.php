@@ -9,18 +9,40 @@ class EventService
 
     public function create(
         int    $userId,
-        string $eventType,
-        string $recommendedProtocol,
-        array  $inputsSnapshot
-    ): Event
+        string $type,
+        string $protocol,
+        array  $inputs
+    )
     {
+
+        $cooldown = config("humanop.event_cooldowns.$type", 5);
+
+        $recentEvent = Event::query()
+            ->where('user_id', $userId)
+            ->where('event_type', $type)
+            ->where('detected_at', '>', now()->subMinutes($cooldown))
+            ->exists();
+
+        if ($recentEvent) {
+            return null;
+        }
+
         return Event::create([
+
             'user_id' => $userId,
-            'event_type' => $eventType,
-            'recommended_protocol' => $recommendedProtocol,
-            'inputs_snapshot' => $inputsSnapshot,
+
+            'event_type' => $type,
+
+            'recommended_protocol' => $protocol,
+
+            'inputs_snapshot' => $inputs,
+
             'detected_at' => now(),
+
+            'expires_at' => now()->addMinutes(10)
+
         ]);
+
     }
 
     public function wasRecentlyDetected(int $userId, string $eventType, int $minutes = 15): bool

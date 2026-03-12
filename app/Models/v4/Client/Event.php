@@ -17,11 +17,15 @@ class Event extends Model
         'recommended_protocol',
         'inputs_snapshot',
         'detected_at',
+        'acknowledged_at',
+        'expires_at'
     ];
 
     protected $casts = [
         'inputs_snapshot' => 'array',
         'detected_at' => 'datetime',
+        'acknowledged_at' => 'datetime',
+        'expires_at' => 'datetime'
     ];
 
     public function user(): BelongsTo

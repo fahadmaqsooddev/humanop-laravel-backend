@@ -22,5 +22,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('boost-sessions/end', 'BoostSessionController@end');
 
     Route::get('energy-shield', 'EnergyShieldController@show');
+    Route::get('events', 'EventController@index');
+    Route::patch('events/{id}/acknowledge', 'EventController@acknowledge');
 
 });

@@ -68,15 +68,18 @@ class HealthKitController extends Controller
 
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicNamev4($assessment) : null;
 
+            $energyPoolName = explode('energy_', $energyPool['name'])[1];
+
             UserHumanOpProfile::query()->updateOrCreate(
                 ['user_id' => $user->id],
                 [
-                    'trait' => $topThreeStyles[0]['public_name'],
-                    'pilot_driver' => $topTwoFeatures[0]['public_name'],
-                    'copilot_driver' => $topTwoFeatures[1]['public_name'],
+                    'trait' => $topThreeStyles[0]['name'],
+                    'pilot_driver' => $topTwoFeatures[0]['name'],
+                    'copilot_driver' => $topTwoFeatures[1]['name'],
                     'interval' => $interval_of_life['name'],
-                    'energy_pool_state' => $energyPool['public_name'],
+                    'energy_pool_state' => $energyPoolName,
                     'preferences' => $request->input('preferences'),
+                    'assessment_id' => $assessment->id ?? null,
                 ]
             );
 

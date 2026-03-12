@@ -19,6 +19,7 @@ class UserHumanOpProfile extends Model
         'interval',
         'energy_pool_state',
         'preferences',
+        'assessment_id'
     ];
 
     protected $casts = [
