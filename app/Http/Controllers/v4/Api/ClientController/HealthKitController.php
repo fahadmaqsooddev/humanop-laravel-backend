@@ -8,8 +8,11 @@ use App\Http\Requests\v4\Api\Client\EnergyShield\IngestLocationsRequest;
 use App\Http\Requests\v4\Api\Client\EnergyShield\IngestSamplesRequest;
 use App\Jobs\v4\ProcessShieldEventsJob;
 use App\Jobs\v4\RebuildDailyStateJob;
+use App\Models\Assessment;
+use App\Models\User;
 use App\Models\v4\Client\BiometricSample;
 use App\Models\v4\Client\LocationSample;
+use App\Models\v4\Client\UserHumanOpProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -49,7 +52,38 @@ class HealthKitController extends Controller
             }
         }
 
+        $assessment = Assessment::getLatestAssessment($user->id);
+
+        $record = UserHumanOpProfile::getSingleRecord($user->id);
+
+        if ($assessment->id != $record->assessment_id) {
+
+            $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+
+            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+
+            $topTwoFeatures = !empty($topFeatures['top_two_keys']) ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+
+            $interval_of_life = $assessment != null ? User::getUserAge($user->date_of_birth, $assessment) : null;
+
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicNamev4($assessment) : null;
+
+            UserHumanOpProfile::query()->updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'trait' => $topThreeStyles[0]['public_name'],
+                    'pilot_driver' => $topTwoFeatures[0]['public_name'],
+                    'copilot_driver' => $topTwoFeatures[1]['public_name'],
+                    'interval' => $interval_of_life['name'],
+                    'energy_pool_state' => $energyPool['public_name'],
+                    'preferences' => $request->input('preferences'),
+                ]
+            );
+
+        }
+
         RebuildDailyStateJob::dispatch($user->id);
+
         ProcessShieldEventsJob::dispatch($user->id);
 
         return Helpers::successResponse('Samples ingested successfully', $created);

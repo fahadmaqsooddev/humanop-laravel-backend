@@ -30,4 +30,9 @@ class UserHumanOpProfile extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getSingleRecord($userId = null)
+    {
+        return self::where('user_id', $userId)->first();
+    }
+
 }

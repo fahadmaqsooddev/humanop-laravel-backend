@@ -18,8 +18,6 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('healthkit/samples', 'HealthKitController@ingestSamples');
     Route::post('healthkit/locations', 'HealthKitController@ingestLocations');
 
-    Route::post('humanop/profile', 'HumanOpProfileController@upsert');
-
     Route::post('boost-sessions/start', 'BoostSessionController@start');
     Route::post('boost-sessions/end', 'BoostSessionController@end');
 
