@@ -115,7 +115,7 @@ class ThreadController extends Controller
 
             }
 
-            $loginUser = $request->user();
+            $loginUser = Helpers::getUser();
 
             $group = MessageThread::createGroup($request, $loginUser->id);
 
@@ -149,7 +149,7 @@ class ThreadController extends Controller
 
             }
 
-            $loginUser = $request->user();
+            $loginUser = Helpers::getUser();
 
             $group = MessageThread::editGroup($request, $loginUser->id);
 

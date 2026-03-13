@@ -73,7 +73,7 @@ class Message extends Model
 
         $msg = Message::create([
             'message_thread_id' => $messageThread->id,
-            'sender_id' => $request->user()->id,
+            'sender_id' => Helpers::getUser()->id,
             'message' => $request->input('message'),
             'is_read' => false,
             'upload_id' => $request['upload_id'],

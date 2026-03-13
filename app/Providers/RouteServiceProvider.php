@@ -240,7 +240,11 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::prefix('api/v4')->middleware('api')
                 ->namespace($this->GoogleCalendarIntegrationNamespaceV4)
-                ->group(base_path('routes/v4/client_apis/google_calendar_integration/google_calendar_integration.php'));
+                ->group(base_path('routes/v4/client_apis/google_calendar_integration/google_calendar_integration_api.php'));
+
+            Route::prefix('api/v4')->middleware('api')
+                ->namespace($this->ApiClientControllerV4)
+                ->group(base_path('routes/v4/client_apis/energy_shield/energy_shield_api.php'));
 
         });
     }
