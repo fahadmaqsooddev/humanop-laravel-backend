@@ -24,19 +24,24 @@ use Stripe\Stripe;
 class LibraryResourceController extends Controller
 {
 
+    public $user=null;
+
     public function __construct()
     {
+        $this->user=Helpers::getUser();
         $this->middleware('auth:api');
     }
 
     public function resourceUrls(Request $request)
     {
         try {
+
             $query = LibraryResource::resourceCategoriesForClient(
                 $request->input('type'),
                 $request->input('access'),
                 $request->input('relevance'),
-                $request->input('search_name')
+                $request->input('search_name'),
+                $this->user
             );
 
             $data = Helpers::pagination(
@@ -56,8 +61,9 @@ class LibraryResourceController extends Controller
                 // Get base price
                 $basePrice = (int)optional($item->libraryPermissions)->price ?? 0;
 
+
                 // Apply discount if plan is Core
-                $finalPrice = (Helpers::getUser()['plan_name'] === 'Premium' && !empty($basePrice)) ? $basePrice * 0.50 : $basePrice;
+                $finalPrice = ($this->user['plan_name'] === Admin::PREMIUM_PLAN_NAME && !empty($basePrice)) ? $basePrice * 0.50 : $basePrice;
 
                 $transformed[] = [
                     'id' => $item->id,
