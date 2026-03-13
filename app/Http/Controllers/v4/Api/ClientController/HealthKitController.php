@@ -54,7 +54,7 @@ class HealthKitController extends Controller
 
         $record = UserHumanOpProfile::getSingleRecord($user->id);
 
-        if (empty($record) || $assessment->id != $record->assessment_id) {
+        if (!$assessment || empty($record) || $assessment->id != $record->assessment_id) {
 
             $this->createOrUpdate($user, $assessment, $request);
 
@@ -121,9 +121,9 @@ class HealthKitController extends Controller
         UserHumanOpProfile::query()->updateOrCreate(
             ['user_id' => $user->id],
             [
-                'trait' => $topThreeStyles[0]['name'],
-                'pilot_driver' => $topTwoFeatures[0]['name'],
-                'copilot_driver' => $topTwoFeatures[1]['name'],
+                'trait' => $topThreeStyles[0]['name'] ?? null,
+                'pilot_driver' => $topTwoFeatures[0]['name'] ?? null,
+                'copilot_driver' => $topTwoFeatures[1]['name'] ?? null,
                 'interval' => $interval_of_life['name'],
                 'energy_pool_state' => $energyPoolName,
                 'preferences' => $request->input('preferences'),

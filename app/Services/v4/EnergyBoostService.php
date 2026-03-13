@@ -64,10 +64,7 @@ class EnergyBoostService
 
         $capacity = app(EnergyShieldService::class)->getState($session->user_id)->capacity_points;
 
-        $replenishmentPercent = HumanOpFormula::replenishmentPercent(
-            $ebsPoints,
-            $capacity
-        );
+        $replenishmentPercent = HumanOpFormula::replenishmentPercent($ebsPoints, $capacity ?? 0);
 
         $session->ended_at = now();
         $session->hr_after = $currentHR;
