@@ -134,14 +134,12 @@ class MessageThread extends Model
 
     public function getRequestSentAttribute(): bool
     {
-        $authId = $this->getUserId();
-        return $this->attributes['request_sent'] ?? $this->groupChatRequests()->where('member_id', $authId)->exists();
+        return (bool) ($this->request_sent ?? false);
     }
 
     public function getIsGroupJoinedAttribute(): bool
     {
-        $authId = $this->getUserId();
-        return $this->attributes['is_group_joined'] ?? $this->participants()->where('user_id', $authId)->exists();
+        return (bool) ($this->is_group_joined ?? false);
     }
 
     public function getIsOwnerAttribute(): bool
