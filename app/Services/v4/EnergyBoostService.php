@@ -30,10 +30,7 @@ class EnergyBoostService
         ]);
     }
 
-    public function finalizeSession(
-        BoostSession $session,
-        bool         $coherenceAchieved = false
-    ): BoostSession
+    public function finalizeSession(BoostSession $session, bool $coherenceAchieved = false): BoostSession
     {
         $session->refresh();
 
@@ -64,7 +61,7 @@ class EnergyBoostService
 
         $capacity = app(EnergyShieldService::class)->getState($session->user_id)->capacity_points;
 
-        $replenishmentPercent = HumanOpFormula::replenishmentPercent($ebsPoints, $capacity ?? 0);
+        $replenishmentPercent = HumanOpFormula::replenishmentPercent($ebsPoints, $capacity);
 
         $session->ended_at = now();
         $session->hr_after = $currentHR;
