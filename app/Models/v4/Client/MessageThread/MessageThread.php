@@ -145,7 +145,7 @@ class MessageThread extends Model
     public function getIsOwnerAttribute(): bool
     {
         $authId=$this->getUserId();
-        return $this->owner_id === $authId;
+        return (int) $this->owner_id === (int) $authId;
     }
 
     // appends

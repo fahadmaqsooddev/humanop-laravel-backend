@@ -28,8 +28,9 @@ class LibraryResourceController extends Controller
 
     public function __construct()
     {
-        $this->user=Helpers::getUser();
+    
         $this->middleware('auth:api');
+        $this->user=Helpers::getUser();
     }
 
     public function resourceUrls(Request $request)
