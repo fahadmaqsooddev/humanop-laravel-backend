@@ -597,7 +597,7 @@ class BillingController extends Controller
 
     public function cancelAtPeriodEnd(Request $request)
     {
-        $user = $request->user();
+        $user = Helpers::getUser();
         $sub = $user->subscription('default');
 
         if (!$sub || !$sub->active()) {
@@ -622,7 +622,7 @@ class BillingController extends Controller
 
     public function resume(Request $request)
     {
-        $user = $request->user();
+        $user = Helpers::getUser();
         $sub = $user->subscription('default');
 
         if (!$sub || !$sub->onGracePeriod()) {
