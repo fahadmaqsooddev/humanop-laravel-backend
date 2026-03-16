@@ -17,7 +17,7 @@ class MessageThread extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['user_data', 'group_profile_url'];
+    protected $appends = ['user_data', 'group_profile_url','is_owner','request_sent','is_group_joined'];
 
     public function __construct(array $attributes = [])
     {
@@ -78,6 +78,8 @@ class MessageThread extends Model
         return $this->hasMany(Message::class, 'message_thread_id', 'id')->where('is_read', 0);
     }
 
+    
+
     // new relations
     public function messages()
     {
@@ -122,6 +124,28 @@ class MessageThread extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+
+    private function getUserId(){
+       return $authId = Helpers::getUser()->id;
+    }
+
+
+    public function getRequestSentAttribute(): bool
+    {
+        return ($this->attributes['request_sent'] ?? 0) > 0;
+    }
+
+    public function getIsGroupJoinedAttribute(): bool
+    {
+        return ($this->attributes['is_group_joined'] ?? 0) > 0;
+    }
+
+    public function getIsOwnerAttribute(): bool
+    {
+        $authId=$this->getUserId();
+        return (int) $this->owner_id === (int) $authId;
     }
 
     // appends
@@ -303,7 +327,17 @@ class MessageThread extends Model
             ->orWhereHas('participants', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->select(['id', 'type', 'name', 'owner_id', 'sender_id', 'receiver_id', 'updated_at', 'group_icon_id', 'thread_privacy'])
+             ->select([
+                'id',
+                'type',
+                'name',
+                'owner_id',
+                'sender_id',
+                'receiver_id',
+                'updated_at',
+                'group_icon_id',
+                'thread_privacy'
+            ])
             ->with([
                 'lastMessage:id,message_thread_id,message,created_at',
                 'sender:id,first_name,last_name,image_id',
@@ -313,6 +347,14 @@ class MessageThread extends Model
                 'messages as unread_messages_count' => function ($q) use ($userId) {
                     $q->where('sender_id', '!=', $userId)
                         ->where('is_read', 0);
+                },
+                 // Check if the user has sent a group request
+                'groupChatRequests as request_sent' => function ($q) use ($userId) {
+                    $q->where('member_id', $userId);
+                },
+                // Check if the user is already a participant
+                'participants as is_group_joined' => function ($q) use ($userId) {
+                    $q->where('user_id', $userId);
                 }
             ]);
         if ($request->filled('type')) {
@@ -322,6 +364,8 @@ class MessageThread extends Model
         return Helpers::pagination($q->orderByDesc('id'), $request['pagination'], $request['per_page']);
 
     }
+
+    
 
     public static function getAllDirectMessageThread($request = null, $userId = null)
     {
