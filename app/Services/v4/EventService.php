@@ -20,7 +20,7 @@ class EventService
         $recentEvent = Event::query()
             ->where('user_id', $userId)
             ->where('event_type', $type)
-            ->where('detected_at', '>', now()->subMinutes($cooldown))
+            ->where('detected_at', '>', now()->subMinutes(0))
             ->exists();
 
         if ($recentEvent) {
