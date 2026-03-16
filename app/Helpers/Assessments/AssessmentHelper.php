@@ -406,24 +406,30 @@ class AssessmentHelper
             }
         }
 
-        $features = [];
+     $features = [];
+
         if (self::canDisplayField($assessmentPermission, 'motivational_driver')) {
-            foreach ($coreState['topTwoFeatures'] ?? [] as $style) {
+            $topFeatures = data_get($coreState, 'topTwoFeatures', []);
+
+            foreach ($topFeatures as $style) {
                 $features[] = [
-                    'public_name' => $style['public_name'] ?? null,
-                    'code_number' => $style['code_number'] ?? null,
-                    'description' => $style['description'] ?? null
+                    'public_name' => trim(data_get($style, 'public_name', '')),
+                    'code_number' => data_get($style, 'code_number'),
+                    'description' => trim(data_get($style, 'description', '')),
                 ];
             }
         }
 
         $communications = [];
+
         if (self::canDisplayField($assessmentPermission, 'communication_style')) {
-            foreach ($coreState['topCommunication'] ?? [] as $style) {
+            $topCommunication = data_get($coreState, 'topCommunication', []);
+
+            foreach ($topCommunication as $style) {
                 $communications[] = [
-                    'public_name' => $style['public_name'] ?? null,
-                    'code_number' => $style['code_number'] ?? null,
-                    'description' => $style['description'] ?? null
+                    'public_name' => trim(data_get($style, 'public_name', '')),
+                    'code_number' => data_get($style, 'code_number'),
+                    'description' => trim(data_get($style, 'description', '')),
                 ];
             }
         }
