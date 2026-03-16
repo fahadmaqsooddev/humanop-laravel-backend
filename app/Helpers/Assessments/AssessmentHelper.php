@@ -394,7 +394,10 @@ class AssessmentHelper
     public static function getCoreStatsDatav4($assessment = null, $user = null, $assessmentPermission = null)
     {
     
-        $coreState = Assessment::getCoreState($assessment, $user->date_of_birth);
+        $coreState = Assessment::getCoreState(
+            $assessment,
+            $user?->date_of_birth
+        );
 
         $traits = [];
         if (self::canDisplayField($assessmentPermission, 'traits')) {
@@ -406,7 +409,7 @@ class AssessmentHelper
             }
         }
 
-     $features = [];
+       $features = [];
 
         if (self::canDisplayField($assessmentPermission, 'motivational_driver')) {
             $topFeatures = data_get($coreState, 'topTwoFeatures', []);
@@ -476,7 +479,7 @@ class AssessmentHelper
             $range = null;
 
             if ($currentInterval && preg_match('/\((.*?)\)/', $currentInterval, $matches)) {
-                $range = isset($matches[1]) ? trim($matches[1]) : null; // Extract 21-29 safely
+                $range = trim($matches[1] ?? '');
             }
 
             $intervalOfLife = [
