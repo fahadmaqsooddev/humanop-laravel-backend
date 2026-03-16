@@ -393,6 +393,7 @@ class AssessmentHelper
 
     public static function getCoreStatsDatav4($assessment = null, $user = null, $assessmentPermission = null)
     {
+    
         $coreState = Assessment::getCoreState($assessment, $user->date_of_birth);
 
         $traits = [];
@@ -411,6 +412,7 @@ class AssessmentHelper
                 $features[] = [
                     'public_name' => $style['public_name'] ?? null,
                     'code_number' => $style['code_number'] ?? null,
+                    'description' => $style['description'] ?? null
                 ];
             }
         }
@@ -421,6 +423,7 @@ class AssessmentHelper
                 $communications[] = [
                     'public_name' => $style['public_name'] ?? null,
                     'code_number' => $style['code_number'] ?? null,
+                    'description' => $style['description'] ?? null
                 ];
             }
         }
@@ -430,29 +433,46 @@ class AssessmentHelper
             $boundary = [
                 'public_name' => $coreState['boundary']['public_name'] ?? null,
                 'code_number' => $coreState['boundary']['code_number'] ?? null,
+                'description' => $coreState['boundary']['description'] ?? null,
             ];
         }
 
         $energyPool = null;
         if (self::canDisplayField($assessmentPermission, 'energy_pool')) {
+           
             $explode = explode('[', $coreState['energyPool']['public_name'] ?? '');
             $energyPool = [
                 'public_name' => trim($explode[0]),
                 'code_number' => isset($explode[1]) ? rtrim($explode[1], ']') : null,
+                'description' => $coreState['energyPool']['description'] ?? null
             ];
         }
 
         $perception = null;
         if (self::canDisplayField($assessmentPermission, 'perception_of_life')) {
+
             $perception = [
                 'public_name' => $coreState['perception']['public_name'] ?? null,
                 'code_number' => $coreState['perception']['pv'] ?? null,
+                'description' => $coreState['perception']['description'] ?? null,
             ];
         }
 
         $intervalOfLife = null;
         if (self::canDisplayField($assessmentPermission, 'interval_of_life')) {
-            $intervalOfLife = $coreState['interval_of_life']['public_name'] ?? null;
+            $currentInterval = $coreState['interval_of_life']['public_name'] ?? null;
+            $range = null;
+
+            if ($currentInterval && preg_match('/\((.*?)\)/', $currentInterval, $matches)) {
+                $range = $matches[1]; // 21-29
+            }
+
+            $intervalOfLife = [
+                'public_name' => $coreState['interval_of_life']['name'] ?? null,
+                'current_interval_of_life' => $range ?? null,
+                'description' => $coreState['interval_of_life']['description']['text'] ?? null,
+                
+            ];
         }
 
         $authenticTraits = null;
