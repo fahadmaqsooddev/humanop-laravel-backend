@@ -8,12 +8,12 @@ use App\Services\v4\EventService;
 class NeglectDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'neglect';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 180)) {
-            return;
+            return false;
         }
 
         $windowDays = (int) config('humanop.thresholds.neglect.window_days');
@@ -35,7 +35,10 @@ class NeglectDetector implements EventDetectorInterface
                     'steps' => (int) $steps,
                 ]
             );
+
+            return true;
         }
+        return false;
     }
 
 

@@ -8,12 +8,12 @@ use App\Services\v4\EventService;
 class RigidityDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'rigidity';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 20)) {
-            return;
+            return false;
         }
 
         $hrThreshold = (float) config('humanop.thresholds.rigidity.heart_rate_threshold');
@@ -40,7 +40,13 @@ class RigidityDetector implements EventDetectorInterface
                     'heart_rate' => (float) $heartRate,
                 ]
             );
+
+            return true;
+
         }
+
+        return false;
+
     }
 
 }

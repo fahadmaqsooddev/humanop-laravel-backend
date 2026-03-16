@@ -27,7 +27,7 @@ class EventService
             return null;
         }
 
-        return Event::create([
+        $event = Event::create([
 
             'user_id' => $userId,
 
@@ -42,6 +42,10 @@ class EventService
             'expires_at' => now()->addMinutes(10)
 
         ]);
+
+        app(EnergyShieldService::class)->applyEventDrain($userId, $type);
+
+        return $event;
 
     }
 

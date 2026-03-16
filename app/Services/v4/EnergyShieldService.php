@@ -70,6 +70,31 @@ class EnergyShieldService
         return $state;
     }
 
+    public function applyEventDrain(int $userId,string $eventType)
+    {
+
+        $state = EnergyShieldState::where('user_id',$userId)->first();
+
+        if(!$state){
+            return;
+        }
+
+        $drain = config("humanop.event_drains.$eventType",10);
+
+        $state->shield_points = max(
+            0,
+            $state->shield_points - $drain
+        );
+
+        $state->shield_percent = (
+                $state->shield_points /
+                $state->capacity_points
+            ) * 100;
+
+        $state->save();
+
+    }
+
     public function getState(int $userId): EnergyShieldState
     {
         return EnergyShieldState::query()->where('user_id', $userId)->firstOrFail();

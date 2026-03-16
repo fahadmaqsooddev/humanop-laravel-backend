@@ -8,12 +8,12 @@ use App\Services\v4\EventService;
 class ImmaturityDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'immaturity';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 60)) {
-            return;
+            return false;
         }
 
         $windowHours = (int) config('humanop.thresholds.immaturity.window_hours');
@@ -35,7 +35,13 @@ class ImmaturityDetector implements EventDetectorInterface
                     'steps' => (int) $steps,
                 ]
             );
+
+            return true;
+
         }
+
+        return false;
+
     }
 
 }

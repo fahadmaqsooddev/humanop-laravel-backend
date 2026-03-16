@@ -16,27 +16,33 @@ use App\Services\v4\EventDetection\WoeIsMeDetector;
 
 class EventDetectionService
 {
+    protected array $detectors = [
 
-    public function run(int $userId): void
+        PanicDetector::class,
+        VolatilityDetector::class,
+        IntimidationDetector::class,
+        StubbornnessDetector::class,
+        GluttonyDetector::class,
+        ManicDetector::class,
+        ImmaturityDetector::class,
+        NeglectDetector::class,
+        WoeIsMeDetector::class,
+        DeprivationDetector::class,
+        SelfAbsorptionDetector::class,
+        RigidityDetector::class
+
+    ];
+
+    public function run(int $userId)
     {
-        $detectors = [
-            PanicDetector::class,
-            VolatilityDetector::class,
-            StubbornnessDetector::class,
-            GluttonyDetector::class,
-            ManicDetector::class,
-            ImmaturityDetector::class,
-            NeglectDetector::class,
-            IntimidationDetector::class,
-            WoeIsMeDetector::class,
-            DeprivationDetector::class,
-            SelfAbsorptionDetector::class,
-            RigidityDetector::class,
-        ];
+        foreach ($this->detectors as $detector) {
 
-        foreach ($detectors as $detectorClass) {
-            app($detectorClass)->detect($userId);
+            $result = app($detector)->detect($userId);
+
+            if ($result) {
+                return $result;
+            }
+
         }
     }
-
 }

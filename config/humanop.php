@@ -176,4 +176,21 @@ return [
         'self_absorption' => 'social_activity',
         'rigidity' => 'resonance_breathing',
     ],
+
+    'event_drains' => [
+
+        'panic' => 25, // Points
+        'volatility' => 20,
+        'stubbornness' => 15,
+        'gluttony' => 15,
+        'manic' => 40,
+        'immaturity' => 10,
+        'neglect' => 20,
+        'intimidation' => 20,
+        'woe_is_me' => 20,
+        'deprivation' => 15,
+        'self_absorption' => 15,
+        'rigidity' => 15
+
+    ],
 ];

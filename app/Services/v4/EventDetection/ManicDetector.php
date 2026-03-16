@@ -9,12 +9,12 @@ use App\Services\v4\EventService;
 class ManicDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'manic';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 120)) {
-            return;
+            return false;
         }
 
         $sleepMax = (int) config('humanop.thresholds.manic.sleep_minutes_max');
@@ -26,7 +26,7 @@ class ManicDetector implements EventDetectorInterface
             ->first();
 
         if (!$dailyMetric || $dailyMetric->sleep_minutes === null) {
-            return;
+            return false;
         }
 
         $stepsToday = BiometricSample::query()
@@ -45,7 +45,13 @@ class ManicDetector implements EventDetectorInterface
                     'steps_today' => (int) $stepsToday,
                 ]
             );
+
+            return true;
+
         }
+
+        return false;
+
     }
 
 }

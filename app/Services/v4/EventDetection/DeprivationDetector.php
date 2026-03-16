@@ -8,12 +8,12 @@ use App\Services\v4\EventService;
 class DeprivationDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'deprivation';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 180)) {
-            return;
+            return false;
         }
 
         $windowDays = (int) config('humanop.thresholds.deprivation.window_days');
@@ -35,7 +35,13 @@ class DeprivationDetector implements EventDetectorInterface
                     'distinct_locations' => $locationCount,
                 ]
             );
+
+            return true;
+
         }
+
+        return false;
+
     }
 
 }

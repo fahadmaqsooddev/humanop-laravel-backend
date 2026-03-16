@@ -8,12 +8,12 @@ use App\Services\v4\EventService;
 class IntimidationDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'intimidation';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 20)) {
-            return;
+            return false;
         }
 
         $hrThreshold = (float) config('humanop.thresholds.intimidation.heart_rate_threshold');
@@ -41,7 +41,10 @@ class IntimidationDetector implements EventDetectorInterface
                     'hrv_sdnn' => (float) $hrv,
                 ]
             );
+
+            return true;
         }
+        return false;
     }
 
 }

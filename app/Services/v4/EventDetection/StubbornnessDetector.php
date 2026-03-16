@@ -8,12 +8,12 @@ use App\Services\v4\EventService;
 class StubbornnessDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'stubbornness';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 30)) {
-            return;
+            return false;
         }
 
         $minutes = (int) config('humanop.thresholds.stubbornness.minutes_low_hrv_sedentary_min');
@@ -45,7 +45,10 @@ class StubbornnessDetector implements EventDetectorInterface
                     'steps' => (float) $steps,
                 ]
             );
+
+            return true;
         }
+        return false;
     }
 
 }

@@ -8,12 +8,12 @@ use App\Services\v4\EventService;
 class PanicDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'panic';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 10)) {
-            return;
+            return false;
         }
 
         $hrThreshold = (float) config('humanop.thresholds.panic.heart_rate');
@@ -41,7 +41,11 @@ class PanicDetector implements EventDetectorInterface
                     'steps' => (float) $steps,
                 ]
             );
+
+            return true;
         }
+
+        return false;
     }
 
 
