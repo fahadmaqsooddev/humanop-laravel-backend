@@ -134,12 +134,12 @@ class MessageThread extends Model
 
     public function getRequestSentAttribute(): bool
     {
-        return (bool) ($this->attributes['request_sent'] ?? false);
+        return ($this->attributes['request_sent'] ?? 0) > 0;
     }
 
     public function getIsGroupJoinedAttribute(): bool
     {
-        return (bool) ($this->attributes['is_group_joined'] ?? false);
+        return ($this->attributes['is_group_joined'] ?? 0) > 0;
     }
 
     public function getIsOwnerAttribute(): bool
