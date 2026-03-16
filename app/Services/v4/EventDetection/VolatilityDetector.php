@@ -8,12 +8,12 @@ use App\Services\v4\EventService;
 class VolatilityDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'volatility';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 15)) {
-            return;
+            return false;
         }
 
         $windowMinutes = (int) config('humanop.thresholds.volatility.window_minutes');
@@ -27,7 +27,7 @@ class VolatilityDetector implements EventDetectorInterface
             ->pluck('value');
 
         if ($samples->count() < $minSamples) {
-            return;
+            return false;
         }
 
         $range = (float) $samples->max() - (float) $samples->min();
@@ -44,7 +44,11 @@ class VolatilityDetector implements EventDetectorInterface
                     'max_hr' => (float) $samples->max(),
                 ]
             );
+
+            return true;
         }
+
+        return false;
     }
 
 }

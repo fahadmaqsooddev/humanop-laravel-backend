@@ -9,12 +9,12 @@ use App\Services\v4\EventService;
 class WoeIsMeDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'woe_is_me';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 180)) {
-            return;
+            return false;
         }
 
         $sleepMin = (int) config('humanop.thresholds.woe_is_me.sleep_minutes_min');
@@ -26,7 +26,7 @@ class WoeIsMeDetector implements EventDetectorInterface
             ->first();
 
         if (!$dailyMetric || $dailyMetric->sleep_minutes === null) {
-            return;
+            return false;
         }
 
         $stepsToday = BiometricSample::query()
@@ -45,7 +45,13 @@ class WoeIsMeDetector implements EventDetectorInterface
                     'steps_today' => (int) $stepsToday,
                 ]
             );
+
+            return true;
+
         }
+
+        return false;
+
     }
 
 }

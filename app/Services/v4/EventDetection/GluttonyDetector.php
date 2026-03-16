@@ -8,19 +8,19 @@ use App\Services\v4\EventService;
 class GluttonyDetector implements EventDetectorInterface
 {
 
-    public function detect(int $userId): void
+    public function detect(int $userId): bool
     {
         $eventType = 'gluttony';
 
         if (app(EventService::class)->wasRecentlyDetected($userId, $eventType, 60)) {
-            return;
+            return false;
         }
 
         $eveningStart = (int) config('humanop.thresholds.gluttony.evening_hour_start');
         $hrvLow = (float) config('humanop.thresholds.gluttony.hrv_low_threshold');
 
         if (now()->hour < $eveningStart) {
-            return;
+            return false;
         }
 
         $avgHrvToday = BiometricSample::query()
@@ -39,7 +39,13 @@ class GluttonyDetector implements EventDetectorInterface
                     'hour' => now()->hour,
                 ]
             );
+
+            return true;
+
         }
+
+        return false;
+
     }
 
 }
