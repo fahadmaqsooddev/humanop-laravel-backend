@@ -18,34 +18,41 @@ class GluttonyDetector implements EventDetectorInterface
 
         $eveningStart = (int) config('humanop.thresholds.gluttony.evening_hour_start');
         $hrvLow = (float) config('humanop.thresholds.gluttony.hrv_low_threshold');
+        $minSamples = (int) config('humanop.thresholds.gluttony.min_hrv_samples');
 
         if (now()->hour < $eveningStart) {
             return false;
         }
 
-        $avgHrvToday = BiometricSample::query()
+        $query = BiometricSample::query()
             ->where('user_id', $userId)
             ->where('metric', 'hrv_sdnn')
-            ->whereDate('recorded_at', today())
-            ->avg('value');
+            ->whereDate('recorded_at', today());
+
+        // Require sufficient data
+        if ($query->count() < $minSamples) {
+            return false;
+        }
+
+        $avgHrvToday = $query->avg('value');
 
         if ($avgHrvToday !== null && $avgHrvToday < $hrvLow) {
+
             app(EventService::class)->create(
                 $userId,
                 $eventType,
                 config('humanop.protocols.gluttony'),
                 [
                     'avg_hrv_today' => round((float) $avgHrvToday, 2),
+                    'samples' => $query->count(),
                     'hour' => now()->hour,
                 ]
             );
 
             return true;
-
         }
 
         return false;
-
     }
 
 }

@@ -88,6 +88,7 @@ return [
         'gluttony' => [
             'evening_hour_start' => 18,
             'hrv_low_threshold' => 20,
+            'min_hrv_samples' => 5
         ],
     ],
 

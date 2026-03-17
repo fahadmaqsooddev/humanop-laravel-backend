@@ -31,6 +31,7 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
     Route::get('user-traits', 'HumanNetworkController@userTraits');
     Route::post('set-score-for-matching-connections', 'HumanNetworkController@setScoreForMatchingConnection');
     Route::get('network-notification', 'HumanNetworkController@networkNotifications');
+    Route::get('compatibility-with-two-users', 'HumanNetworkController@compatibilityWithTwoUsers');
     Route::post('change-compatibility-matrix-status', 'HumanNetworkController@changeCompatibilityMatrixStatus');
 
 

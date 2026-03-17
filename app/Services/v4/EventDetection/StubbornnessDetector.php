@@ -28,13 +28,21 @@ class StubbornnessDetector implements EventDetectorInterface
             ->where('recorded_at', '>=', $from)
             ->avg('value');
 
-        $steps = BiometricSample::query()
+        $stepsQuery = BiometricSample::query()
             ->where('user_id', $userId)
             ->where('metric', 'steps')
-            ->where('recorded_at', '>=', $from)
-            ->sum('value');
+            ->where('recorded_at', '>=', $from);
+
+        $stepsCount = $stepsQuery->count();
+
+        if ($stepsCount === 0) {
+            return false;
+        }
+
+        $steps = $stepsQuery->sum('value');
 
         if ($avgHrv !== null && $avgHrv < $hrvLow && $steps < $stepsMax) {
+
             app(EventService::class)->create(
                 $userId,
                 $eventType,
@@ -48,6 +56,7 @@ class StubbornnessDetector implements EventDetectorInterface
 
             return true;
         }
+
         return false;
     }
 
