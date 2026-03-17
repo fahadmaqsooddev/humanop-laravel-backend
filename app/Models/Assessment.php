@@ -2346,7 +2346,7 @@ class Assessment extends Model
        return (
             ($assessment->page ?? 0) === Admin::IS_ASSESSMENT_COMPLETED &&
             ($assessment->web_page ?? 0) === Admin::IS_ASSESSMENT_COMPLETED &&
-            ($assessment->app_page ?? 0) === Admin:: IS_ASSESSMENT_COMPLETED
+            ($assessment->app_page ?? 0) === Admin::IS_ASSESSMENT_COMPLETED
         );
     }
 }
