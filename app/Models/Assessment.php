@@ -2029,4 +2029,24 @@ class Assessment extends Model
 
         return self::create($assessment);
     }
+
+    public static function getFirstAssessment(int $userId)
+    {
+        return self::where('user_id', $userId)
+            ->oldest()
+            ->first();
+    }
+
+    public static function isAssessmentComplete($assessment): bool
+    {
+        if (!$assessment) {
+            return false;
+        }
+
+        return (
+            $assessment->page === Admin::ASSESSMENT_COMPLETED_VALUE &&
+            $assessment->web_page === Admin::ASSESSMENT_COMPLETED_VALUE &&
+            $assessment->app_page === Admin::ASSESSMENT_COMPLETED_VALUE
+        );
+    }
 }

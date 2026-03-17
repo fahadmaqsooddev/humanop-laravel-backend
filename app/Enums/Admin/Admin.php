@@ -330,4 +330,6 @@ final class Admin
 
     const PERMISSION_PREMIUM_ONLY = 6;
 
+    const ASSESSMENT_COMPLETED_VALUE = 0;
+
 }

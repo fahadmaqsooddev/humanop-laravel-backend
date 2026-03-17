@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => ['checkUser']], function () {
+Route::group(['middleware' => ['checkUser','assessment.completed']], function () {
 
     Route::get('humanop-shop', 'HumanOpShopController@getShopContents');
     Route::get('suggested-items', 'HumanOpShopController@suggestedItems');
