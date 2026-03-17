@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['checkUser']], function () {
+Route::group(['middleware' => ['checkUser','assessment.completed']], function () {
 
     Route::post('follow-unfollow', 'HumanNetworkController@followUnfollow');
     Route::get('followers', 'HumanNetworkController@followers');

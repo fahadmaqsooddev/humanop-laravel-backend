@@ -76,5 +76,6 @@ class Kernel extends HttpKernel
         'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
         'check_package' => PackageLimitations::class,
         'assessment.owner' => \App\Http\Middleware\EnsureAssessmentOwner::class,
+        'assessment.completed' => \App\Http\Middleware\EnsureAssessmentCompleted::class,
     ];
 }
