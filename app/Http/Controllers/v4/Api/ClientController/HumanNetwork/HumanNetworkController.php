@@ -572,6 +572,26 @@ class HumanNetworkController extends Controller
         }
     }
 
+    public function compatibilityWithTwoUsers(Request $request)
+    {
+
+        try {
+
+            $loginUser = Helpers::getUser();
+
+            $user = User::getSingleUser($request['user_id']);
+
+            $compatibilityAnalysis = Helpers::compatibilityMatchingBetweenTwoUsers($user, $loginUser);
+
+            return Helpers::successResponse('Compatibility Score', $compatibilityAnalysis);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
     public function changeCompatibilityMatrixStatus(Request $request)
     {
         try {

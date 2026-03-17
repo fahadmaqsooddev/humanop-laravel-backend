@@ -541,8 +541,7 @@ class Helpers
                 'priority' => 'priority 3'
             ];
 
-        }
-        elseif ($authenticTraitCount < 3) {
+        } elseif ($authenticTraitCount < 3) {
 
             return [
 //                'plan_text' => config('90DaysActionPlan.priority_4'),
@@ -792,8 +791,7 @@ class Helpers
                 'priority' => 'priority 3'
             ];
 
-        }
-        elseif ($authenticTraitCount < 3) {
+        } elseif ($authenticTraitCount < 3) {
 
             return [
                 'plan_text' => config('14DaysActionPlan.priority_4'),
@@ -1154,8 +1152,8 @@ class Helpers
 
 //                Helpers::OneSignalApiUsed($user['id'], 'Credit Bonus', $message);
 
-                Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION,null,true);
-        
+                Notification::createNotification('Credit Bonus', $message, $user['device_token'], $user['id'], 1, Admin::CREDIT_BONUS, Admin::B2C_NOTIFICATION, null, true);
+
 
             }
         }
@@ -1174,11 +1172,10 @@ class Helpers
 
         $points = HumanOpPoints::getUserPoints($user)['points'];
 
-        if ($points > 0 && $points < 500)
-        {
+        if ($points > 0 && $points < 500) {
             GamificationPerformanceLevel::addFirstPerformanceLevel($user['id']);
 
-        }elseif ($points > 499 && $points < 1000){
+        } elseif ($points > 499 && $points < 1000) {
 
             GamificationPerformanceLevel::addSecondPerformanceLevel($user['id']);
 
@@ -1233,7 +1230,7 @@ class Helpers
 
 //        Loop users with ZERO DB queries inside
 
-        foreach ($users as $user){
+        foreach ($users as $user) {
 
             if (!isset($assessments[$user->id])) {
                 continue; // user has no assessment
@@ -1260,42 +1257,38 @@ class Helpers
         return $matchingUsers;
     }
 
-//    public static function matchingUsers($users = null, $loginUser = null)
-//    {
-//
-//        $matchingUsers = [];
-//
-//        foreach ($users as $user) {
-//
-//            $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
-//
-//            $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
-//
-//            if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
-//
-//                // ==================== Trait Compatability Calculator =========================== //
-//
-//                $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
-//
-//                $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
-//
-//                if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
-//
-//                    $compatabilityCalculator = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
-//
-//                    if ($compatabilityCalculator >= $loginUser['matching_connection_score']) {
-//
-//                        $matchingUsers[] = $user;
-//                    }
-//
-//                }
-//
-//            }
-//        }
-//
-//        return $matchingUsers;
-//
-//    }
+    public static function compatibilityMatchingBetweenTwoUsers($user = null, $loginUser = null)
+    {
+
+        $compatibilityScore = 0;
+
+        $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
+
+        $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
+
+        if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
+
+            // ==================== Trait Compatability Calculator =========================== //
+
+            $getFirstUserTraitWeight = Assessment::getTopThreeTraitWeight($getFirstUserAssessment);
+
+            $getSecondUserTraitWeight = Assessment::getTopThreeTraitWeight($getSecondUserAssessment);
+
+            if ($getFirstUserTraitWeight != null && $getSecondUserTraitWeight != null) {
+
+                $compatibilityScore = Helpers::getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight, $getSecondUserTraitWeight, $getFirstUserAssessment, $getSecondUserAssessment);
+
+            }
+
+        }
+
+        return [
+            'first_user_traits' => Assessment::getUserFirstRowTraits($getFirstUserAssessment),
+            'second_user_traits' => Assessment::getUserFirstRowTraits($getSecondUserAssessment),
+            'compatibility_score' => round($compatibilityScore, 2),
+        ];
+
+    }
 
     public static function getCompatabilityBetweenTwoPerson($getFirstUserTraitWeight = null, $getSecondUserTraitWeight = null, $getFirstUserAssessment = null, $getSecondUserAssessment = null)
     {
@@ -1650,14 +1643,14 @@ class Helpers
             ->format('m/d/Y h:i A');
     }
 
-        public static function getActiveHotspots(array $assessmentData): array
+    public static function getActiveHotspots(array $assessmentData): array
     {
         $hotspots = [];
 
-        $volume      = $assessmentData['firstRow'] ?? [];
-        $weight      = $assessmentData['thirdRow'] ?? [];
-        $gridColor   = $assessmentData['gridColor'] ?? [];
-        $alchemyCode = (int) ($assessmentData['alchemy'] ?? 0);
+        $volume = $assessmentData['firstRow'] ?? [];
+        $weight = $assessmentData['thirdRow'] ?? [];
+        $gridColor = $assessmentData['gridColor'] ?? [];
+        $alchemyCode = (int)($assessmentData['alchemy'] ?? 0);
 
         $perceptionScore = $volume['pv'] ?? null;
         $energyPoolScore = $volume['ep'] ?? null;
@@ -1668,25 +1661,25 @@ class Helpers
             'ma' => 'Energetic',
             'jo' => 'Absorptive',
             'lu' => 'Romantic',
-            'ven'=> 'Sympathetic',
-            'mer'=> 'Perceptive',
+            'ven' => 'Sympathetic',
+            'mer' => 'Perceptive',
             'so' => 'Effervescent',
-            'van'=> 'Aesthetic Sensibility',
+            'van' => 'Aesthetic Sensibility',
 
-            'de'  => 'Initiates Change',
+            'de' => 'Initiates Change',
             'dom' => 'Creating Order',
-            'fe'  => 'Creates Protection',
+            'fe' => 'Creates Protection',
             'gre' => 'Monetary Discernment',
             'lun' => 'Visionary',
             'nai' => 'Optimism',
-            'ne'  => 'Negative',
+            'ne' => 'Negative',
             'pow' => 'Accomplishment',
-            'sp'  => 'Compassion',
+            'sp' => 'Compassion',
             'tra' => 'The Traveler',
             'wil' => 'Perseverance',
 
             // Energy
-            'em'  => 'Energy EM',
+            'em' => 'Energy EM',
             'ins' => 'Energy INS',
             'int' => 'Energy INT',
             'mov' => 'Energy MOV',
@@ -1696,18 +1689,19 @@ class Helpers
         // Priority 1
         // ===============================
         if (($volume['van'] ?? 0) === 0) {
-            $hotspots[] = ['id'=>1, 'name'=>$publicNames['van']];
+            $hotspots[] = ['id' => 1, 'name' => $publicNames['van']];
         }
 
         // ===============================
         // Priority 2 - Zero Traits
         // ===============================
         $zeroTraits = [];
-        foreach (['sa','ma','jo','lu','ven','mer','so'] as $key) {
-            if (($volume[$key] ?? 1) === 0) $zeroTraits[] = $publicNames[$key]; break;
+        foreach (['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'] as $key) {
+            if (($volume[$key] ?? 1) === 0) $zeroTraits[] = $publicNames[$key];
+            break;
         }
         if (!empty($zeroTraits)) {
-            $hotspots[] = ['id'=>2, 'name'=>implode(',', $zeroTraits)];
+            $hotspots[] = ['id' => 2, 'name' => implode(',', $zeroTraits)];
         }
 
         // ===============================
@@ -1717,45 +1711,45 @@ class Helpers
             ($volume['jo'] ?? 0) < 5 && ($weight['jo'] ?? 0) < 30 &&
             ($volume['mer'] ?? 0) < 5 && ($weight['mer'] ?? 0) < 30 &&
             ($volume['so'] ?? 0) < 3
-        ) $hotspots[] = ['id'=>3, 'name'=>implode(',', [$publicNames['jo'],$publicNames['mer'],$publicNames['so']])];
+        ) $hotspots[] = ['id' => 3, 'name' => implode(',', [$publicNames['jo'], $publicNames['mer'], $publicNames['so']])];
 
         if (
             ($volume['ma'] ?? 0) < 5 && ($weight['ma'] ?? 0) < 30 &&
             ($volume['lu'] ?? 0) < 5 && ($weight['lu'] ?? 0) < 30
-        ) $hotspots[] = ['id'=>5, 'name'=>implode(',', [$publicNames['ma'],$publicNames['lu']])];
+        ) $hotspots[] = ['id' => 5, 'name' => implode(',', [$publicNames['ma'], $publicNames['lu']])];
 
         if (
             ($volume['sa'] ?? 0) < 5 && ($weight['sa'] ?? 0) < 30 &&
             ($volume['ven'] ?? 0) < 5 && ($weight['ven'] ?? 0) < 30
-        ) $hotspots[] = ['id'=>6, 'name'=>implode(',', [$publicNames['sa'],$publicNames['ven']])];
+        ) $hotspots[] = ['id' => 6, 'name' => implode(',', [$publicNames['sa'], $publicNames['ven']])];
 
         // ===============================
         // Priority 4 – Green Traits < 3
         // ===============================
-        $greenTraits = array_filter(['sa','ma','jo','lu','ven','mer','so'], fn($t) => ($gridColor[$t] ?? '') === 'green');
+        $greenTraits = array_filter(['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'], fn($t) => ($gridColor[$t] ?? '') === 'green');
         if (count($greenTraits) < 3) {
             $names = array_map(fn($t) => $publicNames[$t], $greenTraits);
-            $hotspots[] = ['id'=>4, 'name'=>implode(',', $names)];
+            $hotspots[] = ['id' => 4, 'name' => implode(',', $names)];
         }
 
         // ===============================
         // Priority 7–10 – Red Drivers
         // ===============================
-        $firstRowDriver = ['de','dom','fe','gre','lun','nai','ne','pow','sp','tra','van','wil'];
+        $firstRowDriver = ['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil'];
         $redDrivers = array_filter($firstRowDriver, fn($d) => ($gridColor[$d] ?? '') === 'red');
-        $redNames   = array_map(fn($d) => $publicNames[$d] ?? $d, $redDrivers);
+        $redNames = array_map(fn($d) => $publicNames[$d] ?? $d, $redDrivers);
 
-        if(count($redDrivers) >= 4) $hotspots[] = ['id'=>7, 'name'=>implode(',',$redNames)];
-        elseif(count($redDrivers) === 3) $hotspots[] = ['id'=>8, 'name'=>implode(',',$redNames)];
-        elseif(count($redDrivers) === 2) $hotspots[] = ['id'=>9, 'name'=>implode(',',$redNames)];
-        elseif(count($redDrivers) === 1) $hotspots[] = ['id'=>10, 'name'=>implode(',',$redNames)];
+        if (count($redDrivers) >= 4) $hotspots[] = ['id' => 7, 'name' => implode(',', $redNames)];
+        elseif (count($redDrivers) === 3) $hotspots[] = ['id' => 8, 'name' => implode(',', $redNames)];
+        elseif (count($redDrivers) === 2) $hotspots[] = ['id' => 9, 'name' => implode(',', $redNames)];
+        elseif (count($redDrivers) === 1) $hotspots[] = ['id' => 10, 'name' => implode(',', $redNames)];
 
         // ===============================
         // Priority 11–12 – Pilot / CoPilot
         // ===============================
 
         $pilotDriverCount = 0;
-        $lowValueDrivers  = [];
+        $lowValueDrivers = [];
         foreach ($firstRowDriver as $driver) {
             if (isset($gridColor[$driver]) && ($gridColor[$driver] == 'green') && ($volume[$driver] < 3)) {
                 $pilotDriverCount++;
@@ -1767,13 +1761,13 @@ class Helpers
         if ($pilotDriverCount == 2) {
 
             $hotspots[] = [
-                'id'   => 11,
+                'id' => 11,
                 'name' => implode(',', $lowValueDrivers),
             ];
         } elseif ($pilotDriverCount == 1) {
 
             $hotspots[] = [
-                'id'   => 12,
+                'id' => 12,
                 'name' => implode(',', $lowValueDrivers),
             ];
         }
@@ -1794,84 +1788,85 @@ class Helpers
         }
 
         Log::info(
-            ["Find Names"=>$names]
+            ["Find Names" => $names]
         );
 
 // Sum of all driver volumes
-            $countFirstRowDriver = 0;
+        $countFirstRowDriver = 0;
 
-            foreach ($firstRowDriver as $driver) {
-                $countFirstRowDriver += $volume[$driver] ?? 0;
-            }
+        foreach ($firstRowDriver as $driver) {
+            $countFirstRowDriver += $volume[$driver] ?? 0;
+        }
 
-            if ($countFirstRowDriver > 21) {
-                $hotspots[] = [
-                    'id' => 13,
-                    'name' => implode(', ', $names),
-                ];
-            } else {
-                $hotspots[] = [
-                    'id' => 14,
-                    'name' => implode(', ', $names),
-                ];
-            }
+        if ($countFirstRowDriver > 21) {
+            $hotspots[] = [
+                'id' => 13,
+                'name' => implode(', ', $names),
+            ];
+        } else {
+            $hotspots[] = [
+                'id' => 14,
+                'name' => implode(', ', $names),
+            ];
+        }
 
-            // ===============================
+        // ===============================
         // Priority 15–16 – Alchemy
         // ===============================
-        $alchemyHigh = [700,610,601,520,511,502,430];
-        $alchemyLow  = [223,133,43,214,124,115,34,7];
+        $alchemyHigh = [700, 610, 601, 520, 511, 502, 430];
+        $alchemyLow = [223, 133, 43, 214, 124, 115, 34, 7];
 
-        if(in_array($alchemyCode,$alchemyHigh,true)) $hotspots[]=['id'=>15,'name'=>'High Alchemy'];
-        elseif(in_array($alchemyCode,$alchemyLow,true)) $hotspots[]=['id'=>16,'name'=>'Low Alchemy'];
+        if (in_array($alchemyCode, $alchemyHigh, true)) $hotspots[] = ['id' => 15, 'name' => 'High Alchemy'];
+        elseif (in_array($alchemyCode, $alchemyLow, true)) $hotspots[] = ['id' => 16, 'name' => 'Low Alchemy'];
 
         // ===============================
         // Priority 17–20 – Energy Centers
         // ===============================
-        $energyKeys = ['em','ins','int','mov'];
-        $greaterThan12 = count(array_filter($energyKeys, fn($k)=> ($volume[$k]??0)>12));
-        $lessThan7     = count(array_filter($energyKeys, fn($k)=> ($volume[$k]??0)<7));
+        $energyKeys = ['em', 'ins', 'int', 'mov'];
+        $greaterThan12 = count(array_filter($energyKeys, fn($k) => ($volume[$k] ?? 0) > 12));
+        $lessThan7 = count(array_filter($energyKeys, fn($k) => ($volume[$k] ?? 0) < 7));
 
-        if($greaterThan12>=2){
-            $names = array_map(fn($k)=> $publicNames[$k]??$k, array_filter($energyKeys, fn($k)=> ($volume[$k]??0)>12));
-            $hotspots[] = ['id'=>17,'name'=>implode(',',$names)];
-        } elseif($greaterThan12===1){
-            $names = array_map(fn($k)=> $publicNames[$k]??$k, array_filter($energyKeys, fn($k)=> ($volume[$k]??0)>12));
-            $hotspots[] = ['id'=>18,'name'=>implode(',',$names)];
-        } elseif($lessThan7===2){
-            $names = array_map(fn($k)=> $publicNames[$k]??$k, array_filter($energyKeys, fn($k)=> ($volume[$k]??0)<7));
-            $hotspots[] = ['id'=>19,'name'=>implode(',',$names)];
-        } elseif($lessThan7===1){
-            $names = array_map(fn($k)=> $publicNames[$k]??$k, array_filter($energyKeys, fn($k)=> ($volume[$k]??0)<7));
-            $hotspots[] = ['id'=>20,'name'=>implode(',',$names)];
+        if ($greaterThan12 >= 2) {
+            $names = array_map(fn($k) => $publicNames[$k] ?? $k, array_filter($energyKeys, fn($k) => ($volume[$k] ?? 0) > 12));
+            $hotspots[] = ['id' => 17, 'name' => implode(',', $names)];
+        } elseif ($greaterThan12 === 1) {
+            $names = array_map(fn($k) => $publicNames[$k] ?? $k, array_filter($energyKeys, fn($k) => ($volume[$k] ?? 0) > 12));
+            $hotspots[] = ['id' => 18, 'name' => implode(',', $names)];
+        } elseif ($lessThan7 === 2) {
+            $names = array_map(fn($k) => $publicNames[$k] ?? $k, array_filter($energyKeys, fn($k) => ($volume[$k] ?? 0) < 7));
+            $hotspots[] = ['id' => 19, 'name' => implode(',', $names)];
+        } elseif ($lessThan7 === 1) {
+            $names = array_map(fn($k) => $publicNames[$k] ?? $k, array_filter($energyKeys, fn($k) => ($volume[$k] ?? 0) < 7));
+            $hotspots[] = ['id' => 20, 'name' => implode(',', $names)];
         }
 
         // ===============================
         // Priority 21–23 – Perception
         // ===============================
-        if($perceptionScore===0) $hotspots[]=['id'=>21,'name'=>'Neutral Perception'];
-        elseif($perceptionScore<0) $hotspots[]=['id'=>22,'name'=>'Negative Perception'];
-        elseif($perceptionScore>12) $hotspots[]=['id'=>23,'name'=>'Positive Perception'];
+        if ($perceptionScore === 0) $hotspots[] = ['id' => 21, 'name' => 'Neutral Perception'];
+        elseif ($perceptionScore < 0) $hotspots[] = ['id' => 22, 'name' => 'Negative Perception'];
+        elseif ($perceptionScore > 12) $hotspots[] = ['id' => 23, 'name' => 'Positive Perception'];
 
         // ===============================
         // Priority 24–25 – Energy Pool
         // ===============================
-        if($energyPoolScore<25) $hotspots[]=['id'=>24,'name'=>'Low Energy Pool'];
-        elseif($energyPoolScore>35) $hotspots[]=['id'=>25,'name'=>'High Energy Pool'];
+        if ($energyPoolScore < 25) $hotspots[] = ['id' => 24, 'name' => 'Low Energy Pool'];
+        elseif ($energyPoolScore > 35) $hotspots[] = ['id' => 25, 'name' => 'High Energy Pool'];
 
         // ===============================
         // Priority 26 – Fully Optimized
         // ===============================
-        if(empty($hotspots)) $hotspots[]=['id'=>26,'name'=>'Fully Optimized'];
+        if (empty($hotspots)) $hotspots[] = ['id' => 26, 'name' => 'Fully Optimized'];
 
         return $hotspots;
     }
 
 
-     public static function convertIntoArray($item){
-         if (!$item) return [];
+    public static function convertIntoArray($item)
+    {
+        if (!$item) return [];
         return is_array($item) && isset($item[0]) ? $item : [$item];
-     }
+    }
 
 
 }
