@@ -2043,11 +2043,10 @@ class Assessment extends Model
             return false;
         }
 
-        // NULL ya 0 dono incomplete
         return (
-            $assessment->page === Admin::IS_ASSESSMENT_COMPLETED &&
-            $assessment->web_page === Admin::IS_ASSESSMENT_COMPLETED &&
-            $assessment->app_page === Admin::IS_ASSESSMENT_COMPLETED
+            $assessment->page === Admin::ASSESSMENT_COMPLETED_VALUE &&
+            $assessment->web_page === Admin::ASSESSMENT_COMPLETED_VALUE &&
+            $assessment->app_page === Admin::ASSESSMENT_COMPLETED_VALUE
         );
     }
 }
