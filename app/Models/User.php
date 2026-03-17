@@ -2770,13 +2770,12 @@ class User extends Authenticatable implements JWTSubject
 
    public static function updateVariableSync($user_id, $value)
     {
-        // Update the value in DB
+        
         self::where('id', $user_id)
             ->update([
                 'variable_sync' => $value
             ]);
 
-        // Convert the value to human-readable string without extra query
         return $value == Admin::VARIABLE_SYNC_DISCONNECT
             ? Admin::VARIABLE_SYNC_DISCONNECT_STRING
             : Admin::VARIABLE_SYNC_CONNECT_STRING;
