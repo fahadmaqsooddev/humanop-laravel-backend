@@ -1262,9 +1262,9 @@ class Helpers
 
         $compatibilityScore = 0;
 
-        $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser['id']);
+        $getFirstUserAssessment = Assessment::getLatestAssessment($loginUser->id);
 
-        $getSecondUserAssessment = Assessment::getLatestAssessment($user['id']);
+        $getSecondUserAssessment = Assessment::getLatestAssessment($user->id);
 
         if (!empty($getFirstUserAssessment) && !empty($getSecondUserAssessment)) {
 
