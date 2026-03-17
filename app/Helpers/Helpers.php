@@ -1697,7 +1697,10 @@ class Helpers
         // ===============================
         $zeroTraits = [];
         foreach (['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'] as $key) {
-            if (($volume[$key] ?? 1) === 0) $zeroTraits[] = $publicNames[$key];
+            if (($volume[$key] ?? 1) === 0) {
+                $zeroTraits[] = $publicNames[$key];
+                break;
+            }
         }
         if (!empty($zeroTraits)) {
             $hotspots[] = ['id' => 2, 'name' => implode(',', $zeroTraits)];
