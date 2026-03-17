@@ -2779,7 +2779,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getVariableSyncAttribute(): string
     {
-        $sync = $this->attributes['variable_sync'] ?? Admin::VARIABLE_SYNC_CONNECT;
+        $sync = $this->attributes['variable_sync'] ?? Admin::VARIABLE_SYNC_DISCONNECT;
 
         return $sync == Admin::VARIABLE_SYNC_DISCONNECT
             ? Admin::VARIABLE_SYNC_DISCONNECT_STRING
