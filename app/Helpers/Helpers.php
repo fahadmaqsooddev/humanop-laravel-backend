@@ -1796,18 +1796,13 @@ class Helpers
         foreach ($firstRowDriver as $driver) {
             $countFirstRowDriver += $volume[$driver] ?? 0;
         }
+        
+        $namesString = implode(', ', $names);
 
-        if ($countFirstRowDriver > 21) {
-            $hotspots[] = [
-                'id' => 13,
-                'name' => implode(', ', $names),
-            ];
-        } else {
-            $hotspots[] = [
-                'id' => 14,
-                'name' => implode(', ', $names),
-            ];
-        }
+        $hotspots[] = [
+            'id' => $countFirstRowDriver > 21 ? 13 : 14,
+            'name' => $namesString,
+        ];
 
         // ===============================
         // Priority 15–16 – Alchemy
