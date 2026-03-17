@@ -1357,17 +1357,12 @@ class DashboardController extends Controller
 
    public function updateUserSync(Request $request)
     {
-
         $request->validate([
             'variable_sync' => 'required|in:0,1'
         ]);
 
-        $variable_sync = $request->variable_sync;
+        $variable_sync_string = User::updateVariableSync($this->user->id, $request->variable_sync);
 
-        $sync = User::updateVariableSync($this->user->id, $variable_sync);
-
-        return Helpers::successResponse('Variable Sync Updated', $variable_sync);
-
+        return Helpers::successResponse('Variable Sync Updated', $variable_sync_string);
     }
-
 }
