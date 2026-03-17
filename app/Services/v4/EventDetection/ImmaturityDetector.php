@@ -19,13 +19,20 @@ class ImmaturityDetector implements EventDetectorInterface
         $windowHours = (int) config('humanop.thresholds.immaturity.window_hours');
         $stepsMax = (int) config('humanop.thresholds.immaturity.steps_window_max');
 
-        $steps = BiometricSample::query()
+        $stepsQuery = BiometricSample::query()
             ->where('user_id', $userId)
             ->where('metric', 'steps')
-            ->where('recorded_at', '>=', now()->subHours($windowHours))
-            ->sum('value');
+            ->where('recorded_at', '>=', now()->subHours($windowHours));
+
+        // IMPORTANT: do not trigger if steps data does not exist
+        if (!$stepsQuery->exists()) {
+            return false;
+        }
+
+        $steps = $stepsQuery->sum('value');
 
         if ($steps < $stepsMax) {
+
             app(EventService::class)->create(
                 $userId,
                 $eventType,
@@ -37,11 +44,9 @@ class ImmaturityDetector implements EventDetectorInterface
             );
 
             return true;
-
         }
 
         return false;
-
     }
 
 }
