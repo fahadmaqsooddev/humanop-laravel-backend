@@ -24,10 +24,8 @@ class CalendarIntegrationController extends Controller
 
         $url = $this->google->authUrl($user->id);
 
-        return response()->json([
-            'provider' => 'google',
-            'auth_url' => $url
-        ]);
+        return Helpers::successResponse('Google authentication URL', $url);
+
     }
 
     public function callback(Request $request)
@@ -71,9 +69,8 @@ class CalendarIntegrationController extends Controller
             ->where('provider','google')
             ->delete();
 
-        return response()->json([
-            'success' => true
-        ]);
+        return Helpers::successResponse('Google calendar integration disconnected');
+
     }
 
     public function status(Request $request)
@@ -84,11 +81,13 @@ class CalendarIntegrationController extends Controller
             ->where('provider','google')
             ->first();
 
-        return response()->json([
-            'provider' => 'google',
+        $data = [
             'connected' => (bool) $integration,
             'connected_at' => optional($integration)->connected_at
-        ]);
+        ];
+
+        return Helpers::successResponse('Google calendar integration status', $data);
+
     }
 
 }
