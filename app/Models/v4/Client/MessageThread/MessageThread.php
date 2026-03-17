@@ -348,7 +348,7 @@ class MessageThread extends Model
                     $q->where('sender_id', '!=', $userId)
                         ->where('is_read', 0);
                 },
-                 // Check if the user has sent a group request
+                // Check if the user has sent a group request
                 'groupChatRequests as request_sent' => function ($q) use ($userId) {
                     $q->where('member_id', $userId);
                 },
