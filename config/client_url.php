@@ -2,7 +2,8 @@
 
 if (env('APP_ENV') == 'local') {
     return [
-        'client_dashboard_url' => 'http://127.0.0.1:8000',
+        'client_dashboard_url' => 'http://localhost:3000',
+        'client_dashboard_url_v4' => 'http://localhost:3000',
         'admin_dashboard_url' => 'http://127.0.0.1:8000',
         'hai_admin_dashboard_url' => 'http://127.0.0.1:8000',
         'b2b_dashboard_url' => 'http://127.0.0.1:8000',

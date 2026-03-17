@@ -58,7 +58,8 @@ class CalendarIntegrationController extends Controller
             ]
         );
 
-        return response()->view('v4.calendar.success');
+        return redirect()->away(config('client_url.client_dashboard_url') . '/profile');
+
     }
 
     public function disconnect(Request $request)

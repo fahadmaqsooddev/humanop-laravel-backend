@@ -67,7 +67,7 @@ class DashboardController extends Controller
 
         $user = User::user($user->id);
 
-        return Helpers::successResponse('Theme mode updated successfully', $user);
+        return Helpers::successResponse('Theme mode updated successfully', $user['theme_mode']);
 
     }
 
