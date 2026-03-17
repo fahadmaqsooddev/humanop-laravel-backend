@@ -26,17 +26,11 @@ class EnsureAssessmentCompleted
         $assessment = Assessment::getFirstAssessment($user->id);
 
         if (!$assessment) {
-            return Helpers::notFoundResponse([
-                'error_code' => 'ASSESSMENT_NOT_FOUND',
-                'message' => 'Assessment not found.'
-            ]);
+            return Helpers::notFoundResponse('Assessment Not Found');
         }
 
         if (!Assessment::isAssessmentComplete($assessment)) {
-            return Helpers::forbiddenResponse([
-                'error_code' => 'ASSESSMENT_REQUIRED',
-                'message' => 'Please complete your assessment first.'
-            ]);
+            return Helpers::forbiddenResponse('Please complete your assessment first');
         }
 
         return $next($request);
