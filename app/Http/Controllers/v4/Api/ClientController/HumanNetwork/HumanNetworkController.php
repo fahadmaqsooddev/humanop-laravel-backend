@@ -577,9 +577,13 @@ class HumanNetworkController extends Controller
 
         try {
 
+            $request->validate([
+                'user_id' => 'required|exists:users,id'
+            ]);
+
             $loginUser = Helpers::getUser();
 
-            $user = User::getSingleUser($request['user_id']);
+            $user = User::getSingleUser($request->query('user_id'));
 
             $compatibilityAnalysis = Helpers::compatibilityMatchingBetweenTwoUsers($user, $loginUser);
 

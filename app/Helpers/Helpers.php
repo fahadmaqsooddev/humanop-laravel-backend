@@ -1283,8 +1283,8 @@ class Helpers
         }
 
         return [
-            'first_user_traits' => Assessment::getUserFirstRowTraits($getFirstUserAssessment),
-            'second_user_traits' => Assessment::getUserFirstRowTraits($getSecondUserAssessment),
+            'first_user_traits' => $getFirstUserAssessment ? Assessment::getUserFirstRowTraits($getFirstUserAssessment) : [],
+            'second_user_traits' => $getSecondUserAssessment ? Assessment::getUserFirstRowTraits($getSecondUserAssessment) : [],
             'compatibility_score' => round($compatibilityScore, 2),
         ];
 
@@ -1698,7 +1698,6 @@ class Helpers
         $zeroTraits = [];
         foreach (['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'] as $key) {
             if (($volume[$key] ?? 1) === 0) $zeroTraits[] = $publicNames[$key];
-            break;
         }
         if (!empty($zeroTraits)) {
             $hotspots[] = ['id' => 2, 'name' => implode(',', $zeroTraits)];
@@ -1787,9 +1786,6 @@ class Helpers
 
         }
 
-        Log::info(
-            ["Find Names" => $names]
-        );
 
 // Sum of all driver volumes
         $countFirstRowDriver = 0;
