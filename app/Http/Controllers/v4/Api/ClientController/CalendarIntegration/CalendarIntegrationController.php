@@ -58,7 +58,7 @@ class CalendarIntegrationController extends Controller
             ]
         );
 
-        return redirect()->away(config('client_url.client_dashboard_url') . '/profile');
+        return redirect()->away(config('client_url.client_dashboard_url_v4') . '/profile');
 
     }
 
