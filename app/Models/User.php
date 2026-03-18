@@ -129,7 +129,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'theme_mode', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute', 'plan', 'is_lifetime', 'has_bb_onetime', 'billing_context', 'premium_lifetime_welcome','skip_premium_lifetime_deal','login_device_with','premium_banner_hide','hai_medal_status','nickname','bio','personal_quote', 'bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy','variable_sync']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'theme_mode', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute', 'plan', 'is_lifetime', 'has_bb_onetime', 'billing_context', 'premium_lifetime_welcome','skip_premium_lifetime_deal','login_device_with','premium_banner_hide','hai_medal_status','nickname','bio','personal_quote', 'bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy']);
     }
 
     // appends
@@ -2766,28 +2766,6 @@ class User extends Authenticatable implements JWTSubject
                 };
             }
         );
-    }
-
-   public static function updateVariableSync($user_id, $value)
-    {
-        
-        self::where('id', $user_id)
-            ->update([
-                'variable_sync' => $value
-            ]);
-
-        return $value == Admin::VARIABLE_SYNC_DISCONNECT
-            ? Admin::VARIABLE_SYNC_DISCONNECT_STRING
-            : Admin::VARIABLE_SYNC_CONNECT_STRING;
-    }
-
-    public function getVariableSyncAttribute(): string
-    {
-        $sync = $this->attributes['variable_sync'] ?? Admin::VARIABLE_SYNC_DISCONNECT;
-
-        return $sync == Admin::VARIABLE_SYNC_DISCONNECT
-            ? Admin::VARIABLE_SYNC_DISCONNECT_STRING
-            : Admin::VARIABLE_SYNC_CONNECT_STRING;
     }
 
 }
