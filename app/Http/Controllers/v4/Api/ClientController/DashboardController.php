@@ -56,12 +56,17 @@ class DashboardController extends Controller
     public function changeThemeMode(Request $request)
     {
         $request->validate([
-            'theme_mode' => 'required|in:1,2',
+            'theme_mode' => 'required|in:dark,light',
         ]);
 
         $user = Helpers::getUser();
 
-        $user->theme_mode = $request->input('theme_mode');
+        $themeMap = [
+            Admin::LIGHT_COLOR_STRING => Admin::LIGHT_COLOR_VALUE,
+            Admin::DARK_COLOR_STRING  => Admin::DARK_COLOR_VALUE,
+        ];
+
+        $user->theme_mode = $themeMap[$request->input('theme_mode')];
 
         $user->save();
 
