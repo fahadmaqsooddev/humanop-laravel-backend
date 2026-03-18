@@ -312,8 +312,8 @@ class DashboardController extends Controller
                     'my_playlist' => !empty($playList) ? 1 : 0,
                     'title' => $podcast['title'] ?? null,
                     'audio_id' => $podcast['audio_id'] ?? null,
-                    'audio_url' => is_array($podcast['audio_url'] ?? null) ? ($podcast['audio_url']['path'] ?? null) : ($podcast['audio_url'] ?? null),
-                    'thumbnail_url' => $podcast['thumbnail_url']['url'] ?? null
+                    'audio_url'     => Helpers::extractFilePath($podcast['audio_url'] ?? null),
+                    'thumbnail_url' => Helpers::extractFilePath($podcast['thumbnail_url'] ?? null, 'url'),
                 ];
 
             }

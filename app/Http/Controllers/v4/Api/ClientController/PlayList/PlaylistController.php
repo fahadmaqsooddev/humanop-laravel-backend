@@ -77,41 +77,13 @@ class PlaylistController extends Controller
                 $playlistItems = array_merge($mergedResourceItems, $mergedShopItems, $mergedPodcastItems, $mergedMediaPlayerItems);
 
                 $playlistItems = array_map(function ($item) {
+                    $normalized = Helpers::normalizeMediaUrls($item);
+
                     if (is_object($item) && method_exists($item, 'toArray')) {
                         $item = $item->toArray();
                     }
 
-                    $item['video_url'] = isset($item['video_url']) 
-                        ? ((is_array($item['video_url']) || is_object($item['video_url'])) 
-                            ? ($item['video_url']->path ?? $item['video_url']['path'] ?? null)
-                            : $item['video_url'])
-                        : null;
-
-                    $item['audio_url'] = isset($item['audio_url']) 
-                        ? ((is_array($item['audio_url']) || is_object($item['audio_url'])) 
-                            ? ($item['audio_url']->path ?? $item['audio_url']['path'] ?? null)
-                            : $item['audio_url'])
-                        : null;
-
-                    $item['thumbnail_url'] = isset($item['thumbnail_url']) 
-                        ? ((is_array($item['thumbnail_url']) || is_object($item['thumbnail_url'])) 
-                            ? ($item['thumbnail_url']->url ?? $item['thumbnail_url']['url'] ?? null)
-                            : $item['thumbnail_url'])
-                        : null;
-
-                    $item['document_url'] = isset($item['document_url']) 
-                        ? ((is_array($item['document_url']) || is_object($item['document_url'])) 
-                            ? ($item['document_url']->path ?? $item['document_url']['path'] ?? null)
-                            : $item['document_url'])
-                        : null;
-
-                    $item['image_url'] = isset($item['image_url']) 
-                        ? ((is_array($item['image_url']) || is_object($item['image_url'])) 
-                            ? ($item['image_url']->url ?? $item['image_url']['url'] ?? null)
-                            : $item['image_url'])
-                        : null;
-
-                    return $item;
+                    return array_merge($item, $normalized);
                 }, $playlistItems);
 
                 usort($playlistItems, function ($a, $b) {
