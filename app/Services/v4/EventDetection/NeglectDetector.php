@@ -16,28 +16,38 @@ class NeglectDetector implements EventDetectorInterface
             return false;
         }
 
-        $windowDays = (int) config('humanop.thresholds.neglect.window_days');
+        $days = (int) config('humanop.thresholds.neglect.window_days');
         $stepsMax = (int) config('humanop.thresholds.neglect.total_steps_max');
 
-        $steps = BiometricSample::query()
+        $from = now()->subDays($days);
+
+        $stepsQuery = BiometricSample::query()
             ->where('user_id', $userId)
             ->where('metric', 'steps')
-            ->where('recorded_at', '>=', now()->subDays($windowDays))
-            ->sum('value');
+            ->where('recorded_at', '>=', $from);
+
+        // CRITICAL FIX
+        if (!$stepsQuery->exists()) {
+            return false;
+        }
+
+        $steps = $stepsQuery->sum('value');
 
         if ($steps < $stepsMax) {
+
             app(EventService::class)->create(
                 $userId,
                 $eventType,
                 config('humanop.protocols.neglect'),
                 [
-                    'window_days' => $windowDays,
+                    'window_days' => $days,
                     'steps' => (int) $steps,
                 ]
             );
 
             return true;
         }
+
         return false;
     }
 
