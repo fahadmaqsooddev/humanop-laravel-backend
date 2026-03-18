@@ -396,6 +396,12 @@ class MessageThread extends Model
                 'messages as unread_messages_count' => function ($q) use ($authId) {
                     $q->where('sender_id', '!=', $authId)
                         ->where('is_read', 0);
+                },
+                'groupChatRequests as request_sent' => function ($q) use ($userId) {
+                    $q->where('member_id', $userId);
+                },
+                'participants as is_group_joined' => function ($q) use ($userId) {
+                    $q->where('user_id', $userId);
                 }
             ])
             ->where(function ($query) use ($userId, $type) {
