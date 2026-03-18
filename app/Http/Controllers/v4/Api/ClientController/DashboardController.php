@@ -46,7 +46,7 @@ class DashboardController extends Controller
 {
     public $user = null;
 
-    public function __construct()
+    public function __construct(User $user)
     {
         $this->middleware('auth:api');
 
@@ -56,23 +56,15 @@ class DashboardController extends Controller
     public function changeThemeMode(Request $request)
     {
         $request->validate([
-            'theme_mode' => 'required|in:dark,light',
+           'theme_mode' => 'required|in:1,2',
         ]);
 
         $user = Helpers::getUser();
+        $user->theme_mode = $request->input('theme_mode');
 
-        $themeMap = [
-            Admin::LIGHT_COLOR_STRING => Admin::LIGHT_COLOR_VALUE,
-            Admin::DARK_COLOR_STRING  => Admin::DARK_COLOR_VALUE,
-        ];
+        $this->user->save();
 
-        $user->theme_mode = $themeMap[$request->input('theme_mode')];
-
-        $user->save();
-
-        $user = User::user($user->id);
-
-        return Helpers::successResponse('Theme mode updated successfully', $user['theme_mode']);
+        return Helpers::successResponse('Theme mode updated successfully',$request->input('theme_mode'));
 
     }
 

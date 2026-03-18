@@ -332,13 +332,5 @@ final class Admin
 
     const ASSESSMENT_COMPLETED_VALUE = 0;
 
-    const DARK_COLOR_VALUE = 1;
-
-    const LIGHT_COLOR_VALUE = 2;
-
-    const DARK_COLOR_STRING = 'dark';
-
-    const LIGHT_COLOR_STRING = 'light';
-
 
 }
