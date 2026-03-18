@@ -15,10 +15,9 @@ return new class extends Migration
     {
         Schema::table('assessments', function (Blueprint $table) {
              // Make columns nullable
-            $table->integer('page')->nullable()->change();
-            $table->integer('web_page')->nullable()->change();
-            $table->integer('app_page')->nullable()->change();
-
+            $table->integer('page')->nullable()->default(null)->change();
+            $table->integer('web_page')->nullable()->default(null)->change();
+            $table->integer('app_page')->nullable()->default(null)->change();
         
             $table->index('page', 'idx_assessments_page');
             $table->index('web_page', 'idx_assessments_web_page');
