@@ -1360,7 +1360,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function getThemeModeAttribute($value)
     {
-        return (int) $value === 2 ? 'light' : 'dark';
+        return $value == Admin::DARK_COLOR_VALUE
+            ? Admin::THEME_DARK
+            : Admin::THEME_LIGHT;
     }
 
     public static function checkHaiStatus($id = null)

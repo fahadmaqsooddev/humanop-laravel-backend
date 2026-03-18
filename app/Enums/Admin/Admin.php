@@ -336,9 +336,9 @@ final class Admin
 
     const LIGHT_COLOR_VALUE = 2;
 
-    const DARK_COLOR_STRING = 'dark';
+    const THEME_DARK = 'dark';
 
-    const LIGHT_COLOR_STRING = 'light';
+    const THEME_LIGHT = 'light';
 
 
 }
