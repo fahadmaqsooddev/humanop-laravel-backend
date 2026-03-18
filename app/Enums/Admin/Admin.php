@@ -332,11 +332,11 @@ final class Admin
 
     const ASSESSMENT_COMPLETED_VALUE = 0;
 
-    const VARIABLE_SYNC_CONNECT = 1;
-    const VARIABLE_SYNC_DISCONNECT = 0;
+    const VARIABLE_SYNC_ENABLED = 1;
+    const VARIABLE_SYNC_DISABLED = 0;
 
    
-    const VARIABLE_SYNC_CONNECT_STRING = 'Connect';
-    const VARIABLE_SYNC_DISCONNECT_STRING = 'Disconnect';
+    const VARIABLE_SYNC_ENABLED_STRING = 'Connect';
+    const VARIABLE_SYNC_DISABLED_STRING = 'Disconnect';
 
 }

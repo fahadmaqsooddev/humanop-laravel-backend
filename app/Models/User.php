@@ -48,7 +48,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator','variable_sync_label'];
 
 
     public function __construct(array $attributes = array())
@@ -2771,23 +2771,24 @@ class User extends Authenticatable implements JWTSubject
    public static function updateVariableSync($user_id, $value)
     {
         
-        self::where('id', $user_id)
-            ->update([
-                'variable_sync' => $value
-            ]);
+       $user = self::find($user_id);
 
-        return $value == Admin::VARIABLE_SYNC_DISCONNECT
-            ? Admin::VARIABLE_SYNC_DISCONNECT_STRING
-            : Admin::VARIABLE_SYNC_CONNECT_STRING;
+        if (!$user) {
+            return null;
+        }
+
+        $user->update([
+            'variable_sync' => $value
+        ]);
+
+        return $user->variable_sync_label;
     }
 
-    public function getVariableSyncAttribute(): string
+    public function getVariableSyncLabelAttribute(): string
     {
-        $sync = $this->attributes['variable_sync'] ?? Admin::VARIABLE_SYNC_DISCONNECT;
-
-        return $sync == Admin::VARIABLE_SYNC_DISCONNECT
-            ? Admin::VARIABLE_SYNC_DISCONNECT_STRING
-            : Admin::VARIABLE_SYNC_CONNECT_STRING;
+        return $this->variable_sync == Admin::VARIABLE_SYNC_DISABLED 
+            ? Admin::VARIABLE_SYNC_DISABLED_STRING
+            : Admin::VARIABLE_SYNC_ENABLED_STRING;
     }
 
 }
