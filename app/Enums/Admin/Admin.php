@@ -329,6 +329,14 @@ final class Admin
 
     const ASSESSMENT_COMPLETED_VALUE = 0;
 
+    const DARK_COLOR_VALUE = 1;
+
+    const LIGHT_COLOR_VALUE = 2;
+
+    const THEME_DARK = 'dark';
+
+    const THEME_LIGHT = 'light';
+
     const VARIABLE_SYNC_ENABLED = 1;
 
     const VARIABLE_SYNC_DISABLED = 0;

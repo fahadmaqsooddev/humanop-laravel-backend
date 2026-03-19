@@ -262,6 +262,13 @@ class User extends Authenticatable implements JWTSubject
             : Admin::VARIABLE_SYNC_ENABLED_STRING;
     }
 
+    public function setThemeModeAttribute($value)
+    {
+        $this->attributes['theme_mode'] = $value === Admin::THEME_DARK
+            ? Admin::DARK_COLOR_VALUE
+            : Admin::LIGHT_COLOR_VALUE;
+    }
+
 
     public function getMyGroupsAttribute()
     {
@@ -1367,7 +1374,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function getThemeModeAttribute($value)
     {
-        return (int)$value === 2 ? 'light' : 'dark';
+        return $value == Admin::DARK_COLOR_VALUE
+            ? Admin::THEME_DARK
+            : Admin::THEME_LIGHT;
     }
 
     public static function checkHaiStatus($id = null)
