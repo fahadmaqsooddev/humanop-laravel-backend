@@ -56,7 +56,7 @@ class DashboardController extends Controller
     {
        
         $request->validate([
-           'theme_mode' => 'required|in:1,2',
+          'theme_mode' => 'required|in:dark,light'
         ]);
 
         $this->user->theme_mode = $request->theme_mode;
