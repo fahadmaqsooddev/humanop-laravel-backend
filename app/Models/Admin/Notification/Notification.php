@@ -94,23 +94,11 @@ class Notification extends Model
         $unreadMessageCount = DB::table('messages as m')
             ->where('m.is_read', 0)
             ->where('m.sender_id', '<>', $user->id)
-            ->where(function ($q) use ($user) {
-                $q->whereExists(function ($q) use ($user) {
-                    $q->selectRaw(1)
-                        ->from('message_thread_participants as p')
-                        ->whereColumn('p.message_thread_id', 'm.message_thread_id')
-                        ->where('p.user_id', $user->id);
-                })
-                    ->orWhereExists(function ($q) use ($user) {
-                        $q->selectRaw(1)
-                            ->from('message_threads as t')
-                            ->whereColumn('t.id', 'm.message_thread_id')
-                            ->where('t.type', 0)
-                            ->where(function ($sub) use ($user) {
-                                $sub->where('t.receiver_id', $user->id)
-                                    ->orWhere('t.owner_id', $user->id);
-                            });
-                    });
+            ->whereExists(function ($q) use ($user) {
+                $q->selectRaw(1)
+                    ->from('message_threads as t')
+                    ->whereColumn('t.id', 'm.message_thread_id')
+                    ->where('t.receiver_id', $user->id);
             })
             ->count();
 
