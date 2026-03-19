@@ -41,7 +41,6 @@ use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\VersionControl\Version;
 
-
 class DashboardController extends Controller
 {
     public $user = null;
@@ -1355,4 +1354,23 @@ class DashboardController extends Controller
 
     }
 
+    public function updateUserSync(Request $request)
+    {
+        $validated = $request->validate([
+            'variable_sync' => 'required|boolean'
+        ]);
+
+        $user = $this->user;
+
+        if (!$user) {
+            return Helpers::unauthResponse('User not authenticated');
+        }
+
+        $variable_sync_string = User::updateVariableSync(
+            $user,
+            $validated['variable_sync']
+        );
+
+        return Helpers::successResponse('Variable Sync Updated', $variable_sync_string);
+    }
 }

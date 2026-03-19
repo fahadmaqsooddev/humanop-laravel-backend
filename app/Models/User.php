@@ -48,7 +48,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator','variable_sync_label'];
 
 
     public function __construct(array $attributes = array())
@@ -129,7 +129,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'theme_mode', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute', 'plan', 'is_lifetime', 'has_bb_onetime', 'billing_context', 'premium_lifetime_welcome','skip_premium_lifetime_deal','login_device_with','premium_banner_hide','hai_medal_status','nickname','bio','personal_quote', 'bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'theme_mode', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute', 'plan', 'is_lifetime', 'has_bb_onetime', 'billing_context', 'premium_lifetime_welcome','skip_premium_lifetime_deal','login_device_with','premium_banner_hide','hai_medal_status','nickname','bio','personal_quote', 'bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy','variable_sync']);
     }
 
     // appends
@@ -2767,5 +2767,23 @@ class User extends Authenticatable implements JWTSubject
             }
         );
     }
+
+   public static function updateVariableSync(User $user,bool $value): string
+   {
+        $user->update([
+            'variable_sync' => $value
+        ]);
+
+        return $user->variable_sync_label;
+    }
+
+    public function getVariableSyncLabelAttribute(): string
+    {
+        return $this->attributes['variable_sync'] == Admin::VARIABLE_SYNC_DISABLED
+            ? Admin::VARIABLE_SYNC_DISABLED_STRING
+            : Admin::VARIABLE_SYNC_ENABLED_STRING;
+    }
+
+    
 
 }
