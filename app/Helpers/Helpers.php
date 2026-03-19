@@ -1862,6 +1862,36 @@ class Helpers
         return is_array($item) && isset($item[0]) ? $item : [$item];
     }
 
+    public static function extractFilePath($value, $key = 'path')
+    {
+        if (is_array($value) || is_object($value)) {
+            return data_get($value, $key)
+                ?? ($key !== 'url' ? data_get($value, 'url') : null)
+                ?? data_get($value, 'image.url');
+        }
+
+        return $value;
+    }
+
+    public static function normalizeMediaUrls(array|object $item): array
+    {
+        if (is_object($item)) {
+            $item = method_exists($item, 'toArray')
+                ? $item->toArray()
+                : (array) $item;
+        }
+
+        $normalized = [
+            'video_url'     => self::extractFilePath($item['video_url'] ?? null),
+            'audio_url'     => self::extractFilePath($item['audio_url'] ?? null),
+            'thumbnail_url' => self::extractFilePath($item['thumbnail_url'] ?? null, 'url'),
+            'document_url'  => self::extractFilePath($item['document_url'] ?? null),
+            'image_url'     => self::extractFilePath($item['image_url'] ?? null, 'url'),
+        ];
+
+        return array_merge($item, $normalized);
+    }
+
 
 }
 
