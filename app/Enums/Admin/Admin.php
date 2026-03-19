@@ -309,21 +309,18 @@ final class Admin
 
     const BB_ONETIME_TEXT='bb_onetime';
 
-
     const FREEMIUM_ONLY_TEXT = 'Freemium Only';
 
     const BETA_BREAKER_ONLY_TEXT = 'Beta Breaker Only';
-    
+
     const PREMIUM_ONLY_TEXT = 'Premium Only';
-
-
 
     const PERMISSION_FREEMIUM = 1;
 
     const PERMISSION_BETA_BREAKER = 2;
 
     const PERMISSION_PREMIUM = 3;
-    
+
     const PERMISSION_FREEMIUM_ONLY = 4;
 
     const PERMISSION_BETA_BREAKER_ONLY = 5;
@@ -333,10 +330,11 @@ final class Admin
     const ASSESSMENT_COMPLETED_VALUE = 0;
 
     const VARIABLE_SYNC_ENABLED = 1;
+
     const VARIABLE_SYNC_DISABLED = 0;
 
-   
     const VARIABLE_SYNC_ENABLED_STRING = 'Connect';
+
     const VARIABLE_SYNC_DISABLED_STRING = 'Disconnect';
 
 }
