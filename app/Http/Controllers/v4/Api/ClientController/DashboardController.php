@@ -59,10 +59,7 @@ class DashboardController extends Controller
             'theme_mode' => 'required|in:dark,light',
         ]);
 
-        // Simplified mapping
-        $this->user->theme_mode = $request->input('theme_mode') === Admin::THEME_DARK
-            ? Admin::DARK_COLOR_VALUE
-            : Admin::LIGHT_COLOR_VALUE;
+        $this->user->theme_mode = $request->theme_mode;
 
         $this->user->save();
 

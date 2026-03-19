@@ -262,6 +262,13 @@ class User extends Authenticatable implements JWTSubject
             : Admin::VARIABLE_SYNC_ENABLED_STRING;
     }
 
+    public function setThemeModeAttribute($value)
+    {
+        $this->theme_mode = $value === 'dark'
+            ? Admin::DARK_COLOR_VALUE
+            : Admin::LIGHT_COLOR_VALUE;
+    }
+
 
     public function getMyGroupsAttribute()
     {
