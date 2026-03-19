@@ -76,14 +76,8 @@ class PlaylistController extends Controller
 
                 $playlistItems = array_merge($mergedResourceItems, $mergedShopItems, $mergedPodcastItems, $mergedMediaPlayerItems);
 
-                $playlistItems = array_map(function ($item) {
-                    $normalized = Helpers::normalizeMediaUrls($item);
-
-                    if (is_object($item) && method_exists($item, 'toArray')) {
-                        $item = $item->toArray();
-                    }
-
-                    return array_merge($item, $normalized);
+               $playlistItems = array_map(function ($item) {
+                    return Helpers::normalizeMediaUrls($item);
                 }, $playlistItems);
 
                 usort($playlistItems, function ($a, $b) {
