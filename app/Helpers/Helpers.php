@@ -1866,7 +1866,7 @@ class Helpers
     {
         if (is_array($value) || is_object($value)) {
             return data_get($value, $key)
-                ?? data_get($value, 'url')
+                ?? ($key !== 'url' ? data_get($value, 'url') : null)
                 ?? data_get($value, 'image.url');
         }
 
@@ -1875,9 +1875,10 @@ class Helpers
 
     public static function normalizeMediaUrls(array|object $item): array
     {
-       
-        if (is_object($item) && method_exists($item, 'toArray')) {
-            $item = $item->toArray();
+        if (is_object($item)) {
+            $item = method_exists($item, 'toArray')
+                ? $item->toArray()
+                : (array) $item;
         }
 
         $normalized = [
@@ -1888,7 +1889,6 @@ class Helpers
             'image_url'     => self::extractFilePath($item['image_url'] ?? null, 'url'),
         ];
 
-        
         return array_merge($item, $normalized);
     }
 
