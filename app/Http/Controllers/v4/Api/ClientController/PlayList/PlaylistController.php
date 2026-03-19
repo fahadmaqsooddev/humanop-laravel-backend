@@ -76,9 +76,14 @@ class PlaylistController extends Controller
 
                 $playlistItems = array_merge($mergedResourceItems, $mergedShopItems, $mergedPodcastItems, $mergedMediaPlayerItems);
 
+               $playlistItems = array_map(function ($item) {
+                    return Helpers::normalizeMediaUrls($item);
+                }, $playlistItems);
+
                 usort($playlistItems, function ($a, $b) {
                     return $a['order'] <=> $b['order'];
                 });
+                
 
                 $myPlaylists[] = [
                     'id' => $playlist['id'],
@@ -87,6 +92,8 @@ class PlaylistController extends Controller
                     'playlist_image' => $playlist['image_url'] ? $playlist['image_url']['url'] : null,
                     'play_items' => $playlistItems
                 ];
+
+
             }
 
             return Helpers::successResponse('All My Playlists', $myPlaylists);

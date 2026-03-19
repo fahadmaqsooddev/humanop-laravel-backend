@@ -56,5 +56,5 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
    Route::get('premium-lifetime-banner', 'DashboardController@premiumLifetimeBanner');
    Route::post('skip-premium-lifetime-banner', 'DashboardController@skipPremiumLifetimeBanner');
 
-    Route::get('energy-shield-status', 'DashboardController@energyShieldStatus');
+   Route::get('energy-shield-status', 'DashboardController@energyShieldStatus');
 });

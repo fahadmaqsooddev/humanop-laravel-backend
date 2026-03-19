@@ -41,7 +41,6 @@ use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\VersionControl\Version;
 
-
 class DashboardController extends Controller
 {
     public $user = null;
@@ -314,8 +313,8 @@ class DashboardController extends Controller
                     'my_playlist' => !empty($playList) ? 1 : 0,
                     'title' => $podcast['title'] ?? null,
                     'audio_id' => $podcast['audio_id'] ?? null,
-                    'audio_url' => $podcast['audio_url'] ?? null,
-                    'thumbnail_url' => $podcast['thumbnail_url']['url'] ?? null
+                    'audio_url'     => Helpers::extractFilePath($podcast['audio_url'] ?? null),
+                    'thumbnail_url' => Helpers::extractFilePath($podcast['thumbnail_url'] ?? null, 'url'),
                 ];
 
             }
@@ -1357,4 +1356,23 @@ class DashboardController extends Controller
 
     }
 
+    public function updateUserSync(Request $request)
+    {
+        $validated = $request->validate([
+            'variable_sync' => 'required|boolean'
+        ]);
+
+        $user = $this->user;
+
+        if (!$user) {
+            return Helpers::unauthResponse('User not authenticated');
+        }
+
+        $variable_sync_string = User::updateVariableSync(
+            $user,
+            $validated['variable_sync']
+        );
+
+        return Helpers::successResponse('Variable Sync Updated', $variable_sync_string);
+    }
 }
