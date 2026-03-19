@@ -2768,7 +2768,7 @@ class User extends Authenticatable implements JWTSubject
         );
     }
 
-   public static function updateVariableSync(User $user, int $value): string
+   public static function updateVariableSync(User $user,bool $value): string
    {
         $user->update([
             'variable_sync' => $value
