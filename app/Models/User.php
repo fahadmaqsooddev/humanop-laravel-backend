@@ -48,7 +48,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups','hai_initiator','variable_sync_label'];
+    protected $appends = ['photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted', 'age_group', 'plan_name', 'plan_key', 'optional_trait', 'share_assessment', 'user_tagline', 'check_assessment', 'latest_assessment', 'daily_tip_time', 'user_traits', 'assessment_permission', 'my_groups', 'hai_initiator', 'variable_sync_label'];
 
 
     public function __construct(array $attributes = array())
@@ -116,7 +116,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-
     // mutator
     public function setPasswordAttribute($value)
     {
@@ -129,7 +128,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'theme_mode', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute', 'plan', 'is_lifetime', 'has_bb_onetime', 'billing_context', 'premium_lifetime_welcome','skip_premium_lifetime_deal','login_device_with','premium_banner_hide','hai_medal_status','nickname','bio','personal_quote', 'bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step', 'prompt_notification', 'version_update', 'complete_assessment_walkthrough', 'complete_tutorial', 'profile_status', 'hai_status', 'profile_privacy', 'hai_privacy', 'theme_mode', 'life_alchemist', 'excited_connect', 'note', 'b2c_stripe_id', 'set_daily_tip_time', 'matching_connection_score', 'beta_breaker_club', 'compatability_matrix_status', 'group_filter', 'hai_chat_sound_mute', 'plan', 'is_lifetime', 'has_bb_onetime', 'billing_context', 'premium_lifetime_welcome', 'skip_premium_lifetime_deal', 'login_device_with', 'premium_banner_hide', 'hai_medal_status', 'nickname', 'bio', 'personal_quote', 'bio_privacy', 'personal_quote_connection_privacy', 'personal_quote_public_privacy']);
     }
 
     // appends
@@ -255,6 +254,14 @@ class User extends Authenticatable implements JWTSubject
         }
 
     }
+
+    public function getVariableSyncLabelAttribute(): string
+    {
+        return $this->variable_sync == Admin::VARIABLE_SYNC_DISABLED
+            ? Admin::VARIABLE_SYNC_DISABLED_STRING
+            : Admin::VARIABLE_SYNC_ENABLED_STRING;
+    }
+
 
     public function getMyGroupsAttribute()
     {
@@ -1037,13 +1044,13 @@ class User extends Authenticatable implements JWTSubject
         $progress = VideoProgress::checkVideoProgress($assessmentId, $slug);
 
         $interval = [
-            'interval'       => $videoRecord['slug_name'] ?? $public_name,
-            'name'           => $videoRecord['interval'] ?? $slug,
-            'public_name'    => $public_name,
-            'video_url'      => $videoRecord['video_url'] ?? $default_video,
-            'description'    => config("intervalLifeCycle.{$description_key}"),
+            'interval' => $videoRecord['slug_name'] ?? $public_name,
+            'name' => $videoRecord['interval'] ?? $slug,
+            'public_name' => $public_name,
+            'video_url' => $videoRecord['video_url'] ?? $default_video,
+            'description' => config("intervalLifeCycle.{$description_key}"),
             'video_progress' => $progress,
-            'thumbnail_url'  => $videoRecord['image_url'] ?? null
+            'thumbnail_url' => $videoRecord['image_url'] ?? null
         ];
 
         return $interval;
@@ -1651,7 +1658,7 @@ class User extends Authenticatable implements JWTSubject
 
         $users = self::query();
 
-        $users->where('hai_status',0);
+        $users->where('hai_status', 0);
 
         $users = $users->when($request->input('name'), function ($q, $search_name) {
 
@@ -1708,7 +1715,7 @@ class User extends Authenticatable implements JWTSubject
 
         $users = self::query();
 
-        $users->where('profile_privacy',1);
+        $users->where('profile_privacy', 1);
 
         $query = self::query()
             ->where('profile_privacy', 1)
@@ -2749,7 +2756,7 @@ class User extends Authenticatable implements JWTSubject
         return Attribute::make(
             get: function ($value) {
 
-                $intValue = is_numeric($value) ? (int) $value : null;
+                $intValue = is_numeric($value) ? (int)$value : null;
 
                 return match ($intValue) {
                     0 => 'male',
@@ -2763,15 +2770,15 @@ class User extends Authenticatable implements JWTSubject
 
                 return match ($value) {
                     'female' => 1,
-                    'male'   => 0,
-                    default  => null,
+                    'male' => 0,
+                    default => null,
                 };
             }
         );
     }
 
-   public static function updateVariableSync(User $user,bool $value): string
-   {
+    public static function updateVariableSync(User $user, bool $value): string
+    {
         $user->update([
             'variable_sync' => $value
         ]);
@@ -2779,13 +2786,5 @@ class User extends Authenticatable implements JWTSubject
         return $user->variable_sync_label;
     }
 
-    public function getVariableSyncLabelAttribute(): string
-    {
-        return $this->attributes['variable_sync'] == Admin::VARIABLE_SYNC_DISABLED
-            ? Admin::VARIABLE_SYNC_DISABLED_STRING
-            : Admin::VARIABLE_SYNC_ENABLED_STRING;
-    }
-
-    
 
 }
