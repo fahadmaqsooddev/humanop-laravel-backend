@@ -264,7 +264,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function setThemeModeAttribute($value)
     {
-        $this->theme_mode = $value === 'dark'
+        $this->attributes['theme_mode'] = $value === Admin::THEME_DARK
             ? Admin::DARK_COLOR_VALUE
             : Admin::LIGHT_COLOR_VALUE;
     }
