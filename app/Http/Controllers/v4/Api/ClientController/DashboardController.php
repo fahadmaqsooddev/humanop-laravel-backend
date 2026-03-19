@@ -1355,20 +1355,20 @@ class DashboardController extends Controller
 
     }
 
-  public function updateUserSync(Request $request)
+    public function updateUserSync(Request $request)
     {
         $validated = $request->validate([
-            'variable_sync' => [
-                'required',
-                Rule::in([
-                    Admin::VARIABLE_SYNC_ENABLED,
-                    Admin::VARIABLE_SYNC_DISABLED,
-                ]),
-            ],
+            'variable_sync' => 'required|boolean'
         ]);
 
+        $user = $this->user;
+
+        if (!$user) {
+            return Helpers::unauthResponse('User not authenticated');
+        }
+
         $variable_sync_string = User::updateVariableSync(
-            $this->user->id, 
+            $user,
             $validated['variable_sync']
         );
 
