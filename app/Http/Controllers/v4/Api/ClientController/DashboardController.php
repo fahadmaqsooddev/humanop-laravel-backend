@@ -54,7 +54,7 @@ class DashboardController extends Controller
 
     public function changeThemeMode(Request $request)
     {
-       
+
         $request->validate([
           'theme_mode' => 'required|in:dark,light'
         ]);
@@ -1341,7 +1341,7 @@ class DashboardController extends Controller
 
                 : 0;
 
-            $assessment = Assessment::where('user_id', $user->id)->latest()->first();
+            $assessment = Assessment::where('user_id', $user->id)->latest('updated_at')->first();
 
             if (empty($assessment)) {
 
