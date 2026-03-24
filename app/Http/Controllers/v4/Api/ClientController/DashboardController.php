@@ -1374,8 +1374,10 @@ class DashboardController extends Controller
 
             }
 
+            $optimizationWindow = $user->plan_name == Admin::PREMIUM_PLAN_NAME ? self::ASSESSMENT_DAYS : self::FREE_ASSESSMENT_DAYS;
+
             return Helpers::successResponse('Energy shield status', [
-                'optimization_days' => $user->plan_name == Admin::PREMIUM_PLAN_NAME ? self::ASSESSMENT_DAYS : self::FREE_ASSESSMENT_DAYS,
+                'optimization_days' => $optimizationWindow,
                 'user_optimization_days' => $optimizationDays,
                 'next_assessment' => $remainingDays,
                 'daily_sync_streak' => DailySyncStreak::getUserDailySyncStreak($user->id) ?? 0
