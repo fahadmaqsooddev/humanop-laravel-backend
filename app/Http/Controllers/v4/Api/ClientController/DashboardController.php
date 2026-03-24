@@ -47,6 +47,8 @@ class DashboardController extends Controller
 
     const ASSESSMENT_DAYS = 90;
 
+    const FREE_ASSESSMENT_DAYS = 14;
+
     public function __construct(User $user)
     {
         $this->middleware('auth:api');
@@ -1372,7 +1374,10 @@ class DashboardController extends Controller
 
             }
 
+            $optimizationWindow = $user->plan_name == Admin::PREMIUM_PLAN_NAME ? self::ASSESSMENT_DAYS : self::FREE_ASSESSMENT_DAYS;
+
             return Helpers::successResponse('Energy shield status', [
+                'optimization_days' => $optimizationWindow,
                 'user_optimization_days' => $optimizationDays,
                 'next_assessment' => $remainingDays,
                 'daily_sync_streak' => DailySyncStreak::getUserDailySyncStreak($user->id) ?? 0
