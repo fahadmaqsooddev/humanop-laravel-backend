@@ -287,9 +287,8 @@ class MessageThread extends Model
         self::whereId($thread_id)->delete();
     }
 
-    public static function getAllMessageThread($request = null)
+    public static function getAllMessageThread($request = null,$userId)
     {
-
 
         $q = self::query()
             ->whereNotNull('owner_id')
@@ -309,6 +308,29 @@ class MessageThread extends Model
                 'updated_at',
                 'group_icon_id',
                 'thread_privacy'
+            ])->withCount([
+                'messages as unread_messages_count' => function ($q) use ($userId) {
+                    $q->where('sender_id', '!=', $userId)
+                    ->where('is_read', 0)
+                    ->where(function ($query) use ($userId) {
+                
+                        $query->whereExists(function ($sub) use ($userId) {
+                            $sub->from('message_thread_participants as p')
+                                ->whereColumn('p.message_thread_id', 'messages.message_thread_id')
+                                ->where('p.user_id', $userId);
+                        })
+
+                        ->orWhereExists(function ($sub) use ($userId) {
+                            $sub->from('message_threads as t')
+                                ->whereColumn('t.id', 'messages.message_thread_id')
+                                ->where(function ($q2) use ($userId) {
+                                    $q2->where('t.receiver_id', $userId)
+                                        ->orWhere('t.owner_id', $userId);
+                                });
+                        });
+
+                    });
+                }
             ]);
 
         if ($request->filled('type')) {
