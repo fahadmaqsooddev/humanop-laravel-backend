@@ -389,7 +389,7 @@ class DashboardController extends Controller
 
                 ? Assessment::getSingleAssessment($request->input('assessment_id'))
 
-                : Assessment::getLatestAssessment($user['id']);
+                : Assessment::getLatestAssessment($user->id);
 
             if (empty($assessment)) {
 
@@ -421,7 +421,7 @@ class DashboardController extends Controller
 
                 $currentDate = now()->addMinutes($timezoneMinutes);
 
-                $days = $updatedAt ? $currentDate->diffInDays($updatedAt) + 1 : 0;
+                $days = $updatedAt && $updatedAt <= $currentDate ? $updatedAt->diffInDays($currentDate) + 1 : 0;
 
                 $optimizationWindow = ($user->plan_name == Admin::PREMIUM_PLAN_NAME)
 
@@ -431,7 +431,7 @@ class DashboardController extends Controller
 
                 $progress = min($days, $optimizationWindow);
 
-                $overall = (int)round(($progress / $optimizationWindow) * 100) . '%';
+                $overall = $optimizationWindow > 0 ? (int) round(($progress / $optimizationWindow) * 100) . '%' : '0%';
 
                 $phaseData = [
                     'phase_1' => null,
