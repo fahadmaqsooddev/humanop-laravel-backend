@@ -1336,12 +1336,42 @@ class DashboardController extends Controller
             $optimizationDays = $latestUpdatedAt
 
                 ? now()->addMinutes($timezoneMinutes)
+
                     ->diffInDays(Carbon::parse($latestUpdatedAt)->addMinutes($timezoneMinutes))
 
                 : 0;
 
+            $assessment = Assessment::where('user_id', $user->id)->latest()->first();
+
+            if (empty($assessment)) {
+
+                $remainingDays = null;
+
+            } else {
+
+                $pageValues = [$assessment->page, $assessment->web_page, $assessment->app_page];
+
+                if (collect($pageValues)->every(fn($val) => $val != 0 || is_null($val))) {
+
+                    $remainingDays = null;
+
+                } else {
+
+                    $assessmentTime = Carbon::parse($assessment->updated_at);
+
+                    $currentTime = Carbon::now()->addMinutes($timezoneMinutes)->startOfMinute();
+
+                    $daysPassed = $assessmentTime->diffInDays($currentTime);
+
+                    $remainingDays = $daysPassed < 90 ? 90 - $daysPassed : 0;
+
+                }
+
+            }
+
             return Helpers::successResponse('Energy shield status', [
                 'user_optimization_days' => $optimizationDays,
+                'next_assessment' => $remainingDays,
                 'daily_sync_streak' => DailySyncStreak::getUserDailySyncStreak($user->id) ?? 0
             ]);
 
