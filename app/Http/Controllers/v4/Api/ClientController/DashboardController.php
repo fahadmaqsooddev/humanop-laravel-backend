@@ -383,7 +383,7 @@ class DashboardController extends Controller
 
             $user = Helpers::getUser();
 
-            $userPlan = ($user->plan_name == 'Freemium') ? 'Freemium' : 'Premium';
+            $userPlan = ($user->plan_name == Admin::FREEMIUM_TEXT) ? Admin::FREEMIUM_TEXT : Admin::PREMIUM_PLAN_NAME;
 
             $assessment = $request->has('assessment_id')
 
@@ -409,7 +409,7 @@ class DashboardController extends Controller
 
             }
 
-            if ($userPlan === 'Premium') {
+            if ($userPlan === Admin::PREMIUM_PLAN_NAME) {
 
                 $timezoneMinutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
 
