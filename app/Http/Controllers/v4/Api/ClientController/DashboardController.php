@@ -383,7 +383,7 @@ class DashboardController extends Controller
 
             $user = Helpers::getUser();
 
-            $userPlan = ($user['plan_name'] == 'Freemium') ? 'Freemium' : 'Premium';
+            $userPlan = ($user->plan_name == 'Freemium') ? 'Freemium' : 'Premium';
 
             $assessment = $request->has('assessment_id')
 
@@ -429,7 +429,9 @@ class DashboardController extends Controller
 
                     : self::FREE_ASSESSMENT_DAYS;
 
-                $overall = $optimizationWindow > 0 ? (int)round(($days / $optimizationWindow) * 100) . '%' : '0%';
+                $progress = min($days, $optimizationWindow);
+
+                $overall = (int)round(($progress / $optimizationWindow) * 100) . '%';
 
                 $phaseData = [
                     'phase_1' => null,
@@ -458,9 +460,9 @@ class DashboardController extends Controller
                 }
 
                 $response = [
-                    'id' => $plan['id'],
-                    'priority' => $plan['priority'],
-                    'type' => $plan['type'],
+                    'id' => $plan->id,
+                    'priority' => $plan->priority,
+                    'type' => $plan->type,
                     'plan_text' => [
                         'intro' => $plan['ninty_days_plan'],
                         'phase_1' => [
@@ -483,9 +485,9 @@ class DashboardController extends Controller
             } else {
 
                 $response = [
-                    'id' => $plan['id'],
-                    'priority' => $plan['priority'],
-                    'type' => $plan['type'],
+                    'id' => $plan->id,
+                    'priority' => $plan->priority,
+                    'type' => $plan->type,
                     'plan_text' => $plan['fourteen_days_plan'],
                 ];
 
