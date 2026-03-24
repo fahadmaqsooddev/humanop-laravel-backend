@@ -45,6 +45,8 @@ class DashboardController extends Controller
 {
     public $user = null;
 
+    const ASSESSMENT_DAYS = 90;
+
     public function __construct(User $user)
     {
         $this->middleware('auth:api');
@@ -54,9 +56,9 @@ class DashboardController extends Controller
 
     public function changeThemeMode(Request $request)
     {
-       
+
         $request->validate([
-          'theme_mode' => 'required|in:dark,light'
+            'theme_mode' => 'required|in:dark,light'
         ]);
 
         $this->user->theme_mode = $request->theme_mode;
@@ -310,7 +312,7 @@ class DashboardController extends Controller
                     'my_playlist' => !empty($playList) ? 1 : 0,
                     'title' => $podcast['title'] ?? null,
                     'audio_id' => $podcast['audio_id'] ?? null,
-                    'audio_url'     => Helpers::extractFilePath($podcast['audio_url'] ?? null),
+                    'audio_url' => Helpers::extractFilePath($podcast['audio_url'] ?? null),
                     'thumbnail_url' => Helpers::extractFilePath($podcast['thumbnail_url'] ?? null, 'url'),
                 ];
 
@@ -1340,8 +1342,39 @@ class DashboardController extends Controller
 
                 : 0;
 
+            $assessment = Assessment::where('user_id', $user->id)->latest('updated_at')->first(['id', 'page', 'web_page', 'app_page', 'updated_at']);
+
+            if (! $assessment) {
+
+                $remainingDays = null;
+
+            } else {
+
+                $pageValues = [$assessment->page, $assessment->web_page, $assessment->app_page];
+
+                if (collect($pageValues)->every(fn($val) => $val != 0 || is_null($val))) {
+
+                    $remainingDays = null;
+
+                } else {
+
+                    $tz = $user->timezone ?? config('app.timezone');
+
+                    $assessmentTime = Carbon::parse($assessment->updated_at)->timezone($tz);
+
+                    $currentTime = now()->timezone($tz)->startOfMinute();
+
+                    $daysPassed = $assessmentTime->diffInDays($currentTime);
+
+                    $remainingDays = max(0, self::ASSESSMENT_DAYS - $daysPassed);
+
+                }
+
+            }
+
             return Helpers::successResponse('Energy shield status', [
                 'user_optimization_days' => $optimizationDays,
+                'next_assessment' => $remainingDays,
                 'daily_sync_streak' => DailySyncStreak::getUserDailySyncStreak($user->id) ?? 0
             ]);
 
