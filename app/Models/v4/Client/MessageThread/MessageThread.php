@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class MessageThread extends Model
 {
@@ -287,7 +288,7 @@ class MessageThread extends Model
         self::whereId($thread_id)->delete();
     }
 
-    public static function getAllMessageThread($request = null,$userId)
+    public static function getAllMessageThread(Request $request, int $userId)
     {
 
         $q = self::query()
@@ -318,15 +319,6 @@ class MessageThread extends Model
                             $sub->from('message_thread_participants as p')
                                 ->whereColumn('p.message_thread_id', 'messages.message_thread_id')
                                 ->where('p.user_id', $userId);
-                        })
-
-                        ->orWhereExists(function ($sub) use ($userId) {
-                            $sub->from('message_threads as t')
-                                ->whereColumn('t.id', 'messages.message_thread_id')
-                                ->where(function ($q2) use ($userId) {
-                                    $q2->where('t.receiver_id', $userId)
-                                        ->orWhere('t.owner_id', $userId);
-                                });
                         });
 
                     });
