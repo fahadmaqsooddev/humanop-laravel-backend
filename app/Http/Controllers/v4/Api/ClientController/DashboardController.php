@@ -1358,9 +1358,11 @@ class DashboardController extends Controller
 
                 } else {
 
-                    $assessmentTime = Carbon::parse($assessment->updated_at)->timezone($user->timezone);
+                    $tz = $user->timezone ?? config('app.timezone');
 
-                    $currentTime = now()->timezone($user->timezone)->startOfMinute();
+                    $assessmentTime = Carbon::parse($assessment->updated_at)->timezone($tz);
+
+                    $currentTime = now()->timezone($tz)->startOfMinute();
 
                     $daysPassed = $assessmentTime->diffInDays($currentTime);
 
