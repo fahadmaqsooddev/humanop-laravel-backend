@@ -45,6 +45,8 @@ class DashboardController extends Controller
 {
     public $user = null;
 
+    const ASSESSMENT_DAYS = 90;
+
     public function __construct(User $user)
     {
         $this->middleware('auth:api');
@@ -56,7 +58,7 @@ class DashboardController extends Controller
     {
 
         $request->validate([
-          'theme_mode' => 'required|in:dark,light'
+            'theme_mode' => 'required|in:dark,light'
         ]);
 
         $this->user->theme_mode = $request->theme_mode;
@@ -310,7 +312,7 @@ class DashboardController extends Controller
                     'my_playlist' => !empty($playList) ? 1 : 0,
                     'title' => $podcast['title'] ?? null,
                     'audio_id' => $podcast['audio_id'] ?? null,
-                    'audio_url'     => Helpers::extractFilePath($podcast['audio_url'] ?? null),
+                    'audio_url' => Helpers::extractFilePath($podcast['audio_url'] ?? null),
                     'thumbnail_url' => Helpers::extractFilePath($podcast['thumbnail_url'] ?? null, 'url'),
                 ];
 
@@ -1336,12 +1338,11 @@ class DashboardController extends Controller
             $optimizationDays = $latestUpdatedAt
 
                 ? now()->addMinutes($timezoneMinutes)
-
                     ->diffInDays(Carbon::parse($latestUpdatedAt)->addMinutes($timezoneMinutes))
 
                 : 0;
 
-            $assessment = Assessment::where('user_id', $user->id)->latest('updated_at')->first();
+            $assessment = Assessment::where('user_id', $user->id)->latest('updated_at')->first(['id', 'page', 'web_page', 'app_page', 'updated_at']);
 
             if (empty($assessment)) {
 
@@ -1357,13 +1358,13 @@ class DashboardController extends Controller
 
                 } else {
 
-                    $assessmentTime = Carbon::parse($assessment->updated_at);
+                    $assessmentTime = Carbon::parse($assessment->updated_at)->timezone($user->timezone);
 
-                    $currentTime = Carbon::now()->addMinutes($timezoneMinutes)->startOfMinute();
+                    $currentTime = now()->timezone($user->timezone)->startOfMinute();
 
                     $daysPassed = $assessmentTime->diffInDays($currentTime);
 
-                    $remainingDays = $daysPassed < 90 ? 90 - $daysPassed : 0;
+                    $remainingDays = $daysPassed < self::ASSESSMENT_DAYS ? self::ASSESSMENT_DAYS - $daysPassed : 0;
 
                 }
 
