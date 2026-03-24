@@ -385,9 +385,15 @@ class DashboardController extends Controller
 
             $userPlan = ($user->plan_name == Admin::FREEMIUM_TEXT) ? Admin::FREEMIUM_TEXT : Admin::PREMIUM_PLAN_NAME;
 
-            $assessment = $request->has('assessment_id')
+            $assessmentId = $request->input('assessment_id');
 
-                ? Assessment::getSingleAssessment($request->input('assessment_id'))
+            $assessment = $assessmentId
+
+                ? Assessment::where('id', $assessmentId)
+
+                    ->where('user_id', $user->id)
+
+                    ->first()
 
                 : Assessment::getLatestAssessment($user->id);
 
