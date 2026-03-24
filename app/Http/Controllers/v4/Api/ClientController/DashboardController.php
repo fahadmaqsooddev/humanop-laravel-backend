@@ -1344,7 +1344,7 @@ class DashboardController extends Controller
 
             $assessment = Assessment::where('user_id', $user->id)->latest('updated_at')->first(['id', 'page', 'web_page', 'app_page', 'updated_at']);
 
-            if (empty($assessment)) {
+            if (! $assessment) {
 
                 $remainingDays = null;
 
@@ -1364,7 +1364,7 @@ class DashboardController extends Controller
 
                     $daysPassed = $assessmentTime->diffInDays($currentTime);
 
-                    $remainingDays = $daysPassed < self::ASSESSMENT_DAYS ? self::ASSESSMENT_DAYS - $daysPassed : 0;
+                    $remainingDays = max(0, self::ASSESSMENT_DAYS - $daysPassed);
 
                 }
 
