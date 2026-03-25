@@ -136,7 +136,7 @@ class DailySyncController extends Controller
 
         }
 
-        $questionText = DailySyncQuestion::where('id', $request['question_id'])->value('question_text');
+        $questionText = DailySyncQuestion::where('id', $request->question_id)->value('question_text');
 
         $dailySyncResponse->update(['response_text' => $request['response'], 'question_text' => $questionText,]);
 
