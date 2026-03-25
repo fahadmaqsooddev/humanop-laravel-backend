@@ -107,6 +107,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'variable_sync' => 'boolean'
     ];
 
 
@@ -257,10 +258,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function getVariableSyncLabelAttribute(): string
     {
-
-        return $this->variable_sync == Admin::VARIABLE_SYNC_DISABLED
-            ? Admin::VARIABLE_SYNC_DISABLED_STRING
-            : Admin::VARIABLE_SYNC_ENABLED_STRING;
+        return $this->variable_sync
+            ? Admin::VARIABLE_SYNC_ENABLED_STRING
+            : Admin::VARIABLE_SYNC_DISABLED_STRING;
     }
 
     public function setThemeModeAttribute($value)
