@@ -41,9 +41,10 @@ class ThreadController extends Controller
 
             if ($user['group_filter'] === 1 && (int)$request->query('type') === 1) {
 
-                $all_chats = MessageThread::getAllMessageThread($request);
+                $all_chats = MessageThread::getAllMessageThread($request,$user['id']);
 
             } elseif ($user['group_filter'] === 0 && (int)$request->query('type') === 1) {
+
 
                 $all_chats = MessageThread::getMyMessageThread($request, $user['id']);
 
