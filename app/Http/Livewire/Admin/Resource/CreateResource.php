@@ -36,7 +36,7 @@ class CreateResource extends Component
         'relevance' => 'required|string',
         'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp3,wav|max:204800', // Max file size 200MB
         'documents.*.file' => 'nullable|file|mimes:doc,docx,xls,xlsx,pdf|max:204800',
-        'documents.*.allow_download' => 'nullable|boolean',
+        'documents.*.allow_download' => 'sometimes|boolean',
         'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
@@ -465,10 +465,10 @@ class CreateResource extends Component
             'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
 
             'documents.*.file' => 'nullable|file|mimes:doc,docx,xls,xlsx,pdf|max:204800',
-            'documents.*.allow_download' => 'nullable|boolean',
+            'documents.*.allow_download' => 'sometimes|boolean',
 
             'newDocuments.*.file' => 'nullable|file|mimes:doc,docx,xls,xlsx,pdf|max:204800',
-            'newDocuments.*.allow_download' => 'nullable|boolean',
+            'newDocuments.*.allow_download' => 'sometimes|boolean',
 
         ]);
 
