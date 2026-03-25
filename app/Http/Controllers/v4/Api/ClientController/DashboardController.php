@@ -415,15 +415,13 @@ class DashboardController extends Controller
 
             }
 
-            $timezoneMinutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
+            $tz = $user->timezone ?? config('app.timezone');
 
             $updatedAt = $plan->updated_at
-
-                ? Carbon::parse($plan->updated_at)->addMinutes($timezoneMinutes)
-
+                ? Carbon::parse($plan->updated_at)->timezone($tz)
                 : null;
 
-            $currentDate = now()->addMinutes($timezoneMinutes);
+            $currentDate = now()->timezone($tz);
 
             $days = $updatedAt && $updatedAt <= $currentDate ? $updatedAt->diffInDays($currentDate) + 1 : 0;
 
