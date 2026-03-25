@@ -297,18 +297,14 @@ class MessageThread extends Model
             ->whereNotNull('owner_id')
 
             ->where(function ($query) use ($userId) {
-
                 $query->whereExists(function ($sub) use ($userId) {
                     $sub->from('message_thread_participants as p')
                         ->whereColumn('p.message_thread_id', 'message_threads.id')
                         ->where('p.user_id', $userId);
                 })
-
-              
                 ->orWhere(function ($q2) use ($userId) {
                     $q2->where('owner_id', $userId)
-                    ->orWhere('sender_id', $userId)
-                    ->orWhere('receiver_id', $userId);
+                        ->orWhere('receiver_id', $userId);
                 });
             })
 
