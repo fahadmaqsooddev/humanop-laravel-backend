@@ -288,17 +288,37 @@ class MessageThread extends Model
         self::whereId($thread_id)->delete();
     }
 
+    
+
+
     public static function getAllMessageThread(Request $request, int $userId)
     {
-
         $q = self::query()
             ->whereNotNull('owner_id')
+
+            ->where(function ($query) use ($userId) {
+
+                $query->whereExists(function ($sub) use ($userId) {
+                    $sub->from('message_thread_participants as p')
+                        ->whereColumn('p.message_thread_id', 'message_threads.id')
+                        ->where('p.user_id', $userId);
+                })
+
+              
+                ->orWhere(function ($q2) use ($userId) {
+                    $q2->where('owner_id', $userId)
+                    ->orWhere('sender_id', $userId)
+                    ->orWhere('receiver_id', $userId);
+                });
+            })
+
             ->with([
                 'participants',
                 'sender:id,first_name,last_name,image_id',
                 'receiver:id,first_name,last_name,image_id',
                 'lastMessage:id,message_thread_id,message,created_at',
             ])
+
             ->select([
                 'id',
                 'type',
@@ -309,29 +329,30 @@ class MessageThread extends Model
                 'updated_at',
                 'group_icon_id',
                 'thread_privacy'
-            ])->withCount([
+            ])
+
+            ->withCount([
                 'messages as unread_messages_count' => function ($q) use ($userId) {
                     $q->where('sender_id', '!=', $userId)
                     ->where('is_read', 0)
-                    ->where(function ($query) use ($userId) {
-                
-                        $query->whereExists(function ($sub) use ($userId) {
-                            $sub->from('message_thread_participants as p')
-                                ->whereColumn('p.message_thread_id', 'messages.message_thread_id')
-                                ->where('p.user_id', $userId);
-                        });
-
+                    ->whereExists(function ($sub) use ($userId) {
+                        $sub->from('message_thread_participants as p')
+                            ->whereColumn('p.message_thread_id', 'messages.message_thread_id')
+                            ->where('p.user_id', $userId);
                     });
                 }
             ]);
 
         if ($request->filled('type')) {
-            $q->where('type', (int)$request->query('type'));
+            $q->where('type', (int) $request->query('type'));
         }
 
-        return Helpers::pagination($q->orderByDesc('id'), $request['pagination'], $request['per_page']);
-
-    }
+        return Helpers::pagination(
+            $q->orderByDesc('id'),
+            $request['pagination'],
+            $request['per_page']
+        );
+    } 
 
     public static function getMyMessageThread($request = null, $userId = null)
     {
