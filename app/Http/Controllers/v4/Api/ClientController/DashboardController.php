@@ -447,19 +447,19 @@ class DashboardController extends Controller
 
                 if ($days <= 30) {
 
-                    $phaseData['phase_1'] = $plan['day1_30'];
+                    $phaseData['phase_1'] = $plan->day1_30;
 
                     $currentPhase = 'Phase 1 - Day 1 to 30';
 
                 } elseif ($days <= 60) {
 
-                    $phaseData['phase_2'] = $plan['day31_60'];
+                    $phaseData['phase_2'] = $plan->day31_60;
 
                     $currentPhase = 'Phase 2 - Day 31 to 60';
 
                 } else {
 
-                    $phaseData['phase_3'] = $plan['day61_90'];
+                    $phaseData['phase_3'] = $plan->day61_90;
 
                     $currentPhase = 'Phase 3 - Day 61 to 90';
 
@@ -470,7 +470,7 @@ class DashboardController extends Controller
                     'priority' => $plan->priority,
                     'type' => $plan->type,
                     'plan_text' => [
-                        'intro' => $plan['ninty_days_plan'],
+                        'intro' => $plan->ninty_days_plan,
                         'phase_1' => [
                             'name' => 'Foundation',
                             'text' => $phaseData['phase_1']
@@ -494,7 +494,7 @@ class DashboardController extends Controller
                     'id' => $plan->id,
                     'priority' => $plan->priority,
                     'type' => $plan->type,
-                    'plan_text' => $plan['fourteen_days_plan'],
+                    'plan_text' => $plan->fourteen_days_plan,
                     'overall' => $overall,
                 ];
 
