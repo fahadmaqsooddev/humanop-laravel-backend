@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://dev.humanop.com','http://localhost:3000','https://v4.dev.humanop.com'],
+    'allowed_origins' => ['https://dev.humanop.com','http://localhost:3000','https://v4.dev.humanop.com','*'],
 
     'allowed_origins_patterns' => [],
 

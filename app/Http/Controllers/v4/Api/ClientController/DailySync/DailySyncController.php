@@ -123,7 +123,9 @@ class DailySyncController extends Controller
         $session = DailySyncSession::getSingleSession($user->id, $request['session_id']);
 
         if (!$session) {
+
             return Helpers::validationResponse('Invalid session.');
+
         }
 
         $dailySyncResponse = DailySyncResponse::getSingleSession($session->id, $request['question_id']);
@@ -134,7 +136,9 @@ class DailySyncController extends Controller
 
         }
 
-        $dailySyncResponse->update(['response_text' => $request['response']]);
+        $questionText = DailySyncQuestion::where('id', $request->question_id)->value('question_text');
+
+        $dailySyncResponse->update(['response_text' => $request['response'], 'question_text' => $questionText,]);
 
         if (DailySyncResponse::submitQuestionCount($session->id) == self::QUESTIONS_LIMIT) {
 
@@ -182,10 +186,12 @@ class DailySyncController extends Controller
 
                 foreach ($responses as $response) {
 
+                    $questionText = DailySyncQuestion::where('id', $response->question_id)->value('question_text');
+
                     $questionsPayload[] = [
                         'step' => $step,
                         'question_id' => $response->question_id,
-                        'question' => $response->question_text,
+                        'question' => $questionText,
                     ];
 
                     $step++;
@@ -233,10 +239,12 @@ class DailySyncController extends Controller
 
                 DailySyncResponse::createResponse($session, $question);
 
+                $questionText = DailySyncQuestion::where('id', $question->id)->value('question_text');
+
                 $questionsPayload[] = [
                     'step' => $step,
                     'question_id' => $question->id,
-                    'question' => $question->question_text,
+                    'question' => $questionText,
                 ];
                 $step++;
 
