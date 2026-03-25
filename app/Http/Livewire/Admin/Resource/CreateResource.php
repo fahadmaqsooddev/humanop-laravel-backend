@@ -29,7 +29,7 @@ class CreateResource extends Component
 
     public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [] , $documents = [], $newDocuments = [];
 
-    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged','refreshDocuments' => '$refresh'];
+    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
     protected $rules = [
         'heading' => 'required|unique:library_resources,heading',
@@ -82,8 +82,6 @@ class CreateResource extends Component
             'file' => null,
             'allow_download' => false,
         ];
-
-        $this->emitSelf('refreshDocuments');
     }
 
     public function removeDocument($index)
