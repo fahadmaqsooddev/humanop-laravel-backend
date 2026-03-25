@@ -905,7 +905,7 @@
 
                                         @if(!empty($documents))
                                             @foreach($documents as $index => $file)
-                                                <div class="d-flex align-items-center mt-2" wire:key="doc-{{$index}} }}">
+                                                <div class="d-flex align-items-center mt-2" wire:key="doc-{{$index}}">
 
                                                     {{-- File Input --}}
                                                     <input type="file"
