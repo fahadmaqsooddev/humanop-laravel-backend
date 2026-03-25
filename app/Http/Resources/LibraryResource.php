@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\PlaylistLog;
 use App\Enums\Admin\Admin;
-
+use App\Helpers\Helpers;
 class LibraryResource extends JsonResource
 {
 
@@ -15,6 +15,7 @@ class LibraryResource extends JsonResource
 
         $user = $this->additional['user'] ?? null;
 
+       
         if (!$user) {
           
             return [
@@ -28,7 +29,7 @@ class LibraryResource extends JsonResource
                 "video_url" => $this->video_url,
                 "audio_url" => $this->audio_url,
                 "thumbnail_url" => data_get($this->thumbnail_url, 'url'),
-                "document_url" => data_get($this->document_url, 'path'),
+                "document_url" =>  $this->document_urls,
                 "allow_download" => (bool) $this->download_document,
                 "resource_category_name" => $this->resourceCategory?->name,
                 "library_permission_name" => null,
@@ -84,7 +85,7 @@ class LibraryResource extends JsonResource
             "video_url" => $this->video_url,
             "audio_url" => $this->audio_url,
             "thumbnail_url" => data_get($this->thumbnail_url, 'url'),
-            "document_url" => data_get($this->document_url, 'path'),
+            "document_urls" => $this->document_urls,
             "allow_download" => (bool) $this->download_document,
             "resource_category_name" => $this->resourceCategory?->name,
             "library_permission_name" => $libraryPermissionName,

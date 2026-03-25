@@ -43,7 +43,7 @@ class LibraryResourceController extends Controller
                 $request->input('relevance'),
                 $request->input('search_name'),
                 $this->user
-            );
+            )->with('documents');
 
             $data = Helpers::pagination(
                 $query,
@@ -104,6 +104,12 @@ class LibraryResourceController extends Controller
                     default => false,
                 };
 
+               $documents = [
+                    'urls' => $item->documents->map(function ($doc) {
+                        return $doc->document_id ? Helpers::getDocument($doc->document_id, 1)['path'] ?? null : null;
+                    })->filter()->values()->all()
+                ];
+
                 $transformed[] = [
                     'id' => $item->id,
                     'heading' => $item->heading,
@@ -116,7 +122,7 @@ class LibraryResourceController extends Controller
                     'video_url'     => Helpers::extractFilePath($item->video_url ?? null),
                     'audio_url'     => Helpers::extractFilePath($item->audio_url ?? null),
                     'thumbnail_url' => Helpers::extractFilePath($item->thumbnail_url ?? null, 'url'),
-                    'document_url'  => Helpers::extractFilePath($item->document_url ?? null),
+                    'document_urls'     => $documents,
                     'allow_download' => $item->download_document == 1,
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => $libraryPermissionName,

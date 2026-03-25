@@ -14,7 +14,7 @@ use App\Models\Admin\ResourceCategory\ResourceCategory;
 use App\Models\User;
 use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
 use App\Models\PlaylistLog;
-
+use App\Models\v4\Admin\LibraryResourceDocument\LibraryResourceDocument;
 class LibraryResource extends Model
 {
     use HasFactory;
@@ -112,26 +112,23 @@ class LibraryResource extends Model
 
     }
 
+    public function documents()
+    {
+        return $this->hasMany(LibraryResourceDocument::class, 'resource_id');
+    }
+
     public function getDocumentUrlAttribute()
     {
+        $urls = $this->documents->map(function ($doc) {
+            return $doc->document_id 
+                ? Helpers::getDocument($doc->document_id, 1)['path'] ?? null
+                : null;
+        })->filter()->values()->all();
 
-        if ($this->document_id) {
-
-            $document = Helpers::getDocument($this->document_id, 1);
-
-            if (!empty($document)) {
-
-                return $document;
-
-            } else {
-
-                return null;
-            }
-
-        }
-
-        return null;
-
+        // wrap inside a single object
+        return [
+            'urls' => $urls
+        ];
     }
 
     
