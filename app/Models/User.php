@@ -258,10 +258,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function getVariableSyncLabelAttribute(): string
     {
-
-        return $this->variable_sync == Admin::VARIABLE_SYNC_DISABLED
-            ? Admin::VARIABLE_SYNC_DISABLED_STRING
-            : Admin::VARIABLE_SYNC_ENABLED_STRING;
+        return $this->variable_sync
+            ? Admin::VARIABLE_SYNC_ENABLED_STRING
+            : Admin::VARIABLE_SYNC_DISABLED_STRING;
     }
 
     public function setThemeModeAttribute($value)
@@ -2789,12 +2788,9 @@ class User extends Authenticatable implements JWTSubject
     public static function updateVariableSync(User $user, bool $value): string
     {
 
-      
-       $user->update([
-            'variable_sync' => $value
-       ]);
-
-       return $user->variable_sync_label;
+        $user->variable_sync = $value;
+        $user->save(); 
+        return $user->variable_sync_label;
        
     }
 
