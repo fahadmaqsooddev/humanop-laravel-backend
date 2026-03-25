@@ -415,29 +415,29 @@ class DashboardController extends Controller
 
             }
 
+            $timezoneMinutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
+
+            $updatedAt = $plan->updated_at
+
+                ? Carbon::parse($plan->updated_at)->addMinutes($timezoneMinutes)
+
+                : null;
+
+            $currentDate = now()->addMinutes($timezoneMinutes);
+
+            $days = $updatedAt && $updatedAt <= $currentDate ? $updatedAt->diffInDays($currentDate) + 1 : 0;
+
+            $optimizationWindow = ($user->plan_name == Admin::PREMIUM_PLAN_NAME)
+
+                ? self::ASSESSMENT_DAYS
+
+                : self::FREE_ASSESSMENT_DAYS;
+
+            $progress = min($days, $optimizationWindow);
+
+            $overall = $optimizationWindow > 0 ? (int) round(($progress / $optimizationWindow) * 100) : 0;
+
             if ($userPlan === Admin::PREMIUM_PLAN_NAME) {
-
-                $timezoneMinutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
-
-                $updatedAt = $plan->updated_at
-
-                    ? Carbon::parse($plan->updated_at)->addMinutes($timezoneMinutes)
-
-                    : null;
-
-                $currentDate = now()->addMinutes($timezoneMinutes);
-
-                $days = $updatedAt && $updatedAt <= $currentDate ? $updatedAt->diffInDays($currentDate) + 1 : 0;
-
-                $optimizationWindow = ($user->plan_name == Admin::PREMIUM_PLAN_NAME)
-
-                    ? self::ASSESSMENT_DAYS
-
-                    : self::FREE_ASSESSMENT_DAYS;
-
-                $progress = min($days, $optimizationWindow);
-
-                $overall = $optimizationWindow > 0 ? (int) round(($progress / $optimizationWindow) * 100) . '%' : '0%';
 
                 $phaseData = [
                     'phase_1' => null,
@@ -495,6 +495,7 @@ class DashboardController extends Controller
                     'priority' => $plan->priority,
                     'type' => $plan->type,
                     'plan_text' => $plan['fourteen_days_plan'],
+                    'overall' => $overall,
                 ];
 
             }
