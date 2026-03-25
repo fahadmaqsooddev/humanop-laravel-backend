@@ -22,280 +22,156 @@ class HotSpotController extends Controller
     {
         try {
 
-            $userId = Helpers::getUser()->id;
+            $user = Helpers::getUser();
+            $userId = $user->id;
 
-            if (Helpers::getUser()->plan_name != Admin::PREMIUM_PLAN_NAME) {
-
+            // 🔐 Premium plan check
+            if ($user->plan_name != Admin::PREMIUM_PLAN_NAME) {
                 return Helpers::validationResponse("Only Premium Users can access this feature");
-
             }
 
-            $dob = Helpers::getUser()->date_of_birth;
+            $dob = $user->date_of_birth;
 
             $latestAssessmentId = HotSpotUser::getLatestAssessmentId($userId);
-
             if (!$latestAssessmentId) {
-
                 return Helpers::validationResponse("No assessment data found");
-
             }
 
             $previousAssessmentId = HotSpotUser::getPreviousAssessmentId($userId, $latestAssessmentId);
-
             if (!$previousAssessmentId) {
-
-                return Helpers::validationResponse("First Assessment.No Previous Data");
-
+                return Helpers::validationResponse("First Assessment. No Previous Data");
             }
 
+            // ------------------ Assessments ------------------
             $latestAssessment = Assessment::singleAssessmentFromId($latestAssessmentId, null);
-
-            $latestCore = Assessment::getCoreState($latestAssessment, $dob);
-
             $previousAssessment = Assessment::singleAssessmentFromId($previousAssessmentId, null);
 
+            $latestCore = Assessment::getCoreState($latestAssessment, $dob);
             $prevCore = Assessment::getCoreState($previousAssessment, $dob);
 
-            $normalize = fn($item) => is_array($item) && isset($item[0]) ? $item : ($item ? [$item] : []);
+            // Helper to normalize array/object
+            $normalize = function ($item) {
+                if (!$item) return [];
+                return is_array($item) && isset($item[0]) ? $item : [$item];
+            };
 
-            $calculateShifts = function ($category, $prevData, $currData, $descField) use ($normalize) {
+            // Helper to calculate shifts
+            $calculateShifts = function ($category, $prevData, $currData, $desc) use ($normalize) {
 
                 $prevArr = collect($normalize($prevData))->pluck('public_name')->filter()->values()->toArray();
-
                 $currArr = collect($normalize($currData))->pluck('public_name')->filter()->values()->toArray();
 
                 $removed = array_values(array_diff($prevArr, $currArr));
-
                 $added = array_values(array_diff($currArr, $prevArr));
 
                 $max = max(count($removed), count($added));
-
                 $shifts = [];
 
                 for ($i = 0; $i < $max; $i++) {
-
                     $shifts[] = [
                         'category' => $category,
                         'prev_value' => $removed[$i] ?? ($prevArr[0] ?? null),
                         'curr_value' => $added[$i] ?? ($currArr[0] ?? null),
-                        'description' => $descField
+                        'description' => $desc
                     ];
-
                 }
 
                 return $shifts;
-
             };
 
-            $hotspotMessages = config('hotspot_messages');
+            $messages = config('hotspot_messages');
 
+            // ------------------ Core Shifts ------------------
             $traitsShifts = $calculateShifts(
-
-                $hotspotMessages['traits']['label'],
-
+                $messages['traits']['label'],
                 $prevCore['topThreeStyles'] ?? [],
-
                 $latestCore['topThreeStyles'] ?? [],
-
-                $hotspotMessages['traits']['message']
-
+                $messages['traits']['message']
             );
 
             $driversShifts = $calculateShifts(
-
-                $hotspotMessages['drivers']['label'],
-
+                $messages['drivers']['label'],
                 $prevCore['topTwoFeatures'] ?? [],
-
                 $latestCore['topTwoFeatures'] ?? [],
-
-                $hotspotMessages['drivers']['message']
-
+                $messages['drivers']['message']
             );
 
             $alchemyShifts = $calculateShifts(
-
-                $hotspotMessages['alchemy']['label'],
-
+                $messages['alchemy']['label'],
                 $prevCore['boundary'] ?? [],
-
                 $latestCore['boundary'] ?? [],
-
-                $hotspotMessages['alchemy']['message']
-
+                $messages['alchemy']['message']
             );
 
             $commShifts = $calculateShifts(
-
-                $hotspotMessages['comm_style']['label'],
-
+                $messages['comm_style']['label'],
                 $prevCore['topCommunication'] ?? [],
-
                 $latestCore['topCommunication'] ?? [],
-
-                $hotspotMessages['comm_style']['message']
-
+                $messages['comm_style']['message']
             );
 
             $perceptionShifts = $calculateShifts(
-
-                $hotspotMessages['perception']['label'],
-
+                $messages['perception']['label'],
                 $prevCore['perception'] ?? [],
-
                 $latestCore['perception'] ?? [],
-
-                $hotspotMessages['perception']['message']
-
+                $messages['perception']['message']
             );
 
             $energyShifts = $calculateShifts(
-
-                $hotspotMessages['energy_pool']['label'],
-
+                $messages['energy_pool']['label'],
                 $prevCore['energyPool'] ?? [],
-
                 $latestCore['energyPool'] ?? [],
-
-                $hotspotMessages['energy_pool']['message']
-
+                $messages['energy_pool']['message']
             );
 
+            // ------------------ Hotspot Rows ------------------
             $prevRows = HotSpotUser::getRows($userId, $previousAssessmentId);
-
             $currRows = HotSpotUser::getRows($userId, $latestAssessmentId);
 
-            $prevShift = optional($prevRows->first())->shift_interval;
-
-            $currShift = optional($currRows->first())->shift_interval;
-
-            $intervalShift = $prevShift !== $currShift;
-
             $prevHotspots = $prevRows->pluck('hotspot_score')->filter()->toArray();
-
             $currHotspots = $currRows->pluck('hotspot_score')->filter()->toArray();
 
-            $minPrevPriority = !empty($prevHotspots) ? min($prevHotspots) : null;
+            // ------------------ Trend ------------------
+            $minPrev = !empty($prevHotspots) ? min($prevHotspots) : null;
+            $minCurr = !empty($currHotspots) ? min($currHotspots) : null;
 
-            $minCurrPriority = !empty($currHotspots) ? min($currHotspots) : null;
-
-            if ($minPrevPriority === null || $minCurrPriority === null) {
-
+            if ($minPrev === null || $minCurr === null) {
                 $trend = 'NEUTRAL';
-
-            } elseif ($minCurrPriority > $minPrevPriority) {
-
+            } elseif ($minCurr > $minPrev) {
                 $trend = 'POSITIVE';
-
-            } elseif ($minCurrPriority < $minPrevPriority) {
-
+            } elseif ($minCurr < $minPrev) {
                 $trend = 'NEGATIVE';
-
             } else {
-
                 $trend = 'NEUTRAL';
-
             }
 
-
+            // ------------------ Hotspot Delta ------------------
             $hotspotNameMap = HotSpot::pluck('name', 'id')->toArray();
 
-            $resolved = collect(array_diff($prevHotspots, $currHotspots))
-                ->values()
-                ->map(function ($hotspotId, $index) use ($hotspotNameMap) {
+            $mapHotspots = function ($list, $type) use ($hotspotNameMap) {
+                return collect($list)->values()->map(function ($id, $index) use ($hotspotNameMap, $type) {
 
-                    $hotspotName = $hotspotNameMap[$hotspotId] ?? 'Unknown';
-
-                    return [
-                        'id' => 'HOTSPOT_' . str_pad($hotspotId, 2, '0', STR_PAD_LEFT),
-                        'name' => $hotspotName,
-                        'priority' => $hotspotId,
-                        'description' => 'Eliminated Priority #' . $hotspotId . ' (' . $hotspotName . ')',
-                        'count' => $index + 1
-                    ];
-
-                })
-                ->toArray();
-
-
-            $new = collect(array_diff($currHotspots, $prevHotspots))
-                ->values()
-                ->map(function ($hotspotId, $index) use ($hotspotNameMap) {
-
-                    $hotspotName = $hotspotNameMap[$hotspotId] ?? 'Unknown';
+                    $name = $hotspotNameMap[$id] ?? 'Unknown';
 
                     return [
-                        'id' => 'HOTSPOT_' . str_pad($hotspotId, 2, '0', STR_PAD_LEFT),
-                        'name' => $hotspotName,
-                        'priority' => $hotspotId,
-                        'description' => 'New Priority #' . $hotspotId . ' (' . $hotspotName . ')',
+                        'id' => 'HOTSPOT_' . str_pad($id, 2, '0', STR_PAD_LEFT),
+                        'name' => $name,
+                        'priority' => $id,
+                        'description' => ucfirst($type) . " Priority #{$id} ({$name})",
                         'count' => $index + 1
                     ];
+                })->toArray();
+            };
 
-                })
-                ->toArray();
+            $resolved = $mapHotspots(array_diff($prevHotspots, $currHotspots), 'eliminated');
+            $new = $mapHotspots(array_diff($currHotspots, $prevHotspots), 'new');
+            $persistent = $mapHotspots(array_intersect($prevHotspots, $currHotspots), 'persistent');
 
+            // ------------------ Interval Shift ------------------
+            $intervalShift = optional($prevRows->first())->shift_interval !== optional($currRows->first())->shift_interval;
 
-            $persistent = collect(array_intersect($prevHotspots, $currHotspots))
-                ->values()
-                ->map(function ($hotspotId, $index) use ($hotspotNameMap) {
-
-                    $hotspotName = $hotspotNameMap[$hotspotId] ?? 'Unknown';
-
-                    return [
-                        'id' => 'HOTSPOT_' . str_pad($hotspotId, 2, '0', STR_PAD_LEFT),
-                        'name' => $hotspotName,
-                        'priority' => $hotspotId,
-                        'description' => 'Persistent Priority #' . $hotspotId . ' (' . $hotspotName . ')',
-                        'count' => $index + 1
-                    ];
-
-                })
-                ->toArray();
-
-            $authenticShifts = [
-                'interval_of_life' => $intervalShift,
-                'traits' => $traitsShifts,
-                'drivers' => $driversShifts,
-                'alchemy' => $alchemyShifts,
-                'comm_style' => $commShifts,
-                'perception' => $perceptionShifts,
-                'energy_pool' => $energyShifts
-            ];
-
-            $primaryWinText = null;
-
-            if (!empty($prevRows)) {
-
-                $minPrevRow = $prevRows->sortBy('hotspot_score')->first(); // lowest score
-
-                $minPrevScore = $minPrevRow->hotspot_score;
-
-                $minPrevName = $minPrevRow->names; // DB se name
-
-                if (!in_array($minPrevScore, $currRows->pluck('hotspot_score')->toArray())) {
-
-                    $primaryWinText = "Eliminated Priority #{$minPrevScore} Drain ({$minPrevName})";
-
-                }
-
-            }
-
-            $currentHighestDrain = null;
-
-            if (!empty($currRows)) {
-
-                $minCurrRow = $currRows->sortBy('hotspot_score')->first(); // lowest score
-
-                $minCurrScore = $minCurrRow->hotspot_score;
-
-                $minCurrName = $minCurrRow->names;
-
-                $currentHighestDrain = "Priority #{$minCurrScore} ({$minCurrName})";
-
-            }
-
-            $contextNote = $hotspotMessages['trend_context'][$trend] ?? $hotspotMessages['trend_context']['NEUTRAL'];
+            // ------------------ Context ------------------
+            $contextNote = $messages['trend_context'][$trend] ?? $messages['trend_context']['NEUTRAL'];
 
             $data = [
                 'trend' => $trend,
@@ -307,22 +183,24 @@ class HotSpotController extends Controller
                     'new' => $new,
                     'persistent' => $persistent
                 ],
-                'authentic_shifts' => $authenticShifts,
+                'authentic_shifts' => [
+                    'interval_of_life' => $intervalShift,
+                    'traits' => $traitsShifts,
+                    'drivers' => $driversShifts,
+                    'alchemy' => $alchemyShifts,
+                    'comm_style' => $commShifts,
+                    'perception' => $perceptionShifts,
+                    'energy_pool' => $energyShifts
+                ],
                 'hai_analysis_prompt_context' => [
-                    'primary_win' => $primaryWinText,
-                    'current_highest_drain' => $currentHighestDrain,
                     'context_note' => $contextNote
                 ]
-
             ];
 
             return Helpers::successResponse('Trend data', $data);
 
         } catch (\Exception $exception) {
-
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 }
