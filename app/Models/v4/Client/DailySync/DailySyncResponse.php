@@ -41,7 +41,7 @@ class DailySyncResponse extends Model
         return self::create([
             'session_id' => $session->id,
             'question_id' => $question->id,
-            'question_text' => $question->question_text,
+//            'question_text' => $question->question_text,
         ]);
     }
 

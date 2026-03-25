@@ -379,91 +379,133 @@ class DashboardController extends Controller
 
     public function actionPlan(Request $request)
     {
-
         try {
+
             $user = Helpers::getUser();
 
-            if ($user['plan_name'] == "Freemium") {
+            $userPlan = ($user->plan_name == Admin::FREEMIUM_TEXT) ? Admin::FREEMIUM_TEXT : Admin::PREMIUM_PLAN_NAME;
 
-                $userPlan = "Freemium";
+            $assessmentId = $request->input('assessment_id');
 
-            } else {
+            $assessment = $assessmentId
 
-                $userPlan = "Premium";
+                ? Assessment::where('id', $assessmentId)
+
+                    ->where('user_id', $user->id)
+
+                    ->first()
+
+                : Assessment::getLatestAssessment($user->id);
+
+            if (empty($assessment)) {
+
+                return Helpers::validationResponse('Assessment not found');
 
             }
 
-            if ($request->has('assessment_id')) {
+            $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment, $userPlan)
 
-                $assessment = Assessment::getSingleAssessment($request->input('assessment_id'));
+                ?: ActionPlan::storeUserActionPlan($assessment, $userPlan);
 
-            } else {
+            $plan = OptimizationPlan::getSinglePlan($actionPlan['priority'], $userPlan);
 
-                $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
+            if (!$plan) {
+
+                return Helpers::validationResponse('Plan not found');
 
             }
 
-            if (!empty($assessment)) {
+            $tz = $user->timezone ?? config('app.timezone');
 
-                $actionPlan = ActionPlan::getActionPlanByAssessmentId($assessment, $userPlan);
+            $updatedAt = $plan->updated_at
+                ? Carbon::parse($plan->updated_at)->timezone($tz)
+                : null;
 
-                if (empty($actionPlan)) {
+            $currentDate = now()->timezone($tz);
 
-                    $actionPlan = ActionPlan::storeUserActionPlan($assessment, $userPlan);
+            $days = $updatedAt && $updatedAt <= $currentDate ? $updatedAt->diffInDays($currentDate) + 1 : 0;
 
-                }
+            $optimizationWindow = ($user->plan_name == Admin::PREMIUM_PLAN_NAME)
 
-                $actionPlan = OptimizationPlan::getSinglePlan($actionPlan['priority'], $userPlan);
+                ? self::ASSESSMENT_DAYS
 
+                : self::FREE_ASSESSMENT_DAYS;
 
-                if ($userPlan == "Premium") {
+            $progress = min($days, $optimizationWindow);
 
-                    if ($assessment['reset_assessment'] == 1) {
+            $overall = $optimizationWindow > 0 ? (int) round(($progress / $optimizationWindow) * 100) : 0;
 
-                        $assessmentTime = $assessment['after_reset_assessment_updated_at'];
+            if ($userPlan === Admin::PREMIUM_PLAN_NAME) {
 
-                    } else {
+                $phaseData = [
+                    'phase_1' => null,
+                    'phase_2' => null,
+                    'phase_3' => null,
+                ];
 
-                        $assessmentTime = $assessment['updated_at'];
+                if ($days <= 30) {
 
-                    }
+                    $phaseData['phase_1'] = $plan->day1_30;
 
-                    $difference = Carbon::now()->diffInDays($assessmentTime);
+                    $currentPhase = 'Phase 1 - Day 1 to 30';
 
-                    $actionPlan = [
-                        'id' => $actionPlan['id'],
-                        'priority' => $actionPlan['priority'],
-                        'plan_text' => [
-                            'intro' => $actionPlan['ninty_days_plan'],
-                            'day1_30' => $actionPlan['day1_30'],
-                            'day31_60' => $actionPlan['day31_60'],
-                            'day61_90' => $actionPlan['day61_90'],
-                            'current_assessment_days' => $difference
-                        ],
-                        'type' => $actionPlan['type'],
-                    ];
+                } elseif ($days <= 60) {
+
+                    $phaseData['phase_2'] = $plan->day31_60;
+
+                    $currentPhase = 'Phase 2 - Day 31 to 60';
 
                 } else {
 
-                    $actionPlan = [
-                        'id' => $actionPlan['id'],
-                        'priority' => $actionPlan['priority'],
-                        'plan_text' => $actionPlan['fourteen_days_plan'],
-                        'type' => $actionPlan['type'],
-                    ];
+                    $phaseData['phase_3'] = $plan->day61_90;
+
+                    $currentPhase = 'Phase 3 - Day 61 to 90';
 
                 }
 
-                return Helpers::successResponse('Action plan', $actionPlan);
+                $response = [
+                    'id' => $plan->id,
+                    'priority' => $plan->priority,
+                    'type' => $plan->type,
+                    'plan_text' => [
+                        'intro' => $plan->ninty_days_plan,
+                        'phase_1' => [
+                            'name' => 'Foundation',
+                            'text' => $phaseData['phase_1']
+                        ],
+                        'phase_2' => [
+                            'name' => 'Integration',
+                            'text' => $phaseData['phase_2']
+                        ],
+                        'phase_3' => [
+                            'name' => 'Mastery',
+                            'text' => $phaseData['phase_3']
+                        ],
+                        'current_phase' => $currentPhase,
+                        'overall' => $overall,
+                    ],
+                ];
+
+            } else {
+
+                $response = [
+                    'id' => $plan->id,
+                    'priority' => $plan->priority,
+                    'type' => $plan->type,
+                    'plan_text' => $plan->fourteen_days_plan,
+                    'overall' => $overall,
+                ];
 
             }
 
-            return Helpers::validationResponse('Assessment not found');
+            return Helpers::successResponse('Action plan', $response);
 
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function informationIcon()
@@ -1346,7 +1388,7 @@ class DashboardController extends Controller
 
             $assessment = Assessment::where('user_id', $user->id)->latest('updated_at')->first(['id', 'page', 'web_page', 'app_page', 'updated_at']);
 
-            if (! $assessment) {
+            if (!$assessment) {
 
                 $remainingDays = null;
 
