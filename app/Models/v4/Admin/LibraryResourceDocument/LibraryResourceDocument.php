@@ -40,34 +40,38 @@ class LibraryResourceDocument extends Model
 
     public static function getDocumentsByResource($resourceId)
     {
-        return self::with('upload')
-            ->where('resource_id', $resourceId)
-            ->get()
-            ->map(function ($doc) {
+       
+        $documents = self::where('resource_id', $resourceId)->get();
 
-                
-                $fileUrl = null;
+       
+        $documentIds = $documents->pluck('document_id')->filter()->all();
 
-                if ($doc->document_id) {
-                    $document = Helpers::getDocument($doc->document_id, 1);
-                    $fileUrl = is_array($document) ? ($document['path'] ?? null) : $document;
-                } else {
-                    $uploadPath = $doc->upload ? 
-                        (is_array($doc->upload->path) ? ($doc->upload->path['path'] ?? null) : $doc->upload->path) 
-                        : null;
-                    $fileUrl = $uploadPath ? asset($uploadPath) : null;
+       
+        $uploads = Upload::whereIn('id', $documentIds)->get()->keyBy('id');
+
+       
+        return $documents->map(function ($doc) use ($uploads) {
+
+            $fileUrl = null;
+
+            if ($doc->document_id && isset($uploads[$doc->document_id])) {
+                $upload = $uploads[$doc->document_id];
+
+              
+                if ($upload->extension === 'pdf') {
+                    $fileUrl = url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name;
                 }
+            }
 
-                return [
-                    'id' => $doc->id,
-                    'file' => null,
-                    'document_id' => $doc->document_id,
-                    'allow_download' => (bool) $doc->download_document,
-                    'file_path' => $fileUrl,
-                    'file_name' => $doc->upload->name ?? null,
-                ];
-            })
-            ->toArray();
+            return [
+                'id' => $doc->id,
+                'file' => null,
+                'document_id' => $doc->document_id,
+                'allow_download' => (bool) $doc->download_document,
+                'file_path' => $fileUrl,
+                'file_name' => $doc->upload?->name ?? null, // optional, already loaded relation
+            ];
+        })->toArray();
     }
 
    
@@ -110,5 +114,17 @@ class LibraryResourceDocument extends Model
     public function upload()
     {
         return $this->belongsTo(Upload::class, 'document_id', 'id');
+    }
+
+
+    public function getDocumentUrlAttribute()
+    {
+        if (!$this->relationLoaded('upload') || !$this->upload) {
+            return null;
+        }
+
+        if ($this->upload->extension !== 'pdf') return null;
+
+        return url('/') . '/media/documents/' . $this->upload->hash . '/' . $this->upload->name;
     }
 }

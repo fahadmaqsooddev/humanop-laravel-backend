@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
 use App\Models\PlaylistLog;
 use App\Models\v4\Admin\LibraryResourceDocument\LibraryResourceDocument;
+use App\Models\Upload\Upload;
 class LibraryResource extends Model
 {
     use HasFactory;
@@ -119,16 +120,30 @@ class LibraryResource extends Model
 
     public function getDocumentUrlAttribute()
     {
-        $urls = $this->documents->map(function ($doc) {
-            return $doc->document_id 
-                ? Helpers::getDocument($doc->document_id, 1)['path'] ?? null
-                : null;
+     
+        $documentIds = $this->documents->pluck('document_id')->filter();
+        
+        $uploads = Upload::whereIn('id', $documentIds)
+            ->get()
+            ->keyBy('id'); 
+
+    
+        $urls = $this->documents->map(function ($doc) use ($uploads) {
+            if (!$doc->document_id || !isset($uploads[$doc->document_id])) {
+                return null;
+            }
+
+            $upload = $uploads[$doc->document_id];
+
+           
+            if ($upload->extension !== 'pdf') {
+                return null;
+            }
+
+            return url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name;
         })->filter()->values()->all();
 
-        // wrap inside a single object
-        return [
-            'urls' => $urls
-        ];
+        return $urls; 
     }
 
     
