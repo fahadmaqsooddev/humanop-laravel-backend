@@ -27,7 +27,7 @@ class Assessment extends Model
 {
     use HasFactory;
 
-    protected $appends = ['assessment_status'];
+    protected $appends = ['assessment_status', 'updated_at'];
 
     public function __construct(array $attributes = array())
     {
