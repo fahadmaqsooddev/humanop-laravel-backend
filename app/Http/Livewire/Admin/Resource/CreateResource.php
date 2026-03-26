@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Log;
+use App\Models\v4\Admin\LibraryResourceDocument\LibraryResourceDocument;
 
 class CreateResource extends Component
 {
@@ -24,9 +25,9 @@ class CreateResource extends Component
 
     public $booleanValue = false;
 
-    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $document_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false, $download_document;
+    public $resourceId, $pointValue, $priceValue, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link, $relevance, $getVideoLink, $thumbnail_file, $fileType, $showThumbnailUpload = false, $typeThumbnail = false, $download_document;
 
-    public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [];
+    public $selectedTraits = [], $selectedFeatures = [], $selectedAlchemy = [], $selectedCommunications = [], $selectedPerceptions = [], $selectedEnergyPools = [] , $documents = [], $newDocuments = [];
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
@@ -34,7 +35,8 @@ class CreateResource extends Component
         'heading' => 'required|unique:library_resources,heading',
         'relevance' => 'required|string',
         'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp3,wav|max:204800', // Max file size 200MB
-        'document_file' => 'nullable|file|mimes:doc,docx,xls,xlsx,pdf|max:204800',
+        'documents.*.file' => 'nullable|file|mimes:doc,docx,xls,xlsx,pdf|max:204800',
+        'documents.*.allow_download' => 'sometimes|boolean',
         'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
@@ -50,9 +52,9 @@ class CreateResource extends Component
         'heading.unique' => 'The heading must be unique in the library resources.',
         'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp3, wav.',
         'resource_file.max' => 'The resource file size must not exceed 200MB.',
-        'document_file.file' => 'The uploaded document must be a valid file.',
-        'document_file.mimes' => 'The document must be a file of type: doc, docx, xls, xlsx, or png.',
-        'document_file.max' => 'The document size may not be greater than 200MB.',
+        'documents.*.file.file' => 'The uploaded document must be a valid file.',
+        'documents.*.file.mimes' => 'The document must be a file of type: doc, docx, xls, xlsx, or pdf.',
+        'documents.*.file.max' => 'The document size may not be greater than 200MB.',
         'permission.required' => 'At least one permission is required.',
         'permission.array' => 'Permissions must be an array.',
         'permission.min' => 'At least one permission is required.',
@@ -62,6 +64,45 @@ class CreateResource extends Component
         'link.max' => 'Video URL may not exceed 90 characters.',
         'link.regex' => 'The video URL must match the required format (e.g., https://video.gumlet.io/xyz/abc.m3u8).',
     ];
+
+    public function mount()
+    {
+        $this->documents = [
+            [
+                'file' => null,
+                'allow_download' => false
+            ]
+        ];
+    }
+
+
+   public function addDocument()
+    {
+        $this->documents[] = [
+            'file' => null,
+            'allow_download' => false,
+        ];
+    }
+
+    public function removeDocument($index)
+    {
+        unset($this->documents[$index]);
+        $this->documents = array_values($this->documents);
+    }
+
+    public function addNewDocument()
+    {
+        $this->newDocuments[] = [
+            'file' => null,
+            'allow_download' => false,
+        ];
+    }
+
+    public function removeNewDocument($index)
+    {
+        unset($this->newDocuments[$index]);
+        $this->newDocuments = array_values($this->newDocuments);
+    }
 
     public function fileChanged($value)
     {
@@ -77,6 +118,8 @@ class CreateResource extends Component
 
     public function CreateResource()
     {
+
+    
         try {
 
             DB::beginTransaction();
@@ -120,14 +163,23 @@ class CreateResource extends Component
 
             }
 
-            if ($this->document_file) {
 
-                $document_id = Upload::uploadFile($this->document_file, '', '', 'document');
+            // $resource=$resource->save();
 
-                $resource->document_id = $document_id;
+            // echo $resource->id;
 
-                $resource->save();
-            }
+            // if ($this->document_file) {
+
+            //     $document_id = Upload::uploadFile($this->document_file, '', '', 'document');
+
+            //     $resource->document_id = $document_id;
+
+            //     $resource->save();
+            // }
+             
+            //dd($this->documents);
+
+            LibraryResourceDocument::storeDocuments($this->documents, $resource->id);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
 
@@ -332,6 +384,7 @@ class CreateResource extends Component
         $this->selectedPerceptions = array_values(array_intersect($allCodes, $perceptions));
         $this->selectedEnergyPools = array_values(array_intersect($allCodes, $energyPools));
 
+        $this->documents = LibraryResourceDocument::getDocumentsByResource($resource_id);
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
@@ -400,7 +453,22 @@ class CreateResource extends Component
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,wav|max:204800', 'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048']);
+        $this->validate([
+            'heading' => 'required',
+            'category_id' => 'required',
+            'link' => 'nullable',
+            'description' => 'nullable|max:1000',
+            'update_content' => 'nullable',
+            'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,wav|max:204800',
+            'thumbnail_file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+
+            'documents.*.file' => 'nullable|file|mimes:doc,docx,xls,xlsx,pdf|max:204800',
+            'documents.*.allow_download' => 'sometimes|boolean',
+
+            'newDocuments.*.file' => 'nullable|file|mimes:doc,docx,xls,xlsx,pdf|max:204800',
+            'newDocuments.*.allow_download' => 'sometimes|boolean',
+
+        ]);
 
         if ($this->resource_file) {
             if ($this->resource_file instanceof UploadedFile) {
@@ -539,15 +607,25 @@ class CreateResource extends Component
         }
 
 
-        if ($this->document_file) {
 
-            $document_id = Upload::uploadFile($this->document_file, '', '', 'document');
+        // Update documents (existing + new)
+        LibraryResourceDocument::updateDocuments(
+            $this->resourceId,
+            $this->documents,   // existing document
+            $this->newDocuments    // array of newly added documents
+        );
 
-            LibraryResource::whereId($this->resourceId)->update([
-                'document_id' => $document_id,
-            ]);
+        // if ($this->document_file) {
 
-        }
+        //     $document_id = Upload::uploadFile($this->document_file, '', '', 'document');
+
+        //     LibraryResource::whereId($this->resourceId)->update([
+        //         'document_id' => $document_id,
+        //     ]);
+
+        // }
+
+        
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission, $this->priceValue, $this->pointValue);
 

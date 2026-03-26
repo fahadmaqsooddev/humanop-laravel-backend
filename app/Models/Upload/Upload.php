@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -240,6 +241,34 @@ class Upload extends Model
         return Image::make($image)->resize($width, $height, function ($constraint) {
             $constraint->aspectRatio();
         });
+    }
+
+    public static function deleteFile($uploadId)
+    {
+        $upload = self::find($uploadId);
+
+        if (!$upload) {
+            return false;
+        }
+
+        try {
+            $path = str_replace('\\', '/', $upload->path);
+
+            if (file_exists($path)) {
+                unlink($path);
+            }
+
+            $upload->delete(); 
+
+            return true;
+
+        } catch (\Throwable $e) {
+            Log::error('File delete exception', [
+                'upload_id' => $uploadId,
+                'error' => $e->getMessage(),
+            ]);
+            return false;
+        }
     }
 
     // public static function deleteUploadFile($id = null)

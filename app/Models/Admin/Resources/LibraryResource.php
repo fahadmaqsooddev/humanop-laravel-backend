@@ -14,7 +14,8 @@ use App\Models\Admin\ResourceCategory\ResourceCategory;
 use App\Models\User;
 use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
 use App\Models\PlaylistLog;
-
+use App\Models\v4\Admin\LibraryResourceDocument\LibraryResourceDocument;
+use App\Models\Upload\Upload;
 class LibraryResource extends Model
 {
     use HasFactory;
@@ -112,29 +113,25 @@ class LibraryResource extends Model
 
     }
 
-    public function getDocumentUrlAttribute()
+    public function documents()
     {
-
-        if ($this->document_id) {
-
-            $document = Helpers::getDocument($this->document_id, 1);
-
-            if (!empty($document)) {
-
-                return $document;
-
-            } else {
-
-                return null;
-            }
-
-        }
-
-        return null;
-
+        return $this->hasMany(LibraryResourceDocument::class, 'resource_id');
     }
 
-    
+    public function getDocumentUrlAttribute()
+    {
+        return $this->documents
+            ->map(function ($doc) {
+                if (!$doc->upload) {
+                    return null;
+                }
+
+                return asset("media/documents/{$doc->upload->hash}/{$doc->upload->name}");
+            })
+            ->filter()
+            ->values()
+            ->all();
+    }
 
     public function getAudioUrlAttribute()
     {
@@ -342,7 +339,7 @@ class LibraryResource extends Model
 //            $q->whereIn('permission', $permissionLevels);
 //        });
 
-        $query->with(['resourceCategory', 'libraryPermissions'])->orderBy('created_at', 'desc');
+        $query->with(['resourceCategory', 'libraryPermissions','documents.upload'])->orderBy('created_at', 'desc');
 
 
         return $query;
@@ -370,6 +367,7 @@ class LibraryResource extends Model
                 $q->where('user_id', $user->id)
                 ->select('id', 'resource_item_id', 'user_id');
             },
+            'documents.upload'
         ])
         ->where('id', $id)
         ->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {

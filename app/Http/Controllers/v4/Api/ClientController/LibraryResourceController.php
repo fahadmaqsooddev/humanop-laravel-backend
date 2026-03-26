@@ -45,6 +45,7 @@ class LibraryResourceController extends Controller
                 $this->user
             );
 
+
             $data = Helpers::pagination(
                 $query,
                 $request->input('pagination', true),
@@ -104,6 +105,19 @@ class LibraryResourceController extends Controller
                     default => false,
                 };
 
+                
+                if (!$item->relationLoaded('documents')) {
+                    $item->load('documents.upload');
+                }
+
+                $document_urls = $item->documents
+                    ->map(fn($doc) => [
+                        'url' => $doc->document_url,
+                        'downloadable' => (bool) $doc->download_document,
+                    ])
+                    ->values()
+                    ->all();
+
                 $transformed[] = [
                     'id' => $item->id,
                     'heading' => $item->heading,
@@ -116,8 +130,7 @@ class LibraryResourceController extends Controller
                     'video_url'     => Helpers::extractFilePath($item->video_url ?? null),
                     'audio_url'     => Helpers::extractFilePath($item->audio_url ?? null),
                     'thumbnail_url' => Helpers::extractFilePath($item->thumbnail_url ?? null, 'url'),
-                    'document_url'  => Helpers::extractFilePath($item->document_url ?? null),
-                    'allow_download' => $item->download_document == 1,
+                    'document_urls' => $document_urls,
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => $libraryPermissionName,
                     "library_permission_allow" => $libraryPermissionAllow && $finalPrice === 0 && $points === 0,

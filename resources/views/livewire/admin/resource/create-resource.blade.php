@@ -31,6 +31,16 @@
             color: blue !important;
         }
 
+        .btn-remove-doc {
+            height: 38px;       /* Input ki height ke barabar */
+            min-width: 38px;    /* Square shape */
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top:2px;
+        }
+
     </style>
 @endpush
 <div class="row container-fluid">
@@ -334,39 +344,65 @@
                                             <span wire:loading.flex wire:target="audio_file"
                                                   style="color:#1b3a62"></span>
                                         </div>
-
-                                        <div class="form-group" x-data="{ progress: 0 }"
-                                             x-on:livewire-upload-progress="progress = $event.detail.progress"
-                                             x-on:livewire-upload-finish="progress = 0"
-                                             x-on:livewire-upload-error="progress = 0">
-                                            <div class="d-flex justify-content-between">
-                                                <label class="form-label fs-4" style="color: #1b3a62">Document File
-                                                    Upload</label>
-                                                <div class="form-check form-switch mb-0">
-                                                    <label class="form-label fs-4" style="color: #1b3a62">Allow
-                                                        Download</label>
-                                                    <input class="form-check-input" type="checkbox"
-                                                           style="margin-top: 10px"
-                                                           wire:model.defer="download_document"
-                                                           name="download_document">
-                                                </div>
-                                            </div>
-                                            <input wire:model="document_file"
-                                                   id="resource_file"
-                                                   class="form-control input-form-style document_file"
-                                                   type="file"
-                                                   accept="document/*">
-                                            {{-- Progress bar --}}
-                                            <div class="progress mt-2" x-show="progress > 0">
-                                                <div class="progress-bar" role="progressbar"
-                                                     :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
-                                                     x-text="`${progress}%`">
-                                                </div>
-                                            </div>
-                                            <span wire:loading.flex wire:target="audio_file"
-                                                  style="color:#1b3a62"></span>
-                                        </div>
                                     @endif
+
+                                    <div class="form-group">
+
+                                        {{-- Header --}}
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="form-label fs-4" style="color: #1b3a62">
+                                                Document File Upload
+                                            </label>
+
+                                            <button type="button"
+                                                    wire:click="addDocument"
+                                                    class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">
+                                                +
+                                            </button>
+                                        </div>
+
+                                        @foreach($documents as $index => $file)
+                                            <div class="mt-3"
+                                                wire:key="document-{{ $index }}"
+                                                x-data="{ progress: 0 }"
+                                                x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                                x-on:livewire-upload-finish="progress = 0"
+                                                x-on:livewire-upload-error="progress = 0">
+
+                                                <div class="d-flex align-items-center">
+                                                    <input type="file"
+                                                        wire:model="documents.{{ $index }}.file"
+                                                        class="form-control input-form-style"
+                                                        accept=".pdf,.doc,.docx,.xls,.xlsx">
+
+                                                    @if(count($documents) > 1)
+                                                        <button type="button"
+                                                                wire:click="removeDocument({{ $index }})"
+                                                                class="btn updateBtn btn-sm text-white btn-remove-doc ms-2">
+                                                            -
+                                                        </button>
+                                                    @endif
+                                                </div>
+
+                                              
+                                                <div class="progress mt-2" x-show="progress > 0">
+                                                    <div class="progress-bar"
+                                                        role="progressbar"
+                                                        :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
+                                                        x-text="`${progress}%`">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-check form-switch mt-2">
+                                                    <input type="checkbox"
+                                                        wire:model="documents.{{ $index }}.allow_download"
+                                                        class="form-check-input">
+                                                    <label class="form-label">Allow Download</label>
+                                                </div>
+
+                                            </div>
+                                        @endforeach
+                                    </div>
 
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
@@ -797,93 +833,124 @@
                                                              src="{{ $editResourceData['thumbnail_url']['url'] }}">
                                                     </div>
                                                 @endif
-                                                <div class="form-group" x-data="{ progress: 0 }"
-                                                     x-on:livewire-upload-progress="progress = $event.detail.progress"
-                                                     x-on:livewire-upload-finish="progress = 0"
-                                                     x-on:livewire-upload-error="progress = 0">
-                                                    <div class="d-flex justify-content-between">
-                                                        <label class="form-label fs-4" style="color: #1b3a62">New Document File
-                                                            Upload</label>
-                                                        <div class="form-check form-switch mb-0">
-                                                            <label class="form-label fs-4" style="color: #1b3a62">Allow
-                                                                Download</label>
-                                                            <input class="form-check-input" type="checkbox" style="margin-top: 10px"
-                                                                   wire:model.defer="download_document"
-                                                                   name="download_document">
-                                                        </div>
-                                                    </div>
-                                                    <input wire:model="document_file"
-                                                           id="resource_file"
-                                                           class="form-control input-form-style document_file"
-                                                           type="file"
-                                                           accept="document/*">
-{{--                                                     Progress bar--}}
-                                                    <div class="progress mt-2" x-show="progress > 0">
-                                                        <div class="progress-bar" role="progressbar"
-                                                             :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"
-                                                             x-text="`${progress}%`">
-                                                        </div>
-                                                    </div>
-                                                    <span wire:loading.flex wire:target="document_file"
-                                                          style="color:#1b3a62"></span>
-                                                </div>
+                                                
                                             @endif
                                         @endif
-                                        @if(!empty($editResourceData['document_url']))
-{{--                                            <div class="form-group" x-data="{ progress: 0 }"--}}
-{{--                                                 x-on:livewire-upload-progress="progress = $event.detail.progress"--}}
-{{--                                                 x-on:livewire-upload-finish="progress = 0"--}}
-{{--                                                 x-on:livewire-upload-error="progress = 0">--}}
-{{--                                                <div class="d-flex justify-content-between">--}}
-{{--                                                    <label class="form-label fs-4" style="color: #1b3a62">New Document--}}
-{{--                                                        File Upload</label>--}}
-{{--                                                    --}}{{--                                                        <div class="form-check form-switch mb-0">--}}
-{{--                                                    --}}{{--                                                            <label class="form-label fs-4" style="color: #1b3a62">Allow Download</label>--}}
-{{--                                                    --}}{{--                                                            <input class="form-check-input" type="checkbox" style="margin-top: 10px"--}}
-{{--                                                    --}}{{--                                                                   wire:model.defer="download_document"--}}
-{{--                                                    --}}{{--                                                                   name="document_download">--}}
-{{--                                                    --}}{{--                                                        </div>--}}
-{{--                                                </div>--}}
-{{--                                                <input wire:model="document_file"--}}
-{{--                                                       id="resource_file"--}}
-{{--                                                       class="form-control input-form-style document_file"--}}
-{{--                                                       type="file"--}}
-{{--                                                       accept="document/*">--}}
-{{--                                                --}}{{-- Progress bar --}}
-{{--                                                <div class="progress mt-2" x-show="progress > 0">--}}
-{{--                                                    <div class="progress-bar" role="progressbar"--}}
-{{--                                                         :style="`width: ${progress}%; background-color:#1b3a62; color:white; padding-top: 8px; padding-bottom: 8px`"--}}
-{{--                                                         x-text="`${progress}%`">--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                                <span wire:loading.flex wire:target="document_file"--}}
-{{--                                                      style="color:#1b3a62"></span>--}}
-{{--                                            </div>--}}
-                                            <div class="d-flex justify-content-between">
-                                                <label class="form-label fs-4" style="color: #1b3a62">Uploaded Document
-                                                    File</label>
-                                                <div class="form-check form-switch mb-0">
-                                                    <label class="form-label fs-4" style="color: #1b3a62">Allow
-                                                        Download</label>
-                                                    <input class="form-check-input" type="checkbox"
-                                                           style="margin-top: 10px"
-                                                           wire:model.defer="download_document"
-                                                           name="download_document"{{ $download_document ? 'checked' : '' }}>
-                                                </div>
-                                            </div>
-                                            <div class="form-group mt-2">
-                                                <a href="{{ $editResourceData['document_url']['path'] }}"
-                                                   target="_blank"
-                                                   rel="noopener noreferrer"
-                                                   style="background-color: #1b3a62;padding: 10px 20px;border-radius: 5px;color: white;font-size: medium;font-weight: bold;"
-                                                   onclick="window.open(this.href, '_blank'); return false;">
-                                                    View Document
-                                                </a>
-                                            </div>
-                                        @endif
-
                                     @endif
 
+                                    {{-- ================= DOCUMENTS SECTION ================= --}}
+                                   
+                                    <div class="form-group mt-4">
+
+                                        {{-- New Documents Section --}}
+                                      
+                                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                                <label class="form-label fs-4" style="color: #1b3a62">
+                                                    New Documents
+                                                </label>
+
+                                                <button type="button"
+                                                        wire:click="addNewDocument"
+                                                        class="btn btn-sm updateBtn text-white">
+                                                    +
+                                                </button>
+                                            </div>
+
+                                            @foreach($newDocuments as $index => $doc)
+                                                <div class="d-flex align-items-center mt-2" wire:key="new-doc-{{ $index }}">
+
+                                                    {{-- File Input --}}
+                                                    <input type="file"
+                                                        wire:model="newDocuments.{{ $index }}.file"
+                                                        class="form-control input-form-style me-2"> {{-- me-2 = margin-right --}}
+
+                                                    {{-- Allow Download Checkbox --}}
+                                                 
+                                                    <label class="form-label mb-1" style="color: #1b3a62; font-weight: 500;">
+                                                        Allow Download
+                                                    </label>
+
+                                                    {{-- Checkbox input below label --}}
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox"
+                                                            wire:model="newDocuments.{{ $index }}.allow_download"
+                                                            class="form-check-input">
+                                                    </div>
+
+                                                    {{-- Remove Button --}}
+                                                    <button type="button"
+                                                            wire:click="removeNewDocument({{ $index }})"
+                                                            class="btn btn-sm btn-danger">
+                                                        &times;
+                                                    </button>
+                                                </div>
+
+                                                {{-- Progress Bar Below Row --}}
+                                                <div class="progress mt-1" x-data="{ progress: 0 }"
+                                                    x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                                    x-on:livewire-upload-finish="progress = 0"
+                                                    x-on:livewire-upload-error="progress = 0"
+                                                    x-show="progress > 0">
+                                                    <div class="progress-bar"
+                                                        :style="`width: ${progress}%; background:#1b3a62; color:white; padding:6px`"
+                                                        x-text="`${progress}%`">
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                    
+                                        {{-- Existing Documents Section --}}
+                                        <label class="form-label fs-4 mt-4" style="color: #1b3a62">
+                                            Documents
+                                        </label>
+
+                                        @if(!empty($documents))
+                                            @foreach($documents as $index => $file)
+                                                <div class="d-flex align-items-center mt-2" wire:key="doc-{{$index}}">
+
+                                                  
+                                                    <input type="file"
+                                                        wire:model="documents.{{ $index }}.file"
+                                                        class="form-control input-form-style me-2">
+
+                                                  <div class="d-flex flex-column mt-2">
+
+                                                       
+                                                        <label class="form-label mb-1" style="color: #1b3a62; font-weight: 500;">
+                                                            Allow Download
+                                                        </label>
+
+                                                       
+                                                        <div class="form-check form-switch">
+                                                            <input type="checkbox"
+                                                                wire:model="documents.{{ $index }}.allow_download"
+                                                                class="form-check-input">
+                                                        </div>
+
+                                                    </div>
+
+                                                    <button type="button"
+                                                            wire:click="removeDocument({{ $index }})"
+                                                            class="btn btn-sm btn-danger">
+                                                        &times;
+                                                    </button>
+
+                                                </div>
+
+                                                
+                                                @if(!empty($file['file_path']))
+                                                    <a href="{{ $file['file_path'] }}"
+                                                    target="_blank"
+                                                    class="mt-1 d-block"
+                                                    style="padding:6px 12px;border-radius:5px;">
+                                                        View Document
+                                                    </a>
+                                                @endif
+
+                                            @endforeach
+                                        @endif
+
+                                    
+                                    </div>
                                     <label class="form-label fs-4" style="color: #1b3a62">Permission Level</label>
                                     <div class="row">
                                         <div class="col-4">
@@ -1400,3 +1467,29 @@
 
     </script>
 @endpush
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
