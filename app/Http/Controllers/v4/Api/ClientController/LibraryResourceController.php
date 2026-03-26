@@ -105,6 +105,11 @@ class LibraryResourceController extends Controller
                     default => false,
                 };
 
+                
+                if (!$item->relationLoaded('documents')) {
+                    $item->load('documents.upload');
+                }
+
                 $document_urls = $item->documents
                     ->map(fn($doc) => [
                         'url' => $doc->document_url,

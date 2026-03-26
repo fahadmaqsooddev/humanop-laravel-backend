@@ -25,9 +25,13 @@ class LibraryResourceDocument extends Model
         foreach ($documents as $doc) {
             if (empty($doc['file'])) continue;
 
+            $uploadId = null;
+
             try {
+              
                 $uploadId = Upload::uploadFile($doc['file'], '', '', 'document');
 
+               
                 self::create([
                     'resource_id' => $resourceId,
                     'document_id' => $uploadId,
@@ -35,12 +39,19 @@ class LibraryResourceDocument extends Model
                 ]);
 
             } catch (\Throwable $e) {
-                Log::error('Document upload failed', [
-                    'resource_id' => $resourceId,
-                    'error' => $e->getMessage()
-                ]);
 
-                throw $e; 
+                if ($uploadId) {
+                    try {
+                        Upload::deleteFile($uploadId);
+                    } catch (\Throwable $deleteException) {
+                        Log::error('Failed to delete orphan upload', [
+                            'upload_id' => $uploadId,
+                            'error' => $deleteException->getMessage(),
+                        ]);
+                    }
+                }
+
+                throw $e;
             }
         }
     }
@@ -75,6 +86,7 @@ class LibraryResourceDocument extends Model
         $toDelete = collect();
         $filesToDelete = [];
 
+    
         DB::transaction(function () use ($resourceId, $existingDocuments, $newDocuments, &$toDelete, &$filesToDelete) {
 
             $existingIds = collect($existingDocuments)->pluck('id')->filter()->values();
@@ -88,38 +100,40 @@ class LibraryResourceDocument extends Model
                 $toDelete = collect();
             }
 
+            // Collect old document IDs to delete later (after transaction)
+            $filesToDelete = $toDelete->pluck('document_id')->filter()->all();
+
+            // Delete old document records from DB
             self::whereIn('id', $toDelete->pluck('id'))->delete();
 
+            // Get existing document records for update
             $existingDocRecords = self::whereIn('id', $existingIds)->get()->keyBy('id');
 
             foreach ($existingDocuments as $existingDocument) {
-
                 if (!empty($existingDocument['id']) && isset($existingDocRecords[$existingDocument['id']])) {
 
                     $existingDocRecord = $existingDocRecords[$existingDocument['id']];
 
+                    // Handle file replacement
                     if (!empty($existingDocument['file'])) {
-
                         $uploadId = Upload::uploadFile($existingDocument['file'], '', '', 'document');
 
-                        $oldFileId = $existingDocRecord->document_id;
+                        // Queue old file for deletion after DB commit
+                        if ($existingDocRecord->document_id) {
+                            $filesToDelete[] = $existingDocRecord->document_id;
+                        }
 
                         $existingDocRecord->document_id = $uploadId;
-
-                        if ($oldFileId) {
-                            $filesToDelete[] = $oldFileId;
-                        }
                     }
 
                     $existingDocRecord->download_document = $existingDocument['allow_download'] ?? false;
-
                     $existingDocRecord->save();
                 }
             }
 
+            // Add new documents
             foreach ($newDocuments as $doc) {
                 if (!empty($doc['file'])) {
-
                     $uploadId = Upload::uploadFile($doc['file'], '', '', 'document');
 
                     self::create([
@@ -129,18 +143,17 @@ class LibraryResourceDocument extends Model
                     ]);
                 }
             }
-
         });
 
-       
-        foreach ($toDelete as $doc) {
-            if ($doc->document_id) {
-                Upload::deleteFile($doc->document_id);
-            }
-        }
-
+        // Delete old files safely outside transaction
         foreach ($filesToDelete as $fileId) {
-            Upload::deleteFile($fileId);
+            if ($fileId) {
+                try {
+                    Upload::deleteFile($fileId);
+                } catch (\Exception $e) {
+                    report($e);
+                }
+            }
         }
     }
 
