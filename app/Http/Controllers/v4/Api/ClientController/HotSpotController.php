@@ -134,6 +134,28 @@ class HotSpotController extends Controller
             $trend = 'NEUTRAL';
         }
 
+        // ------------------ Hotspot Delta ------------------
+        $hotspotNameMap = HotSpot::pluck('name', 'id')->toArray();
+
+        $mapHotspots = function ($list, $type) use ($hotspotNameMap) {
+            return collect($list)->values()->map(function ($id, $index) use ($hotspotNameMap, $type) {
+
+                $name = $hotspotNameMap[$id] ?? 'Unknown';
+
+                return [
+                    'id' => 'HOTSPOT_' . str_pad($id, 2, '0', STR_PAD_LEFT),
+                    'name' => $name,
+                    'priority' => $id,
+                    'description' => ucfirst($type) . " Priority #{$id} ({$name})",
+                    'count' => $index + 1
+                ];
+            })->toArray();
+        };
+
+        $resolved = $mapHotspots(array_diff($prevHotspots, $currHotspots), 'eliminated');
+        $new = $mapHotspots(array_diff($currHotspots, $prevHotspots), 'new');
+        $persistent = $mapHotspots(array_intersect($prevHotspots, $currHotspots), 'persistent');
+
         // ------------------ Interval Shift ------------------
         $intervalShift = optional($prevRows->first())->shift_interval !== optional($currRows->first())->shift_interval;
 
@@ -145,6 +167,13 @@ class HotSpotController extends Controller
                 'interval_shift' => $intervalShift,
                 'previous_assessment_date' => $previousAssessment->updated_at,
                 'current_assessment_date' => $latestAssessment->updated_at,
+
+                'hotspot_delta' => [
+                    'resolved' => $resolved,
+                    'new' => $new,
+                    'persistent' => $persistent
+                ],
+
                 'authentic_shifts' => [
                     'interval_of_life' => $intervalShift,
                     'traits' => $traitsShifts,
@@ -154,6 +183,7 @@ class HotSpotController extends Controller
                     'perception' => $perceptionShifts,
                     'energy_pool' => $energyShifts
                 ],
+
                 'hai_analysis_prompt_context' => [
                     'context_note' => $contextNote
                 ]
