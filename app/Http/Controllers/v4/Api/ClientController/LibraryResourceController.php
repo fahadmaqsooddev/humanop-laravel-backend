@@ -45,6 +45,7 @@ class LibraryResourceController extends Controller
                 $this->user
             );
 
+
             $data = Helpers::pagination(
                 $query,
                 $request->input('pagination', true),
@@ -105,9 +106,11 @@ class LibraryResourceController extends Controller
                 };
 
                 $document_urls = $item->documents
-                    ->map(fn($doc) => $doc->document_url)
-                    ->filter() 
-                    ->values() 
+                    ->map(fn($doc) => [
+                        'url' => $doc->document_url,
+                        'downloadable' => (bool) $doc->download_document,
+                    ])
+                    ->values()
                     ->all();
 
                 $transformed[] = [
@@ -123,7 +126,6 @@ class LibraryResourceController extends Controller
                     'audio_url'     => Helpers::extractFilePath($item->audio_url ?? null),
                     'thumbnail_url' => Helpers::extractFilePath($item->thumbnail_url ?? null, 'url'),
                     'document_urls' => $document_urls,
-                    'allow_download' => $item->download_document == 1,
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => $libraryPermissionName,
                     "library_permission_allow" => $libraryPermissionAllow && $finalPrice === 0 && $points === 0,

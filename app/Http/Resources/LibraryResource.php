@@ -53,6 +53,17 @@ class LibraryResource extends JsonResource
 
             
         $points = (int) ($libraryPermission->point ?? 0);
+
+
+       
+        $document_urls = $this->documents
+            ->map(fn($doc) => [
+                'url' => $doc->document_url,
+                'downloadable' => (bool) $doc->download_document,
+            ])
+            ->values()
+            ->all();
+
       
         $libraryPermissionName = match ($permission) {
             Admin::FREEMIUM_PLAN => Admin::FREEMIUM_TEXT,
@@ -85,14 +96,13 @@ class LibraryResource extends JsonResource
             "video_url" => $this->video_url,
             "audio_url" => $this->audio_url,
             "thumbnail_url" => data_get($this->thumbnail_url, 'url'),
-            "document_urls" => $this->document_url,
-            "allow_download" => (bool) $this->download_document,
+            "document_urls" => $document_urls,
             "resource_category_name" => $this->resourceCategory?->name,
             "library_permission_name" => $libraryPermissionName,
             "library_permission_allow" => $libraryPermissionAllow && $finalPrice === 0 && $points === 0,
             "price" => $finalPrice,
             "point" => $points,
-           'my_playlist' => $this->playlistLogs->isNotEmpty() ? 1 : 0,
+            'my_playlist' => $this->playlistLogs->isNotEmpty() ? 1 : 0,
             "note" => optional($this->notes)->notes,
             "note_id" => optional($this->notes)->id,
         ];

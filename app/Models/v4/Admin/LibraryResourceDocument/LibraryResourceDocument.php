@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Upload\Upload;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\Helpers;
+use Illuminate\Support\Facades\DB;
 class LibraryResourceDocument extends Model
 {
     use HasFactory;
@@ -68,43 +69,46 @@ class LibraryResourceDocument extends Model
         })->toArray();
     }
 
-   
+
     public static function updateDocuments(int $resourceId, array $existingDocuments, array $newDocuments = [])
     {
+        $toDelete = collect();
+        $filesToDelete = [];
 
+        DB::transaction(function () use ($resourceId, $existingDocuments, $newDocuments, &$toDelete, &$filesToDelete) {
 
-        $existingIds = collect($existingDocuments)->pluck('id')->filter()->values();
+            $existingIds = collect($existingDocuments)->pluck('id')->filter()->values();
 
-        $query = self::where('resource_id', $resourceId);
-
-        if ($existingIds->isNotEmpty()) {
-            $query->whereNotIn('id', $existingIds);
-        }
-
-        $toDelete = $query->get();
-
-        foreach ($toDelete as $doc) {
-            if ($doc->document_id) {
-                Upload::deleteFile($doc->document_id);
+          
+            if ($existingIds->isNotEmpty()) {
+                $toDelete = self::where('resource_id', $resourceId)
+                    ->whereNotIn('id', $existingIds)
+                    ->get();
+            } else {
+                $toDelete = collect();
             }
-        }
 
-        self::whereIn('id', $toDelete->pluck('id'))->delete();
-       
-        foreach ($existingDocuments as $existingDocument) {
+            self::whereIn('id', $toDelete->pluck('id'))->delete();
 
-            if (!empty($existingDocument['id'])) {
-                $existingDocRecord = self::find($existingDocument['id']);
+            $existingDocRecords = self::whereIn('id', $existingIds)->get()->keyBy('id');
 
-                if ($existingDocRecord) {
+            foreach ($existingDocuments as $existingDocument) {
+
+                if (!empty($existingDocument['id']) && isset($existingDocRecords[$existingDocument['id']])) {
+
+                    $existingDocRecord = $existingDocRecords[$existingDocument['id']];
+
                     if (!empty($existingDocument['file'])) {
 
-                        if ($existingDocRecord->document_id) {
-                            Upload::deleteFile($existingDocRecord->document_id);
-                        }
-
                         $uploadId = Upload::uploadFile($existingDocument['file'], '', '', 'document');
+
+                        $oldFileId = $existingDocRecord->document_id;
+
                         $existingDocRecord->document_id = $uploadId;
+
+                        if ($oldFileId) {
+                            $filesToDelete[] = $oldFileId;
+                        }
                     }
 
                     $existingDocRecord->download_document = $existingDocument['allow_download'] ?? false;
@@ -112,21 +116,34 @@ class LibraryResourceDocument extends Model
                     $existingDocRecord->save();
                 }
             }
-        }
 
-        
-        foreach ($newDocuments as $doc) {
-            if (!empty($doc['file'])) {
-                $uploadId = Upload::uploadFile($doc['file'], '', '', 'document');
+            foreach ($newDocuments as $doc) {
+                if (!empty($doc['file'])) {
 
-                self::create([
-                    'resource_id' => $resourceId,
-                    'document_id' => $uploadId,
-                    'download_document' => $doc['allow_download'] ?? false,
-                ]);
+                    $uploadId = Upload::uploadFile($doc['file'], '', '', 'document');
+
+                    self::create([
+                        'resource_id' => $resourceId,
+                        'document_id' => $uploadId,
+                        'download_document' => $doc['allow_download'] ?? false,
+                    ]);
+                }
+            }
+
+        });
+
+       
+        foreach ($toDelete as $doc) {
+            if ($doc->document_id) {
+                Upload::deleteFile($doc->document_id);
             }
         }
+
+        foreach ($filesToDelete as $fileId) {
+            Upload::deleteFile($fileId);
+        }
     }
+
 
     public function upload()
     {
