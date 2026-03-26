@@ -95,9 +95,9 @@ class EnergyShieldService
 
     }
 
-    public function getState(int $userId): EnergyShieldState
+    public function getState(int $userId): ?EnergyShieldState
     {
-        return EnergyShieldState::query()->where('user_id', $userId)->firstOrFail();
+        return EnergyShieldState::query()->where('user_id', $userId)->first();
     }
 
 }

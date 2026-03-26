@@ -41,7 +41,7 @@ class Helpers
 
     public static function validationResponse($errors, $request = null)
     {
-        return response(['status' => false, 'message' => $errors], config('httpstatuscodes.not_acceptable_status'));
+        return response()->json(['status' => false, 'message' => $errors], config('httpstatuscodes.not_acceptable_status'));
     }
 
     public static function upgradePackageResponse($errors, $request = null)
@@ -1796,7 +1796,7 @@ class Helpers
         foreach ($firstRowDriver as $driver) {
             $countFirstRowDriver += $volume[$driver] ?? 0;
         }
-        
+
         $namesString = implode(', ', $names);
 
         $hotspots[] = [

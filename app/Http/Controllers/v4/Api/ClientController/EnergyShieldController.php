@@ -16,8 +16,13 @@ class EnergyShieldController extends Controller
     {
         $state = $energyShieldService->getState(Helpers::getUser()->id);
 
-        return Helpers::successResponse('Energy shield state', $state);
+        if ($state) {
+            return Helpers::successResponse('Energy shield state', $state);
+        }
+
+        return Helpers::validationResponse('Energy shield state not found');
 
     }
+
 
 }
