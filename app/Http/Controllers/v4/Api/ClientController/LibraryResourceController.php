@@ -43,7 +43,7 @@ class LibraryResourceController extends Controller
                 $request->input('relevance'),
                 $request->input('search_name'),
                 $this->user
-            )->with('documents.upload');
+            );
 
             $data = Helpers::pagination(
                 $query,

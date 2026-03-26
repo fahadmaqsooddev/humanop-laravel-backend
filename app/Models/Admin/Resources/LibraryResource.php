@@ -339,7 +339,7 @@ class LibraryResource extends Model
 //            $q->whereIn('permission', $permissionLevels);
 //        });
 
-        $query->with(['resourceCategory', 'libraryPermissions'])->orderBy('created_at', 'desc');
+        $query->with(['resourceCategory', 'libraryPermissions','documents.upload'])->orderBy('created_at', 'desc');
 
 
         return $query;
