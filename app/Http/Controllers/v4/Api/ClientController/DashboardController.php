@@ -390,9 +390,7 @@ class DashboardController extends Controller
             $assessment = $assessmentId
 
                 ? Assessment::where('id', $assessmentId)
-
                     ->where('user_id', $user->id)
-
                     ->first()
 
                 : Assessment::getLatestAssessment($user->id);
@@ -433,7 +431,7 @@ class DashboardController extends Controller
 
             $progress = min($days, $optimizationWindow);
 
-            $overall = $optimizationWindow > 0 ? (int) round(($progress / $optimizationWindow) * 100) : 0;
+            $overall = $optimizationWindow > 0 ? (int)round(($progress / $optimizationWindow) * 100) : 0;
 
             if ($userPlan === Admin::PREMIUM_PLAN_NAME) {
 
@@ -1373,20 +1371,32 @@ class DashboardController extends Controller
 
             $user = Helpers::getUser();
 
-            $timezoneMinutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
+            $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($user->timezone);
 
             $latestUpdatedAt = ActionPlan::whereUserId($user->id)
                 ->latest('updated_at')
                 ->value('updated_at');
 
-            $optimizationDays = $latestUpdatedAt
+            if ($latestUpdatedAt) {
 
-                ? now()->addMinutes($timezoneMinutes)
-                    ->diffInDays(Carbon::parse($latestUpdatedAt)->addMinutes($timezoneMinutes))
+                $userTime = Carbon::parse($latestUpdatedAt)
+                    ->addMinutes($minutes)
+                    ->startOfMinute();
 
-                : 0;
+                $currentTime = Carbon::now()
+                    ->addMinutes($minutes)
+                    ->startOfMinute();
 
-            $assessment = Assessment::where('user_id', $user->id)->latest('updated_at')->first(['id', 'page', 'web_page', 'app_page', 'updated_at']);
+                $optimizationDays = $userTime->diffInDays($currentTime);
+
+            } else {
+
+                $optimizationDays = 0;
+            }
+
+            $assessment = Assessment::where('user_id', $user->id)
+                ->latest('updated_at')
+                ->first(['id', 'page', 'web_page', 'app_page', 'updated_at']);
 
             if (!$assessment) {
 
@@ -1402,21 +1412,23 @@ class DashboardController extends Controller
 
                 } else {
 
-                    $tz = $user->timezone ?? config('app.timezone');
+                    $assessmentTime = Carbon::parse($assessment->updated_at)
+                        ->addMinutes($minutes)
+                        ->startOfMinute();
 
-                    $assessmentTime = Carbon::parse($assessment->updated_at)->timezone($tz);
-
-                    $currentTime = now()->timezone($tz)->startOfMinute();
+                    $currentTime = Carbon::now()
+                        ->addMinutes($minutes)
+                        ->startOfMinute();
 
                     $daysPassed = $assessmentTime->diffInDays($currentTime);
 
                     $remainingDays = max(0, self::ASSESSMENT_DAYS - $daysPassed);
-
                 }
-
             }
 
-            $optimizationWindow = $user->plan_name == Admin::PREMIUM_PLAN_NAME ? self::ASSESSMENT_DAYS : self::FREE_ASSESSMENT_DAYS;
+            $optimizationWindow = $user->plan_name == Admin::PREMIUM_PLAN_NAME
+                ? self::ASSESSMENT_DAYS
+                : self::FREE_ASSESSMENT_DAYS;
 
             return Helpers::successResponse('Energy shield status', [
                 'optimization_days' => $optimizationWindow,
@@ -1428,9 +1440,7 @@ class DashboardController extends Controller
         } catch (\Throwable $e) {
 
             return Helpers::serverErrorResponse($e->getMessage());
-
         }
-
     }
 
     public function updateUserSync(Request $request)
