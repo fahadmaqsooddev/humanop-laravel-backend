@@ -22,6 +22,7 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
     Route::get('get-assessment-video-track', 'AssessmentController@getAssessmentVideoTrack');
     Route::get('user-assessment-details', 'AssessmentController@userAssessmentDetails');
     Route::get('trend-direction', 'HotSpotController@getTrendDirection');
+    Route::get('generate-analysis', 'HotSpotController@generateAnalysis');
 
     // ❌ Routes to bypass assessment.completed middleware
     Route::get('assessment-status', 'AssessmentController@assessmentStatus')->withoutMiddleware('assessment.completed');
