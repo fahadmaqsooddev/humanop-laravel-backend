@@ -120,33 +120,18 @@ class LibraryResource extends Model
 
     public function getDocumentUrlAttribute()
     {
-     
-        $documentIds = $this->documents->pluck('document_id')->filter();
-        
-        $uploads = Upload::whereIn('id', $documentIds)
-            ->get()
-            ->keyBy('id'); 
+        return $this->documents
+            ->map(function ($doc) {
+                if (!$doc->upload) {
+                    return null;
+                }
 
-    
-        $urls = $this->documents->map(function ($doc) use ($uploads) {
-            if (!$doc->document_id || !isset($uploads[$doc->document_id])) {
-                return null;
-            }
-
-            $upload = $uploads[$doc->document_id];
-
-           
-            if ($upload->extension !== 'pdf') {
-                return null;
-            }
-
-            return url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name;
-        })->filter()->values()->all();
-
-        return $urls; 
+                return asset("media/documents/{$doc->upload->hash}/{$doc->upload->name}");
+            })
+            ->filter()
+            ->values()
+            ->all();
     }
-
-    
 
     public function getAudioUrlAttribute()
     {
@@ -382,6 +367,7 @@ class LibraryResource extends Model
                 $q->where('user_id', $user->id)
                 ->select('id', 'resource_item_id', 'user_id');
             },
+            'documents.upload'
         ])
         ->where('id', $id)
         ->whereHas('libraryPermissions', function ($q) use ($permissionLevels) {

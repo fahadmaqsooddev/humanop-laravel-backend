@@ -19,57 +19,51 @@ class LibraryResourceDocument extends Model
         parent::__construct($attributes);
     }
 
-    public static function storeDocuments($documents, $resourceId)
+    public static function storeDocuments(array $documents, int $resourceId): void
     {
-
         foreach ($documents as $doc) {
+            if (empty($doc['file'])) continue;
 
-            Log::info("Store Documents");
-            if (!empty($doc['file'])) {
-
-                $upload_id = Upload::uploadFile($doc['file'], '', '', 'document');
+            try {
+                $uploadId = Upload::uploadFile($doc['file'], '', '', 'document');
 
                 self::create([
                     'resource_id' => $resourceId,
-                    'document_id' => $upload_id,
+                    'document_id' => $uploadId,
                     'download_document' => $doc['allow_download'] ?? false,
                 ]);
+
+            } catch (\Throwable $e) {
+                Log::error('Document upload failed', [
+                    'resource_id' => $resourceId,
+                    'error' => $e->getMessage()
+                ]);
+
+                throw $e; 
             }
         }
     }
 
     public static function getDocumentsByResource($resourceId)
     {
-       
         $documents = self::where('resource_id', $resourceId)->get();
 
-       
         $documentIds = $documents->pluck('document_id')->filter()->all();
 
-       
         $uploads = Upload::whereIn('id', $documentIds)->get()->keyBy('id');
 
-       
         return $documents->map(function ($doc) use ($uploads) {
 
-            $fileUrl = null;
-
-            if ($doc->document_id && isset($uploads[$doc->document_id])) {
-                $upload = $uploads[$doc->document_id];
-
-              
-                if ($upload->extension === 'pdf') {
-                    $fileUrl = url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name;
-                }
-            }
+            $upload = $uploads[$doc->document_id] ?? null;
 
             return [
                 'id' => $doc->id,
-                'file' => null,
                 'document_id' => $doc->document_id,
                 'allow_download' => (bool) $doc->download_document,
-                'file_path' => $fileUrl,
-                'file_name' => $doc->upload?->name ?? null, // optional, already loaded relation
+                'file_path' => $upload 
+                    ? asset("media/documents/{$upload->hash}/{$upload->name}") 
+                    : null,
+                'file_name' => $upload?->name,
             ];
         })->toArray();
     }
@@ -77,6 +71,25 @@ class LibraryResourceDocument extends Model
    
     public static function updateDocuments(int $resourceId, array $existingDocuments, array $newDocuments = [])
     {
+
+
+        $existingIds = collect($existingDocuments)->pluck('id')->filter()->values();
+
+        $query = self::where('resource_id', $resourceId);
+
+        if ($existingIds->isNotEmpty()) {
+            $query->whereNotIn('id', $existingIds);
+        }
+
+        $toDelete = $query->get();
+
+        foreach ($toDelete as $doc) {
+            if ($doc->document_id) {
+                Upload::deleteFile($doc->document_id);
+            }
+        }
+
+        self::whereIn('id', $toDelete->pluck('id'))->delete();
        
         foreach ($existingDocuments as $existingDocument) {
 
@@ -85,7 +98,11 @@ class LibraryResourceDocument extends Model
 
                 if ($existingDocRecord) {
                     if (!empty($existingDocument['file'])) {
-                      
+
+                        if ($existingDocRecord->document_id) {
+                            Upload::deleteFile($existingDocRecord->document_id);
+                        }
+
                         $uploadId = Upload::uploadFile($existingDocument['file'], '', '', 'document');
                         $existingDocRecord->document_id = $uploadId;
                     }
@@ -119,12 +136,12 @@ class LibraryResourceDocument extends Model
 
     public function getDocumentUrlAttribute()
     {
-        if (!$this->relationLoaded('upload') || !$this->upload) {
+        $upload = $this->getRelationValue('upload');
+
+        if (!$upload) {
             return null;
         }
 
-        if ($this->upload->extension !== 'pdf') return null;
-
-        return url('/') . '/media/documents/' . $this->upload->hash . '/' . $this->upload->name;
+        return asset("media/documents/{$upload->hash}/{$upload->name}");
     }
 }

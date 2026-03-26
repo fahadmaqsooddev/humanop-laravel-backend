@@ -907,19 +907,19 @@
                                             @foreach($documents as $index => $file)
                                                 <div class="d-flex align-items-center mt-2" wire:key="doc-{{$index}}">
 
-                                                    {{-- File Input --}}
+                                                  
                                                     <input type="file"
                                                         wire:model="documents.{{ $index }}.file"
                                                         class="form-control input-form-style me-2">
 
                                                   <div class="d-flex flex-column mt-2">
 
-                                                        {{-- Label as heading --}}
+                                                       
                                                         <label class="form-label mb-1" style="color: #1b3a62; font-weight: 500;">
                                                             Allow Download
                                                         </label>
 
-                                                        {{-- Checkbox input below label --}}
+                                                       
                                                         <div class="form-check form-switch">
                                                             <input type="checkbox"
                                                                 wire:model="documents.{{ $index }}.allow_download"
@@ -928,9 +928,15 @@
 
                                                     </div>
 
+                                                    <button type="button"
+                                                            wire:click="removeDocument({{ $index }})"
+                                                            class="btn btn-sm btn-danger">
+                                                        &times;
+                                                    </button>
+
                                                 </div>
 
-                                                {{-- Existing File Link --}}
+                                                
                                                 @if(!empty($file['file_path']))
                                                     <a href="{{ $file['file_path'] }}"
                                                     target="_blank"
