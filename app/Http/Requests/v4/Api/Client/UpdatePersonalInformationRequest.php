@@ -20,18 +20,26 @@ class UpdatePersonalInformationRequest extends FormRequest
             'date_of_birth'   => 'required|date',
             'gender'          => 'required|in:male,female',
             'phone'           => 'nullable|string|max:25',
-            
             'timezone' => [
                 'nullable',
-                'string',
                 'max:255',
                 function ($attribute, $value, $fail) {
-                    if (!in_array($value, timezone_identifiers_list())) {
-                        $fail('Invalid timezone identifier. Please provide a valid timezone');
+                    $value = trim($value);
+                    $pattern = '/^UTC\/GMT [+-](0[0-9]|1[0-4]):[0-5][0-9] - [A-Za-z_\/]+$/';
+
+                    if (!preg_match($pattern, $value)) {
+                        $fail('Invalid timezone format. Example: UTC/GMT +05:00 - Asia/Karachi');
+                        return;
+                    }
+
+                    [, $named] = explode(' - ', $value, 2);
+                    $named = trim($named);
+
+                    if (!in_array($named, timezone_identifiers_list())) {
+                        $fail('Invalid timezone name. Example: Asia/Karachi');
                     }
                 }
             ],
-
             'profile_image'   => 'nullable|image|mimes:jpg,png,jpeg|max:3072',
             'nickname'        => 'nullable|string|max:100',
             'personal_quote'  => 'nullable|string|max:255',
