@@ -16,7 +16,7 @@ use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
 use App\Http\Requests\Client\Register\SmsCodeRequest;
 use App\Http\Requests\Client\Register\SmsRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
-use App\Http\Requests\RegisterLastStepRequest;
+use App\Http\Requests\v4\Api\Client\RegisterLastStepRequest;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\RecentActivity\RecentActivity;
