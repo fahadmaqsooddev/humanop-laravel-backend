@@ -85,7 +85,7 @@ class UserDailyTip extends Model
 
         $query = DailyTip::query()
             ->select('id', 'title', 'description')
-            ->whereHas('userTip', function ($q) use ($userId) {
+            ->whereHas('userDailyTips', function ($q) use ($userId) {
                 $q->where('user_id', $userId)
                     ->where('favorite_tip', 2);
             })
