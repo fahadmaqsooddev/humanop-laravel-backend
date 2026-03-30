@@ -20,7 +20,7 @@ use App\Events\v4\messages\MessageSent;
 use App\Events\v4\messages\NewMessage;
 use Illuminate\Support\Facades\DB;
 use App\Events\UserActionPerformed;
-use App\Enum\UserActions\UserActions;
+use App\Enums\UserActions\UserActions;
 
 class MessageController extends Controller
 {

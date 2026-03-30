@@ -16,7 +16,7 @@ use App\Events\Connection\ConnectionRequest;
 use App\Events\Connection\UnconnectRequest;
 use App\Events\Connection\RequestAccept;
 use App\Events\UserActionPerformed;
-use App\Enum\UserActions\UserActions;
+use App\Enums\UserActions\UserActions;
 
 class Connection extends Model
 {

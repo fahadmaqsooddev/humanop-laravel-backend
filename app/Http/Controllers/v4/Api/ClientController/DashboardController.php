@@ -41,7 +41,7 @@ use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\VersionControl\Version;
-use App\Enum\UserActions\UserActions;
+use App\Enums\UserActions\UserActions;
 
 class DashboardController extends Controller
 {

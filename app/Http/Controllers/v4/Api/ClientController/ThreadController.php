@@ -24,7 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function React\Promise\all;
 use App\Events\UserActionPerformed;
-use App\Enum\UserActions\UserActions;
+use App\Enums\UserActions\UserActions;
 
 class ThreadController extends Controller
 {

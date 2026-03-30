@@ -45,7 +45,7 @@ use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use function PHPUnit\Framework\lessThanOrEqual;
 use App\Events\UserActionPerformed;
-use App\Enum\UserActions\UserActions;
+use App\Enums\UserActions\UserActions;
 
 class UserController extends Controller
 {

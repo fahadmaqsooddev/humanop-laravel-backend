@@ -11,7 +11,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\UserActionPerformed;
-use App\Enum\UserActions\UserActions;
+use App\Enums\UserActions\UserActions;
 
 class MessageThreadRequest extends Model
 {

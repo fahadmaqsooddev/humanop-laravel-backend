@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Events\Follow\FollowRequest;
 use App\Events\UserActionPerformed;
 use App\Events\Follow\UnFollowRequest;
-use App\Enum\UserActions\UserActions;
+use App\Enums\UserActions\UserActions;
 class Follow extends Model
 {
     use HasFactory;
