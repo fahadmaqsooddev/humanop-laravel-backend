@@ -10,12 +10,15 @@ class UserActionService
 {
     public static function dispatch(int $userId, UserActions $action, array $details = []): void
     {
-        DB::afterCommit(function () use ($userId, $action, $details) {
-            event(new UserActionPerformed(
-                $userId,
-                $action->value,
-                $details
-            ));
-        });
+       $event = new UserActionPerformed($userId, $action->value, $details);
+
+        if (DB::transactionLevel() > 0) {
+
+            DB::afterCommit(fn() => event($event));
+            
+        } else {
+
+            event($event);
+        }
     }
 }

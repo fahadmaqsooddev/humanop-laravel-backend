@@ -83,6 +83,8 @@ class DashboardController extends Controller
 
             $user = Helpers::getWebUser() ?? $this->user;
 
+            UserActionService::dispatch($user['id'], UserActions::NEW_DAILY_TIP, ['message' => 'test message']);
+
             $assessment = Assessment::getLatestAssessment($user['id']);
 
             if (!empty($assessment)) {
