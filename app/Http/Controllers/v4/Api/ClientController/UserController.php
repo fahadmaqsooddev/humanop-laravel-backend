@@ -46,6 +46,7 @@ use Laravel\Socialite\Facades\Socialite;
 use function PHPUnit\Framework\lessThanOrEqual;
 use App\Events\UserActionPerformed;
 use App\Enums\UserActions\UserActions;
+use App\Services\v4\UserActionService;
 
 class UserController extends Controller
 {
@@ -437,7 +438,8 @@ class UserController extends Controller
 
                     Notification::createNotification('Remove Company', $message, $companyData['device_token'], $companyData['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION,null,true);
 
-                    event(new UserActionPerformed(
+                
+                    UserActionService::dispatch(
                         $user['id'],
                         UserActions::REMOVE_COMPANY,
                         [
@@ -446,7 +448,7 @@ class UserController extends Controller
                             'removed_user_id' => $user['id'],
                             'user_name' => $user['first_name'] . ' ' . $user['last_name'],
                         ]
-                    ));
+                    );
                     
 
                 }
@@ -989,7 +991,7 @@ class UserController extends Controller
 
                 Notification::createNotification('Remove Company', $message, $company['device_token'], $company['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION,null,true);
 
-                event(new UserActionPerformed(
+               UserActionService::dispatch(
                     $user['id'],
                     UserActions::REMOVE_COMPANY,
                     [
@@ -998,7 +1000,7 @@ class UserController extends Controller
                         'removed_user_id' => $user['id'],
                         'user_name' => $user['first_name'] . ' ' . $user['last_name'],
                     ]
-                ));
+                );
 
 
                 return Helpers::successResponse('You has been successfully removed from the company.');

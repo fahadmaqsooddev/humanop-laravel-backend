@@ -43,6 +43,8 @@ use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\VersionControl\Version;
 use App\Enums\UserActions\UserActions;
 
+use App\Services\v4\UserActionService;
+
 class DashboardController extends Controller
 {
     public $user = null;
@@ -171,7 +173,7 @@ class DashboardController extends Controller
 
                                 Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION, null, true);
 
-                                event(new UserActionPerformed($user['id'],UserActions::NEW_DAILY_TIP,['message' => $message]));
+                                UserActionService::dispatch($user['id'], UserActions::NEW_DAILY_TIP, ['message' => $message]);
 
                                 ActivityLogger::addLog('new daily tip', "$message");
 
@@ -187,7 +189,11 @@ class DashboardController extends Controller
 
                                 Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION, null, true);
 
-                                event(new UserActionPerformed($user['id'],UserActions::NEW_DAILY_TIP,['message' => $message]));
+                                UserActionService::dispatch(
+                                    $user['id'],
+                                    UserActions::NEW_DAILY_TIP,
+                                    ['message' => $message]
+                                );
 
                                 ActivityLogger::addLog('new daily tip', "$message");
 

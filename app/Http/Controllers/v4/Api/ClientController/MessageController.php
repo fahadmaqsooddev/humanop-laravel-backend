@@ -21,6 +21,8 @@ use App\Events\v4\messages\NewMessage;
 use Illuminate\Support\Facades\DB;
 use App\Events\UserActionPerformed;
 use App\Enums\UserActions\UserActions;
+use App\Services\v4\UserActionService;
+
 
 class MessageController extends Controller
 {
@@ -96,15 +98,15 @@ class MessageController extends Controller
 
                 DB::commit();
 
-                event(new UserActionPerformed(
-                    $this->user->id,
-                    UserActions::MESSAGE_SENT,
+                UserActionService::dispatch(
+                $this->user->id,
+                UserActions::MESSAGE_SENT,
                     [
                         'receiver_id' => $request->input('receiver_id'),
                         'message' => $request->input('message'),
                         'thread_id' => $thread->id ?? null,
                     ]
-                ));
+                );
 
                 return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
             } else {
@@ -224,15 +226,16 @@ class MessageController extends Controller
 
             DB::commit();
 
-            event(new UserActionPerformed(
+           
+            UserActionService::dispatch(
                 Helpers::getUser()->id,
                 UserActions::MESSAGE_SENT,
                 [
                     'receiver_id' => $request->input('receiver_id'),
                     'message' => $request->input('message'),
-                    'thread_id' => $thread->id ?? null,
+                    'thread_id' => $messageThread->id ?? null,
                 ]
-            ));
+            );
 
             return Helpers::successResponse('message', $message);
 

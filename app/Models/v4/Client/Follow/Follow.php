@@ -14,6 +14,7 @@ use App\Events\Follow\FollowRequest;
 use App\Events\UserActionPerformed;
 use App\Events\Follow\UnFollowRequest;
 use App\Enums\UserActions\UserActions;
+use App\Services\v4\UserActionService;
 class Follow extends Model
 {
     use HasFactory;
@@ -99,14 +100,14 @@ class Follow extends Model
 
                 Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
-                event(new UserActionPerformed(
-                    $data['follow_id'],
-                    UserActions::FOLLOW_REQUEST,
+                UserActionService::dispatch(
+                    $data['follow_id'], // user receiving the action
+                    UserActions::FOLLOWED,
                     [
                         'follower_id' => $data['user_id'],
                         'follower_name' => Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name,
                     ]
-                ));
+                );
 
             }
 
@@ -122,14 +123,15 @@ class Follow extends Model
 
             Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
-            event(new UserActionPerformed(
-                $data['follow_id'],
-                UserActions::UNFOLLOW_REQUEST,
+             // ✅ Updated to use UserActionService
+            UserActionService::dispatch(
+                $data['follow_id'], // user receiving the action
+                UserActions::UNFOLLOWED,
                 [
                     'follower_id' => $data['user_id'],
                     'follower_name' => Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name,
                 ]
-            ));
+            );
 
         }
 
