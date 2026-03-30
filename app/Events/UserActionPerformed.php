@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue; // <-- For queued events
 use Illuminate\Support\Facades\Log;
 
-class UserActionPerformed implements ShouldBroadcast, ShouldQueue
+class UserActionPerformed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels, InteractsWithQueue;
 
