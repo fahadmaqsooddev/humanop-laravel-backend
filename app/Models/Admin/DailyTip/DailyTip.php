@@ -40,6 +40,12 @@ class DailyTip extends Model
         return $this->hasOne(UserDailyTip::class, 'daily_tip_id', 'id')->where('user_id', Helpers::getWebUser()->id);
     }
 
+    public function userDailyTips()
+    {
+        return $this->hasMany(UserDailyTip::class, 'daily_tip_id');
+
+    }
+
     public static function getTip()
     {
         return self::get();
