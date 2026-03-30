@@ -92,6 +92,10 @@ class MessageController extends Controller
                 event(new NewMessage(Helpers::getUser()->id, $request->input('receiver_id'), $request->input('message'), $message['created_at']));
                 // Helpers::OneSignalApiUsed($request->input('receiver_id'), 'New Message Received', $request->input('message'));
 
+               
+
+                DB::commit();
+
                 event(new UserActionPerformed(
                     $this->user->id,
                     UserActions::MESSAGE_SENT,
@@ -101,8 +105,6 @@ class MessageController extends Controller
                         'thread_id' => $thread->id ?? null,
                     ]
                 ));
-
-                DB::commit();
 
                 return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
             } else {
@@ -218,6 +220,10 @@ class MessageController extends Controller
 
             Notification::createNotification('message sent', $heading, null, $this->user->id, 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION, $this->user->id,true);
 
+          
+
+            DB::commit();
+
             event(new UserActionPerformed(
                 Helpers::getUser()->id,
                 UserActions::MESSAGE_SENT,
@@ -227,8 +233,6 @@ class MessageController extends Controller
                     'thread_id' => $thread->id ?? null,
                 ]
             ));
-
-            DB::commit();
 
             return Helpers::successResponse('message', $message);
 

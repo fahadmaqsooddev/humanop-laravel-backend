@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldQueue;
@@ -14,9 +14,9 @@ class UserActionPerformed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels, InteractsWithQueue;
 
-   public int $userId;
-   public string $action;
-   public ?array $details;
+    public int $userId;
+    public string $action;
+    public ?array $details;
 
     /**
      * Create a new event instance.
@@ -26,7 +26,6 @@ class UserActionPerformed implements ShouldBroadcast
         $this->userId = $userId;
         $this->action = $action;
         $this->details = $details;
-
     }
 
     /**
@@ -35,8 +34,7 @@ class UserActionPerformed implements ShouldBroadcast
     public function broadcastOn()
     {
         $channelName = 'push-notification.' . $this->userId;
-
-        return new Channel($channelName);
+        return new PrivateChannel($channelName);
     }
 
     public function broadcastAs()
@@ -46,13 +44,11 @@ class UserActionPerformed implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        $payload = [
+        return [
             'user_id' => $this->userId,
             'action' => $this->action,
             'details' => $this->details,
             'time' => now()->toDateTimeString(),
         ];
-
-        return $payload;
     }
 }
