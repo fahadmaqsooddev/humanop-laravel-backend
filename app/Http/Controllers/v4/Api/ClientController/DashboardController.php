@@ -273,18 +273,6 @@ class DashboardController extends Controller
 
             $favoriteTips = UserDailyTip::getUserFavoriteDailyTip($request->input('pagination'), $request->input('per_page'));
 
-            $data = [];
-
-            foreach ($favoriteTips as $favoriteTip) {
-
-                foreach ($favoriteTip->dailyTips as $tip) {
-
-                    $data[] = $tip;
-                }
-            }
-
-            $favoriteTips->setCollection(collect($data));
-
             return Helpers::successResponse('Your favorite daily tips', $favoriteTips, $request->input('pagination'));
 
         } catch (\Exception $exception) {

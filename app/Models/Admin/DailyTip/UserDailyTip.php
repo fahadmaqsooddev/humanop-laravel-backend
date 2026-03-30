@@ -79,14 +79,15 @@ class UserDailyTip extends Model
         return false;
     }
 
-    public static function getUserFavoriteDailyTip($pagination = null, $perPage = null)
+    public static function getUserFavoriteDailyTip($pagination = null, $perPage = 10)
     {
         $userId = Helpers::getUser()['id'] ?? Helpers::getWebUser()['id'];
 
-        $dailyTips = self::where('user_id', $userId)
+        $dailyTips = self::with('dailyTips:id,title,description')
+            ->where('user_id', $userId)
             ->where('favorite_tip', 2)
-            ->with('dailyTips')
-            ->orderBy('updated_at', 'DESC');
+            ->orderBy('updated_at', 'DESC')
+            ->select('daily_tip_id');
 
         return Helpers::pagination($dailyTips, $pagination, $perPage);
     }
