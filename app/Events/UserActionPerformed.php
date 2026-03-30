@@ -28,13 +28,6 @@ class UserActionPerformed implements ShouldBroadcast, ShouldQueue
         $this->action = $action;
         $this->details = $details;
 
-        // Logging every time event is created
-        Log::info("UserActionPerformed event queued for user", [
-            'user_id' => $this->userId,
-            'action' => $this->action,
-            'details' => $this->details,
-            'time' => now()->toDateTimeString()
-        ]);
     }
 
     /**
@@ -43,10 +36,6 @@ class UserActionPerformed implements ShouldBroadcast, ShouldQueue
     public function broadcastOn()
     {
         $channelName = 'push-notification.' . $this->userId;
-
-        Log::debug("UserActionPerformed broadcasting on channel", [
-            'channel' => $channelName
-        ]);
 
         return new Channel($channelName);
     }
@@ -64,8 +53,6 @@ class UserActionPerformed implements ShouldBroadcast, ShouldQueue
             'details' => $this->details,
             'time' => now()->toDateTimeString(),
         ];
-
-        Log::debug("UserActionPerformed broadcast payload", $payload);
 
         return $payload;
     }
