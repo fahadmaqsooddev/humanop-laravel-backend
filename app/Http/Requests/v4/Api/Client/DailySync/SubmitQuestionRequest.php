@@ -3,7 +3,8 @@
 namespace App\Http\Requests\v4\Api\Client\DailySync;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 class SubmitQuestionRequest extends FormRequest
 {
     /**
@@ -25,10 +26,38 @@ class SubmitQuestionRequest extends FormRequest
     {
         return [
             'session_id' => ['required', 'integer', 'exists:daily_sync_sessions,id'],
-            'question_id' => ['required', 'integer', 'exists:daily_sync_questions,id'],
+            'question_id' => ['required', 'integer','exists:daily_sync_questions,id'],
             'response'   => ['required', 'string', 'max:500'],
         ];
     }
+
+
+     /**
+     * Configure the validator instance.
+     * Ensures question_id belongs to the given session_id.
+     *
+     * @param \Illuminate\Validation\Validator $validator
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $sessionId  = $this->input('session_id');
+            $questionId = $this->input('question_id');
+
+            $exists = DB::table('daily_sync_responses')
+                ->where('session_id', $sessionId)
+                ->where('question_id', $questionId)
+                ->exists();
+
+            if (!$exists) {
+                $validator->errors()->add(
+                    'question_id',
+                    'The selected question does not belong to the given session.'
+                );
+            }
+        });
+    }
+
 
     /**
      * Get custom messages for validator errors.
@@ -46,7 +75,7 @@ class SubmitQuestionRequest extends FormRequest
             'question_id.exists' => 'The selected question does not exist.',
             'response.required' => 'Response is required.',
             'response.string' => 'Response must be a string.',
-            'response.max' => 'Response may not exceed 500 characters.', // updated message
+            'response.max' => 'Response may not exceed 500 characters.',
         ];
     }
 }
