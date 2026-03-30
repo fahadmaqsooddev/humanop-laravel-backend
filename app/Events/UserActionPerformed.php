@@ -9,15 +9,14 @@ use Illuminate\Contracts\Broadcasting\ShouldQueue; // <-- Add this
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue; // <-- For queued events
-use Illuminate\Support\Facades\Log;
 
 class UserActionPerformed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels, InteractsWithQueue;
 
-    public $userId;
-    public $action;
-    public $details;
+   public int $userId;
+   public string $action;
+   public ?array $details;
 
     /**
      * Create a new event instance.
