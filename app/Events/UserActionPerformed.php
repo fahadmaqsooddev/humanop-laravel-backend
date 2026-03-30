@@ -3,46 +3,33 @@
 namespace App\Events;
 
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Broadcasting\InteractsWithSockets;
 
-class UserActionPerformed implements ShouldBroadcast
+class UserActionPerformed implements ShouldBroadcast, ShouldQueue
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels, InteractsWithQueue;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public int $userId;
-    public string $action;
-    public ?array $details;
+    public function __construct(
+        public int $userId,
+        public string $action,
+        public ?array $details = null
+    ) {}
 
-    /**
-     * Create a new event instance.
-     */
-    public function __construct($userId, $action, $details = null)
+    public function broadcastOn(): PrivateChannel
     {
-        $this->userId = $userId;
-        $this->action = $action;
-        $this->details = $details;
+        return new PrivateChannel("push-notification.{$this->userId}");
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     */
-    public function broadcastOn()
-    {
-        $channelName = 'push-notification.' . $this->userId;
-        return new PrivateChannel($channelName);
-    }
-
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'user-action-performed';
     }
 
-    public function broadcastWith()
+    public function broadcastWith(): array
     {
         return [
             'user_id' => $this->userId,
@@ -50,5 +37,10 @@ class UserActionPerformed implements ShouldBroadcast
             'details' => $this->details,
             'time' => now()->toDateTimeString(),
         ];
+    }
+
+    public function broadcastQueue(): string
+    {
+        return 'user-actions';
     }
 }
