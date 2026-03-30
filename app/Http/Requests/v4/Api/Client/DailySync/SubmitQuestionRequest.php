@@ -26,7 +26,7 @@ class SubmitQuestionRequest extends FormRequest
         return [
             'session_id' => ['required', 'integer', 'exists:daily_sync_sessions,id'],
             'question_id' => ['required', 'integer', 'exists:daily_sync_questions,id'],
-            'response' => ['required', 'string', 'max:65535'],
+            'response'   => ['required', 'string', 'max:500'],
         ];
     }
 
@@ -46,7 +46,7 @@ class SubmitQuestionRequest extends FormRequest
             'question_id.exists' => 'The selected question does not exist.',
             'response.required' => 'Response is required.',
             'response.string' => 'Response must be a string.',
-            'response.max' => 'Response may not exceed 65535 characters.',
+            'response.max' => 'Response may not exceed 500 characters.', // updated message
         ];
     }
 }
