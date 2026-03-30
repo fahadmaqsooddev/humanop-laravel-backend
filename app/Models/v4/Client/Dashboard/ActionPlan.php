@@ -187,7 +187,7 @@ class ActionPlan extends Model
 
         $plan = $userPlan == null || $userPlan == 'Freemium' ? Admin::FOURTEEN_DAYS_ACTION_PLAN : Admin::NINETY_DAYS_ACTION_PLAN;
 
-        return self::where('assessment_id', $assessment['id'])->where('type', $plan)->select(['id', 'type', 'priority', 'plan_text', 'text'])->latest()->first();
+        return self::where('assessment_id', $assessment['id'])->where('type', $plan)->select(['id', 'type', 'priority', 'plan_text', 'text', 'updated_at'])->latest()->first();
 
     }
 
