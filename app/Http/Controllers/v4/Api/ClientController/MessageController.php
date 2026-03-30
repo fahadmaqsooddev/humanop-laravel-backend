@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\DB;
 use App\Events\UserActionPerformed;
 use App\Enums\UserActions\UserActions;
 use App\Services\v4\UserActionService;
-
+use Illuminate\Support\Str;
 
 class MessageController extends Controller
 {
@@ -103,7 +103,7 @@ class MessageController extends Controller
                 UserActions::MESSAGE_SENT,
                     [
                         'receiver_id' => $request->input('receiver_id'),
-                        'message' => $request->input('message'),
+                        'message_preview' => Str::limit($request->input('message'), 50),
                         'thread_id' => $thread->id ?? null,
                     ]
                 );
@@ -232,7 +232,7 @@ class MessageController extends Controller
                 UserActions::MESSAGE_SENT,
                 [
                     'receiver_id' => $request->input('receiver_id'),
-                    'message' => $request->input('message'),
+                    'message_preview' => Str::limit($request->input('message'), 50),
                     'thread_id' => $messageThread->id ?? null,
                 ]
             );
