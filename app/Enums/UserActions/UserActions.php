@@ -1,5 +1,5 @@
 <?php 
-namespace App\Enum\UserActions;
+namespace App\Enums\UserActions;
 
 class UserActions
 {
