@@ -14,13 +14,21 @@ class EnergyShieldController extends Controller
 
     public function show(Request $request, EnergyShieldService $energyShieldService): JsonResponse
     {
-        $state = $energyShieldService->getState(Helpers::getUser()->id);
+        try {
 
-        if ($state) {
-            return Helpers::successResponse('Energy shield state', $state);
+            $state = $energyShieldService->getState(Helpers::getUser()->id);
+
+            if ($state) {
+                return Helpers::successResponse('Energy shield state', $state);
+            }
+
+            return Helpers::successResponse('Energy shield state', []);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
         }
-
-        return Helpers::validationResponse('Energy shield state not found');
 
     }
 
