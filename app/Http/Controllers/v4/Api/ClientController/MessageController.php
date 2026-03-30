@@ -226,7 +226,7 @@ class MessageController extends Controller
 
             DB::commit();
 
-           
+            // ✅ Dispatch via UserActionService
             UserActionService::dispatch(
                 Helpers::getUser()->id,
                 UserActions::MESSAGE_SENT,
