@@ -19,6 +19,8 @@ use Illuminate\Http\Request;
 use App\Events\v4\messages\MessageSent;
 use App\Events\v4\messages\NewMessage;
 use Illuminate\Support\Facades\DB;
+use App\Events\UserActionPerformed;
+use App\Enum\UserActions\UserActions;
 
 class MessageController extends Controller
 {
@@ -89,6 +91,16 @@ class MessageController extends Controller
 
                 event(new NewMessage(Helpers::getUser()->id, $request->input('receiver_id'), $request->input('message'), $message['created_at']));
                 // Helpers::OneSignalApiUsed($request->input('receiver_id'), 'New Message Received', $request->input('message'));
+
+                event(new UserActionPerformed(
+                    $this->user->id,
+                    UserActions::MESSAGE_SENT,
+                    [
+                        'receiver_id' => $request->input('receiver_id'),
+                        'message' => $request->input('message'),
+                        'thread_id' => $thread->id ?? null,
+                    ]
+                ));
 
                 DB::commit();
 
@@ -205,6 +217,16 @@ class MessageController extends Controller
             $heading = $senderUserName . " send you a message";
 
             Notification::createNotification('message sent', $heading, null, $this->user->id, 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION, $this->user->id,true);
+
+            event(new UserActionPerformed(
+                Helpers::getUser()->id,
+                UserActions::MESSAGE_SENT,
+                [
+                    'receiver_id' => $request->input('receiver_id'),
+                    'message' => $request->input('message'),
+                    'thread_id' => $thread->id ?? null,
+                ]
+            ));
 
             DB::commit();
 

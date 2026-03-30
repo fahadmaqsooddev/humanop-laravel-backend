@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Events\Connection\ConnectionRequest;
 use App\Events\Connection\UnconnectRequest;
 use App\Events\Connection\RequestAccept;
+use App\Events\UserActionPerformed;
+use App\Enum\UserActions\UserActions;
 
 class Connection extends Model
 {
@@ -82,6 +84,14 @@ class Connection extends Model
 
                 Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
+                event(new UserActionPerformed(
+                    $data['friend_id'],
+                    UserActions::CONNECTION_REQUEST_SENT,
+                    [
+                        'sender_id' => $data['user_id'],
+                        'sender_name' => Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name,
+                    ]
+                ));
 
                 toastr()->success("connection request was sent");
 
@@ -106,6 +116,15 @@ class Connection extends Model
             ActivityLogger::addLog('Connection Cancel', "{$msg}");
 
             Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
+
+            event(new UserActionPerformed(
+                $data['friend_id'],
+                UserActions::CONNECTION_REMOVED,
+                [
+                    'sender_id' => $data['user_id'],
+                    'sender_name' => Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name,
+                ]
+            ));
 
         } else if ($data['type'] === 'accept') {
 
@@ -133,6 +152,15 @@ class Connection extends Model
 
                 Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
+                event(new UserActionPerformed(
+                    $data['friend_id'],
+                    UserActions::CONNECTION_ACCEPTED,
+                    [
+                        'sender_id' => $data['user_id'],
+                        'sender_name' => Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name,
+                    ]
+                ));
+
 
             } elseif ($received_request && $send_request) {
 
@@ -148,6 +176,14 @@ class Connection extends Model
 
                 Notification::createNotification('connection accept', $msg, $user['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
+                event(new UserActionPerformed(
+                    $data['friend_id'],
+                    UserActions::CONNECTION_ACCEPTED,
+                    [
+                        'sender_id' => $data['user_id'],
+                        'sender_name' => Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name,
+                    ]
+                ));
 
             }
 

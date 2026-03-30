@@ -11,9 +11,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\Follow\FollowRequest;
-
+use App\Events\UserActionPerformed;
 use App\Events\Follow\UnFollowRequest;
-
+use App\Enum\UserActions\UserActions;
 class Follow extends Model
 {
     use HasFactory;
@@ -99,6 +99,15 @@ class Follow extends Model
 
                 Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
+                event(new UserActionPerformed(
+                    $data['follow_id'],
+                    UserActions::FOLLOW_REQUEST,
+                    [
+                        'follower_id' => $data['user_id'],
+                        'follower_name' => Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name,
+                    ]
+                ));
+
             }
 
         }else if ($request['type'] === "un-follow"){
@@ -112,6 +121,15 @@ class Follow extends Model
             ActivityLogger::addLog('Unfollow Request', "{$msg}");
 
             Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
+
+            event(new UserActionPerformed(
+                $data['follow_id'],
+                UserActions::UNFOLLOW_REQUEST,
+                [
+                    'follower_id' => $data['user_id'],
+                    'follower_name' => Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name,
+                ]
+            ));
 
         }
 
