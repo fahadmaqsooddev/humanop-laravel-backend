@@ -415,7 +415,15 @@ class DashboardController extends Controller
 
             $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($tz);
 
-            $updatedAt = Carbon::parse($actionPlan->updated_at)->addMinutes($minutes)->startOfMinute();
+            if (!$actionPlan || !$actionPlan->updated_at) {
+
+                $updatedAt = null;
+
+            } else {
+
+                $updatedAt = Carbon::parse($actionPlan->updated_at)->addMinutes($minutes)->startOfMinute();
+
+            }
 
             $currentDate = Carbon::now()->addMinutes($minutes)->startOfMinute();
 
