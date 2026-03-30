@@ -5,10 +5,10 @@ namespace App\Events;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldQueue; // <-- Add this
+use Illuminate\Contracts\Broadcasting\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue; // <-- For queued events
+use Illuminate\Queue\InteractsWithQueue;
 
 class UserActionPerformed implements ShouldBroadcast
 {
