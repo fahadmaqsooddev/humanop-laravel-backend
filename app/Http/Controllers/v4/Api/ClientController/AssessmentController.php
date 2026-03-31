@@ -61,6 +61,43 @@ class AssessmentController extends Controller
 
     }
 
+    public function getUserAssessments()
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $records = [];
+
+            foreach (
+                Assessment::query()
+
+                    ->where('user_id', $user->id)
+
+                    ->select(['id', 'updated_at'])
+
+                    ->orderByDesc('id')
+
+                    ->cursor() as $assessment
+
+            ) {
+
+                $records[] = [
+                    'id' => $assessment->id,
+                    'updated_at' => $assessment->updated_at,
+                ];
+            }
+
+            return Helpers::successResponse('Assessment ids with updated_at', $records);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
     public function assessmentAnswers(AssessmentAnswersRequest $request)
     {
 
