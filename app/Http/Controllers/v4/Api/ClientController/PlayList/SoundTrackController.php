@@ -247,7 +247,7 @@ class SoundTrackController extends Controller
 
             $playList = $playlists[$item->id] ?? collect();
             $gridsForItem = $grids[$item->id] ?? collect();
-            $gridPublicName = $gridsForItem->map(fn($g) => $codeDetails[$g['grid_name']]->public_name ?? null)
+            $gridPublicName = $gridsForItem->map(fn($g) => $codeDetails->get($g['grid_name'])->public_name ?? null)
                                ->filter()
                                ->values()
                                ->toArray();
@@ -307,7 +307,7 @@ class SoundTrackController extends Controller
 
             $playList = $shopPlaylists[$resource->id] ?? collect();
             $gridsForResource = $shopGrids[$resource->id] ?? collect();
-            $gridPublicName = $gridsForResource->map(fn($g) => $codeDetails[$g['grid_name']]->public_name ?? null)
+            $gridPublicName = $gridsForResource->map(fn($g) => $codeDetails->get($g['grid_name'])->public_name ?? null)
                                    ->filter()
                                    ->values()
                                    ->toArray();
@@ -323,7 +323,7 @@ class SoundTrackController extends Controller
 
                 $data = [
                     'id' => $resource->id,
-                    'category_name' => $resource['shopCategory']['name'] ?? null,
+                    'category_name' => optional($resource->shopCategory)->name,
                     'my_playlist' => $my_playlist,
                     'heading' => $resource->heading,
                     'created_at' => $resource->created_at,
