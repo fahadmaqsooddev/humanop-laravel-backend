@@ -45,25 +45,21 @@ class createUserHotSpotSeeder extends Seeder
 
             }
 
-            HotSpotUser::query()
+            DB::transaction(function () use ($assessment, $data, $trendTracker) {
 
-                ->where('assessment_id', $assessment->id)
+                HotSpotUser::query()
+                    ->where('assessment_id', $assessment->id)
+                    ->where('user_id', $assessment->user_id)
+                    ->delete();
 
-                ->where('user_id', $assessment->user_id)
+                $trendTracker->insertData(
+                    $assessment->id,
+                    $data,
+                    (int) $assessment->user_id,
+                    $assessment->date_of_birth
+                );
 
-                ->delete();
-
-            $trendTracker->insertData(
-
-                $assessment->id,
-
-                $data,
-
-                (int) $assessment->user_id,
-
-                $assessment->date_of_birth
-
-            );
+            });
 
         }
 

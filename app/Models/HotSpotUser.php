@@ -25,6 +25,11 @@ class HotSpotUser extends Model
         $resolvedDateOfBirth = $dateOfBirth ?? $authUser?->date_of_birth;
 
         if (empty($resolvedUserId) || empty($resolvedDateOfBirth)) {
+            Log::warning('HotSpotUser insertData skipped due to missing data', [
+                'user_id' => $resolvedUserId,
+                'dob' => $resolvedDateOfBirth,
+                'assessment_id' => $assessmentId,
+            ]);
             return;
         }
 
@@ -44,7 +49,7 @@ class HotSpotUser extends Model
                 'user_id' => $resolvedUserId,
                 'assessment_id' => $assessmentId,
                 'hotspot_id' => $hotspot['id'] ?? null,
-                'hotspot_score' => $hotspot['id'] ?? 0,
+                'hotspot_score' => $hotspot['score'] ?? 0,
                 'names' => $hotspot['name'] ?? null,
                 'shift_interval' => $shiftInterval,
                 'created_at' => $now,
