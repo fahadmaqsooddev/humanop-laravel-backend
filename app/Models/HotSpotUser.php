@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Helpers;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class HotSpotUser extends Model
 {
@@ -18,7 +19,7 @@ class HotSpotUser extends Model
         parent::__construct($attributes);
     }
 
-    public function insertData($assessmentId, $data, ?int $userId = null, ?string $dateOfBirth = null)
+    public function storeHotspotsFromAssessment($assessmentId, $data, ?int $userId = null, ?string $dateOfBirth = null)
     {
         $authUser = Helpers::getUser();
         $resolvedUserId = $userId ?? $authUser?->id;
@@ -57,7 +58,9 @@ class HotSpotUser extends Model
             ];
         }
 
-        self::insert($rows);
+        foreach (array_chunk($rows, 500) as $chunk) {
+            self::insert($chunk);
+        }
     }
 
      /**

@@ -258,7 +258,7 @@ class AssessmentService
         $data = Assessment::getAllRowGrid($assessment->id);
         if ($data) {
             $trendTracker = new HotSpotUser;
-            $trendTracker->insertData($assessment->id, $data);
+            $trendTracker->storeHotspotsFromAssessment($assessment->id, $data);
         }
         ActivityLogger::addLog('New Action Plan', "Your New 14 Days Action Plan");
     }

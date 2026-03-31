@@ -5,8 +5,9 @@ namespace Database\Seeders;
 use App\Models\Assessment;
 use App\Models\HotSpotUser;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class createUserHotSpotSeeder extends Seeder
+class CreateUserHotSpotSeeder extends Seeder
 {
     public function run()
     {
@@ -52,14 +53,14 @@ class createUserHotSpotSeeder extends Seeder
                     ->where('user_id', $assessment->user_id)
                     ->delete();
 
-                $trendTracker->insertData(
+                HotSpotUser::storeHotspotsFromAssessment(
                     $assessment->id,
                     $data,
                     (int) $assessment->user_id,
                     $assessment->date_of_birth
                 );
 
-            });
+            }, 3);
 
         }
 
