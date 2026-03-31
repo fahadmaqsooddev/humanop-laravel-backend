@@ -24,44 +24,70 @@ class HotSpotController extends Controller
         return is_array($data) && array_key_exists(0, $data) ? $data : [$data];
     }
 
-    private function getTrendData($userId, $dob)
+    private function getTrendData($userId, $dob, $request = null)
     {
+
         $latestAssessmentId = HotSpotUser::getLatestAssessmentId($userId);
+
         if (!$latestAssessmentId) {
+
             return ['error' => "No assessment data found"];
+
         }
 
         $previousAssessmentId = HotSpotUser::getPreviousAssessmentId($userId, $latestAssessmentId);
+
         if (!$previousAssessmentId) {
+
             return ['error' => "First Assessment. No Previous Data"];
+
         }
 
         // ------------------ Assessments ------------------
-        $latestAssessment = Assessment::singleAssessmentFromId($latestAssessmentId, null);
-        $previousAssessment = Assessment::singleAssessmentFromId($previousAssessmentId, null);
+        if (!empty($request['current_assessment_id']) && !empty($request['previous_assessment_id'])) {
+
+            $latestAssessment = Assessment::singleAssessmentFromId($request['current_assessment_id'], null);
+
+            $previousAssessment = Assessment::singleAssessmentFromId($request['previous_assessment_id'], null);
+
+        }else{
+
+            $latestAssessment = Assessment::singleAssessmentFromId($latestAssessmentId, null);
+
+            $previousAssessment = Assessment::singleAssessmentFromId($previousAssessmentId, null);
+
+        }
 
         $latestCore = Assessment::getCoreState($latestAssessment, $dob);
+
         $prevCore = Assessment::getCoreState($previousAssessment, $dob);
 
         // Helper to normalize array/object
         $normalize = function ($item) {
+
             if (!$item) return [];
+
             return is_array($item) && isset($item[0]) ? $item : [$item];
+
         };
 
         // Helper to calculate shifts
         $calculateShifts = function ($category, $prevData, $currData, $desc) use ($normalize) {
 
             $prevArr = collect($normalize($prevData))->pluck('public_name')->filter()->values()->toArray();
+
             $currArr = collect($normalize($currData))->pluck('public_name')->filter()->values()->toArray();
 
             $removed = array_values(array_diff($prevArr, $currArr));
+
             $added = array_values(array_diff($currArr, $prevArr));
 
             $max = max(count($removed), count($added));
+
             $shifts = [];
 
             for ($i = 0; $i < $max; $i++) {
+
                 $shifts[] = [
                     'category' => $category,
                     'prev_value' => $removed[$i] ?? ($prevArr[0] ?? null),
@@ -70,7 +96,9 @@ class HotSpotController extends Controller
                 ];
             }
 
+
             return $shifts;
+
         };
 
         $messages = config('hotspot_messages');
@@ -205,20 +233,27 @@ class HotSpotController extends Controller
             $user = Helpers::getUser();
 
             if ($user->plan_name != Admin::PREMIUM_PLAN_NAME) {
+
                 return Helpers::validationResponse("Only Premium Users can access this feature");
+
             }
 
-            $result = $this->getTrendData($user->id, $user->date_of_birth);
+            $result = $this->getTrendData($user->id, $user->date_of_birth, $request);
 
             if (isset($result['error'])) {
+
                 return Helpers::validationResponse($result['error']);
+
             }
 
             return Helpers::successResponse('Trend data', $result['data']);
 
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
     public function generateAnalysis(Request $request)
