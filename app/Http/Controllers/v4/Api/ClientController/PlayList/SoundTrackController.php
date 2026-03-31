@@ -207,127 +207,138 @@ class SoundTrackController extends Controller
 
     }
 
+
+    private function trackLists($type = 'audio')
+    {
+        $allLibraries = LibraryResource::allResourceCategories();
+        $allShopResources = ShopCategoryResource::getResources();
+
+        $resourceTransformed = [];
+        $shopTransformed = [];
+
+        $getGridPublicNames = function ($grids) {
+            $names = [];
+
+            foreach ($grids as $grid) {
+                $public = CodeDetail::getSinglePublicName($grid['grid_name']);
+                if (!empty($public['public_name'])) {
+                    $names[] = $public['public_name'];
+                }
+            }
+
+            return $names;
+        };
+
+        foreach ($allLibraries as $item) {
+
+            $playList = PlaylistLog::getSingleResourceItem($item['id']);
+            $grids = HumanOpItemsGridActivitiesLog::getResourceGrid($item['id']);
+            $gridPublicName = $getGridPublicNames($grids);
+            $paid = HumanOpLibraries::singleLibraryBuyItems($item['id']);
+
+            if (empty($item->photo_url) && (!empty($item->video_url) || !empty($item->audio_url))) {
+
+                $data = [
+                    'id' => $item->id,
+                    'heading' => $item->heading,
+                    'my_playlist' => !empty($playList) ? 1 : 0,
+                    'slug' => $item->slug,
+                    'description' => $item->description,
+                    'content' => $item->content,
+                    'relevance' => $item->relevance,
+                    'photo_url' => Helpers::extractFilePath($item->photo_url ?? null),
+                    'thumbnail_url' => Helpers::extractFilePath($item->thumbnail_url ?? null, 'url'),
+                    'document_url' => Helpers::extractFilePath($item->document_url ?? null),
+                    'allow_download' => $item->download_document === 1,
+                    'resource_category_name' => optional($item->resourceCategory)->name,
+                    'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
+                        1 => 'Freemium',
+                        2 => 'Beta Breaker',
+                        3 => 'Premium',
+                        4 => 'Freemium Only',
+                        5 => 'Beta Breaker Only',
+                        6 => 'Premium Only',
+                        default => 'null',
+                    },
+                    'price' => empty($paid) ? (int)(optional($item->libraryPermissions)->price ?? 0) : 0,
+                    'point' => empty($paid) ? (int)(optional($item->libraryPermissions)->point ?? 0) : 0,
+                    'grid' => $gridPublicName,
+                ];
+
+                // 👇 dynamic media
+                if ($type === 'audio') {
+                    $data['audio_url'] = Helpers::extractFilePath($item->audio_url ?? null);
+                } else {
+                    $data['video_url'] = Helpers::extractFilePath($item->video_url ?? null);
+                }
+
+                $resourceTransformed[] = $data;
+            }
+        }
+
+        foreach ($allShopResources as $resource) {
+
+            $playList = PlaylistLog::getSingleShopItem($resource['id']);
+            $grids = HumanOpItemsGridActivitiesLog::getShopGrid($resource['id']);
+            $gridPublicName = $getGridPublicNames($grids);
+            $paid = HumanOpLibraries::singleShopBuyItems($resource['id']);
+
+            if (empty($resource->document_url) && empty($resource->image_url) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
+
+                $data = [
+                    'id' => $resource->id,
+                    'category_name' => $resource['shopCategory']['name'] ?? null,
+                    'my_playlist' => !empty($playList) ? 1 : 0,
+                    'heading' => $resource->heading,
+                    'created_at' => $resource->created_at,
+                    'updated_at' => $resource->updated_at,
+                    'point' => empty($paid) ? (int)($resource->point ?? 0) : 0,
+                    'price' => empty($paid) ? (int)($resource->price ?? 0) : 0,
+                    'document_url' => $resource->document_url['path'] ?? null,
+                    'thumbnail_url' => $resource->thumbnail_url['url'] ?? null,
+                    'allow_download' => $resource->download_document === 1,
+                    'grid' => $gridPublicName,
+                ];
+
+                // 👇 dynamic media
+                if ($type === 'audio') {
+                    $data['audio_url'] = $resource->audio_url['path'] ?? null;
+                } else {
+                    $data['video_url'] = $resource->video_url['path'] ?? null;
+                }
+
+                $shopTransformed[] = $data;
+            }
+        }
+
+        return [
+            'resource_items' => $resourceTransformed,
+            'shop_items' => $shopTransformed,
+        ];
+    }
+
     public function soundTrackLists()
     {
         try {
-
-            $allLibraries = LibraryResource::allResourceCategories();
-
-            $allShopResources = ShopCategoryResource::getResources();
-
-            $resourceTransformed = [];
-
-            $shopTransformed = [];
-
-            $getGridPublicNames = function ($grids) {
-
-                $names = [];
-
-                foreach ($grids as $grid) {
-
-                    $public = CodeDetail::getSinglePublicName($grid['grid_name']);
-
-                    if (!empty($public['public_name'])) {
-                        $names[] = $public['public_name'];
-                    }
-
-                }
-
-                return $names;
-
-            };
-
-            foreach ($allLibraries as $item) {
-
-                $playList = PlaylistLog::getSingleResourceItem($item['id']);
-
-                $grids = HumanOpItemsGridActivitiesLog::getResourceGrid($item['id']);
-
-                $gridPublicName = $getGridPublicNames($grids);
-
-                $paid = HumanOpLibraries::singleLibraryBuyItems($item['id']);
-
-                if ((empty($item->photo_url)) && (!empty($item->video_url) || !empty($item->audio_url))) {
-
-                    $resourceTransformed[] = [
-                        'id' => $item->id,
-                        'heading' => $item->heading,
-                        'my_playlist' => !empty($playList) ? 1 : 0,
-                        'slug' => $item->slug,
-                        'description' => $item->description,
-                        'content' => $item->content,
-                        'relevance' => $item->relevance,
-                        'photo_url'     => Helpers::extractFilePath($item->photo_url ?? null),
-                        'video_url'     => Helpers::extractFilePath($item->video_url ?? null),
-                        'audio_url'     => Helpers::extractFilePath($item->audio_url ?? null),
-                        'thumbnail_url' => Helpers::extractFilePath($item->thumbnail_url ?? null, 'url'),
-                        'document_url'  => Helpers::extractFilePath($item->document_url ?? null),
-                        'allow_download' => $item->download_document === 1 ? true : false,
-                        'resource_category_name' => optional($item->resourceCategory)->name,
-                        'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
-                            1 => 'Freemium',
-                            2 => 'Beta Breaker',
-                            3 => 'Premium',
-                            4 => 'Freemium Only',
-                            5 => 'Beta Breaker Only',
-                            6 => 'Premium Only',
-                            default => 'null',
-                        },
-                        'price' => empty($paid) ? (int)(optional($item->libraryPermissions)->price ?? 0) : 0,
-                        'point' => empty($paid) ? (int)(optional($item->libraryPermissions)->point ?? 0) : 0,
-                        'grid' => $gridPublicName,
-                    ];
-
-                }
-
-            }
-
-            foreach ($allShopResources as $resource) {
-
-                $playList = PlaylistLog::getSingleShopItem($resource['id']);
-
-                $grids = HumanOpItemsGridActivitiesLog::getShopGrid($resource['id']);
-
-                $gridPublicName = $getGridPublicNames($grids);
-
-                $paid = HumanOpLibraries::singleShopBuyItems($resource['id']);
-
-                if (empty($resource->document_url) && empty($resource->image_url) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
-
-                    $shopTransformed[] = [
-                        'id' => $resource->id,
-                        'category_name' => $resource['shopCategory']['name'] ?? null,
-                        'my_playlist' => !empty($playList) ? 1 : 0,
-                        'heading' => $resource->heading,
-                        'created_at' => $resource->created_at,
-                        'updated_at' => $resource->updated_at,
-                        'point' => empty($paid) ? (int)($resource->point ?? 0) : 0,
-                        'price' => empty($paid) ? (int)($resource->price ?? 0) : 0,
-                        'video_url' => $resource->video_url['path'] ?? null,
-                        'audio_url' => $resource->audio_url['path'] ?? null,
-                        'document_url' => $resource->document_url['path'] ?? null,
-                        'thumbnail_url' => $resource->thumbnail_url['url'] ?? null,
-                        'allow_download' => $item->download_document === 1 ? true : false,
-                        'grid' => $gridPublicName,
-                    ];
-
-                }
-
-            }
-
-            $transformed = [
-                'resource_items' => $resourceTransformed,
-                'shop_items' => $shopTransformed,
-            ];
-
-            return Helpers::successResponse("Sound Track Lists", $transformed);
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
+            return Helpers::successResponse(
+                "Sound Track Lists",
+                $this->trackLists('audio')
+            );
+        } catch (\Exception $e) {
+            return Helpers::serverErrorResponse($e->getMessage());
         }
+    }
 
+    public function videoTrackLists()
+    {
+        try {
+            return Helpers::successResponse(
+                "Video Track Lists",
+                $this->trackLists('video')
+            );
+        } catch (\Exception $e) {
+            return Helpers::serverErrorResponse($e->getMessage());
+        }
     }
 
 }
