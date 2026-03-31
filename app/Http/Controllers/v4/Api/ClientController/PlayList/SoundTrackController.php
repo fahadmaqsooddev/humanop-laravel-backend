@@ -228,7 +228,7 @@ class SoundTrackController extends Controller
 
             return $names;
         };
-
+        
         foreach ($allLibraries as $item) {
 
             $playList = PlaylistLog::getSingleResourceItem($item['id']);
@@ -288,8 +288,7 @@ class SoundTrackController extends Controller
             $gridPublicName = $getGridPublicNames($grids);
             $paid = HumanOpLibraries::singleShopBuyItems($resource['id']);
 
-           if (empty($resource->document_url) &&
-                empty($resource->image_url) &&
+           if ( empty($resource->image_url) &&
                 (
                     ($type === 'audio' && !empty($resource->audio_url)) ||
                     ($type === 'video' && !empty($resource->video_url))
@@ -311,7 +310,7 @@ class SoundTrackController extends Controller
                     'grid' => $gridPublicName,
                 ];
 
-                
+
                 if ($type === 'audio') {
                     $data['audio_url'] = $resource->audio_url['path'] ?? null;
                 } else {
