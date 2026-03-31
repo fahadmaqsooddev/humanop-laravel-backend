@@ -13,6 +13,7 @@ use App\Models\HotSpot;
 use App\Helpers\Helpers;
 use App\Models\Assessment;
 use App\Models\v4\Client\OptimizationTrend\OptimizationTrendAnalysis;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class HotSpotController extends Controller
@@ -310,7 +311,12 @@ class HotSpotController extends Controller
 
         } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+            Log::error('OptimizationTrendAnalysis error', [
+                'user_id' => $user->id ?? null,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return Helpers::serverErrorResponse('Something went wrong');
 
         }
 
@@ -350,7 +356,12 @@ class HotSpotController extends Controller
 
         } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+            Log::error('OptimizationTrendAnalysis error', [
+                'user_id' => $user->id ?? null,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return Helpers::serverErrorResponse('Something went wrong');
 
         }
 
