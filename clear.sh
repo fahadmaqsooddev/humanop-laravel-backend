@@ -21,7 +21,6 @@ sudo -u www-data php artisan clear-compiled
 # DB changes
 sudo -u www-data php artisan migrate --force
 
-sudo -u www-data php artisan db:seed --class=createUserHotSpotSeeder
 
 # Warm up caches
 sudo -u www-data php artisan config:cache
@@ -37,6 +36,8 @@ sudo find bootstrap/cache -type d -exec chmod g+s {} \;
 
 # Restart queue workers
 sudo -u www-data php artisan queue:restart
+
+sudo -u www-data php artisan db:seed --class=CreateUserHotSpotSeeder
 
 echo "Deploy script finished execution"
 exit 0
