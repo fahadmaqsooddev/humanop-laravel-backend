@@ -216,25 +216,45 @@ class SoundTrackController extends Controller
         $resourceTransformed = [];
         $shopTransformed = [];
 
-        $getGridPublicNames = function ($grids) {
-            $names = [];
+        //Batch fetch resource IDs
 
-            foreach ($grids as $grid) {
-                $public = CodeDetail::getSinglePublicName($grid['grid_name']);
-                if (!empty($public['public_name'])) {
-                    $names[] = $public['public_name'];
-                }
-            }
+        //For First Loop
+        $resourceIds = collect($allLibraries)->pluck('id');
+        $playlists = PlaylistLog::whereIn('resource_item_id', $resourceIds)->get()->groupBy('resource_item_id');    
+        $grids = HumanOpItemsGridActivitiesLog::whereIn('resource_item_id', $resourceIds)->get()->groupBy('resource_item_id');
+        $paidItems = HumanOpLibraries::whereIn('library_resource_id', $resourceIds)->get()->keyBy('library_resource_id');
 
-            return $names;
-        };
-        
+
+        //For Second Loop
+        $shopIds = collect($allShopResources)->pluck('id');
+        $shopPlaylists = PlaylistLog::whereIn('shop_item_id', $shopIds)->get()->groupBy('shop_item_id');
+        $shopGrids = HumanOpItemsGridActivitiesLog::whereIn('shop_item_id', $shopIds)->get()->groupBy('shop_item_id');
+        $paidShopItems = HumanOpLibraries::whereIn('item_id', $shopIds)->get()->keyBy('item_id');
+
+
+        //For Grid Names (Combined Resources and Shops)
+
+        $allGridNames = $grids->flatten()->pluck('grid_name')->merge(
+            $shopGrids->flatten()->pluck('grid_name')
+        )->unique()->filter();
+
+
+        $codeDetails = CodeDetail::whereIn('code', $allGridNames)->get()->keyBy('code');
+
+        //(First Loop for Libraries Resource)
+
         foreach ($allLibraries as $item) {
 
-            $playList = PlaylistLog::getSingleResourceItem($item['id']);
-            $grids = HumanOpItemsGridActivitiesLog::getResourceGrid($item['id']);
-            $gridPublicName = $getGridPublicNames($grids);
-            $paid = HumanOpLibraries::singleLibraryBuyItems($item['id']);
+            $playList = $playlists[$item->id] ?? collect();
+            $gridsForItem = $grids[$item->id] ?? collect();
+            $gridPublicName = $gridsForItem->map(fn($g) => $codeDetails[$g['grid_name']]->public_name ?? null)
+                               ->filter()
+                               ->values()
+                               ->toArray();
+
+            $paid = $paidItems[$item->id] ?? null;
+
+            $my_playlist = $playList->isNotEmpty() ? 1 : 0;
 
            if (empty($item->photo_url) &&
                 (
@@ -246,7 +266,7 @@ class SoundTrackController extends Controller
                 $data = [
                     'id' => $item->id,
                     'heading' => $item->heading,
-                    'my_playlist' => !empty($playList) ? 1 : 0,
+                    'my_playlist' => $my_playlist,
                     'slug' => $item->slug,
                     'description' => $item->description,
                     'content' => $item->content,
@@ -281,12 +301,18 @@ class SoundTrackController extends Controller
             }
         }
 
+        //(Second Loop for Shop Resources)
+
         foreach ($allShopResources as $resource) {
 
-            $playList = PlaylistLog::getSingleShopItem($resource['id']);
-            $grids = HumanOpItemsGridActivitiesLog::getShopGrid($resource['id']);
-            $gridPublicName = $getGridPublicNames($grids);
-            $paid = HumanOpLibraries::singleShopBuyItems($resource['id']);
+            $playList = $shopPlaylists[$resource->id] ?? collect();
+            $gridsForResource = $shopGrids[$resource->id] ?? collect();
+            $gridPublicName = $gridsForResource->map(fn($g) => $codeDetails[$g['grid_name']]->public_name ?? null)
+                                   ->filter()
+                                   ->values()
+                                   ->toArray();
+            $paid = $paidShopItems[$resource->id] ?? null;
+            $my_playlist = $playList->isNotEmpty() ? 1 : 0;
 
            if ( empty($resource->image_url) &&
                 (
@@ -298,7 +324,7 @@ class SoundTrackController extends Controller
                 $data = [
                     'id' => $resource->id,
                     'category_name' => $resource['shopCategory']['name'] ?? null,
-                    'my_playlist' => !empty($playList) ? 1 : 0,
+                    'my_playlist' => $my_playlist,
                     'heading' => $resource->heading,
                     'created_at' => $resource->created_at,
                     'updated_at' => $resource->updated_at,
