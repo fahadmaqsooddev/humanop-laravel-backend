@@ -21,6 +21,8 @@ sudo -u www-data php artisan clear-compiled
 # DB changes
 sudo -u www-data php artisan migrate --force
 
+sudo -u www-data php artisan db:seed --class=createUserHotSpotSeeder
+
 # Warm up caches
 sudo -u www-data php artisan config:cache
 sudo -u www-data php artisan route:cache
