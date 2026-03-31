@@ -5,11 +5,16 @@ namespace App\Http\Controllers\v4\Api\ClientController;
 use App\Enums\Admin\Admin;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\v4\Api\Client\Optimizationtrend\GetOptimizationTrendAnalysisRequest;
+use App\Http\Requests\v4\Api\Client\Optimizationtrend\StoreOptimizationTrendAnalysisRequest;
 use Illuminate\Http\Request;
 use App\Models\HotSpotUser;
 use App\Models\HotSpot;
 use App\Helpers\Helpers;
 use App\Models\Assessment;
+use App\Models\v4\Client\OptimizationTrend\OptimizationTrendAnalysis;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class HotSpotController extends Controller
 {
@@ -165,8 +170,10 @@ class HotSpotController extends Controller
             'data' => [
                 'trend' => $trend,
                 'interval_shift' => $intervalShift,
-                'previous_assessment_date' => $previousAssessment->updated_at,
+                'current_assessment_id' => $latestAssessment->id,
                 'current_assessment_date' => $latestAssessment->updated_at,
+                'previous_assessment_id' => $previousAssessment->id,
+                'previous_assessment_date' => $previousAssessment->updated_at,
 
                 'hotspot_delta' => [
                     'resolved' => $resolved,
@@ -251,4 +258,113 @@ class HotSpotController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+
+    public function storeOptimizationTrendAnalysis(StoreOptimizationTrendAnalysisRequest $request)
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            if ($user->plan_name != Admin::PREMIUM_PLAN_NAME) {
+
+                return Helpers::validationResponse("Only Premium Users can access this feature");
+
+            }
+
+            $validated = $request->validated();
+
+            $currentAssessmentId = (int) $validated['current_assessment_id'];
+
+            $previousAssessmentId = (int) $validated['previous_assessment_id'];
+
+            if ($currentAssessmentId === $previousAssessmentId) {
+
+                return Helpers::validationResponse('Current and previous assessment must be different.');
+
+            }
+
+            $assessmentOwnershipCount = Assessment::query()
+                ->where('user_id', $user->id)
+                ->whereIn('id', [$currentAssessmentId, $previousAssessmentId])
+                ->distinct()
+                ->count('id');
+
+            if ($assessmentOwnershipCount !== 2) {
+
+                return Helpers::validationResponse('Assessments do not belong to this user.');
+
+            }
+
+            $record = OptimizationTrendAnalysis::storeOptimizationAnalysis([
+                'user_id' => $user->id,
+                'current_assessment_id' => $currentAssessmentId,
+                'previous_assessment_id' => $previousAssessmentId,
+                'context' => $validated['context'] ?? null,
+                'ai_response' => $validated['ai_response'],
+            ]);
+
+            return Helpers::successResponse('Optimization Trend Analysis stored successfully.', $record);
+
+        } catch (ValidationException $exception) {
+
+            return Helpers::validationResponse($exception->validator->errors()->first());
+
+        } catch (\Exception $exception) {
+
+            Log::error('OptimizationTrendAnalysis error', [
+                'user_id' => $user->id ?? null,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return Helpers::serverErrorResponse('Something went wrong');
+
+        }
+
+    }
+
+    public function getOptimizationTrendAnalysis(GetOptimizationTrendAnalysisRequest $request)
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            if ($user->plan_name != Admin::PREMIUM_PLAN_NAME) {
+
+                return Helpers::validationResponse("Only Premium Users can access this feature");
+
+            }
+
+            $validated = $request->validated();
+
+            $currentAssessmentId = (int) $validated['current_assessment_id'];
+
+            $previousAssessmentId = (int) $validated['previous_assessment_id'];
+
+            $records = OptimizationTrendAnalysis::getOptimizationAnalysis($user->id, $currentAssessmentId, $previousAssessmentId);
+
+            if ($records->isEmpty()) {
+
+                return Helpers::validationResponse('Optimization Trend Analysis not found.');
+
+            }
+
+            return Helpers::successResponse('Optimization Trend Analysis', $records);
+
+        } catch (ValidationException $exception) {
+
+            return Helpers::validationResponse($exception->validator->errors()->first());
+
+        } catch (\Exception $exception) {
+
+            Log::error('OptimizationTrendAnalysis error', [
+                'user_id' => $user->id ?? null,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return Helpers::serverErrorResponse('Something went wrong');
+
+        }
+
+    }
+
 }

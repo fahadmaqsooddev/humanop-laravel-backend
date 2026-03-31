@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 use App\Helpers\Helpers;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class HotSpotUser extends Model
 {
@@ -19,22 +19,47 @@ class HotSpotUser extends Model
         parent::__construct($attributes);
     }
 
-    public function insertData($assessmentId, $data){
-        $user = Helpers::getUser();
-        $intervalData = User::userIntervalOfLife($user->date_of_birth);
+    public function storeHotspotsFromAssessment($assessmentId, $data, ?int $userId = null, ?string $dateOfBirth = null)
+    {
+        $authUser = Helpers::getUser();
+        $resolvedUserId = $userId ?? $authUser?->id;
+        $resolvedDateOfBirth = $dateOfBirth ?? $authUser?->date_of_birth;
+
+        if (empty($resolvedUserId) || empty($resolvedDateOfBirth)) {
+            Log::warning('HotSpotUser insertData skipped due to missing data', [
+                'user_id' => $resolvedUserId,
+                'dob' => $resolvedDateOfBirth,
+                'assessment_id' => $assessmentId,
+            ]);
+            return;
+        }
+
+        $intervalData = User::userIntervalOfLife($resolvedDateOfBirth);
         $shiftInterval = $intervalData['interval'] ?? 'Unknown Interval';
-        $activeHotspots = Helpers::getActiveHotspots($data,$assessmentId,$user->date_of_birth);
-        if($activeHotspots){
-           foreach($activeHotspots as $hotspot){
-                self::create([
-                    'user_id' => $user->id,
-                    'assessment_id' => $assessmentId,
-                    'hotspot_id' => $hotspot['id'],
-                    'hotspot_score' => $hotspot['id'],
-                    'names' => $hotspot['name'],
-                    'shift_interval' => $shiftInterval
-                ]);
-            }
+
+        $activeHotspots = Helpers::getActiveHotspots($data);
+        if (empty($activeHotspots)) {
+            return;
+        }
+
+        $now = Carbon::now();
+        $rows = [];
+
+        foreach ($activeHotspots as $hotspot) {
+            $rows[] = [
+                'user_id' => $resolvedUserId,
+                'assessment_id' => $assessmentId,
+                'hotspot_id' => $hotspot['id'] ?? null,
+                'hotspot_score' => $hotspot['score'] ?? 0,
+                'names' => $hotspot['name'] ?? null,
+                'shift_interval' => $shiftInterval,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        foreach (array_chunk($rows, 500) as $chunk) {
+            self::insert($chunk);
         }
     }
 

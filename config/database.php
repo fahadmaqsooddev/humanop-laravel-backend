@@ -219,6 +219,11 @@ return [
             'fillable' => ['user_id', 'assessment_id', 'hotspot_id', 'hotspot_score', 'shift_interval', 'names']
 //            'hidden' => ['updated_at']
         ],
+        'OptimizationTrendAnalysis' => [
+            'table' => 'optimization_trend_analysis',
+            'fillable' => ['user_id', 'current_assessment_id', 'previous_assessment_id', 'context', 'ai_response']
+//            'hidden' => ['updated_at']
+        ],
 
         'AssessmentDetail' => [
             'table' => 'assessment_details',
