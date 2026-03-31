@@ -236,7 +236,12 @@ class SoundTrackController extends Controller
             $gridPublicName = $getGridPublicNames($grids);
             $paid = HumanOpLibraries::singleLibraryBuyItems($item['id']);
 
-            if (empty($item->photo_url) && (!empty($item->video_url) || !empty($item->audio_url))) {
+           if (empty($item->photo_url) &&
+                (
+                    ($type === 'audio' && !empty($item->audio_url)) ||
+                    ($type === 'video' && !empty($item->video_url))
+                )
+            ){
 
                 $data = [
                     'id' => $item->id,
@@ -265,7 +270,7 @@ class SoundTrackController extends Controller
                     'grid' => $gridPublicName,
                 ];
 
-                // 👇 dynamic media
+
                 if ($type === 'audio') {
                     $data['audio_url'] = Helpers::extractFilePath($item->audio_url ?? null);
                 } else {
@@ -283,7 +288,13 @@ class SoundTrackController extends Controller
             $gridPublicName = $getGridPublicNames($grids);
             $paid = HumanOpLibraries::singleShopBuyItems($resource['id']);
 
-            if (empty($resource->document_url) && empty($resource->image_url) && (!empty($resource->video_url) || !empty($resource->audio_url))) {
+           if (empty($resource->document_url) &&
+                empty($resource->image_url) &&
+                (
+                    ($type === 'audio' && !empty($resource->audio_url)) ||
+                    ($type === 'video' && !empty($resource->video_url))
+                )
+            ){
 
                 $data = [
                     'id' => $resource->id,
@@ -300,7 +311,7 @@ class SoundTrackController extends Controller
                     'grid' => $gridPublicName,
                 ];
 
-                // 👇 dynamic media
+                
                 if ($type === 'audio') {
                     $data['audio_url'] = $resource->audio_url['path'] ?? null;
                 } else {
