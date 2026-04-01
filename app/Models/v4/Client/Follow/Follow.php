@@ -11,7 +11,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\Follow\FollowRequest;
-use App\Events\UserActionPerformed;
 use App\Events\Follow\UnFollowRequest;
 use App\Enums\UserActions\UserActions;
 use App\Services\v4\UserActionService;

@@ -22,8 +22,6 @@ use App\Models\Upload\Upload;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use function React\Promise\all;
-use App\Events\UserActionPerformed;
 use App\Enums\UserActions\UserActions;
 use App\Services\v4\UserActionService;
 
@@ -401,8 +399,8 @@ class ThreadController extends Controller
                     $msg = "Your request to join the group '{$group->name}' has been declined by the group owner.";
 
                     Notification::createNotification('Reject Group Request', $msg, '', $data['member_id'], 0, Admin::REJECT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
-                    
-                    
+
+
                     UserActionService::dispatch(
                         $this->user->id,
                         UserActions::REJECT_GROUP_REQUEST,

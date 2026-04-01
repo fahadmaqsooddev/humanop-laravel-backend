@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Events\Connection\ConnectionRequest;
 use App\Events\Connection\UnconnectRequest;
 use App\Events\Connection\RequestAccept;
-use App\Events\UserActionPerformed;
 use App\Enums\UserActions\UserActions;
 use App\Services\v4\UserActionService;
 
@@ -118,7 +117,7 @@ class Connection extends Model
 
             Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id'],true);
 
-            
+
             UserActionService::dispatch(
                 $data['user_id'], // the user performing the action
                 UserActions::CONNECTION_REMOVED,

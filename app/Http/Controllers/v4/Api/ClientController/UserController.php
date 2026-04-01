@@ -40,11 +40,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
-use function PHPUnit\Framework\lessThanOrEqual;
-use App\Events\UserActionPerformed;
 use App\Enums\UserActions\UserActions;
 use App\Services\v4\UserActionService;
 
@@ -438,7 +435,7 @@ class UserController extends Controller
 
                     Notification::createNotification('Remove Company', $message, $companyData['device_token'], $companyData['id'], 1, Admin::REMOVE_COMPANY_NOTIFICATION, Admin::B2B_NOTIFICATION,null,true);
 
-                
+
                     UserActionService::dispatch(
                         $user['id'],
                         UserActions::REMOVE_COMPANY,
@@ -449,7 +446,7 @@ class UserController extends Controller
                             'user_name' => $user['first_name'] . ' ' . $user['last_name'],
                         ]
                     );
-                    
+
 
                 }
 

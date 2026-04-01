@@ -29,7 +29,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\AssessmentColorCode;
 use App\Events\DailyTip\NewDailyTip;
-use App\Events\UserActionPerformed;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Podcast\Podcast;
@@ -82,8 +81,6 @@ class DashboardController extends Controller
         try {
 
             $user = Helpers::getWebUser() ?? $this->user;
-
-            UserActionService::dispatch($user['id'], UserActions::NEW_DAILY_TIP, ['message' => 'test message']);
 
             $assessment = Assessment::getLatestAssessment($user['id']);
 
