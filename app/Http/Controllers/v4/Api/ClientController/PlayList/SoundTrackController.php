@@ -308,7 +308,7 @@ class SoundTrackController extends Controller
                     'description' => $item->description,
                     'content' => $item->content,
                     'relevance' => $item->relevance,
-                    'photo_url' => Helpers::extractFilePath($photoUrl ?? null),
+                    'photo_url' => Helpers::extractFilePath($photoUrl ?? null,'url'),
                     'thumbnail_url' => Helpers::extractFilePath($thumbUrl ?? null, 'url'),
                     'document_urls' => $document_urls,
                     'resource_category_name' => optional($item->resourceCategory)->name,
@@ -329,7 +329,8 @@ class SoundTrackController extends Controller
 
                 if ($type === 'audio') {
                     $audioUrl = Helpers::getAudioUrl($item->upload_id, $uploads);
-                    $data['audio_url'] = $audioUrl;
+                    $newAudioURL = Helpers::extractFilePath($audioUrl ?? null ,'url');
+                    $data['audio_url'] = $newAudioURL;
                 } else {
 
                     $videoUrl = null;
@@ -341,12 +342,11 @@ class SoundTrackController extends Controller
                     $newVideoURL=Helpers::getVideoUrl(
                         $item->upload_id,
                         $uploads,
-                        true,
                         $videoUrl,
                         $item->embed_link
                     );
 
-                    $data['video_url'] = Helpers::extractFilePath($newVideoURL ?? null);
+                    $data['video_url'] = Helpers::extractFilePath($newVideoURL ?? null ,'url');
 
                 }
 
@@ -386,7 +386,7 @@ class SoundTrackController extends Controller
                     'point' => empty($paid) ? (int)($resource->point ?? 0) : 0,
                     'price' => empty($paid) ? (int)($resource->price ?? 0) : 0,
                     'document_url' => $documentUrl,
-                    'thumbnail_url' => $thumbUrl,
+                    'thumbnail_url' => Helpers::extractFilePath($thumbUrl ?? null, 'url'),
                     'allow_download' => $resource->download_document === 1,
                     'grid' => $gridPublicName,
                 ];
@@ -398,8 +398,8 @@ class SoundTrackController extends Controller
                     $data['audio_url'] = $newAudioURL;
                 } else {
 
-                    $videoUrl = Helpers::getVideoUrl($resource->upload_id, $uploads,1,null,$resource->video_embed_link);
-                    $data['video_url'] = $videoUrl['path'] ?? null;
+                    $videoUrl = Helpers::getVideoUrl($resource->upload_id, $uploads,null,$resource->video_embed_link);
+                    $data['video_url'] =  Helpers::extractFilePath($videoUrl ?? null ,'url');
                 }
 
                 $shopTransformed[] = $data;

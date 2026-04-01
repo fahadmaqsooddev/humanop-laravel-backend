@@ -24,6 +24,7 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 
 class Helpers
 {
@@ -1866,9 +1867,17 @@ class Helpers
     public static function extractFilePath($value, $key = 'path')
     {
         if (is_array($value) || is_object($value)) {
-            return data_get($value, $key)
+            // original logic preserved
+            $result = data_get($value, $key)
                 ?? ($key !== 'url' ? data_get($value, 'url') : null)
                 ?? data_get($value, 'image.url');
+
+            // extra fallback for 'url' key: try 'path' if 'url' not found
+            if ($key === 'url' && !$result) {
+                $result = data_get($value, 'path');
+            }
+
+            return $result;
         }
 
         return $value;
@@ -1896,22 +1905,20 @@ class Helpers
 
     //This methods is for v4
 
-     // Get file URL only
-    public static function getFileUrl($uploadId = null, $uploads = null, $isOriginalName = false)
+    // Get file URL only
+
+    public static function getFileUrl($uploadId = null, $uploads = null): ?array
     {
-        if ($uploadId && $uploads && $uploads->has($uploadId)) {
-            $upload = $uploads[$uploadId];
+        if ($uploadId && $uploads) {
+            $upload = $uploads->get($uploadId);
+            if (!$upload) return null;
 
             $path = url('/') . '/media/files/' . $upload->hash . '/' . $upload->name;
 
-            if ($isOriginalName) {
-                return [
-                    'url' => $path,
-                    'original_name' => $upload->original_name,
-                ];
-            }
-
-            return $path;
+            return [
+                'path' => $path,
+                'original_name' => $upload->name ?? null,
+            ];
         }
 
         return null;
@@ -1919,48 +1926,81 @@ class Helpers
 
 
 
-    public static function getGumletPlaybackUrl($sourceId)
+    public static function getGumletPlaybackUrl($sourceId, $fallbackUrl = null): ?string
     {
         if (empty($sourceId)) {
-            return null;
+            return $fallbackUrl; 
         }
 
-        try {
-            $client = new Client();
+        return Cache::remember("gumlet:{$sourceId}", 3600, function () use ($sourceId, $fallbackUrl) {
 
-            $response = $client->request(
-                'GET',
-                "https://api.gumlet.com/v1/video/assets/$sourceId",
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . config('services.gumlet.key'),
-                        'accept' => 'application/json',
-                    ],
-                    'timeout' => 5, // important 🔥
-                ]
-            );
+            $client = new \GuzzleHttp\Client();
+            $maxRetries = 3;
+            $attempt = 0;
 
-            $data = json_decode($response->getBody(), true);
+            while ($attempt < $maxRetries) {
+                try {
+                    $response = $client->request('GET', "https://api.gumlet.com/v1/video/assets/$sourceId", [
+                        'headers' => [
+                            'Authorization' => 'Bearer ' . config('services.gumlet.key'),
+                            'Accept' => 'application/json',
+                        ],
+                        'timeout' => 5,
+                    ]);
 
-            if (!empty($data) && in_array($data['status'] ?? null, ['ready', 'queued'])) {
-                return $data['output']['playback_url'] ?? null;
+                    $data = json_decode($response->getBody(), true);
+
+                    if (!empty($data) && in_array($data['status'] ?? null, ['ready', 'queued'])) {
+                        return $data['output']['playback_url'] ?? $fallbackUrl;
+                    }
+
+                   
+                    Log::warning('Gumlet API video not ready', [
+                        'source_id' => $sourceId,
+                        'status' => $data['status'] ?? 'unknown',
+                    ]);
+
+                    return $fallbackUrl;
+
+                } catch (\Exception $e) {
+                    $attempt++;
+
+                    Log::error('Gumlet API request failed', [
+                        'source_id' => $sourceId,
+                        'attempt' => $attempt,
+                        'exception' => $e->getMessage(),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
+                    ]);
+
+                    
+                    if ($attempt < $maxRetries) {
+                        sleep(1); // wait 1 second before retry
+                        continue;
+                    }
+
+                    
+                    return $fallbackUrl;
+                }
             }
 
-        } catch (\Exception $e) {
-            Log::error('Gumlet API Error: ' . $e->getMessage());
-        }
-
-        return null;
+            return $fallbackUrl;
+        });
     }
 
     // Get thumbnail URL only
-    public static function getThumbnailUrl($uploadId = null, $uploads = null)
+
+    
+    public static function getThumbnailUrl($uploadId = null, $uploads = null): ?array
     {
-
         if ($uploadId && $uploads) {
-            $upload = $uploads[$uploadId];
+            $upload = $uploads->get($uploadId);
+            if (!$upload) return null;
 
-            return url('/') . '/media/thumbnails/' . $upload->hash . '/' . $upload->name;
+            return [
+                'path' => url('/') . '/media/thumbnails/' . $upload->hash . '/' . $upload->name,
+                'original_name' => $upload->name ?? null,
+            ];
         }
 
         return null;
@@ -1984,7 +2024,9 @@ class Helpers
 
       
         if ($uploadId && $uploads && $uploads->has($uploadId)) {
-            $upload = $uploads[$uploadId];
+
+            $upload = $uploads->get($uploadId);
+            if (!$upload) return null;
 
             
             if ($upload->extension !== 'pdf') {
@@ -1996,7 +2038,7 @@ class Helpers
             if ($isOriginalName) {
                 return [
                     'path' => $path,
-                    'original_name' => $upload->original_name,
+                    'original_name' => $upload->name,
                 ];
             }
 
@@ -2023,49 +2065,32 @@ class Helpers
         return null;
     }
 
-    public static function getVideoUrl(
-    $uploadId = null,
-    $uploads = null,
-    $isOriginalName = false,
-    $sourceUrl = null,
-    $embedLink = null
-    ) {
-
-       
-            
+    public static function getVideoUrl($uploadId = null, $uploads = null, $sourceUrl = null, $embedLink = null): ?array
+    {
         if (!empty($sourceUrl)) {
-            return $isOriginalName
-                ? ['path' => $sourceUrl, 'original_name' => $sourceUrl]
-                : $sourceUrl;
+            return [
+                'path' => $sourceUrl,
+                'original_name' => $sourceUrl,
+            ];
         }
 
-       
         if (!empty($embedLink)) {
-            return $isOriginalName
-                ? ['path' => $embedLink, 'original_name' => $embedLink]
-                : $embedLink;
+            return [
+                'path' => $embedLink,
+                'original_name' => $embedLink,
+            ];
         }
 
-        if ($uploadId && $uploads && $uploads->has($uploadId)) {
-            $upload = $uploads[$uploadId];
+        if ($uploadId && $uploads) {
+            $upload = $uploads->get($uploadId);
+            if (!$upload || $upload->extension !== 'mp4') return null;
 
-            // Only allow video files
-            if ($upload->extension !== 'mp4') {
-                return null;
-            }
-
-            $path = url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name;
-
-            if ($isOriginalName) {
-                return [
-                    'path' => $path,
-                    'original_name' => $upload->original_name,
-                ];
-            }
-
-            return $path;
+            return [
+                'path' => url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name,
+                'original_name' => $upload->name ?? null,
+            ];
         }
-        
+
         return null;
     }
 
