@@ -19,6 +19,9 @@ use Illuminate\Http\Request;
 use App\Events\v4\messages\MessageSent;
 use App\Events\v4\messages\NewMessage;
 use Illuminate\Support\Facades\DB;
+use App\Enums\UserActions\UserActions;
+use App\Services\v4\UserActionService;
+use Illuminate\Support\Str;
 
 class MessageController extends Controller
 {
@@ -90,7 +93,19 @@ class MessageController extends Controller
                 event(new NewMessage(Helpers::getUser()->id, $request->input('receiver_id'), $request->input('message'), $message['created_at']));
                 // Helpers::OneSignalApiUsed($request->input('receiver_id'), 'New Message Received', $request->input('message'));
 
+
+
                 DB::commit();
+
+                UserActionService::dispatch(
+                $this->user->id,
+                UserActions::MESSAGE_SENT,
+                    [
+                        'receiver_id' => $request->input('receiver_id'),
+                        'message_preview' => Str::limit($request->input('message'), 50),
+                        'thread_id' => $thread->id ?? null,
+                    ]
+                );
 
                 return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
             } else {
@@ -206,7 +221,20 @@ class MessageController extends Controller
 
             Notification::createNotification('message sent', $heading, null, $this->user->id, 1, Admin::MESSAGE_SEND_NOTIFICATION, Admin::B2C_NOTIFICATION, $this->user->id,true);
 
+
+
             DB::commit();
+
+            // ✅ Dispatch via UserActionService
+            UserActionService::dispatch(
+                Helpers::getUser()->id,
+                UserActions::MESSAGE_SENT,
+                [
+                    'receiver_id' => $request->input('receiver_id'),
+                    'message_preview' => Str::limit($request->input('message'), 50),
+                    'thread_id' => $messageThread->id ?? null,
+                ]
+            );
 
             return Helpers::successResponse('message', $message);
 

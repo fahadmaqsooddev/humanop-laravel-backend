@@ -37,3 +37,7 @@ Broadcast::channel('push-notification.{id}', function ($user, $id) {
 //    return (int) $user->id === (int) $id;
     return true;
 });
+
+Broadcast::channel('user-actions.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});

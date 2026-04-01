@@ -22,14 +22,18 @@ use App\Models\Upload\Upload;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use function React\Promise\all;
+use App\Enums\UserActions\UserActions;
+use App\Services\v4\UserActionService;
 
 class ThreadController extends Controller
 {
 
+    public $user=null;
+
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->user=Helpers::getUser();
     }
 
     public function allThreads(Request $request)
@@ -371,6 +375,17 @@ class ThreadController extends Controller
 
                     Notification::createNotification('Accept Group Request', $msg, '', $data['member_id'], 0, Admin::ACCEPT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
 
+                    // ✅ Use UserActionService
+                    UserActionService::dispatch(
+                        $this->user->id,
+                        UserActions::ACCEPT_GROUP_REQUEST,
+                        [
+                            'member_id' => $data['member_id'],
+                            'thread_id' => $data['thread_id'],
+                            'group_name' => $group->name,
+                        ]
+                    );
+
                     ActivityLogger::addLog('Accept Group Request', "{$msg}");
 
                     broadcast(new \App\Events\AcceptOrRejectGroupRequest($data['member_id'], 'Group request accepted ', $msg))->toOthers();
@@ -384,6 +399,17 @@ class ThreadController extends Controller
                     $msg = "Your request to join the group '{$group->name}' has been declined by the group owner.";
 
                     Notification::createNotification('Reject Group Request', $msg, '', $data['member_id'], 0, Admin::REJECT_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
+
+
+                    UserActionService::dispatch(
+                        $this->user->id,
+                        UserActions::REJECT_GROUP_REQUEST,
+                        [
+                            'member_id' => $data['member_id'],
+                            'thread_id' => $data['thread_id'],
+                            'group_name' => $group->name,
+                        ]
+                    );
 
                     ActivityLogger::addLog('Reject Group Request', "{$msg}");
 

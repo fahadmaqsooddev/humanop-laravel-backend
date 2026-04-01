@@ -10,6 +10,8 @@ use App\Models\v4\Client\MessageThread\MessageThread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\UserActions\UserActions;
+use App\Services\v4\UserActionService;
 
 class MessageThreadRequest extends Model
 {
@@ -60,6 +62,18 @@ class MessageThreadRequest extends Model
             ActivityLogger::addLog('Send Group Request', "{$msg}");
 
             Notification::createNotification('Send Group Request', $msg, '', $data['owner_id'], 0, Admin::SEND_GROUP_REQUEST_NOTIFICATION, Admin::B2C_NOTIFICATION,null,true);
+
+
+            UserActionService::dispatch(
+                $data['owner_id'],
+                UserActions::GROUP_REQUEST_SENT ,
+                [
+                    'thread_id' => $data['thread_id'],
+                    'group_name' => $group->name,
+                    'member_id' => $data['member_id'],
+                    'member_name' => $member['first_name'] . ' ' . $member['last_name'],
+                ]
+            );
 
             return true;
 
