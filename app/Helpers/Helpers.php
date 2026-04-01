@@ -1928,7 +1928,7 @@ class Helpers
 
 
 
-    public static function getGumletPlaybackUrl($sourceId, $fallbackUrl = null): ?string
+    public static function getGumletPlaybackUrl($sourceId, $fallbackUrl = null): ?array
     {
         if (empty($sourceId)) {
             return [
@@ -2059,6 +2059,10 @@ class Helpers
         ];
 
         if (!empty($sourceUrl)) {
+            $sourceUrl = is_array($sourceUrl)
+                ? data_get($sourceUrl, 'path')
+                : $sourceUrl;
+
             return [
                 'path' => $sourceUrl,
                 'original_name' => $sourceUrl,
