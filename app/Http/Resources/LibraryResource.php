@@ -58,7 +58,9 @@ class LibraryResource extends JsonResource
        
         $document_urls = $this->documents
         ->map(function ($doc) {
-            $extension = pathinfo($doc->document_url, PATHINFO_EXTENSION);
+            $extension = $doc->document_url
+            ? pathinfo($doc->document_url, PATHINFO_EXTENSION)
+            : null;
 
             return [
                 'url' => $doc->document_url,
