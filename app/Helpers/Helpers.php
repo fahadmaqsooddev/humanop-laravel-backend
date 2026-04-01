@@ -1866,13 +1866,15 @@ class Helpers
 
     public static function extractFilePath($value, $key = 'path')
     {
+        if (empty($value)) {
+            return null;
+        }
+
         if (is_array($value) || is_object($value)) {
-            // original logic preserved
             $result = data_get($value, $key)
                 ?? ($key !== 'url' ? data_get($value, 'url') : null)
                 ?? data_get($value, 'image.url');
 
-            // extra fallback for 'url' key: try 'path' if 'url' not found
             if ($key === 'url' && !$result) {
                 $result = data_get($value, 'path');
             }
@@ -1929,68 +1931,42 @@ class Helpers
     public static function getGumletPlaybackUrl($sourceId, $fallbackUrl = null): ?string
     {
         if (empty($sourceId)) {
-            return $fallbackUrl; 
+            return [
+                'path' => $fallbackUrl,
+                'original_name' => null,
+            ];
         }
 
-        return Cache::remember("gumlet:{$sourceId}", 3600, function () use ($sourceId, $fallbackUrl) {
+        $url = Cache::remember("gumlet:{$sourceId}", 3600, function () use ($sourceId, $fallbackUrl) {
+            try {
+                $client = new Client();
 
-            $client = new \GuzzleHttp\Client();
-            $maxRetries = 3;
-            $attempt = 0;
+                $response = $client->get("https://api.gumlet.com/v1/video/assets/$sourceId", [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . config('services.gumlet.key'),
+                    ],
+                    'timeout' => 2,
+                ]);
 
-            while ($attempt < $maxRetries) {
-                try {
-                    $response = $client->request('GET', "https://api.gumlet.com/v1/video/assets/$sourceId", [
-                        'headers' => [
-                            'Authorization' => 'Bearer ' . config('services.gumlet.key'),
-                            'Accept' => 'application/json',
-                        ],
-                        'timeout' => 5,
-                    ]);
+                $data = json_decode($response->getBody(), true);
 
-                    $data = json_decode($response->getBody(), true);
+                return $data['output']['playback_url'] ?? $fallbackUrl;
 
-                    if (!empty($data) && in_array($data['status'] ?? null, ['ready', 'queued'])) {
-                        return $data['output']['playback_url'] ?? $fallbackUrl;
-                    }
-
-                   
-                    Log::warning('Gumlet API video not ready', [
-                        'source_id' => $sourceId,
-                        'status' => $data['status'] ?? 'unknown',
-                    ]);
-
-                    return $fallbackUrl;
-
-                } catch (\Exception $e) {
-                    $attempt++;
-
-                    Log::error('Gumlet API request failed', [
-                        'source_id' => $sourceId,
-                        'attempt' => $attempt,
-                        'exception' => $e->getMessage(),
-                        'file' => $e->getFile(),
-                        'line' => $e->getLine(),
-                    ]);
-
-                    
-                    if ($attempt < $maxRetries) {
-                        sleep(1); // wait 1 second before retry
-                        continue;
-                    }
-
-                    
-                    return $fallbackUrl;
-                }
+            } catch (\Throwable $e) {
+                Log::warning('Gumlet failed', ['source_id' => $sourceId]);
+                return $fallbackUrl;
             }
-
-            return $fallbackUrl;
         });
+
+        return [
+            'path' => $url,
+            'original_name' => null,
+        ];
     }
 
     // Get thumbnail URL only
 
-    
+
     public static function getThumbnailUrl($uploadId = null, $uploads = null): array
     {
         $response = [
