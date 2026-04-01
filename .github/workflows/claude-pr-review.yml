@@ -2,13 +2,14 @@ name: Claude PR Review
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, ready_for_review, reopened]
     branches: [b2c-dev]
 
 permissions:
   contents: write
   pull-requests: write
   issues: write
+  id-token: write
 
 jobs:
   claude-review:
@@ -17,27 +18,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Claude Code Review
         id: review
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          track_progress: true
           prompt: |
-            You are a senior Laravel 9 engineer reviewing PR #${{ github.event.pull_request.number }}: "${{ github.event.pull_request.title }}".
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            PR TITLE: ${{ github.event.pull_request.title }}
+
+            You are a senior Laravel 9 engineer reviewing this pull request.
 
             INSTRUCTIONS:
             1. Read the CLAUDE.md file at the project root for full project context and review rules.
-            2. Review the entire PR diff thoroughly for:
+            2. Use `gh pr diff ${{ github.event.pull_request.number }}` to get the full diff.
+            3. Review the entire PR diff thoroughly for:
                - Bugs, logic errors, and incorrect behavior
                - Security vulnerabilities (SQL injection, XSS, mass assignment, hardcoded secrets)
                - N+1 queries and performance issues
                - Missing error handling on external API calls (Stripe, Twilio, AWS, OpenAI)
                - Violations of project conventions documented in CLAUDE.md
-            3. For each issue found, leave an inline review comment on the specific file and line.
-            4. DO NOT flag code style/formatting issues (StyleCI handles this).
-            5. DO NOT suggest refactors or improvements unless they fix an actual bug.
+            4. For each issue found, use `mcp__github_inline_comment__create_inline_comment` with `confirmed: true` to leave inline comments on the specific file and line.
+            5. DO NOT flag code style/formatting issues (StyleCI handles this).
+            6. DO NOT suggest refactors or improvements unless they fix an actual bug.
 
             SEVERITY GUIDE:
             - critical: Security vulnerabilities, data loss, crashes, broken business logic
@@ -45,29 +52,21 @@ jobs:
             - medium: Missing error handling, potential edge cases, minor logic issues
             - low: Non-critical improvements that could prevent future bugs
 
-            APPROVAL RULES:
-            - Set approved: true if there are ZERO critical or high severity issues
-            - Set approved: false if there is ANY critical or high severity issue
-            - Medium/low issues should still be listed but do not block approval
+            APPROVAL DECISION:
+            - If there are ZERO critical or high severity issues, set approved to true.
+            - If there is ANY critical or high severity issue, set approved to false.
+            - Medium/low issues should still be commented on but do not block approval.
 
-            Return your structured assessment with approved status, summary, and list of issues.
-          allowed_tools: "Bash(git diff:*),Bash(git log:*),Bash(git show:*),Read,Glob,Grep"
-          max_turns: "15"
+            After reviewing, use `gh pr comment ${{ github.event.pull_request.number }}` to post a summary comment.
 
-      - name: Parse review result
-        id: parse
-        if: always() && steps.review.outcome == 'success'
-        run: |
-          # Check if review produced a result we can parse
-          REVIEW_RESULT='${{ steps.review.outputs.result }}'
-          if echo "$REVIEW_RESULT" | grep -q '"approved":\s*true'; then
-            echo "approved=true" >> $GITHUB_OUTPUT
-          else
-            echo "approved=false" >> $GITHUB_OUTPUT
-          fi
+            Return your structured JSON assessment.
+          claude_args: |
+            --max-turns 15
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(git diff:*),Bash(git log:*),Bash(git show:*),Read,Glob,Grep"
+            --json-schema '{"type":"object","properties":{"approved":{"type":"boolean","description":"true if no critical or high severity issues found"},"summary":{"type":"string","description":"Brief review summary"},"issues":{"type":"array","items":{"type":"object","properties":{"file":{"type":"string"},"line":{"type":"number"},"severity":{"type":"string","enum":["critical","high","medium","low"]},"description":{"type":"string"}},"required":["file","severity","description"]}}},"required":["approved","summary","issues"]}'
 
       - name: Auto-approve clean PR
-        if: steps.parse.outputs.approved == 'true'
+        if: always() && steps.review.outcome == 'success' && fromJSON(steps.review.outputs.structured_output).approved == true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -80,7 +79,7 @@ jobs:
           *Reviewed by Claude Code*"
 
       - name: Auto-merge clean PR
-        if: steps.parse.outputs.approved == 'true'
+        if: always() && steps.review.outcome == 'success' && fromJSON(steps.review.outputs.structured_output).approved == true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -90,7 +89,7 @@ jobs:
             --subject "Merge PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
 
       - name: Comment on PR with issues
-        if: steps.parse.outputs.approved == 'false'
+        if: always() && steps.review.outcome == 'success' && fromJSON(steps.review.outputs.structured_output).approved == false
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
