@@ -23,6 +23,7 @@ use App\Models\Assessment;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
 
 class Helpers
 {
@@ -1890,6 +1891,182 @@ class Helpers
         ];
 
         return array_merge($item, $normalized);
+    }
+
+
+    //This methods is for v4
+
+     // Get file URL only
+    public static function getFileUrl($uploadId = null, $uploads = null, $isOriginalName = false)
+    {
+        if ($uploadId && $uploads && $uploads->has($uploadId)) {
+            $upload = $uploads[$uploadId];
+
+            $path = url('/') . '/media/files/' . $upload->hash . '/' . $upload->name;
+
+            if ($isOriginalName) {
+                return [
+                    'url' => $path,
+                    'original_name' => $upload->original_name,
+                ];
+            }
+
+            return $path;
+        }
+
+        return null;
+    }
+
+
+
+    public static function getGumletPlaybackUrl($sourceId)
+    {
+        if (empty($sourceId)) {
+            return null;
+        }
+
+        try {
+            $client = new Client();
+
+            $response = $client->request(
+                'GET',
+                "https://api.gumlet.com/v1/video/assets/$sourceId",
+                [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . config('services.gumlet.key'),
+                        'accept' => 'application/json',
+                    ],
+                    'timeout' => 5, // important 🔥
+                ]
+            );
+
+            $data = json_decode($response->getBody(), true);
+
+            if (!empty($data) && in_array($data['status'] ?? null, ['ready', 'queued'])) {
+                return $data['output']['playback_url'] ?? null;
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Gumlet API Error: ' . $e->getMessage());
+        }
+
+        return null;
+    }
+
+    // Get thumbnail URL only
+    public static function getThumbnailUrl($uploadId = null, $uploads = null)
+    {
+
+        if ($uploadId && $uploads) {
+            $upload = $uploads[$uploadId];
+
+            return url('/') . '/media/thumbnails/' . $upload->hash . '/' . $upload->name;
+        }
+
+        return null;
+    }
+
+    public static function getDocumentUrl($uploadId = null, $uploads = null, $isOriginalName = false, $sourceUrl = null, $embedLink = null)
+    {
+        
+        if (!empty($sourceUrl)) {
+            return $isOriginalName
+                ? ['path' => $sourceUrl, 'original_name' => $sourceUrl]
+                : $sourceUrl;
+        }
+
+       
+        if (!empty($embedLink)) {
+            return $isOriginalName
+                ? ['path' => $embedLink, 'original_name' => $embedLink]
+                : $embedLink;
+        }
+
+      
+        if ($uploadId && $uploads && $uploads->has($uploadId)) {
+            $upload = $uploads[$uploadId];
+
+            
+            if ($upload->extension !== 'pdf') {
+                return null;
+            }
+
+            $path = url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name;
+
+            if ($isOriginalName) {
+                return [
+                    'path' => $path,
+                    'original_name' => $upload->original_name,
+                ];
+            }
+
+            return $path;
+        }
+
+        return null;
+    }
+
+    public static function getAudioUrl($uploadId = null, $uploads = null): ?array
+    {
+        if ($uploadId && $uploads && $uploads->has($uploadId)) {
+            $upload = $uploads[$uploadId];
+
+            if ($upload->extension !== 'mp3') {
+                return null;
+            }
+
+            return [
+                'path' => url($upload->path)
+            ];
+        }
+
+        return null;
+    }
+
+    public static function getVideoUrl(
+    $uploadId = null,
+    $uploads = null,
+    $isOriginalName = false,
+    $sourceUrl = null,
+    $embedLink = null
+    ) {
+
+       
+            
+        if (!empty($sourceUrl)) {
+            return $isOriginalName
+                ? ['path' => $sourceUrl, 'original_name' => $sourceUrl]
+                : $sourceUrl;
+        }
+
+       
+        if (!empty($embedLink)) {
+            return $isOriginalName
+                ? ['path' => $embedLink, 'original_name' => $embedLink]
+                : $embedLink;
+        }
+
+        if ($uploadId && $uploads && $uploads->has($uploadId)) {
+            $upload = $uploads[$uploadId];
+
+            // Only allow video files
+            if ($upload->extension !== 'mp4') {
+                return null;
+            }
+
+            $path = url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name;
+
+            if ($isOriginalName) {
+                return [
+                    'path' => $path,
+                    'original_name' => $upload->original_name,
+                ];
+            }
+
+            return $path;
+        }
+        
+        return null;
     }
 
 

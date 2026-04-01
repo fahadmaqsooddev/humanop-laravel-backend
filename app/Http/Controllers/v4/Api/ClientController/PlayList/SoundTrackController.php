@@ -11,7 +11,10 @@ use App\Models\Admin\Resources\ShopCategoryResource;
 use App\Models\Assessment;
 use App\Models\Libraries\HumanOpLibraries;
 use App\Models\PlaylistLog;
+use App\Models\Upload\Upload;
+use Google\Service\Slides\Thumbnail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SoundTrackController extends Controller
 {
@@ -219,6 +222,7 @@ class SoundTrackController extends Controller
         //Batch fetch resource IDs
 
         //For First Loop
+
         $resourceIds = collect($allLibraries)->pluck('id');
         $playlists = PlaylistLog::whereIn('resource_item_id', $resourceIds)->get()->groupBy('resource_item_id');    
         $grids = HumanOpItemsGridActivitiesLog::whereIn('resource_item_id', $resourceIds)->get()->groupBy('resource_item_id');
@@ -226,6 +230,7 @@ class SoundTrackController extends Controller
 
 
         //For Second Loop
+
         $shopIds = collect($allShopResources)->pluck('id');
         $shopPlaylists = PlaylistLog::whereIn('shop_item_id', $shopIds)->get()->groupBy('shop_item_id');
         $shopGrids = HumanOpItemsGridActivitiesLog::whereIn('shop_item_id', $shopIds)->get()->groupBy('shop_item_id');
@@ -240,6 +245,31 @@ class SoundTrackController extends Controller
 
 
         $codeDetails = CodeDetail::whereIn('code', $allGridNames)->get()->keyBy('code');
+
+
+        //Work for Upload to avoid N+1 (Combined Resources and Shops)
+
+        $allUploadIds = collect()
+        ->merge($allLibraries->pluck('photo_id'))
+        ->merge($allLibraries->pluck('thumbnail_id'))
+        ->merge($allLibraries->pluck('upload_id'))
+        ->merge($allLibraries->pluck('source_id'))
+        ->merge($allLibraries->pluck('embed_link'))
+        ->merge($allShopResources->pluck('image_id'))
+        ->merge($allShopResources->pluck('thumbnail_id'))
+        ->merge($allShopResources->pluck('upload_id'))
+        ->merge($allShopResources->pluck('audio_id'))
+        ->merge($allShopResources->pluck('video_id'))
+        ->merge($allShopResources->pluck('document_id'))
+        ->merge($allShopResources->pluck('video_embed_link'))
+        ->filter()
+        ->unique();
+
+
+        // 3️⃣ Batch fetch all uploads
+
+        $uploads = Upload::whereIn('id', $allUploadIds)->get()->keyBy('id');
+
 
         //(First Loop for Libraries Resource)
 
@@ -256,12 +286,23 @@ class SoundTrackController extends Controller
 
             $my_playlist = $playList->isNotEmpty() ? 1 : 0;
 
-           if (empty($item->photo_url) &&
-                (
-                    ($type === 'audio' && !empty($item->audio_url)) ||
-                    ($type === 'video' && !empty($item->video_url))
-                )
-            ){
+           if (empty($item->photo_url) && (!empty($item->video_url) || !empty($item->audio_url))) {
+
+                $photoUrl = Helpers::getFileUrl($item->upload_id, $uploads);
+
+
+                // echo $item->thumbnail_id;
+                // die;
+                
+                $thumbUrl = Helpers::getThumbnailUrl($item->thumbnail_id, $uploads);
+
+                $document_urls = $item->documents
+                    ->map(fn($doc) => [
+                        'url' => $doc->document_url,
+                        'downloadable' => (bool) $doc->download_document,
+                    ])
+                    ->values()
+                ->all();
 
                 $data = [
                     'id' => $item->id,
@@ -271,10 +312,9 @@ class SoundTrackController extends Controller
                     'description' => $item->description,
                     'content' => $item->content,
                     'relevance' => $item->relevance,
-                    'photo_url' => Helpers::extractFilePath($item->photo_url ?? null),
-                    'thumbnail_url' => Helpers::extractFilePath($item->thumbnail_url ?? null, 'url'),
-                    'document_url' => Helpers::extractFilePath($item->document_url ?? null),
-                    'allow_download' => $item->download_document === 1,
+                    'photo_url' => Helpers::extractFilePath($photoUrl ?? null),
+                    'thumbnail_url' => Helpers::extractFilePath($thumbUrl ?? null, 'url'),
+                    'document_urls' => $document_urls,
                     'resource_category_name' => optional($item->resourceCategory)->name,
                     'library_permission_name' => match (optional($item->libraryPermissions)->permission) {
                         1 => 'Freemium',
@@ -292,9 +332,26 @@ class SoundTrackController extends Controller
 
 
                 if ($type === 'audio') {
-                    $data['audio_url'] = Helpers::extractFilePath($item->audio_url ?? null);
+                    $audioUrl = Helpers::getAudioUrl($item->upload_id, $uploads);
+                    $data['audio_url'] = $audioUrl;
                 } else {
-                    $data['video_url'] = Helpers::extractFilePath($item->video_url ?? null);
+
+                    $videoUrl = null;
+
+                    if (!empty($item->source_id)) {
+                        $videoUrl = Helpers::getGumletPlaybackUrl($item->source_id); // cached function
+                    }
+
+                    $newVideoURL=Helpers::getVideoUrl(
+                        $item->upload_id,
+                        $uploads,
+                        true,
+                        $videoUrl,
+                        $item->embed_link
+                    );
+
+                    $data['video_url'] = Helpers::extractFilePath($newVideoURL ?? null);
+
                 }
 
                 $resourceTransformed[] = $data;
@@ -314,13 +371,15 @@ class SoundTrackController extends Controller
             $paid = $paidShopItems[$resource->id] ?? null;
             $my_playlist = $playList->isNotEmpty() ? 1 : 0;
 
-           if ( empty($resource->image_url) &&
-                (
-                    ($type === 'audio' && !empty($resource->audio_url)) ||
-                    ($type === 'video' && !empty($resource->video_url))
-                )
-            ){
 
+            
+
+           if (empty($resource->document_url) && empty($resource->image_url) && (!empty($resource->video_url) || !empty($resource->audio_url))){
+
+
+                $thumbUrl = Helpers::getThumbnailUrl($resource->thumbnail_id, $uploads);
+                $documentUrl = Helpers::getDocumentUrl($resource->document_id, $uploads);
+               
                 $data = [
                     'id' => $resource->id,
                     'category_name' => optional($resource->shopCategory)->name,
@@ -330,17 +389,21 @@ class SoundTrackController extends Controller
                     'updated_at' => $resource->updated_at,
                     'point' => empty($paid) ? (int)($resource->point ?? 0) : 0,
                     'price' => empty($paid) ? (int)($resource->price ?? 0) : 0,
-                    'document_url' => $resource->document_url['path'] ?? null,
-                    'thumbnail_url' => $resource->thumbnail_url['url'] ?? null,
+                    'document_url' => $documentUrl,
+                    'thumbnail_url' => $thumbUrl,
                     'allow_download' => $resource->download_document === 1,
                     'grid' => $gridPublicName,
                 ];
 
 
                 if ($type === 'audio') {
-                    $data['audio_url'] = $resource->audio_url['path'] ?? null;
+                    $audioUrl = Helpers::getAudioUrl($resource->audio_id, $uploads);
+                    $newAudioURL = Helpers::extractFilePath($audioUrl ?? null);
+                    $data['audio_url'] = $newAudioURL;
                 } else {
-                    $data['video_url'] = $resource->video_url['path'] ?? null;
+
+                    $videoUrl = Helpers::getVideoUrl($resource->upload_id, $uploads,1,null,$resource->video_embed_link);
+                    $data['video_url'] = $videoUrl['path'] ?? null;
                 }
 
                 $shopTransformed[] = $data;
