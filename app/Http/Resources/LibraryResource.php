@@ -57,19 +57,24 @@ class LibraryResource extends JsonResource
 
        
         $document_urls = $this->documents
-        ->map(function ($doc) {
-            $extension = $doc->document_url
-            ? pathinfo($doc->document_url, PATHINFO_EXTENSION)
-            : null;
+            ->map(function ($doc) {
+                $extension = $doc->document_url
+                    ? pathinfo($doc->document_url, PATHINFO_EXTENSION)
+                    : null;
 
-            return [
-                'url' => $doc->document_url,
-                'downloadable' => (bool) $doc->download_document,
-                'title' => ($doc->heading ?? $this->heading) . ($extension ? '.' . $extension : ''),
-            ];
-        })
-        ->values()
-        ->all();
+                $baseTitle = $doc->heading ?? $this->heading ?? 'document';
+                if ($extension && !str_ends_with(strtolower($baseTitle), ".{$extension}")) {
+                    $baseTitle .= ".{$extension}";
+                }
+
+                return [
+                    'url' => $doc->document_url,
+                    'downloadable' => (bool) $doc->download_document,
+                    'title' => $baseTitle,
+                ];
+            })
+            ->values()
+            ->all();
 
       
         $libraryPermissionName = match ($permission) {
