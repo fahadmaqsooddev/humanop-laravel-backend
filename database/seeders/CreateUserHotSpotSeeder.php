@@ -53,7 +53,7 @@ class CreateUserHotSpotSeeder extends Seeder
                     ->where('user_id', $assessment->user_id)
                     ->delete();
 
-                HotSpotUser::storeHotspotsFromAssessment(
+                $trendTracker->storeHotspotsFromAssessment(
                     $assessment->id,
                     $data,
                     (int) $assessment->user_id,
