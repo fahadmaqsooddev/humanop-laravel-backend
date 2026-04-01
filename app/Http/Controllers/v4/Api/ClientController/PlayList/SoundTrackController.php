@@ -289,10 +289,6 @@ class SoundTrackController extends Controller
            if (empty($item->photo_url) && (!empty($item->video_url) || !empty($item->audio_url))) {
 
                 $photoUrl = Helpers::getFileUrl($item->upload_id, $uploads);
-
-
-                // echo $item->thumbnail_id;
-                // die;
                 
                 $thumbUrl = Helpers::getThumbnailUrl($item->thumbnail_id, $uploads);
 
