@@ -9,29 +9,28 @@ class FixAssessmentPageSeeder extends Seeder
 {
     public function run(): void
     {
-        Assessment::chunk(500, function ($assessments) {
+        $totalUpdated = 0; // poore seeder ka counter
 
-            $updatedCount = 0;
+        Assessment::chunk(500, function ($assessments) use (&$totalUpdated) {
 
             foreach ($assessments as $assessment) {
 
-                // Safe casting in case values are null
                 $webPage = (int) ($assessment->web_page ?? 0);
                 $appPage = (int) ($assessment->app_page ?? 0);
 
-                // Custom page logic
-                if ($webPage < 3 && $appPage < 3) {
-                    $page = null;
+                // Only update if both > 0 and both < 3
+                if ($webPage > 0 && $appPage > 0 && $webPage < 3 && $appPage < 3) {
+
+                    $assessment->update([
+                        'page' => null,
+                    ]);
+
+                    $totalUpdated++; // chunk ke andar bhi increment
                 }
-
-                $assessment->update([
-                    'page' => $page,
-                ]);
-
-                $updatedCount++;
             }
-
-            echo "✔ FixAssessmentPageSeeder: {$updatedCount} records updated successfully.\n";
         });
+
+        // Seeder ke end me total update print
+        echo "✔ FixAssessmentPageSeeder: {$totalUpdated} records updated successfully.\n";
     }
 }
