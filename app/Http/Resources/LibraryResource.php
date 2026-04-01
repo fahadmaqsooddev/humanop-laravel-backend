@@ -15,7 +15,8 @@ class LibraryResource extends JsonResource
 
         $user = $this->additional['user'] ?? null;
 
-       
+        $this->resource->loadMissing('documents');
+
         if (!$user) {
           
             return [
