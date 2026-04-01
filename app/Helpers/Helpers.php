@@ -23,6 +23,8 @@ use App\Models\Assessment;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 
 class Helpers
 {
@@ -1864,10 +1866,20 @@ class Helpers
 
     public static function extractFilePath($value, $key = 'path')
     {
+        if (empty($value)) {
+            return null;
+        }
+
         if (is_array($value) || is_object($value)) {
-            return data_get($value, $key)
+            $result = data_get($value, $key)
                 ?? ($key !== 'url' ? data_get($value, 'url') : null)
                 ?? data_get($value, 'image.url');
+
+            if ($key === 'url' && !$result) {
+                $result = data_get($value, 'path');
+            }
+
+            return $result;
         }
 
         return $value;
@@ -1890,6 +1902,194 @@ class Helpers
         ];
 
         return array_merge($item, $normalized);
+    }
+
+
+    //This methods is for v4
+
+    // Get file URL only
+
+    public static function getFileUrl($uploadId = null, $uploads = null): ?array
+    {
+        if ($uploadId && $uploads) {
+            $upload = $uploads->get($uploadId);
+            if (!$upload) return null;
+
+            $path = url('/') . '/media/files/' . $upload->hash . '/' . $upload->name;
+
+            return [
+                'path' => $path,
+                'original_name' => $upload->name ?? null,
+            ];
+        }
+
+        return null;
+    }
+
+
+
+    public static function getGumletPlaybackUrl($sourceId, $fallbackUrl = null): ?array
+    {
+        if (empty($sourceId)) {
+            return [
+                'path' => $fallbackUrl,
+                'original_name' => null,
+            ];
+        }
+
+        $url = Cache::remember("gumlet:{$sourceId}", 3600, function () use ($sourceId, $fallbackUrl) {
+            try {
+                $client = new Client();
+
+                $response = $client->get("https://api.gumlet.com/v1/video/assets/$sourceId", [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . config('services.gumlet.key'),
+                    ],
+                    'timeout' => 2,
+                ]);
+
+                $data = json_decode($response->getBody(), true);
+
+                return $data['output']['playback_url'] ?? $fallbackUrl;
+
+            } catch (\Throwable $e) {
+                Log::warning('Gumlet failed', ['source_id' => $sourceId]);
+                return $fallbackUrl;
+            }
+        });
+
+        return [
+            'path' => $url,
+            'original_name' => null,
+        ];
+    }
+
+    // Get thumbnail URL only
+
+
+    public static function getThumbnailUrl($uploadId = null, $uploads = null): array
+    {
+        $response = [
+            'path' => null,
+            'original_name' => null,
+        ];
+
+        if (!$uploadId || !$uploads || !$uploads->has($uploadId)) {
+            return $response;
+        }
+
+        $upload = $uploads->get($uploadId);
+
+        if (!$upload) {
+            return $response;
+        }
+
+        return [
+            'path' => url('/') . '/media/thumbnails/' . $upload->hash . '/' . $upload->name,
+            'original_name' => $upload->name,
+        ];
+    }
+
+    public static function getDocumentUrl($uploadId = null, $uploads = null, $sourceUrl = null, $embedLink = null)
+    {
+        // default response
+        $response = [
+            'path' => null,
+            'original_name' => null,
+        ];
+
+        if (!empty($sourceUrl)) {
+            return [
+                'path' => $sourceUrl,
+                'original_name' => $sourceUrl,
+            ];
+        }
+
+        if (!empty($embedLink)) {
+            return [
+                'path' => $embedLink,
+                'original_name' => $embedLink,
+            ];
+        }
+
+        if ($uploadId && $uploads && $uploads->has($uploadId)) {
+            $upload = $uploads->get($uploadId);
+
+            if (!$upload || $upload->extension !== 'pdf') {
+                return $response;
+            }
+
+            return [
+                'path' => url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name,
+                'original_name' => $upload->name,
+            ];
+        }
+
+        return $response;
+    }
+
+    public static function getAudioUrl($uploadId = null, $uploads = null): array
+    {
+        $response = [
+            'path' => null,
+            'original_name' => null,
+        ];
+
+        if (!$uploadId || !$uploads || !$uploads->has($uploadId)) {
+            return $response;
+        }
+
+        $upload = $uploads->get($uploadId);
+
+        if (!$upload || $upload->extension !== 'mp3') {
+            return $response;
+        }
+
+        return [
+            'path' => url($upload->path),
+            'original_name' => $upload->name,
+        ];
+    }
+
+    public static function getVideoUrl($uploadId = null, $uploads = null, $sourceUrl = null, $embedLink = null): array
+    {
+        $response = [
+            'path' => null,
+            'original_name' => null,
+        ];
+
+        if (!empty($sourceUrl)) {
+            $sourceUrl = is_array($sourceUrl)
+                ? data_get($sourceUrl, 'path')
+                : $sourceUrl;
+
+            return [
+                'path' => $sourceUrl,
+                'original_name' => $sourceUrl,
+            ];
+        }
+
+        if (!empty($embedLink)) {
+            return [
+                'path' => $embedLink,
+                'original_name' => $embedLink,
+            ];
+        }
+
+        if (!$uploadId || !$uploads || !$uploads->has($uploadId)) {
+            return $response;
+        }
+
+        $upload = $uploads->get($uploadId);
+
+        if (!$upload || $upload->extension !== 'mp4') {
+            return $response;
+        }
+
+        return [
+            'path' => url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name,
+            'original_name' => $upload->name,
+        ];
     }
 
 

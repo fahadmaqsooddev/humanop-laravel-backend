@@ -16,6 +16,7 @@ use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
 use App\Models\PlaylistLog;
 use App\Models\v4\Admin\LibraryResourceDocument\LibraryResourceDocument;
 use App\Models\Upload\Upload;
+use Illuminate\Support\Facades\Log;
 class LibraryResource extends Model
 {
     use HasFactory;
@@ -52,6 +53,7 @@ class LibraryResource extends Model
     // append
     public function getPhotoUrlAttribute()
     {
+
         if (empty($this->source_id) && empty($this->embed_link)) {
             return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
 
@@ -403,7 +405,7 @@ class LibraryResource extends Model
             $q->whereIn('permission', $permissionLevels);
         });
 
-        $query->with(['resourceCategory', 'libraryPermissions'])
+        $query->with(['resourceCategory', 'libraryPermissions','documents.upload'])
             ->orderBy('created_at', 'desc');
 
         return $query->get();

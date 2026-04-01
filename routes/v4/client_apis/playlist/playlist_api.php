@@ -26,6 +26,7 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
     Route::delete('delete-my-playlist-item', 'PlaylistLogController@deleteMyPlaylistItem');
 
     Route::get('sound-track-lists', 'SoundTrackController@soundTrackLists');
+    Route::get('video-track-lists', 'SoundTrackController@videoTrackLists');
     Route::get('recommended-sound-track-lists', 'SoundTrackController@recommendedSoundTrackLists');
 
 
