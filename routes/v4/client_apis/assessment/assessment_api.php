@@ -27,6 +27,7 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
     Route::get('get-optimization-trend-analysis', 'HotSpotController@getOptimizationTrendAnalysis');
 
     // ❌ Routes to bypass assessment.completed middleware
+    Route::get('get-user-assessments', 'AssessmentController@getUserAssessments')->withoutMiddleware('assessment.completed');
     Route::get('assessment-status', 'AssessmentController@assessmentStatus')->withoutMiddleware('assessment.completed');
     Route::get('questions', 'AssessmentController@questions')->withoutMiddleware('assessment.completed');
     Route::post('submit-assessment', 'AssessmentController@submitAnswers')->withoutMiddleware('assessment.completed');
