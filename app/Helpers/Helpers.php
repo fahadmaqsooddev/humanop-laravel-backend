@@ -1991,82 +1991,37 @@ class Helpers
     // Get thumbnail URL only
 
     
-    public static function getThumbnailUrl($uploadId = null, $uploads = null): ?array
+    public static function getThumbnailUrl($uploadId = null, $uploads = null): array
     {
-        if ($uploadId && $uploads) {
-            $upload = $uploads->get($uploadId);
-            if (!$upload) return null;
+        $response = [
+            'path' => null,
+            'original_name' => null,
+        ];
 
-            return [
-                'path' => url('/') . '/media/thumbnails/' . $upload->hash . '/' . $upload->name,
-                'original_name' => $upload->name ?? null,
-            ];
+        if (!$uploadId || !$uploads || !$uploads->has($uploadId)) {
+            return $response;
         }
 
-        return null;
+        $upload = $uploads->get($uploadId);
+
+        if (!$upload) {
+            return $response;
+        }
+
+        return [
+            'path' => url('/') . '/media/thumbnails/' . $upload->hash . '/' . $upload->name,
+            'original_name' => $upload->name,
+        ];
     }
 
-    public static function getDocumentUrl($uploadId = null, $uploads = null, $isOriginalName = false, $sourceUrl = null, $embedLink = null)
+    public static function getDocumentUrl($uploadId = null, $uploads = null, $sourceUrl = null, $embedLink = null)
     {
-        
-        if (!empty($sourceUrl)) {
-            return $isOriginalName
-                ? ['path' => $sourceUrl, 'original_name' => $sourceUrl]
-                : $sourceUrl;
-        }
+        // default response
+        $response = [
+            'path' => null,
+            'original_name' => null,
+        ];
 
-       
-        if (!empty($embedLink)) {
-            return $isOriginalName
-                ? ['path' => $embedLink, 'original_name' => $embedLink]
-                : $embedLink;
-        }
-
-      
-        if ($uploadId && $uploads && $uploads->has($uploadId)) {
-
-            $upload = $uploads->get($uploadId);
-            if (!$upload) return null;
-
-            
-            if ($upload->extension !== 'pdf') {
-                return null;
-            }
-
-            $path = url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name;
-
-            if ($isOriginalName) {
-                return [
-                    'path' => $path,
-                    'original_name' => $upload->name,
-                ];
-            }
-
-            return $path;
-        }
-
-        return null;
-    }
-
-    public static function getAudioUrl($uploadId = null, $uploads = null): ?array
-    {
-        if ($uploadId && $uploads && $uploads->has($uploadId)) {
-            $upload = $uploads[$uploadId];
-
-            if ($upload->extension !== 'mp3') {
-                return null;
-            }
-
-            return [
-                'path' => url($upload->path)
-            ];
-        }
-
-        return null;
-    }
-
-    public static function getVideoUrl($uploadId = null, $uploads = null, $sourceUrl = null, $embedLink = null): ?array
-    {
         if (!empty($sourceUrl)) {
             return [
                 'path' => $sourceUrl,
@@ -2081,17 +2036,80 @@ class Helpers
             ];
         }
 
-        if ($uploadId && $uploads) {
+        if ($uploadId && $uploads && $uploads->has($uploadId)) {
             $upload = $uploads->get($uploadId);
-            if (!$upload || $upload->extension !== 'mp4') return null;
+
+            if (!$upload || $upload->extension !== 'pdf') {
+                return $response;
+            }
 
             return [
-                'path' => url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name,
-                'original_name' => $upload->name ?? null,
+                'path' => url('/') . '/media/documents/' . $upload->hash . '/' . $upload->name,
+                'original_name' => $upload->name,
             ];
         }
 
-        return null;
+        return $response;
+    }
+
+    public static function getAudioUrl($uploadId = null, $uploads = null): array
+    {
+        $response = [
+            'path' => null,
+            'original_name' => null,
+        ];
+
+        if (!$uploadId || !$uploads || !$uploads->has($uploadId)) {
+            return $response;
+        }
+
+        $upload = $uploads->get($uploadId);
+
+        if (!$upload || $upload->extension !== 'mp3') {
+            return $response;
+        }
+
+        return [
+            'path' => url($upload->path),
+            'original_name' => $upload->name,
+        ];
+    }
+
+    public static function getVideoUrl($uploadId = null, $uploads = null, $sourceUrl = null, $embedLink = null): array
+    {
+        $response = [
+            'path' => null,
+            'original_name' => null,
+        ];
+
+        if (!empty($sourceUrl)) {
+            return [
+                'path' => $sourceUrl,
+                'original_name' => $sourceUrl,
+            ];
+        }
+
+        if (!empty($embedLink)) {
+            return [
+                'path' => $embedLink,
+                'original_name' => $embedLink,
+            ];
+        }
+
+        if (!$uploadId || !$uploads || !$uploads->has($uploadId)) {
+            return $response;
+        }
+
+        $upload = $uploads->get($uploadId);
+
+        if (!$upload || $upload->extension !== 'mp4') {
+            return $response;
+        }
+
+        return [
+            'path' => url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name,
+            'original_name' => $upload->name,
+        ];
     }
 
 
