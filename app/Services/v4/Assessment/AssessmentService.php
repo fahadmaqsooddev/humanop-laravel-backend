@@ -24,7 +24,6 @@ use App\Services\GeoService;
 use Illuminate\Support\Facades\Cache;
 use App\Models\HotSpotUser;
 use App\Services\GoHighLevelService;
-use Illuminate\Support\Facades\Log;
 
 
 class AssessmentService
@@ -110,7 +109,7 @@ class AssessmentService
             return self::handleFinalPage($assessment, $user, $result);
         } else {
 
-            return self::handleIntermediatePage($assessment, $currentPage, $webPage, $appPage, $result);
+            return self::handleIntermediatePage($assessment, $page, $webPage, $appPage, $result);
         }
     }
 
@@ -140,18 +139,23 @@ class AssessmentService
             ->count();
     }
 
+
     /**
      * Calculate the web and app pages based on current assessment state.
      */
     private static function calculatePages($assessment): array
     {
+        $appPage = $assessment->app_page + 1; //This is for v4
+        $webPage = $appPage; // This is for v4
+        $currentPage = $appPage; //This is for tracking for questions 
+        $page=null;
 
-
-        $appPage = $assessment->app_page + 1;
-
-        $webPage = (int) floor($appPage / 3);
-        $currentPage = $appPage;
-        $page = $webPage;
+        // Custom page logic
+        if ($appPage === 3 && $webPage === 3) {
+            $page = 1; //This is for v3
+        } elseif ($appPage > 3 && $webPage > 3) {
+            $page = (int) floor($appPage / 3); //This is v3
+        } 
 
         return [$page, $currentPage, $webPage, $appPage];
     }
@@ -215,12 +219,12 @@ class AssessmentService
     /**
      * Handle the logic for intermediate (non-final) pages.
      */
-    private static function handleIntermediatePage($assessment, int $currentPage, int $webPage, int $appPage, array $result): string
+    private static function handleIntermediatePage($assessment, $page, int $webPage, int $appPage, array $result): string
     {
 
-        $result['page'] = $webPage;
-        $result['web_page'] = $currentPage;
-        $result['app_page'] = $appPage;
+        $result['page'] = $page; //This variable is used for v3
+        $result['web_page'] = $webPage; //This variable is used for v4
+        $result['app_page'] = $appPage; //This variable is used for v4
 
         $assessment->update($result);
 

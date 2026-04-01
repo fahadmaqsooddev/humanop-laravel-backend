@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\HotSpotUser;
 use App\Services\GoHighLevelService;
 
-
 class AssessmentService
 {
 
@@ -103,14 +102,14 @@ class AssessmentService
 
         $questionCount = self::getApplicableQuestionCount($userGender);
 
-        [$webPage,$appPage,$currentPage] = self::calculatePages($assessment, $assessmentFromApp, $questionCount);
+        [$page,$currentPage,$webPage,$appPage] = self::calculatePages($assessment, $assessmentFromApp, $questionCount);
 
-        $totalPages = $assessmentFromApp ? $questionCount : ceil($questionCount / 3);
+        $totalPages = ceil($questionCount / 3); //87/3 because of this 29 questions
 
         if ($currentPage >= $totalPages) {
             return self::handleFinalPage($assessment, $user, $result);
         } else {
-            return self::handleIntermediatePage($assessment, $currentPage, $webPage, $appPage, $result);
+            return self::handleIntermediatePage($assessment, $page, $webPage, $appPage, $result);
         }
     }
 
@@ -140,22 +139,20 @@ class AssessmentService
             ->count();
     }
 
+   
+
     /**
      * Calculate the web and app pages based on current assessment state.
      */
     private static function calculatePages($assessment, bool $assessmentFromApp, int $questionCount): array
     {
-        if ($assessmentFromApp) {
-            $appPage = $assessment->app_page + 1;
-            $currentPage = $appPage;
-            $webPage = (int) floor($appPage / 3);
-        } else {
-            $webPage = $assessment->web_page + 1;
-            $currentPage = $webPage;
-            $appPage = (($webPage - 1) * 3) + 3;
-        }
+        $page = $assessment->page + 1; // This is for v3 
+        $currentPage = $page; // This is for tracking question for v3
+        $appPage = (($page - 1) * 3) + 3; // This is for v4
+        $webPage = $appPage; // This is for v4
 
-        return [$webPage, $appPage,$currentPage];
+
+        return [$page, $currentPage, $webPage, $appPage];
     }
 
     /**
@@ -220,15 +217,15 @@ class AssessmentService
     /**
      * Handle the logic for intermediate (non-final) pages.
      */
-    private static function handleIntermediatePage($assessment, int $currentPage, int $webPage, int $appPage, array $result): string
+    private static function handleIntermediatePage($assessment, int $page, int $webPage, int $appPage, array $result): string
     {
-        $result['page'] = $webPage;
+        $result['page'] = $page;
         $result['web_page'] = $webPage;
         $result['app_page'] = $appPage;
 
         $assessment->update($result);
 
-        event(new SubmitAssessment($assessment->user_id, $currentPage + 1));
+        event(new SubmitAssessment($assessment->user_id, $page + 1));
 
         self::updateAssessmentColorCodes($assessment);
 

@@ -230,40 +230,19 @@ class AssessmentController extends Controller
         try {
 
             $assessment = Assessment::Where('user_id', $this->user->id)->latest()->first();
-
-
+            
             if (!$assessment) {
                 return Helpers::validationResponse('Assessment not found');
             }
 
-            $assessmentFromApp = filter_var(
-                $request->input('assessment_from_app'),
-                FILTER_VALIDATE_BOOLEAN
-            );
-
             $requestedPage = (int)$request->input('page');
-
-            if ($assessmentFromApp) {
-
-                $expectedPage = $assessment->app_page + 1;
-                if ($expectedPage !== $requestedPage) {
-                    return Helpers::validationResponse('Invalid page number');
-                }
-
-                $perPage = 1;
-
-            } else {
-
-                $expectedWebPage = $assessment->web_page + 1;
-                if ($requestedPage !== $expectedWebPage) {
-                    return Helpers::validationResponse('Invalid page number');
-                }
-
-                $perPage = 3;
+            
+            $expectedWebPage = $assessment->page + 1;
+            if ($requestedPage !== $expectedWebPage) {
+                return Helpers::validationResponse('Invalid page number');
             }
 
-
-//            dd($this->user);
+            $perPage = 3;
 
             $questions = Question::paginatedQuestions($perPage, $this->user);
             return Helpers::successResponse('Questions', $questions, true);
