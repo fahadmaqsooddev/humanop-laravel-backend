@@ -1,0 +1,116 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: [b2c-dev]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude Code Review
+        id: review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are a senior Laravel 9 engineer reviewing PR #${{ github.event.pull_request.number }}: "${{ github.event.pull_request.title }}".
+
+            INSTRUCTIONS:
+            1. Read the CLAUDE.md file at the project root for full project context and review rules.
+            2. Review the entire PR diff thoroughly for:
+               - Bugs, logic errors, and incorrect behavior
+               - Security vulnerabilities (SQL injection, XSS, mass assignment, hardcoded secrets)
+               - N+1 queries and performance issues
+               - Missing error handling on external API calls (Stripe, Twilio, AWS, OpenAI)
+               - Violations of project conventions documented in CLAUDE.md
+            3. For each issue found, leave an inline review comment on the specific file and line.
+            4. DO NOT flag code style/formatting issues (StyleCI handles this).
+            5. DO NOT suggest refactors or improvements unless they fix an actual bug.
+
+            SEVERITY GUIDE:
+            - critical: Security vulnerabilities, data loss, crashes, broken business logic
+            - high: Bugs that affect functionality, missing auth checks, N+1 in hot paths
+            - medium: Missing error handling, potential edge cases, minor logic issues
+            - low: Non-critical improvements that could prevent future bugs
+
+            APPROVAL RULES:
+            - Set approved: true if there are ZERO critical or high severity issues
+            - Set approved: false if there is ANY critical or high severity issue
+            - Medium/low issues should still be listed but do not block approval
+
+            Return your structured assessment with approved status, summary, and list of issues.
+          allowed_tools: "Bash(git diff:*),Bash(git log:*),Bash(git show:*),Read,Glob,Grep"
+          max_turns: "15"
+
+      - name: Parse review result
+        id: parse
+        if: always() && steps.review.outcome == 'success'
+        run: |
+          # Check if review produced a result we can parse
+          REVIEW_RESULT='${{ steps.review.outputs.result }}'
+          if echo "$REVIEW_RESULT" | grep -q '"approved":\s*true'; then
+            echo "approved=true" >> $GITHUB_OUTPUT
+          else
+            echo "approved=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Auto-approve clean PR
+        if: steps.parse.outputs.approved == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr review ${{ github.event.pull_request.number }} \
+            --approve \
+            --body "## Claude AI Review: Approved
+
+          No critical or high-severity issues found. Auto-approving this PR.
+
+          *Reviewed by Claude Code*"
+
+      - name: Auto-merge clean PR
+        if: steps.parse.outputs.approved == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} \
+            --squash \
+            --auto \
+            --subject "Merge PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
+
+      - name: Comment on PR with issues
+        if: steps.parse.outputs.approved == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "## Claude AI Review: Changes Requested
+
+          Critical or high-severity issues were found in this PR. Please review the inline comments above and address them before this PR can be merged.
+
+          Once the issues are fixed, push your changes and the review will re-run automatically.
+
+          *Reviewed by Claude Code*"
+
+      - name: Handle review failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "## Claude AI Review: Error
+
+          The automated review encountered an error and could not complete. A manual review is required for this PR.
+
+          *Reviewed by Claude Code*"
