@@ -445,19 +445,19 @@ class DashboardController extends Controller
 
                     $phaseData['phase_1'] = $plan->day1_30;
 
-                    $currentPhase = 'Phase 1 - Day 1 to 30';
+                    $currentPhase = 'Phase 1 - Day ' . $days . ' of 30';
 
                 } elseif ($days <= 60) {
 
                     $phaseData['phase_2'] = $plan->day31_60;
 
-                    $currentPhase = 'Phase 2 - Day 31 to 60';
+                    $currentPhase = 'Phase 2 - Day 31 ' . $days . ' of 60';
 
                 } else {
 
                     $phaseData['phase_3'] = $plan->day61_90;
 
-                    $currentPhase = 'Phase 3 - Day 61 to 90';
+                    $currentPhase = 'Phase 3 - Day 61 to' . $days . ' of 90';
 
                 }
 
