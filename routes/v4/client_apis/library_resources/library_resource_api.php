@@ -20,7 +20,8 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
     Route::get('resource-categories', 'LibraryResourceController@resourceCategories');
     Route::post('library-resource-item-checkout', 'LibraryResourceController@libraryResourceItemCheckout');
 
-
+    Route::get('get-zip-url/{resource}','LibraryResourceController@getZipURL');
+    
     Route::get('media-player-categories', 'LibraryResourceController@mediaPlayerCategories');
     Route::get('media-player-resources', 'LibraryResourceController@mediaPlayerResources');
 
@@ -30,3 +31,13 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
 
 
 });
+
+
+
+
+
+
+
+
+
+
