@@ -109,7 +109,7 @@ class DailySyncController extends Controller
 
         return Helpers::successResponse('Daily sync status', [
             'premium_required' => $premiumRequired,
-            'completed_today' => $completedToday,
+            'completed_today' =>  $submitQuestion === Admin::COMPLETED_SESSION ? true : $completedToday,
             'submit_question' => $submitQuestion,
         ]);
 

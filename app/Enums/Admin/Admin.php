@@ -345,4 +345,6 @@ final class Admin
 
     const VARIABLE_SYNC_DISABLED_STRING = 'Disconnect';
 
+    const COMPLETED_SESSION = 3;
+
 }
