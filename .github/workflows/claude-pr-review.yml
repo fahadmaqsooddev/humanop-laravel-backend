@@ -33,7 +33,7 @@ jobs:
 
             You are a senior Laravel 9 engineer reviewing this pull request.
 
-            INSTRUCTIONS:
+            STEP 1 - REVIEW:
             1. Read the CLAUDE.md file at the project root for full project context and review rules.
             2. Use `gh pr diff ${{ github.event.pull_request.number }}` to get the full diff.
             3. Review the entire PR diff thoroughly for:
@@ -52,71 +52,24 @@ jobs:
             - medium: Missing error handling, potential edge cases, minor logic issues
             - low: Non-critical improvements that could prevent future bugs
 
-            APPROVAL DECISION:
-            - If there are ZERO critical or high severity issues, set approved to true.
-            - If there is ANY critical or high severity issue, set approved to false.
-            - Medium/low issues should still be commented on but do not block approval.
+            STEP 2 - DECISION:
+            After completing the review, take ONE of these actions:
 
-            After reviewing, use `gh pr comment ${{ github.event.pull_request.number }}` to post a summary comment.
+            IF there are ZERO critical or high severity issues:
+            1. Run: gh pr review ${{ github.event.pull_request.number }} --approve --body "## Claude AI Review: Approved\n\nNo critical or high-severity issues found. Auto-approving this PR.\n\n*Reviewed by Claude Code*"
+            2. Then run: gh pr merge ${{ github.event.pull_request.number }} --squash --subject "Merge PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
 
-            Return your structured JSON assessment.
+            IF there are ANY critical or high severity issues:
+            1. Run: gh pr comment ${{ github.event.pull_request.number }} --body "## Claude AI Review: Changes Requested\n\nCritical or high-severity issues were found. Please review the inline comments and address them.\n\nOnce fixed, push your changes and the review will re-run automatically.\n\n*Reviewed by Claude Code*"
+            2. Do NOT approve or merge the PR.
+
+            Medium/low issues should still get inline comments but do NOT block approval.
           claude_args: |
             --max-turns 15
-            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(git diff:*),Bash(git log:*),Bash(git show:*),Read,Glob,Grep"
-            --json-schema '{"type":"object","properties":{"approved":{"type":"boolean","description":"true if no critical or high severity issues found"},"summary":{"type":"string","description":"Brief review summary"},"issues":{"type":"array","items":{"type":"object","properties":{"file":{"type":"string"},"line":{"type":"number"},"severity":{"type":"string","enum":["critical","high","medium","low"]},"description":{"type":"string"}},"required":["file","severity","description"]}}},"required":["approved","summary","issues"]}'
-
-      - name: Parse review result
-        id: parse
-        if: always() && steps.review.outcome == 'success'
-        run: |
-          OUTPUT='${{ steps.review.outputs.structured_output }}'
-          if [ -z "$OUTPUT" ]; then
-            echo "approved=unknown" >> $GITHUB_OUTPUT
-          elif echo "$OUTPUT" | jq -e '.approved == true' > /dev/null 2>&1; then
-            echo "approved=true" >> $GITHUB_OUTPUT
-          else
-            echo "approved=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Auto-approve clean PR
-        if: always() && steps.parse.outputs.approved == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr review ${{ github.event.pull_request.number }} \
-            --approve \
-            --body "## Claude AI Review: Approved
-
-          No critical or high-severity issues found. Auto-approving this PR.
-
-          *Reviewed by Claude Code*"
-
-      - name: Auto-merge clean PR
-        if: always() && steps.parse.outputs.approved == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr merge ${{ github.event.pull_request.number }} \
-            --squash \
-            --auto \
-            --subject "Merge PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
-
-      - name: Comment on PR with issues
-        if: always() && steps.parse.outputs.approved == 'false'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} \
-            --body "## Claude AI Review: Changes Requested
-
-          Critical or high-severity issues were found in this PR. Please review the inline comments above and address them before this PR can be merged.
-
-          Once the issues are fixed, push your changes and the review will re-run automatically.
-
-          *Reviewed by Claude Code*"
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr review:*),Bash(gh pr merge:*),Bash(git diff:*),Bash(git log:*),Bash(git show:*),Read,Glob,Grep"
 
       - name: Handle review failure
-        if: failure() || steps.parse.outputs.approved == 'unknown'
+        if: failure()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
