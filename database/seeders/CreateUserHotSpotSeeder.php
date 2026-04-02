@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Assessment;
-//use App\Models\HotSpotUser;
+use App\Models\HotSpotUser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
