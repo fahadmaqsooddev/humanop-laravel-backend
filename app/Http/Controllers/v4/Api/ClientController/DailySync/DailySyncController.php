@@ -109,8 +109,8 @@ class DailySyncController extends Controller
 
         return Helpers::successResponse('Daily sync status', [
             'premium_required' => $premiumRequired,
-            'completed_today' =>  $submitQuestion === Admin::COMPLETED_SESSION ? true : $completedToday,
-            'submit_question' => $submitQuestion,
+            'completed_today' => $completedToday,
+            'submit_question' => $completedToday === false ? 0 : $submitQuestion,
         ]);
 
     }
@@ -171,10 +171,7 @@ class DailySyncController extends Controller
 
         return DB::transaction(function () use ($user) {
 
-            $latestSession = DailySyncSession::where('user_id', $user->id)
-                ->lockForUpdate()
-                ->latest()
-                ->first();
+            $latestSession = DailySyncSession::where('user_id', $user->id)->lockForUpdate()->latest()->first();
 
             if ($latestSession && $latestSession->is_completed == self::SESSION_NOT_COMPLETED_AT) {
 
