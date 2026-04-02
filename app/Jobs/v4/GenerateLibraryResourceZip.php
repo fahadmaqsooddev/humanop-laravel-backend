@@ -51,20 +51,35 @@ class GenerateLibraryResourceZip implements ShouldQueue
             }
 
             foreach ($resource->documents as $doc) {
+
+
                 $upload = $doc->upload;
                 if (!$upload) continue;
 
-                $filePath = public_path("media/documents/{$upload->hash}/{$upload->name}");
-                if (!file_exists($filePath)) continue;
+                $fileUrl = asset('media/documents/' . $upload->hash . '/' . $upload->name);
 
-                $fileName = preg_replace('/[^A-Za-z0-9_\-\.]/', '_', 
-                    ($doc->heading ?? pathinfo($upload->name, PATHINFO_FILENAME))
-                ) . '.' . pathinfo($upload->name, PATHINFO_EXTENSION);
+                $safeName = basename($upload->name);
 
-                $zip->addFile($filePath, $fileName);
+                $tempPath = storage_path('app/temp_files/' . $safeName);
+
+                if (!file_exists(dirname($tempPath))) {
+                    mkdir(dirname($tempPath), 0775, true);
+                }
+
+                $fileContents = file_get_contents($fileUrl);
+                if ($fileContents === false) {
+                    Log::warning("Could not fetch file for ZIP", ['url' => $fileUrl, 'resource_id' => $this->resourceId]);
+                    continue;
+                }
+
+                file_put_contents($tempPath, $fileContents);
+
+                $zip->addFile($tempPath, $upload->name);
+
             }
 
             $zip->close();
+
 
         } catch (\Exception $e) {
             Log::error("ZIP generation failed", [
