@@ -14,6 +14,7 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
     Route::get('all-assessments', 'AssessmentController@allAssessments');
     Route::get('assessment-answers', 'AssessmentController@assessmentAnswers');
     Route::get('grid', 'AssessmentController@grid');
+    Route::get('assessment-result-preview', 'AssessmentController@assessmentResultPreview');
     Route::get('user-report', 'AssessmentController@userReport');
     Route::get('intro-assessment', 'AssessmentController@introAssessment');
     Route::post('assessment-checkout', 'AssessmentController@assessmentCheckout');

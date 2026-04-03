@@ -129,6 +129,39 @@ class AssessmentController extends Controller
         }
     }
 
+    public function assessmentResultPreview(GridRequest $request)
+    {
+        try {
+
+            $assessment = Assessment::find($request->input('assessment_id'));
+
+            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+
+            $topTwoFeatures = !empty($topFeatures['top_two_keys']) ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+
+            $types = ['pilot', 'co-pilot'];
+
+            $preview = [];
+
+            foreach ($topTwoFeatures as $index => $feature) {
+
+                $preview[$types[$index]] = [
+                    'title' => $feature['public_name'] ?? null,
+                    'description' => $feature['description'] ?? null,
+                    'type' => strtoupper($types[$index]) ?? null,
+                ];
+            }
+
+            return Helpers::successResponse('Assessment result preview', $preview);
+
+        } catch (\Exception $exception) {
+
+            Log::error('Assessment result preview: '.$exception->getMessage());
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
     public function assessmentStatus()
     {
         try {
