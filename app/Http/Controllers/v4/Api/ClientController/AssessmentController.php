@@ -129,11 +129,13 @@ class AssessmentController extends Controller
         }
     }
 
-    public function assessmentResultPreview(GridRequest $request)
+    public function assessmentResultPreview()
     {
         try {
 
-            $assessment = Assessment::find($request->input('assessment_id'));
+            $user = Helpers::getUser();
+
+            $assessment = Assessment::getLatestAssessment($user->id);
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
 
