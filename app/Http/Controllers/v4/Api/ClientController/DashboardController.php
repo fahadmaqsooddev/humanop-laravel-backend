@@ -492,6 +492,7 @@ class DashboardController extends Controller
                     'type' => $plan->type,
                     'plan_text' => $plan->fourteen_days_plan,
                     'overall' => $overall,
+                    'current_day' => $days > 6 ? 7 : $days,
                 ];
 
             }

@@ -100,6 +100,8 @@ class DailySyncController extends Controller
 
         $latestSession = DailySyncSession::where('user_id', $user->id)->latest('created_at')->first();
 
+        Log::info('latest session', [$latestSession]);
+
         $completedToday = false;
 
         $submitQuestion = 0;
@@ -111,10 +113,12 @@ class DailySyncController extends Controller
             $submitQuestion = DailySyncResponse::submitQuestionCount($latestSession->id);
         }
 
+        Log::info('competed today', [$completedToday]);
+
         return Helpers::successResponse('Daily sync status', [
             'premium_required' => $premiumRequired,
             'completed_today' => $completedToday,
-            'submit_question' => $completedToday === false ? 0 : $submitQuestion,
+            'submit_question' => $completedToday === true ? 0 : $submitQuestion,
         ]);
 
     }
