@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Points;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Client\Point\{Point, PointLog};
 use Exception;
@@ -16,21 +17,20 @@ class PointHelper
 
             $existingPoints = Point::userExists($user_id);
 
-            $data = ['user_id' => $user_id, 'point' => $existingPoints ? $existingPoints->point + $points : $points];
-
             if ($existingPoints) {
 
-                Point::updatePoint($user_id, $data);
+                Point::updatePoint($user_id, (int) $existingPoints->point + (int) $points);
 
             } else {
 
-                Point::storePoint($data);
+                Point::storePoint(['user_id' => $user_id, 'point' => $points]);
 
             }
 
             return true;
 
         } catch (Exception $e) {
+            Log::error("Failed to add points for user {$user_id}: " . $e->getMessage());
 
             return false;
 
@@ -104,6 +104,26 @@ class PointHelper
         PointLog::storePointLog($data);
 
         PointHelper::addPoints($user->id, $data['point']);
+
+        return $data['point'];
+    }
+
+    public static function addPointsOnCompletedDailySync()
+    {
+
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
+
+        $data['user_id'] = $user->id;
+
+        $data['plan'] = $user['plan_name'];
+
+        $data['point'] = Admin::COMPLETED_DAILY_SYNC;
+
+        PointLog::storePointLog($data);
+
+        if (!PointHelper::addPoints($user['id'], $data['point'])) {
+            return false;
+        }
 
         return $data['point'];
     }
