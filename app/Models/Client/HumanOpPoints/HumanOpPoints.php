@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
 use App\Models\Client\Point\Point;
+use Carbon\Carbon;
 use http\Client\Curl\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -172,8 +173,17 @@ class HumanOpPoints extends Model
 
         if (!$streak) {
 
-            return LoginStreaks::startLoginStreak($user);
+            LoginStreaks::startLoginStreak($user);
 
+            $checkPoint->points += $pointsToAdd;
+
+            $checkPoint->save();
+
+            $user->daily_streak_at = $currentTime;
+
+            $user->save();
+
+            return true;
         }
 
         if (is_array($streak)) {
@@ -182,7 +192,17 @@ class HumanOpPoints extends Model
 
         }
 
-        $diffDays = $currentTime->diffInDays($user['last_login']);
+        $streakAnchor = $user->daily_streak_at;
+
+        if ($streakAnchor === null) {
+
+            $diffDays = 2;
+
+        } else {
+
+            $diffDays = $currentTime->diffInDays(Carbon::parse($streakAnchor));
+
+        }
 
         if ($diffDays === 1) {
 
@@ -198,7 +218,7 @@ class HumanOpPoints extends Model
 
                 $checkPoint->save();
 
-                $user->last_login = $currentTime;
+                $user->daily_streak_at = $currentTime;
 
                 $user->save();
 
@@ -222,7 +242,7 @@ class HumanOpPoints extends Model
 
                 $checkPoint->save();
 
-                $user->last_login = $currentTime;
+                $user->daily_streak_at = $currentTime;
 
                 $user->save();
 
@@ -242,7 +262,7 @@ class HumanOpPoints extends Model
 
             $checkPoint->save();
 
-            $user->last_login = $currentTime;
+            $user->daily_streak_at = $currentTime;
 
             $user->save();
 
@@ -288,6 +308,7 @@ class HumanOpPoints extends Model
         }
 
         throw new \Exception("You do not have enough HP to make this purchase.");
+
     }
 
 }
