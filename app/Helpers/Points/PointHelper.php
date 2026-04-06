@@ -119,6 +119,8 @@ class PointHelper
 
         $data['point'] = Admin::COMPLETED_DAILY_SYNC;
 
+        $data['type'] = 4; // daily sync completion
+
         PointLog::storePointLog($data);
 
         if (!PointHelper::addPoints($user['id'], $data['point'])) {
