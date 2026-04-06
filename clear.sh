@@ -37,8 +37,9 @@ sudo find bootstrap/cache -type d -exec chmod g+s {} \;
 # Restart queue workers
 sudo -u www-data php artisan queue:restart
 
-#sudo -u www-data php artisan db:seed --class=CreateUserHotSpotSeeder
-#sudo -u www-data php artisan db:seed --class=OptimizationPlanSeeder
+#sudo -u www-data php artisan db:seed --class=CreateUserHotSpotSeeder    # dev done / staging done /prod pending
+#sudo -u www-data php artisan db:seed --class=OptimizationPlanSeeder     # dev done / staging done /prod pending
+
 sudo rm -rf storage/framework/cache/data/*
 echo "Deploy script finished execution"
 exit 0
