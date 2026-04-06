@@ -23,6 +23,7 @@ use App\Http\Requests\v4\Api\Client\LibraryResourceNotesRequest;
 use App\Models\v4\Client\LibraryResourceNotes\LibraryResourceNotes;
 use App\Http\Resources\LibraryResource as LibraryResources;
 use App\Jobs\v4\GenerateLibraryResourceZip;
+use App\Models\v4\Admin\LibraryResourceDocument\LibraryDocumentZip;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
 
@@ -371,41 +372,35 @@ class LibraryResourceController extends Controller
             ['resourceId' => 'required|integer|exists:library_resources,id']
         )->validate();
 
+
         $resource = LibraryResource::getResourceById($resourceId, $this->user);
         if (!$resource) {
             return Helpers::notFoundResponse('Resource not found');
         }
 
-        $userId = $this->user->id;
+     
+        $zipRecord = LibraryDocumentZip::where('resource_id', $resourceId)
+            ->latest()
+            ->first();
 
-        $zipPath = storage_path("app/temp_zips/resource_{$resourceId}_user_{$userId}.zip");
+        if (!$zipRecord || !file_exists(storage_path("app/{$zipRecord->path}"))) {
+            $cacheKey = "zip_generating_{$resourceId}";
 
-        $cacheKey = "zip_generating_{$resourceId}_user_{$userId}";
-        $noDocsKey = "zip_no_documents_{$resourceId}_user_{$userId}";
+            if (!Cache::has($cacheKey)) {
+                Cache::put($cacheKey, true, now()->addMinutes(5));
+                GenerateLibraryResourceZip::dispatch($resourceId);
+            }
 
-        // ✅ 1. Check if resource has no documents
-        if (Cache::has($noDocsKey)) {
-           return Helpers::validationResponse('This resource has no documents to download.');
-        }
-
-        // ✅ 2. Dispatch job safely
-        if (!file_exists($zipPath) && !Cache::has($cacheKey)) {
-            Cache::put($cacheKey, true, now()->addMinutes(5));
-
-            GenerateLibraryResourceZip::dispatch($resourceId, $userId);
-        }
-
-        // ✅ 3. Still processing
-        if (!file_exists($zipPath)) {
             return response()->json([
                 'status' => 'processing',
                 'message' => 'ZIP is being generated. Check back later.'
             ], 202);
         }
 
-        // ✅ 4. Download
-        return response()->download($zipPath, "resource_{$resourceId}.zip")
-                        ->deleteFileAfterSend(true);
+        $zipPath = storage_path("app/{$zipRecord->path}");
+        $zipFileName = basename($zipRecord->path);
+
+        return response()->download($zipPath, $zipFileName);
     }
 
 }

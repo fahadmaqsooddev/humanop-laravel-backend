@@ -9,6 +9,8 @@ use App\Models\Admin\Resources\LibraryResource;
 use ZipArchive;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
+use App\Models\v4\Admin\LibraryResourceDocument\LibraryDocumentZip;
+
 
 class GenerateLibraryResourceZip implements ShouldQueue
 {
@@ -17,32 +19,31 @@ class GenerateLibraryResourceZip implements ShouldQueue
     public int $tries = 3;
     public int $timeout = 120;
 
-    protected $resourceId, $userId;
+    protected $resourceId;
 
-    public function __construct($resourceId, $userId)
+    public function __construct($resourceId)
     {
         $this->resourceId = $resourceId;
-        $this->userId = $userId;
     }
 
     public function handle()
     {
-        $cacheKey = "zip_generating_{$this->resourceId}_user_{$this->userId}";
+        $cacheKey = "zip_generating_{$this->resourceId}";
 
         try {
             $resource = LibraryResource::with('documents.upload')->find($this->resourceId);
 
-            $noDocsKey = "zip_no_documents_{$this->resourceId}_user_{$this->userId}";
+            $noDocsKey = "zip_no_documents_{$this->resourceId}";
 
             if (!$resource || $resource->documents->isEmpty()) {
                 Cache::put($noDocsKey, true, now()->addMinutes(10));
                 return;
             }
 
-            $zipDir = storage_path('app/temp_zips');
+            $zipDir = storage_path('app/resource_zips');
             if (!file_exists($zipDir)) mkdir($zipDir, 0775, true);
 
-            $zipPath = storage_path("app/temp_zips/resource_{$this->resourceId}_user_{$this->userId}.zip");
+            $zipPath = storage_path("app/resource_zips/resource_{$this->resourceId}.zip");
 
             $zip = new ZipArchive();
 
@@ -56,35 +57,26 @@ class GenerateLibraryResourceZip implements ShouldQueue
                 $upload = $doc->upload;
                 if (!$upload) continue;
 
-                $fileUrl = asset('media/documents/' . $upload->hash . '/' . $upload->name);
+                $fileUrl = $upload->path;
 
-                $safeName = basename($upload->name);
-
-                $tempPath = storage_path('app/temp_files/' . $safeName);
-
-                if (!file_exists(dirname($tempPath))) {
-                    mkdir(dirname($tempPath), 0775, true);
+                if (file_exists($fileUrl)) {
+                    $zip->addFile($fileUrl, basename($upload->name)); // Add to zip
+                } else {
+                    Log::warning("File missing for ZIP", ['file' => $fileUrl]);
                 }
-
-                $fileContents = file_get_contents($fileUrl);
-                if ($fileContents === false) {
-                    Log::warning("Could not fetch file for ZIP", ['url' => $fileUrl, 'resource_id' => $this->resourceId]);
-                    continue;
-                }
-
-                file_put_contents($tempPath, $fileContents);
-
-                $zip->addFile($tempPath, $upload->name);
 
             }
 
-            $zip->close();
+             $zip->close();
 
+            LibraryDocumentZip::updateOrCreate(
+                ['resource_id' => $this->resourceId],
+                ['path' => 'resource_zips/resource_' . $this->resourceId . '.zip']
+            );
 
         } catch (\Exception $e) {
             Log::error("ZIP generation failed", [
                 'resource_id' => $this->resourceId,
-                'user_id' => $this->userId,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
@@ -99,7 +91,7 @@ class GenerateLibraryResourceZip implements ShouldQueue
     public function failed(\Exception $e)
     {
     
-        $cacheKey = "zip_generating_{$this->resourceId}_user_{$this->userId}";
+        $cacheKey = "zip_generating_{$this->resourceId}";
         Cache::forget($cacheKey);
     }
 }

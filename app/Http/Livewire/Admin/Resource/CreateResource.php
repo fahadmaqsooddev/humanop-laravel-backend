@@ -18,6 +18,8 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Log;
 use App\Models\v4\Admin\LibraryResourceDocument\LibraryResourceDocument;
+use App\Models\v4\Admin\LibraryResourceDocument\LibraryDocumentZip;
+use App\Helpers\Helpers;
 
 class CreateResource extends Component
 {
@@ -179,6 +181,7 @@ class CreateResource extends Component
              
             //dd($this->documents);
 
+
             LibraryResourceDocument::storeDocuments($this->documents, $resource->id);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission, $this->priceValue, $this->pointValue);
@@ -301,6 +304,8 @@ class CreateResource extends Component
             $this->deleteFileToGumlet($getResource['source_id']);
 
             PermissionResource::deleteResourcePermission($id);
+
+            LibraryDocumentZip::deleteZipByResource($id);
 
             LibraryResource::deleteResource($id);
 
@@ -605,7 +610,6 @@ class CreateResource extends Component
 
 
         }
-
 
 
         // Update documents (existing + new)

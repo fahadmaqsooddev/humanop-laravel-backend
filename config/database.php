@@ -960,6 +960,11 @@ return [
             'fillable' => ['resource_id', 'document_id', 'download_document'],
             'hidden' => ['created_at', 'updated_at']
         ],
+        'LibraryDocumentZip' => [
+            'table' => 'library_document_zips',
+            'fillable' => ['resource_id', 'path'],
+            'hidden' => ['created_at', 'updated_at']
+        ]
 
     ]
 ];
