@@ -38,26 +38,4 @@ class EventController extends Controller
 
     }
 
-    /*
-    |----------------------------------------
-    | Acknowledge event
-    |----------------------------------------
-    */
-    public function acknowledge(Request $request,$eventId)
-    {
-
-        $event = Event::query()
-            ->where('id',$eventId)
-            ->where('user_id',Helpers::getUser()->id)
-            ->firstOrFail();
-
-        $event->update([
-            'acknowledged_at'=>now()
-        ]);
-
-        return Helpers::successResponse('Event acknowledged');
-
-    }
-
-
 }

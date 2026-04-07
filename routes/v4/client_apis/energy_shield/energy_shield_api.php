@@ -19,8 +19,6 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
 
     Route::get('events', 'EventController@index');
 
-    Route::patch('events/{id}/acknowledge', 'EventController@acknowledge');
-
     Route::post('healthkit/locations', 'HealthKitController@ingestLocations');
 
     Route::post('boost-sessions/start', 'BoostSessionController@start');
