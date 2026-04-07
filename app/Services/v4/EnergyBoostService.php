@@ -13,6 +13,7 @@ class EnergyBoostService
 
     public function startSession(
         int    $userId,
+        int    $eventId,
         string $protocolType,
         array  $metadata = []
     ): BoostSession
@@ -22,6 +23,7 @@ class EnergyBoostService
 
         return BoostSession::query()->create([
             'user_id' => $userId,
+            'event_id' => $eventId,
             'protocol_type' => $protocolType,
             'started_at' => now(),
             'hr_before' => $hrBefore,
@@ -80,6 +82,13 @@ class EnergyBoostService
             $session->user_id,
             $ebsPoints
         );
+
+        // Auto-acknowledge the event now that the boost session is complete
+        if ($session->event_id) {
+            $session->event()->update([
+                'acknowledged_at' => now(),
+            ]);
+        }
 
         return $session;
     }

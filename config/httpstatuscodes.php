@@ -19,6 +19,7 @@ return [
     'not_acceptable_status' => 406, //use for validation
     'conflict_status' => 409,
     'package_upgrade_required' => 426,
+    'unprocessable_entity' => 422,
 
     // 5xx Server Error
     'internal_server_error' => 500,

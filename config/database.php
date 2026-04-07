@@ -947,12 +947,7 @@ return [
         ],
         'BoostSession' => [
             'table' => 'boost_sessions',
-            'fillable' => ['user_id', 'protocol_type', 'started_at', 'ended_at', 'hr_before', 'hr_after', 'hrv_before', 'hrv_after', 'q_physio', 'energy_points_added', 'replenishment_percent', 'trait_modifier_key', 'trait_modifier_value', 'driver_modifier_key', 'driver_modifier_value', 'coherence_achieved', 'metadata'],
-            'hidden' => ['created_at', 'updated_at']
-        ],
-        'BoostSession' => [
-            'table' => 'boost_sessions',
-            'fillable' => ['user_id', 'protocol_type', 'started_at', 'ended_at', 'hr_before', 'hr_after', 'hrv_before', 'hrv_after', 'q_physio', 'energy_points_added', 'replenishment_percent', 'trait_modifier_key', 'trait_modifier_value', 'driver_modifier_key', 'driver_modifier_value', 'coherence_achieved', 'metadata'],
+            'fillable' => ['user_id', 'event_id', 'protocol_type', 'started_at', 'ended_at', 'hr_before', 'hr_after', 'hrv_before', 'hrv_after', 'q_physio', 'energy_points_added', 'replenishment_percent', 'trait_modifier_key', 'trait_modifier_value', 'driver_modifier_key', 'driver_modifier_value', 'coherence_achieved', 'metadata'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'LibraryResourceDocument' => [

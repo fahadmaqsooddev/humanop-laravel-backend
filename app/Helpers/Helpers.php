@@ -66,6 +66,11 @@ class Helpers
         return response(['status' => false, 'message' => $errors], config('httpstatuscodes.not_found_status'));
     }
 
+    public static function unProcessableEntity($errors)
+    {
+        return response()->json(['status' => false, 'message' => $errors], config('httpstatuscodes.unprocessable_entity'));
+    }
+
     public static function serverErrorResponse($errors)
     {
         $message = 'Something went wrong. Please contact technical support';

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v4\Api\ClientController;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\v4\Client\BoostSession;
+use App\Models\v4\Client\Event;
 use App\Services\v4\EnergyBoostService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,14 +18,47 @@ class BoostSessionController extends Controller
     public function start(Request $request, EnergyBoostService $energyBoostService): JsonResponse
     {
         $validator = Validator::make($request->all(), [
+            'event_id' => ['required', 'integer', 'exists:events,id'],
             'protocol_type' => ['required', 'string'],
             'metadata' => ['nullable', 'array'],
         ]);
 
         $validator->validate();
 
+        $user = Helpers::getUser();
+
+        $eventId = $request->integer('event_id');
+
+        // Validate event belongs to the current user
+        $event = Event::query()
+            ->where('id', $eventId)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if (!$event) {
+
+            return Helpers::unProcessableEntity('Event not found');
+        }
+
+        // Validate event is still active (not expired)
+        if ($event->expires_at && $event->expires_at->isPast()) {
+
+            return Helpers::unProcessableEntity('Event has expired');
+        }
+
+        // Validate no boost session already exists for this event
+        $existingSession = BoostSession::query()
+            ->where('event_id', $eventId)
+            ->exists();
+
+        if ($existingSession) {
+
+            return Helpers::unProcessableEntity('A boost session already exists for this event');
+        }
+
         $session = $energyBoostService->startSession(
-            Helpers::getUser()->id,
+            $user->id,
+            $eventId,
             $request->string('protocol_type')->toString(),
             $request->input('metadata', [])
         );
