@@ -17,6 +17,7 @@ use App\Models\FamilyMatrix\FamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixResponse;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Smalot\PdfParser\Parser;
 class HaiChatHelpers
@@ -183,6 +184,21 @@ class HaiChatHelpers
 
         $lastName = $user['last_name'] ?? $user->last_name ?? '';
 
+        $rawGender = $user['gender'] ?? $user->gender ?? null;
+        $gender = is_numeric($rawGender)
+            ? ((int) $rawGender === Admin::IS_MALE ? 'Male' : 'Female')
+            : ($rawGender ?: '');
+
+        $rawLastLogin = $user['last_login'] ?? $user->last_login ?? null;
+        $lastLogin = null;
+        if (!empty($rawLastLogin)) {
+            try {
+                $lastLogin = Carbon::parse($rawLastLogin)->format('m/d/Y h:i A');
+            } catch (\Throwable $e) {
+                $lastLogin = (string) $rawLastLogin;
+            }
+        }
+
         $familyRelations = AssignFamilyMatrixRelationship::with('relationship')->where('user_id', $userId)->get();
 
         $familyConnections = [];
@@ -239,7 +255,8 @@ class HaiChatHelpers
                 'email' => $user['email'] ?? $user->email ?? '',
                 'phone' => $user['phone'] ?? $user->phone ?? '',
                 'date_of_birth' => $user['date_of_birth'] ?? $user->date_of_birth ?? '',
-                'gender' => $user['gender'] ?? $user->gender ?? '',
+                'gender' => $gender,
+                'last_login' => $lastLogin,
                 'timezone' => $user['timezone'] ?? $user->timezone ?? '',
                 'plan_name' => $user['plan_name'] ?? $user->plan_name ?? '',
             ],

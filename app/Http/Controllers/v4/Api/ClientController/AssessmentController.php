@@ -219,7 +219,7 @@ class AssessmentController extends Controller
                     'assessment_page_number' => $assessment->page ?? 0,
                     'web_page_number' => $assessment->web_page ?? 0,
                     'app_page_number' => $assessment->app_page ?? 0,
-                    'can_take_assessment' => ($assessment->page ?? 0) != 0,
+                    'can_take_assessment' => $assessment->page === 0 ? false : true,
                     'reset_assessment' => false,
                     'assessment_price' => max($price - 1, 0),
                 ]));
