@@ -9,12 +9,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('boost_sessions', function (Blueprint $table) {
-            $table->foreignId('event_id')
-                ->after('user_id')
-                ->constrained('events')
-                ->cascadeOnDelete();
 
-            $table->index('event_id', 'boost_event_id_idx');
+            if (!Schema::hasColumn('boost_sessions', 'event_id')) {
+
+                $table->foreignId('event_id')
+                    ->after('user_id')
+                    ->constrained('events')
+                    ->cascadeOnDelete();
+            }
+
+            if (!Schema::hasIndex('boost_sessions', 'boost_event_id_idx')) {
+                $table->index('event_id', 'boost_event_id_idx');
+            }
         });
     }
 
