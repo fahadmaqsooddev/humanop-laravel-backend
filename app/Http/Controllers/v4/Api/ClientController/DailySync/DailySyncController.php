@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\v4\Api\ClientController\DailySync;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Helpers;
+use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\v4\Api\Client\DailySync\SubmitQuestionRequest;
+use App\Models\Admin\Notification\Notification;
 use App\Models\v4\Admin\DailySync\DailySyncQuestion;
 use App\Models\v4\Client\DailySync\DailySyncResponse;
 use App\Models\v4\Client\DailySync\DailySyncSession;
 use App\Models\v4\Client\DailySync\DailySyncStreak;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DailySyncController extends Controller
 {
@@ -96,6 +100,8 @@ class DailySyncController extends Controller
 
         $latestSession = DailySyncSession::where('user_id', $user->id)->latest('created_at')->first();
 
+        Log::info('latest session', [$latestSession]);
+
         $completedToday = false;
 
         $submitQuestion = 0;
@@ -107,10 +113,12 @@ class DailySyncController extends Controller
             $submitQuestion = DailySyncResponse::submitQuestionCount($latestSession->id);
         }
 
+        Log::info('competed today', [$completedToday]);
+
         return Helpers::successResponse('Daily sync status', [
             'premium_required' => $premiumRequired,
             'completed_today' => $completedToday,
-            'submit_question' => $completedToday === false ? 0 : $submitQuestion,
+            'submit_question' => $completedToday === true ? 0 : $submitQuestion,
         ]);
 
     }
@@ -120,46 +128,79 @@ class DailySyncController extends Controller
 
         $user = Helpers::getUser();
 
-        $session = DailySyncSession::getSingleSession($user->id, $request['session_id']);
+        try {
+            $payload = DB::transaction(function () use ($request, $user) {
 
-        if (!$session) {
+                $session = DailySyncSession::where('user_id', $user->id)->where('id', $request['session_id'])->lockForUpdate()->first();
 
-            return Helpers::validationResponse('Invalid session.');
+                if (!$session) {
 
+                    return ['error' => Helpers::validationResponse('Invalid session.')];
+
+                }
+
+                $dailySyncResponse = DailySyncResponse::getSingleSession($session->id, $request['question_id']);
+
+                if (!$dailySyncResponse) {
+
+                    return ['error' => Helpers::validationResponse('Invalid question for this session.')];
+
+                }
+
+                $questionText = DailySyncQuestion::where('id', $request->question_id)->value('question_text');
+
+                $dailySyncResponse->update(['response_text' => $request['response'], 'question_text' => $questionText,]);
+
+                if (!$session->is_completed && DailySyncResponse::submitQuestionCount($session->id) == self::QUESTIONS_LIMIT) {
+
+                    $completedAt = now();
+
+                    $session->update(['is_completed' => self::SESSION_COMPLETED_AT, 'completed_at' => $completedAt,]);
+
+                    $point = PointHelper::addPointsOnCompletedDailySync();
+
+                    if ($point === false) {
+                        throw new \RuntimeException('Failed to update points for completed daily sync.');
+                    }
+
+                    $message = "Congratulations! You have completed your daily sync and earned {$point} points.";
+
+                    ActivityLogger::addLog('Complete Daily Sync', "{$message}");
+
+                    Notification::createNotification('Complete Daily Sync', $message, $user['device_token'], $user['id'], 1, Admin::COMPLETED_DAILY_SYNC_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                    if ($session->created_at->isSameDay($completedAt)) {
+
+                        DailySyncStreak::createOrIncrement($user->id);
+
+                    }
+
+                }
+
+                return [
+                    'session_id' => $session->id,
+                    'question_id' => (int)$request['question_id'],
+                    'response_text' => $dailySyncResponse->response_text,
+                    'session_completed' => (bool) $session->is_completed,
+                ];
+            });
+
+        } catch (\Throwable $e) {
+            Log::error('Daily sync submitResponse failed.', [
+                'user_id' => $user->id ?? null,
+                'session_id' => $request['session_id'] ?? null,
+                'question_id' => $request['question_id'] ?? null,
+                'error' => $e->getMessage(),
+            ]);
+
+            return Helpers::serverErrorResponse();
         }
 
-        $dailySyncResponse = DailySyncResponse::getSingleSession($session->id, $request['question_id']);
+        if (isset($payload['error'])) {
 
-        if (!$dailySyncResponse) {
-
-            return Helpers::validationResponse('Invalid question for this session.');
+            return $payload['error'];
 
         }
-
-        $questionText = DailySyncQuestion::where('id', $request->question_id)->value('question_text');
-
-        $dailySyncResponse->update(['response_text' => $request['response'], 'question_text' => $questionText,]);
-
-        if (DailySyncResponse::submitQuestionCount($session->id) == self::QUESTIONS_LIMIT) {
-
-            $completedAt = now();
-
-            $session->update(['is_completed' => self::SESSION_COMPLETED_AT, 'completed_at' => $completedAt,]);
-
-            if ($session->created_at->isSameDay($completedAt)) {
-
-                DailySyncStreak::createOrIncrement($user->id);
-
-            }
-
-        }
-
-        $payload = [
-            'session_id' => $session->id,
-            'question_id' => (int)$request['question_id'],
-            'response_text' => $dailySyncResponse->response_text,
-            'session_completed' => $session->fresh()->is_completed == true,
-        ];
 
         return Helpers::successResponse('Response saved', $payload);
 

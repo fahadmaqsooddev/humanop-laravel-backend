@@ -38,6 +38,10 @@ Broadcast::channel('push-notification.{id}', function ($user, $id) {
     return true;
 });
 
+Broadcast::channel('energy-shield.{id}', function ($user, $id) {
+    return $user->id == $id;
+});
+
 Broadcast::channel('user-actions.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });

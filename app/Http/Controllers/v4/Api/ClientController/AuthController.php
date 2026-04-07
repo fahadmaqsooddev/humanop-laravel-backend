@@ -852,7 +852,7 @@ class AuthController extends Controller
 
                     Helpers::checkAndAddBonusCredits($checkUser, $currentTime);
 
-                    Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
+//                    Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
 
                     $checkUser->update(['last_login' => Carbon::now()]);
 

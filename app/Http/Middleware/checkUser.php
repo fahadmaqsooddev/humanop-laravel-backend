@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Helpers\Helpers;
 use App\Models\User;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class checkUser
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
 
@@ -27,14 +28,19 @@ class checkUser
 
     public function handle(Request $request, Closure $next)
     {
-        $user = Helpers::getUser();
+        $checkUser = Helpers::getUser();
 
-        if ($user) {
-            if ($user['reset_password'] > 0 ) {
+        if ($checkUser) {
 
-//                $this->auth->logout();
+            $minutes = Helpers::explodeTimezoneWithHours($checkUser['timezone']);
 
-                User::resetPassword($user['id']);
+            $currentTime = Carbon::now()->addMinutes($minutes * 60);
+
+            Helpers::checkAndAddHumanOpPoints($checkUser, $currentTime);
+
+            if ($checkUser['reset_password'] > 0) {
+
+                User::resetPassword($checkUser['id']);
 
                 return response()->json(['status' => 401, 'message' => 'User logged out successfully', 'result' => array('data' => $data = [])], config('httpstatuscodes.ok_status'));
 

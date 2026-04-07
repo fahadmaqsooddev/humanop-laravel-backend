@@ -492,6 +492,7 @@ class DashboardController extends Controller
                     'type' => $plan->type,
                     'plan_text' => $plan->fourteen_days_plan,
                     'overall' => $overall,
+                    'current_day' => $days > 6 ? 7 : $days,
                 ];
 
             }
@@ -1390,7 +1391,17 @@ class DashboardController extends Controller
 
                 $currentTime = Carbon::now()->timezone($tz)->startOfMinute();
 
-                $optimizationDays = $userTime ? $userTime->diffInDays($currentTime) + 1 : 0;
+                $days = $userTime ? $userTime->diffInDays($currentTime) + 1 : 0;
+
+                if ($userPlan == Admin::PREMIUM_PLAN_NAME){
+
+                    $optimizationDays = $days > 89 ? 90 : $days;
+
+                }else{
+
+                    $optimizationDays = $days > 6 ? 7 : $days;
+
+                }
 
             } else {
                 $optimizationDays = 0;

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use App\Models\UserRewardLog;
 use App\Enums\Reward\Reward;
+use Carbon\Carbon;
 
 class HumanOpPoints extends Model
 {
@@ -188,7 +189,6 @@ class HumanOpPoints extends Model
 
         $checkPoint = self::getUserPoints($user);
 
-
         if ($checkPoint === null) {
 
             self::create([
@@ -206,10 +206,19 @@ class HumanOpPoints extends Model
 
         if (!$streak) {
 
-           
+            LoginStreaks::startLoginStreak($user);
 
-            return LoginStreaks::startLoginStreak($user);
+            $checkPoint->points += $pointsToAdd;
 
+            $checkPoint->save();
+
+            UserRewardLog::createLog($user['id'], Reward::DAILY_LOGIN, $pointsToAdd);
+
+            $user->daily_streak_at = $currentTime;
+
+            $user->save();
+
+            return true;
         }
 
         if (is_array($streak)) {
@@ -218,10 +227,15 @@ class HumanOpPoints extends Model
 
         }
 
-        $diffDays = $currentTime->diffInDays($user['last_login']);
+        $streakAnchor = $user->daily_streak_at ?? $user->last_login;
+
+        if ($streakAnchor === null) {
+            $diffDays = 2;
+        } else {
+            $diffDays = $currentTime->diffInDays(Carbon::parse($streakAnchor));
+        }
 
         if ($diffDays === 1) {
-
 
             if ($streak->login_days > 6) {
 
@@ -237,14 +251,13 @@ class HumanOpPoints extends Model
 
                 UserRewardLog::createLog($user['id'], Reward::DAILY_LOGIN, $pointsToAdd);
 
-                $user->last_login = $currentTime;
+                $user->daily_streak_at = $currentTime;
 
                 $user->save();
 
                 Helpers::checkAndTakePerformanceLevel($user);
 
             } else {
-
 
                 LoginStreaks::updateLoginStreak($user);
 
@@ -264,7 +277,7 @@ class HumanOpPoints extends Model
 
                 UserRewardLog::createLog($user['id'], Reward::DAILY_LOGIN_BONUS, $bonus);
 
-                $user->last_login = $currentTime;
+                $user->daily_streak_at = $currentTime;
 
                 $user->save();
 
@@ -276,7 +289,6 @@ class HumanOpPoints extends Model
 
         } elseif ($diffDays > 1) {
 
-
             $streak->login_days = 1;
 
             $streak->save();
@@ -285,11 +297,9 @@ class HumanOpPoints extends Model
 
             $checkPoint->save();
 
-
             UserRewardLog::createLog($user['id'], Reward::DAILY_LOGIN_RESET, $pointsToAdd);
 
-
-            $user->last_login = $currentTime;
+            $user->daily_streak_at = $currentTime;
 
             $user->save();
 

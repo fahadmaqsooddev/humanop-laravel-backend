@@ -22,8 +22,6 @@ final class Admin
 
     const IS_FEMALE = 1;
 
-    const IS_BOTH = 2;
-
     const IS_PERMANENTLY_DELETED = 1;
 
     const IS_NOT_PERMANENTLY_DELETED = 0;
@@ -36,17 +34,11 @@ final class Admin
 
     const HAI_CHAT_SHOW = 1;
 
-    const SUPER_ADMIN_ROLE = 1;
-
-    const SUB_ADMIN_ROLE = 2;
-
     const PRACTITIONER_ROLE = 3;
 
     const TWO_WAY_AUTH_ACTIVE = 1;
 
     const TWO_WAY_AUTH_DISABLED = 2;
-
-    const INTRO_CHECK_READ = 1;
 
     const INTRO_CHECK_UN_READ = 2;
 
@@ -55,22 +47,6 @@ final class Admin
     const NOT_RESET_ASSESSMENT = 0;
 
     const Is_Feed_Back_Show = 1;
-
-    const DAILY_TIP_INFO = 4;
-
-    const CORE_STATS_INFO = 5;
-
-    const ACTION_PLAN_INFO = 6;
-
-    const RESOURCE_INFO = 7;
-
-    const CHALLENGE_BUTTON_INFO = 8;
-
-    const HAI_CHAT_INFO = 9;
-
-    const PROFILE_OVERVIEW_INFO = 10;
-
-    const INTEGRATION_PODCAST_INFO = 11;
 
     const DAILY_TIP_NOTIFICATION = 1;
 
@@ -87,21 +63,20 @@ final class Admin
     const REMOVE_COMPANY_NOTIFICATION = 15;
 
     const NETWORK_NOTIFICTAION = 4;
-    const MESSAGE_SEND_NOTIFICATION = 9;
 
-    const NEW_MESSAGE_NOTIFICATION = 10;
+    const MESSAGE_SEND_NOTIFICATION = 9;
 
     const B2B_SHARE_DATA_NOTIFICATION = 11;
 
     const B2B_NOT_SHARE_DATA_NOTIFICATION = 12;
-
-    const REQUEST_ACCESS_DATA_NOTIFICATION = 13;
 
     const SEND_GROUP_REQUEST_NOTIFICATION = 15;
 
     const ACCEPT_REQUEST_NOTIFICATION = 16;
 
     const REJECT_REQUEST_NOTIFICATION = 17;
+
+    const COMPLETED_DAILY_SYNC_NOTIFICATION = 19;
 
     const FAMILY_MATRIX_RELATIONSHIP_PERMISSION = 18;
 
@@ -110,10 +85,6 @@ final class Admin
     const CREDIT_BONUS = 15;
 
     const CLIENT_INVITE_ROLE = 1;
-
-    const B2B_INVITE_ROLE = 2;
-
-    const B2B_MEMBER_INVITE_ROLE = 3;
 
     const MORNING_STATUS = 1;
 
@@ -139,8 +110,6 @@ final class Admin
 
     const ENERGY_POOL_TRAIT = 9;
 
-    const IN_FUTURE = 1;
-
     const NOT_IN_FUTURE = 0;
 
     const IS_CANDIDATE = 1;
@@ -150,8 +119,6 @@ final class Admin
     const SHARED_DATA = 1;
 
     const FIRST_TIME_SHARED_DATA = 1;
-
-    const FIRST_TIME_NOT_SHARED_DATA = 0;
 
     const NOT_SHARED_DATA = 0;
 
@@ -171,14 +138,6 @@ final class Admin
 
     const B2C_PLAN = 0;
 
-    const REQUEST_SEND = 1;
-
-    const ISSUE_FIXED = 0;
-
-    const NEW_FEATURE = 1;
-
-    const B2B_INACTIVE_PLAN = 0;
-
     const B2B_ACTIVE_PLAN = 1;
 
     const FREEMIUM_CREDITS = 15;
@@ -189,11 +148,7 @@ final class Admin
 
     const PREMIUM_LIFETIME_CREDITS = 1000;
 
-    const PREMIUM_CREDITS = 250;
-
     const SHARE_ASSESSMENT = 1;
-
-    const NOT_SHARE_ASSESSMENT = 2;
 
     const FAVORITE_DAILY_TIP = 2;
 
@@ -232,15 +187,7 @@ final class Admin
 
     const FA_VERIFICATION_CODE = '2fa_verification_code';
 
-    const B2B_SIGNUP_LINK = 'b2b_signup_link';
-
     const B2C_SIGNUP_LINK = 'b2c_signup';
-
-    const B2B_LOGIN_LINK = 'b2b_login_link';
-
-    const MAESTRO_SIGNUP = 'maestro_signup';
-
-    const B2B_EMAIL_VERIFICATION='b2b_email_verification';
 
     const DEFAULT_EMAIL = 1;
 
@@ -337,14 +284,10 @@ final class Admin
 
     const THEME_LIGHT = 'light';
 
-    const VARIABLE_SYNC_ENABLED = 1;
-
-    const VARIABLE_SYNC_DISABLED = 0;
-
     const VARIABLE_SYNC_ENABLED_STRING = 'Connect';
 
     const VARIABLE_SYNC_DISABLED_STRING = 'Disconnect';
 
-    const COMPLETED_SESSION = 3;
+    const COMPLETED_DAILY_SYNC = 50;
 
 }

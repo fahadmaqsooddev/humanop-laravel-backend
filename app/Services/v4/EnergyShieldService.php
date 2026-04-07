@@ -4,7 +4,7 @@ namespace App\Services\v4;
 
 use App\Models\v4\Client\EnergyShieldState;
 use App\Support\HumanOpFormula;
-
+use App\Events\v4\EnergyShieldState as EnergyShieldEvent;
 class EnergyShieldService
 {
 
@@ -21,6 +21,15 @@ class EnergyShieldService
                 'energy_pool_state' => $energyPoolState,
             ]
         );
+    }
+
+    private function broadcastState(EnergyShieldState $state): void
+    {
+        event(new EnergyShieldEvent(
+            $state->user_id,
+            $state->shield_percent,
+            $state->energy_pool_state
+        ));
     }
 
     public function syncPoolWithoutReset(int $userId, string $energyPoolState): EnergyShieldState
@@ -45,6 +54,8 @@ class EnergyShieldService
             : 0.0;
         $state->save();
 
+        $this->broadcastState($state);
+
         return $state;
     }
 
@@ -66,6 +77,8 @@ class EnergyShieldService
             : 0.0;
 
         $state->save();
+
+        $this->broadcastState($state);
 
         return $state;
     }
@@ -89,9 +102,11 @@ class EnergyShieldService
         $state->shield_percent = (
                 $state->shield_points /
                 $state->capacity_points
-            ) * 100;
-
+            ) * 100;        
+        
         $state->save();
+
+        $this->broadcastState($state);
 
     }
 

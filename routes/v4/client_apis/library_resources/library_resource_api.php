@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::group(['middleware' => ['checkUser','assessment.completed']], function () {
 
     Route::get('resource-urls', 'LibraryResourceController@resourceUrls');
@@ -27,9 +28,7 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
 
     Route::post('library-resource-notes', 'LibraryResourceController@addLibraryResourceNotes');
     Route::get('library-resource-notes', 'LibraryResourceController@getLibraryResourceNotes');
-
-
-
+    
 });
 
 

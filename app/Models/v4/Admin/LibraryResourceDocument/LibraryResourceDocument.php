@@ -8,6 +8,7 @@ use App\Models\Upload\Upload;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\v4\GenerateLibraryResourceZip;
 class LibraryResourceDocument extends Model
 {
     use HasFactory;
@@ -54,6 +55,8 @@ class LibraryResourceDocument extends Model
                 throw $e;
             }
         }
+
+        GenerateLibraryResourceZip::dispatch($resourceId);
     }
 
     public static function getDocumentsByResource($resourceId)
@@ -83,57 +86,61 @@ class LibraryResourceDocument extends Model
 
     public static function updateDocuments(int $resourceId, array $existingDocuments, array $newDocuments = [])
     {
-        $toDelete = collect();
         $filesToDelete = [];
 
-    
-        DB::transaction(function () use ($resourceId, $existingDocuments, $newDocuments, &$toDelete, &$filesToDelete) {
+        DB::transaction(function () use ($resourceId, $existingDocuments, $newDocuments, &$filesToDelete) {
 
+            // Get existing IDs
             $existingIds = collect($existingDocuments)->pluck('id')->filter()->values();
 
-          
+            // Find records to delete
+            $toDeleteQuery = self::where('resource_id', $resourceId);
             if ($existingIds->isNotEmpty()) {
-                $toDelete = self::where('resource_id', $resourceId)
-                    ->whereNotIn('id', $existingIds)
-                    ->get();
-            } else {
-                $toDelete = collect();
+                $toDeleteQuery->whereNotIn('id', $existingIds);
             }
 
-            // Collect old document IDs to delete later (after transaction)
+            $toDelete = $toDeleteQuery->get();
+
+            // Collect files to delete later
             $filesToDelete = $toDelete->pluck('document_id')->filter()->all();
 
-            // Delete old document records from DB
+            // Delete DB records
             self::whereIn('id', $toDelete->pluck('id'))->delete();
 
-            // Get existing document records for update
+            // Fetch existing records
             $existingDocRecords = self::whereIn('id', $existingIds)->get()->keyBy('id');
 
+            // 🔹 Handle existing documents
             foreach ($existingDocuments as $existingDocument) {
+
                 if (!empty($existingDocument['id']) && isset($existingDocRecords[$existingDocument['id']])) {
 
-                    $existingDocRecord = $existingDocRecords[$existingDocument['id']];
+                    $record = $existingDocRecords[$existingDocument['id']];
 
-                    // Handle file replacement
+                    // Replace file if new file uploaded
                     if (!empty($existingDocument['file'])) {
+
+                        $oldFileId = $record->document_id;
+
                         $uploadId = Upload::uploadFile($existingDocument['file'], '', '', 'document');
 
-                        // Queue old file for deletion after DB commit
-                        if ($existingDocRecord->document_id) {
-                            $filesToDelete[] = $existingDocRecord->document_id;
-                        }
+                        $record->document_id = $uploadId;
 
-                        $existingDocRecord->document_id = $uploadId;
+                        if ($oldFileId) {
+                            $filesToDelete[] = $oldFileId;
+                        }
                     }
 
-                    $existingDocRecord->download_document = $existingDocument['allow_download'] ?? false;
-                    $existingDocRecord->save();
+                    $record->download_document = $existingDocument['allow_download'] ?? false;
+                    $record->save();
                 }
             }
 
-            // Add new documents
+            // 🔹 Add new documents
             foreach ($newDocuments as $doc) {
+
                 if (!empty($doc['file'])) {
+
                     $uploadId = Upload::uploadFile($doc['file'], '', '', 'document');
 
                     self::create([
@@ -143,9 +150,20 @@ class LibraryResourceDocument extends Model
                     ]);
                 }
             }
+
+            // ✅ Run ZIP rebuild ONLY after transaction commits
+            DB::afterCommit(function () use ($resourceId) {
+
+                app(self::class)->rebuildZip($resourceId);
+
+                LibraryDocumentZip::updateOrCreate(
+                    ['resource_id' => $resourceId],
+                    ['path' => "resource_zips/resource_{$resourceId}.zip"]
+                );
+            });
         });
 
-        // Delete old files safely outside transaction
+        // 🔹 Delete old files AFTER transaction
         foreach ($filesToDelete as $fileId) {
             if ($fileId) {
                 try {
@@ -155,6 +173,40 @@ class LibraryResourceDocument extends Model
                 }
             }
         }
+    }
+
+
+    public function rebuildZip(int $resourceId): void
+    {
+        $zipDir = storage_path('app/resource_zips');
+        
+        if (!is_dir($zipDir)) {
+            if (!mkdir($zipDir, 0775, true) && !is_dir($zipDir)) {
+                throw new \Exception("Unable to create ZIP directory: {$zipDir}");
+            }
+        }
+
+        $zipPath = $zipDir . "/resource_{$resourceId}.zip";
+
+        $zip = new \ZipArchive();
+
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== TRUE) {
+            throw new \Exception("Unable to open ZIP file: {$zipPath}");
+        }
+
+        $documents = self::where('resource_id', $resourceId)->get();
+
+        foreach ($documents as $doc) {
+            if ($doc->document_id) {
+                $upload = Upload::find($doc->document_id);
+
+                if ($upload && file_exists($upload->path)) {
+                    $zip->addFile($upload->path, basename($upload->name));
+                }
+            }
+        }
+
+        $zip->close();
     }
 
 

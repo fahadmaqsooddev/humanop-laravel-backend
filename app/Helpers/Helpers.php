@@ -1170,7 +1170,30 @@ class Helpers
     public static function checkAndAddHumanOpPoints($user = null, $currentTime = null)
     {
 
+        if ($user === null) {
+
+            return;
+        }
+
+        if ($currentTime === null) {
+
+            $minutes = self::explodeTimezoneWithHours($user['timezone'] ?? 0);
+
+            $currentTime = Carbon::now()->addMinutes($minutes * 60);
+
+        }
+
+        $cacheKey = sprintf('humanop_daily_login:%d:%s', $user['id'], $currentTime->format('Y-m-d'));
+
+        if (Cache::has($cacheKey)) {
+
+            return;
+
+        }
+
         HumanOpPoints::createOrUpdateUserPoints($user, $currentTime);
+
+        Cache::put($cacheKey, true, now()->addHours(26));
 
     }
 
