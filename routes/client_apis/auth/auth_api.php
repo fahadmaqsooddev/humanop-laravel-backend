@@ -37,7 +37,6 @@ Route::post('resend-fa-verification-code', 'AuthController@ResendFaVerificationC
 // invite link Create Api
 Route::get('invite', 'AuthController@SendInvite');
 
-Route::get('user-info-for-hai', 'AuthController@getUserInfoForHai');
 Route::post('store-user-data-from-other-db', 'AuthController@storeUserDataFromOtherDb');
 Route::post('beta-breaker-club-users', 'AuthController@betaBreakerClubUsers');
 
