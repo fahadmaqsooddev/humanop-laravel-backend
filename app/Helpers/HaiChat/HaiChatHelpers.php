@@ -4,6 +4,7 @@ namespace App\Helpers\HaiChat;
 
 
 use App\Enums\Admin\Admin;
+use App\Helpers\Assessments\AssessmentHelper;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\UserDailyTip;
@@ -11,6 +12,9 @@ use App\Models\Admin\Plan\OptimizationPlan;
 use App\Models\Assessment;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\FamilyMatrix\AssignFamilyMatrixRelationship;
+use App\Models\FamilyMatrix\FamilyMatrixRelationship;
+use App\Models\FamilyMatrix\FamilyMatrixResponse;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -30,7 +34,7 @@ class HaiChatHelpers
 
     public static function findRelevantChunks($query, $knowledgeBase, $chunks = 1) {
 
-        $embeddingModel = \OpenAI::client("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");;
+        $embeddingModel = \OpenAI::client(config('openAi.credentials.api'));
 
         $queryEmbedding = $embeddingModel->embeddings()->create([
                 'model' => 'text-embedding-3-small',
@@ -61,7 +65,7 @@ class HaiChatHelpers
 
     public static function findRelevantChunksForGrid($publicNames, $knowledgeBase, $chunks = 1) {
 
-        $embeddingModel = \OpenAI::client("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");;
+        $embeddingModel = \OpenAI::client(config('openAi.credentials.api'));
 
         $finalResults = [];
 
@@ -119,7 +123,7 @@ class HaiChatHelpers
 
         }
 
-        $getAssessment = Assessment::getLatestAssessment($userId);
+        $userAssessment = Assessment::getLatestAssessment($userId);
 
         $userPlan = in_array($user['plan_name'], ['Freemium', 'Premium']) ? $user['plan_name'] : 'Beta Breaker Club';
 
@@ -128,19 +132,17 @@ class HaiChatHelpers
         $styleCodes = [];
         $actionPlan = null;
 
-        if (!empty($getAssessment)) {
+        if (!empty($userAssessment)) {
 
-            $coreState = Assessment::getCoreState($getAssessment, $user['date_of_birth'] ?? $user->date_of_birth ?? null);
+            $coreState = Assessment::getCoreState($userAssessment, $user['date_of_birth'] ?? $user->date_of_birth ?? null);
 
             $userTrait = Assessment::UserTraits($userId);
 
-            $styleCodes = Assessment::authenticTraits($getAssessment);
-
-            $plan = ActionPlan::getActionPlanByAssessmentId($getAssessment, $userPlan);
+            $plan = ActionPlan::getActionPlanByAssessmentId($userAssessment, $userPlan);
 
             if (empty($plan)) {
 
-                $plan = ActionPlan::storeUserActionPlan($getAssessment, $userPlan);
+                $plan = ActionPlan::storeUserActionPlan($userAssessment, $userPlan);
 
             }
 
@@ -181,6 +183,56 @@ class HaiChatHelpers
 
         $lastName = $user['last_name'] ?? $user->last_name ?? '';
 
+        $familyRelations = AssignFamilyMatrixRelationship::with('relationship')->where('user_id', $userId)->get();
+
+        $familyConnections = [];
+
+        $targetIds = $familyRelations->pluck('target_id')->filter()->unique()->values()->all();
+
+        $targetUsersById = collect();
+        if (!empty($targetIds)) {
+            $targetUsersById = User::whereIn('id', $targetIds)->get()->keyBy('id');
+        }
+
+        $matrixResponsesByTargetId = collect();
+        if (!empty($targetIds)) {
+            $matrixResponsesByTargetId = FamilyMatrixResponse::where('user_id', $userId)
+                ->whereIn('target_id', $targetIds)
+                ->get()
+                ->keyBy('target_id');
+        }
+
+        foreach ($familyRelations as $familyRelation) {
+
+            $familyUser = $targetUsersById->get($familyRelation->target_id);
+
+            $compatibilityMatrix = $familyUser
+                ? Helpers::compatibilityMatchingBetweenTwoUsers($user, $familyUser)
+                : [
+                    'first_user_traits' => [],
+                    'second_user_traits' => [],
+                    'compatibility_score' => null,
+                ];
+
+            $getRelation = $familyRelation->relationship ? $familyRelation->relationship->relationship_name : null;
+
+            $familyMatrixResponse = $matrixResponsesByTargetId->get($familyRelation->target_id);
+
+            $familyConnections[] = [
+                'user_id' => $userId,
+                'target_id' => $familyRelation->target_id ?? null,
+                'relation' => $getRelation ?? null,
+                'score' => $compatibilityMatrix['compatibility_score'] ?? null,
+                'hai_response' => [
+                    'vide_check_text' => $familyMatrixResponse?->vide_check_text ?? null,
+                    'physics_friction_analysis' => $familyMatrixResponse?->physics_friction_analysis ?? null,
+                    'physics_flow_analysis' => $familyMatrixResponse?->physics_flow_analysis ?? null,
+                    'system_hack_title' => $familyMatrixResponse?->system_hack_title ?? null,
+                    'system_hack_actionable_step' => $familyMatrixResponse?->system_hack_actionable_step ?? null,
+                ]
+            ];
+        }
+
         $data = [
             'user_detail' => [
                 'name' => trim("{$firstName} {$lastName}"),
@@ -191,6 +243,7 @@ class HaiChatHelpers
                 'timezone' => $user['timezone'] ?? $user->timezone ?? '',
                 'plan_name' => $user['plan_name'] ?? $user->plan_name ?? '',
             ],
+            'family_connection' => $familyConnections,
             'interval_of_life' => $coreState['interval_of_life'] ?? null,
             'intention_option' => $intention,
             'all_traits' => $userTrait ?: null,

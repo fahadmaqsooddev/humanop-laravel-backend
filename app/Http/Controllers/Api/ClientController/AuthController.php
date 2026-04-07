@@ -1250,28 +1250,6 @@ class AuthController extends Controller
 
     }
 
-    public function getUserInfoForHai()
-    {
-
-        $userData = User::getUserDataForHai();
-
-        $failedUsers = [];
-
-        foreach ($userData as $data) {
-
-            $response = HaiChatHelpers::syncUserRecordWithHAi($data);
-
-            if (!$response) {
-
-                $failedUsers[] = $data['id'];
-
-            }
-
-        }
-
-        return Helpers::successResponse('All Users data sync', ['failed_users' => $failedUsers]);
-    }
-
     private function prepareEmailData($user = null, $url = null, $codeNumber = null, $body = null, $subject = null)
     {
         return [

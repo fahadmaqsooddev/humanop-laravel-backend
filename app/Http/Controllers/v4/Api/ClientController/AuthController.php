@@ -1250,24 +1250,73 @@ class AuthController extends Controller
 
     public function getUserInfoForHai()
     {
+        try {
+            $userData = User::getUserDataForHai();
 
-        $userData = User::getUserDataForHai();
-
-        $failedUsers = [];
-
-        foreach ($userData as $data) {
-
-            $response = HaiChatHelpers::syncUserRecordWithHAi($data);
-
-            if (!$response) {
-
-                $failedUsers[] = $data['id'];
-
+            if (empty($userData)) {
+                return Helpers::successResponse('No users available for HAI sync', [
+                    'total_users' => 0,
+                    'synced_users' => 0,
+                    'failed_users' => [],
+                ]);
             }
 
-        }
+            $failedUsers = [];
+            $successCount = 0;
 
-        return Helpers::successResponse('All Users data sync', ['failed_users' => $failedUsers]);
+            foreach ($userData as $data) {
+                $userId = $data['id'] ?? null;
+
+                try {
+                    $response = HaiChatHelpers::syncUserRecordWithHAi($data);
+
+                    // Treat only explicit successful responses as success.
+                    $isSuccessful = !empty($response)
+                        && (!isset($response['status']) || $response['status'] === true);
+
+                    if ($isSuccessful) {
+                        $successCount++;
+                    } else {
+                        if ($userId !== null) {
+                            $failedUsers[] = $userId;
+                        }
+
+                        Log::warning('HAI user sync failed', [
+                            'user_id' => $userId,
+                            'response' => $response,
+                        ]);
+                    }
+                } catch (\Exception $exception) {
+                    if ($userId !== null) {
+                        $failedUsers[] = $userId;
+                    }
+
+                    Log::error('HAI user sync exception', [
+                        'user_id' => $userId,
+                        'error' => $exception->getMessage(),
+                    ]);
+                }
+            }
+
+            $payload = [
+                'total_users' => count($userData),
+                'synced_users' => $successCount,
+                'failed_count' => count($failedUsers),
+                'failed_users' => $failedUsers,
+            ];
+
+            $message = empty($failedUsers)
+                ? 'All users synced successfully with HAI'
+                : 'User sync completed with some failures';
+
+            return Helpers::successResponse($message, $payload);
+        } catch (\Exception $exception) {
+            Log::error('getUserInfoForHai failed', [
+                'error' => $exception->getMessage(),
+            ]);
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
     private function prepareEmailData($user = null, $url = null, $codeNumber = null, $body = null, $subject = null)
