@@ -183,7 +183,7 @@ class AssignFamilyMatrixRelationship extends Model
         );
 
         Notification::createNotification(
-            'family_matrix_request',
+            'Family Matrix Connection Request',
             $msg,
             null,
             $assignRelationship->target_id,

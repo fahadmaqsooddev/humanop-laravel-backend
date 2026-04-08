@@ -80,7 +80,7 @@ class Connection extends Model
 
                 ActivityLogger::addLog('Connection Request', "{$msg}");
 
-                Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+                Notification::createNotification('Connection Request', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
 
                 toastr()->success("connection request was sent");
 
@@ -104,7 +104,7 @@ class Connection extends Model
 
             ActivityLogger::addLog('Connection Cancel', "{$msg}");
 
-            Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
+            Notification::createNotification('Connection Cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::NETWORK_NOTIFICTAION,Admin::B2C_NOTIFICATION,Helpers::getUser()['id']);
 
         } else if ($data['type'] === 'accept') {
 
