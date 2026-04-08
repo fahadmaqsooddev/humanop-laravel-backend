@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\ClientController\HumanNetwork;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\Assessments\AssessmentHelper;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\HumanNetwork\ConnectUnConnectRequest;
@@ -80,6 +81,15 @@ class HumanNetworkController extends Controller
             $request['user_id'] = Helpers::getUser()->id;
 
             Connection::connectUnConnect($request->all());
+
+            if ($request->type === 'accept') {
+                try {
+                    HaiChatHelpers::syncUserRecordWithHAi(User::user($request['user_id']));
+                    HaiChatHelpers::syncUserRecordWithHAi(User::user($request['friend_id']));
+                } catch (\Exception $e) {
+                    \Log::error('HAI sync failed in connectUnconnect', ['error' => $e->getMessage()]);
+                }
+            }
 
             return Helpers::successResponse('User ' . $request->type . 'ed successfully');
 

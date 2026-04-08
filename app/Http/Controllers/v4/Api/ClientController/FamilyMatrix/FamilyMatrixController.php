@@ -17,6 +17,7 @@ use App\Models\FamilyMatrix\AssignFamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixResponse;
 use App\Models\FamilyMatrix\FamilyMatrixNote;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\FamilyMatrix\FamilyMatrixNoteRequest;
 use Illuminate\Support\Facades\Log;
@@ -262,7 +263,11 @@ class FamilyMatrixController extends Controller
         }
 
         try {
-            HaiChatHelpers::syncUserRecordWithHAi();
+
+            if ($request->consent === 1) {
+                HaiChatHelpers::syncUserRecordWithHAi(User::user($this->user->id));
+                HaiChatHelpers::syncUserRecordWithHAi(User::user($validated['target_id']));
+            }
 
         } catch (\Exception $e) {
 
