@@ -4,7 +4,6 @@ namespace App\Helpers\HaiChat;
 
 
 use App\Enums\Admin\Admin;
-use App\Helpers\Assessments\AssessmentHelper;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\UserDailyTip;
@@ -13,13 +12,11 @@ use App\Models\Assessment;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\FamilyMatrix\AssignFamilyMatrixRelationship;
-use App\Models\FamilyMatrix\FamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixResponse;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
-use Smalot\PdfParser\Parser;
+
 class HaiChatHelpers
 {
     public static function cosineSimilarity($vectorA, $vectorB) {

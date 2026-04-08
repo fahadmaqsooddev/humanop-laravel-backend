@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v4\Api\ClientController\FamilyMatrix;
 use App\Enums\Admin\Admin;
 use App\Helpers\Assessments\AssessmentHelper;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\FamilyMatrix\AssignFamilymatrixRelationshipRequest;
@@ -226,6 +227,8 @@ class FamilyMatrixController extends Controller
 
             $relationship = AssignFamilyMatrixRelationship::createAssignRelationships($userId, $dataArray);
 
+            HaiChatHelpers::syncUserRecordWithHAi();
+
             return Helpers::successResponse('Relationship added successfully.', $relationship);
 
         } catch (\Exception $exception) {
@@ -247,6 +250,8 @@ class FamilyMatrixController extends Controller
             return Helpers::notFoundResponse('Relationship not found');
 
         }
+
+        HaiChatHelpers::syncUserRecordWithHAi();
 
         return Helpers::successResponse('Permission updated', ['consent' => $relation->consent]);
 
@@ -282,6 +287,8 @@ class FamilyMatrixController extends Controller
 
             AssignFamilyMatrixRelationship::deleteRelationship($targetId, $userId);
 
+            HaiChatHelpers::syncUserRecordWithHAi();
+
             return Helpers::successResponse('Delete Assign Family Matrix relationship Successfully');
 
         } catch (\Exception $exception) {
@@ -293,6 +300,7 @@ class FamilyMatrixController extends Controller
 
     public function addFamilyMatrixNotes(FamilyMatrixNoteRequest $request)
     {
+
         $validated = $request->validated();
 
         $note = FamilyMatrixNote::addFamilyMatrixNote(
@@ -305,77 +313,93 @@ class FamilyMatrixController extends Controller
             return Helpers::validationResponse('Family Matrix Note Already Added.');
         }
 
+        HaiChatHelpers::syncUserRecordWithHAi();
+
         return Helpers::successResponse('Family Matrix Note Added Successfully', $note);
     }
-
-
-    /**
-     * Update an existing note
-     */
 
     public function updateFamilyMatrixNotes(FamilyMatrixNoteRequest $request)
     {
         try {
+
             $validated = $request->validated();
+
             $userId = $this->user->id;
+
             $assignRelationId = $validated['assign_relation_id'];
 
             $note = FamilyMatrixNote::updateFamilyMatrixNote($assignRelationId, $userId, $validated['note'] ?? null);
 
             if (!$note) {
+
                 return Helpers::notFoundResponse('Note not found or not owned by you');
+
             }
+
+            HaiChatHelpers::syncUserRecordWithHAi();
 
             return Helpers::successResponse('Family Matrix Note Updated Successfully', $note);
 
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
-
-    /**
-     * Delete a Family Matrix Note
-     */
     public function deleteFamilyMatrixNotes(FamilyMatrixNoteRelationRequest $request)
     {
         try {
+
             $relationId = $request->input('assign_relation_id');
+
             $userId = $this->user->id;
 
             $deleted = FamilyMatrixNote::deleteFamilyMatrixNote($relationId, $userId);
 
             if (!$deleted) {
+
                 return Helpers::notFoundResponse('Note not found');
+
             }
+
+            HaiChatHelpers::syncUserRecordWithHAi();
 
             return Helpers::successResponse('Family Matrix Note Deleted Successfully');
 
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
-    /**
-     * View a single Family Matrix Note for editing
-     */
     public function showFamilyMatrixNote(FamilyMatrixNoteRelationRequest $request)
     {
         try {
+
             $relationId = $request->input('assign_relation_id');
+
             $userId = $this->user->id;
 
             $note = FamilyMatrixNote::getNoteByRelationId($relationId, $userId);
 
             if (!$note) {
+
                 return Helpers::notFoundResponse('Note not found or not owned by you');
+
             }
 
             return Helpers::successResponse('Family Matrix Note retrieved successfully', $note);
 
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
 
@@ -386,15 +410,19 @@ class FamilyMatrixController extends Controller
             $notes = FamilyMatrixNote::getAllNotes($this->user->id);
 
             if ($notes->isEmpty()) {
+
                 return Helpers::notFoundResponse('No family matrix notes found');
+
             }
 
             return Helpers::successResponse('Family Matrix Notes retrieved successfully', $notes);
 
         } catch (\Exception $exception) {
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
 
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
 
 }

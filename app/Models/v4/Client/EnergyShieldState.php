@@ -24,4 +24,9 @@ class EnergyShieldState extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function setShieldPercentAttribute($value): void
+    {
+        $this->attributes['shield_percent'] = round((float) $value, 1);
+    }
+
 }
