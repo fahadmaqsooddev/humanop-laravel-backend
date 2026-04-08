@@ -14,6 +14,8 @@ final class Admin
 
     const IS_PRACTITIONER = 4;
 
+    const IS_CONNECTED = 1;
+
     const IS_B2B = 5;
 
     const IS_B2U = 6;

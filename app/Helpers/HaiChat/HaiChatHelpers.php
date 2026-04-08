@@ -15,6 +15,7 @@ use App\Models\FamilyMatrix\AssignFamilyMatrixRelationship;
 use App\Models\FamilyMatrix\FamilyMatrixResponse;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
+use App\Models\v4\Client\Connection\Connection;
 use Carbon\Carbon;
 
 class HaiChatHelpers
@@ -123,7 +124,8 @@ class HaiChatHelpers
 
         $userAssessment = Assessment::getLatestAssessment($userId);
 
-        $userPlan = in_array($user['plan_name'], ['Freemium', 'Premium']) ? $user['plan_name'] : 'Beta Breaker Club';
+        $userPlanName = $user['plan_name'] ?? $user->plan_name ?? null;
+        $userPlan = in_array($userPlanName, ['Freemium', 'Premium'], true) ? $userPlanName : 'Beta Breaker Club';
 
         $coreState = null;
         $userTrait = [];
@@ -227,14 +229,12 @@ class HaiChatHelpers
                     'compatibility_score' => null,
                 ];
 
-            $getRelation = $familyRelation->relationship ? $familyRelation->relationship->relationship_name : null;
-
             $familyMatrixResponse = $matrixResponsesByTargetId->get($familyRelation->target_id);
 
             $familyConnections[] = [
-                'user_id' => $userId,
+                'family_relation_id' => $familyRelation->id ?? null,
                 'target_id' => $familyRelation->target_id ?? null,
-                'relation' => $getRelation ?? null,
+                'relation' => $familyRelation->relationship ? $familyRelation->relationship->relationship_name : null,
                 'score' => $compatibilityMatrix['compatibility_score'] ?? null,
                 'hai_response' => [
                     'vide_check_text' => $familyMatrixResponse?->vide_check_text ?? null,
@@ -245,6 +245,16 @@ class HaiChatHelpers
                 ]
             ];
         }
+
+        $connectionDetails = Connection::query()->where('user_id', $userId)->where('status', Admin::IS_CONNECTED)->get(['id', 'friend_id'])
+            ->map(function ($connection) {
+                return [
+                    'connection_id' => (int) $connection->id,
+                    'friend_id' => (int) $connection->friend_id,
+                ];
+            })
+            ->values()
+            ->toArray();
 
         $data = [
             'user_detail' => [
@@ -258,6 +268,7 @@ class HaiChatHelpers
                 'plan_name' => $user['plan_name'] ?? $user->plan_name ?? '',
             ],
             'family_connection' => $familyConnections,
+            'connections' => $connectionDetails,
             'interval_of_life' => $coreState['interval_of_life'] ?? null,
             'intention_option' => $intention,
             'all_traits' => $userTrait ?: null,

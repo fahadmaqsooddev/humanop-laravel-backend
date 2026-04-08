@@ -19,6 +19,7 @@ use App\Models\FamilyMatrix\FamilyMatrixResponse;
 use App\Models\FamilyMatrix\FamilyMatrixNote;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\FamilyMatrix\FamilyMatrixNoteRequest;
+use Illuminate\Support\Facades\Log;
 
 class FamilyMatrixController extends Controller
 {
@@ -102,6 +103,15 @@ class FamilyMatrixController extends Controller
         }
 
         $familyMatrix = FamilyMatrixResponse::createFamilyMatrixResponse($userId, $targetId, $response);
+
+        try {
+            HaiChatHelpers::syncUserRecordWithHAi();
+
+        } catch (\Exception $e) {
+
+            Log::error('HAI sync failed in giveConsent', ['error' => $e->getMessage()]);
+
+        }
 
         return Helpers::successResponse('family matrix', $familyMatrix);
 
@@ -251,7 +261,14 @@ class FamilyMatrixController extends Controller
 
         }
 
-        HaiChatHelpers::syncUserRecordWithHAi();
+        try {
+            HaiChatHelpers::syncUserRecordWithHAi();
+
+        } catch (\Exception $e) {
+
+            Log::error('HAI sync failed in giveConsent', ['error' => $e->getMessage()]);
+
+        }
 
         return Helpers::successResponse('Permission updated', ['consent' => $relation->consent]);
 
@@ -287,7 +304,14 @@ class FamilyMatrixController extends Controller
 
             AssignFamilyMatrixRelationship::deleteRelationship($targetId, $userId);
 
-            HaiChatHelpers::syncUserRecordWithHAi();
+            try {
+                HaiChatHelpers::syncUserRecordWithHAi();
+
+            } catch (\Exception $e) {
+
+                Log::error('HAI sync failed in giveConsent', ['error' => $e->getMessage()]);
+
+            }
 
             return Helpers::successResponse('Delete Assign Family Matrix relationship Successfully');
 

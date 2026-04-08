@@ -5,6 +5,7 @@ namespace App\Models\FamilyMatrix;
 use App\Enums\Admin\Admin;
 use App\Helpers\ActivityLogs\ActivityLogger;
 use App\Helpers\Assessments\AssessmentHelper;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Assessment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
