@@ -94,7 +94,6 @@ class Answer extends Model
                     'question_id' => $id,
                     'answer' => $sub_answers[$index],
                     'sort' => $answer['sort'],
-                    'image' => $answer['image'],
                     'answer_id' => $answer['id'],
                 ]);
             } else {

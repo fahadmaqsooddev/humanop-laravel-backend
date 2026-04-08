@@ -4,8 +4,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="border-radius: 9px">
-                    <form wire:submit.prevent="updateQuestion">
-                        @csrf
+                                          @csrf
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
@@ -40,11 +39,12 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
-                                Question
+                           
+                            <button type="button" wire:click="updateQuestion" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">
+                                Update Question
                             </button>
                         </div>
-                    </form>
+                  
                 </div>
             </div>
         </div>
@@ -57,7 +57,6 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
-                    <form wire:submit.prevent="createSubQuestion">
                         @csrf
                         <div class="card-body">
                             <div class="row">
@@ -82,10 +81,11 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Submit
+
+                            <button type="button" wire:click="createSubQuestion" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">
+                                Submit
                             </button>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@
                                             </button>
                                         </div>
                                     @endif
-                                    <form wire:submit.prevent="updateSubQuestion({{ $subQuestion['id'] }})">
+                                    
                                         <div class="form-group mt-4">
                                             <input wire:model.defer="subQuestions.{{ $subIndex }}.question"
                                                     class="form-control input-form-style" type="text">
@@ -142,13 +142,14 @@
                                                     placeholder="Answer">
                                             </div>
                                         @endforeach
-                                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mb-0">
+                                        <button type="button" wire:click="updateSubQuestion({{ $subQuestion['id'] }})"
+                                                class="btn updateBtn btn-sm float-end text-white mb-0">
                                             Update
                                         </button>
                                         <br>
                                         <br>
                                         <hr>
-                                    </form>
+                                    
                                 @endforeach
 
                             </div>
@@ -161,3 +162,24 @@
 
 
 </div>
+
+
+<script>
+    if (!window.modalListenerAdded) {
+        window.modalListenerAdded = true;
+
+        window.addEventListener('close-modal', event => {
+            let modalId = event.detail.id;
+
+            setTimeout(() => {
+                let modalEl = document.getElementById(modalId);
+                let modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) {
+                    modal.hide();
+                }
+            }, 1000);
+        });
+    }
+</script>
+
+

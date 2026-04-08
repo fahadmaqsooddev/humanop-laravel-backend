@@ -68,9 +68,14 @@
                     </button>
                 </td>
             </tr>
-            @livewire('admin.question.question-update-form', ['subQuestions' => $q->subQuestions->toArray(),'question'
-            => $q->toArray(), 'answers' =>
-            $q->answers->toArray()], key($q->id))
+           @livewire('admin.question.question-update-form', 
+            [
+                'subQuestions' => $q->subQuestions->toArray(),
+                'question'     => $q->toArray(), 
+                'answers'      => $q->answers->toArray()
+            ], 
+            key($q->id . '-' . $questions->currentPage())  
+        )
         @endforeach
         </tbody>
     </table>

@@ -146,7 +146,7 @@ return [
     'models' => [
         'Answer' => [
             'table' => 'answers',
-            'fillable' => ['answer', 'sort', 'image', 'user_id', 'question_id', 'answer_id'],
+            'fillable' => ['answer', 'sort', 'male_image','female_image','user_id', 'question_id', 'answer_id'],
             'hidden' => ['created_at', 'updated_at']
         ],
         'AnswerCode' => [

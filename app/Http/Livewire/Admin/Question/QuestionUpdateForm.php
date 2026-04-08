@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\Question;
 use App\Models\Admin\Answer\Answer;
+use Illuminate\Support\Facades\Log;
+
 
 class QuestionUpdateForm extends Component
 {
@@ -29,10 +31,12 @@ class QuestionUpdateForm extends Component
         'sub_answer.*.required'=> 'Answer field is required.',
     ];
 
-    public function mount($question, $answers)
+    public function mount($question, $answers, $subQuestions = [])
     {
         $this->question = $question;
         $this->answers = $answers;
+        $this->subQuestions = $subQuestions;
+
         foreach ($answers as $index => $answer) {
             $this->sub_answer[$index] = '';
         }
@@ -65,6 +69,7 @@ class QuestionUpdateForm extends Component
             }
 
             session()->flash('success'.$subQuestionId, 'Subquestion updated successfully.');
+            $this->dispatchBrowserEvent('close-modal', ['id' => 'updateSubQuestionModal' . $this->question['id']]);
         });
         }catch(\Exception $exception){
             session()->flash('error'.$subQuestionId, $exception->getMessage());
@@ -74,21 +79,31 @@ class QuestionUpdateForm extends Component
 
     public function updateQuestion()
     {
+        
+        $this->validate([
+            'question.question' => 'required|string',
+            'question.gender'   => 'required|in:0,1,2',
+            'answers'           => 'required|array',
+            'answers.*.answer'  => 'required|string',
+        ], [
+            'question.question.required' => 'Question field is required.',
+            'question.gender.required'   => 'Gender field is required.',
+            'answers.*.answer.required'  => 'All answer fields are required.',
+        ]);
 
         try {
             $question = $this->only(['question']);
             $answer = $this->only(['answers']);
 
             Question::updateQuestion($question['question'], $question['question']['id']);
-
             Answer::updateAnswer($answer['answers']);
+
             $this->emit('refreshQuestion');
+            $this->dispatchBrowserEvent('close-modal', ['id' => 'updateQuestionModal' . $question['question']['id']]);
             session()->flash('success', 'Question updated successfully.');
 
         } catch (\Exception $exception) {
-
             session()->flash('error', $exception->getMessage());
-
         }
     }
 
@@ -99,7 +114,7 @@ class QuestionUpdateForm extends Component
         $this->validate();
 
         try {
-            // Save
+
             $new_question = Question::createQuestion($this->question, $this->sub_question);
             Answer::createAnswer($this->question['answers'], $this->sub_answer, $new_question['id']);
 
@@ -107,7 +122,11 @@ class QuestionUpdateForm extends Component
             $this->sub_question = '';
             $this->sub_answer = array_fill(0, count($this->sub_answer), '');
 
+            
+
             $this->emit('refreshQuestion');
+
+            $this->dispatchBrowserEvent('close-modal', ['id' => 'createSubQuestionModal' . $this->question['id']]);
 
             session()->flash('success', 'Sub Question created successfully.');
         } catch (\Exception $exception) {
@@ -118,6 +137,8 @@ class QuestionUpdateForm extends Component
 
     public function render()
     {
+        $question = Question::with('subQuestions.answers')->find($this->question['id']);
+        $this->subQuestions = $question ? $question->subQuestions->toArray() : [];
         return view('livewire.admin.question.question-update-form');
     }
 }
