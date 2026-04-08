@@ -2,10 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\Admin\Admin;
 use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -71,13 +69,8 @@ class SyncHaiUsers extends Command
 
                 $user->setAppends([]);
 
-                $payload = $user->toArray();
-
-                $payload['gender'] = (int) ($user->gender ?? 0) === Admin::IS_MALE ? 'Male' : 'Female';
-
-                $payload['last_login'] = !empty($user->last_login) ? Carbon::parse($user->last_login)->format('m/d/Y h:i A') : null;
-
-                $response = HaiChatHelpers::syncUserRecordWithHAi($payload);
+                // Pass the Eloquent model to avoid array/object mismatch in compatibility checks.
+                $response = HaiChatHelpers::syncUserRecordWithHAi($user);
 
                 $isSuccessful = !empty($response) && (!isset($response['status']) || $response['status'] === true);
 
