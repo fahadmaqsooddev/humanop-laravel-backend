@@ -71,6 +71,14 @@ class UserActionService
                 'company_id' => $details['company_id'] ?? null,
             ],
 
+            UserActions::ASSESSMENT_COMPLETED => [
+                'heading' => $details['heading'] ?? 'Assessment Completed',
+            ],
+
+             UserActions::ACTION_PLAN => [
+                'heading' => $details['heading'] ?? 'Action Plan Triggered',
+            ],
+
             default => [],
         };
     }

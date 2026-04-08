@@ -24,7 +24,9 @@ use App\Services\GeoService;
 use Illuminate\Support\Facades\Cache;
 use App\Models\HotSpotUser;
 use App\Services\GoHighLevelService;
-
+use App\Models\Admin\Notification\Notification;
+use App\Services\v4\UserActionService;
+use App\Enums\UserActions\UserActions;
 
 class AssessmentService
 {
@@ -202,16 +204,36 @@ class AssessmentService
         $ghl->syncContactWithTags($user, $tag);
 
         if ($assessmentCount == 1) {
+            $heading="Assessment Completed";
+            $message="Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free.";
             ActivityLogger::addLog(
-                'Assessment Completed',
-                "Congratulations on finishing your first assessment! Remember to come back next season (90 days) to take it again for free."
+                $heading,
+                $message
+            );
+            Notification::createNotification($heading,$message,null, $user->id, 1, Admin::ASSESSMENT_COMPLETED_VALUE, Admin::B2C_NOTIFICATION,$user->id,true);
+            UserActionService::dispatch(
+            $user->id,
+            UserActions::ASSESSMENT_COMPLETED, // now correct enum case
+            [
+               'heading' => $heading
+            ]
             );
         } else {
-            ActivityLogger::addLog('Assessment Completed', "Congratulations on finishing your assessment!");
+            $heading="Assessment Completed";
+            $message = "Congratulations on finishing your assessment!"; 
+            ActivityLogger::addLog($message,$heading);
+            Notification::createNotification($heading,$message,null, $user->id, 1, Admin::ASSESSMENT_COMPLETED_VALUE, Admin::B2C_NOTIFICATION,$user->id,true);
+            UserActionService::dispatch(
+            $user->id,
+            UserActions::ASSESSMENT_COMPLETED, // now correct enum case
+            [
+               'heading' => $heading
+            ]
+            );
         }
 
         self::updateAssessmentColorCodes($assessment);
-        self::initializeActionPlan($assessment);
+        self::initializeActionPlan($assessment,$user->id);
 
         return $message;
     }
@@ -233,7 +255,7 @@ class AssessmentService
         self::updateAssessmentColorCodes($assessment);
 
         if ($assessment->page == 0) {
-            self::initializeActionPlan($assessment);
+            self::initializeActionPlan($assessment,$assessment->user_id);
         }
 
         return '';
@@ -252,15 +274,26 @@ class AssessmentService
     /**
      * Initialize action plan for the assessment.
      */
-    private static function initializeActionPlan($assessment): void
+    private static function initializeActionPlan($assessment,$user_id): void
     {
+
         ActionPlan::storeUserActionPlan($assessment);
         $data = Assessment::getAllRowGrid($assessment->id);
         if ($data) {
             $trendTracker = new HotSpotUser;
             $trendTracker->storeHotspotsFromAssessment($assessment->id, $data);
         }
-        ActivityLogger::addLog('New Action Plan', "Your New 14 Days Action Plan");
+        $message="Your New 14 Days Action Plan";
+        $heading="New Action Plan";
+        ActivityLogger::addLog($message,$heading);
+        Notification::createNotification($heading,$message,null, $user_id, 1, Admin::FOURTEEN_DAYS_ACTION_PLAN , Admin::B2C_NOTIFICATION,$user_id,true);
+            UserActionService::dispatch(
+                $user_id,
+                UserActions::ACTION_PLAN, // now correct enum case
+                [
+                'heading' => $heading
+                ]
+            );
     }
 
 
@@ -295,9 +328,23 @@ class AssessmentService
                     if (!$alreadyExists) {
                         UserDailyTip::createUserDailyTip($user->id, $newTip->id, $assessment->id);
 
-                        event(new NewDailyTip($user->id, 'new daily tip', 'Your New Daily Tip'));
 
-                        ActivityLogger::addLog('new daily tip', "Your New Daily Tip");
+                        $message="new daily tip";
+                        $heading="Your New Daily Tip";
+
+                        event(new NewDailyTip($user->id,$message,$heading));
+
+                        ActivityLogger::addLog($message,$heading);
+
+                        Notification::createNotification($heading,$message,null, $user->id, 1, Admin::DAILY_TIP_NOTIFICATION,Admin::B2C_NOTIFICATION,$user->id,true);
+                        
+                        UserActionService::dispatch(
+                            $user->id,
+                            UserActions::NEW_DAILY_TIP, // now correct enum case
+                            [
+                                'message' => $message
+                            ]
+                        );
                     }
                 }
             }

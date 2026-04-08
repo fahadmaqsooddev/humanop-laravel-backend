@@ -15,4 +15,6 @@ enum UserActions: string
     case FOLLOWED = 'Followed';
     case UNFOLLOWED = 'Unfollowed';
     case GROUP_REQUEST_SENT = 'Group Request Sent';
+    case ASSESSMENT_COMPLETED = 'Assessment Completed';
+    case ACTION_PLAN = 'Action Plan';
 }
