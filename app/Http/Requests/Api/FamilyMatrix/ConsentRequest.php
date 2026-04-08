@@ -15,7 +15,7 @@ class ConsentRequest extends FormRequest
     {
         return [
             'target_id' => 'required|integer|exists:users,id',
-            'consent' => 'required|integer|in:1,2',
+            'consent' => 'required|integer|in:1,2,3',
         ];
     }
 
@@ -26,7 +26,7 @@ class ConsentRequest extends FormRequest
             'target_id.exists' => 'The target user does not exist.',
             'consent.required' => 'You must provide a consent value.',
             'consent.integer' => 'Consent must be a valid integer.',
-            'consent.in' => 'Consent must be 1 (approved) or 2 (declined).',
+            'consent.in' => 'Consent must be 1 (approved), 2 (declined), or 3 (remove/delete relationship).',
         ];
     }
 }

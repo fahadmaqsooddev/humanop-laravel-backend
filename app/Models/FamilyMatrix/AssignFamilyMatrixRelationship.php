@@ -218,35 +218,63 @@ class AssignFamilyMatrixRelationship extends Model
     public static function updateConsent(int $userId, int $targetId, int $consent)
     {
 
-        $relation = self::findRelation($userId, $targetId);
+        $received_request = self::where('user_id', $targetId)->where('target_id', $userId)->first();
 
-        if (!$relation) {
+        $send_request = self::where('user_id', $userId)->where('target_id', $targetId)->first();
 
+        if (!$received_request && !$send_request) {
             return null;
-
         }
 
-        if ($relation->target_id !== $userId) {
+        $relation = $received_request ?: $send_request;
 
-            return null;
+        if ($consent === 3) {
+            self::where(function ($q) use ($userId, $targetId) {
+                $q->where('user_id', $userId)
+                    ->where('target_id', $targetId);
+            })->orWhere(function ($q) use ($userId, $targetId) {
+                $q->where('user_id', $targetId)
+                    ->where('target_id', $userId);
+            })->delete();
 
-        }
-
-        $relation->update(['consent' => $consent,]);
-
-        $requester = User::find($targetId);
-
-        $approver = User::find($userId);
-
-        if (!$requester || !$approver) {
+            $relation->consent = 3;
 
             return $relation;
+        }
+
+        if ($consent === 1 && $received_request && !$send_request) {
+
+            $relation = self::create([
+                'user_id' => $userId,
+                'target_id' => $targetId,
+                'relationship_id' => $received_request->relationship_id,
+                'consent' => $consent,
+            ]);
+
+            $received_request->update(['consent' => $consent]);
+
+        } elseif ($consent === 1 && $received_request && $send_request) {
+
+            $received_request->update(['consent' => $consent]);
+
+            $send_request->update(['consent' => $consent]);
+
+            $relation = $send_request;
+
+        } elseif ($received_request) {
+            $received_request->update(['consent' => $consent]);
+            $relation = $received_request;
+
+        } elseif ($send_request) {
+            $send_request->update(['consent' => $consent]);
+            $relation = $send_request;
 
         }
 
         $actionText = $consent === 1 ? 'approved' : ($consent === 2 ? 'declined' : null);
 
         if ($actionText) {
+            $approver = User::find($userId);
 
             $message = "Your Family Matrix permission request has been {$actionText} by " . ($approver->first_name ?? '');
 
@@ -257,6 +285,8 @@ class AssignFamilyMatrixRelationship extends Model
             Notification::createNotification($consent === 1 ? 'family_matrix_approved' : 'family_matrix_rejected', $message, null, $targetId, 1, Admin::FAMILY_MATRIX_RELATIONSHIP_PERMISSION, Admin::B2C_NOTIFICATION, Helpers::getUser()['id']);
 
         }
+
+        $relation = $relation?->fresh();
 
         return $relation;
 
