@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['checkUser','assessment.completed']], function () {
 
-    Route::get('user-profile', 'UserController@userProfile');
+    Route::get('user-profile', 'UserController@userProfile')
+        ->withoutMiddleware(['assessment.completed']);
+        
     Route::post('update-personal-information', 'UserController@updatePersonalInformation');
     Route::post('update-user-privacy', 'UserController@updateUserPrivacy');
     Route::post('update-user-image', 'UserController@updateUserImage');
