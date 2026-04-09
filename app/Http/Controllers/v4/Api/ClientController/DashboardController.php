@@ -409,13 +409,13 @@ class DashboardController extends Controller
 
             $minutes = Helpers::explodeTimezoneWithHoursAndMinutes($tz);
 
-            if (!$actionPlan || !$actionPlan->updated_at) {
+            if (!$actionPlan || !$actionPlan->execute_at) {
 
                 $updatedAt = null;
 
             } else {
 
-                $updatedAt = Carbon::parse($actionPlan->updated_at)->addMinutes($minutes)->startOfMinute();
+                $updatedAt = Carbon::parse($actionPlan->execute_at)->addMinutes($minutes)->startOfMinute();
 
             }
 
@@ -432,6 +432,8 @@ class DashboardController extends Controller
             $progress = min($days, $optimizationWindow);
 
             $overall = $optimizationWindow > 0 ? round(($progress / $optimizationWindow) * 100, 2) : 0;
+
+            $isExecuted = !is_null($actionPlan->execute_at);
 
             if ($userPlan === Admin::PREMIUM_PLAN_NAME) {
 
@@ -462,7 +464,7 @@ class DashboardController extends Controller
                 }
 
                 $response = [
-                    'id' => $plan->id,
+                    'id' => $actionPlan->id,
                     'priority' => $plan->priority,
                     'type' => $plan->type,
                     'plan_text' => [
@@ -479,21 +481,25 @@ class DashboardController extends Controller
                             'name' => 'Mastery',
                             'text' => $phaseData['phase_3']
                         ],
-                        'current_phase' => $currentPhase,
-                        'overall' => $overall,
+                        'execution' => $isExecuted,
+                        'current_phase' => $isExecuted ? $currentPhase : null,
+                        'overall' => $isExecuted ? $overall : null,
                     ],
                 ];
 
             } else {
 
+
                 $response = [
-                    'id' => $plan->id,
+                    'id' => $actionPlan->id,
                     'priority' => $plan->priority,
                     'type' => $plan->type,
                     'plan_text' => $plan->fourteen_days_plan,
-                    'overall' => $overall,
-                    'current_day' => $days > 6 ? 7 : $days,
+                    'execution' => $isExecuted,
+                    'overall' => $isExecuted ? $overall : null,
+                    'current_day' => $isExecuted ? min($days, 7) : null,
                 ];
+
 
             }
 
@@ -505,6 +511,32 @@ class DashboardController extends Controller
 
         }
 
+    }
+
+    public function actionPlanExecution(Request $request)
+    {
+        $request->validate([
+            'action_plan_id' => 'required|integer',
+        ]);
+
+        try {
+            $actionPlan = ActionPlan::where('user_id', Helpers::getUser()->id)->where('id', $request->input('action_plan_id'))->first();
+
+            if (!$actionPlan) {
+                return Helpers::notFoundResponse('Action plan does not exist');
+            }
+
+            $actionPlan->update([
+                'execute_at' => Carbon::now(),
+            ]);
+
+            return Helpers::successResponse(
+                'Action plan executed',
+                ['action_plan_id' => $actionPlan->id, 'execute_at' => $actionPlan->execute_at]
+            );
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
     public function informationIcon()

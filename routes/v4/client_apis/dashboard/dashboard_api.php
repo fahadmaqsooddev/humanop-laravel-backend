@@ -23,6 +23,7 @@ Route::group(['middleware' => ['checkUser','assessment.completed']], function ()
     Route::get('core-stats', 'DashboardController@coreStats');
     Route::post('daily-tip-read', 'DashboardController@dailyTipRead');
     Route::get('action-plan', 'DashboardController@actionPlan')->middleware('assessment.owner');
+    Route::post('action-plan-execution', 'DashboardController@actionPlanExecution');
     Route::get('hot-spots', 'DashboardController@hotSpots')->middleware('assessment.owner');
     Route::get('information-icon', 'DashboardController@informationIcon');
     Route::get('optimal-trait', 'DashboardController@optimalTrait');

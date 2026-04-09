@@ -19,6 +19,7 @@ use App\Models\v4\Client\Follow\Follow;
 use App\Models\NetworkTutorial\NetworkTutorial;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class HumanNetworkController extends Controller
 {
@@ -83,8 +84,12 @@ class HumanNetworkController extends Controller
             Connection::connectUnConnect($request->all());
 
             if ($request->type === 'accept') {
-                HaiChatHelpers::syncUserRecordWithHAi(User::user($request['user_id']));
-                HaiChatHelpers::syncUserRecordWithHAi(User::user($request['friend_id']));
+                try {
+                    HaiChatHelpers::syncUserRecordWithHAi(User::user($request['user_id']));
+                    HaiChatHelpers::syncUserRecordWithHAi(User::user($request['friend_id']));
+                } catch (\Exception $e) {
+                    Log::error('HAI sync failed in connectUnconnect', ['error' => $e->getMessage()]);
+                }
             }
 
             return Helpers::successResponse('User ' . $request->type . 'ed successfully');
