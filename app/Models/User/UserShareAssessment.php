@@ -44,16 +44,16 @@ class UserShareAssessment extends Model
         if (empty($getRecord))
         {
             return self::create([
-                'user_id' => $userId,
-                'authentic_traits' => $shareAssessment['authentic_traits'],
-                'core_state' => $shareAssessment['core_state'],
-                'interval_of_life' => $shareAssessment['interval_of_life'] ?? null,
-                'traits' => $shareAssessment['traits'] ?? null,
-                'motivational_driver' => $shareAssessment['motivational_driver'] ?? null,
-                'alchemic_boundaries' => $shareAssessment['alchemic_boundaries'] ?? null,
-                'communication_style' => $shareAssessment['communication_style'] ?? null,
-                'perception_of_life' => $shareAssessment['perception_of_life'] ?? null,
-                'energy_pool' => $shareAssessment['energy_pool'] ?? null,
+                'user_id'              => $userId,
+                'authentic_traits'     => $shareAssessment['authentic_traits'] ?? 2,
+                'core_state'           => $shareAssessment['core_state'] ?? 2,
+                'interval_of_life'     => $shareAssessment['interval_of_life'] ?? 1,
+                'traits'               => $shareAssessment['traits'] ?? 1,
+                'motivational_driver'  => $shareAssessment['motivational_driver'] ?? 1,
+                'alchemic_boundaries'  => $shareAssessment['alchemic_boundaries'] ?? 1,
+                'communication_style'  => $shareAssessment['communication_style'] ?? 1,
+                'perception_of_life'   => $shareAssessment['perception_of_life'] ?? 1,
+                'energy_pool'          => $shareAssessment['energy_pool'] ?? 1,
             ]);
         }
         else
