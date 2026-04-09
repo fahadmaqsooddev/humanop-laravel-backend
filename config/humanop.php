@@ -178,6 +178,43 @@ return [
         'rigidity' => 'resonance_breathing',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Protocol durations (seconds) — used for countdown timer in the app
+    |--------------------------------------------------------------------------
+    */
+    'protocol_durations' => [
+        'resonance_breathing' => 300,  // 5 minutes
+        'movement_break'      => 600,  // 10 minutes
+        'movement'            => 900,  // 15 minutes
+        'rest_protocol'       => 1200, // 20 minutes
+        'nap'                 => 1200, // 20 minutes
+        'solitude'            => 900,  // 15 minutes
+        'travel'              => 1800, // 30 minutes
+        'social_activity'     => 1800, // 30 minutes
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Event expiry (minutes) — window the user has to START a protocol
+    |--------------------------------------------------------------------------
+    | Once a boost session is started, the event expiry no longer matters.
+    */
+    'event_expiry' => [
+        'panic'           => 10,
+        'volatility'      => 10,
+        'stubbornness'    => 15,
+        'gluttony'        => 15,
+        'manic'           => 30,
+        'immaturity'      => 15,
+        'neglect'         => 30,
+        'intimidation'    => 10,
+        'woe_is_me'       => 30,
+        'deprivation'     => 30,
+        'self_absorption' => 30,
+        'rigidity'        => 10,
+    ],
+
     'event_drains' => [
 
         'panic' => 25, // Points

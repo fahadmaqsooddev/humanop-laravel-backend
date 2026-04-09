@@ -32,7 +32,13 @@ class EventController extends Controller
 
             ->limit(5)
 
-            ->get();
+            ->get()
+
+            ->each(function ($event) {
+                $event->protocol_duration_seconds = (int) config(
+                    "humanop.protocol_durations.{$event->recommended_protocol}", 300
+                );
+            });
 
         return Helpers::successResponse('Events',$events);
 

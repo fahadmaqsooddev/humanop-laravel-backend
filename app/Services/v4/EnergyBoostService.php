@@ -21,7 +21,7 @@ class EnergyBoostService
         $hrBefore = $this->latestMetric($userId, 'heart_rate');
         $hrvBefore = $this->latestMetric($userId, 'hrv_sdnn');
 
-        return BoostSession::query()->create([
+        $session = BoostSession::query()->create([
             'user_id' => $userId,
             'event_id' => $eventId,
             'protocol_type' => $protocolType,
@@ -30,6 +30,10 @@ class EnergyBoostService
             'hrv_before' => $hrvBefore,
             'metadata' => $metadata,
         ]);
+
+        $session->protocol_duration_seconds = (int) config("humanop.protocol_durations.$protocolType", 300);
+
+        return $session;
     }
 
     public function finalizeSession(BoostSession $session, bool $coherenceAchieved = false): BoostSession

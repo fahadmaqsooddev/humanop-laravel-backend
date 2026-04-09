@@ -20,7 +20,7 @@ class EventService
         $recentEvent = Event::query()
             ->where('user_id', $userId)
             ->where('event_type', $type)
-            ->where('detected_at', '>', now()->subMinutes(0))
+            ->where('detected_at', '>', now()->subMinutes($cooldown))
             ->exists();
 
         if ($recentEvent) {
@@ -39,7 +39,7 @@ class EventService
 
             'detected_at' => now(),
 
-            'expires_at' => now()->addMinutes(10)
+            'expires_at' => now()->addMinutes(config("humanop.event_expiry.$type", 10))
 
         ]);
 
