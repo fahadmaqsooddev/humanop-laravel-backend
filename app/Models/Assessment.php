@@ -833,9 +833,6 @@ class Assessment extends Model
 
     public static function getAllStyles($assessment = null, $loginUser = null)
     {
-
-        Log::info("All Styles");
-
         $secondRow = self::calculateSecondRow($assessment);
 
         $third_row = self::calculateThirdRow($assessment, $secondRow);
