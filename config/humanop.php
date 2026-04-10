@@ -184,15 +184,14 @@ return [
     |--------------------------------------------------------------------------
     */
     'protocol_durations' => [
-        'resonance_breathing' => 60,  // 5 minutes
-        'movement_break'      => 60,  // 10 minutes
-        'movement'            => 60,  // 15 minutes
-        'rest_protocol'       => 60, // 20 minutes
-        'nap'                 => 60, // 20 minutes
-        'solitude'            => 60,  // 15 minutes
-        'travel'              => 60, // 30 minutes
-        //'social_activity'     => 1800, // 30 minutes
-        'social_activity'     => 60, // 1 minute
+        'resonance_breathing' => 300,  // 5 minutes
+        'movement_break'      => 600,  // 10 minutes
+        'movement'            => 900,  // 15 minutes
+        'rest_protocol'       => 1200, // 20 minutes
+        'nap'                 => 1200, // 20 minutes
+        'solitude'            => 900,  // 15 minutes
+        'travel'              => 1800, // 30 minutes
+        'social_activity'     => 1800, // 30 minutes
     ],
 
     /*
