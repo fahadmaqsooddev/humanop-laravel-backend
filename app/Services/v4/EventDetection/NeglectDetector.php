@@ -26,8 +26,13 @@ class NeglectDetector implements EventDetectorInterface
             ->where('metric', 'steps')
             ->where('recorded_at', '>=', $from);
 
-        // CRITICAL FIX
         if (!$stepsQuery->exists()) {
+            return false;
+        }
+
+        // Ensure data actually spans the full window (not just today's data)
+        $earliestSample = (clone $stepsQuery)->min('recorded_at');
+        if ($earliestSample && now()->diffInDays($earliestSample) < ($days - 1)) {
             return false;
         }
 

@@ -10,6 +10,7 @@ use App\Jobs\v4\RebuildDailyStateJob;
 use App\Models\Assessment;
 use App\Models\User;
 use App\Models\v4\Client\BiometricSample;
+use App\Models\v4\Client\BoostSession;
 use App\Models\v4\Client\LocationSample;
 use App\Models\v4\Client\UserHumanOpProfile;
 use Illuminate\Http\JsonResponse;
@@ -88,7 +89,16 @@ class HealthKitController extends Controller
             RebuildDailyStateJob::dispatch($user->id);
         }
 
-        ProcessShieldEventsJob::dispatch($user->id);
+        // Skip event detection if user has an active boost session (session started but not ended)
+        $hasActiveBoost = BoostSession::query()
+            ->where('user_id', $user->id)
+            ->whereNotNull('started_at')
+            ->whereNull('ended_at')
+            ->exists();
+
+        if (!$hasActiveBoost) {
+            ProcessShieldEventsJob::dispatch($user->id);
+        }
 
         return Helpers::successResponse('Samples ingested successfully', [
             'created_samples' => $createdSamples,

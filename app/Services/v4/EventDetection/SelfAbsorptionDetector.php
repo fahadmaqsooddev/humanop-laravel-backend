@@ -19,12 +19,20 @@ class SelfAbsorptionDetector implements EventDetectorInterface
         $windowDays = (int) config('humanop.thresholds.self_absorption.window_days');
         $stepsMax = (int) config('humanop.thresholds.self_absorption.total_steps_max');
 
+        $from = now()->subDays($windowDays);
+
         $stepsQuery = BiometricSample::query()
             ->where('user_id', $userId)
             ->where('metric', 'steps')
-            ->where('recorded_at', '>=', now()->subDays($windowDays));
+            ->where('recorded_at', '>=', $from);
 
         if (!$stepsQuery->exists()) {
+            return false;
+        }
+
+        // Ensure data actually spans the full window (not just today's data)
+        $earliestSample = (clone $stepsQuery)->min('recorded_at');
+        if ($earliestSample && now()->diffInDays($earliestSample) < ($windowDays - 1)) {
             return false;
         }
 

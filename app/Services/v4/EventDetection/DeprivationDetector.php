@@ -19,11 +19,19 @@ class DeprivationDetector implements EventDetectorInterface
         $windowDays = (int) config('humanop.thresholds.deprivation.window_days');
         $distinctLocationsMin = (int) config('humanop.thresholds.deprivation.distinct_locations_min');
 
+        $from = now()->subDays($windowDays);
+
         $locationQuery = LocationSample::query()
             ->where('user_id', $userId)
-            ->where('recorded_at', '>=', now()->subDays($windowDays));
+            ->where('recorded_at', '>=', $from);
 
         if (!$locationQuery->exists()) {
+            return false;
+        }
+
+        // Ensure data actually spans the full window (not just today's data)
+        $earliestSample = (clone $locationQuery)->min('recorded_at');
+        if ($earliestSample && now()->diffInDays($earliestSample) < ($windowDays - 1)) {
             return false;
         }
 
