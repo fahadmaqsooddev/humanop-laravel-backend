@@ -19,11 +19,15 @@ class DeprivationDetector implements EventDetectorInterface
         $windowDays = (int) config('humanop.thresholds.deprivation.window_days');
         $distinctLocationsMin = (int) config('humanop.thresholds.deprivation.distinct_locations_min');
 
-        $locationCount = LocationSample::query()
+        $locationQuery = LocationSample::query()
             ->where('user_id', $userId)
-            ->where('recorded_at', '>=', now()->subDays($windowDays))
-            ->distinct('place_id')
-            ->count('place_id');
+            ->where('recorded_at', '>=', now()->subDays($windowDays));
+
+        if (!$locationQuery->exists()) {
+            return false;
+        }
+
+        $locationCount = (clone $locationQuery)->distinct('place_id')->count('place_id');
 
         if ($locationCount < $distinctLocationsMin) {
             app(EventService::class)->create(
