@@ -4,7 +4,6 @@ namespace App\Http\Controllers\v4\Api\ClientController;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\v4\Api\Client\EnergyShield\IngestLocationsRequest;
 use App\Http\Requests\v4\Api\Client\EnergyShield\IngestSamplesRequest;
 use App\Jobs\v4\ProcessShieldEventsJob;
 use App\Jobs\v4\RebuildDailyStateJob;
@@ -22,7 +21,8 @@ class HealthKitController extends Controller
     {
 
         $user = Helpers::getUser();
-        $created = 0;
+        $createdSamples = 0;
+        $createdLocations = 0;
 
         foreach ($request->input('samples', []) as $sample) {
             $dedupeKey = hash('sha256', implode('|', [
@@ -46,33 +46,9 @@ class HealthKitController extends Controller
             );
 
             if ($record->wasRecentlyCreated) {
-                $created++;
+                $createdSamples++;
             }
         }
-
-        $assessment = Assessment::getLatestAssessment($user->id);
-
-        $record = UserHumanOpProfile::getSingleRecord($user->id);
-
-        if (!$assessment || empty($record) || $assessment->id != $record->assessment_id) {
-
-            $this->createOrUpdate($user, $assessment, $request);
-
-        }
-
-        RebuildDailyStateJob::dispatch($user->id);
-
-        ProcessShieldEventsJob::dispatch($user->id);
-
-        return Helpers::successResponse('Samples ingested successfully', $created);
-
-    }
-
-    public function ingestLocations(IngestLocationsRequest $request): JsonResponse
-    {
-
-        $user = Helpers::getUser();
-        $created = 0;
 
         foreach ($request->input('locations', []) as $location) {
             $dedupeKey = hash('sha256', implode('|', [
@@ -94,13 +70,30 @@ class HealthKitController extends Controller
             );
 
             if ($record->wasRecentlyCreated) {
-                $created++;
+                $createdLocations++;
             }
+        }
+
+        $assessment = Assessment::getLatestAssessment($user->id);
+
+        $record = UserHumanOpProfile::getSingleRecord($user->id);
+
+        if (!$assessment || empty($record) || $assessment->id != $record->assessment_id) {
+
+            $this->createOrUpdate($user, $assessment, $request);
+
+        }
+
+        if ($createdSamples > 0) {
+            RebuildDailyStateJob::dispatch($user->id);
         }
 
         ProcessShieldEventsJob::dispatch($user->id);
 
-        return Helpers::successResponse('Locations ingested successfully', $created);
+        return Helpers::successResponse('Samples ingested successfully', [
+            'created_samples' => $createdSamples,
+            'created_locations' => $createdLocations,
+        ]);
 
     }
 

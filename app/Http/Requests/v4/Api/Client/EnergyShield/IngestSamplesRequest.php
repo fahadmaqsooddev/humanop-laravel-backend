@@ -34,6 +34,18 @@ class IngestSamplesRequest extends FormRequest
             'samples.*.source' => ['nullable', 'string'],
 
             'samples.*.metadata' => ['nullable', 'array'],
+
+            'locations' => ['nullable', 'array'],
+
+            'locations.*.place_id' => ['required_with:locations', 'string'],
+
+            'locations.*.latitude' => ['nullable', 'numeric'],
+
+            'locations.*.longitude' => ['nullable', 'numeric'],
+
+            'locations.*.recorded_at' => ['required_with:locations', 'date'],
+
+            'locations.*.metadata' => ['nullable', 'array'],
         ];
     }
 
@@ -58,6 +70,9 @@ class IngestSamplesRequest extends FormRequest
             'samples.*.source.string' => 'Source must be a valid string.',
 
             'samples.*.metadata.array' => 'Metadata must be an array.',
+
+            'locations.*.place_id.required_with' => 'Place ID is required for each location.',
+            'locations.*.recorded_at.required_with' => 'Recorded date is required for each location.',
         ];
     }
 }
