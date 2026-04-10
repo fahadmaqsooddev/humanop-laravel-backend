@@ -373,6 +373,7 @@ class MessageThread extends Model
                 'lastMessage:id,message_thread_id,message,created_at',
                 'sender:id,first_name,last_name,image_id',
                 'receiver:id,first_name,last_name,image_id',
+                'participants'
             ])
             ->withCount([
                 'messages as unread_messages_count' => function ($q) use ($userId) {
