@@ -191,7 +191,8 @@ return [
         'nap'                 => 1200, // 20 minutes
         'solitude'            => 900,  // 15 minutes
         'travel'              => 1800, // 30 minutes
-        'social_activity'     => 1800, // 30 minutes
+        //'social_activity'     => 1800, // 30 minutes
+        'social_activity'     => 60, // 1 minute
     ],
 
     /*
