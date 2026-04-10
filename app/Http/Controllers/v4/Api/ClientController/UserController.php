@@ -159,47 +159,66 @@ class UserController extends Controller
 
     public function updateUserPrivacy(UpdateUserProfileRequest $request)
     {
-
-
         DB::beginTransaction();
 
         try {
 
             $authUser = Helpers::getUser();
 
-            $privacyFields = [
-                'bio_privacy',
-                'personal_quote_connection_privacy',
-                'personal_quote_public_privacy',
-                'profile_privacy',
-                'hai_privacy',
-                'interval_of_life',
-                'traits',
-                'motivational_driver',
-                'alchemic_boundaries',
-                'communication_style',
-                'perception_of_life',
-                'energy_pool'
-            ];
+            $plan = strtolower($authUser->plan);
 
-            $dataArray = $request->only($privacyFields);
+            $isFreemium = $plan === 'freemium';
+
+            $isPremiumOrBeta = in_array($plan, [
+                'premium_monthly',
+                'premium_yearly',
+                'premium_lifetime',
+                'bb_onetime',
+            ]);
+
+            /*
+            |--------------------------------------------------------------------------
+            |  USERS TABLE (privacy fields)
+            |--------------------------------------------------------------------------
+            */
+
+            $userFields = $isFreemium
+                ? ['hai_privacy', 'profile_privacy']
+                : [
+                    'bio_privacy',
+                    'personal_quote_connection_privacy',
+                    'personal_quote_public_privacy',
+                    'profile_privacy',
+                    'hai_privacy'
+                ];
+
+            $validated = $request->validated();
+
+            $dataArray = collect($validated)->only($userFields)->toArray();
 
             $dataArray = array_filter($dataArray, function ($value) {
-
                 return $value !== null;
-
             });
 
             if (!empty($dataArray)) {
-
                 $authUser->update($dataArray);
-
             }
 
-            if (in_array($authUser->plan_name, ['Premium', Admin::BETA_BREAKER_TEXT])) {
+            /*
+            |--------------------------------------------------------------------------
+            | USER SHARE ASSESSMENT TABLE
+            |--------------------------------------------------------------------------
+            */
 
-               $shareAssessment = $request->only([
-                    'core_state',
+            if ($isFreemium) {
+
+
+                $shareAssessment = collect($validated)->only(['core_state'])->toArray();
+
+            } elseif ($isPremiumOrBeta) {
+
+
+                $shareAssessment = collect($validated)->only([
                     'authentic_traits',
                     'interval_of_life',
                     'traits',
@@ -208,15 +227,21 @@ class UserController extends Controller
                     'communication_style',
                     'perception_of_life',
                     'energy_pool'
-                ]);
+                ])->toArray();
 
-                if (!empty($shareAssessment)) {
-
-                    User\UserShareAssessment::createOrUpdateShareAssessment($shareAssessment);
-
-                }
-
+            } else {
+                $shareAssessment = [];
             }
+
+            $shareAssessment = array_filter($shareAssessment, function ($value) {
+                return $value !== null;
+            });
+
+            if (!empty($shareAssessment)) {
+                User\UserShareAssessment::createOrUpdateShareAssessment($shareAssessment);
+            }
+
+         
 
             ActivityLogger::addLog('Update User Privacy', 'Privacy settings updated successfully.');
 
@@ -233,7 +258,6 @@ class UserController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
-
     }
 
     public function updateUserImage(UpdateUserImageRequest $request)

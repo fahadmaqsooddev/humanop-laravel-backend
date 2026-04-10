@@ -38,11 +38,6 @@ class UserActionPerformed implements ShouldBroadcast
         ];
     }
 
-    public function broadcastQueue(): string
-    {
-        return 'user-actions';
-    }
-
     private function filterDetails(?array $details): array
     {
         if (empty($details)) {
